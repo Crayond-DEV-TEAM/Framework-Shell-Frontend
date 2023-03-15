@@ -1,0 +1,26 @@
+{
+  "name": "@core/utils",
+  "version": "0.0.0",
+  "main": "./index.ts",
+  "private": true,
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "lint": "eslint \"**/*.{ts,tsx}\" --fix",
+    "clean": " rm -rf node_modules && rm -rf dist"
+  },
+  "dependencies": {
+    "@core/envconfig": "*",
+    "@tanstack/react-query": "^4.26.1",
+    "axios": "^1.3.4"
+  },
+  "devDependencies": {
+    "eslint-config-custom": "*"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": "^4.26.1",
+    "axios": "^1.3.4"
+  }
+}

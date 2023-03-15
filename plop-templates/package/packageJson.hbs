@@ -1,0 +1,19 @@
+{
+  "name": "@core/{{camelCase name}}",
+  "version": "0.0.0",
+  "main": "./index.js",
+  "private": true,
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "lint": "eslint \"**/*.{ts,tsx}\" --fix",
+    "clean": " rm -rf node_modules && rm -rf dist"
+  },
+  "dependencies":{},
+  "devDependencies": {
+    "eslint-config-custom": "*"
+  },
+  "peerDependencies": {}
+}

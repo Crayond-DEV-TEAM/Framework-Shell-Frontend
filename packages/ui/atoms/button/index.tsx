@@ -1,28 +1,48 @@
 import LoadingButton, { LoadingButtonProps } from '@mui/lab/LoadingButton';
 import type { SxProps, Theme } from '@mui/material';
 
-import { buttonStyle } from './style';
+import { atomButton_style } from './style';
 
 export interface ButtonProps extends LoadingButtonProps {
   children?: string;
   sx?: SxProps<Theme>;
   className?: string;
+  diable?: string;
+  startIcon?: any;
+  endIcon?: any;
+  fullWidth?: boolean;
+  buttonStyle?: object;
+  onClick?: () => void;
 }
 
 function Button(props: ButtonProps): JSX.Element {
-  const { className = '', sx = {}, children = '', variant = 'contained', loading = false, ...rest } = props;
+  const {
+    children = '',
+    variant = 'contained',
+    disabled = false,
+    startIcon = '',
+    endIcon = '',
+    loading = false,
+    size = 'medium',
+    fullWidth = true,
+    buttonStyle = {},
+    onClick = () => false,
+    className = '',
+    ...rest
+  } = props;
 
   return (
     <LoadingButton
-      loading={loading}
       variant={variant}
-      sx={[
-        {
-          ...buttonStyle.rootSx,
-        },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
+      startIcon={startIcon}
+      endIcon={endIcon}
+      disabled={disabled}
+      size={size}
+      sx={{ ...atomButton_style.buttonSx, ...buttonStyle }}
+      fullWidth={fullWidth}
+      onClick={onClick}
       className={`${className}`}
+      loading={loading}
       {...rest}
     >
       {children}

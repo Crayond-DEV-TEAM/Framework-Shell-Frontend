@@ -1,10 +1,10 @@
 import type { SxProps } from '@mui/material';
 
-interface LoginStyleProps {
+interface ResetPasswordStyleProps {
   [key: string]: SxProps;
 }
 
-export const loginStyle: LoginStyleProps = {
+export const resetPasswordStyle: ResetPasswordStyleProps = {
   rootSx: {
     display: 'flex',
     justifyContent: 'center',
@@ -13,7 +13,7 @@ export const loginStyle: LoginStyleProps = {
   },
   cardContentSx: {
     backgroundColor: '#FFFFFF',
-    boxShadow: '0px 8px 69px #0000001A',
+    boxShadow: '0px 0px 69px #0000001A',
     borderRadius: '12px',
     px: 2.5,
     py: 3,
@@ -47,7 +47,6 @@ export const loginStyle: LoginStyleProps = {
     pt: 2,
     display: 'flex',
     textDecoration: 'underline',
-    fontWeight: 600,
     justifyContent: 'end',
   },
   loginButtonSx: {
@@ -71,5 +70,10 @@ export const loginStyle: LoginStyleProps = {
     fontWeight: 600,
     textDecoration: 'underline',
     pl: 1,
+  },
+  provideSx: {
+    color: 'typography.faded',
+    fontSize: '14px',
+    pt: 1.5,
   },
 };

@@ -1,10 +1,9 @@
-import CrayondLogo from '@assets/crayondLogo.png';
 import { Button } from '@atoms/button';
 import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
 import { useOnboarding } from '@core/store/framework-shell';
 import type { SxProps, Theme } from '@mui/material';
-import { Avatar, Box, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import isEqual from 'react-fast-compare';
 
 import { loginStyle } from './style';
@@ -39,10 +38,11 @@ export function Login(props: LoginProps): JSX.Element {
       {...rest}
     >
       <Box sx={loginStyle.cardContentSx}>
-        <Avatar src={CrayondLogo} sx={{ width: 44, height: 44, ml: -1 }} />
-        <Typography sx={loginStyle.createPasswordSx}>Welcome</Typography>
+        <Typography sx={loginStyle.signInSx}>Sign In</Typography>
         <Box sx={loginStyle.inputGroupSx}>
-          <Label htmlFor="username">Username</Label>
+          <Label sx={loginStyle.labelSx} htmlFor="username">
+            Username
+          </Label>
           <Input
             size="small"
             value={user?.username ?? ''}
@@ -55,8 +55,8 @@ export function Login(props: LoginProps): JSX.Element {
           />
         </Box>
         <Box sx={loginStyle.inputGroupSx}>
-          <Label htmlFor="password" isRequired>
-            password
+          <Label sx={loginStyle.labelSx} htmlFor="password" isRequired>
+            password?
           </Label>
           <Input
             id="password"
@@ -67,10 +67,15 @@ export function Login(props: LoginProps): JSX.Element {
             size="small"
           />
         </Box>
-        <Box sx={{ mt: 3, display: 'grid', gap: 3 }}>
+        <Typography sx={loginStyle?.ForgotSx}>Forgot Password</Typography>
+        <Box>
           <Button fullWidth sx={loginStyle.loginButtonSx} onClick={() => signIn()} loading={loading}>
             login
           </Button>
+        </Box>
+        <Box sx={loginStyle?.bottomLineSx}>
+          <Typography sx={loginStyle?.alreadySx}>If you dont have an account already? </Typography>
+          <Typography sx={loginStyle?.signup}>Sign Up</Typography>
         </Box>
       </Box>
     </Box>

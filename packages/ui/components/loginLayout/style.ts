@@ -1,16 +1,16 @@
 import type { SxProps } from '@mui/material';
 
-interface LoginStyleProps {
+interface LoginLayoutStyleProps {
   [key: string]: SxProps;
 }
 
-export const loginStyle: LoginStyleProps = {
-  // rootSx: {
-  //   //height: '100vh',
-  //   display: 'grid',
-  //   mx: 5,
-  //   my: 4.5,
-  // },
+export const loginLayoutStyle: LoginLayoutStyleProps = {
+  rootSx: {
+    //height: '100vh',
+    display: 'grid',
+    mx: 5,
+    my: 4.5,
+  },
   imgSecSx: {
     py: 8,
     display: {
@@ -33,5 +33,10 @@ export const loginStyle: LoginStyleProps = {
   bottomImgSx: {
     bottom: 24,
     left: 20,
+  },
+  childrenSx: {
+    // minHeight: '100vh',
+    // backgroundColor: 'grey.100',
+    // overflow: 'auto',
   },
 };

@@ -13,7 +13,7 @@ export const loginStyle: LoginStyleProps = {
   },
   cardContentSx: {
     backgroundColor: '#FFFFFF',
-    boxShadow: '0px 8px 69px #0000001A',
+    boxShadow: '0px 8px 10px #0000001A',
     borderRadius: '12px',
     px: 2.5,
     py: 3,

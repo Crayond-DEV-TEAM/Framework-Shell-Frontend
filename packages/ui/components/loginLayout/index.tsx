@@ -32,7 +32,7 @@ export const LoginLayout = forwardRef((props: LoginLayoutProps): JSX.Element => 
 
       <Grid container>
         {/* <Hidden only={['xs', 'sm']}> */}
-        <Grid item xs={12} sm={6} md={6} xl={6} justifyContent={'center'} sx={loginLayoutStyle?.imgSecSx}>
+        <Grid item xs={12} sm={6} md={6} xl={6} alignItems="center" sx={loginLayoutStyle.imgSecSx}>
           <Box component={'img'} src={login} height={'315px'} width={'285px'} />
         </Grid>
         <Grid item xs={12} sm={6} md={6} xl={6} sx={loginLayoutStyle?.formSx}>

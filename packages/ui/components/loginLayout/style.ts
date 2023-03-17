@@ -13,6 +13,7 @@ export const loginLayoutStyle: LoginLayoutStyleProps = {
   },
   imgSecSx: {
     py: 8,
+    alignItems: 'center',
     display: {
       xs: 'none',
       sm: 'flex',
@@ -20,14 +21,15 @@ export const loginLayoutStyle: LoginLayoutStyleProps = {
       lg: 'flex',
       xl: 'flex',
     },
+    justifyContent: 'center',
   },
   formSx: {
     py: {
       xs: 3,
-      sm: 5,
-      md: 5,
-      lg: 5,
-      xl: 5,
+      sm: 4,
+      md: 4,
+      lg: 4,
+      xl: 4,
     },
   },
   bottomImgSx: {

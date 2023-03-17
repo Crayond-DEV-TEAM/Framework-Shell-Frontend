@@ -1,9 +1,11 @@
 import { webRoutes } from '@core/routes';
 import { AppLayout, LoginLayout, PageNotFound, RootLayout } from '@core/ui/components';
 import ErrorBoundary from '@pages/errorBoundary';
+import ForgotPasswordPage from '@pages/forgotPassword';
 import Home from '@pages/home';
 import LoginPage from '@pages/login';
 import ResetPage from '@pages/resetPassword';
+import SignUpPage from '@pages/signUp';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { PrivateRouter } from './privateRouter';
@@ -58,6 +60,36 @@ const router = createBrowserRouter([
         element: (
           <LoginLayout>
             <ResetPage />
+          </LoginLayout>
+        ),
+      },
+    ],
+  },
+  {
+    path: webRoutes.signup,
+    errorElement: <ErrorBoundary />,
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: (
+          <LoginLayout>
+            <SignUpPage />
+          </LoginLayout>
+        ),
+      },
+    ],
+  },
+  {
+    path: webRoutes.forgotpassword,
+    errorElement: <ErrorBoundary />,
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: (
+          <LoginLayout>
+            <ForgotPasswordPage />
           </LoginLayout>
         ),
       },

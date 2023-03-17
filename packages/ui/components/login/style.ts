@@ -49,6 +49,7 @@ export const loginStyle: LoginStyleProps = {
     textDecoration: 'underline',
     fontWeight: 600,
     justifyContent: 'end',
+    cursor: 'pointer',
   },
   loginButtonSx: {
     textTransform: 'capitalize',
@@ -71,5 +72,6 @@ export const loginStyle: LoginStyleProps = {
     fontWeight: 600,
     textDecoration: 'underline',
     pl: 1,
+    cursor: 'pointer',
   },
 };

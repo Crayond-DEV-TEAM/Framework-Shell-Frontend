@@ -8,16 +8,18 @@ export interface LabelProps extends FormLabelProps {
   className?: string;
   children?: string;
   isRequired?: boolean;
+  rootStyle?: any;
 }
 
 export function Label(props: LabelProps): JSX.Element {
-  const { className = '', children, isRequired, htmlFor, sx = {}, ...rest } = props;
+  const { className = '', rootStyle = {}, children, isRequired, htmlFor, sx = {}, ...rest } = props;
 
   return (
     <FormLabel
       sx={[
         {
           ...labelStyle.rootSx,
+          ...rootStyle,
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}

@@ -22,6 +22,7 @@
     "@core/utils": "*",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@fontsource/inter": "^4.5.15",
     "@fontsource/poppins": "^4.5.10",
     "@mui/lab": "^5.0.0-alpha.104",
     "@mui/material": "^5.10.12",

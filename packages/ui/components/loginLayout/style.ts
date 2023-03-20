@@ -6,13 +6,21 @@ interface LoginLayoutStyleProps {
 
 export const loginLayoutStyle: LoginLayoutStyleProps = {
   rootSx: {
-    //height: '100vh',
+    backgroundColor: 'background.page',
+    height: '100vh',
     display: 'grid',
-    mx: 5,
-    my: 4.5,
+    px: {
+      xs: 2,
+      sm: 5,
+      md: 5,
+      lg: 5,
+      xl: 5,
+    },
+    py: 4.5,
   },
+
   imgSecSx: {
-    py: 8,
+    // py: 8,
     alignItems: 'center',
     display: {
       xs: 'none',
@@ -33,12 +41,29 @@ export const loginLayoutStyle: LoginLayoutStyleProps = {
     },
   },
   bottomImgSx: {
-    bottom: 24,
-    left: 20,
+    // bottom: 24,
+    // left: 20,
   },
-  childrenSx: {
-    // minHeight: '100vh',
-    // backgroundColor: 'grey.100',
-    // overflow: 'auto',
+  toolkit: {
+    display: 'flex',
+    justifyContent: {
+      xs: 'center',
+      sm: 'start',
+      md: 'start',
+      lg: 'start',
+      xl: 'start',
+    },
+    alignItems: 'center',
+  },
+  toolkitText: {
+    pl: 1.5,
+    fontWeight: 600,
+    color: 'primary.main',
+    fontSize: '26px',
+  },
+  power: {
+    pl: 1.5,
+    fontSize: '14px',
+    color: 'typography.label',
   },
 };

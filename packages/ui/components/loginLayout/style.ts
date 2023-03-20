@@ -6,13 +6,14 @@ interface LoginLayoutStyleProps {
 
 export const loginLayoutStyle: LoginLayoutStyleProps = {
   rootSx: {
-    //height: '100vh',
+    height: '100vh',
     display: 'grid',
-    mx: 5,
-    my: 4.5,
+    px: 5,
+    py: 4.5,
+    backgroundColor: '#F8F8F8',
   },
   imgSecSx: {
-    py: 8,
+    // py: 8,
     alignItems: 'center',
     display: {
       xs: 'none',
@@ -31,6 +32,8 @@ export const loginLayoutStyle: LoginLayoutStyleProps = {
       lg: 4,
       xl: 4,
     },
+    display: 'grid',
+    alignItems: 'center',
   },
   bottomImgSx: {
     bottom: 24,

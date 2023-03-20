@@ -75,6 +75,7 @@ export const ForgotPassword = forwardRef((props: ForgotPasswordProps, ref: React
                 color: '#353448',
                 fontWeight: '600',
                 textDecoration: 'underline',
+                paddingLeft: '5px',
               }}
               to={webRoutes.login}
             >

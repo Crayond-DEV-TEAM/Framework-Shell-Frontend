@@ -13,11 +13,12 @@ export const forgotPasswordStyle: ForgotPasswordStyleProps = {
   },
   cardContentSx: {
     backgroundColor: '#FFFFFF',
-    boxShadow: '0px 8px 69px #0000001A',
+    boxShadow: '0px 8px 20px #0000000A',
     borderRadius: '12px',
     px: 2.75,
     py: 3,
-    width: '435px',
+    width: '100%',
+    maxWidth: '435px',
   },
   createPasswordSx: {
     fontSize: '20px',

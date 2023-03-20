@@ -13,7 +13,7 @@ export const loginStyle: LoginStyleProps = {
   },
   cardContentSx: {
     backgroundColor: '#FFFFFF',
-    boxShadow: '0px 8px 10px #0000001A',
+    boxShadow: '0px 8px 20px #0000000A',
     borderRadius: '12px',
     px: 2.5,
     py: 3,
@@ -58,9 +58,9 @@ export const loginStyle: LoginStyleProps = {
 
   bottomLineSx: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
-    mx: 4.5,
+    mx: 1.5,
   },
   alreadySx: {
     color: 'typography.faded',
@@ -71,7 +71,8 @@ export const loginStyle: LoginStyleProps = {
     fontSize: '14px',
     fontWeight: 600,
     textDecoration: 'underline',
-    pl: 1,
     cursor: 'pointer',
+    width: '83px',
+    pl: 1,
   },
 };

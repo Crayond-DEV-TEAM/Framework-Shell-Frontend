@@ -78,6 +78,7 @@ export function Login(props: LoginProps): JSX.Element {
             login
           </Button>
         </Box>
+
         <Box sx={loginStyle?.bottomLineSx}>
           <Typography sx={loginStyle?.alreadySx}>If you dont have an account already?</Typography>
           <Typography sx={loginStyle?.signup} onClick={() => navigate(webRoutes.signup)}>

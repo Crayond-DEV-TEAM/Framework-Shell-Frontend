@@ -12,5 +12,10 @@ export const lightTheme = {
       dark: '#be123c',
       contrastText: '#fff',
     },
+    typography: {
+      text: '#353448',
+      label: '#262C33',
+      faded: '#5C6266',
+    },
   },
 };

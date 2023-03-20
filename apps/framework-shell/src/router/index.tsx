@@ -1,9 +1,10 @@
 import { webRoutes } from '@core/routes';
-import { AppLayout, PageNotFound, RootLayout } from '@core/ui/components';
+import { AppLayout, LoginLayout, PageNotFound, RootLayout } from '@core/ui/components';
 import ErrorBoundary from '@pages/errorBoundary';
 import ForgotPasswordPage from '@pages/forgotPassword';
 import Home from '@pages/home';
 import LoginPage from '@pages/login';
+import ResetPage from '@pages/resetPassword';
 import SignUpPage from '@pages/signUp';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -27,38 +28,70 @@ const router = createBrowserRouter([
           </AppLayout>
         ),
       },
+    ],
+  },
+
+  {
+    path: webRoutes.login,
+    element: (
+      <PrivateRouter>
+        <RootLayout />
+      </PrivateRouter>
+    ),
+    errorElement: <ErrorBoundary />,
+    children: [
       {
-        path: webRoutes.login,
-        errorElement: <ErrorBoundary />,
-        element: <RootLayout />,
-        children: [
-          {
-            index: true,
-            element: <LoginPage />,
-          },
-        ],
+        index: true,
+        element: (
+          <LoginLayout>
+            <LoginPage />
+          </LoginLayout>
+        ),
       },
+    ],
+  },
+  {
+    path: webRoutes.resetPassword,
+    errorElement: <ErrorBoundary />,
+    element: <RootLayout />,
+    children: [
       {
-        path: webRoutes.signup,
-        errorElement: <ErrorBoundary />,
-        element: <RootLayout />,
-        children: [
-          {
-            index: true,
-            element: <SignUpPage />,
-          },
-        ],
+        index: true,
+        element: (
+          <LoginLayout>
+            <ResetPage />
+          </LoginLayout>
+        ),
       },
+    ],
+  },
+  {
+    path: webRoutes.signup,
+    errorElement: <ErrorBoundary />,
+    element: <RootLayout />,
+    children: [
       {
-        path: webRoutes.forgotpassword,
-        errorElement: <ErrorBoundary />,
-        element: <RootLayout />,
-        children: [
-          {
-            index: true,
-            element: <ForgotPasswordPage />,
-          },
-        ],
+        index: true,
+        element: (
+          <LoginLayout>
+            <SignUpPage />
+          </LoginLayout>
+        ),
+      },
+    ],
+  },
+  {
+    path: webRoutes.forgotpassword,
+    errorElement: <ErrorBoundary />,
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: (
+          <LoginLayout>
+            <ForgotPasswordPage />
+          </LoginLayout>
+        ),
       },
     ],
   },

@@ -1,6 +1,7 @@
 import { Button } from '@atoms/button';
 import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
+import { webRoutes } from '@core/routes';
 import { useOnboarding } from '@core/store/framework-shell';
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
@@ -66,16 +67,16 @@ export const ForgotPassword = forwardRef((props: ForgotPasswordProps, ref: React
             sign up
           </Button>
         </Box>
-        <Box>
+        <Box sx={{ paddingTop: '16px' }}>
           <Typography sx={forgotPasswordStyle.loginSx}>
             Remembered the password?
             <Link
               style={{
                 color: '#353448',
-                fontWeight: '500',
-                textDecoration: 'none',
+                fontWeight: '600',
+                textDecoration: 'underline',
               }}
-              to=""
+              to={webRoutes.login}
             >
               Log In
             </Link>

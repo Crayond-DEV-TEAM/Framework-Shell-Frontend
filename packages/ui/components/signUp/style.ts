@@ -42,10 +42,17 @@ export const signUpStyle: SignUpStyleProps = {
     textAlign: 'center',
     fontSize: '14px',
     color: '#5C6266',
-    pt: 3,
   },
   eyeSx: {
     width: '20px',
     height: '20px',
+  },
+  signup: {
+    color: 'typography.text',
+    fontSize: '14px',
+    fontWeight: 600,
+    textDecoration: 'underline',
+    pl: 1,
+    cursor: 'pointer',
   },
 };

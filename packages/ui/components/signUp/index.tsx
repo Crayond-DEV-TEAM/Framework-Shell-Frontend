@@ -3,13 +3,14 @@
 import { Button } from '@atoms/button';
 import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
+import { webRoutes } from '@core/routes';
 import { useOnboarding } from '@core/store/framework-shell';
 import { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { forwardRef } from 'react';
 import isEqual from 'react-fast-compare';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { signUpStyle } from './style';
 
@@ -20,7 +21,7 @@ export interface SignUpProps {
 
 export const SignUp = forwardRef((props: SignUpProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
-
+  const navigate = useNavigate();
   const { user, signIn, loading, handleLoginChange } = useOnboarding(
     (state) => ({
       signIn: state.signIn,
@@ -164,19 +165,10 @@ export const SignUp = forwardRef((props: SignUpProps): JSX.Element => {
             sign up
           </Button>
         </Box>
-        <Box>
-          <Typography sx={signUpStyle.loginSx}>
-            If you ve an account already?{' '}
-            <Link
-              style={{
-                color: '#353448',
-                fontWeight: '500',
-                textDecoration: 'none',
-              }}
-              to=""
-            >
-              Log In
-            </Link>
+        <Box sx={{ display: 'flex', alignItems: 'center', pt: 3, justifyContent: 'center' }}>
+          <Typography sx={signUpStyle.loginSx}>If you ve an account already?</Typography>
+          <Typography sx={signUpStyle?.signup} onClick={() => navigate(webRoutes.login)}>
+            Log In
           </Typography>
         </Box>
       </Box>

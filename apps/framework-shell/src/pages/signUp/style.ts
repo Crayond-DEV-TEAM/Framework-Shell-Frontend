@@ -6,8 +6,8 @@ interface SignUpStyleProps {
 
 export const signUpStyle: SignUpStyleProps = {
   rootSx: {
-    minHeight: '100vh',
-    display: 'grid',
-    placeItems: 'center',
+    // minHeight: '100vh',
+    // display: 'grid',
+    // placeItems: 'center',
   },
 };

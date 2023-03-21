@@ -1,17 +1,15 @@
-// import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-// import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { Button } from '@atoms/button';
+import { Visibility, VisibilityOff } from '@atoms/icons';
 import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
 import { webRoutes } from '@core/routes';
 import { useOnboarding } from '@core/store/framework-shell';
 import { SxProps, Theme } from '@mui/material';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, IconButton } from '@mui/material';
 import React, { useState } from 'react';
 import { forwardRef } from 'react';
 import isEqual from 'react-fast-compare';
-import { useNavigate } from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
 import { signUpStyle } from './style';
 
 export interface SignUpProps {
@@ -21,24 +19,31 @@ export interface SignUpProps {
 
 export const SignUp = forwardRef((props: SignUpProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
-  const navigate = useNavigate();
-  const { user, signIn, loading, handleLoginChange } = useOnboarding(
+
+  // Store Data
+  const { userState, signUp, loading, handleLoginChange } = useOnboarding(
     (state) => ({
-      signIn: state.signIn,
-      user: state.userState,
+      signUp: state.signUp,
+      userState: state.userState,
       handleLoginChange: state.handleLoginChange,
       loading: state.loading,
     }),
-    (prev, curr) => isEqual(prev, curr),
+    (prev, curr) => {
+      const data = isEqual(prev, curr);
+      return false;
+    },
   );
 
-  const [
-    showpassword,
-    // setPassword
-  ] = useState<boolean>(false);
-  // const handleClickShowPassword = () => {
-  //   setPassword(!showpassword);
-  // };
+  // General Hooks
+  const [showpassword, setPassword] = useState<boolean>(false);
+
+  const handleClickShowPassword = () => {
+    setPassword(!showpassword);
+  };
+
+  const signUpHit = () => {
+    signUp();
+  };
 
   return (
     <Box
@@ -55,34 +60,36 @@ export const SignUp = forwardRef((props: SignUpProps): JSX.Element => {
         <Typography sx={signUpStyle.createPasswordSx}>Sign Up</Typography>
         {/* First Name */}
         <Box sx={signUpStyle.inputGroupSx}>
-          <Label rootStyle={signUpStyle.labelSx} htmlFor="username">
+          <Label rootStyle={signUpStyle.labelSx} htmlFor="firstName">
             First name
           </Label>
           <Input
             size="small"
-            value={user?.firstName ?? ''}
+            value={userState?.firstName ?? ''}
             id="firstName"
-            errorText={user?.error.firstName ?? false}
-            helperText={user?.error.firstName}
+            errorText={userState?.error.firstName ?? false}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleLoginChange('firstName', e.target.value)
             }
+            // isError={userState?.error.firstName !== ''}
+            isError={userState?.error?.firstName?.length > 0}
+            errorMessage={userState?.error?.firstName}
           />
         </Box>
         {/* Last Name */}
         <Box sx={signUpStyle.inputGroupSx}>
-          <Label rootStyle={signUpStyle.labelSx} htmlFor="username">
+          <Label rootStyle={signUpStyle.labelSx} htmlFor="lastName">
             Last name
           </Label>
           <Input
             size="small"
-            value={user?.lastName ?? ''}
+            value={userState?.lastName ?? ''}
             id="lastName"
-            errorText={user?.error.lastName ?? false}
-            helperText={user?.error.lastName}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleLoginChange('lastName', e.target.value)
             }
+            isError={userState?.error?.lastName.length > 0}
+            errorMessage={userState?.error.lastName}
           />
         </Box>
         {/* Email ID */}
@@ -92,30 +99,30 @@ export const SignUp = forwardRef((props: SignUpProps): JSX.Element => {
           </Label>
           <Input
             size="small"
-            value={user?.emailId ?? ''}
+            value={userState?.emailId ?? ''}
             id="emailId"
-            errorText={user?.error.emailId ?? false}
-            helperText={user?.error.emailId}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleLoginChange('emailId', e.target.value)
             }
+            isError={userState?.error?.emailId?.length > 0}
+            errorMessage={userState?.error?.emailId}
           />
         </Box>
         {/* Mobile */}
         <Box sx={signUpStyle.inputGroupSx}>
-          <Label rootStyle={signUpStyle.labelSx} htmlFor="username">
+          <Label rootStyle={signUpStyle.labelSx} htmlFor="number">
             Mobile
           </Label>
           <Input
             type="number"
             size="small"
-            value={user?.mobile ?? ''}
+            value={userState?.mobile ?? ''}
             id="mobile"
-            errorText={user?.error.mobile ?? false}
-            helperText={user?.error.mobile}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleLoginChange('mobile', e.target.value)
             }
+            isError={userState?.error?.mobile?.length > 0}
+            errorMessage={userState?.error.mobile}
           />
         </Box>
         {/* User Name */}
@@ -125,13 +132,13 @@ export const SignUp = forwardRef((props: SignUpProps): JSX.Element => {
           </Label>
           <Input
             size="small"
-            value={user?.username ?? ''}
+            value={userState?.username ?? ''}
             id="username"
-            errorText={user?.error.username ?? false}
-            helperText={user?.error.username}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleLoginChange('username', e.target.value)
             }
+            isError={userState?.error?.username?.length > 0}
+            errorMessage={userState?.error?.username}
           />
         </Box>
         {/* Set password */}
@@ -142,34 +149,43 @@ export const SignUp = forwardRef((props: SignUpProps): JSX.Element => {
           <Input
             id="setPassword"
             type={showpassword ? 'text' : 'password'}
-            errorText={user?.error.setPassword ?? ''}
-            errorMessage={user?.error.setPassword}
-            value={user?.setPassword ?? ''}
+            value={userState?.setPassword ?? ''}
             size="small"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleLoginChange('setPassword', e.target.value)
             }
-            // endAdornment={
-            //   <IconButton aria-label="toggle password visibility" onClick={() => handleClickShowPassword()} edge="end">
-            //     {showpassword ? (
-            //       <VisibilityOffIcon htmlColor="#848484" sx={signUpStyle.eyeSx} />
-            //     ) : (
-            //       <RemoveRedEyeIcon htmlColor="#848484" sx={signUpStyle.eyeSx} />
-            //     )}
-            //   </IconButton>
-            // }
+            endAdornment={
+              <IconButton aria-label="toggle password visibility" onClick={() => handleClickShowPassword()} edge="end">
+                {showpassword ? (
+                  <VisibilityOff rootStyle={signUpStyle.eyeSx} />
+                ) : (
+                  <Visibility rootStyle={signUpStyle.eyeSx} />
+                )}
+              </IconButton>
+            }
+            isError={userState?.error?.setPassword?.length > 0}
+            errorMessage={userState?.error.setPassword}
           />
         </Box>
         <Box sx={{ mt: 3, display: 'grid', gap: 3 }}>
-          <Button fullWidth sx={signUpStyle.loginButtonSx} onClick={() => signIn()} loading={loading}>
+          <Button fullWidth sx={signUpStyle.loginButtonSx} onClick={() => signUpHit()} loading={loading}>
             sign up
           </Button>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', pt: 3, justifyContent: 'center' }}>
           <Typography sx={signUpStyle.loginSx}>If you ve an account already?</Typography>
-          <Typography sx={signUpStyle?.signup} onClick={() => navigate(webRoutes.login)}>
+          <Link
+            style={{
+              color: '#353448',
+              fontWeight: '600',
+              textDecoration: 'underline',
+              paddingLeft: '5px',
+              fontSize: '14px',
+            }}
+            to={webRoutes.login}
+          >
             Log In
-          </Typography>
+          </Link>
         </Box>
       </Box>
     </Box>

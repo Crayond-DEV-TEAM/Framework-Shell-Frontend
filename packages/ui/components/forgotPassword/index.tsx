@@ -64,7 +64,7 @@ export const ForgotPassword = forwardRef((props: ForgotPasswordProps, ref: React
 
         <Box sx={{ mt: 3, display: 'grid', gap: 3 }}>
           <Button fullWidth sx={forgotPasswordStyle.loginButtonSx} onClick={() => signIn()} loading={loading}>
-            sign up
+            Get Link
           </Button>
         </Box>
         <Box sx={{ paddingTop: '16px' }}>

@@ -15,7 +15,7 @@ export type InputProps = StandardTextFieldProps & {
   rowMax?: number;
   rowMin?: number;
   value?: string;
-  endAdornment?: string;
+  endAdornment?: any;
   startAdornment?: string;
   textFieldStyle?: object;
   variant?: 'filled' | 'outlined' | 'standard';
@@ -34,7 +34,7 @@ export function Input(props: InputProps): JSX.Element {
     placeholder = '',
     size = 'small',
     onChange = () => false,
-    endAdornment = '',
+    endAdornment,
     startAdornment,
     type = '',
     errorMessage = '',
@@ -60,7 +60,7 @@ export function Input(props: InputProps): JSX.Element {
         minRows={rowMin}
         onChange={onChange}
         helperText={helperText}
-        error={!!isError}
+        error={isError}
         className={`${className}`}
         InputProps={{
           startAdornment: <InputAdornment position="start">{startAdornment}</InputAdornment>,

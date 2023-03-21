@@ -1,4 +1,4 @@
-import type { BoxProps, SxProps, Theme } from '@mui/material';
+import { BoxProps, SxProps, Theme, Typography } from '@mui/material';
 import { Box, Grid } from '@mui/material';
 import { forwardRef } from 'react';
 
@@ -28,7 +28,10 @@ export const LoginLayout = forwardRef((props: LoginLayoutProps): JSX.Element => 
       className={`${className}`}
       {...rest}
     >
-      <Box component={'img'} src={toolkit} />
+      <Box sx={loginLayoutStyle?.toolkit}>
+        <Box component={'img'} src={toolkit} />
+        <Typography sx={loginLayoutStyle.toolkitText}>Toolkit</Typography>
+      </Box>
 
       <Grid container>
         {/* <Hidden only={['xs', 'sm']}> */}
@@ -49,8 +52,10 @@ export const LoginLayout = forwardRef((props: LoginLayoutProps): JSX.Element => 
           </Box>
         </Grid>
       </Grid>
-
-      <Box component={'img'} src={crayond} sx={loginLayoutStyle.bottomImgSx} />
+      <Box sx={loginLayoutStyle?.toolkit}>
+        <Box component={'img'} src={crayond} sx={loginLayoutStyle.bottomImgSx} />
+        <Typography sx={loginLayoutStyle?.power}>Powered by Crayon&apos;d</Typography>
+      </Box>
     </Box>
   );
 });

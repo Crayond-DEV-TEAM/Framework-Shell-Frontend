@@ -1,4 +1,4 @@
-import { envConfig } from '@core/envconfig';
+//import { envConfig } from '@core/envconfig';
 import { log } from '@core/logger';
 import { webRoutes } from '@core/routes';
 import { httpRequest, parseJwt, routeTo } from '@core/utils';
@@ -34,6 +34,7 @@ export interface OnboardingProps {
   userState: UserStateProps;
   loading: boolean;
   signIn: () => void;
+  reset: () => void;
   logOut: () => void;
   handleLoginChange: (key: string, value: string) => void;
   isInputsValid: () => boolean;
@@ -41,8 +42,8 @@ export interface OnboardingProps {
 
 export const useOnboarding = create<OnboardingProps>((set, get) => ({
   userState: {
-    username: 'acharlota',
-    password: 'M9lbMdydMN',
+    username: '',
+    password: '',
     firstName: '',
     lastName: '',
     emailId: '',
@@ -50,39 +51,38 @@ export const useOnboarding = create<OnboardingProps>((set, get) => ({
     setPassword: '',
     confirmPassword: '',
     error: {
+      username: '',
       password: '',
-      confirmPassword: '',
       firstName: '',
       lastName: '',
       emailId: '',
       mobile: '',
-      username: '',
       setPassword: '',
+      confirmPassword: '',
     },
   },
   loading: false,
   signIn: async () => {
     try {
-      const { isInputsValid, userState } = get();
+      const { userState } = get();
 
-      if (!isInputsValid()) return;
-
+      // if (!isInputsValid()) return;
       set({ loading: true });
       // Hitting the signin API
-      const response = await httpRequest('post', `${envConfig.auth_url}/login`, {
+      const response = await httpRequest('post', `https://dev-framework-api.crayond.com/api/v1/auth/sign_in `, {
         username: userState?.username ?? '',
         password: userState?.password ?? '',
       });
       // If the user is exists
-      if (response?.status === 200 && response?.data?.token) {
-        const token = response?.data?.token;
+      if (response?.status === 200 && response?.data?.data) {
+        const token = response?.data?.data;
         const user = parseJwt(token);
         useUser.setState({
           user,
         });
         localStorage.setItem(localStorageKeys.authToken, token);
         enqueueSnackbar('Signed in successfully', { variant: 'success' });
-        routeTo(useRouting, webRoutes.home);
+        routeTo(useRouting, webRoutes.resetPassword);
       }
       set({ loading: false });
     } catch (err: any) {
@@ -103,11 +103,38 @@ export const useOnboarding = create<OnboardingProps>((set, get) => ({
       enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while logging in!', { variant: 'error' });
     }
   },
+
+  reset: async () => {
+    try {
+      const { userState } = get();
+      // if (!isInputsValid()) return;
+      set({ loading: true });
+      // Hitting the reset API
+      const response = await httpRequest(
+        'put',
+        `https://dev-framework-api.crayond.com/api/v1/auth/reset_password `,
+        {
+          new_password: userState?.confirmPassword ?? '',
+        },
+        true,
+      );
+      // If the user is exists
+      if (response?.status === 200 && response?.data?.data) {
+        enqueueSnackbar('Password changed successfully', { variant: 'success' });
+        // routeTo(useRouting, webRoutes.home);
+      }
+      set({ loading: false });
+    } catch (err: any) {
+      set({ loading: false });
+      log('error', err);
+      enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong to reset password', { variant: 'error' });
+    }
+  },
   logOut: () => {
     set({
       userState: {
-        username: 'acharlota',
-        password: 'M9lbMdydMN',
+        username: '',
+        password: '',
         confirmPassword: '',
         error: {
           username: '',
@@ -188,9 +215,16 @@ export const useOnboarding = create<OnboardingProps>((set, get) => ({
     // checking SetPassword
     if (userState?.setPassword.length === 0) {
       isValid = false;
-      error['setPassword'] = 'Enter a valid lastName';
+      error['setPassword'] = 'Enter a new password';
     } else {
       error['setPassword'] = '';
+    }
+    // checking SetPassword
+    if (userState?.confirmPassword.length === 0) {
+      isValid = false;
+      error['confirmPassword'] = 'Enter confirm Password';
+    } else {
+      error['confirmPassword'] = '';
     }
 
     set({

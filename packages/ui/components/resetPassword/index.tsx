@@ -1,9 +1,12 @@
 import { Button } from '@atoms/button';
 import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
+import { useOnboarding } from '@core/store';
+import { localStorageKeys, parseJwt } from '@core/utils';
 import { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { forwardRef } from 'react';
+import isEqual from 'react-fast-compare';
 
 import { resetPasswordStyle } from './style';
 
@@ -15,7 +18,22 @@ export interface ResetPasswordProps {
 
 export const ResetPassword = forwardRef((props: ResetPasswordProps, ref: React.Ref<HTMLElement>): JSX.Element => {
   const { className = '', title = 'Reset Password', sx = {}, ...rest } = props;
+  const authToken = localStorage.getItem(localStorageKeys.authToken);
+  const data = parseJwt(authToken);
+  console.log(data, 'data');
 
+  const { user, resetPassword, loading, handleLoginChange } = useOnboarding(
+    (state) => ({
+      resetPassword: state.resetPassword,
+      user: state.userState,
+      handleLoginChange: state.handleLoginChange,
+      loading: state.loading,
+    }),
+    (prev, curr) => isEqual(prev, curr),
+  );
+  const resetPasswordFunc = () => {
+    resetPassword();
+  };
   return (
     <Box
       sx={[
@@ -40,8 +58,11 @@ export const ResetPassword = forwardRef((props: ResetPasswordProps, ref: React.R
             type={'password'}
             //errorText={user?.error.password ?? ''}
             //errorMessage={user?.error.password}
-            //value={user?.password ?? ''}
+            value={user?.password ?? ''}
             size="small"
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+              handleLoginChange('password', e.target.value)
+            }
           />
         </Box>
         <Box sx={resetPasswordStyle.inputGroupSx}>
@@ -49,16 +70,19 @@ export const ResetPassword = forwardRef((props: ResetPasswordProps, ref: React.R
             Confirm Password
           </Label>
           <Input
-            id="password"
+            id="confirmPassword"
             type={'password'}
             //errorText={user?.error.password ?? ''}
             //errorMessage={user?.error.password}
-            //value={user?.password ?? ''}
+            value={user?.confirmPassword ?? ''}
             size="small"
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+              handleLoginChange('confirmPassword', e.target.value)
+            }
           />
         </Box>
         <Box>
-          <Button fullWidth sx={resetPasswordStyle.loginButtonSx}>
+          <Button onClick={() => resetPasswordFunc()} fullWidth sx={resetPasswordStyle.loginButtonSx}>
             Reset
           </Button>
         </Box>

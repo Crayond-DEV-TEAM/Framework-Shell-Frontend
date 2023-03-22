@@ -17,7 +17,7 @@ export interface SignUpProps {
   sx?: SxProps<Theme>;
 }
 
-export const SignUp = forwardRef((props: SignUpProps): JSX.Element => {
+export const SignUp = forwardRef((props: SignUpProps, ref: React.Ref<HTMLElement>): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
 
   // Store Data
@@ -54,6 +54,7 @@ export const SignUp = forwardRef((props: SignUpProps): JSX.Element => {
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       className={`${className}`}
+      ref={ref}
       {...rest}
     >
       <Box sx={signUpStyle.cardContentSx}>
@@ -67,7 +68,6 @@ export const SignUp = forwardRef((props: SignUpProps): JSX.Element => {
             size="small"
             value={userState?.firstName ?? ''}
             id="firstName"
-            errorText={userState?.error.firstName ?? false}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleLoginChange('firstName', e.target.value)
             }

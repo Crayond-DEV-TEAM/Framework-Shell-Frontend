@@ -7,7 +7,6 @@ export type InputProps = StandardTextFieldProps & {
   className?: string;
   sx?: SxProps<Theme>;
   helperText?: string;
-  errorText?: string;
   errorMessage?: string;
   isReadOnly?: boolean;
   isError?: boolean;

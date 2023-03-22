@@ -37,6 +37,8 @@ export interface OnboardingProps {
   signIn: () => void;
   signUp: () => void;
   logOut: () => void;
+  forgotPassword: () => void;
+  resetPassword: () => void;
   handleLoginChange: (key: string, value: string) => void;
   isInputsValid: () => boolean;
 }
@@ -159,6 +161,61 @@ export const useOnboarding = create<OnboardingProps>((set, get) => ({
     });
     enqueueSnackbar('Signed out successfully', { variant: 'success' });
     return routeTo(useRouting, webRoutes.login);
+  },
+
+  forgotPassword: async () => {
+    try {
+      const { userState } = get();
+
+      set({ loading: true });
+      const response = await httpRequest('put', `${envConfig.auth_url}/forgot_password`, {
+        email_id: userState?.emailId ?? '',
+      });
+      if (response?.data?.status?.code === '401') {
+        set({ userState, loading: false });
+        return enqueueSnackbar('Sign up in successfully', { variant: 'success' });
+      }
+      if (response?.status === 200) {
+        const token = response?.data?.data;
+        // localStorage.setItem(localStorageKeys?.authTempKey, true);
+        localStorage.setItem(localStorageKeys.authToken, token);
+        enqueueSnackbar(' link sent to resgisternmail ID', { variant: 'success' });
+        routeTo(useRouting, webRoutes.resetPassword);
+      }
+      return set({ loading: false });
+    } catch (err: any) {
+      set({ loading: false });
+      log('error', err);
+      enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while logging in!', { variant: 'error' });
+    }
+  },
+
+  resetPassword: async () => {
+    try {
+      const { userState } = get();
+
+      set({ loading: true });
+      const response = await httpRequest(
+        'put',
+        `${envConfig.auth_url}/reset_password`,
+        {
+          new_password: userState?.password ?? '',
+        },
+        true,
+      );
+      if (response?.data?.status?.code !== '200') {
+        set({ userState, loading: false });
+        return enqueueSnackbar('please check the password', { variant: 'success' });
+      }
+      set({ userState, loading: false });
+      enqueueSnackbar('Please sign in to continue', { variant: 'success' });
+      localStorage.clear();
+      routeTo(useRouting, webRoutes.login);
+    } catch (err: any) {
+      set({ loading: false });
+      log('error', err);
+      enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while logging in!', { variant: 'error' });
+    }
   },
 
   handleLoginChange: (key, value) => {

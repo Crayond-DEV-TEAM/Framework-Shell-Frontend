@@ -55,7 +55,13 @@ export const loginLayoutStyle: LoginLayoutStyleProps = {
       lg: 'start',
       xl: 'start',
     },
-    alignItems: 'flex-end',
+    alignItems: {
+      xs: 'flex-end',
+      sm: 'center',
+      md: 'center',
+      lg: 'center',
+      xl: 'center',
+    },
   },
   toolkitText: {
     pl: 1.5,

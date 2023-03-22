@@ -60,7 +60,6 @@ export function Login(props: LoginProps): JSX.Element {
             size="small"
             value={user?.username ?? ''}
             id="username"
-            errorText={user?.error.username ?? false}
             helperText={user?.error.username}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleLoginChange('username', e.target.value)
@@ -74,7 +73,6 @@ export function Login(props: LoginProps): JSX.Element {
           <Input
             id="password"
             type={'password'}
-            errorText={user?.error.password ?? ''}
             errorMessage={user?.error.password}
             value={user?.password ?? ''}
             size="small"
@@ -93,7 +91,7 @@ export function Login(props: LoginProps): JSX.Element {
           />
         </Box>
         <Typography sx={loginStyle?.ForgotSx} onClick={() => navigate(webRoutes.forgotpassword)}>
-          Forgot Password
+          Forgot Password ?
         </Typography>
         <Box>
           <Button fullWidth sx={loginStyle.loginButtonSx} onClick={() => signIn()} loading={loading}>

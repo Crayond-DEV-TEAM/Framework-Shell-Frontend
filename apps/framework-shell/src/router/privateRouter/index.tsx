@@ -22,7 +22,7 @@ function PrivateRouter(props: { children: JSX.Element }) {
 
     //Already logged in
     if (authToken && loginRoutes.some((route) => route === location?.pathname)) {
-      navigate(webRoutes.home);
+      //navigate(webRoutes.home);
     }
     setShowComponent(true);
   }, [location]);

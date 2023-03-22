@@ -54,40 +54,39 @@ export const useOnboarding = create<OnboardingProps>((set, get) => ({
     setPassword: '',
     confirmPassword: '',
     error: {
+      username: '',
       password: '',
-      confirmPassword: '',
       firstName: '',
       lastName: '',
       emailId: '',
       mobile: '',
-      username: '',
       setPassword: '',
+      confirmPassword: '',
     },
   },
   loading: false,
 
   signIn: async () => {
     try {
-      const { isInputsValid, userState } = get();
+      const { userState } = get();
 
-      if (!isInputsValid()) return;
-
+      // if (!isInputsValid()) return;
       set({ loading: true });
       // Hitting the signin API
-      const response = await httpRequest('post', `${envConfig.auth_url}/login`, {
+      const response = await httpRequest('post', `https://dev-framework-api.crayond.com/api/v1/auth/sign_in `, {
         username: userState?.username ?? '',
         password: userState?.password ?? '',
       });
       // If the user is exists
-      if (response?.status === 200 && response?.data?.token) {
-        const token = response?.data?.token;
+      if (response?.status === 200 && response?.data?.data) {
+        const token = response?.data?.data;
         const user = parseJwt(token);
         useUser.setState({
           user,
         });
         localStorage.setItem(localStorageKeys.authToken, token);
         enqueueSnackbar('Signed in successfully', { variant: 'success' });
-        routeTo(useRouting, webRoutes.home);
+        routeTo(useRouting, webRoutes.resetPassword);
       }
       set({ loading: false });
     } catch (err: any) {
@@ -131,7 +130,6 @@ export const useOnboarding = create<OnboardingProps>((set, get) => ({
       enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while logging in!', { variant: 'error' });
     }
   },
-
   logOut: () => {
     set({
       userState: {
@@ -192,25 +190,26 @@ export const useOnboarding = create<OnboardingProps>((set, get) => ({
 
   resetPassword: async () => {
     try {
-      const { userState } = get();
-
-      set({ loading: true });
-      const response = await httpRequest(
-        'put',
-        `${envConfig.auth_url}/reset_password`,
-        {
-          new_password: userState?.password ?? '',
-        },
-        true,
-      );
-      if (response?.data?.status?.code !== '200') {
+      const { isInputsValid, userState } = get();
+      if (isInputsValid()) {
+        set({ loading: true });
+        const response = await httpRequest(
+          'put',
+          `${envConfig.auth_url}/reset_password`,
+          {
+            new_password: userState?.password ?? '',
+          },
+          true,
+        );
+        if (response?.data?.status?.code !== '200') {
+          set({ userState, loading: false });
+          return enqueueSnackbar('please check the password', { variant: 'success' });
+        }
         set({ userState, loading: false });
-        return enqueueSnackbar('please check the password', { variant: 'success' });
+        enqueueSnackbar('Please sign in to continue', { variant: 'success' });
+        localStorage.clear();
+        routeTo(useRouting, webRoutes.login);
       }
-      set({ userState, loading: false });
-      enqueueSnackbar('Please sign in to continue', { variant: 'success' });
-      localStorage.clear();
-      routeTo(useRouting, webRoutes.login);
     } catch (err: any) {
       set({ loading: false });
       log('error', err);
@@ -307,6 +306,24 @@ export const useOnboarding = create<OnboardingProps>((set, get) => ({
       error.setPassword = 'Enter a valid password';
     } else {
       error.setPassword = '';
+    }
+    // checking SetPassword
+    if (userState?.confirmPassword.length === 0) {
+      isValid = false;
+      error['confirmPassword'] = 'Enter confirm Password';
+    } else {
+      error['confirmPassword'] = '';
+    }
+    if (userState.confirmPassword.length > 0) {
+      if (userState.password.length > 0 && userState.password !== userState.confirmPassword) {
+        isValid = false;
+        error.confirmPassword = 'Password does not match';
+      }
+    }
+    if (userState.password !== '' && userState.confirmPassword !== '') {
+      if (userState.password === userState.confirmPassword) {
+        isValid = true;
+      }
     }
 
     set({

@@ -50,6 +50,7 @@ export const loginStyle: LoginStyleProps = {
     textDecoration: 'underline',
     fontWeight: 600,
     justifyContent: 'end',
+    textAlign: 'right',
     cursor: 'pointer',
   },
   loginButtonSx: {

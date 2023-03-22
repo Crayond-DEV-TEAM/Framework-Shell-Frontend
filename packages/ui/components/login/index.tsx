@@ -6,6 +6,7 @@ import { webRoutes } from '@core/routes';
 import { useOnboarding } from '@core/store/framework-shell';
 import { IconButton, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
+import React from 'react';
 import { useState } from 'react';
 import isEqual from 'react-fast-compare';
 import { Link, useNavigate } from 'react-router-dom';
@@ -32,11 +33,14 @@ export function Login(props: LoginProps): JSX.Element {
     }),
     (prev, curr) => isEqual(prev, curr),
   );
-
   const [showpassword, setPassword] = useState<boolean>(false);
 
   const handleClickShowPassword = () => {
     setPassword(!showpassword);
+  };
+
+  const signInHIt = () => {
+    signIn();
   };
 
   return (
@@ -72,7 +76,7 @@ export function Login(props: LoginProps): JSX.Element {
           </Label>
           <Input
             id="password"
-            type={'password'}
+            type={showpassword ? 'password' : 'text'}
             errorMessage={user?.error.password}
             value={user?.password ?? ''}
             size="small"
@@ -94,7 +98,7 @@ export function Login(props: LoginProps): JSX.Element {
           Forgot Password ?
         </Typography>
         <Box>
-          <Button fullWidth sx={loginStyle.loginButtonSx} onClick={() => signIn()} loading={loading}>
+          <Button fullWidth sx={loginStyle.loginButtonSx} onClick={() => signInHIt()} loading={loading}>
             login
           </Button>
         </Box>

@@ -11,6 +11,12 @@ export const makeid = () => {
   }
   return result;
 };
+//Function to validate email
+export const ValidateEmail = (email: any) => {
+  const re =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return Boolean(re.test(email));
+};
 
 export const routeTo = (store, path, routeAfter = 1000) =>
   setTimeout(() => {

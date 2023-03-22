@@ -1,98 +1,111 @@
+// // import { CloseIcon } from '@atoms/icons';
 // import type { SxProps, Theme } from '@mui/material';
-// import { Button, Dialog, DialogTitle, Drawer, List, ListItem, ListItemText } from '@mui/material';
-// import { Box } from '@mui/system';
-// import React from 'react';
+// import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Drawer, Hidden } from '@mui/material';
+// import { useState } from 'react';
 
-// //import { forwardRef } from 'react';
 // import { dialogDrawerStyle } from './style';
 
 // export interface DialogDrawerProps {
 //   className?: string;
 //   sx?: SxProps<Theme>;
-//   open: boolean;
-//   onClose: () => void;
-//   maxWidth?: boolean;
-//   width?: string;
-//   isnotTitle?: boolean;
-//   header?: string;
-//   height?: string;
-//   padding?: string;
-//   height_style?: string;
-//   component?: React.ReactNode;
-//   drawerComponent?: React.ReactNode;
-//   dialogComponent?: React.ReactNode;
-//   footer: string;
+//   rootStyle: object;
+//   isDialogOpened: boolean;
+//   handleCloseDialog: () => void;
+//   title: string;
+//   titleStyle: object;
+//   content: string;
+//   actions: string;
+//   maxModalWidth: boolean;
+//   dialogRootStyle: string;
+//   topDivider: boolean;
+//   bottomDivider: boolean;
+//   isCloseOut: boolean;
 // }
 
 // //export const DialogDrawer = forwardRef((props: DialogDrawerProps): JSX.Element => {
 // function DialogDrawer(props: DialogDrawerProps): JSX.Element {
 //   const {
 //     className = '',
-//     sx = {},
-//     // open = false,
-//     // onClose = () => false,
-//     // //maxWidth = false,
-//     // //width = '',
-//     // isnotTitle = false,
-//     // header = '',
-//     // height = '',
-//     // padding = '',
-//     // // height_style = '',
-//     // component = false,
-//     // drawerComponent = false,
-//     // dialogComponent = false,
-//     // footer = '',
+//     rootStyle = {},
+//     isDialogOpened = false,
+//     handleCloseDialog = () => false,
+//     title = '',
+//     titleStyle = {},
+//     topDivider,
+//     bottomDivider,
+//     content,
+//     isCloseOut,
+//     maxModalWidth = false,
+//     actions,
+//     dialogRootStyle = {},
 //     ...rest
 //   } = props;
-//   const [isDialogOpen, setIsDialogOpen] = useState(false);
-//   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-//   const toggleDialog = () => {
-//     setIsDialogOpen((prevState) => !prevState);
-//   };
-
-//   const toggleDrawer = () => {
-//     setIsDrawerOpen((prevState) => !prevState);
+//   const [maxWidth] = useState(maxModalWidth);
+//   const handleClose = () => {
+//     handleCloseDialog(false);
 //   };
 
 //   return (
-//     <React.Fragment>
-//       <Box
-//         sx={[
-//           {
-//             ...dialogDrawerStyle.rootSx,
-//           },
-//           ...(Array.isArray(sx) ? sx : [sx]),
-//         ]}
-//         className={`${className}`}
-//         //ref={ref}
-//         {...rest}
-//       >
-//         <div>
-//           <Button onClick={toggleDialog}>Open Dialog</Button>
-//           <Dialog open={isDialogOpen} onClose={toggleDialog}>
-//             <DialogTitle>Dialog Title</DialogTitle>
-//             <p>Dialog Content</p>
-//           </Dialog>
+//     <Box sx={{ ...dialogDrawerStyle.rootSx, ...rootStyle }} className={`${className}`} {...rest}>
+//       <Hidden smDown>
+//         <Dialog
+//           open={open}
+//           onClose={onClose}
+//           aria-labelledby="alert-dialog-title"
+//           sx={dialogDrawerStyle?.dialog}
+//           maxWidth={maxWidth ? maxWidth : width ?? 'xs'}
+//           fullWidth
+//           aria-describedby="alert-dialog-description"
+//         >
+//           {!isnotTitle && (
+//             <DialogTitle sx={dialogDrawerStyle?.header}>
+//               <span>{header}</span>{' '}
+//               {/* <img src="/images/close.svg" alt="close" onClick={onClose} style={{ cursor: 'pointer' }} /> */}
+//             </DialogTitle>
+//           )}
 
-//           <Button onClick={toggleDrawer}>Open Drawer</Button>
-//           <Drawer anchor="right" open={isDrawerOpen} onClose={toggleDrawer}>
-//             <List>
-//               <ListItem button>
-//                 <ListItemText primary="Drawer Item 1" />
-//               </ListItem>
-//               <ListItem button>
-//                 <ListItemText primary="Drawer Item 2" />
-//               </ListItem>
-//               <ListItem button>
-//                 <ListItemText primary="Drawer Item 3" />
-//               </ListItem>
-//             </List>
-//           </Drawer>
-//         </div>
-//         ;
-//       </Box>
-//     </React.Fragment>
+//           <DialogContent style={{ padding: '0 !important' }}>
+//             <Box
+//               height={height ?? 'auto'}
+//               overflow="auto"
+//               padding={padding ?? 2}
+//               sx={{ ...dialogDrawerStyle.component, ...height_style }}
+//             >
+//               {component ?? dialogComponent}
+//             </Box>
+//           </DialogContent>
+//           {footer && (
+//             <DialogActions>
+//               <Box sx={dialogDrawerStyle?.footer}>{footer}</Box>
+//             </DialogActions>
+//           )}
+//         </Dialog>
+//       </Hidden>
+//       <Hidden smUp>
+//         <Drawer anchor="bottom" sx={dialogDrawerStyle?.drawer} open={open} onClose={onClose}>
+//           {!isnotTitle && (
+//             <DialogTitle sx={dialogDrawerStyle?.header}>
+//               <span>{header}</span>{' '}
+//               {/* <img src="/images/close.svg" alt="close" onClick={onClose} style={{ cursor: 'pointer' }} /> */}
+//             </DialogTitle>
+//           )}
+
+//           <Box
+//             height={height ?? 'auto'}
+//             overflow="auto"
+//             padding={padding ?? 2}
+//             sx={{ ...dialogDrawerStyle.component, ...height_style }}
+//           >
+//             {component ?? drawerComponent}
+//           </Box>
+//           {footer && (
+//             <DialogActions>
+//               <Box sx={dialogDrawerStyle?.footer}>{footer}</Box>
+//             </DialogActions>
+//           )}
+//         </Drawer>
+//       </Hidden>
+//     </Box>
 //   );
 // }
 // export { DialogDrawer };

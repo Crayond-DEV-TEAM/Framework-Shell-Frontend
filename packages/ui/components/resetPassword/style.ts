@@ -20,7 +20,10 @@ export const resetPasswordStyle: ResetPasswordStyleProps = {
     width: '100%',
     maxWidth: '435px',
   },
-
+  eyeSx: {
+    width: '16px',
+    height: '16px',
+  },
   signInSx: {
     fontSize: '20px',
     fontWeight: 600,

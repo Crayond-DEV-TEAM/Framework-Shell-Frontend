@@ -1,7 +1,7 @@
-//import { envConfig } from '@core/envconfig';
+import { envConfig } from '@core/envconfig';
 import { log } from '@core/logger';
 import { webRoutes } from '@core/routes';
-import { httpRequest, parseJwt, routeTo } from '@core/utils';
+import { httpRequest, parseJwt, routeTo, ValidateEmail } from '@core/utils';
 import { localStorageKeys } from '@core/utils/constants';
 import { enqueueSnackbar } from 'notistack';
 import { create } from 'zustand';
@@ -33,9 +33,12 @@ export interface UserStateProps {
 export interface OnboardingProps {
   userState: UserStateProps;
   loading: boolean;
+  // errorUpdate: () => void;
   signIn: () => void;
-  reset: () => void;
+  signUp: () => void;
   logOut: () => void;
+  forgotPassword: () => void;
+  resetPassword: () => void;
   handleLoginChange: (key: string, value: string) => void;
   isInputsValid: () => boolean;
 }
@@ -62,6 +65,7 @@ export const useOnboarding = create<OnboardingProps>((set, get) => ({
     },
   },
   loading: false,
+
   signIn: async () => {
     try {
       const { userState } = get();
@@ -91,43 +95,39 @@ export const useOnboarding = create<OnboardingProps>((set, get) => ({
       enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while logging in!', { variant: 'error' });
     }
   },
+
   signUp: async () => {
     try {
-      const { isInputsValid } = get();
-      if (!isInputsValid()) return;
-      set({ loading: true });
-      // const response = await httpRequest('post', {});
+      const { isInputsValid, userState } = get();
+      if (isInputsValid()) {
+        set({ loading: true });
+        // Hitting the signin API
+        const response = await httpRequest('post', `${envConfig.auth_url}/sign_up`, {
+          email_id: userState?.emailId ?? '',
+          mobile_no: userState?.mobile ?? '',
+          username: userState?.username ?? '',
+          password: userState?.setPassword ?? '',
+          first_name: userState?.firstName ?? '',
+          last_name: userState?.lastName ?? '',
+        });
+        // If the user is exists
+        if (response?.status === 200) {
+          // const user_Id = response?.data?.id;
+          // const user = parseJwt(user_Id);
+          // useUser.setState({
+          //   user,
+          // });
+          // localStorage.setItem(localStorageKeys.authToken, user_Id);
+          enqueueSnackbar('Sign up in successfully', { variant: 'success' });
+          routeTo(useRouting, webRoutes.login);
+        }
+
+        set({ loading: false });
+      }
     } catch (err: any) {
       set({ loading: false });
       log('error', err);
       enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while logging in!', { variant: 'error' });
-    }
-  },
-
-  reset: async () => {
-    try {
-      const { userState } = get();
-      // if (!isInputsValid()) return;
-      set({ loading: true });
-      // Hitting the reset API
-      const response = await httpRequest(
-        'put',
-        `https://dev-framework-api.crayond.com/api/v1/auth/reset_password `,
-        {
-          new_password: userState?.confirmPassword ?? '',
-        },
-        true,
-      );
-      // If the user is exists
-      if (response?.status === 200 && response?.data?.data) {
-        enqueueSnackbar('Password changed successfully', { variant: 'success' });
-        // routeTo(useRouting, webRoutes.home);
-      }
-      set({ loading: false });
-    } catch (err: any) {
-      set({ loading: false });
-      log('error', err);
-      enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong to reset password', { variant: 'error' });
     }
   },
   logOut: () => {
@@ -136,10 +136,20 @@ export const useOnboarding = create<OnboardingProps>((set, get) => ({
         username: '',
         password: '',
         confirmPassword: '',
+        firstName: '',
+        lastName: '',
+        emailId: '',
+        mobile: '',
+        setPassword: '',
         error: {
           username: '',
           password: '',
           confirmPassword: '',
+          firstName: '',
+          lastName: '',
+          emailId: '',
+          mobile: '',
+          setPassword: '',
         },
       },
     });
@@ -150,8 +160,69 @@ export const useOnboarding = create<OnboardingProps>((set, get) => ({
     enqueueSnackbar('Signed out successfully', { variant: 'success' });
     return routeTo(useRouting, webRoutes.login);
   },
+
+  forgotPassword: async () => {
+    try {
+      const { userState } = get();
+
+      set({ loading: true });
+      const response = await httpRequest('put', `${envConfig.auth_url}/forgot_password`, {
+        email_id: userState?.emailId ?? '',
+      });
+      if (response?.data?.status?.code === '401') {
+        set({ userState, loading: false });
+        return enqueueSnackbar('Sign up in successfully', { variant: 'success' });
+      }
+      if (response?.status === 200) {
+        const token = response?.data?.data;
+        // localStorage.setItem(localStorageKeys?.authTempKey, true);
+        localStorage.setItem(localStorageKeys.authToken, token);
+        enqueueSnackbar(' link sent to resgisternmail ID', { variant: 'success' });
+        routeTo(useRouting, webRoutes.resetPassword);
+      }
+      return set({ loading: false });
+    } catch (err: any) {
+      set({ loading: false });
+      log('error', err);
+      enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while logging in!', { variant: 'error' });
+    }
+  },
+
+  resetPassword: async () => {
+    try {
+      const { isInputsValid, userState } = get();
+      if (isInputsValid()) {
+        set({ loading: true });
+        const response = await httpRequest(
+          'put',
+          `${envConfig.auth_url}/reset_password`,
+          {
+            new_password: userState?.password ?? '',
+          },
+          true,
+        );
+        if (response?.data?.status?.code !== '200') {
+          set({ userState, loading: false });
+          return enqueueSnackbar('please check the password', { variant: 'success' });
+        }
+        set({ userState, loading: false });
+        enqueueSnackbar('Please sign in to continue', { variant: 'success' });
+        localStorage.clear();
+        routeTo(useRouting, webRoutes.login);
+      }
+    } catch (err: any) {
+      set({ loading: false });
+      log('error', err);
+      enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while logging in!', { variant: 'error' });
+    }
+  },
+
   handleLoginChange: (key, value) => {
     const { userState } = get();
+
+    if (key === 'mobile') {
+      value = Math.max(0, parseInt(value)).toString().slice(0, 10);
+    }
     set({
       userState: {
         ...userState,
@@ -160,64 +231,81 @@ export const useOnboarding = create<OnboardingProps>((set, get) => ({
     });
   },
 
+  // errorUpdate: (error) => {
+  //   const { userState } = get();
+
+  //   set({
+  //     userState: {
+  //       ...userState,
+  //       error: error,
+  //     },
+  //   });
+  // },
+
   isInputsValid: () => {
     const { userState } = get();
 
     let isValid = true;
-    const error = userState.error;
+    const error = userState?.error;
 
     //  Checking username
     if (userState?.username.length === 0) {
       isValid = false;
-      error['username'] = 'Enter a valid username';
+      error.username = 'Enter a valid username';
     } else {
-      error['username'] = '';
+      error.username = '';
     }
 
     // Checking password
     if (userState?.password.length === 0) {
       isValid = false;
-      error['password'] = 'Enter the password';
+      error.password = 'Enter the password';
     } else {
-      error['password'] = '';
+      error.password = '';
     }
 
     // checking FirstName
     if (userState?.firstName.length === 0) {
       isValid = false;
-      error['firstName'] = 'Enter a valid firstName';
+      error.firstName = 'Enter a valid firstName';
     } else {
-      error['firstName'] = '';
+      error.firstName = '';
     }
     // checking LastName
     if (userState?.lastName.length === 0) {
       isValid = false;
-      error['lastName'] = 'Enter a valid lastName';
+      error.lastName = 'Enter a valid lastName';
     } else {
-      error['lastName'] = '';
-    }
-    // checking email Id
-    const filter = /\S+@\S+\.\S+/;
-    if (userState?.emailId?.length > 0 && !filter.test(userState?.emailId)) {
-      isValid = false;
-      error.emailId = 'Please enter the valid mail';
-    } else {
-      error.emailId = '';
+      error.lastName = '';
     }
 
-    // checking MObile
-    if (userState?.mobile?.length > 0 && userState?.mobile?.length !== 10) {
+    //Checking email
+    if (userState.emailId.length === 0) {
       isValid = false;
-      error.mobile = 'Please enter your mobilenumber';
+      error.emailId = 'Email is required';
+    }
+    //validate email
+    if (userState.emailId.length > 0 && !ValidateEmail(userState?.emailId)) {
+      isValid = false;
+      error.emailId = 'Invalid email';
+    }
+
+    if (userState?.mobile?.length === 0) {
+      isValid = false;
+      error.mobile = 'Enter a mobile number';
+    } else if (userState?.mobile?.length < 10) {
+      isValid = false;
+      error.mobile = 'Enter a valid 10 digit mobile number';
     } else {
       error.mobile = '';
     }
+
     // checking SetPassword
     if (userState?.setPassword.length === 0) {
       isValid = false;
-      error['setPassword'] = 'Enter a new password';
+      error.setPassword = 'Enter a valid password';
     } else {
-      error['setPassword'] = '';
+      error.setPassword = '';
     }
     // checking SetPassword
     if (userState?.confirmPassword.length === 0) {
@@ -225,6 +313,17 @@ export const useOnboarding = create<OnboardingProps>((set, get) => ({
       error['confirmPassword'] = 'Enter confirm Password';
     } else {
       error['confirmPassword'] = '';
+    }
+    if (userState.confirmPassword.length > 0) {
+      if (userState.password.length > 0 && userState.password !== userState.confirmPassword) {
+        isValid = false;
+        error.confirmPassword = 'Password does not match';
+      }
+    }
+    if (userState.password !== '' && userState.confirmPassword !== '') {
+      if (userState.password === userState.confirmPassword) {
+        isValid = true;
+      }
     }
 
     set({

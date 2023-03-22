@@ -6,7 +6,7 @@ interface ForgotPasswordStyleProps {
 
 export const forgotPasswordStyle: ForgotPasswordStyleProps = {
   rootSx: {
-    // minHeight: '100vh',
+    //  minHeight: '100vh',
     // display: 'grid',
     // placeItems: 'center',
   },

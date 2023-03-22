@@ -1,3 +1,4 @@
+import { SearchIcon } from '@atoms/icons';
 import { Meta, Story } from '@storybook/react';
 import React from 'react';
 
@@ -12,4 +13,6 @@ const Template: Story<SearchFieldProps> = (args) => {
 };
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  startAdornment: <SearchIcon />,
+};

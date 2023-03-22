@@ -1,9 +1,6 @@
 import { InputAdornment, SxProps, TextField, Theme } from '@mui/material';
 import { Box } from '@mui/material';
-import {
-  // ChangeEvent,
-  forwardRef,
-} from 'react';
+import { forwardRef } from 'react';
 
 import { searchFieldStyle } from './style';
 
@@ -21,7 +18,7 @@ export interface SearchFieldProps {
 
 export const SearchField = forwardRef((props: SearchFieldProps): JSX.Element => {
   const {
-    // setOnSearch = () => false,
+    setOnSearch = () => false,
     onSearch = '',
     startAdornment,
     endAdornment,
@@ -30,6 +27,11 @@ export const SearchField = forwardRef((props: SearchFieldProps): JSX.Element => 
     placeholder = '',
   } = props;
 
+  // const [onSearch, setOnSearch] = useState<string>('');
+
+  const handleSearchChange = (e: any) => {
+    setOnSearch(e);
+  };
   return (
     <Box sx={searchFieldStyle.searchBoxSx}>
       {/* Searchfield */}
@@ -37,7 +39,8 @@ export const SearchField = forwardRef((props: SearchFieldProps): JSX.Element => 
         placeholder={placeholder}
         sx={{ ...searchFieldStyle.searchFieldSx, ...searchField_Style }}
         variant="outlined"
-        // onChange={(e: ChangeEvent<HTMLInputElement>) => setOnSearch(e.target.value)}
+        // onChange={(e) => setOnSearch(e.target.value)}
+        onChange={(e: any) => handleSearchChange(e.target.value)}
         value={onSearch}
         fullWidth
         InputProps={{

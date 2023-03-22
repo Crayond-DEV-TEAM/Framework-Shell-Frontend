@@ -58,3 +58,21 @@ export function VisibilityOff(props: any) {
     </SvgIcon>
   );
 }
+export function SearchIcon(props: any) {
+  const { rootStyle, ...rest } = props;
+  const rootSx = {
+    width: 18,
+    height: 18,
+    color: '#29302B',
+    ...rootStyle,
+  };
+  return (
+    <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" sx={rootSx} {...rest}>
+      <path
+        d="M12.444 6a6.444 6.444 0 103.876 11.578l4.162 4.161a.889.889 0 101.257-1.257l-4.161-4.162A6.43 6.43 0 0012.444 6zm0 1.778a4.668 4.668 0 013.4 7.865.889.889 0 00-.2.2 4.667 4.667 0 11-3.2-8.064z"
+        transform="translate(-6 -6)"
+        fill="currentColor"
+      />
+    </SvgIcon>
+  );
+}

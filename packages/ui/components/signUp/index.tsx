@@ -196,6 +196,7 @@ export const SignUp = forwardRef((props: SignUpProps, ref: React.Ref<HTMLElement
             size="small"
             value={values?.firstName ?? ''}
             id="firstName"
+            placeholder="First Name"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('firstName', e.target.value)
             }
@@ -212,6 +213,7 @@ export const SignUp = forwardRef((props: SignUpProps, ref: React.Ref<HTMLElement
             size="small"
             value={values?.lastName ?? ''}
             id="lastName"
+            placeholder="Last Name"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('lastName', e.target.value)
             }
@@ -228,6 +230,7 @@ export const SignUp = forwardRef((props: SignUpProps, ref: React.Ref<HTMLElement
             size="small"
             value={values?.emailId ?? ''}
             id="emailId"
+            placeholder="Email Id"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('emailId', e.target.value)
             }
@@ -245,6 +248,7 @@ export const SignUp = forwardRef((props: SignUpProps, ref: React.Ref<HTMLElement
             size="small"
             value={values?.mobile ?? ''}
             id="mobile"
+            placeholder="Mobile"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('mobile', e.target.value)
             }
@@ -261,6 +265,7 @@ export const SignUp = forwardRef((props: SignUpProps, ref: React.Ref<HTMLElement
             size="small"
             value={values?.username ?? ''}
             id="username"
+            placeholder="Username"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('username', e.target.value)
             }
@@ -278,6 +283,7 @@ export const SignUp = forwardRef((props: SignUpProps, ref: React.Ref<HTMLElement
             type={showpassword ? 'text' : 'password'}
             value={values?.setPassword ?? ''}
             size="small"
+            placeholder="Set Password"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('setPassword', e.target.value)
             }

@@ -117,6 +117,7 @@ export const ForgotPassword = forwardRef((props: ForgotPasswordProps, ref: React
           </Label>
           <Input
             size="small"
+            placeholder="Email ID"
             value={values?.emailId ?? ''}
             id="emailId"
             isError={values?.error?.emailId?.length ? true : false}

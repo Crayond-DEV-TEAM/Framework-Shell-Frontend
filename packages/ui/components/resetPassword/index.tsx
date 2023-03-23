@@ -147,6 +147,7 @@ export const ResetPassword = forwardRef((props: ResetPasswordProps, ref: React.R
             id="password"
             type={showpassword ? 'text' : 'password'}
             value={values?.password ?? ''}
+            placeholder="New password"
             size="small"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('password', e.target.value)
@@ -177,6 +178,7 @@ export const ResetPassword = forwardRef((props: ResetPasswordProps, ref: React.R
             type={showConfirmPassword ? 'text' : 'password'}
             value={values?.confirmPassword ?? ''}
             size="small"
+            placeholder="Confirm Password"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('confirmPassword', e.target.value)
             }

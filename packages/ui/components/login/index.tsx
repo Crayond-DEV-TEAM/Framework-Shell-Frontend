@@ -139,6 +139,7 @@ export function Login(props: LoginProps): JSX.Element {
           </Label>
           <Input
             size="small"
+            placeholder="username"
             value={values?.username ?? ''}
             id="username"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
@@ -157,6 +158,7 @@ export function Login(props: LoginProps): JSX.Element {
             type={showpassword ? 'password' : 'text'}
             errorMessage={values?.error.password}
             value={values?.password ?? ''}
+            placeholder="password"
             size="small"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('password', e.target.value)

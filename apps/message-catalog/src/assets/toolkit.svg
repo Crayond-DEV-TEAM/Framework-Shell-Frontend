@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="168.467" height="36.914" viewBox="0 0 168.467 36.914">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_56035" data-name="Rectangle 56035" width="62.546" height="36.827" transform="translate(0 0)" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Group_106545" data-name="Group 106545" transform="translate(-19.306 -61.069)">
+    <text id="ToolKit" transform="translate(96.773 88.983)" fill="#357968" font-size="26" font-family="Poppins-Bold, Poppins" font-weight="700"><tspan x="0" y="0">Toolkit</tspan></text>
+    <g id="Group_106545-2" data-name="Group 106545" transform="translate(19.306 61.069)">
+      <g id="Group_106545-3" data-name="Group 106545" transform="translate(0 0)" clip-path="url(#clip-path)">
+        <path id="Path_99865" data-name="Path 99865" d="M70.3,26.209c-.131-.314-10.876-21.606-11.052-21.9a7.007,7.007,0,1,0-12.47,6.31c.131.314,10.415,20.694,10.591,20.987a7.092,7.092,0,0,0,.461.913A7.007,7.007,0,1,0,70.3,26.209" transform="translate(-27.269 0)" fill="#333"/>
+        <path id="Path_99866" data-name="Path 99866" d="M30.625,11.8A7.005,7.005,0,1,0,19.77,3C19.538,3.25,2.091,24.752,1.9,25.03a7.005,7.005,0,1,0,10.856,8.8c.231-.246,17.678-21.748,17.872-22.026" transform="translate(0 -0.002)" fill="#357968"/>
+        <path id="Path_99867" data-name="Path 99867" d="M104.878,11.8A7.005,7.005,0,1,0,94.023,3c-.231.246-17.678,21.748-17.872,22.026a7.005,7.005,0,1,0,10.856,8.8c.231-.246,17.678-21.748,17.872-22.026" transform="translate(-44.23 -0.002)" fill="#357968"/>
+      </g>
+    </g>
+  </g>
+</svg>

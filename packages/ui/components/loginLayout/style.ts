@@ -6,9 +6,9 @@ interface LoginLayoutStyleProps {
 
 export const loginLayoutStyle: LoginLayoutStyleProps = {
   rootSx: {
-    backgroundColor: 'background.page',
-    height: '100vh',
+    minHeight: '100vh',
     display: 'grid',
+    backgroundColor: 'background.page',
     px: {
       xs: 2,
       sm: 5,
@@ -33,12 +33,14 @@ export const loginLayoutStyle: LoginLayoutStyleProps = {
   },
   formSx: {
     py: {
-      xs: 3,
-      sm: 4,
+      xs: 1,
+      sm: 1,
       md: 4,
       lg: 4,
       xl: 4,
     },
+    display: 'grid',
+    alignItems: 'center',
   },
   bottomImgSx: {
     // bottom: 24,
@@ -53,7 +55,13 @@ export const loginLayoutStyle: LoginLayoutStyleProps = {
       lg: 'start',
       xl: 'start',
     },
-    alignItems: 'center',
+    alignItems: {
+      xs: 'flex-end',
+      sm: 'center',
+      md: 'center',
+      lg: 'center',
+      xl: 'center',
+    },
   },
   toolkitText: {
     pl: 1.5,

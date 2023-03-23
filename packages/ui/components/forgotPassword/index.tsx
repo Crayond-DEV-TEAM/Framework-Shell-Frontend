@@ -19,15 +19,21 @@ export interface ForgotPasswordProps {
 
 export const ForgotPassword = forwardRef((props: ForgotPasswordProps, ref: React.Ref<HTMLElement>): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
-  const { user, signIn, loading, handleLoginChange } = useOnboarding(
+
+  const { user, forgotPassword, loading, handleLoginChange } = useOnboarding(
     (state) => ({
-      signIn: state.signIn,
+      forgotPassword: state.forgotPassword,
       user: state.userState,
       handleLoginChange: state.handleLoginChange,
       loading: state.loading,
     }),
     (prev, curr) => isEqual(prev, curr),
   );
+
+  const getLink = () => {
+    forgotPassword();
+  };
+
   return (
     <Box
       sx={[
@@ -54,8 +60,9 @@ export const ForgotPassword = forwardRef((props: ForgotPasswordProps, ref: React
             size="small"
             value={user?.emailId ?? ''}
             id="emailId"
-            errorText={user?.error.emailId ?? false}
             helperText={user?.error.emailId}
+            isError={user?.error?.emailId?.length > 0}
+            errorMessage={user?.error?.emailId}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleLoginChange('emailId', e.target.value)
             }
@@ -63,8 +70,8 @@ export const ForgotPassword = forwardRef((props: ForgotPasswordProps, ref: React
         </Box>
 
         <Box sx={{ mt: 3, display: 'grid', gap: 3 }}>
-          <Button fullWidth sx={forgotPasswordStyle.loginButtonSx} onClick={() => signIn()} loading={loading}>
-            sign up
+          <Button fullWidth sx={forgotPasswordStyle.loginButtonSx} onClick={() => getLink()} loading={loading}>
+            Get Link
           </Button>
         </Box>
         <Box sx={{ paddingTop: '16px' }}>
@@ -75,6 +82,7 @@ export const ForgotPassword = forwardRef((props: ForgotPasswordProps, ref: React
                 color: '#353448',
                 fontWeight: '600',
                 textDecoration: 'underline',
+                paddingLeft: '5px',
               }}
               to={webRoutes.login}
             >

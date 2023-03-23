@@ -17,7 +17,8 @@ export const resetPasswordStyle: ResetPasswordStyleProps = {
     borderRadius: '12px',
     px: 2.5,
     py: 3,
-    //width: '435px',
+    width: '100%',
+    maxWidth: '435px',
   },
 
   signInSx: {

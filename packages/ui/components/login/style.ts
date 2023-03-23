@@ -17,7 +17,8 @@ export const loginStyle: LoginStyleProps = {
     borderRadius: '12px',
     px: 2.5,
     py: 3,
-    //width: '435px',
+    width: '100%',
+    maxWidth: '435px',
   },
 
   signInSx: {
@@ -43,19 +44,24 @@ export const loginStyle: LoginStyleProps = {
   },
   ForgotSx: {
     fontSize: '14px',
-    color: 'typography.text',
+    color: '#353448',
     pt: 2,
     display: 'flex',
     textDecoration: 'underline',
     fontWeight: 600,
     justifyContent: 'end',
+    textAlign: 'right',
     cursor: 'pointer',
   },
   loginButtonSx: {
     textTransform: 'capitalize',
     my: 3,
   },
-
+  loginSx: {
+    textAlign: 'center',
+    fontSize: '14px',
+    color: '#5C6266',
+  },
   bottomLineSx: {
     display: 'flex',
     justifyContent: 'space-around',
@@ -65,6 +71,10 @@ export const loginStyle: LoginStyleProps = {
   alreadySx: {
     color: 'typography.faded',
     fontSize: '14px',
+  },
+  eyeSx: {
+    width: '16px',
+    height: '16px',
   },
   signup: {
     color: 'typography.text',

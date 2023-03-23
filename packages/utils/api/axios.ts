@@ -16,12 +16,12 @@ interface HttpRequestProps {
     method: AxiosRequestConfig['method'],
     url: AxiosRequestConfig['url'],
     data?: AxiosRequestConfig['data'],
-    config?: Omit<AxiosRequestConfig, 'method' | 'url' | 'data'>,
     includeToken?: boolean,
+    config?: Omit<AxiosRequestConfig, 'method' | 'url' | 'data'>,
   ): Promise<AxiosResponse<any, any>>;
 }
 
-export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, config, includeToken) => {
+export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, includeToken, config) => {
   const headers = {
     ...(includeToken && { Authorization: `Bearer ${localStorage.getItem(localStorageKeys.authToken)}` }),
     ...(config?.headers ?? {}),

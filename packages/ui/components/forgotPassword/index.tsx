@@ -5,12 +5,13 @@ import { webRoutes } from '@core/routes';
 import { useOnboarding } from '@core/store/framework-shell';
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-import { forwardRef } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import React from 'react';
 import isEqual from 'react-fast-compare';
 import { Link } from 'react-router-dom';
 
 import { forgotPasswordStyle } from './style';
+import { ValidateEmail } from '@core/utils';
 
 export interface ForgotPasswordProps {
   className?: string;
@@ -20,19 +21,75 @@ export interface ForgotPasswordProps {
 export const ForgotPassword = forwardRef((props: ForgotPasswordProps, ref: React.Ref<HTMLElement>): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
 
-  const { user, forgotPassword, loading, handleLoginChange } = useOnboarding(
+  const { user, forgotPassword, loading, setUser, handleLoginChange } = useOnboarding(
     (state) => ({
       forgotPassword: state.forgotPassword,
+      setUser: state.setUser,
       user: state.userState,
       handleLoginChange: state.handleLoginChange,
       loading: state.loading,
     }),
     (prev, curr) => isEqual(prev, curr),
   );
+  const [values, setValues] = useState(user);
 
-  const getLink = () => {
-    forgotPassword();
+  const isInputsValid = () => {
+    let isValid = true;
+    const error = values?.error;
+
+    //Checking email
+    if (values.emailId.length === 0) {
+      isValid = false;
+      error.emailId = 'Email is required';
+    }
+    //validate email
+    if (values.emailId.length > 0 && !ValidateEmail(values?.emailId)) {
+      isValid = false;
+      error.emailId = 'Invalid email';
+    }
+    setValues({ ...values, error });
+    return isValid;
   };
+
+  const handleChange = (key: any, val: any) => {
+    setValues({ ...values, [key]: val, error: { ...values.error, [key]: '' } });
+  };
+
+  const getLink = async () => {
+    if (isInputsValid()) {
+      const error = values?.error;
+      error.emailId = '';
+      setValues({ ...values, error });
+      // calling the forgotPassword api
+      const response: any = await forgotPassword(values);
+      if (response === 200) {
+        setValues({
+          ...values,
+          emailId: '',
+          error: {
+            ...user?.error,
+            emailId: '',
+          },
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    setUser({
+      ...user,
+      error: {
+        emailId: '',
+      },
+    });
+    return setValues({
+      ...user,
+      error: {
+        ...user.error,
+        emailId: '',
+      },
+    });
+  }, []);
 
   return (
     <Box
@@ -48,9 +105,11 @@ export const ForgotPassword = forwardRef((props: ForgotPasswordProps, ref: React
     >
       <Box sx={forgotPasswordStyle.cardContentSx}>
         <Typography sx={forgotPasswordStyle.createPasswordSx}>Forgot Password</Typography>
+
         <Typography sx={forgotPasswordStyle.subTileSx}>
           Provide us the registered email to reset your password.
         </Typography>
+
         {/* Email ID */}
         <Box sx={forgotPasswordStyle.inputGroupSx}>
           <Label rootStyle={forgotPasswordStyle.labelSx} htmlFor="emailId">
@@ -58,13 +117,13 @@ export const ForgotPassword = forwardRef((props: ForgotPasswordProps, ref: React
           </Label>
           <Input
             size="small"
-            value={user?.emailId ?? ''}
+            placeholder="Email ID"
+            value={values?.emailId ?? ''}
             id="emailId"
-            helperText={user?.error.emailId}
-            isError={user?.error?.emailId?.length > 0}
-            errorMessage={user?.error?.emailId}
+            isError={values?.error?.emailId?.length ? true : false}
+            errorMessage={values?.error?.emailId ?? ''}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-              handleLoginChange('emailId', e.target.value)
+              handleChange('emailId', e.target.value)
             }
           />
         </Box>
@@ -74,6 +133,7 @@ export const ForgotPassword = forwardRef((props: ForgotPasswordProps, ref: React
             Get Link
           </Button>
         </Box>
+
         <Box sx={{ paddingTop: '16px' }}>
           <Typography sx={forgotPasswordStyle.loginSx}>
             Remembered the password?

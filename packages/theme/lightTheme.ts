@@ -16,6 +16,7 @@ export const lightTheme = {
       text: '#353448',
       label: '#262C33',
       faded: '#5C6266',
+      header: '#101010',
     },
     background: {
       page: '#F8F8F8',

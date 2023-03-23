@@ -5,29 +5,100 @@ interface DialogDrawerStyleProps {
 }
 
 export const dialogDrawerStyle: DialogDrawerStyleProps = {
-  titleRootSx: {
-    fontSize: 14,
-    fontWeight: 500,
+  dialog: {
+    width: '100%',
+    maxWidth: 'auto',
+    padding: '0 !important',
+    '& .MuiPaper-root': {
+      width: '100% !important',
+      borderRadius: '4px',
+      //backgroundImage: (props) => props?.noService && `url("/images/noserviceweb.svg")`,
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+      height: '400px',
+    },
+    '& .MuiDialogContent-root': {
+      padding: '0px !important',
+      position: 'relative',
+    },
+    '& .MuiDialog-container': {
+      // padding: (props) => props?.padding ?? '',
+    },
   },
-  dialogRootSx: {
-    width: '640px',
-  },
-  rootSx: {
+  header: {
+    border: '1px solid #E4E8EE',
     display: 'flex',
+    alignItems: 'center',
     justifyContent: 'space-between',
-    width: '640px',
   },
-  closeOutsx: {
-    top: '55px',
-    right: '120px',
-    width: '30px',
-    height: '30px',
-    position: 'fixed',
-    borderRadius: '50%',
-    backgroundColor: '#fff',
-    padding: '15px',
+  drawer: {
+    '& .MuiDrawer-paper': {
+      borderTopLeftRadius: '16px',
+      borderTopRightRadius: '16px',
+      // backgroundImage: (props) => props?.noService && `url("/images/noservicemob.svg")`,
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+      backgroundPositionY: 'center',
+    },
+    '& .MuiContainer-root': {
+      padding: '0px',
+    },
   },
-  dialogSx: {
-    width: '640px',
+  component: {
+    overflow: 'auto',
+    height: '450px',
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+  },
+  footer: {
+    position: 'sticky',
+    width: '100%',
+    bottom: '0',
+  },
+  title: {
+    fontSize: '16px',
+    fontWeight: 600,
+    color: 'typography.header',
+  },
+  headAlign: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  btnBg: {
+    backgroundColor: '#EAEAEA',
+    borderRadius: '4px',
+    padding: '6px 16px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+  },
+  savebtnBg: {
+    backgroundColor: 'primary.main',
+    borderRadius: '4px',
+    padding: '6px 16px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+  },
+  cancelbtnText: {
+    color: '#5A5A5A',
+    fontSize: '12px',
+    fontWeight: 400,
+  },
+  savebtnText: {
+    color: '#FFFFFF',
+    fontSize: '12px',
+    fontWeight: 400,
+  },
+  switch: {
+    color: '#5A5A5A',
+    fontSize: '14px',
+    fontWeight: 400,
+    paddingLeft: '12px',
   },
 };

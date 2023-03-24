@@ -17,9 +17,11 @@ export const lightTheme = {
       label: '#262C33',
       faded: '#5C6266',
       header: '#101010',
+      transparent: '#5A5A5A',
     },
     background: {
       page: '#F8F8F8',
+      primaryBg: '#daede8',
     },
   },
 };

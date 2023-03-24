@@ -1,23 +1,10 @@
 import type { SxProps } from '@mui/material';
 
-interface AppBarStyleProps {
+interface SideBarStyleProps {
   [key: string]: SxProps;
 }
 
-export const appBarStyle: AppBarStyleProps = {
-  rootSx: {
-    // flexGrow: 1,
-  },
-  title: {
-    fontSize: '16px',
-    fontWeight: 600,
-    color: 'primary.contrastText',
-  },
-  appBar: {
-    px: 2,
-    py: 0.5,
-    width: '100%',
-  },
+export const sideBarStyle: SideBarStyleProps = {
   mainSx: {
     display: 'flex',
     justifyContent: 'space-between',

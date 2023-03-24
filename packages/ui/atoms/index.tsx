@@ -4,3 +4,4 @@ export { DialogDrawer } from './dialogDrawer';
 export { FooterComponent } from './footerComponent';
 export { Input } from './input';
 export { Label } from './label';
+export { SideBar } from './sideBar';

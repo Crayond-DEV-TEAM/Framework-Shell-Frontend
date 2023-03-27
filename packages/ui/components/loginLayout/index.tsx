@@ -53,7 +53,7 @@ export const LoginLayout = forwardRef((props: LoginLayoutProps): JSX.Element => 
         </Grid>
       </Grid>
 
-      <Box sx={loginLayoutStyle?.toolkit}>
+      <Box sx={loginLayoutStyle?.toolkitBottom}>
         <Box component={'img'} src={crayond} sx={loginLayoutStyle.bottomImgSx} />
         <Typography sx={loginLayoutStyle?.power}>Powered by Crayon&apos;d</Typography>
       </Box>

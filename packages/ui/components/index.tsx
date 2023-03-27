@@ -1,5 +1,6 @@
 export { AppLayout } from './appLayout';
 export { ForgotPassword } from './forgotPassword';
+export { LanguageConfig } from './languageConfig';
 export { Login } from './login';
 export { LoginLayout } from './loginLayout';
 export { PageNotFound } from './pageNotFound';

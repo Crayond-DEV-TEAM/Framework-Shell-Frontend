@@ -43,6 +43,7 @@ export function Input(props: InputProps): JSX.Element {
     ...rest
   } = props;
 
+  console.log(props);
   return (
     <>
       <TextField

@@ -62,7 +62,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLElement>): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
-  const [drawer, setDrawer] = useState<boolean>(true);
+  const [drawer, setDrawer] = useState<boolean>(false);
   const [openSubCollapse, setopenSubCollapse] = useState<boolean>(false);
   const [openCollapse, setopenCollapse] = useState<boolean>(false);
 

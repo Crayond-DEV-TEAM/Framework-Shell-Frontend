@@ -136,6 +136,40 @@ export function Alert(props: any) {
     </SvgIcon>
   );
 }
+export function LanguageTop(props: any) {
+  const { rootStyle, ...rest } = props;
+
+  const rootSx = {
+    height: 24,
+    width: 24,
+    color: '#0E1824',
+    ...rootStyle,
+  };
+  return (
+    <SvgIcon xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" {...rest} sx={rootSx}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <g id="Group_106646" data-name="Group 106646" transform="translate(-16 -63)">
+          <rect
+            id="Rectangle_55687"
+            data-name="Rectangle 55687"
+            width="24"
+            height="24"
+            transform="translate(16 63)"
+            fill="#5a5a5a"
+            opacity="0"
+          />
+          <path
+            id="icons8-language_1_"
+            data-name="icons8-language (1)"
+            d="M12.559,4A8.569,8.569,0,0,0,4,12.557a8.48,8.48,0,0,0,.968,3.88L4.04,19.759a1.092,1.092,0,0,0,1.319,1.319l3.324-.928a8.478,8.478,0,0,0,3.876.966A8.559,8.559,0,1,0,12.559,4Zm0,1.284A7.275,7.275,0,1,1,9.025,18.915a.642.642,0,0,0-.485-.058l-3.161.882.883-3.16a.642.642,0,0,0-.058-.486A7.271,7.271,0,0,1,12.559,5.282Zm3.2,2.559a.642.642,0,0,0-.632.651v2.034a.642.642,0,0,0,0,.208v3.321a.642.642,0,1,0,1.284,0V11.274h.642a.642.642,0,1,0,0-1.284h-.642v-1.5a.642.642,0,0,0-.652-.651Zm-4.7.009a.642.642,0,1,0,0,1.284h1.926v.428a1.7,1.7,0,0,1-.623,1.321.642.642,0,0,0,.817.991,3,3,0,0,0,1.089-2.311V8.492a.642.642,0,0,0-.642-.642Zm-.853,2.14a.642.642,0,0,0-.6.411l-2.14,5.563a.642.642,0,0,0,1.2.461l.5-1.3h2.081l.5,1.3a.642.642,0,0,0,1.2-.461L10.8,10.4A.642.642,0,0,0,10.208,9.99Zm0,2.431.547,1.421H9.659Z"
+            transform="translate(15.172 61.917)"
+            fill="#5a5a5a"
+          />
+        </g>
+      </svg>
+    </SvgIcon>
+  );
+}
 
 export function MessageHub(props: any) {
   const { rootStyle, ...rest } = props;

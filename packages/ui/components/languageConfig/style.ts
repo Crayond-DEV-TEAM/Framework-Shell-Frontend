@@ -9,7 +9,7 @@ export const languageConfigStyle: LanguageConfigStyleProps = {
   sx: {
     width: '100%',
     height: '364px',
-    backgroundColor: 'primary.contrastTxt',
+    backgroundColor: 'primary.contrastText',
     border: '1px solid #EAEAEA',
     borderRadius: '8px',
   },
@@ -46,6 +46,8 @@ export const languageConfigStyle: LanguageConfigStyleProps = {
     display: 'flex',
     alignItems: 'center',
     borderRadius: '8px',
+    position: 'absolute',
+    left: '170px',
   },
   messagetxt: {
     fontSize: '12px',

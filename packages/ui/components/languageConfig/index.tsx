@@ -68,19 +68,45 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
           </Grid>
           <Box
             sx={{
-              display: 'flex',
-              justifyContent: 'space-around',
               position: 'relative',
               top: '210px',
               bottom: 0,
-              width: '100%',
+              display: 'flex',
+              justifyContent: 'flex-end',
             }}
           >
             <Box sx={languageConfigStyle.messageBox}>
               <Typography sx={languageConfigStyle.messagetxt}>Changes will be lost if you don&apos;t save.</Typography>
             </Box>
-            <Button buttonStyle={{ width: '62px', height: '28px', textTransform: 'capitalize' }}>Save</Button>
+            <Button
+              buttonStyle={{
+                width: '62px',
+                height: '28px',
+                textTransform: 'capitalize',
+                display: 'flex',
+                justifyContent: 'flex-end',
+                mr: 2.5,
+              }}
+            >
+              Save
+            </Button>
           </Box>
+          {/* <Box >
+            <Box sx={languageConfigStyle.messageBox}>
+              <Typography sx={languageConfigStyle.messagetxt}>Changes will be lost if you don&apos;t save.</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Button
+                buttonStyle={{
+                  width: '62px',
+                  height: '28px',
+                  textTransform: 'capitalize',
+                }}
+              >
+                Save
+              </Button>
+            </Box>
+          </Box> */}
         </Box>
       </Box>
     </Box>

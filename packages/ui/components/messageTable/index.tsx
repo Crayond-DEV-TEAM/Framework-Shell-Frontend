@@ -244,8 +244,8 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       deleteHandel: (id: any) => {
         console.log(id);
       },
-      editIcon: <EditIcon />,
-      deleteIcon: <DeleteIcon />,
+      editIcon: <EditIcon sx={{ color: '#5A5A5A', fontSize: '18px' }} />,
+      deleteIcon: <DeleteIcon sx={{ color: '#FF4D4A', fontSize: '18px' }} />,
     },
   ];
 

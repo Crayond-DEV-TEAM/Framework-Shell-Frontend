@@ -1,6 +1,8 @@
+export { AddMessage } from './addMessage';
 export { AppLayout } from './appLayout';
 export { Filter } from './filter';
 export { ForgotPassword } from './forgotPassword';
+export { LanguageConfig } from './languageConfig';
 export { Login } from './login';
 export { LoginLayout } from './loginLayout';
 export { MessageTable } from './messageTable';

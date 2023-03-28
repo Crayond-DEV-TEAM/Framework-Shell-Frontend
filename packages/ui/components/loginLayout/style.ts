@@ -9,14 +9,14 @@ export const loginLayoutStyle: LoginLayoutStyleProps = {
     minHeight: '100vh',
     display: 'grid',
     backgroundColor: 'background.page',
-    px: {
-      xs: 2,
-      sm: 5,
-      md: 5,
-      lg: 5,
-      xl: 5,
-    },
-    py: 4.5,
+    // px: {
+    //   xs: 2,
+    //   sm: 5,
+    //   md: 5,
+    //   lg: 5,
+    //   xl: 5,
+    // },
+    p: 3.75,
   },
 
   imgSecSx: {
@@ -33,11 +33,11 @@ export const loginLayoutStyle: LoginLayoutStyleProps = {
   },
   formSx: {
     py: {
-      xs: 1,
-      sm: 1,
-      md: 4,
-      lg: 4,
-      xl: 4,
+      xs: 2,
+      sm: 2,
+      md: 0,
+      lg: 0,
+      xl: 0,
     },
     display: 'grid',
     alignItems: 'center',
@@ -57,10 +57,27 @@ export const loginLayoutStyle: LoginLayoutStyleProps = {
     },
     alignItems: {
       xs: 'flex-end',
-      sm: 'center',
-      md: 'center',
-      lg: 'center',
-      xl: 'center',
+      sm: 'start',
+      md: 'start',
+      lg: 'start',
+      xl: 'start',
+    },
+  },
+  toolkitBottom: {
+    display: 'flex',
+    justifyContent: {
+      xs: 'center',
+      sm: 'start',
+      md: 'start',
+      lg: 'start',
+      xl: 'start',
+    },
+    alignItems: {
+      xs: 'flex-end',
+      sm: 'end',
+      md: 'end',
+      lg: 'end',
+      xl: 'end',
     },
   },
   toolkitText: {

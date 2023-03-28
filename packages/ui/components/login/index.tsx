@@ -4,15 +4,13 @@ import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
 import { webRoutes } from '@core/routes';
 import { useOnboarding } from '@core/store/framework-shell';
+import { ValidateEmail } from '@core/utils';
 import { IconButton, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-import React from 'react';
-import { MessageTable } from '..';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import isEqual from 'react-fast-compare';
 import { Link, useNavigate } from 'react-router-dom';
-import { Filter, TableHeader } from '..';
-
 import { loginStyle } from './style';
 
 export interface LoginProps {
@@ -26,24 +24,100 @@ export function Login(props: LoginProps): JSX.Element {
 
   const navigate = useNavigate();
 
-  const { user, signIn, loading, handleLoginChange } = useOnboarding(
+  const { userState, signIn, setUser, loading, updateErrorOnboarding, handleLoginChange } = useOnboarding(
     (state) => ({
       signIn: state.signIn,
-      user: state.userState,
+      userState: state.userState,
+      setUser: state.setUser,
       handleLoginChange: state.handleLoginChange,
+      updateErrorOnboarding: state.updateErrorOnboarding,
       loading: state.loading,
     }),
     (prev, curr) => isEqual(prev, curr),
   );
+
   const [showpassword, setPassword] = useState<boolean>(false);
+
+  const [values, setValues] = useState(userState);
 
   const handleClickShowPassword = () => {
     setPassword(!showpassword);
   };
 
-  const signInHIt = () => {
-    signIn();
+  const isInputsValid = () => {
+    let isValid = true;
+    const error = values?.error;
+
+    //  Checking username
+    if (values?.username.length === 0) {
+      isValid = false;
+      error.username = 'Enter a valid username';
+    } else {
+      error.username = '';
+    }
+
+    // Checking password
+    if (values?.password.length === 0) {
+      isValid = false;
+      error.password = 'Enter the password';
+    } else {
+      error.password = '';
+    }
+    setValues({ ...values, error });
+
+    return isValid;
   };
+
+  // const handleChange = (val: any, key: any) => {
+  //   handleLoginChange(key, val);
+  // };
+
+  const handleChange = (key: any, val: any) => {
+    // values?.error[key] = '';
+    setValues({ ...values, [key]: val, error: { ...values.error, [key]: '' } });
+  };
+
+  const signInHIt = async () => {
+    if (isInputsValid()) {
+      const error = values?.error;
+      error.password = '';
+      error.emailId = '';
+      setValues({ ...values, error });
+      // calling the signin api
+
+      const response: any = await signIn(values);
+      if (response === 200) {
+        setValues({
+          ...values,
+          password: '',
+          emailId: '',
+          error: {
+            ...userState?.error,
+            password: '',
+            emailId: '',
+          },
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    setUser({
+      ...userState,
+      error: {
+        password: '',
+        emailId: '',
+      },
+    });
+    return setValues({
+      ...userState,
+      error: {
+        ...userState.error,
+        password: '',
+        emailId: '',
+      },
+    });
+  }, []);
 
   return (
     <Box
@@ -57,8 +131,6 @@ export function Login(props: LoginProps): JSX.Element {
       {...rest}
     >
       <Box sx={loginStyle.cardContentSx}>
-        <Filter />
-
         <Typography sx={loginStyle.signInSx}>Sign In</Typography>
         <Box sx={loginStyle.inputGroupSx}>
           <Label sx={loginStyle.labelSx} htmlFor="username">
@@ -66,12 +138,14 @@ export function Login(props: LoginProps): JSX.Element {
           </Label>
           <Input
             size="small"
-            value={user?.username ?? ''}
+            placeholder="username"
+            value={values?.username ?? ''}
             id="username"
-            helperText={user?.error.username}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-              handleLoginChange('username', e.target.value)
+              handleChange('username', e.target.value)
             }
+            isError={values?.error?.username ? true : false}
+            errorMessage={values?.error?.username ?? ''}
           />
         </Box>
         <Box sx={loginStyle.inputGroupSx}>
@@ -81,12 +155,14 @@ export function Login(props: LoginProps): JSX.Element {
           <Input
             id="password"
             type={showpassword ? 'password' : 'text'}
-            errorMessage={user?.error.password}
-            value={user?.password ?? ''}
+            errorMessage={values?.error.password}
+            value={values?.password ?? ''}
+            placeholder="password"
             size="small"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-              handleLoginChange('password', e.target.value)
+              handleChange('password', e.target.value)
             }
+            isError={values?.error?.password?.length > 0}
             endAdornment={
               <IconButton aria-label="toggle password visibility" onClick={() => handleClickShowPassword()} edge="end">
                 {showpassword ? (

@@ -7,10 +7,11 @@ import { useOnboarding } from '@core/store/framework-shell';
 import { IconButton, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import React from 'react';
+import { MessageTable } from '..';
 import { useState } from 'react';
 import isEqual from 'react-fast-compare';
 import { Link, useNavigate } from 'react-router-dom';
-import { Filter } from '..';
+import { Filter, TableHeader } from '..';
 
 import { loginStyle } from './style';
 

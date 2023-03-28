@@ -1,4 +1,4 @@
-import { webRoutes } from '@core/routes';
+import { messageRoutes } from '@core/routes';
 import { localStorageKeys, loginRoutes } from '@core/utils/constants';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -17,12 +17,12 @@ function PrivateRouter(props: { children: JSX.Element }) {
     //Not logged in
 
     if (!authToken && !loginRoutes.some((route) => route === location?.pathname)) {
-      navigate(webRoutes.login);
+      navigate(messageRoutes.login);
     }
 
     //Already logged in
     if (authToken && loginRoutes.some((route) => route === location?.pathname)) {
-      //navigate(webRoutes.home);
+      navigate(messageRoutes.home);
     }
     setShowComponent(true);
   }, [location]);

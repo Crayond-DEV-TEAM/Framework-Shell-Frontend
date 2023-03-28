@@ -24,6 +24,7 @@ export const searchFieldStyle: SearchFieldStyleProps = {
     '& .MuiOutlinedInput-input': {
       padding: '0px',
       fontSize: '14px',
+      color: '#818181',
     },
     // Refer -use for no border & change border-color
     '& .MuiOutlinedInput-notchedOutline': {

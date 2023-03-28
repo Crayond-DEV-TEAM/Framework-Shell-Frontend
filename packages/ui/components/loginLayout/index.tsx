@@ -28,7 +28,6 @@ export const LoginLayout = forwardRef((props: LoginLayoutProps): JSX.Element => 
       className={`${className}`}
       {...rest}
     >
-      <TableHeader />
       <Box sx={loginLayoutStyle?.toolkit}>
         <Box component={'img'} sx={{ width: '40px', height: '40px' }} src={toolkit} />
         <Typography sx={loginLayoutStyle.toolkitText}>Toolkit</Typography>

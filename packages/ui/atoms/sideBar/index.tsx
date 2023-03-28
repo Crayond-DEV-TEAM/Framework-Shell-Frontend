@@ -17,11 +17,14 @@ import {
   SubMessageGroup,
   SubMessageLanguage,
 } from '@atoms/icons';
+import { useNavigate } from 'react-router-dom';
+import { messageRoutes } from '@core/routes';
 
 export interface SideBarProps {
   className?: string;
   sx?: SxProps<Theme>;
   open?: boolean;
+  onClick?: () => void;
 }
 const drawerWidth = 208;
 
@@ -65,7 +68,7 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
   const [drawer, setDrawer] = useState<boolean>(false);
   const [openSubCollapse, setopenSubCollapse] = useState<boolean>(false);
   const [openCollapse, setopenCollapse] = useState<boolean>(false);
-
+  const navigate = useNavigate();
   const handleDrawerOpen = () => {
     setDrawer(true);
   };
@@ -77,6 +80,12 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
   };
   const handleClickCollapse = () => {
     setopenCollapse(!openCollapse);
+  };
+  const handleroute = () => {
+    navigate(messageRoutes.languageConfig);
+  };
+  const handleroutelang = () => {
+    navigate(messageRoutes.messagegroup);
   };
 
   return (
@@ -218,7 +227,7 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
               </ListItemButton>
               <Collapse in={openSubCollapse} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding sx={{ display: drawer ? 'block' : 'none' }}>
-                  <ListItemButton sx={{ pl: 3.5 }}>
+                  <ListItemButton sx={{ pl: 3.5 }} onClick={handleroute}>
                     <ListItemIcon
                       sx={{
                         padding: '4px',
@@ -230,7 +239,7 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
                     </ListItemIcon>
                     <ListItemText primary="Language Config" sx={{ ...sideBarStyle.listSubheading }} />
                   </ListItemButton>
-                  <ListItemButton sx={{ pl: 3.5 }}>
+                  <ListItemButton sx={{ pl: 3.5 }} onClick={handleroutelang}>
                     <ListItemIcon
                       sx={{
                         padding: '4px',

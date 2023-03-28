@@ -24,5 +24,6 @@ export const tableHeaderStyle: TableHeaderStyleProps = {
   },
   btnSx: {
     borderRadius: '8px',
+    textTransform: 'capitalize',
   },
 };

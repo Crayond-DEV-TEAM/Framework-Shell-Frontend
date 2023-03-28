@@ -10,12 +10,12 @@ import { dialogDrawerStyle } from './style';
 export interface DialogDrawerProps {
   className?: string;
   sx?: SxProps<Theme>;
-  rootStyle: object;
+  rootStyle?: object;
   isDialogOpened: boolean;
   handleCloseDialog: () => void;
   title: string;
-  titleStyle: object;
-  content: string;
+  titleStyle?: object;
+  content?: string;
   Footercomponent?: ReactNode;
   Bodycomponent?: ReactNode;
 }
@@ -30,7 +30,7 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
       false;
     },
     title = 'Add New Message',
-    content = 'நூல், செய்தித்தாள் முதலியவற்றின் (படங்கள், அடிக்குறிப்புகள்/பின்குறிப்புகள், அடைவு முதலியவை நீங்கலான) முதன்மையான எழுத்துருப் பகுதி; மூலபாடம். "Nunito Sans",-apple-system,".SFNSText-Regular","San Francisco",BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;',
+    content = '',
     Bodycomponent = null,
     Footercomponent = <FooterComponent />,
     ...rest
@@ -45,15 +45,14 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
             <Box
               component="img"
               src={CloseIcon}
-              onClick={() => {
-                handleCloseDialog;
-              }}
+              onClick={handleCloseDialog}
+              sx={{ cursor: 'pointer' }}
               height={16}
               width={16}
             />
           </Box>
         </DialogTitle>
-        <DialogContent>{content ? content : Bodycomponent}</DialogContent>
+        <DialogContent sx={{ padding: '12px' }}>{content ? content : Bodycomponent}</DialogContent>
         <DialogActions sx={dialogDrawerStyle.header}>{Footercomponent}</DialogActions>
       </Dialog>
     </Box>

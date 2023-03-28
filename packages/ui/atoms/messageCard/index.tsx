@@ -56,8 +56,13 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
       </Box>
       <Box>
         {/* {isHovering ? (
-          <IconButton disableRipple onClick={handleClick}>
-            <MoreIcon rootStyle={{ width: '3px', height: '13px', cursor: 'pointer' }} />
+          <IconButton
+            disableRipple
+            onClick={handleClick}
+            aria-owns={anchorEl ? 'simple-menu' : undefined}
+            aria-haspopup="true"
+          >
+            <MoreIcon rootStyle={{ width: '3px', height: '13px', cursor: 'pointer', opacity: anchorEl ? 0.5 : 1 }} />
           </IconButton>
         ) : (
           ''
@@ -66,7 +71,6 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
       <IconButton
         disableRipple
         onClick={handleClick}
-        onMouseOver={handleClick}
         aria-owns={anchorEl ? 'simple-menu' : undefined}
         aria-haspopup="true"
       >

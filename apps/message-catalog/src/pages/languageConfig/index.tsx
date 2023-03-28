@@ -9,7 +9,7 @@ export default function LanguageConfigPage() {
         ...LanguageConfigStyle.rootSx,
       }}
     >
-      <Box sx={{ paddingRight: '300px', py: '84px', paddingLeft: '244px' }}>
+      <Box sx={{ width: '100%', maxWidth: '761px', margin: 'auto' }}>
         <LanguageConfig />
       </Box>
     </Box>

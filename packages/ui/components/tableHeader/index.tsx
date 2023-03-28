@@ -1,11 +1,12 @@
 import { Button } from '@atoms/button';
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
-import { Filter } from '..';
+import { AddMessageGroup, Filter } from '..';
 import { tableHeaderStyle } from './style';
 import { SearchField } from '@atoms/searchField';
+import { DialogDrawer } from '@atoms/dialogDrawer';
 
 export interface TableHeaderProps {
   className?: string;
@@ -34,6 +35,13 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     sx = {},
     ...rest
   } = props;
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Box
@@ -63,11 +71,20 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
           )}
           {isBtnRequired && (
             <Box sx={{ ml: 1 }}>
-              <Button sx={tableHeaderStyle.btnSx}>{buttonName}</Button>
+              <Button sx={tableHeaderStyle.btnSx} onClick={handleOpen}>
+                {buttonName}
+              </Button>
             </Box>
           )}
         </Box>
       </Box>
+      <DialogDrawer
+        isDialogOpened={open}
+        title={'Add New Message Group'}
+        Bodycomponent={<AddMessageGroup />}
+        handleCloseDialog={handleClose}
+        rootStyle={{ padding: '0px important' }}
+      />
     </Box>
   );
 });

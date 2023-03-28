@@ -47,8 +47,7 @@ export const languageConfigStyle: LanguageConfigStyleProps = {
     display: 'flex',
     alignItems: 'center',
     borderRadius: '8px',
-    position: 'absolute',
-    left: '170px',
+    margin: '0px auto',
   },
   messagetxt: {
     fontSize: '12px',

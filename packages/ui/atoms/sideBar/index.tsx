@@ -91,7 +91,13 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
       ref={ref}
       {...rest}
     >
-      <Drawer variant="permanent" open={drawer} onMouseEnter={handleDrawerOpen} onMouseLeave={handleDrawerClose}>
+      <Drawer
+        variant="permanent"
+        open={drawer}
+        onMouseEnter={handleDrawerOpen}
+        onMouseLeave={handleDrawerClose}
+        sx={sideBarStyle.drawerSx}
+      >
         <List>
           <Box>
             <ListItem
@@ -104,7 +110,7 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
             >
               <ListItemButton
                 sx={{
-                  minHeight: 48,
+                  minHeight: 56,
                   justifyContent: drawer ? 'initial' : 'center',
                   px: 2.0,
                 }}

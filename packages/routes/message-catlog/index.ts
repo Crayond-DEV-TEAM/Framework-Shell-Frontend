@@ -5,4 +5,5 @@ export const messageRoutes = {
   signup: '/signup',
   forgotpassword: '/forgotpassword',
   messagegroup: '/messagegroup',
+  languageConfig: '/languageConfig',
 };

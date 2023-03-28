@@ -25,6 +25,7 @@ export const messageCardStyle: MessageCardStyleProps = {
     fontSize: '14px',
     fontWeight: 400,
     pl: 1,
+    color: '#5A5A5A',
   },
   profileSec: {
     display: 'flex',
@@ -48,5 +49,13 @@ export const messageCardStyle: MessageCardStyleProps = {
     pr: 0.5,
     fontSize: '12px',
     color: 'typography.transparent',
+  },
+  menuSx: {
+    '& .MuiMenu-list': {
+      p: 1,
+    },
+    '& .MuiMenuItem-root': {
+      p: 0.5,
+    },
   },
 };

@@ -15,4 +15,5 @@ export const messageTableStyle: MessageTableStyleProps = {
   totalTableSx: {
     margin: '31px 0px',
   },
+  addSx: { width: '100%', maxWidth: '230px', margin: '0px 21px' },
 };

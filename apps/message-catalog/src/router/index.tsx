@@ -3,6 +3,7 @@ import { AppLayout, LoginLayout, PageNotFound, RootLayout } from '@core/ui/compo
 import ErrorBoundary from '@pages/errorBoundary';
 import ForgotPasswordPage from '@pages/forgotPassword';
 import Home from '@pages/home';
+import LanguageConfigPage from '@pages/languageConfig';
 import LoginPage from '@pages/login';
 import MessageGroup from '@pages/messageGroup';
 import ResetPage from '@pages/resetPassword';
@@ -112,6 +113,21 @@ const router = createBrowserRouter([
         element: (
           <AppLayout>
             <MessageGroup />
+          </AppLayout>
+        ),
+      },
+    ],
+  },
+  {
+    path: messageRoutes.languageConfig,
+    errorElement: <ErrorBoundary />,
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: (
+          <AppLayout>
+            <LanguageConfigPage />
           </AppLayout>
         ),
       },

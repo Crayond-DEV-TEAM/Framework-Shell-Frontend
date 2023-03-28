@@ -15,7 +15,7 @@ export const appBarStyle: AppBarStyleProps = {
   },
   appBar: {
     px: 2,
-    py: 0.5,
+    py: 1,
     width: '100%',
   },
   mainSx: {

@@ -6,41 +6,43 @@ import { searchFieldStyle } from './style';
 
 export interface SearchFieldProps {
   className?: string;
-  placeholder?: string;
-  setOnSearch: () => void;
-  onSearch: string;
-  startAdornment?: React.ReactNode;
-  endAdornment?: React.ReactNode;
+  startAdornment: any;
+  endAdornment: any;
   searchField_Style?: any;
   searchInputStyle?: any;
+  totalSearchSx?: any;
+  placeholder?: string;
+  setOnSearch?: any;
+  onSearch?: () => void;
   sx?: SxProps<Theme>;
 }
 
 export const SearchField = forwardRef((props: SearchFieldProps): JSX.Element => {
   const {
-    setOnSearch = () => false,
-    onSearch = '',
     startAdornment,
     endAdornment,
     searchField_Style = {},
     searchInputStyle = {},
     placeholder = '',
+    setOnSearch = () => false,
+    totalSearchSx = {},
+    onSearch = '',
   } = props;
 
   // const [onSearch, setOnSearch] = useState<string>('');
 
-  const handleSearchChange = (e: any) => {
-    setOnSearch(0);
-  };
+  // const handleSearchChange = (e: any) => {
+  //   setOnSearch(e);
+  // };
   return (
-    <Box sx={searchFieldStyle.searchBoxSx}>
+    <Box sx={{ ...searchFieldStyle.searchBoxSx, ...totalSearchSx }}>
       {/* Searchfield */}
       <TextField
         placeholder={placeholder}
         sx={{ ...searchFieldStyle.searchFieldSx, ...searchField_Style }}
         variant="outlined"
-        // onChange={(e) => setOnSearch(e.target.value)}
-        onChange={(e: any) => handleSearchChange(e.target.value)}
+        onChange={(e) => setOnSearch(e.target.value)}
+        // onChange={(e: any) => handleSearchChange(e.target.value)}
         value={onSearch}
         fullWidth
         InputProps={{

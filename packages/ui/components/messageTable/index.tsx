@@ -2,7 +2,7 @@ import { Grid, Switch, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { TableHeader } from '..';
+import { AddMessage, TableHeader } from '..';
 import { forwardRef } from 'react';
 import { useState } from 'react';
 import { CommonTable } from 'crayond-components-library-1';
@@ -264,10 +264,12 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       {...rest}
     >
       <Grid container display="flex" sx={messageTableStyle.totalTableSx}>
-        <Grid item xs={6} md={3}>
-          <>Right side</>
+        <Grid item xs={6} md={2}>
+          <Box sx={messageTableStyle.addSx}>
+            <AddMessage />
+          </Box>
         </Grid>
-        <Grid item xs={6} md={9}>
+        <Grid item xs={6} md={10}>
           <Box sx={messageTableStyle.commonTable}>
             <CommonTable
               Header={Header}

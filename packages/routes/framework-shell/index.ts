@@ -4,5 +4,5 @@ export const webRoutes = {
   resetPassword: '/reset/id',
   signup: '/signup',
   forgotpassword: '/forgotpassword',
-  languageConfig: '/languageConfig',
+  // languageConfig: '/languageConfig',
 };

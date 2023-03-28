@@ -8,6 +8,7 @@ export const languageConfigStyle: LanguageConfigStyleProps = {
   rootSx: {},
   sx: {
     width: '100%',
+    maxWidth: '761px',
     height: '364px',
     backgroundColor: 'primary.contrastText',
     border: '1px solid #EAEAEA',
@@ -53,5 +54,28 @@ export const languageConfigStyle: LanguageConfigStyleProps = {
     fontSize: '12px',
     fontWeight: 500,
     color: '#FF4D4A',
+  },
+  searchBoxSx: {
+    width: '100%',
+    backgroundColor: '#fff',
+    borderRadius: '8px',
+    mb: 2,
+    color: '#29302B',
+  },
+  innerSearchSx: {
+    '&.MuiInputBase-input-MuiOutlinedInput-input': {
+      color: '#29302B!important',
+      fontSize: '16px',
+      fontWeight: '600',
+    },
+    '& .MuiOutlinedInput-root': {
+      p: '20px',
+      color: '#29302B!important',
+      fontSize: '16px',
+      fontWeight: '600',
+      '& ::placeholder': {
+        opacity: 1,
+      },
+    },
   },
 };

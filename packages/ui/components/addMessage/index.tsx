@@ -1,6 +1,7 @@
 import { AddIcon } from '@atoms/icons';
 import { MessageCard } from '@atoms/messageCard';
 import { SearchField } from '@atoms/searchField';
+import SearchIcon from '@mui/icons-material/Search';
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { forwardRef } from 'react';
@@ -41,11 +42,14 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
       {...rest}
     >
       <Box sx={addMessageStyle.header}>
-        <Typography>Message Group</Typography>
+        <Typography sx={addMessageStyle.titleSx}>Message Group</Typography>
         <AddIcon />
       </Box>
       <Box sx={{ m: '12px', height: '32px' }}>
-        <SearchField />
+        <SearchField
+          placeholder="Search"
+          startAdornment={<SearchIcon sx={{ ml: 1, fontSize: '16px', color: '#818181' }} />}
+        />
       </Box>
 
       {messageValue.map((x, index) => {

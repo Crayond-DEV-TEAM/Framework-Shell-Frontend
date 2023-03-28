@@ -15,6 +15,7 @@ export const tableHeaderStyle: TableHeaderStyleProps = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    px: 0,
   },
   leftSx: {
     display: 'flex',

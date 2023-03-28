@@ -1,11 +1,11 @@
 import { Grid, Switch, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-import { CommonTable } from 'crayond-components-library-1';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { TableHeader } from '..';
 import { forwardRef } from 'react';
 import { useState } from 'react';
+import { CommonTable } from 'crayond-components-library-1';
 import { messageTableStyle } from './style';
 import { useMessageGroup } from '@core/store';
 import isEqual from 'react-fast-compare';
@@ -232,7 +232,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     {
       type: ['SWITCH'],
       name: 'status',
-      switchText: [{ lable_1: 'No', lable_2: 'Active' }],
+      switchText: [{ lable_1: 'In Active', lable_2: 'Active' }],
     },
     {
       type: ['ACTION'],
@@ -263,8 +263,11 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       ref={ref}
       {...rest}
     >
-      <Grid container sx={messageTableStyle.marginTop}>
-        <Grid item xs={12} sx={messageTableStyle.reportTable}>
+      <Grid container display="flex" sx={messageTableStyle.totalTableSx}>
+        <Grid item xs={6} md={3}>
+          <>Right side</>
+        </Grid>
+        <Grid item xs={6} md={9}>
           <Box sx={messageTableStyle.commonTable}>
             <CommonTable
               Header={Header}
@@ -278,6 +281,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                 color: '#818181',
                 bgColor: '#EAEAEA',
                 borderBottom: '0px',
+                width: '100%',
               }}
               cellOptions={{
                 fontSize: '14px',
@@ -287,11 +291,11 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                 borderBottom: '0px',
                 padding: '8px',
               }}
-              tableMinWidth={'1020px'}
-              tableMinHeight={'661px'}
-              paddingAll={'24px 12px'}
-              marginAll={'0px'}
-              dense={'medium'}
+              tableMinWidth={'1500px'}
+              tableMinHeight={'561px'}
+              paddingAll={'0px'}
+              marginAll={'0px 0px 0px'}
+              dense={'small'}
               HeaderComponent={{
                 variant: 'CUSTOM',
                 component: (

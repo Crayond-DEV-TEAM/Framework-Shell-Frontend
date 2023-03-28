@@ -11,7 +11,7 @@ export interface ButtonProps extends LoadingButtonProps {
   startIcon?: any;
   endIcon?: any;
   fullWidth?: boolean;
-  buttonStyle?: object;
+  buttonStyle?: any;
   onClick?: () => void;
 }
 

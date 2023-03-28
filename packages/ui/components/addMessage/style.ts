@@ -6,13 +6,13 @@ interface AddMessageStyleProps {
 
 export const addMessageStyle: AddMessageStyleProps = {
   rootSx: {
-    border: '1px solid #EAEAEA',
+    // border: '1px solid #EAEAEA',
     backgroundColor: 'primary.contrastText',
     height: '661px',
     borderRadius: '8px',
   },
   header: {
-    border: '1px solid #EAEAEA',
+    borderBottom: '1px solid #EAEAEA',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -21,5 +21,10 @@ export const addMessageStyle: AddMessageStyleProps = {
   },
   body: {
     padding: '12px',
+  },
+  titleSx: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#29302B',
   },
 };

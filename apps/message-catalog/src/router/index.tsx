@@ -1,11 +1,14 @@
-import { webRoutes } from '@core/routes';
+import { messageRoutes, webRoutes } from '@core/routes';
 import { AppLayout, LoginLayout, PageNotFound, RootLayout } from '@core/ui/components';
 import ErrorBoundary from '@pages/errorBoundary';
 import ForgotPasswordPage from '@pages/forgotPassword';
 import Home from '@pages/home';
+import LanguageConfigPage from '@pages/languageConfig';
 import LoginPage from '@pages/login';
+import MessageGroup from '@pages/messageGroup';
 import ResetPage from '@pages/resetPassword';
 import SignUpPage from '@pages/signUp';
+
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { PrivateRouter } from './privateRouter';
@@ -32,7 +35,7 @@ const router = createBrowserRouter([
   },
 
   {
-    path: webRoutes.login,
+    path: messageRoutes.login,
     element: (
       <PrivateRouter>
         <RootLayout />
@@ -51,7 +54,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: webRoutes.resetPassword,
+    path: messageRoutes.resetPassword,
     errorElement: <ErrorBoundary />,
     element: <RootLayout />,
     children: [
@@ -66,7 +69,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: webRoutes.signup,
+    path: messageRoutes.signup,
     errorElement: <ErrorBoundary />,
     element: <RootLayout />,
     children: [
@@ -80,8 +83,9 @@ const router = createBrowserRouter([
       },
     ],
   },
+
   {
-    path: webRoutes.forgotpassword,
+    path: messageRoutes.forgotpassword,
     errorElement: <ErrorBoundary />,
     element: <RootLayout />,
     children: [
@@ -91,6 +95,40 @@ const router = createBrowserRouter([
           <LoginLayout>
             <ForgotPasswordPage />
           </LoginLayout>
+        ),
+      },
+    ],
+  },
+  {
+    path: messageRoutes.messagegroup,
+    element: (
+      <PrivateRouter>
+        <RootLayout />
+      </PrivateRouter>
+    ),
+    errorElement: <ErrorBoundary />,
+    children: [
+      {
+        index: true,
+        element: (
+          <AppLayout>
+            <MessageGroup />
+          </AppLayout>
+        ),
+      },
+    ],
+  },
+  {
+    path: messageRoutes.languageConfig,
+    errorElement: <ErrorBoundary />,
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: (
+          <AppLayout>
+            <LanguageConfigPage />
+          </AppLayout>
         ),
       },
     ],

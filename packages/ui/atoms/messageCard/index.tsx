@@ -1,5 +1,5 @@
 import { DeleteIcon, EditIcon, ManIcon, MoreIcon } from '@atoms/icons';
-import { Menu, MenuItem, SxProps, Theme } from '@mui/material';
+import { IconButton, Menu, MenuItem, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { forwardRef, useState, useRef } from 'react';
 import { useHover } from 'ahooks';
@@ -15,15 +15,27 @@ export interface MessageCardProps {
 
 export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => {
   const { className = '', sx = {}, title, ...rest } = props;
-  const [open, setOpen] = useState<boolean>(false);
+  // const [open, setOpen] = useState<boolean>(false);
   const ref = useRef(null);
   const isHovering = useHover(ref);
 
-  const handleOpen = () => {
-    setOpen(true);
+  // const handleOpen = () => {
+  //   setOpen(true);
+  // };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const open = Boolean(anchorEl);
+
+  const handleClick = (e: any) => {
+    setAnchorEl(e.currentTarget);
   };
+
   const handleClose = () => {
-    setOpen(false);
+    setAnchorEl(null);
   };
 
   return (
@@ -43,25 +55,28 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
         <Typography sx={messageCardStyle.messageTitle}>{title}</Typography>
       </Box>
       <Box>
-        {isHovering ? (
-          <MoreIcon rootStyle={{ width: '3px', height: '13px', cursor: 'pointer' }} onClick={handleOpen} />
+        {/* {isHovering ? (
+          <IconButton
+            disableRipple
+            onClick={handleClick}
+            aria-owns={anchorEl ? 'simple-menu' : undefined}
+            aria-haspopup="true"
+          >
+            <MoreIcon rootStyle={{ width: '3px', height: '13px', cursor: 'pointer', opacity: anchorEl ? 0.5 : 1 }} />
+          </IconButton>
         ) : (
           ''
-        )}
+        )} */}
       </Box>
-      <Menu
-        open={open}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        sx={{ top: '47px' }}
+      <IconButton
+        disableRipple
+        onClick={handleClick}
+        aria-owns={anchorEl ? 'simple-menu' : undefined}
+        aria-haspopup="true"
       >
+        <MoreIcon rootStyle={{ width: '3px', height: '13px', cursor: 'pointer', opacity: anchorEl ? 0.5 : 1 }} />
+      </IconButton>
+      <Menu open={open} anchorEl={anchorEl} onClose={handleClose} sx={messageCardStyle.menuSx}>
         <MenuItem>
           <Box sx={messageCardStyle.profileSec}>
             <Typography sx={messageCardStyle.menutext}>Edit</Typography>

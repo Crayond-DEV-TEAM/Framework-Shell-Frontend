@@ -10,6 +10,6 @@ export const appLayoutStyle: AppLayoutStyleProps = {
     minHeight: '100vh',
     backgroundColor: 'grey.100',
     overflow: 'auto',
-    padding: '0px 0px 0px 55px',
+    padding: '55px 0px 0px 55px',
   },
 };

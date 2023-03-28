@@ -1,6 +1,7 @@
 import { Button } from '@atoms/button';
 import { DropDown } from '@atoms/dropDown';
 import { DeleteChip, LanguageTop } from '@atoms/icons';
+import SearchIcon from '@mui/icons-material/Search';
 import { SearchField } from '@atoms/searchField';
 import { Chip, Grid, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
@@ -46,8 +47,12 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
         <LanguageTop />
         <Typography sx={languageConfigStyle.topText}>Language Configuration</Typography>
       </Box>
-      <SearchField />
-      <Box sx={{ padding: '16px' }} />
+      <SearchField
+        startAdornment={<SearchIcon sx={{ fontSize: '20px', color: '#29302B' }} />}
+        placeholder="Search and choose the language you're looking for..."
+        totalSearchSx={languageConfigStyle.searchBoxSx}
+        searchField_Style={languageConfigStyle.innerSearchSx}
+      />
       <Box sx={languageConfigStyle.sx}>
         <Box sx={languageConfigStyle.header}>
           <Typography sx={languageConfigStyle.selectLang}>Selected Language</Typography>

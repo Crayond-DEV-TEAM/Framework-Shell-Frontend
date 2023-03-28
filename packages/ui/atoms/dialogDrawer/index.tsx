@@ -42,7 +42,14 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
         <DialogTitle id="scroll-dialog-title" sx={dialogDrawerStyle.header}>
           <Box sx={dialogDrawerStyle.headAlign}>
             <Typography sx={dialogDrawerStyle.title}>{title}</Typography>
-            <Box component="img" src={CloseIcon} onClick={handleCloseDialog} height={16} width={16} />
+            <Box
+              component="img"
+              src={CloseIcon}
+              onClick={handleCloseDialog}
+              sx={{ cursor: 'pointer' }}
+              height={16}
+              width={16}
+            />
           </Box>
         </DialogTitle>
         <DialogContent sx={{ padding: '12px' }}>{content ? content : Bodycomponent}</DialogContent>

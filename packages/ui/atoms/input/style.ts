@@ -7,7 +7,7 @@ interface InputStyleProps {
 export const inputStyle: InputStyleProps = {
   textFieldSx: {
     opacity: 1,
-    '& .MuiOutlinedInput-root': { px: '4px' },
+    '& .MuiOutlinedInput-root': { pl: '4px' },
     '& .MuiOutlinedInput-input': {
       width: '100%',
       fontWeight: 500,

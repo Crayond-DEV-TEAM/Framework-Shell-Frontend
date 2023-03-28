@@ -16,7 +16,7 @@ export type InputProps = StandardTextFieldProps & {
   value?: string;
   endAdornment?: any;
   startAdornment?: string;
-  textFieldStyle?: object;
+  textFieldStyle?: object | any;
   variant?: 'filled' | 'outlined' | 'standard';
 };
 

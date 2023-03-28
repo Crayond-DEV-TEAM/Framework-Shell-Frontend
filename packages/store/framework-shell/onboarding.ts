@@ -1,6 +1,6 @@
 import { envConfig } from '@core/envconfig';
 import { log } from '@core/logger';
-import { webRoutes } from '@core/routes';
+import { messageRoutes, webRoutes } from '@core/routes';
 import { httpRequest, parseJwt, routeTo, ValidateEmail } from '@core/utils';
 import { localStorageKeys } from '@core/utils/constants';
 import { enqueueSnackbar } from 'notistack';
@@ -93,7 +93,7 @@ export const useOnboarding = create<OnboardingProps>((set, get) => ({
         });
         localStorage.setItem(localStorageKeys.authToken, token);
         enqueueSnackbar('Signed in successfully', { variant: 'success' });
-        routeTo(useRouting, webRoutes.resetPassword);
+        routeTo(useRouting, messageRoutes.languageConfig);
         set({ loading: false });
         return response?.status;
       }

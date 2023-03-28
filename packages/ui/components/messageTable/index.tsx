@@ -5,9 +5,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import { AddMessage, TableHeader } from '..';
 import { forwardRef } from 'react';
 import { useState } from 'react';
-import { CommonTable } from 'crayond-components-library-1';
 import { messageTableStyle } from './style';
 import { useMessageGroup } from '@core/store';
+import { CommonTable } from 'crayond-components-library-1';
 import isEqual from 'react-fast-compare';
 
 export interface MessageTableProps {
@@ -264,12 +264,12 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       {...rest}
     >
       <Grid container display="flex" sx={messageTableStyle.totalTableSx}>
-        <Grid item xs={6} md={2}>
+        <Grid item xs={12} sm={3} md={2}>
           <Box sx={messageTableStyle.addSx}>
             <AddMessage />
           </Box>
         </Grid>
-        <Grid item xs={6} md={10}>
+        <Grid item xs={12} sm={9} md={10}>
           <Box sx={messageTableStyle.commonTable}>
             <CommonTable
               Header={Header}

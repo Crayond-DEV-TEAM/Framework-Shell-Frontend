@@ -56,7 +56,6 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@mui/icons-material": "^5.11.11",
-    "crayond-components-library-1": "^0.0.19"
+    "@mui/icons-material": "^5.11.11"
   }
 }

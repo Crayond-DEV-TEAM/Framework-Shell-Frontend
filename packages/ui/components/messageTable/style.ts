@@ -8,12 +8,17 @@ export const messageTableStyle: MessageTableStyleProps = {
   rootSx: {},
   commonTable: {
     bgcolor: '#fff',
-    margin: '0px 20px',
+    margin: {
+      lg: '0px 20px',
+      md: '0px 20px',
+      sm: '10px 20px',
+      xs: '10px 0px',
+    },
     padding: '0px 10px',
     borderRadius: '8px',
   },
   totalTableSx: {
-    margin: '31px 0px',
+    margin: '31px 10px',
   },
-  addSx: { width: '100%', maxWidth: '230px', margin: '0px 21px' },
+  // addSx: { width: '100%', maxWidth: '230px', margin: '0px 21px' },
 };

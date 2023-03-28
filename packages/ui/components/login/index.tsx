@@ -11,7 +11,6 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import isEqual from 'react-fast-compare';
 import { Link, useNavigate } from 'react-router-dom';
-
 import { loginStyle } from './style';
 
 export interface LoginProps {

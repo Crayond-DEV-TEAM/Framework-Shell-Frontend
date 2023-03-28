@@ -5,6 +5,11 @@ interface SideBarStyleProps {
 }
 
 export const sideBarStyle: SideBarStyleProps = {
+  drawerSx: {
+    '& .MuiDrawer-paper': {
+      mt: '56px',
+    },
+  },
   mainSx: {
     display: 'flex',
     justifyContent: 'space-between',

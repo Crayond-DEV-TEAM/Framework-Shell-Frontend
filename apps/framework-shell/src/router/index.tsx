@@ -80,6 +80,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+
   {
     path: webRoutes.forgotpassword,
     errorElement: <ErrorBoundary />,

@@ -62,7 +62,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLElement>): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
-  const [drawer, setDrawer] = useState<boolean>(true);
+  const [drawer, setDrawer] = useState<boolean>(false);
   const [openSubCollapse, setopenSubCollapse] = useState<boolean>(false);
   const [openCollapse, setopenCollapse] = useState<boolean>(false);
 
@@ -91,7 +91,13 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
       ref={ref}
       {...rest}
     >
-      <Drawer variant="permanent" open={drawer} onMouseEnter={handleDrawerOpen} onMouseLeave={handleDrawerClose}>
+      <Drawer
+        variant="permanent"
+        open={drawer}
+        onMouseEnter={handleDrawerOpen}
+        onMouseLeave={handleDrawerClose}
+        sx={sideBarStyle.drawerSx}
+      >
         <List>
           <Box>
             <ListItem
@@ -104,7 +110,7 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
             >
               <ListItemButton
                 sx={{
-                  minHeight: 48,
+                  minHeight: 56,
                   justifyContent: drawer ? 'initial' : 'center',
                   px: 2.0,
                 }}

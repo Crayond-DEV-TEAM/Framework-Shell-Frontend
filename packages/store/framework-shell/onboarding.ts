@@ -93,7 +93,9 @@ export const useOnboarding = create<OnboardingProps>((set, get) => ({
         });
         localStorage.setItem(localStorageKeys.authToken, token);
         enqueueSnackbar('Signed in successfully', { variant: 'success' });
-        routeTo(useRouting, webRoutes.home);
+        routeTo(useRouting, webRoutes.resetPassword);
+        set({ loading: false });
+        return response?.status;
       }
       set({ loading: false });
     } catch (err: any) {

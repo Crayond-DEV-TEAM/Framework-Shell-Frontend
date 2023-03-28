@@ -58,3 +58,21 @@ export function VisibilityOff(props: any) {
     </SvgIcon>
   );
 }
+export function FilterIcon(props: any) {
+  const { rootStyle, ...rest } = props;
+  const rootSx = {
+    width: 16,
+    height: 16,
+    color: '#0f0b11',
+    ...rootStyle,
+  };
+  return (
+    <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" sx={rootSx} {...rest}>
+      <path
+        d="M7.111 6A1.121 1.121 0 006 7.111v1.373A3.335 3.335 0 007.271 11.1l4.507 3.551v6.68a.667.667 0 001.054.543l3.111-2.222a.667.667 0 00.28-.543v-4.456l4.507-3.55A3.335 3.335 0 0022 8.484V7.111A1.121 1.121 0 0020.889 6zm.222 1.333h13.334v1.151a2 2 0 01-.762 1.57l-4.444 3.5h-2.922L8.1 10.055a2 2 0 01-.762-1.57zm5.778 7.556h1.778v3.879l-1.778 1.27z"
+        transform="translate(-6 -6)"
+        fill="currentColor"
+      />
+    </SvgIcon>
+  );
+}

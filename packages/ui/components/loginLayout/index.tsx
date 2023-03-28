@@ -1,7 +1,7 @@
 import { BoxProps, SxProps, Theme, Typography } from '@mui/material';
 import { Box, Grid } from '@mui/material';
 import { forwardRef } from 'react';
-
+import { TableHeader } from '..';
 import crayond from '../../assets/crayond.svg';
 import login from '../../assets/login.svg';
 import toolkit from '../../assets/toolkit.svg';
@@ -28,6 +28,7 @@ export const LoginLayout = forwardRef((props: LoginLayoutProps): JSX.Element => 
       className={`${className}`}
       {...rest}
     >
+      <TableHeader />
       <Box sx={loginLayoutStyle?.toolkit}>
         <Box component={'img'} sx={{ width: '40px', height: '40px' }} src={toolkit} />
         <Typography sx={loginLayoutStyle.toolkitText}>Toolkit</Typography>

@@ -272,6 +272,36 @@ export function SubMessageGroup(props: any) {
     </SvgIcon>
   );
 }
+export function SelectDown(props: any) {
+  const { rootStyle, ...rest } = props;
+
+  const rootSx = {
+    height: '22px',
+    width: '22px',
+    color: '#0E1824',
+    ...rootStyle,
+  };
+  return (
+    <SvgIcon xmlns="http://www.w3.org/2000/svg" width="16px" height="9px" viewBox="0 0 16 16" {...rest} sx={rootSx}>
+      <g id="Group_106641" data-name="Group 106641" transform="translate(0 0)">
+        <rect
+          id="Rectangle_46698"
+          data-name="Rectangle 46698"
+          width="16"
+          height="16"
+          transform="translate(0 0)"
+          fill="none"
+        />
+        <path
+          id="icons8-expand-arrow"
+          d="M11.025.167,6,5.192.975.167A.571.571,0,0,0,.167.975L5.6,6.4a.571.571,0,0,0,.808,0L11.833.975a.571.571,0,0,0-.808-.808Z"
+          transform="translate(2 4.953)"
+          fill="#262c33"
+        />
+      </g>
+    </SvgIcon>
+  );
+}
 
 export function ArrowDown(props: any) {
   const { rootStyle, ...rest } = props;
@@ -284,24 +314,6 @@ export function ArrowDown(props: any) {
   };
   return (
     <SvgIcon xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" {...rest} sx={rootSx}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-        <g id="Group_106641" data-name="Group 106641" transform="translate(0 0)">
-          <rect
-            id="Rectangle_46698"
-            data-name="Rectangle 46698"
-            width="16"
-            height="16"
-            transform="translate(0 0)"
-            fill="none"
-          />
-          <path
-            id="icons8-expand-arrow"
-            d="M11.025.167,6,5.192.975.167A.571.571,0,0,0,.167.975L5.6,6.4a.571.571,0,0,0,.808,0L11.833.975a.571.571,0,0,0-.808-.808Z"
-            transform="translate(2 4.953)"
-            fill="#262c33"
-          />
-        </g>
-      </svg>
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
         <g id="Group_106641" data-name="Group 106641" transform="translate(0 0)">
           <rect

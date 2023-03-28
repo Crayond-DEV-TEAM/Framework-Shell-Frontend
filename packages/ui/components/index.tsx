@@ -1,3 +1,4 @@
+export { AddMessage } from './addMessage';
 export { AppLayout } from './appLayout';
 export { ForgotPassword } from './forgotPassword';
 export { LanguageConfig } from './languageConfig';

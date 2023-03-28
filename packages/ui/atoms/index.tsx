@@ -1,7 +1,9 @@
 export { AppBar } from './appBar';
 export { Button } from './button';
 export { DialogDrawer } from './dialogDrawer';
+export { DropDown } from './dropDown';
 export { FooterComponent } from './footerComponent';
 export { Input } from './input';
 export { Label } from './label';
+export { MessageCard } from './messageCard';
 export { SideBar } from './sideBar';

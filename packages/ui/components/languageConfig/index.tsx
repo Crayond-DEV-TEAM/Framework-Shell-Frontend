@@ -1,5 +1,7 @@
 import { Button } from '@atoms/button';
+import { DropDown } from '@atoms/dropDown';
 import { DeleteChip, LanguageTop } from '@atoms/icons';
+import { SearchField } from '@atoms/searchField';
 import { Chip, Grid, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { forwardRef, useState } from 'react';
@@ -44,11 +46,16 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
         <LanguageTop />
         <Typography sx={languageConfigStyle.topText}>Language Configuration</Typography>
       </Box>
+      <SearchField />
+      <Box sx={{ padding: '16px' }} />
       <Box sx={languageConfigStyle.sx}>
         <Box sx={languageConfigStyle.header}>
           <Typography sx={languageConfigStyle.selectLang}>Selected Language</Typography>
-          <Box>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography sx={languageConfigStyle.default}>Default Language</Typography>
+            <Box sx={{ width: '172px', height: '36px', pl: 1 }}>
+              <DropDown value={'English'} />
+            </Box>
           </Box>
         </Box>
         <Box sx={languageConfigStyle.content}>
@@ -69,7 +76,7 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
           <Box
             sx={{
               position: 'relative',
-              top: '210px',
+              top: '200px',
               bottom: 0,
               display: 'flex',
               justifyContent: 'flex-end',
@@ -91,22 +98,6 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
               Save
             </Button>
           </Box>
-          {/* <Box >
-            <Box sx={languageConfigStyle.messageBox}>
-              <Typography sx={languageConfigStyle.messagetxt}>Changes will be lost if you don&apos;t save.</Typography>
-            </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Button
-                buttonStyle={{
-                  width: '62px',
-                  height: '28px',
-                  textTransform: 'capitalize',
-                }}
-              >
-                Save
-              </Button>
-            </Box>
-          </Box> */}
         </Box>
       </Box>
     </Box>

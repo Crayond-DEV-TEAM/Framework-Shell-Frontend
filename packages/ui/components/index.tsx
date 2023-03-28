@@ -1,9 +1,11 @@
 export { AddMessage } from './addMessage';
+export { AddMessageGroup } from './addMessageGroup';
 export { AppLayout } from './appLayout';
 export { ForgotPassword } from './forgotPassword';
 export { LanguageConfig } from './languageConfig';
 export { Login } from './login';
 export { LoginLayout } from './loginLayout';
+export { ModalAddMessage } from './modalAddMessage';
 export { PageNotFound } from './pageNotFound';
 export { ResetPassword } from './resetPassword';
 export { RootLayout } from './rootLayout';

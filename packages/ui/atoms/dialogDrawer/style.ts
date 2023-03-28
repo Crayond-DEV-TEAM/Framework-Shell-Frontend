@@ -101,4 +101,9 @@ export const dialogDrawerStyle: DialogDrawerStyleProps = {
     fontWeight: 400,
     paddingLeft: '12px',
   },
+  content: {
+    '& .MuiDialogTitle-root+.css-uwas4w-MuiDialogContent-root': {
+      padding: '12px !important',
+    },
+  },
 };

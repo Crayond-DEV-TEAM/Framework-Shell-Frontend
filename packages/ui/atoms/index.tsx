@@ -5,5 +5,7 @@ export { DropDown } from './dropDown';
 export { FooterComponent } from './footerComponent';
 export { Input } from './input';
 export { Label } from './label';
+export { LanguageCard } from './languageCard';
 export { MessageCard } from './messageCard';
 export { SideBar } from './sideBar';
+export { ToggleButtons } from './toggleButton';

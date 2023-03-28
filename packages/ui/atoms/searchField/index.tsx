@@ -11,8 +11,8 @@ export interface SearchFieldProps {
   onSearch: string;
   startAdornment?: React.ReactNode;
   endAdornment?: React.ReactNode;
-  searchField_Style?: any;
-  searchInputStyle?: any;
+  searchField_Style?: object;
+  searchInputStyle?: object;
   sx?: SxProps<Theme>;
 }
 
@@ -30,7 +30,7 @@ export const SearchField = forwardRef((props: SearchFieldProps): JSX.Element => 
   // const [onSearch, setOnSearch] = useState<string>('');
 
   const handleSearchChange = (e: any) => {
-    setOnSearch(0);
+    setOnSearch(e);
   };
   return (
     <Box sx={searchFieldStyle.searchBoxSx}>

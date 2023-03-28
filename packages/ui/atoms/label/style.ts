@@ -10,6 +10,6 @@ export const labelStyle: LabelStyleProps = {
     textAlign: 'left',
     letterSpacing: 0,
     textTransform: 'capitalize',
-    color: 'text.label',
+    color: 'typography.label',
   },
 };

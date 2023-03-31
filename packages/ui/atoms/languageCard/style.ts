@@ -5,7 +5,7 @@ interface LanguageCardStyleProps {
 }
 
 export const languageCardStyle: LanguageCardStyleProps = {
-  rootSx: {
+  rootMainSx: {
     padding: '12px',
     backgroundColor: '#F7F7F7',
     borderRadius: '8px',

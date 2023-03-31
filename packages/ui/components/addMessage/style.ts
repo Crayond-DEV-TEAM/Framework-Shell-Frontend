@@ -27,4 +27,8 @@ export const addMessageStyle: AddMessageStyleProps = {
     fontWeight: '600',
     color: '#29302B',
   },
+  dialogSx: {
+    width: '461px',
+    height: '414px',
+  },
 };

@@ -9,10 +9,11 @@ export const modalAddMessageStyle: ModalAddMessageStyleProps = {
   labelSx: {
     fontSize: '12px',
     color: 'typography.label',
+    pb: 1,
   },
 
   inputGroupSx: {
     display: 'grid',
-    gap: 1,
+    pb: 2,
   },
 };

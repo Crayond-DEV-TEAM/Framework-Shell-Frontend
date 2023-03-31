@@ -14,5 +14,6 @@ export const addMessageGroupStyle: AddMessageGroupStyleProps = {
   inputGroupSx: {
     display: 'grid',
     gap: 1,
+    pb: 2,
   },
 };

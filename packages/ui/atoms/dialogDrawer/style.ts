@@ -5,26 +5,26 @@ interface DialogDrawerStyleProps {
 }
 
 export const dialogDrawerStyle: DialogDrawerStyleProps = {
-  dialog: {
-    width: '100%',
-    maxWidth: 'auto',
-    padding: '0 !important',
-    '& .MuiPaper-root': {
-      width: '100% !important',
-      borderRadius: '4px',
-      //backgroundImage: (props) => props?.noService && `url("/images/noserviceweb.svg")`,
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'cover',
-      height: '400px',
-    },
-    '& .MuiDialogContent-root': {
-      padding: '0px !important',
-      position: 'relative',
-    },
-    '& .MuiDialog-container': {
-      // padding: (props) => props?.padding ?? '',
-    },
-  },
+  // dialog: {
+  //   width: '100%',
+  //   maxWidth: 'auto',
+  //   padding: '0 !important',
+  //   '&.MuiPaper-root': {
+  //     width: '100% !important',
+  //     borderRadius: '4px',
+  //     //backgroundImage: (props) => props?.noService && `url("/images/noserviceweb.svg")`,
+  //     backgroundRepeat: 'no-repeat',
+  //     backgroundSize: 'cover',
+  //     height: '400px',
+  //   },
+  //   '& .MuiDialogContent-root': {
+  //     padding: '0px !important',
+  //     position: 'relative',
+  //   },
+  //   '& .MuiDialog-container': {
+  //     // padding: (props) => props?.padding ?? '',
+  //   },
+  // },
   header: {
     border: '1px solid #E4E8EE',
     display: 'flex',
@@ -100,10 +100,5 @@ export const dialogDrawerStyle: DialogDrawerStyleProps = {
     fontSize: '14px',
     fontWeight: 400,
     paddingLeft: '12px',
-  },
-  content: {
-    '& .MuiDialogTitle-root+.css-uwas4w-MuiDialogContent-root': {
-      padding: '12px !important',
-    },
   },
 };

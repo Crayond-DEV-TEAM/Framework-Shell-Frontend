@@ -6,11 +6,13 @@ import { languageCardStyle } from './style';
 
 export interface LanguageCardProps {
   className?: string;
+  handleLanguageChange?: (key: any, value: any) => void;
+  language?: any;
   sx?: SxProps<Theme>;
 }
 
 export const LanguageCard = (props: LanguageCardProps): JSX.Element => {
-  const { className = '', sx = {}, ...rest } = props;
+  const { className = '', sx = {}, language, handleLanguageChange = () => false, ...rest } = props;
 
   return (
     <Box
@@ -23,12 +25,23 @@ export const LanguageCard = (props: LanguageCardProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
-      <Label sx={languageCardStyle.labelSx} htmlFor="username">
-        {'languageName'}
-      </Label>
-      <Box sx={{ pt: 1 }}>
-        <Input size="small" value="Sign In" textFieldStyle={{ backgroundColor: 'primary.contrastText' }} />
-      </Box>
+      {language?.map((val: any, i: any) => {
+        return (
+          <Box key={i} sx={languageCardStyle.rootMainSx}>
+            <Label sx={languageCardStyle.labelSx} htmlFor="username">
+              {'languageName'}
+            </Label>
+            <Box sx={{ pt: 1 }}>
+              <Input
+                size="small"
+                value={val?.value}
+                onChange={(event) => handleLanguageChange(i, event.target.value)}
+                textFieldStyle={{ backgroundColor: 'primary.contrastText' }}
+              />
+            </Box>
+          </Box>
+        );
+      })}
     </Box>
   );
 };

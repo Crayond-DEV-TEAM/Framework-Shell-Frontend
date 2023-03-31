@@ -11,6 +11,7 @@ export interface DialogDrawerProps {
   className?: string;
   sx?: SxProps<Theme>;
   rootStyle?: object;
+  dialogstyle?: object;
   isDialogOpened: boolean;
   handleCloseDialog: () => void;
   title: string;
@@ -25,6 +26,7 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
   const {
     className = '',
     rootStyle = {},
+    dialogstyle = {},
     isDialogOpened = true,
     handleCloseDialog = () => {
       false;
@@ -38,7 +40,12 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
 
   return (
     <Box sx={{ ...dialogDrawerStyle.rootSx, ...rootStyle }} className={`${className}`} {...rest}>
-      <Dialog open={isDialogOpened} aria-labelledby="draggable-dialog-title">
+      <Dialog
+        fullWidth
+        open={isDialogOpened}
+        aria-labelledby="draggable-dialog-title"
+        sx={{ ...dialogDrawerStyle.dialog, ...dialogstyle }}
+      >
         <DialogTitle id="scroll-dialog-title" sx={dialogDrawerStyle.header}>
           <Box sx={dialogDrawerStyle.headAlign}>
             <Typography sx={dialogDrawerStyle.title}>{title}</Typography>

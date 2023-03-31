@@ -8,14 +8,15 @@ export const dialogDrawerStyle: DialogDrawerStyleProps = {
   dialog: {
     width: '100%',
     maxWidth: 'auto',
-    padding: '0 !important',
     '& .MuiPaper-root': {
-      width: '100% !important',
+      //width: '100% !important',
       borderRadius: '4px',
       //backgroundImage: (props) => props?.noService && `url("/images/noserviceweb.svg")`,
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover',
-      height: '400px',
+      //height: '400px',
+      // width: '904px',
+      // height: '604px',
     },
     '& .MuiDialogContent-root': {
       padding: '0px !important',

@@ -84,6 +84,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
         Bodycomponent={<AddMessageGroup />}
         handleCloseDialog={handleClose}
         rootStyle={{ padding: '0px important' }}
+        // dialogstyle={{ width: '904px', height: '604px' }}
       />
     </Box>
   );

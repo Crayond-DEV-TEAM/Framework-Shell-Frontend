@@ -26,42 +26,43 @@ export const ModalAddMessage = forwardRef((props: ModalAddMessageProps, ref: Rea
       ref={ref}
       {...rest}
     >
-      <Box sx={modalAddMessageStyle.inputGroupSx}>
-        <Label sx={modalAddMessageStyle.labelSx} htmlFor="username">
-          Title
-        </Label>
-        <Input
-          size="small"
-          placeholder="username"
-          value="Sign In"
-          id="username"
-          // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-          //   handleChange('username', e.target.value)
-          // }
-          // isError={values?.error?.username ? true : false}
-          // errorMessage={values?.error?.username ?? ''}
-        />
+      <Box sx={{ p: 2 }}>
+        <Box sx={modalAddMessageStyle.inputGroupSx}>
+          <Label sx={modalAddMessageStyle.labelSx} htmlFor="username">
+            Title
+          </Label>
+          <Input
+            size="small"
+            placeholder="username"
+            value="Sign In"
+            id="username"
+            // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+            //   handleChange('username', e.target.value)
+            // }
+            // isError={values?.error?.username ? true : false}
+            // errorMessage={values?.error?.username ?? ''}
+          />
+        </Box>
+        <Box sx={{ m: 2 }} />
+        <Box sx={modalAddMessageStyle.inputGroupSx}>
+          <Label sx={modalAddMessageStyle.labelSx} htmlFor="username">
+            Description
+          </Label>
+          <Input
+            size="small"
+            placeholder="Add description"
+            //value="Sign In"
+            //id="username"
+            textFieldStyle={{ height: '112px' }}
+            rowMax={5}
+            // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+            //   handleChange('username', e.target.value)
+            // }
+            // isError={values?.error?.username ? true : false}
+            // errorMessage={values?.error?.username ?? ''}
+          />
+        </Box>
       </Box>
-      <Box sx={{ m: 2 }} />
-      <Box sx={modalAddMessageStyle.inputGroupSx}>
-        <Label sx={modalAddMessageStyle.labelSx} htmlFor="username">
-          Description
-        </Label>
-        <Input
-          size="small"
-          placeholder="Add description"
-          //value="Sign In"
-          //id="username"
-          textFieldStyle={{ height: '112px' }}
-          rowMax={5}
-          // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-          //   handleChange('username', e.target.value)
-          // }
-          // isError={values?.error?.username ? true : false}
-          // errorMessage={values?.error?.username ?? ''}
-        />
-      </Box>
-      <Box sx={{ p: 4 }} />
     </Box>
   );
 });

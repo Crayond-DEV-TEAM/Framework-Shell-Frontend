@@ -7,9 +7,9 @@ interface AppLayoutStyleProps {
 export const appLayoutStyle: AppLayoutStyleProps = {
   rootSx: {},
   childrenSx: {
-    minHeight: '100vh',
     backgroundColor: 'grey.100',
     overflow: 'auto',
-    padding: '55px 0px 0px 55px',
+    padding: '30px 0px 0px 25px',
+    height: 'calc(100vh - 50px)',
   },
 };

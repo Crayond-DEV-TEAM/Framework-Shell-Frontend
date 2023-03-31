@@ -3,6 +3,7 @@ import { Box, Typography } from '@mui/material';
 import { forwardRef } from 'react';
 
 import { footerComponentStyle } from './style';
+import { CustomSwitches } from '..';
 
 export interface FooterComponentProps {
   className?: string;
@@ -11,7 +12,6 @@ export interface FooterComponentProps {
 
 export const FooterComponent = forwardRef((props: FooterComponentProps, ref: React.Ref<HTMLElement>): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
-  const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
   return (
     <Box
@@ -28,7 +28,7 @@ export const FooterComponent = forwardRef((props: FooterComponentProps, ref: Rea
     >
       <Grid container alignItems={'center'} display={'flex'}>
         <Grid item xs={8} sm={8} md={8} lg={8} xl={8} display={'flex'} alignItems={'center'}>
-          <Switch {...label} />
+          <CustomSwitches />
           <Typography sx={footerComponentStyle.switch}>Make this active</Typography>
         </Grid>
         <Grid item xs={4} sm={4} md={4} lg={4} xl={4} width={'100%'}>

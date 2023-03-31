@@ -8,7 +8,7 @@ export const addMessageStyle: AddMessageStyleProps = {
   rootSx: {
     // border: '1px solid #EAEAEA',
     backgroundColor: 'primary.contrastText',
-    height: '661px',
+    //height: '661px',
     borderRadius: '8px',
   },
   header: {

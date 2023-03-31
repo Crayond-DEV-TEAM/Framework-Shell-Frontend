@@ -4,6 +4,7 @@ import { forwardRef } from 'react';
 import { Button } from '..';
 
 import { footerComponentStyle } from './style';
+import { CustomSwitches } from '..';
 
 export interface FooterComponentProps {
   className?: string;
@@ -42,6 +43,7 @@ export const FooterComponent = forwardRef((props: FooterComponentProps, ref: Rea
       <Grid container alignItems={'center'} display={'flex'}>
         <Grid item xs={8} sm={8} md={8} lg={8} xl={8} display={'flex'} alignItems={'center'}>
           <Switch {...label} checked={checked} onChange={SwitchChange} />
+          {/* <CustomSwitches /> */}
           <Typography sx={footerComponentStyle.switch}>Make this active</Typography>
         </Grid>
         <Grid item xs={4} sm={4} md={4} lg={4} xl={4} width={'100%'}>

@@ -135,7 +135,9 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     >
       <Box sx={addMessageStyle.header}>
         <Typography sx={addMessageStyle.titleSx}>Message Group</Typography>
-        <AddIcon onClick={handleOpen} />
+        <Box sx={{ cursor: 'pointer' }}>
+          <AddIcon onClick={handleOpen} />
+        </Box>
       </Box>
       <Box sx={{ m: '12px', height: '32px' }}>
         <Input

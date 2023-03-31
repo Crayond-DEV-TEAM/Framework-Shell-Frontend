@@ -11,6 +11,7 @@ export interface DialogDrawerProps {
   className?: string;
   sx?: SxProps<Theme>;
   rootStyle?: object;
+  dialogstyle?: object;
   isDialogOpened: boolean;
   handleCloseDialog: () => void;
   title: string;
@@ -28,6 +29,7 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
   const {
     className = '',
     rootStyle = {},
+    dialogstyle = {},
     isDialogOpened = true,
     handleCloseDialog = () => {
       false;

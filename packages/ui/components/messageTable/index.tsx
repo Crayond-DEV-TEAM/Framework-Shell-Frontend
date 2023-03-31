@@ -345,7 +345,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                 padding: '8px',
               }}
               tableMinWidth={'1500px'}
-              tableMinHeight={'561px'}
+              //tableMinHeight={'561px'}
               paddingAll={'0px'}
               marginAll={'0px 0px 0px'}
               dense={'small'}

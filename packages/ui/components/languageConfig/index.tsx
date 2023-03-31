@@ -36,7 +36,6 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     savelangState,
     responseState,
     statusState,
-    topState,
   } = useLanguage((state) => ({
     languagedisplay: state.languagedisplay,
     langState: state.langState,
@@ -53,32 +52,36 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     savelangState: state.savelangState,
     responseState: state.responseState,
     statusState: state.statusState,
-    topState: state.topState,
   }));
-  console.log(topState, 'jhdkjhk');
+  console.log(statusState, 'console.log(addedLangStat;');
+  console.log(addedLangState, 'jhdkjhk');
   const { className = '', sx = {}, select = '', payload = {}, ...rest } = props;
-  const [chipData, setChipData] = useState();
-  const [onSearch, setOnSearch] = useState([]);
+  const [chipData, setChipData] = useState<readonly ChipData[]>([
+    { key: 0, label: 'English' },
+    { key: 1, label: 'Tamil' },
+    { key: 2, label: 'Hindi' },
+    { key: 3, label: 'Arabic' },
+  ]);
+  const [onSearch, setOnSearch] = useState('');
   const [drop, setDrop] = useState('');
   const [check, setCheck] = useState([]);
   const [lang, setLang] = useState([]);
-
-  // const handleDelete = (chipToDelete: ChipData) => () => {
-  //   addLangdisp((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
-  // };
+  const handleDelete = (chipToDelete: ChipData) => () => {
+    setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
+  };
+  const langSearch = async () => {
+    const response = await languagedisplay();
+    convertArrayToObject(langState);
+  };
   const convertArrayToObject = (langState: any) => {
     const array = [];
-    if (Array.isArray(langState) && langState?.length > 0) {
-      for (const data of langState) {
-        const obj = {
-          label: data.language_name,
-          value: data.language_name,
-          name: data.language_name,
-        };
-        array.push(obj);
-      }
+    for (const data of langState) {
+      const obj = {
+        label: data.language_name,
+        value: data.language_name,
+      };
+      array.push(obj);
     }
-
     setCheck(array);
   };
 
@@ -88,26 +91,22 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
   };
 
   const convertArrayObjectTwo = (addedLangState: any) => {
-    const arrayy = [];
-    if (Array.isArray(langState) && langState?.length > 0) {
-      for (const data of addedLangState) {
-        const obj = {
-          label: data.language.label,
-          value: data.language.value,
-        };
-        arrayy.push(obj);
-      }
+    const array = [];
+    for (const data of addedLangState) {
+      const obj = {
+        label: data.language.label,
+        value: data.language.value,
+      };
+      array.push(obj);
     }
-
-    setLang(arrayy);
+    setLang(array);
   };
 
   const saveLang = async () => {
-    const payloadsave = addedLangState.addedLangState;
+    const payloadsave = selectedState.selectedState;
     const res = await savelanguages(payloadsave);
     addLangdisp();
   };
-  console.log(dropState, ' kajkjkjk');
   const searchfunc = (val: any) => {
     setOnSearch(val?.target?.value);
     handleGroupChange('selectedState', val?.target?.value);
@@ -123,6 +122,7 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
   //   const a = selectedState + '' + addedLangState.language.language_name;
   //   console.log(a, 'addingFunc');
   // };
+
   const initialData = async () => {
     const languageResponse = await languagedisplay();
     convertArrayToObject(languageResponse);
@@ -180,7 +180,7 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
                   <Chip
                     sx={{ backgroundColor: 'primary.main', width: 'auto', py: '10px', color: '#fff' }}
                     label={data.language.label}
-                    // onDelete={handleDelete(data)}
+                    onDelete={handleDelete(data)}
                     deleteIcon={<DeleteChip height={'12px'} width={'12px'} />}
                   />
                 </Grid>

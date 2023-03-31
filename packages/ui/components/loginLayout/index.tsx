@@ -1,6 +1,9 @@
+import { webRoutes } from '@core/routes';
+import { localStorageKeys } from '@core/utils';
 import { BoxProps, SxProps, Theme, Typography } from '@mui/material';
 import { Box, Grid } from '@mui/material';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { TableHeader } from '..';
 import crayond from '../../assets/crayond.svg';
 import login from '../../assets/login.svg';
@@ -17,17 +20,20 @@ export interface LoginLayoutProps {
 export const LoginLayout = forwardRef((props: LoginLayoutProps): JSX.Element => {
   const { className = '', children, childrenWrapperProps = {}, sx = {}, ...rest } = props;
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  React.useEffect(() => {
+    const authToken = localStorage.getItem(localStorageKeys?.authToken);
+
+    //Already logged in
+    if (authToken) {
+      navigate(webRoutes.home);
+    }
+  }, [location]);
+
   return (
-    <Box
-      sx={[
-        {
-          ...loginLayoutStyle.rootSx,
-        },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-      className={`${className}`}
-      {...rest}
-    >
+    <Box sx={[{ ...loginLayoutStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]} className={`${className}`} {...rest}>
       <Box sx={loginLayoutStyle?.toolkit}>
         <Box component={'img'} sx={{ width: '40px', height: '40px' }} src={toolkit} />
         <Typography sx={loginLayoutStyle.toolkitText}>Toolkit</Typography>

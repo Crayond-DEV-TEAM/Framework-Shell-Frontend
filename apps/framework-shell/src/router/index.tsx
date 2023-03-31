@@ -12,7 +12,7 @@ import { PrivateRouter } from './privateRouter';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: webRoutes.root,
     element: (
       <PrivateRouter>
         <RootLayout />
@@ -22,72 +22,34 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: (
-          <AppLayout>
-            <Home />
-          </AppLayout>
-        ),
+        element: <Home />,
       },
-    ],
-  },
-
-  {
-    path: webRoutes.login,
-    element: (
-      <PrivateRouter>
-        <RootLayout />
-      </PrivateRouter>
-    ),
-    errorElement: <ErrorBoundary />,
-    children: [
       {
-        index: true,
+        path: webRoutes.login,
         element: (
           <LoginLayout>
             <LoginPage />
           </LoginLayout>
         ),
       },
-    ],
-  },
-  {
-    path: webRoutes.resetPassword,
-    errorElement: <ErrorBoundary />,
-    element: <RootLayout />,
-    children: [
       {
-        index: true,
-        element: (
-          <LoginLayout>
-            <ResetPage />
-          </LoginLayout>
-        ),
-      },
-    ],
-  },
-  {
-    path: webRoutes.signup,
-    errorElement: <ErrorBoundary />,
-    element: <RootLayout />,
-    children: [
-      {
-        index: true,
+        path: webRoutes.signup,
         element: (
           <LoginLayout>
             <SignUpPage />
           </LoginLayout>
         ),
       },
-    ],
-  },
-
-  {
-    path: webRoutes.forgotpassword,
-    errorElement: <ErrorBoundary />,
-    element: <RootLayout />,
-    children: [
       {
-        index: true,
+        path: webRoutes.resetPassword,
+        element: (
+          <LoginLayout>
+            <ResetPage />
+          </LoginLayout>
+        ),
+      },
+      {
+        path: webRoutes.forgotpassword,
         element: (
           <LoginLayout>
             <ForgotPasswordPage />

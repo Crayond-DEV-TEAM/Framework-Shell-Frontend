@@ -55,7 +55,7 @@ export const loginStyle: LoginStyleProps = {
   },
   loginButtonSx: {
     textTransform: 'capitalize',
-    my: 3,
+    mt: 3,
   },
   loginSx: {
     textAlign: 'center',

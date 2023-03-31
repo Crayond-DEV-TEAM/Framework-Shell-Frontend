@@ -11,11 +11,12 @@ export type InputProps = StandardTextFieldProps & {
   isReadOnly?: boolean;
   isError?: boolean;
   isMulti?: boolean;
-  rowMax?: number;
+  rowsMax?: any;
+  rows?: number;
   rowMin?: number;
   value?: string;
   endAdornment?: any;
-  startAdornment?: string;
+  startAdornment?: any;
   textFieldStyle?: object | any;
   variant?: 'filled' | 'outlined' | 'standard';
 };
@@ -28,11 +29,12 @@ export function Input(props: InputProps): JSX.Element {
     helperText = '',
     isError = false,
     isMulti = false,
-    rowMax = 5,
+    rowsMax = 5,
     rowMin = 5,
     placeholder = '',
     size = 'small',
     onChange = () => false,
+    rows,
     endAdornment,
     startAdornment,
     type = '',
@@ -43,7 +45,6 @@ export function Input(props: InputProps): JSX.Element {
     ...rest
   } = props;
 
-  console.log(props);
   return (
     <>
       <TextField
@@ -56,11 +57,12 @@ export function Input(props: InputProps): JSX.Element {
         fullWidth={fullWidth}
         disabled={isReadOnly}
         multiline={isMulti}
-        maxRows={rowMax}
+        maxRows={rowsMax}
         minRows={rowMin}
         onChange={onChange}
         helperText={helperText}
         error={isError}
+        rows={rows}
         className={`${className}`}
         InputProps={{
           startAdornment: <InputAdornment position="start">{startAdornment}</InputAdornment>,

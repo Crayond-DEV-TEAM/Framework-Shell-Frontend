@@ -16,7 +16,8 @@ export interface DropDownProps {
   selectOption?: Array<any>;
   isError?: any;
   placeholder?: string;
-  onChange?: () => void;
+  onchange?: () => void;
+  onClick?: () => void;
   // IconComponent: NodeJS;
 }
 
@@ -30,20 +31,23 @@ export const DropDown = forwardRef((props: DropDownProps, ref: React.Ref<HTMLEle
     selectOption = [],
     isError,
     placeholder = '',
-    onChange = () => false,
+    onchange = () => false,
+    onClick = () => false,
     ...rest
   } = props;
+  console.log(selectOption, 'selectOption');
 
   return (
     <Box>
       <Select
         className={`${className}`}
+        onClick={onClick}
         {...rest}
         sx={{ ...dropDownStyle.rootSx, ...rootStyle }}
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         value={value}
-        onChange={onChange}
+        onChange={onchange}
         placeholder={placeholder}
         fullWidth
         size="small"

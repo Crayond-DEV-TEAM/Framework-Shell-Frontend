@@ -1,8 +1,8 @@
 // import { CloseIcon } from '@atoms/icons';
 import { FooterComponent } from '@atoms/footerComponent/index';
-import { SxProps, Theme, Typography } from '@mui/material';
+import { SxProps, Theme, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { Box, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 
 import CloseIcon from '../../assets/close.svg';
 import { dialogDrawerStyle } from './style';
@@ -11,11 +11,15 @@ export interface DialogDrawerProps {
   className?: string;
   sx?: SxProps<Theme>;
   rootStyle?: object;
+  dialogstyle?: object;
   isDialogOpened: boolean;
   handleCloseDialog: () => void;
   title: string;
   titleStyle?: object;
   content?: string;
+  maxModalWidth?: any;
+  dialogRootStyle?: any;
+  contentStyleSx?: any;
   Footercomponent?: ReactNode;
   Bodycomponent?: ReactNode;
 }
@@ -25,20 +29,36 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
   const {
     className = '',
     rootStyle = {},
+    dialogstyle = {},
     isDialogOpened = true,
     handleCloseDialog = () => {
       false;
     },
+    dialogRootStyle = {},
     title = 'Add New Message',
     content = '',
     Bodycomponent = null,
-    Footercomponent = <FooterComponent />,
+    Footercomponent,
+    contentStyleSx = {},
+    maxModalWidth = '',
     ...rest
   } = props;
 
+  const theme = useTheme();
+  const fullscreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const [maxWidth] = useState(maxModalWidth);
+
   return (
     <Box sx={{ ...dialogDrawerStyle.rootSx, ...rootStyle }} className={`${className}`} {...rest}>
-      <Dialog open={isDialogOpened} aria-labelledby="draggable-dialog-title">
+      <Dialog
+        fullScreen={fullscreen}
+        maxWidth={maxWidth}
+        open={isDialogOpened}
+        aria-labelledby="draggable-dialog-title"
+        PaperProps={{
+          sx: { ...dialogDrawerStyle.dialogRootSx, ...dialogRootStyle },
+        }}
+      >
         <DialogTitle id="scroll-dialog-title" sx={dialogDrawerStyle.header}>
           <Box sx={dialogDrawerStyle.headAlign}>
             <Typography sx={dialogDrawerStyle.title}>{title}</Typography>
@@ -52,7 +72,9 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
             />
           </Box>
         </DialogTitle>
-        <DialogContent sx={{ padding: '12px' }}>{content ? content : Bodycomponent}</DialogContent>
+        <DialogContent sx={{ ...dialogDrawerStyle.contentSx, ...contentStyleSx }}>
+          {content ? content : Bodycomponent}
+        </DialogContent>
         <DialogActions sx={dialogDrawerStyle.header}>{Footercomponent}</DialogActions>
       </Dialog>
     </Box>

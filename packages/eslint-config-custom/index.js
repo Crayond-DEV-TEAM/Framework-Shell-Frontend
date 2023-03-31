@@ -30,6 +30,7 @@ module.exports = {
     'jsx-a11y/accessible-emoji': 'off',
     'react/prop-types': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
     // '@typescript-eslint/no-unused-vars': 'error',
     '@typescript-eslint/no-unused-vars': 'off',
     'simple-import-sort/imports': 'off',

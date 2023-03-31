@@ -23,7 +23,6 @@ export const ResetPassword = forwardRef((props: ResetPasswordProps, ref: React.R
   const { className = '', title = 'Reset Password', sx = {}, ...rest } = props;
   const authToken = localStorage.getItem(localStorageKeys.authToken);
   const data = parseJwt(authToken);
-  console.log(data, 'data');
 
   const { user, setUser, resetPassword, loading, handleLoginChange } = useOnboarding(
     (state) => ({

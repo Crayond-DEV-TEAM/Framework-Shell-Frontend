@@ -6,25 +6,24 @@ interface MessageCardStyleProps {
 
 export const messageCardStyle: MessageCardStyleProps = {
   rootSx: {
-    px: '20px',
-    py: '10px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    px: '12px',
   },
   messageCard: {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    cursor: 'pointer',
+    borderRadius: '4px',
+    p: 0.75,
   },
   dot: {
-    borderRadius: '18px',
-    padding: '4px',
-    backgroundColor: 'red',
+    mr: 0.6,
+    fontSize: '12px',
   },
   messageTitle: {
     fontSize: '14px',
     fontWeight: 400,
-    pl: 1,
+    pl: 0.3,
     color: '#5A5A5A',
   },
   profileSec: {

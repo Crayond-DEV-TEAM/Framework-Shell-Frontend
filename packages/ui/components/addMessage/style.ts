@@ -8,7 +8,7 @@ export const addMessageStyle: AddMessageStyleProps = {
   rootSx: {
     // border: '1px solid #EAEAEA',
     backgroundColor: 'primary.contrastText',
-    height: '661px',
+    //height: '661px',
     borderRadius: '8px',
   },
   header: {
@@ -26,5 +26,9 @@ export const addMessageStyle: AddMessageStyleProps = {
     fontSize: '16px',
     fontWeight: '600',
     color: '#29302B',
+  },
+  dialogSx: {
+    width: '461px',
+    height: '414px',
   },
 };

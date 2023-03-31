@@ -1,14 +1,14 @@
 import { Grid, Switch, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+
 import { AddMessage, TableHeader } from '..';
-import { forwardRef } from 'react';
+import { forwardRef, useEffect } from 'react';
 import { useState } from 'react';
 import { messageTableStyle } from './style';
 import { useMessageGroup } from '@core/store';
 import { CommonTable } from 'crayond-components-library-1';
 import isEqual from 'react-fast-compare';
+import { DeleteIcon, EditIcon } from '@atoms/icons';
 
 export interface MessageTableProps {
   className?: string;
@@ -19,11 +19,53 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const { className = '', sx = {}, ...rest } = props;
 
   // Store Data
-  const { groupState, handleGroupChange, handleChipDelete } = useMessageGroup(
+  const {
+    groupState,
+    status,
+    severtiy,
+    addMessage,
+    language,
+    setstatus,
+    messageGroup,
+    editTableMessage,
+    getStatus,
+    tableMessageData,
+    handleStateChange,
+    filterTableContent,
+    getTable,
+    addMessageTable,
+    handleGroupChange,
+    tableEditMessage,
+    handleChipDelete,
+    getAllMessageGroup,
+    updateStatusReport,
+    getAllTableGroup,
+    getSeverityDetails,
+    deleteTableMessage,
+  } = useMessageGroup(
     (state) => ({
       groupState: state.groupState,
+      messageGroup: state.messageGroup,
+      setstatus: state.setstatus,
+      addMessage: state.addMessage,
+      language: state.language,
+      severtiy: state.severtiy,
+      tableMessageData: state.tableMessageData,
+      editTableMessage: state.editTableMessage,
+      getSeverityDetails: state.getSeverityDetails,
+      handleStateChange: state.handleStateChange,
+      updateStatusReport: state.updateStatusReport,
+      getStatus: state.getStatus,
+      getTable: state.getTable,
+      tableEditMessage: state.tableEditMessage,
+      deleteTableMessage: state.deleteTableMessage,
+      addMessageTable: state.addMessageTable,
+      filterTableContent: state.filterTableContent,
+      getAllTableGroup: state.getAllTableGroup,
+      getAllMessageGroup: state.getAllMessageGroup,
       handleChipDelete: state.handleChipDelete,
       handleGroupChange: state.handleGroupChange,
+      status: state.status,
       loading: state.loading,
     }),
     (prev, curr) => {
@@ -32,13 +74,21 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     },
   );
   const { filterContent } = groupState;
-
   // General Hooks
   const [isSelectedAll, setIsSelectedAll] = useState(false);
   const [selectedCheckbox, setSelectedCheckbox] = useState([1, 2]);
-  const [switchList, setSwitchList] = useState([1, 4]);
+  const [switchList, setSwitchList] = useState(setstatus);
   const [headerSelect, setHederSelect] = useState('');
   const [headerCheckbox, setHederCheckbox] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [messageGroupId, setMessageGroupId] = useState('');
+
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredMessageGroup = tableMessageData?.filter((x: any) =>
+    x.title.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
 
   // CheckBox Change Func
   const checkboxHandleChange = (data: any) => {
@@ -56,6 +106,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const setHederSearch = (value: any) => {
     console.log('🚀 ~ file: App.tsx:31 ~ setHederSearch ~ value:', value);
   };
+
   const SelectAll = (data: any, isRestSet: any) => {
     if (!isRestSet) {
       setSelectedCheckbox([...data]);
@@ -65,7 +116,8 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       setIsSelectedAll(false);
     }
   };
-  const handleSwitch = (id: any) => {
+
+  const handleSwitch = (id: any, e: any) => {
     if (!switchList.includes(id)) {
       setSwitchList([...switchList, id]);
     } else {
@@ -75,7 +127,13 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
         setSwitchList([...switchList]);
       }
     }
+    if (e.target.checked) {
+      getStatus({ id, status: true });
+    } else {
+      getStatus({ id, status: false });
+    }
   };
+  const statusdd = switchList.length > 0;
 
   const Header = [
     {
@@ -102,12 +160,12 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       disablePadding: false,
       label: 'Severity',
     },
-    {
-      id: 'Message_Group',
-      align: 'center',
-      disablePadding: false,
-      label: 'Message Group',
-    },
+    // {
+    //   id: 'Message_Group',
+    //   align: 'center',
+    //   disablePadding: false,
+    //   label: 'Message Group',
+    // },
     {
       id: 'Languages_Configuried',
       align: 'left',
@@ -140,95 +198,15 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     },
   ];
 
-  const dataList = [
-    {
-      reference_id: 'ID-201',
-      title: 'Sign In',
-      description: 'Quam vitae velit',
-      Severity: {
-        label: 'Alert',
-        color: '#6F6F6F',
-        bgColor: '#EAEAEA',
-        // icon: <SmallNotificationIcon />,
-      },
-      Message_Group: '#SIgn In',
-
-      Languages_Configuried: '3/5',
-      Created_On: '2022-01-23T15:00:21.055Z',
-      Modified_On: '2022-01-23T15:00:21.055Z',
-      status: {
-        label: 'Sent',
-        icon: <Switch />,
-      },
-    },
-    {
-      reference_id: 'ID-201',
-      title: 'Sign In',
-      description: 'Quam vitae velit',
-      Severity: {
-        label: 'Alert',
-        color: '#6F6F6F',
-        bgColor: '#EAEAEA',
-        // icon: <SmallNotificationIcon />,
-      },
-      Message_Group: '#SIgn In',
-
-      Languages_Configuried: '3/5',
-      Created_On: '2022-01-23T15:00:21.055Z',
-      Modified_On: '2022-01-23T15:00:21.055Z',
-      status: {
-        label: 'Sent',
-        icon: <Switch />,
-      },
-    },
-    {
-      reference_id: 'ID-201',
-      title: 'Sign In',
-      description: 'Quam vitae velit',
-      Severity: {
-        label: 'Alert',
-        color: '#6F6F6F',
-        bgColor: '#EAEAEA',
-        // icon: <SmallNotificationIcon />,
-      },
-      Message_Group: '#SIgn In',
-
-      Languages_Configuried: '3/5',
-      Created_On: '2022-01-23T15:00:21.055Z',
-      Modified_On: '2022-01-23T15:00:21.055Z',
-      status: {
-        label: 'Sent',
-        icon: <Switch />,
-      },
-    },
-    {
-      reference_id: 'ID-201',
-      title: 'Sign In',
-      description: 'Quam vitae velit',
-      Severity: {
-        label: 'Alert',
-        color: '#6F6F6F',
-        bgColor: '#EAEAEA',
-        // icon: <SmallNotificationIcon />,
-      },
-      Message_Group: '#SIgn In',
-
-      Languages_Configuried: '3/5',
-      Created_On: '2022-01-23T15:00:21.055Z',
-      Modified_On: '2022-01-23T15:00:21.055Z',
-      status: false,
-    },
-  ];
-
   const tableData = [
-    { type: ['TEXT'], name: 'reference_id' },
+    { type: ['TEXT'], name: 'id' },
     { type: ['TEXT'], name: 'title' },
     { type: ['TEXT'], name: 'description' },
-    { type: ['LABEL'], name: 'Severity' },
-    { type: ['TEXT'], name: 'Message_Group' },
-    { type: ['TEXT'], name: 'Languages_Configuried' },
-    { type: ['DATE'], name: 'Created_On', format: 'DD MMM hh:mm' },
-    { type: ['DATE'], name: 'Modified_On', format: 'DD MMM hh:mm' },
+    { type: ['LABEL'], name: 'severity' },
+    // { type: ['TEXT'], name: 'Message_Group' },
+    { type: ['TEXT'], name: 'msg_grp_msgs' },
+    { type: ['DATE'], name: 'created_at', format: 'DD MMM hh:mm' },
+    { type: ['DATE'], name: 'updated_at', format: 'DD MMM hh:mm' },
     {
       type: ['SWITCH'],
       name: 'status',
@@ -239,18 +217,91 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       name: 'action',
       variant: 'EDIT_WITH_DELETE',
       editHandel: (id: any) => {
-        console.log(id);
+        getTable(id);
+        setOpen(true);
       },
       deleteHandel: (id: any) => {
-        console.log(id);
+        const msgId = tableMessageData
+          ?.filter(({ msg_grp_msgs_Total }: any) => msg_grp_msgs_Total)
+          .map(({ id }: any) => id);
+        const messageId = msgId.map((id: any) => ({ id }));
+        deleteTableMessage({ id, messageId });
+        getAllTableGroup(messageGroupId);
       },
-      editIcon: <EditIcon sx={{ color: '#5A5A5A', fontSize: '18px' }} />,
-      deleteIcon: <DeleteIcon sx={{ color: '#FF4D4A', fontSize: '18px' }} />,
+      editIcon: <EditIcon />,
+      deleteIcon: <DeleteIcon />,
     },
   ];
 
-  const [checkbox, setCheckbox] = useState(false);
+  const addMessageTableFun = async () => {
+    if (isEdit) {
+      await tableEditMessage(editTableMessage);
+    } else {
+      await addMessageTable();
+    }
+    setOpen(false);
+    await getAllTableGroup(messageGroupId);
+  };
 
+  const onMessageTable = async (key: any, value: any) => {
+    const tableResponse = await getAllTableGroup(key?.id);
+    setMessageGroupId(key?.id);
+  };
+
+  const onApply = async () => {
+    const FilterArray: any = [];
+    if (Array.isArray(filterContent?.[0]?.children) && filterContent?.[0]?.children?.length > 0) {
+      filterContent?.[0]?.children?.filter((val: any) => val?.value === true && FilterArray.push(val?.id));
+    }
+    let created = {
+      from_date: '',
+      end_date: '',
+    };
+    let updated = {
+      from_date: '',
+      end_date: '',
+    };
+    if (Array.isArray(filterContent?.[2]?.children) && filterContent?.[2]?.children?.length > 0) {
+      if (
+        filterContent?.[2]?.children?.filter((val: any) => val?.label === 'Created On' && val?.value === true)?.length >
+        0
+      ) {
+        created = {
+          from_date: filterContent?.[2]?.children?.[2]?.value ?? '',
+          end_date: filterContent?.[2]?.children?.[3]?.value ?? '',
+        };
+      }
+      if (
+        filterContent?.[2]?.children?.filter((val: any) => val?.label === 'Modified On' && val?.value === true)
+          ?.length > 0
+      ) {
+        updated = {
+          from_date: filterContent?.[2]?.children?.[2]?.value ?? '',
+          end_date: filterContent?.[2]?.children?.[3]?.value ?? '',
+        };
+      }
+    }
+    await filterTableContent(FilterArray, created, updated, messageGroupId);
+  };
+
+  const initialData = async () => {
+    const response = await getAllMessageGroup();
+    if (response?.[0]?.id) {
+      await getAllTableGroup(response?.[0]?.id);
+      setMessageGroupId(response?.[0]?.id);
+    }
+    await getSeverityDetails();
+  };
+
+  useEffect(() => {
+    initialData();
+  }, []);
+
+  useEffect(() => {
+    if (tableMessageData) {
+      setSwitchList(setstatus);
+    }
+  }, [tableMessageData]);
   return (
     <Box
       sx={[
@@ -266,14 +317,14 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       <Grid container display="flex" sx={messageTableStyle.totalTableSx}>
         <Grid item xs={12} sm={3} md={2}>
           <Box sx={messageTableStyle.addSx}>
-            <AddMessage />
+            <AddMessage onMessageTable={onMessageTable} />
           </Box>
         </Grid>
         <Grid item xs={12} sm={9} md={10}>
           <Box sx={messageTableStyle.commonTable}>
             <CommonTable
               Header={Header}
-              dataList={dataList}
+              dataList={filteredMessageGroup}
               tableData={tableData}
               switchList={switchList}
               handleSwitch={handleSwitch}
@@ -294,7 +345,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                 padding: '8px',
               }}
               tableMinWidth={'1500px'}
-              tableMinHeight={'561px'}
+              //tableMinHeight={'561px'}
               paddingAll={'0px'}
               marginAll={'0px 0px 0px'}
               dense={'small'}
@@ -305,6 +356,19 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                     filterContent={filterContent}
                     onChange={handleGroupChange}
                     handleChipDelete={handleChipDelete}
+                    handleStateChange={handleStateChange}
+                    options={severtiy}
+                    status={status}
+                    searchTerm={searchTerm}
+                    setSearchTerm={setSearchTerm}
+                    // openAddMessage={openAddMessage}
+                    open={open}
+                    setOpen={setOpen}
+                    language={language}
+                    editTableMessage={editTableMessage}
+                    addMessageTable={addMessageTableFun}
+                    updateStatusReport={updateStatusReport}
+                    onApply={onApply}
                   />
                 ),
               }}

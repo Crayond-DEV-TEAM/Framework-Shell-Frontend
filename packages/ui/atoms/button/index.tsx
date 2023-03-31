@@ -12,7 +12,7 @@ export interface ButtonProps extends LoadingButtonProps {
   endIcon?: any;
   fullWidth?: boolean;
   buttonStyle?: any;
-  onClick?: () => void;
+  onclick?: () => void;
 }
 
 function Button(props: ButtonProps): JSX.Element {
@@ -26,7 +26,7 @@ function Button(props: ButtonProps): JSX.Element {
     size = 'medium',
     fullWidth = true,
     buttonStyle = {},
-    onClick = () => false,
+    onclick = () => false,
     className = '',
     ...rest
   } = props;
@@ -40,7 +40,7 @@ function Button(props: ButtonProps): JSX.Element {
       size={size}
       sx={{ ...atomButton_style.buttonSx, ...buttonStyle }}
       fullWidth={fullWidth}
-      onClick={onClick}
+      onClick={onclick}
       className={`${className}`}
       loading={loading}
       {...rest}

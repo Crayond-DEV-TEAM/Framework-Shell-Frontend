@@ -7,6 +7,8 @@ import { AddMessageGroup, Filter } from '..';
 import { tableHeaderStyle } from './style';
 import { SearchField } from '@atoms/searchField';
 import { DialogDrawer } from '@atoms/dialogDrawer';
+import { FooterComponent } from '@atoms/footerComponent';
+import { Input } from '@atoms/input';
 
 export interface TableHeaderProps {
   className?: string;
@@ -16,7 +18,21 @@ export interface TableHeaderProps {
   isSearchRequired?: boolean;
   isBtnRequired?: boolean;
   filterContent?: any;
+  editTableMessage?: any;
+  status?: any;
+  setOpen?: any;
+  searchTerm?: any;
+  setSearchTerm?: any;
+  open?: any;
+  addMessageTable?: any;
+  handleStateChange?: (key: any, value: any) => void;
+  updateStatusReport?: (e: any) => void;
+  onApply?: () => void;
+  openAddMessage?: (value: boolean) => void;
+  language?: any;
   handleChipDelete?: any;
+  addMessage?: any;
+  options?: any;
   onChange?: any;
   sx?: SxProps<Theme>;
 }
@@ -28,16 +44,30 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     isFilterRequired = true,
     isSearchRequired = true,
     isBtnRequired = true,
+    handleStateChange = () => false,
+    updateStatusReport = () => false,
+    status,
     buttonName = 'Add Message',
+    editTableMessage,
+    setOpen,
+    open,
+    options,
+    openAddMessage = () => false,
+    language,
+    searchTerm,
+    setSearchTerm,
     filterContent,
+    addMessageTable = () => false,
     handleChipDelete = () => false,
+    onApply = () => false,
     onChange = () => false,
     sx = {},
     ...rest
   } = props;
-  const [open, setOpen] = useState(false);
+
   const handleOpen = () => {
     setOpen(true);
+    openAddMessage(true);
   };
   const handleClose = () => {
     setOpen(false);
@@ -59,15 +89,21 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
         <Box sx={tableHeaderStyle.leftSx}>
           {isSearchRequired && (
             <Box sx={{ mr: 1 }}>
-              {' '}
-              <SearchField
+              <Input
                 placeholder="Search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 startAdornment={<SearchIcon sx={{ ml: 1, fontSize: '16px', color: '#818181' }} />}
               />
             </Box>
           )}
           {isFilterRequired && (
-            <Filter filterContent={filterContent} handleChipDelete={handleChipDelete} onChange={onChange} />
+            <Filter
+              filterContent={filterContent}
+              handleChipDelete={handleChipDelete}
+              onChange={onChange}
+              onApply={onApply}
+            />
           )}
           {isBtnRequired && (
             <Box sx={{ ml: 1 }}>
@@ -79,11 +115,30 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
         </Box>
       </Box>
       <DialogDrawer
+        dialogRootStyle={tableHeaderStyle.dialogSx}
         isDialogOpened={open}
         title={'Add New Message Group'}
-        Bodycomponent={<AddMessageGroup />}
+        Bodycomponent={
+          <AddMessageGroup
+            handleChange={handleStateChange}
+            updateStatusReport={updateStatusReport}
+            groupState={editTableMessage}
+            status={status}
+            options={options}
+            language={language}
+          />
+        }
+        Footercomponent={
+          <FooterComponent
+            checked={editTableMessage?.is_status}
+            SwitchChange={(e: any) => handleStateChange('is_status', e.target.checked)}
+            onSave={addMessageTable}
+            onCancel={handleClose}
+          />
+        }
         handleCloseDialog={handleClose}
         rootStyle={{ padding: '0px important' }}
+        // dialogstyle={{ width: '904px', height: '604px' }}
       />
     </Box>
   );

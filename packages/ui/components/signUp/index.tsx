@@ -3,9 +3,9 @@ import { Visibility, VisibilityOff } from '@atoms/icons';
 import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
 import { webRoutes } from '@core/routes';
-import { useOnboarding } from '@core/store/framework-shell';
+import { useAuth, useOnboarding } from '@core/store/framework-shell';
 import { ValidateEmail } from '@core/utils';
-import { SxProps, Theme } from '@mui/material';
+import { Alert, SxProps, Theme } from '@mui/material';
 import { Box, Typography, IconButton } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { forwardRef } from 'react';
@@ -22,171 +22,37 @@ export const SignUp = forwardRef((props: SignUpProps, ref: React.Ref<HTMLElement
   const { className = '', sx = {}, ...rest } = props;
 
   // Store Data
-  const { userState, signUp, setUser, loading, handleLoginChange } = useOnboarding(
-    (state) => ({
-      signUp: state.signUp,
-      setUser: state.setUser,
-      userState: state.userState,
-      handleLoginChange: state.handleLoginChange,
-      loading: state.loading,
-    }),
-    (prev, curr) => {
-      const data = isEqual(prev, curr);
-      return false;
-    },
-  );
+  const { signUpState, signUpLoading, signUpError, signUpMessage, setSignUpState, signUp, clearAll } = useAuth();
 
   // General Hooks
   const [showpassword, setPassword] = useState<boolean>(false);
-  const [values, setValues] = useState(userState);
 
-  const handleClickShowPassword = () => {
-    setPassword(!showpassword);
+  const handleClickShowPassword = () => setPassword(!showpassword);
+
+  const signUpHit = async () => signUp();
+
+  const handleChange = (key: string, value: string) => {
+    if (key === 'mobile' && value.length > 10) {
+      return false;
+    }
+    setSignUpState({ key, value });
   };
 
-  const isInputsValid = () => {
-    let isValid = true;
-    const error = values?.error;
-
-    //  Checking username
-    if (values?.username.length === 0) {
-      isValid = false;
-      error.username = 'Enter a valid username';
-    } else {
-      error.username = '';
-    }
-
-    // Checking password
-    if (values?.setPassword.length === 0) {
-      isValid = false;
-      error.setPassword = 'Enter the password';
-    } else {
-      error.setPassword = '';
-    }
-
-    // checking FirstName
-    if (values?.firstName.length === 0) {
-      isValid = false;
-      error.firstName = 'Enter a valid firstName';
-    } else {
-      error.firstName = '';
-    }
-    // checking LastName
-    if (values?.lastName.length === 0) {
-      isValid = false;
-      error.lastName = 'Enter a valid lastName';
-    } else {
-      error.lastName = '';
-    }
-
-    //Checking email
-    if (values.emailId.length === 0) {
-      isValid = false;
-      error.emailId = 'Email is required';
-    }
-
-    //validate email
-    if (values.emailId.length > 0 && !ValidateEmail(values?.emailId)) {
-      isValid = false;
-      error.emailId = 'Invalid email';
-    }
-
-    //validate mobile
-    if (values?.mobile?.length === 0) {
-      isValid = false;
-      error.mobile = 'Enter a mobile number';
-    } else if (values?.mobile?.length < 10) {
-      isValid = false;
-      error.mobile = 'Enter a valid 10 digit mobile number';
-    } else {
-      error.mobile = '';
-    }
-    setValues({ ...values, error });
-
-    return isValid;
-  };
-
-  const handleChange = (key: any, val: any) => {
-    if (key === 'mobile') {
-      val = Math.max(0, parseInt(val)).toString().slice(0, 10);
-    }
-    setValues({ ...values, [key]: val, error: { ...values.error, [key]: '' } });
-  };
-
-  const signUpHit = async () => {
-    if (isInputsValid()) {
-      const error = values?.error;
-      error.password = '';
-      error.confirmPassword = '';
-      setValues({ ...values, error });
-      // calling the signUp api
-      const response: any = await signUp(values);
-      if (response === 200) {
-        setValues({
-          ...values,
-          firstName: '',
-          password: '',
-          lastName: '',
-          emailId: '',
-          mobile: '',
-          username: '',
-          setPassword: '',
-          error: {
-            ...userState?.error,
-            firstName: '',
-            password: '',
-            lastName: '',
-            emailId: '',
-            mobile: '',
-            username: '',
-            setPassword: '',
-          },
-        });
-      }
-    }
-  };
   useEffect(() => {
-    setUser({
-      ...userState,
-      error: {
-        firstName: '',
-        password: '',
-        lastName: '',
-        emailId: '',
-        mobile: '',
-        username: '',
-        setPassword: '',
-      },
-    });
-    return setValues({
-      ...userState,
-      error: {
-        ...userState.error,
-        firstName: '',
-        password: '',
-        lastName: '',
-        emailId: '',
-        mobile: '',
-        username: '',
-        setPassword: '',
-      },
-    });
+    clearAll();
+    // eslint-disable-next-line
   }, []);
 
   return (
     <Box
-      sx={[
-        {
-          ...signUpStyle.rootSx,
-        },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
+      sx={[{ ...signUpStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]}
       className={`${className}`}
       ref={ref}
       {...rest}
     >
       <Box sx={signUpStyle.cardContentSx}>
         <Typography sx={signUpStyle.createPasswordSx}>Sign Up</Typography>
+
         {/* First Name */}
         <Box sx={signUpStyle.inputGroupSx}>
           <Label rootStyle={signUpStyle.labelSx} htmlFor="firstName">
@@ -194,14 +60,14 @@ export const SignUp = forwardRef((props: SignUpProps, ref: React.Ref<HTMLElement
           </Label>
           <Input
             size="small"
-            value={values?.firstName ?? ''}
+            value={signUpState?.firstName ?? ''}
             id="firstName"
             placeholder="First Name"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('firstName', e.target.value)
             }
-            isError={values?.error?.firstName?.length ? true : false}
-            errorMessage={values?.error?.firstName}
+            isError={signUpState?.error?.firstName?.length ? true : false}
+            errorMessage={signUpState?.error?.firstName}
           />
         </Box>
         {/* Last Name */}
@@ -211,14 +77,14 @@ export const SignUp = forwardRef((props: SignUpProps, ref: React.Ref<HTMLElement
           </Label>
           <Input
             size="small"
-            value={values?.lastName ?? ''}
+            value={signUpState?.lastName ?? ''}
             id="lastName"
             placeholder="Last Name"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('lastName', e.target.value)
             }
-            isError={values?.error?.lastName?.length ? true : false}
-            errorMessage={values?.error.lastName}
+            isError={signUpState?.error?.lastName?.length ? true : false}
+            errorMessage={signUpState?.error.lastName}
           />
         </Box>
         {/* Email ID */}
@@ -228,14 +94,14 @@ export const SignUp = forwardRef((props: SignUpProps, ref: React.Ref<HTMLElement
           </Label>
           <Input
             size="small"
-            value={values?.emailId ?? ''}
+            value={signUpState?.emailId ?? ''}
             id="emailId"
             placeholder="Email Id"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('emailId', e.target.value)
             }
-            isError={values?.error?.emailId?.length ? true : false}
-            errorMessage={values?.error?.emailId}
+            isError={signUpState?.error?.emailId?.length ? true : false}
+            errorMessage={signUpState?.error?.emailId}
           />
         </Box>
         {/* Mobile */}
@@ -246,14 +112,14 @@ export const SignUp = forwardRef((props: SignUpProps, ref: React.Ref<HTMLElement
           <Input
             type="number"
             size="small"
-            value={values?.mobile ?? ''}
+            value={signUpState?.mobile ?? ''}
             id="mobile"
             placeholder="Mobile"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('mobile', e.target.value)
             }
-            isError={values?.error?.mobile?.length ? true : false}
-            errorMessage={values?.error.mobile}
+            isError={signUpState?.error?.mobile?.length ? true : false}
+            errorMessage={signUpState?.error.mobile}
           />
         </Box>
         {/* User Name */}
@@ -263,32 +129,33 @@ export const SignUp = forwardRef((props: SignUpProps, ref: React.Ref<HTMLElement
           </Label>
           <Input
             size="small"
-            value={values?.username ?? ''}
+            value={signUpState?.username ?? ''}
             id="username"
             placeholder="Username"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('username', e.target.value)
             }
-            isError={values?.error?.username?.length ? true : false}
-            errorMessage={values?.error?.username}
+            isError={signUpState?.error?.username?.length ? true : false}
+            errorMessage={signUpState?.error?.username}
           />
         </Box>
+
         {/* Set password */}
         <Box sx={signUpStyle.inputGroupSx}>
           <Label rootStyle={signUpStyle.labelSx} htmlFor="password" isRequired>
             Set password
           </Label>
           <Input
-            id="setPassword"
+            id="password"
             type={showpassword ? 'text' : 'password'}
-            value={values?.setPassword ?? ''}
+            value={signUpState?.password ?? ''}
             size="small"
             placeholder="Set Password"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-              handleChange('setPassword', e.target.value)
+              handleChange('password', e.target.value)
             }
             endAdornment={
-              <IconButton aria-label="toggle password visibility" onClick={() => handleClickShowPassword()} edge="end">
+              <IconButton onClick={() => handleClickShowPassword()} edge="end">
                 {showpassword ? (
                   <VisibilityOff rootStyle={signUpStyle.eyeSx} />
                 ) : (
@@ -296,15 +163,54 @@ export const SignUp = forwardRef((props: SignUpProps, ref: React.Ref<HTMLElement
                 )}
               </IconButton>
             }
-            isError={values?.error?.setPassword?.length ? true : false}
-            errorMessage={values?.error.setPassword}
+            isError={signUpState?.error?.password?.length ? true : false}
+            errorMessage={signUpState?.error.password}
           />
         </Box>
+
+        {/* Confirm password */}
+        <Box sx={signUpStyle.inputGroupSx}>
+          <Label rootStyle={signUpStyle.labelSx} htmlFor="password" isRequired>
+            Confirm password
+          </Label>
+          <Input
+            id="confirmPassword"
+            type={showpassword ? 'text' : 'password'}
+            value={signUpState?.confirmPassword ?? ''}
+            size="small"
+            placeholder="Confirm Password"
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+              handleChange('confirmPassword', e.target.value)
+            }
+            endAdornment={
+              <IconButton onClick={() => handleClickShowPassword()} edge="end">
+                {showpassword ? (
+                  <VisibilityOff rootStyle={signUpStyle.eyeSx} />
+                ) : (
+                  <Visibility rootStyle={signUpStyle.eyeSx} />
+                )}
+              </IconButton>
+            }
+            isError={signUpState?.error?.confirmPassword?.length ? true : false}
+            errorMessage={signUpState?.error.confirmPassword}
+          />
+        </Box>
+
+        {/* Sign Up Button */}
         <Box sx={{ mt: 3, display: 'grid', gap: 3 }}>
-          <Button fullWidth sx={signUpStyle.loginButtonSx} onClick={() => signUpHit()} loading={loading}>
+          <Button fullWidth sx={signUpStyle.loginButtonSx} onClick={() => signUpHit()} loading={signUpLoading}>
             sign up
           </Button>
         </Box>
+
+        {/* Message */}
+        {signUpMessage.length > 0 && (
+          <Box mt={2}>
+            <Alert severity={signUpError ? 'error' : 'success'}>{signUpMessage}</Alert>
+          </Box>
+        )}
+
+        {/* Info */}
         <Box sx={{ display: 'flex', alignItems: 'center', pt: 3, justifyContent: 'center' }}>
           <Typography sx={signUpStyle.loginSx}>If you ve an account already?</Typography>
           <Link

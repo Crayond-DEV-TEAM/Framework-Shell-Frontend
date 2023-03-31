@@ -6,7 +6,7 @@ import { localStorageKeys } from '@core/utils/constants';
 import { create } from 'zustand';
 import { useRouting } from '../common';
 import { AuthStoreInterface } from '../interface';
-import { giveMeAuthInitialState } from '../utils';
+import { giveMeAuthInitialState, validateResetPasswordData, validateSignUpData } from '../utils';
 import { useUser } from './user';
 
 const initialState = giveMeAuthInitialState();
@@ -31,18 +31,36 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
   signUpError: false,
   forgotPasswordError: false,
   resetPasswordError: false,
+  resetSuccess: false,
 
   setSignInState: (payload: { key: string; value: string }) => {
     set((state) => ({ signInState: { ...state.signInState, [payload.key]: payload.value } }));
   },
   setSignUpState: (payload: { key: string; value: string }) => {
-    set((state) => ({ signUpState: { ...state.signUpState, [payload.key]: payload.value } }));
+    set((state) => ({
+      signUpState: {
+        ...state.signUpState,
+        [payload.key]: payload.value,
+        error: { ...state.signUpState.error, [payload.key]: '' },
+      },
+    }));
   },
   setForgotPasswordState: (payload: { key: string; value: string }) => {
     set((state) => ({ forgotPasswordState: { ...state.forgotPasswordState, [payload.key]: payload.value } }));
   },
   setRestPasswordState: (payload: { key: string; value: string }) => {
     set((state) => ({ resetPasswordState: { ...state.resetPasswordState, [payload.key]: payload.value } }));
+
+    const { resetPasswordState } = get();
+
+    const { isValid, message } = validateResetPasswordData(resetPasswordState);
+
+    if (!isValid) {
+      set({ resetPasswordMessage: message, resetPasswordError: true });
+      return false;
+    } else {
+      set({ resetPasswordMessage: '', resetPasswordError: false });
+    }
   },
 
   signIn: async () => {
@@ -84,14 +102,41 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
     try {
       const { signUpState } = get();
 
-      const payload: any = { ...signUpState, password: signUpState.confirmPassword };
-      delete payload.error;
-      delete payload.password;
+      const { isValid, error } = validateSignUpData(signUpState);
+
+      if (!isValid) {
+        set((state) => ({ signUpState: { ...state.signUpState, error } }));
+        return false;
+      }
+
+      const payload: any = {
+        first_name: signUpState.firstName,
+        last_name: signUpState.lastName,
+        email_id: signUpState.emailId,
+        mobile_no: signUpState.mobile,
+        username: signUpState.username,
+        password: signUpState.password,
+      };
 
       const response = await httpRequest('post', `${envConfig.auth_url}/sign_up`, payload);
 
       if (response?.status === 200) {
-        routeTo(useRouting, webRoutes.login);
+        let seconds = 1;
+        set({
+          signUpMessage:
+            'You have been Successfully Signed Up, You will rediected to Login Page in ' + seconds + ' seconds.',
+        });
+        const interval = setInterval(() => {
+          seconds += 1;
+          set({
+            signUpMessage:
+              'You have been Successfully Signed Up, You will rediected to Login Page in ' + seconds + ' seconds.',
+          });
+          if (seconds === 5) {
+            routeTo(useRouting, webRoutes.login);
+            clearInterval(interval);
+          }
+        }, 1000);
         return response?.status;
       } else {
         throw new Error('Internal Server Error');
@@ -113,7 +158,7 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
       const response = await httpRequest('put', `${envConfig.auth_url}/forgot_password`, forgotPasswordState);
 
       if (response?.status === 200) {
-        set({ forgotPasswordMessage: 'we have sent a link to reset your password, please check your email inbox' });
+        set({ forgotPasswordMessage: 'We have sent a link to reset your password, please check your email inbox' });
         return response?.status;
       } else {
         throw new Error('Internal Server Error');
@@ -128,9 +173,18 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
   },
 
   resetPassword: async (payload) => {
-    set({ resetPasswordLoading: true, resetPasswordMessage: '', resetPasswordError: false });
+    set({ resetPasswordLoading: true, resetPasswordMessage: '', resetPasswordError: false, resetSuccess: false });
     try {
       const { resetPasswordState } = get();
+
+      const { isValid, message } = validateResetPasswordData(resetPasswordState);
+
+      if (!isValid) {
+        set({ resetPasswordMessage: message, resetPasswordError: true });
+        return false;
+      } else {
+        set({ resetPasswordMessage: '', resetPasswordError: false });
+      }
 
       const response = await httpRequest(
         'put',
@@ -139,7 +193,25 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
         false,
         { headers: { Authorization: 'Bearer ' + payload.token } },
       );
+
       if (response?.status === 200) {
+        let seconds = 1;
+        set({
+          resetPasswordMessage:
+            'Your password has been reseted, You will rediected to Login Page in ' + seconds + ' seconds.',
+          resetSuccess: true,
+        });
+        const interval = setInterval(() => {
+          seconds += 1;
+          set({
+            resetPasswordMessage:
+              'Your password has been reseted, You will rediected to Login Page in ' + seconds + ' seconds.',
+          });
+          if (seconds === 5) {
+            routeTo(useRouting, webRoutes.login);
+            clearInterval(interval);
+          }
+        }, 1000);
         return response?.status;
       } else {
         throw new Error('Internal Server Error');
@@ -147,7 +219,7 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
     } catch (err: any) {
       log('error', err);
       const message = err?.response?.data?.message ?? 'Something went wrong while reseting the password!';
-      set({ resetPasswordMessage: message, resetPasswordError: true });
+      set({ resetPasswordMessage: message, resetPasswordError: true, resetSuccess: false });
     } finally {
       set({ resetPasswordLoading: false });
     }
@@ -159,6 +231,21 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
       signUpState: initialState.signUpState,
       forgotPasswordState: initialState.forgotPasswordState,
       resetPasswordState: initialState.resetPasswordState,
+
+      signInLoading: false,
+      signUpLoading: false,
+      forgotPasswordLoading: false,
+      resetPasswordLoading: false,
+
+      signInMessage: '',
+      signUpMessage: '',
+      forgotPasswordMessage: '',
+      resetPasswordMessage: '',
+
+      signInError: false,
+      signUpError: false,
+      forgotPasswordError: false,
+      resetPasswordError: false,
     });
     localStorage.removeItem(localStorageKeys.authToken);
     useUser.setState({ user: null });

@@ -5,11 +5,7 @@ import { signUpStyle } from './style';
 
 export default function SignUpPage() {
   return (
-    <Box
-      sx={{
-        ...signUpStyle.rootSx,
-      }}
-    >
+    <Box sx={{ ...signUpStyle.rootSx }}>
       <SignUp />
     </Box>
   );

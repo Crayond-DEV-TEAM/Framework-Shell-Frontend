@@ -2,8 +2,8 @@ import { Button } from '@atoms/button';
 import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
 import { webRoutes } from '@core/routes';
-import { useOnboarding } from '@core/store/framework-shell';
-import type { SxProps, Theme } from '@mui/material';
+import { useAuth, useOnboarding } from '@core/store/framework-shell';
+import { Alert, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { forwardRef, useEffect, useState } from 'react';
 import React from 'react';
@@ -21,84 +21,28 @@ export interface ForgotPasswordProps {
 export const ForgotPassword = forwardRef((props: ForgotPasswordProps, ref: React.Ref<HTMLElement>): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
 
-  const { user, forgotPassword, loading, setUser, handleLoginChange } = useOnboarding(
-    (state) => ({
-      forgotPassword: state.forgotPassword,
-      setUser: state.setUser,
-      user: state.userState,
-      handleLoginChange: state.handleLoginChange,
-      loading: state.loading,
-    }),
-    (prev, curr) => isEqual(prev, curr),
-  );
-  const [values, setValues] = useState(user);
+  const {
+    forgotPasswordState,
+    forgotPasswordMessage,
+    forgotPasswordLoading,
+    forgotPasswordError,
+    forgotPassword,
+    setForgotPasswordState,
+    clearAll,
+  } = useAuth();
 
-  const isInputsValid = () => {
-    let isValid = true;
-    const error = values?.error;
+  const handleChange = (key: string, value: string) => setForgotPasswordState({ key, value });
 
-    //Checking email
-    if (values.emailId.length === 0) {
-      isValid = false;
-      error.emailId = 'Email is required';
-    }
-    //validate email
-    if (values.emailId.length > 0 && !ValidateEmail(values?.emailId)) {
-      isValid = false;
-      error.emailId = 'Invalid email';
-    }
-    setValues({ ...values, error });
-    return isValid;
-  };
-
-  const handleChange = (key: any, val: any) => {
-    setValues({ ...values, [key]: val, error: { ...values.error, [key]: '' } });
-  };
-
-  const getLink = async () => {
-    if (isInputsValid()) {
-      const error = values?.error;
-      error.emailId = '';
-      setValues({ ...values, error });
-      // calling the forgotPassword api
-      const response: any = await forgotPassword(values);
-      if (response === 200) {
-        setValues({
-          ...values,
-          emailId: '',
-          error: {
-            ...user?.error,
-            emailId: '',
-          },
-        });
-      }
-    }
-  };
+  const getLink = () => forgotPassword();
 
   useEffect(() => {
-    setUser({
-      ...user,
-      error: {
-        emailId: '',
-      },
-    });
-    return setValues({
-      ...user,
-      error: {
-        ...user.error,
-        emailId: '',
-      },
-    });
+    clearAll();
+    // eslint-disable-next-line
   }, []);
 
   return (
     <Box
-      sx={[
-        {
-          ...forgotPasswordStyle.rootSx,
-        },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
+      sx={[{ ...forgotPasswordStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]}
       className={`${className}`}
       ref={ref}
       {...rest}
@@ -118,32 +62,37 @@ export const ForgotPassword = forwardRef((props: ForgotPasswordProps, ref: React
           <Input
             size="small"
             placeholder="Email ID"
-            value={values?.emailId ?? ''}
+            value={forgotPasswordState.email_id}
             id="emailId"
-            isError={values?.error?.emailId?.length ? true : false}
-            errorMessage={values?.error?.emailId ?? ''}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-              handleChange('emailId', e.target.value)
+              handleChange('email_id', e.target.value)
             }
           />
         </Box>
 
-        <Box sx={{ mt: 3, display: 'grid', gap: 3 }}>
-          <Button fullWidth sx={forgotPasswordStyle.loginButtonSx} onClick={() => getLink()} loading={loading}>
+        <Box sx={{ mt: 2, display: 'grid', gap: 3 }}>
+          <Button
+            fullWidth
+            sx={forgotPasswordStyle.loginButtonSx}
+            onClick={() => getLink()}
+            loading={forgotPasswordLoading}
+          >
             Get Link
           </Button>
         </Box>
 
-        <Box sx={{ paddingTop: '16px' }}>
+        {/* Message */}
+        {forgotPasswordMessage.length > 0 && (
+          <Box mt={2}>
+            <Alert severity={forgotPasswordError ? 'error' : 'success'}>{forgotPasswordMessage}</Alert>
+          </Box>
+        )}
+
+        <Box mt={2}>
           <Typography sx={forgotPasswordStyle.loginSx}>
             Remembered the password?
             <Link
-              style={{
-                color: '#353448',
-                fontWeight: '600',
-                textDecoration: 'underline',
-                paddingLeft: '5px',
-              }}
+              style={{ color: '#353448', fontWeight: '600', textDecoration: 'underline', paddingLeft: '5px' }}
               to={webRoutes.login}
             >
               Log In

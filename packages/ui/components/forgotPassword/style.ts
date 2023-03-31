@@ -43,7 +43,6 @@ export const forgotPasswordStyle: ForgotPasswordStyleProps = {
     textAlign: 'center',
     fontSize: '14px',
     color: '#5C6266',
-    pt: 3,
   },
   eyeSx: {
     width: '20px',

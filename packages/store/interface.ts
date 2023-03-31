@@ -7,13 +7,13 @@ export interface SignUpStateInterface {
   mobile: string;
   confirmPassword: string;
   error: {
-    username: boolean;
-    password: boolean;
-    firstName: boolean;
-    lastName: boolean;
-    emailId: boolean;
-    mobile: boolean;
-    confirmPassword: boolean;
+    username: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    emailId: string;
+    mobile: string;
+    confirmPassword: string;
   };
 }
 
@@ -59,10 +59,12 @@ export interface AuthStoreInterface {
   forgotPasswordError: boolean;
   resetPasswordError: boolean;
 
+  resetSuccess: boolean;
+
   signIn: () => void;
   signUp: () => void;
   forgotPassword: () => void;
-  resetPassword: (payload: { token: string }) => void;
+  resetPassword: (payload: { token: string | null }) => void;
   logOut: () => void;
   clearAll: () => void;
 }

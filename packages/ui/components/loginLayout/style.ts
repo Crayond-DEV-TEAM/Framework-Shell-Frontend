@@ -8,7 +8,7 @@ export const loginLayoutStyle: LoginLayoutStyleProps = {
   rootSx: {
     minHeight: '100vh',
     display: 'grid',
-    backgroundColor: 'background.page',
+    backgroundColor: '#F8F8F8',
     // px: {
     //   xs: 2,
     //   sm: 5,

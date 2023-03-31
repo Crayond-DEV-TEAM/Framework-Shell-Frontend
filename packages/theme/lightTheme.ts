@@ -19,9 +19,5 @@ export const lightTheme = {
       header: '#101010',
       transparent: '#5A5A5A',
     },
-    background: {
-      page: '#F8F8F8',
-      primaryBg: '#daede8',
-    },
   },
 };

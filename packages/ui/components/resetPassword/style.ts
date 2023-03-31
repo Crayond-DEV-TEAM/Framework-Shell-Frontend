@@ -55,7 +55,7 @@ export const resetPasswordStyle: ResetPasswordStyleProps = {
   },
   loginButtonSx: {
     textTransform: 'capitalize',
-    my: 3,
+    mt: 3,
   },
 
   bottomLineSx: {
@@ -63,6 +63,7 @@ export const resetPasswordStyle: ResetPasswordStyleProps = {
     justifyContent: 'center',
     alignItems: 'center',
     mx: 4.5,
+    mt: 2,
   },
   alreadySx: {
     color: 'typography.faded',

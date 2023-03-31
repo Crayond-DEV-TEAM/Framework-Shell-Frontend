@@ -129,7 +129,7 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
                   sx={{
                     padding: '4px',
                     borderRadius: '8px',
-                    backgroundColor: 'background.primaryBg',
+                    backgroundColor: '#daede8',
                     minWidth: 0,
                     mr: drawer ? 1 : 'auto',
                   }}

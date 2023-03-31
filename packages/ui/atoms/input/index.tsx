@@ -59,7 +59,7 @@ export function Input(props: InputProps): JSX.Element {
         maxRows={rowMax}
         minRows={rowMin}
         onChange={onChange}
-        helperText={helperText}
+        helperText={errorMessage}
         error={isError}
         className={`${className}`}
         InputProps={{
@@ -68,11 +68,6 @@ export function Input(props: InputProps): JSX.Element {
         }}
         {...rest}
       />
-      {isError && (
-        <Typography sx={{ mt: 0.5 }} variant="caption" color="error">
-          {errorMessage}
-        </Typography>
-      )}
     </>
   );
 }

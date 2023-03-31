@@ -3,13 +3,13 @@ import { Visibility, VisibilityOff } from '@atoms/icons';
 import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
 import { webRoutes } from '@core/routes';
-import { useOnboarding } from '@core/store';
+import { useAuth, useOnboarding } from '@core/store';
 import { localStorageKeys, parseJwt } from '@core/utils';
-import { IconButton, SxProps, Theme } from '@mui/material';
+import { Alert, IconButton, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { forwardRef, useEffect, useState } from 'react';
 import isEqual from 'react-fast-compare';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import { resetPasswordStyle } from './style';
 
@@ -21,117 +21,34 @@ export interface ResetPasswordProps {
 
 export const ResetPassword = forwardRef((props: ResetPasswordProps, ref: React.Ref<HTMLElement>): JSX.Element => {
   const { className = '', title = 'Reset Password', sx = {}, ...rest } = props;
-  const authToken = localStorage.getItem(localStorageKeys.authToken);
-  const data = parseJwt(authToken);
-  console.log(data, 'data');
 
-  const { user, setUser, resetPassword, loading, handleLoginChange } = useOnboarding(
-    (state) => ({
-      resetPassword: state.resetPassword,
-      user: state.userState,
-      setUser: state.setUser,
-      handleLoginChange: state.handleLoginChange,
-      loading: state.loading,
-    }),
-    (prev, curr) => isEqual(prev, curr),
-  );
-  // General Hooks
+  const [searchParams] = useSearchParams();
+
+  const {
+    resetPasswordState,
+    resetPasswordLoading,
+    resetPasswordError,
+    resetSuccess,
+    resetPasswordMessage,
+    resetPassword,
+    setRestPasswordState,
+    clearAll,
+  } = useAuth();
+
   const [showpassword, setPassword] = useState<boolean>(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
 
-  const [values, setValues] = useState(user);
+  const handleChange = (key: string, value: string) => setRestPasswordState({ key, value });
 
-  const isInputsValid = () => {
-    let isValid = true;
-    const error = values?.error;
-
-    // Checking password
-    if (values.password.length === 0) {
-      isValid = false;
-      error.password = 'New Password is required';
-    } else {
-      error.password = '';
-    }
-
-    if (values.password.length < 8) {
-      isValid = false;
-      error.password = 'Password must be at least 8 characters long';
-    } else if (!values.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/)) {
-      isValid = false;
-      error.password = 'Password must contain uppercase and lowercase letters, numbers, and special characters';
-    } else {
-      error.password = '';
-    }
-
-    // Checking Confirm password
-    if (values.confirmPassword.length === 0) {
-      isValid = false;
-      error.confirmPassword = ' Confirm password is required';
-    } else {
-      error.confirmPassword = '';
-    }
-    if (values?.confirmPassword.length > 0 && values.password !== values.confirmPassword) {
-      isValid = false;
-      error.confirmPassword = 'password does not matching';
-    }
-    setValues({ ...values, error });
-
-    return isValid;
-  };
-
-  const handleChange = (key: any, val: any) => {
-    setValues({ ...values, [key]: val, error: { ...values.error, [key]: '' } });
-  };
-
-  const resetPasswordFunc = async () => {
-    if (isInputsValid()) {
-      const error = values?.error;
-      error.password = '';
-      error.confirmPassword = '';
-      setValues({ ...values, error });
-      // calling the resetPassword api
-      const response: any = await resetPassword(values);
-      if (response === 200) {
-        setValues({
-          ...values,
-          password: '',
-          confirmPassword: '',
-          error: {
-            ...user?.error,
-            password: '',
-            confirmPassword: '',
-          },
-        });
-      }
-    }
-  };
+  const resetPasswordFunc = () => resetPassword({ token: searchParams.get('token') });
 
   useEffect(() => {
-    setUser({
-      ...user,
-      error: {
-        password: '',
-        confirmPassword: '',
-      },
-    });
-    return setValues({
-      ...user,
-      error: {
-        ...user.error,
-        password: '',
-        confirmPassword: '',
-      },
-    });
+    clearAll();
+    // eslint-disable-next-line
   }, []);
 
   return (
     <Box
-      sx={[
-        {
-          ...resetPasswordStyle.rootSx,
-        },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
+      sx={[{ ...resetPasswordStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]}
       className={`${className}`}
       ref={ref}
       {...rest}
@@ -146,18 +63,14 @@ export const ResetPassword = forwardRef((props: ResetPasswordProps, ref: React.R
           <Input
             id="password"
             type={showpassword ? 'text' : 'password'}
-            value={values?.password ?? ''}
+            value={resetPasswordState.password}
             placeholder="New password"
             size="small"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('password', e.target.value)
             }
             endAdornment={
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={() => setPassword((prevState) => !prevState)}
-                edge="end"
-              >
+              <IconButton onClick={() => setPassword((prevState) => !prevState)} edge="end">
                 {showpassword ? (
                   <VisibilityOff rootStyle={resetPasswordStyle.eyeSx} />
                 ) : (
@@ -165,8 +78,6 @@ export const ResetPassword = forwardRef((props: ResetPasswordProps, ref: React.R
                 )}
               </IconButton>
             }
-            isError={values?.error?.password ? true : false}
-            errorMessage={values?.error?.password ?? ''}
           />
         </Box>
         <Box sx={resetPasswordStyle.inputGroupSx}>
@@ -175,35 +86,43 @@ export const ResetPassword = forwardRef((props: ResetPasswordProps, ref: React.R
           </Label>
           <Input
             id="confirmPassword"
-            type={showConfirmPassword ? 'text' : 'password'}
-            value={values?.confirmPassword ?? ''}
+            type={showpassword ? 'text' : 'password'}
+            value={resetPasswordState.confirmPassword}
             size="small"
             placeholder="Confirm Password"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('confirmPassword', e.target.value)
             }
             endAdornment={
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={() => setShowConfirmPassword((prevState) => !prevState)}
-                edge="end"
-              >
-                {showConfirmPassword ? (
+              <IconButton onClick={() => setPassword((prevState) => !prevState)} edge="end">
+                {showpassword ? (
                   <VisibilityOff rootStyle={resetPasswordStyle.eyeSx} />
                 ) : (
                   <Visibility rootStyle={resetPasswordStyle.eyeSx} />
                 )}
               </IconButton>
             }
-            isError={values?.error?.confirmPassword ? true : false}
-            errorMessage={values?.error?.confirmPassword ?? ''}
           />
         </Box>
         <Box>
-          <Button onClick={() => resetPasswordFunc()} fullWidth sx={resetPasswordStyle.loginButtonSx}>
+          <Button
+            loading={resetPasswordLoading}
+            disabled={resetSuccess}
+            onClick={() => resetPasswordFunc()}
+            fullWidth
+            sx={resetPasswordStyle.loginButtonSx}
+          >
             Reset
           </Button>
         </Box>
+
+        {/* Message */}
+        {resetPasswordMessage.length > 0 && (
+          <Box mt={2}>
+            <Alert severity={resetPasswordError ? 'error' : 'success'}>{resetPasswordMessage}</Alert>
+          </Box>
+        )}
+
         <Box sx={resetPasswordStyle?.bottomLineSx}>
           <Typography sx={resetPasswordStyle?.alreadySx}>Remembered the password? </Typography>
           <Link
@@ -216,7 +135,7 @@ export const ResetPassword = forwardRef((props: ResetPasswordProps, ref: React.R
             }}
             to={webRoutes.login}
           >
-            Sign Up
+            Log In
           </Link>
         </Box>
       </Box>

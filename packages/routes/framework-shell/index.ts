@@ -1,8 +1,7 @@
 export const webRoutes = {
   login: '/login',
-  home: '/',
-  resetPassword: '/reset/id',
+  root: '/',
+  resetPassword: '/reset/:token',
   signup: '/signup',
   forgotpassword: '/forgotpassword',
-  // languageConfig: '/languageConfig',
 };

@@ -3,13 +3,11 @@ import { Visibility, VisibilityOff } from '@atoms/icons';
 import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
 import { webRoutes } from '@core/routes';
-import { useOnboarding } from '@core/store/framework-shell';
-import { ValidateEmail } from '@core/utils';
-import { IconButton, SxProps, Theme } from '@mui/material';
+import { useAuth } from '@core/store/framework-shell';
+import { Alert, IconButton, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import isEqual from 'react-fast-compare';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginStyle } from './style';
 
@@ -24,114 +22,27 @@ export function Login(props: LoginProps): JSX.Element {
 
   const navigate = useNavigate();
 
-  const { userState, signIn, setUser, loading, updateErrorOnboarding, handleLoginChange } = useOnboarding(
-    (state) => ({
-      signIn: state.signIn,
-      userState: state.userState,
-      setUser: state.setUser,
-      handleLoginChange: state.handleLoginChange,
-      updateErrorOnboarding: state.updateErrorOnboarding,
-      loading: state.loading,
-    }),
-    (prev, curr) => isEqual(prev, curr),
-  );
+  const { signInState, signInLoading, signInMessage, signInError, signIn, setSignInState, clearAll } = useAuth();
 
   const [showpassword, setPassword] = useState<boolean>(false);
 
-  const [values, setValues] = useState(userState);
+  const handleClickShowPassword = () => setPassword(!showpassword);
 
-  const handleClickShowPassword = () => {
-    setPassword(!showpassword);
-  };
+  const handleChange = (key: string, value: string) => setSignInState({ key, value });
 
-  const isInputsValid = () => {
-    let isValid = true;
-    const error = values?.error;
-
-    //  Checking username
-    if (values?.username.length === 0) {
-      isValid = false;
-      error.username = 'Enter a valid username';
-    } else {
-      error.username = '';
-    }
-
-    // Checking password
-    if (values?.password.length === 0) {
-      isValid = false;
-      error.password = 'Enter the password';
-    } else {
-      error.password = '';
-    }
-    setValues({ ...values, error });
-
-    return isValid;
-  };
-
-  // const handleChange = (val: any, key: any) => {
-  //   handleLoginChange(key, val);
-  // };
-
-  const handleChange = (key: any, val: any) => {
-    // values?.error[key] = '';
-    setValues({ ...values, [key]: val, error: { ...values.error, [key]: '' } });
-  };
-
-  const signInHIt = async () => {
-    if (isInputsValid()) {
-      const error = values?.error;
-      error.password = '';
-      error.emailId = '';
-      setValues({ ...values, error });
-      // calling the signin api
-
-      const response: any = await signIn(values);
-      if (response === 200) {
-        setValues({
-          ...values,
-          password: '',
-          emailId: '',
-          error: {
-            ...userState?.error,
-            password: '',
-            emailId: '',
-          },
-        });
-      }
-    }
-  };
+  const signInHIt = async () => signIn();
 
   useEffect(() => {
-    setUser({
-      ...userState,
-      error: {
-        password: '',
-        emailId: '',
-      },
-    });
-    return setValues({
-      ...userState,
-      error: {
-        ...userState.error,
-        password: '',
-        emailId: '',
-      },
-    });
+    clearAll();
+    // eslint-disable-next-line
   }, []);
 
   return (
-    <Box
-      sx={[
-        {
-          ...loginStyle.rootSx,
-        },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-      className={`${className}`}
-      {...rest}
-    >
+    <Box sx={[{ ...loginStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]} className={`${className}`} {...rest}>
       <Box sx={loginStyle.cardContentSx}>
         <Typography sx={loginStyle.signInSx}>Sign In</Typography>
+
+        {/* Username */}
         <Box sx={loginStyle.inputGroupSx}>
           <Label sx={loginStyle.labelSx} htmlFor="username">
             Username
@@ -139,30 +50,28 @@ export function Login(props: LoginProps): JSX.Element {
           <Input
             size="small"
             placeholder="username"
-            value={values?.username ?? ''}
+            value={signInState.username}
             id="username"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('username', e.target.value)
             }
-            isError={values?.error?.username ? true : false}
-            errorMessage={values?.error?.username ?? ''}
           />
         </Box>
+
+        {/* Password */}
         <Box sx={loginStyle.inputGroupSx}>
           <Label sx={loginStyle.labelSx} htmlFor="password" isRequired>
             password?
           </Label>
           <Input
             id="password"
-            type={showpassword ? 'password' : 'text'}
-            errorMessage={values?.error.password}
-            value={values?.password ?? ''}
+            type={showpassword ? 'text' : 'password'}
+            value={signInState.password}
             placeholder="password"
             size="small"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('password', e.target.value)
             }
-            isError={values?.error?.password?.length > 0}
             endAdornment={
               <IconButton aria-label="toggle password visibility" onClick={() => handleClickShowPassword()} edge="end">
                 {showpassword ? (
@@ -174,28 +83,32 @@ export function Login(props: LoginProps): JSX.Element {
             }
           />
         </Box>
+
+        {/* For Forgot Password */}
         <Typography sx={loginStyle?.ForgotSx} onClick={() => navigate(webRoutes.forgotpassword)}>
           Forgot Password ?
         </Typography>
+
+        {/* Login Button */}
         <Box>
-          <Button fullWidth sx={loginStyle.loginButtonSx} onClick={() => signInHIt()} loading={loading}>
-            login
+          <Button fullWidth sx={loginStyle.loginButtonSx} onClick={() => signInHIt()} loading={signInLoading}>
+            Login
           </Button>
         </Box>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+
+        {/* Message */}
+        {signInMessage.length > 0 && (
+          <Box mt={2}>
+            <Alert severity={signInError ? 'error' : 'success'}>{signInMessage}</Alert>
+          </Box>
+        )}
+
+        {/* For Sign Up */}
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} mt={2}>
           <Typography sx={loginStyle.loginSx}>If you dont have an account already?</Typography>
-          <Link
-            style={{
-              color: '#353448',
-              fontWeight: '600',
-              textDecoration: 'underline',
-              paddingLeft: '5px',
-              fontSize: '14px',
-            }}
-            to={webRoutes.signup}
-          >
+          <Typography sx={{ ...loginStyle?.ForgotSx, pt: 0, ml: 0.5 }} onClick={() => navigate(webRoutes.signup)}>
             Sign Up
-          </Link>
+          </Typography>
         </Box>
       </Box>
     </Box>

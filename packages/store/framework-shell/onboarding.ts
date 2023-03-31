@@ -1,11 +1,10 @@
 import { envConfig } from '@core/envconfig';
 import { log } from '@core/logger';
 import { messageRoutes, webRoutes } from '@core/routes';
-import { httpRequest, parseJwt, routeTo, ValidateEmail } from '@core/utils';
+import { httpRequest, parseJwt, routeTo } from '@core/utils';
 import { localStorageKeys } from '@core/utils/constants';
 import { enqueueSnackbar } from 'notistack';
 import { create } from 'zustand';
-
 import { useRouting } from '../common';
 import { useUser } from './user';
 
@@ -33,7 +32,7 @@ export interface UserStateProps {
 export interface OnboardingProps {
   userState: UserStateProps;
   loading: boolean;
-  // errorUpdate: () => void;
+  success: boolean;
   setUser: (payload: any) => void;
   signIn: (payload: any) => void;
   signUp: (payload: any) => void;
@@ -68,7 +67,7 @@ export const useOnboarding = create<OnboardingProps>((set, get) => ({
     },
   },
   loading: false,
-
+  success: false,
   // setUser
   setUser: (payload) => set({ userState: payload }),
 
@@ -88,9 +87,7 @@ export const useOnboarding = create<OnboardingProps>((set, get) => ({
       if (response?.status === 200 && response?.data?.data) {
         const token = response?.data?.data;
         const user = parseJwt(token);
-        useUser.setState({
-          user,
-        });
+        useUser.setState({ user });
         localStorage.setItem(localStorageKeys.authToken, token);
         enqueueSnackbar('Signed in successfully', { variant: 'success' });
         routeTo(useRouting, messageRoutes.languageConfig);

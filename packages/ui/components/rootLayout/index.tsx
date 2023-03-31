@@ -10,9 +10,7 @@ function RootLayout(): JSX.Element {
   useEffect(() => {
     if (route !== null) {
       navigate(route);
-      setTimeout(() => {
-        useRouting.setState({ route: null });
-      }, 1000);
+      useRouting.setState({ route: null });
     }
   }, [route]);
 

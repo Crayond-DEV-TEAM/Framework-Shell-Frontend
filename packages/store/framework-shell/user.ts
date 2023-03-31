@@ -1,33 +1,10 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { UserInterface } from '../interface';
+import { giveMeUserIntialState } from '../utils';
 
-export interface UserDataProps {
-  id: number;
-  username: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  gender: string;
-  image: string;
-  token: string;
-}
+const initialState = giveMeUserIntialState();
 
-export interface UserProps {
-  user?: null | UserDataProps;
-  setUser: (user: UserDataProps | null) => void;
-}
-
-export const useUser = create<UserProps>()(
-  persist(
-    (set) => ({
-      setUser: (user) => {
-        set({
-          user,
-        });
-      },
-    }),
-    {
-      name: 'user',
-    },
-  ),
-);
+export const useUser = create<UserInterface>((set, get) => ({
+  user: initialState,
+  setUser: (payload) => set({ [payload.key]: payload.value }),
+}));

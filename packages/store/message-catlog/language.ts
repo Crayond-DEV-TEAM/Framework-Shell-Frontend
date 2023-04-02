@@ -6,8 +6,6 @@ import { filterContent, localStorageKeys } from '@core/utils/constants';
 import { enqueueSnackbar } from 'notistack';
 import { create } from 'zustand';
 
-import { useRouting } from '../common';
-
 export interface LanguageProps {
   langState: any;
   selectedState: any;
@@ -43,7 +41,7 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
 
   // handle Group Change
   handleGroupChange: (key: string, value: any) => {
-    const { selectedState, topState } = get();
+    const { selectedState } = get();
     set({
       selectedState: {
         ...selectedState,
@@ -71,6 +69,7 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
       },
     });
   },
+
   handleLanguageChange: (data: any) => {
     const { addedLangState } = get();
 

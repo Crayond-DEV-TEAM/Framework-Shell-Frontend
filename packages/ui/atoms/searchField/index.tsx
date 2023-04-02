@@ -7,7 +7,7 @@ import { searchFieldStyle } from './style';
 
 export interface SearchFieldProps {
   className?: string;
-  startAdornment: any;
+  startAdornment?: any;
   endAdornment?: any;
   searchField_Style?: any;
   searchInputStyle?: any;

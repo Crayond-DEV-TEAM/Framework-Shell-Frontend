@@ -1,6 +1,7 @@
 import { DeleteIcon, EditIcon, ManIcon, MoreIcon } from '@atoms/icons';
 import { IconButton, Menu, MenuItem, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
+import CircleIcon from '@mui/icons-material/Circle';
 import { forwardRef, useState, useRef } from 'react';
 import { useHover } from 'ahooks';
 
@@ -10,11 +11,28 @@ export interface MessageCardProps {
   className?: string;
   sx?: SxProps<Theme>;
   title?: string;
+  onMessaageClick?: () => void;
+  onDelete?: () => void;
+  isActive?: boolean;
+  index?: any;
+  select?: any;
+  onEdit?: () => void;
   open?: boolean;
 }
 
 export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => {
-  const { className = '', sx = {}, title, ...rest } = props;
+  const {
+    className = '',
+    sx = {},
+    isActive,
+    onMessaageClick = () => false,
+    onDelete = () => false,
+    onEdit = () => false,
+    select,
+    index,
+    title,
+    ...rest
+  } = props;
   // const [open, setOpen] = useState<boolean>(false);
   const ref = useRef(null);
   const isHovering = useHover(ref);
@@ -50,48 +68,43 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
       ref={ref}
       {...rest}
     >
-      <Box sx={messageCardStyle.messageCard}>
-        <Box sx={messageCardStyle.dot}></Box>
-        <Typography sx={messageCardStyle.messageTitle}>{title}</Typography>
-      </Box>
-      <Box>
-        {/* {isHovering ? (
-          <IconButton
-            disableRipple
-            onClick={handleClick}
-            aria-owns={anchorEl ? 'simple-menu' : undefined}
-            aria-haspopup="true"
-          >
-            <MoreIcon rootStyle={{ width: '3px', height: '13px', cursor: 'pointer', opacity: anchorEl ? 0.5 : 1 }} />
-          </IconButton>
-        ) : (
-          ''
-        )} */}
-      </Box>
-      <IconButton
-        disableRipple
-        onClick={handleClick}
-        aria-owns={anchorEl ? 'simple-menu' : undefined}
-        aria-haspopup="true"
+      <Box
+        sx={{ ...messageCardStyle.messageCard, backgroundColor: select === index ? '#EAF1EF' : 'none' }}
+        onClick={onMessaageClick}
       >
-        <MoreIcon rootStyle={{ width: '3px', height: '13px', cursor: 'pointer', opacity: anchorEl ? 0.5 : 1 }} />
-      </IconButton>
-      <Menu open={open} anchorEl={anchorEl} onClose={handleClose} sx={messageCardStyle.menuSx}>
-        <MenuItem>
-          <Box sx={messageCardStyle.profileSec}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          {isActive ? (
+            <CircleIcon sx={{ ...messageCardStyle.dot, color: '#357968' }} />
+          ) : (
+            <CircleIcon sx={{ ...messageCardStyle.dot, color: '#FF4D4A' }} />
+          )}
+          <Typography sx={messageCardStyle.messageTitle}>{title}</Typography>
+        </Box>
+
+        <IconButton
+          disableRipple
+          onClick={handleClick}
+          aria-owns={anchorEl ? 'simple-menu' : undefined}
+          aria-haspopup="true"
+          // onMouseOver={handleClick}
+        >
+          <MoreIcon rootStyle={{ width: '3px', height: '13px', cursor: 'pointer', opacity: anchorEl ? 0.5 : 1 }} />
+        </IconButton>
+        <Menu open={open} anchorEl={anchorEl} onClose={handleClose} sx={messageCardStyle.menuSx}>
+          <MenuItem onClick={onEdit} sx={{ justifyContent: 'space-between' }}>
             <Typography sx={messageCardStyle.menutext}>Edit</Typography>
-            <Box>
+            <IconButton disableRipple sx={{ p: 0 }}>
               <EditIcon rootStyle={{ width: '18px', height: '18px', cursor: 'pointer' }} />
-            </Box>
-          </Box>
-        </MenuItem>
-        <MenuItem>
-          <Box sx={messageCardStyle.profileSec}>
+            </IconButton>
+          </MenuItem>
+          <MenuItem onClick={onDelete}>
             <Typography sx={messageCardStyle.menutext}>Delete</Typography>
-            <DeleteIcon rootStyle={{ width: '18px', height: '18px', cursor: 'pointer' }} />
-          </Box>
-        </MenuItem>
-      </Menu>
+            <IconButton disableRipple sx={{ p: 0 }}>
+              <DeleteIcon rootStyle={{ width: '18px', height: '18px', cursor: 'pointer' }} />
+            </IconButton>
+          </MenuItem>
+        </Menu>
+      </Box>
     </Box>
   );
 });

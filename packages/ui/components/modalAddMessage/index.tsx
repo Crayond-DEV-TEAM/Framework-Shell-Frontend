@@ -8,11 +8,13 @@ import { modalAddMessageStyle } from './style';
 
 export interface ModalAddMessageProps {
   className?: string;
+  handleChange?: (key: string, value: string) => void;
+  groupState?: any;
   sx?: SxProps<Theme>;
 }
 
 export const ModalAddMessage = forwardRef((props: ModalAddMessageProps, ref: React.Ref<HTMLElement>): JSX.Element => {
-  const { className = '', sx = {}, ...rest } = props;
+  const { className = '', sx = {}, handleChange = () => false, groupState, ...rest } = props;
 
   return (
     <Box
@@ -26,42 +28,46 @@ export const ModalAddMessage = forwardRef((props: ModalAddMessageProps, ref: Rea
       ref={ref}
       {...rest}
     >
-      <Box sx={modalAddMessageStyle.inputGroupSx}>
-        <Label sx={modalAddMessageStyle.labelSx} htmlFor="username">
-          Title
-        </Label>
-        <Input
-          size="small"
-          placeholder="username"
-          value="Sign In"
-          id="username"
-          // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-          //   handleChange('username', e.target.value)
-          // }
-          // isError={values?.error?.username ? true : false}
-          // errorMessage={values?.error?.username ?? ''}
-        />
+      <Box sx={{ px: 3, py: 1 }}>
+        <Box sx={modalAddMessageStyle.inputGroupSx}>
+          <Label sx={modalAddMessageStyle.labelSx} htmlFor="username">
+            Title
+          </Label>
+          <Input
+            size="small"
+            placeholder="username"
+            value={groupState?.addTitle}
+            id="username"
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+              handleChange('addTitle', e.target.value)
+            }
+            textFieldStyle={modalAddMessageStyle.inputSx}
+            // isError={values?.error?.username ? true : false}
+            // errorMessage={values?.error?.username ?? ''}
+          />
+        </Box>
+        <Box sx={modalAddMessageStyle.inputGroupSx}>
+          <Label sx={modalAddMessageStyle.labelSx} htmlFor="username">
+            Descriptionss
+          </Label>
+          <Input
+            size="small"
+            placeholder="Add description"
+            value={groupState?.addDescription}
+            id="username"
+            // textFieldStyle={{ height: '112px' }}
+            rows={5}
+            rowsMax={10}
+            textFieldStyle={modalAddMessageStyle.inputSx}
+            isMulti={true}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+              handleChange('addDescription', e.target.value)
+            }
+            // isError={values?.error?.username ? true : false}
+            // errorMessage={values?.error?.username ?? ''}
+          />
+        </Box>
       </Box>
-      <Box sx={{ m: 2 }} />
-      <Box sx={modalAddMessageStyle.inputGroupSx}>
-        <Label sx={modalAddMessageStyle.labelSx} htmlFor="username">
-          Description
-        </Label>
-        <Input
-          size="small"
-          placeholder="Add description"
-          //value="Sign In"
-          //id="username"
-          textFieldStyle={{ height: '112px' }}
-          rowMax={5}
-          // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-          //   handleChange('username', e.target.value)
-          // }
-          // isError={values?.error?.username ? true : false}
-          // errorMessage={values?.error?.username ?? ''}
-        />
-      </Box>
-      <Box sx={{ p: 4 }} />
     </Box>
   );
 });

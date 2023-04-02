@@ -26,4 +26,8 @@ export const tableHeaderStyle: TableHeaderStyleProps = {
     borderRadius: '8px',
     textTransform: 'capitalize',
   },
+  dialogSx: {
+    width: '904px',
+    height: '550px',
+  },
 };

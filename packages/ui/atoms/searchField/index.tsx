@@ -1,3 +1,4 @@
+import { MenuItem } from '@material-ui/core';
 import { InputAdornment, SxProps, TextField, Theme } from '@mui/material';
 import { Box } from '@mui/material';
 import { forwardRef } from 'react';
@@ -6,27 +7,33 @@ import { searchFieldStyle } from './style';
 
 export interface SearchFieldProps {
   className?: string;
-  startAdornment: any;
-  endAdornment: any;
+  startAdornment?: any;
+  endAdornment?: any;
   searchField_Style?: any;
   searchInputStyle?: any;
   totalSearchSx?: any;
   placeholder?: string;
   setOnSearch?: any;
-  onSearch?: () => void;
+  select?: boolean;
+  onSearch?: string;
   sx?: SxProps<Theme>;
+  selectOption?: Array<any>;
+  onclick?: () => void;
 }
 
 export const SearchField = forwardRef((props: SearchFieldProps): JSX.Element => {
   const {
-    startAdornment,
+    startAdornment = '',
     endAdornment,
     searchField_Style = {},
     searchInputStyle = {},
+    selectOption = [],
     placeholder = '',
-    setOnSearch = () => false,
+    setOnSearch = () => true,
     totalSearchSx = {},
+    select = true,
     onSearch = '',
+    onclick = () => false,
   } = props;
 
   // const [onSearch, setOnSearch] = useState<string>('');
@@ -38,12 +45,14 @@ export const SearchField = forwardRef((props: SearchFieldProps): JSX.Element => 
     <Box sx={{ ...searchFieldStyle.searchBoxSx, ...totalSearchSx }}>
       {/* Searchfield */}
       <TextField
+        onClick={onclick}
         placeholder={placeholder}
         sx={{ ...searchFieldStyle.searchFieldSx, ...searchField_Style }}
         variant="outlined"
-        onChange={(e) => setOnSearch(e.target.value)}
+        onChange={setOnSearch}
         // onChange={(e: any) => handleSearchChange(e.target.value)}
         value={onSearch}
+        select={select}
         fullWidth
         InputProps={{
           startAdornment: (
@@ -57,7 +66,13 @@ export const SearchField = forwardRef((props: SearchFieldProps): JSX.Element => 
             </InputAdornment>
           ),
         }}
-      />
+      >
+        {selectOption?.map((option: any) => (
+          <MenuItem key={option?.value} value={option?.value}>
+            {option?.label}
+          </MenuItem>
+        ))}
+      </TextField>
     </Box>
   );
 });

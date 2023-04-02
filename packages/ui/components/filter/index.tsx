@@ -18,6 +18,7 @@ export interface FilterProps {
   SubTitle?: string;
   footer?: Node;
   onChange?: () => void;
+  onApply?: () => void;
   handleChipDelete?: (chip: string, i: any, parentIndex: any) => void;
   filterContent?: any;
   sx?: SxProps<Theme>;
@@ -31,6 +32,7 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
     footer = false,
     SubTitle = 'severity',
     onChange = () => null,
+    onApply = () => false,
     handleChipDelete = () => null,
     filterContent,
     ...rest
@@ -44,9 +46,14 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
     index: null,
     editData: null,
   });
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const onApplyBtn = () => {
+    onApply();
+    setSideContent(null);
+    setAnchorEl(null);
   };
 
   //FIlter Function
@@ -273,7 +280,7 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
                             <Box sx={filterStyle.footerSx}>
                               <Box sx={filterStyle.subFooterSx}>
                                 <Button buttonStyle={filterStyle.footerCancelBtn}>Cancel</Button>
-                                <Button buttonStyle={filterStyle.footerBtn}> Apply</Button>
+                                <Button buttonStyle={filterStyle.footerBtn}>Apply</Button>
                               </Box>
                             </Box>
                           )}
@@ -296,7 +303,9 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
                     <Button buttonStyle={filterStyle.footerCancelBtn} onClick={filterClose}>
                       Cancel
                     </Button>
-                    <Button buttonStyle={filterStyle.footerBtn}> Apply</Button>
+                    <Button buttonStyle={filterStyle.footerBtn} onClick={onApplyBtn}>
+                      Apply
+                    </Button>
                   </Box>
                 </Box>
               </Box>

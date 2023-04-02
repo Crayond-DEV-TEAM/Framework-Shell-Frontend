@@ -16,9 +16,10 @@ export const messageTableStyle: MessageTableStyleProps = {
     },
     padding: '0px 10px',
     borderRadius: '8px',
+    height: '70vh',
   },
   totalTableSx: {
-    margin: '31px 10px',
+    margin: '26px 10px',
   },
   // addSx: { width: '100%', maxWidth: '230px', margin: '0px 21px' },
 };

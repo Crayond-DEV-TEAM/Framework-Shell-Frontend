@@ -14,5 +14,11 @@ export const addMessageGroupStyle: AddMessageGroupStyleProps = {
   inputGroupSx: {
     display: 'grid',
     gap: 1,
+    pb: 2,
+  },
+  inputSx: {
+    '& .MuiOutlinedInput-input': {
+      fontWeight: 500,
+    },
   },
 };

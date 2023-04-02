@@ -16,7 +16,7 @@ export interface DropDownProps {
   selectOption?: Array<any>;
   isError?: any;
   placeholder?: string;
-  onchange?: () => void;
+  onchange?: any;
   onClick?: () => void;
   // IconComponent: NodeJS;
 }
@@ -62,7 +62,7 @@ export const DropDown = forwardRef((props: DropDownProps, ref: React.Ref<HTMLEle
       >
         {selectOption?.map((option) => (
           <MenuItem key={option?.value} value={option?.value}>
-            {option?.label}
+            {option?.language?.label}
           </MenuItem>
         ))}
       </Select>

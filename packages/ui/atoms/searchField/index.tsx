@@ -15,7 +15,7 @@ export interface SearchFieldProps {
   placeholder?: string;
   setOnSearch?: any;
   select?: boolean;
-  onSearch?: string;
+  onSearch?: any;
   sx?: SxProps<Theme>;
   selectOption?: Array<any>;
   onclick?: () => void;

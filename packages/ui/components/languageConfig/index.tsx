@@ -27,6 +27,7 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     languagedisplay,
     handleGroupChange,
     addedlanguagedisplay,
+    handleChipDelete,
     handleDropChange,
     addedLangState,
     dropState,
@@ -36,11 +37,13 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     savelangState,
     responseState,
     statusState,
+    topState,
   } = useLanguage((state) => ({
     languagedisplay: state.languagedisplay,
     langState: state.langState,
     handleGroupChange: state.handleGroupChange,
     handleLanguageChange: state.handleLanguageChange,
+    handleChipDelete: state.handleChipDelete,
     handleDropChange: state.selectedState,
     addedLangState: state.addedLangState,
     addedlanguagedisplay: state.addedlanguagedisplay,
@@ -52,36 +55,29 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     savelangState: state.savelangState,
     responseState: state.responseState,
     statusState: state.statusState,
+    topState: state.topState,
   }));
-  console.log(statusState, 'console.log(addedLangStat;');
-  console.log(addedLangState, 'jhdkjhk');
+  console.log(topState, 'jhdkjhk');
   const { className = '', sx = {}, select = '', payload = {}, ...rest } = props;
-  const [chipData, setChipData] = useState<readonly ChipData[]>([
-    { key: 0, label: 'English' },
-    { key: 1, label: 'Tamil' },
-    { key: 2, label: 'Hindi' },
-    { key: 3, label: 'Arabic' },
-  ]);
-  const [onSearch, setOnSearch] = useState('');
+  const [chipData, setChipData] = useState();
+  const [onSearch, setOnSearch] = useState([]);
   const [drop, setDrop] = useState('');
   const [check, setCheck] = useState([]);
   const [lang, setLang] = useState([]);
-  const handleDelete = (chipToDelete: ChipData) => () => {
-    setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
-  };
-  const langSearch = async () => {
-    const response = await languagedisplay();
-    convertArrayToObject(langState);
-  };
+
   const convertArrayToObject = (langState: any) => {
     const array = [];
-    for (const data of langState) {
-      const obj = {
-        label: data.language_name,
-        value: data.language_name,
-      };
-      array.push(obj);
+    if (Array.isArray(langState) && langState?.length > 0) {
+      for (const data of langState) {
+        const obj = {
+          label: data.language_name,
+          value: data.language_name,
+          name: data.language_name,
+        };
+        array.push(obj);
+      }
     }
+
     setCheck(array);
   };
 
@@ -91,37 +87,44 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
   };
 
   const convertArrayObjectTwo = (addedLangState: any) => {
-    const array = [];
-    for (const data of addedLangState) {
-      const obj = {
-        label: data.language.label,
-        value: data.language.value,
-      };
-      array.push(obj);
+    const arrayy = [];
+    if (Array.isArray(langState) && langState?.length > 0) {
+      for (const data of addedLangState) {
+        const obj = {
+          label: data.language.label,
+          value: data.language.value,
+        };
+        arrayy.push(obj);
+      }
     }
-    setLang(array);
+
+    setLang(arrayy);
   };
 
   const saveLang = async () => {
-    const payloadsave = selectedState.selectedState;
-    const res = await savelanguages(payloadsave);
+    const languagePayload = addedLangState?.map((e: any, i: any) => {
+      return {
+        language: e?.language?.label,
+        is_default: e?.is_default,
+      };
+    });
+    console.log(languagePayload, 'languagePayload');
+    const res = await savelanguages(languagePayload);
     addLangdisp();
+    setOnSearch([]);
+    responseState();
   };
+
   const searchfunc = (val: any) => {
     setOnSearch(val?.target?.value);
     handleGroupChange('selectedState', val?.target?.value);
     handleLanguageChange([{ language: { label: val?.target?.value } }]);
   };
-  console.log(handleLanguageChange, 'handleLanguageChange');
+
   const handledropopen = (val: any) => {
     handleGroupChange('dropState', val?.target?.value);
     setDrop(val?.target?.value);
   };
-
-  // const addingFunc = () => {
-  //   const a = selectedState + '' + addedLangState.language.language_name;
-  //   console.log(a, 'addingFunc');
-  // };
 
   const initialData = async () => {
     const languageResponse = await languagedisplay();
@@ -129,6 +132,7 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     const displan = await addLangdisp();
     convertArrayObjectTwo(displan);
   };
+
   useEffect(() => {
     initialData();
   }, []);
@@ -168,19 +172,19 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography sx={languageConfigStyle.default}>Default Language</Typography>
             <Box sx={{ width: '172px', height: '36px', pl: 1 }}>
-              <DropDown value={drop} selectOption={lang} onchange={handledropopen} />
+              <DropDown value={drop} selectOption={addedLangState} onchange={handledropopen} />
             </Box>
           </Box>
         </Box>
         <Box sx={languageConfigStyle.content}>
           <Grid container spacing={1}>
-            {addedLangState?.map((data: any) => {
+            {addedLangState?.map((data: any, i: number) => {
               return (
-                <Grid item key={data.key}>
+                <Grid item key={i}>
                   <Chip
                     sx={{ backgroundColor: 'primary.main', width: 'auto', py: '10px', color: '#fff' }}
-                    label={data.language.label}
-                    onDelete={handleDelete(data)}
+                    label={data?.language?.label}
+                    onDelete={() => handleChipDelete(i)}
                     deleteIcon={<DeleteChip height={'12px'} width={'12px'} />}
                   />
                 </Grid>
@@ -197,7 +201,6 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
               justifyContent: 'flex-end',
             }}
           >
-            {/* {statusState === 200 ? ( */}
             {onSearch.length === 0 ? (
               ''
             ) : (

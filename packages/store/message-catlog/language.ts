@@ -6,6 +6,8 @@ import { filterContent, localStorageKeys } from '@core/utils/constants';
 import { enqueueSnackbar } from 'notistack';
 import { create } from 'zustand';
 
+import { useRouting } from '../common';
+
 export interface LanguageProps {
   langState: any;
   selectedState: any;
@@ -18,7 +20,7 @@ export interface LanguageProps {
   handleGroupChange: (key: string, value: any) => void;
   handleLanguageChange: (data: any) => void;
   handleDropChange: (key: string, value: any) => void;
-  handleChipDelete: (label: string, index: number, parentIndex: number) => void;
+  handleChipDelete: (index: number) => void;
   languagedisplay: () => void;
   addedlanguagedisplay: (payload: any) => void;
   savelanguages: (payload: any) => void;
@@ -41,7 +43,7 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
 
   // handle Group Change
   handleGroupChange: (key: string, value: any) => {
-    const { selectedState } = get();
+    const { selectedState, topState } = get();
     set({
       selectedState: {
         ...selectedState,
@@ -55,17 +57,6 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
       dropState: {
         ...dropState,
         [key]: value,
-      },
-    });
-  },
-
-  // handle Chip Delete
-  handleChipDelete: (label: string, index: number, parentIndex: number) => {
-    const { langState } = get();
-    langState.filterContent[parentIndex].children[index].value = false;
-    set({
-      langState: {
-        ...langState,
       },
     });
   },
@@ -153,12 +144,7 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
             'post',
             `${envConfig.api_url}/config_languages/config_language`,
             {
-              languages: [
-                {
-                  language: payload ?? '',
-                  is_default: true,
-                },
-              ],
+              languages: payload,
             },
             true,
           );
@@ -181,4 +167,26 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
       enqueueSnackbar('Something went wrong please try again!', { variant: 'error' });
     }
   },
+
+  handleChipDelete: (index: number) => {
+    const { addedLangState } = get();
+    const addedLangStateCopy = addedLangState.filter((_: string, i: any) => i !== index);
+    set({
+      addedLangState: addedLangStateCopy,
+    });
+  },
+
+  // clearState: () => {
+  //   set({
+  //     langState: null,
+  //     dropState: null,
+  //     selectedState: null,
+  //     addedLangState: null,
+  //     savelangState: null,
+  //     responseState: null,
+  //     statusState: null,
+  //     loading: false,
+  //     topState: null,
+  //   });
+  // },
 }));

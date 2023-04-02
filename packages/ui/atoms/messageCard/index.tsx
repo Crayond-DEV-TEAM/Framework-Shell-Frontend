@@ -91,7 +91,7 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
           <MoreIcon rootStyle={{ width: '3px', height: '13px', cursor: 'pointer', opacity: anchorEl ? 0.5 : 1 }} />
         </IconButton>
         <Menu open={open} anchorEl={anchorEl} onClose={handleClose} sx={messageCardStyle.menuSx}>
-          <MenuItem onClick={onEdit}>
+          <MenuItem onClick={onEdit} sx={{ justifyContent: 'space-between' }}>
             <Typography sx={messageCardStyle.menutext}>Edit</Typography>
             <IconButton disableRipple sx={{ p: 0 }}>
               <EditIcon rootStyle={{ width: '18px', height: '18px', cursor: 'pointer' }} />

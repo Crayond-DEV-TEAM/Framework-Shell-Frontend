@@ -10,6 +10,7 @@ export const languageCardStyle: LanguageCardStyleProps = {
     backgroundColor: '#F7F7F7',
     borderRadius: '8px',
     width: '100%',
+    mb: 1,
   },
   labelSx: {
     fontSize: '12px',
@@ -19,5 +20,11 @@ export const languageCardStyle: LanguageCardStyleProps = {
   inputGroupSx: {
     display: 'grid',
     gap: 1,
+  },
+  inputSx: {
+    '& .MuiOutlinedInput-input': {
+      fontWeight: 500,
+    },
+    backgroundColor: 'primary.contrastText',
   },
 };

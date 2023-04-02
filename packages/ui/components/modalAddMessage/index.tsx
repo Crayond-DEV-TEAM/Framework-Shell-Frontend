@@ -41,6 +41,7 @@ export const ModalAddMessage = forwardRef((props: ModalAddMessageProps, ref: Rea
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('addTitle', e.target.value)
             }
+            textFieldStyle={modalAddMessageStyle.inputSx}
             // isError={values?.error?.username ? true : false}
             // errorMessage={values?.error?.username ?? ''}
           />
@@ -57,6 +58,7 @@ export const ModalAddMessage = forwardRef((props: ModalAddMessageProps, ref: Rea
             // textFieldStyle={{ height: '112px' }}
             rows={5}
             rowsMax={10}
+            textFieldStyle={modalAddMessageStyle.inputSx}
             isMulti={true}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('addDescription', e.target.value)

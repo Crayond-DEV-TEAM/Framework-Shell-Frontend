@@ -5,7 +5,7 @@ import { AddMessage, TableHeader } from '..';
 import { forwardRef, useEffect } from 'react';
 import { useState } from 'react';
 import { messageTableStyle } from './style';
-import { useMessageGroup } from '@core/store';
+import { useLanguage, useMessageGroup } from '@core/store';
 import { CommonTable } from 'crayond-components-library-1';
 import isEqual from 'react-fast-compare';
 import { DeleteIcon, EditIcon } from '@atoms/icons';
@@ -23,10 +23,8 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     groupState,
     status,
     severtiy,
-    addMessage,
     language,
     setstatus,
-    messageGroup,
     editTableMessage,
     getStatus,
     tableMessageData,
@@ -73,51 +71,34 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       return false;
     },
   );
+
+  const { addedLangState, addedlanguagedisplay } = useLanguage((state) => ({
+    addedLangState: state.addedLangState,
+    addedlanguagedisplay: state.addedlanguagedisplay,
+  }));
+
   const { filterContent } = groupState;
+
   // General Hooks
-  const [isSelectedAll, setIsSelectedAll] = useState(false);
-  const [selectedCheckbox, setSelectedCheckbox] = useState([1, 2]);
+  // const [isSelectedAll, setIsSelectedAll] = useState(false);
+  // const [selectedCheckbox, setSelectedCheckbox] = useState([1, 2]);
   const [switchList, setSwitchList] = useState(setstatus);
-  const [headerSelect, setHederSelect] = useState('');
-  const [headerCheckbox, setHederCheckbox] = useState(true);
+  // const [headerSelect, setHederSelect] = useState('');
+  // const [headerCheckbox, setHederCheckbox] = useState(true);
   const [open, setOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [messageGroupId, setMessageGroupId] = useState('');
-
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredMessageGroup = tableMessageData?.filter((x: any) =>
     x.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  // CheckBox Change Func
-  const checkboxHandleChange = (data: any) => {
-    if (!selectedCheckbox.includes(data)) {
-      setSelectedCheckbox([...selectedCheckbox, data]);
-    } else {
-      const index = selectedCheckbox.indexOf(data);
-      if (index > -1) {
-        selectedCheckbox.splice(index, 1);
-        setSelectedCheckbox([...selectedCheckbox]);
-      }
-    }
+  const changehandle = (key: any, value: any) => {
+    handleStateChange(key, value);
   };
 
-  const setHederSearch = (value: any) => {
-    console.log('🚀 ~ file: App.tsx:31 ~ setHederSearch ~ value:', value);
-  };
-
-  const SelectAll = (data: any, isRestSet: any) => {
-    if (!isRestSet) {
-      setSelectedCheckbox([...data]);
-      setIsSelectedAll(true);
-    } else {
-      setSelectedCheckbox([]);
-      setIsSelectedAll(false);
-    }
-  };
-
-  const handleSwitch = (id: any, e: any) => {
+  const handleSwitch = (id: string, e: any) => {
     if (!switchList.includes(id)) {
       setSwitchList([...switchList, id]);
     } else {
@@ -219,6 +200,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       editHandel: (id: any) => {
         getTable(id);
         setOpen(true);
+        setIsEdit(true);
       },
       deleteHandel: (id: any) => {
         const msgId = tableMessageData
@@ -234,16 +216,23 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   ];
 
   const addMessageTableFun = async () => {
+    await addedlanguagedisplay({});
     if (isEdit) {
       await tableEditMessage(editTableMessage);
     } else {
-      await addMessageTable();
+      const languagePayload = addedLangState?.map((e: any, i: any) => {
+        return {
+          configuration_id: e?.id,
+          message: e?.language?.label,
+        };
+      });
+      await addMessageTable(languagePayload, messageGroupId);
     }
     setOpen(false);
     await getAllTableGroup(messageGroupId);
   };
 
-  const onMessageTable = async (key: any, value: any) => {
+  const onMessageTable = async (key: any, value: string) => {
     const tableResponse = await getAllTableGroup(key?.id);
     setMessageGroupId(key?.id);
   };
@@ -285,12 +274,16 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   };
 
   const initialData = async () => {
-    const response = await getAllMessageGroup();
+    const response: any = await getAllMessageGroup();
     if (response?.[0]?.id) {
       await getAllTableGroup(response?.[0]?.id);
       setMessageGroupId(response?.[0]?.id);
     }
     await getSeverityDetails();
+  };
+
+  const openAddMessage = () => {
+    addedlanguagedisplay({});
   };
 
   useEffect(() => {
@@ -345,7 +338,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                 padding: '8px',
               }}
               tableMinWidth={'1500px'}
-              //tableMinHeight={'561px'}
+              tableMinHeight={'50vh'}
               paddingAll={'0px'}
               marginAll={'0px 0px 0px'}
               dense={'small'}
@@ -356,19 +349,21 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                     filterContent={filterContent}
                     onChange={handleGroupChange}
                     handleChipDelete={handleChipDelete}
-                    handleStateChange={handleStateChange}
+                    handleStateChange={changehandle}
                     options={severtiy}
                     status={status}
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
-                    // openAddMessage={openAddMessage}
+                    openAddMessage={openAddMessage}
                     open={open}
+                    isEdit={isEdit}
                     setOpen={setOpen}
                     language={language}
                     editTableMessage={editTableMessage}
                     addMessageTable={addMessageTableFun}
                     updateStatusReport={updateStatusReport}
                     onApply={onApply}
+                    addedLangState={addedLangState}
                   />
                 ),
               }}

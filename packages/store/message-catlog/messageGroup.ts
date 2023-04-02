@@ -31,16 +31,16 @@ export interface MessageGroupProps {
   messageGroupId?: any;
   tableMessageData?: any;
   getAllTableGroup: (id: string) => void;
-  deleteMessage: (id: any) => void;
+  deleteMessage: (id: string) => void;
   getStatus: (payload: any) => void;
   filterTableContent: (serverityFilter: any, createdOn: any, updateOn: any, messageGroupId: any) => void;
-  editMessage: (payload: any, isEdit: any) => void;
+  editMessage: (payload: any, isEdit: boolean) => void;
   getAllMessageGroup: () => void;
-  get: (id: any) => void;
+  get: (id: string) => void;
   addMessageGroup: () => void;
-  getTable: (id: any) => void;
+  getTable: (id: string) => void;
   updateStatusReport: (satus: any) => void;
-  addMessageTable: () => void;
+  addMessageTable: (languagePayload: any, messageGroupId: any) => void;
   tableEditMessage: (payload: any) => void;
   deleteTableMessage: (id: any) => void;
   handleStateChange: (key: any, value: any) => void;
@@ -145,26 +145,12 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
     title: '',
     description: '',
     isAddGroup: false,
+    severity: '',
     msg_grp_id: '',
     msg_grp_msg_info_id: '',
-    msg_grp_msg_data: [
-      {
-        id: '',
-        configuration_id: '',
-        message: '',
-      },
-    ],
+    msg_grp_msg_data: [],
   },
-  language: [
-    {
-      value: 'tamil',
-      id: 0,
-    },
-    {
-      value: 'english',
-      id: 1,
-    },
-  ],
+  language: [],
   status: '',
   setstatus: [],
   messageGroupId: '',
@@ -335,7 +321,7 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
   // ---- Message Group api are above
 
   // AddMessage Table
-  addMessageTable: async () => {
+  addMessageTable: async (languagePayload, messageGroupId) => {
     try {
       const { editTableMessage, status: serverity } = get();
       set({ loading: true });
@@ -351,12 +337,8 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
               description: editTableMessage?.description,
               is_status: editTableMessage?.is_status,
               severity_id: serverity,
-              msg_grp_msg_data: [
-                {
-                  configuration_id: '60bcbabf-933d-4fa9-be11-2d0087c70644',
-                  message: 'signin',
-                },
-              ],
+              msg_grp_id: messageGroupId,
+              msg_grp_msg_data: languagePayload,
             },
             true,
           );
@@ -505,7 +487,7 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
       if (status === 200) {
         return set({
           loading: false,
-          tableMessageData: data?.map((tableData: any, i: any) => ({
+          tableMessageData: data?.map((tableData: any, i: number) => ({
             id: tableData?.id ?? i,
             msg_grp_id: tableData?.msg_grp_id ?? '',
             updated_at: tableData?.updated_at ?? '',
@@ -594,6 +576,7 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
   getTable: async (id: any) => {
     try {
       const { editTableMessage } = get();
+
       set({ loading: true });
       const { data, status } = await queryClient.fetchQuery({
         queryKey: ['get'],
@@ -617,14 +600,9 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
             description: data?.description,
             is_status: data?.is_status,
             msg_grp_id: data?.msg_grp_id,
+            severtiy: data?.severity?.id,
             msg_grp_msg_info_id: data?.msg_grp_msg_info_id,
-            // msg_grp_msg_data: [
-            //   {
-            //     id: data?.,
-            //     configuration_id: '',
-            //     message: '',
-            //   },
-            // ],
+            msg_grp_msg_data: data?.msg_grp_msgs,
           },
         }));
       }
@@ -635,7 +613,7 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
     }
   },
 
-  // delete Message
+  // Edit Message
   tableEditMessage: async (payload: any) => {
     try {
       const { severtiy } = get();
@@ -643,22 +621,17 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
       const response = await httpRequest(
         'put',
         // 'http://localhost:3000/api/v1/message_groups/edit_message_group',
-        `${envConfig.api_url}/message_groups/edit_message_group`,
+        `${envConfig.api_url}/api/v1/messages/edit_message`,
         {
           title: payload?.title,
           description: payload?.description,
           is_status: payload?.is_status,
           msg_grp_id: payload?.msg_grp_id,
           msg_grp_msg_info_id: payload?.msg_grp_msg_info_id,
-          severity: { id: severtiy, severity_name: 'Alert' },
-          msg_grp_msg_data: [
-            {
-              // id: string,
-              // configuration_id: string,
-              // message: string,
-            },
-          ],
+          severity_id: severtiy,
+          msg_grp_msg_data: payload?.msg_grp_msg_data,
         },
+
         true,
       );
 

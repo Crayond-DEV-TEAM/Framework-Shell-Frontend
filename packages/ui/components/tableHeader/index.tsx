@@ -20,16 +20,19 @@ export interface TableHeaderProps {
   filterContent?: any;
   editTableMessage?: any;
   status?: any;
+  isEdit?: boolean;
   setOpen?: any;
   searchTerm?: any;
   setSearchTerm?: any;
-  open?: any;
+  open?: boolean | any;
   addMessageTable?: any;
   handleStateChange?: (key: any, value: any) => void;
   updateStatusReport?: (e: any) => void;
   onApply?: () => void;
-  openAddMessage?: (value: boolean) => void;
+  openAddMessage?: (value: any) => void;
   language?: any;
+  addedLangState?: any;
+  languageBox?: () => void;
   handleChipDelete?: any;
   addMessage?: any;
   options?: any;
@@ -50,9 +53,12 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     buttonName = 'Add Message',
     editTableMessage,
     setOpen,
+    addedLangState,
     open,
+    isEdit,
     options,
     openAddMessage = () => false,
+    languageBox = () => false,
     language,
     searchTerm,
     setSearchTerm,
@@ -67,7 +73,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
 
   const handleOpen = () => {
     setOpen(true);
-    openAddMessage(true);
+    openAddMessage({});
   };
   const handleClose = () => {
     setOpen(false);
@@ -124,8 +130,10 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
             updateStatusReport={updateStatusReport}
             groupState={editTableMessage}
             status={status}
+            languageBox={languageBox}
+            isEdit={isEdit}
             options={options}
-            language={language}
+            language={addedLangState}
           />
         }
         Footercomponent={

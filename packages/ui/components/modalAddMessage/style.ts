@@ -16,4 +16,9 @@ export const modalAddMessageStyle: ModalAddMessageStyleProps = {
     display: 'grid',
     pb: 2,
   },
+  inputSx: {
+    '& .MuiOutlinedInput-input': {
+      fontWeight: 500,
+    },
+  },
 };

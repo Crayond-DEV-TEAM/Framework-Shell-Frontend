@@ -3,13 +3,11 @@ import { Visibility, VisibilityOff } from '@atoms/icons';
 import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
 import { webRoutes } from '@core/routes';
-import { useAuth, useOnboarding } from '@core/store/framework-shell';
-import { ValidateEmail } from '@core/utils';
+import { useAuth } from '@core/store/framework-shell';
 import { Alert, SxProps, Theme } from '@mui/material';
 import { Box, Typography, IconButton } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { forwardRef } from 'react';
-import isEqual from 'react-fast-compare';
 import { Link } from 'react-router-dom';
 import { signUpStyle } from './style';
 

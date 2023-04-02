@@ -1,13 +1,15 @@
+import { envConfig } from '@core/envconfig';
 import { messageRoutes } from '@core/routes';
 import { localStorageKeys, loginRoutes } from '@core/utils/constants';
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 function PrivateRouter(props: { children: JSX.Element }) {
   const { children } = props;
 
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [showComponent, setShowComponent] = useState(false);
 
@@ -15,16 +17,16 @@ function PrivateRouter(props: { children: JSX.Element }) {
     const authToken = localStorage.getItem(localStorageKeys?.authToken);
 
     //Not logged in
-
-    if (!authToken && !loginRoutes.some((route) => route === location?.pathname)) {
-      navigate(messageRoutes.login);
+    if (authToken) {
+      setShowComponent(true);
+    } else if (searchParams.get('token')) {
+      const newAuthToken = searchParams.get('token');
+      localStorage.setItem(localStorageKeys.authToken, newAuthToken as string);
+      setSearchParams({});
+      setShowComponent(true);
+    } else {
+      window.location.replace(envConfig.frame_work_shell_ui + '/login');
     }
-
-    //Already logged in
-    if (authToken && loginRoutes.some((route) => route === location?.pathname)) {
-      navigate(messageRoutes.home);
-    }
-    setShowComponent(true);
   }, [location]);
 
   if (showComponent) {

@@ -2,16 +2,13 @@ import { Button } from '@atoms/button';
 import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
 import { webRoutes } from '@core/routes';
-import { useAuth, useOnboarding } from '@core/store/framework-shell';
+import { useAuth } from '@core/store/framework-shell';
 import { Alert, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { forwardRef, useEffect, useState } from 'react';
 import React from 'react';
-import isEqual from 'react-fast-compare';
 import { Link } from 'react-router-dom';
-
 import { forgotPasswordStyle } from './style';
-import { ValidateEmail } from '@core/utils';
 
 export interface ForgotPasswordProps {
   className?: string;

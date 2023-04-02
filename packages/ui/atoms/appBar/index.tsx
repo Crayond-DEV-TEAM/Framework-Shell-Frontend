@@ -1,15 +1,15 @@
 import { ChatNav, KeyBoardDown, Logout, ManIcon } from '@atoms/icons';
 import React, { useState } from 'react';
-import { useOnboarding } from '@core/store/framework-shell/onboarding';
-import { UserDataProps } from '@core/store/framework-shell/user';
 import { Avatar, SxProps, Typography, Menu, MenuItem, Theme } from '@mui/material';
 import MUIAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import { appBarStyle } from './style';
+import { useAuth } from '@core/store';
+import { UserDataInterface } from '@core/store/interface';
 export interface AppBarProps {
   className?: string;
   sx?: SxProps<Theme>;
-  user?: null | UserDataProps;
+  user?: null | UserDataInterface;
   title?: string;
   open?: boolean;
 }
@@ -25,7 +25,7 @@ export function AppBar(props: AppBarProps): JSX.Element {
     setOpen(false);
   };
 
-  const logOut = useOnboarding((state) => state.logOut);
+  const { logOut } = useAuth();
 
   return (
     <Box

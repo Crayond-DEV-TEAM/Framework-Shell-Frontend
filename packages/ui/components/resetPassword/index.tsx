@@ -3,14 +3,11 @@ import { Visibility, VisibilityOff } from '@atoms/icons';
 import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
 import { webRoutes } from '@core/routes';
-import { useAuth, useOnboarding } from '@core/store';
-import { localStorageKeys, parseJwt } from '@core/utils';
+import { useAuth } from '@core/store';
 import { Alert, IconButton, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { forwardRef, useEffect, useState } from 'react';
-import isEqual from 'react-fast-compare';
 import { Link, useSearchParams } from 'react-router-dom';
-
 import { resetPasswordStyle } from './style';
 
 export interface ResetPasswordProps {

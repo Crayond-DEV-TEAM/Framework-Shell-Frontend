@@ -29,6 +29,10 @@ export const footerComponentStyle: FooterComponentStyleProps = {
     fontSize: '12px',
     fontWeight: 400,
     boxShadow: 'none',
+    '&:hover': {
+      backgroundColor: '#EAEAEA',
+      boxShadow: 'none',
+    },
   },
   savebtnText: {
     color: '#FFFFFF',

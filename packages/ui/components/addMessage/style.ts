@@ -8,8 +8,9 @@ export const addMessageStyle: AddMessageStyleProps = {
   rootSx: {
     // border: '1px solid #EAEAEA',
     backgroundColor: 'primary.contrastText',
-    //height: '661px',
+    // height: '500px',
     borderRadius: '8px',
+    height: '70vh',
   },
   header: {
     borderBottom: '1px solid #EAEAEA',
@@ -30,5 +31,8 @@ export const addMessageStyle: AddMessageStyleProps = {
   dialogSx: {
     width: '461px',
     height: '414px',
+  },
+  inputSx: {
+    fontWeight: '600',
   },
 };

@@ -3,14 +3,16 @@ import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
 import { Grid, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-import { forwardRef } from 'react';
+import { forwardRef, useState, useEffect } from 'react';
 import { addMessageGroupStyle } from './style';
 
 export interface AddMessageGroupProps {
   className?: string;
   handleChange?: (key: string, value: string) => void;
   updateStatusReport?: (e: any) => void;
+  languageBox?: (val: any) => void;
   groupState?: any;
+  isEdit?: boolean;
   options?: any;
   language?: any;
   status?: any;
@@ -25,10 +27,20 @@ export const AddMessageGroup = forwardRef((props: AddMessageGroupProps, ref: Rea
     handleChange = () => false,
     updateStatusReport = () => false,
     language,
+    isEdit,
+    languageBox = () => false,
     options,
     groupState,
     ...rest
   } = props;
+
+  const [addTableData, setaddTableData] = useState<any>();
+
+  useEffect(() => {
+    setaddTableData(isEdit ? groupState?.msg_grp_msg_data : language);
+    updateStatusReport(isEdit ? groupState?.severtiy : '');
+  }, [groupState, language, groupState?.severtiy]);
+
   return (
     <Box
       sx={[
@@ -51,6 +63,7 @@ export const AddMessageGroup = forwardRef((props: AddMessageGroupProps, ref: Rea
               size="small"
               placeholder="username"
               value={groupState?.title}
+              textFieldStyle={addMessageGroupStyle.inputSx}
               id="username"
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
                 handleChange('title', e.target.value)
@@ -75,6 +88,7 @@ export const AddMessageGroup = forwardRef((props: AddMessageGroupProps, ref: Rea
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
                 handleChange('description', e.target.value)
               }
+              textFieldStyle={addMessageGroupStyle.inputSx}
               // isError={values?.error?.username ? true : false}
               // errorMessage={values?.error?.username ?? ''}
             />
@@ -98,7 +112,17 @@ export const AddMessageGroup = forwardRef((props: AddMessageGroupProps, ref: Rea
           <Typography sx={addMessageGroupStyle.labelSx}>
             Please provide message titles in respective language
           </Typography>
-          <LanguageCard handleLanguageChange={handleChange} language={language} />
+          {addTableData &&
+            addTableData?.map((val: any, i: number) => {
+              return (
+                <Box key={i}>
+                  <LanguageCard
+                    title={isEdit ? val?.configuration?.language?.language_name : val?.language?.label}
+                    value={isEdit ? val?.message : val?.language?.label}
+                  />
+                </Box>
+              );
+            })}
         </Grid>
       </Grid>
     </Box>

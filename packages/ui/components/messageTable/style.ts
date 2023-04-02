@@ -16,6 +16,7 @@ export const messageTableStyle: MessageTableStyleProps = {
     },
     padding: '0px 10px',
     borderRadius: '8px',
+    height: '70vh',
   },
   totalTableSx: {
     margin: '26px 10px',

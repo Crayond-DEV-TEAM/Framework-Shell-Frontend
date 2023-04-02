@@ -1,5 +1,5 @@
 import { webRoutes } from '@core/routes';
-import { AppLayout, LoginLayout, PageNotFound, RootLayout } from '@core/ui/components';
+import { LoginLayout, PageNotFound, RootLayout } from '@core/ui/components';
 import ErrorBoundary from '@pages/errorBoundary';
 import ForgotPasswordPage from '@pages/forgotPassword';
 import Home from '@pages/home';

@@ -129,18 +129,14 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     const displan = await addLangdisp();
     convertArrayObjectTwo(displan);
   };
+
   useEffect(() => {
     initialData();
   }, []);
 
   return (
     <Box
-      sx={[
-        {
-          ...languageConfigStyle.rootSx,
-        },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
+      sx={[{ ...languageConfigStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]}
       className={`${className}`}
       ref={ref}
       {...rest}

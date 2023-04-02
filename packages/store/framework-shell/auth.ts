@@ -249,7 +249,7 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
     });
     localStorage.removeItem(localStorageKeys.authToken);
     useUser.setState({ user: null });
-    routeTo(useRouting, webRoutes.login);
+    window.location.replace(envConfig.frame_work_shell_ui + '/?task=logout');
   },
 
   clearAll: () => {

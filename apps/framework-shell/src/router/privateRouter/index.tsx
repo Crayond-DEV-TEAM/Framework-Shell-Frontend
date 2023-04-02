@@ -17,6 +17,10 @@ function PrivateRouter(props: { children: JSX.Element }) {
   };
 
   useEffect(() => {
+    if (searchParams.get('task') === 'logout') {
+      localStorage.removeItem(localStorageKeys.authToken);
+    }
+
     const authToken = localStorage.getItem(localStorageKeys?.authToken);
 
     if (authToken) {

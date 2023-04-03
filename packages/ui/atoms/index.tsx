@@ -9,4 +9,5 @@ export { Label } from './label';
 export { LanguageCard } from './languageCard';
 export { MessageCard } from './messageCard';
 export { SideBar } from './sideBar';
+export { SnacbarClose } from './snacbarClose';
 export { ToggleButtons } from './toggleButton';

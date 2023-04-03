@@ -24,6 +24,7 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     addLanguage,
     deleteLanguage,
     languages,
+    saveLanguage,
     saving,
     errorOnSaving,
     updateDefaultLang,
@@ -41,6 +42,7 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
 
   useEffect(() => {
     getAllLanguages();
+    getSavedLanguage();
     // eslint-disable-nextline
   }, []);
 
@@ -63,7 +65,7 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
           searchField_Style={languageConfigStyle.innerSearchSx}
           select
           selectOption={masterLanguages}
-          setOnSearch={null}
+          onSelect={addLanguage}
           onSearch={undefined}
         />
       </Box>
@@ -74,11 +76,7 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography sx={languageConfigStyle.default}>Default Language</Typography>
             <Box sx={{ width: '172px', height: '36px', pl: 1 }}>
-              <DropDown
-                value={defaultLang?.label}
-                selectOption={languages}
-                onchange={(e: any, lang: SelectBoxInterface) => updateDefaultLang(lang)}
-              />
+              <DropDown value={defaultLang?.value} selectOption={languages} onSelect={updateDefaultLang} />
             </Box>
           </Box>
         </Box>
@@ -122,7 +120,8 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
                 justifyContent: 'flex-end',
                 mr: 2.5,
               }}
-              onclick={() => false}
+              onclick={saveLanguage}
+              loading={saving}
             >
               Save
             </Button>

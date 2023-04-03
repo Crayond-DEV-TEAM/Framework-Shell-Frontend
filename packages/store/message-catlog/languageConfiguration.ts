@@ -20,7 +20,7 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
     set({ masterLanguageLoading: true, masterLanguageError: false });
     httpRequest('get', `${envConfig.api_url}/config_languages/display_Master_languages`, {}, true)
       .then((response) => {
-        set({ masterLanguages: response.data });
+        set({ masterLanguages: response.data.data?.sort((a: any, b: any) => b.label - a.label) });
       })
       .catch((err) => {
         set({ masterLanguageError: true });
@@ -35,7 +35,25 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
     set({ fetching: false, errorOnFetching: false });
     httpRequest('get', `${envConfig.api_url}/config_languages/display_config_languages`, {}, true)
       .then((response) => {
-        set({ languages: response.data });
+        const { masterLanguages } = get();
+        const newMasterLanguages = masterLanguages;
+        const updateMasterLanguages = setInterval(() => {
+          if (masterLanguages.length > 0) {
+            masterLanguages.forEach((ml, index) => {
+              response.data.data?.map((rdd: any) => {
+                if (ml.value === rdd.value) {
+                  newMasterLanguages.splice(index, 1);
+                }
+              });
+            });
+            set({ masterLanguages: newMasterLanguages });
+            clearInterval(updateMasterLanguages);
+          }
+        }, 1000);
+        set({
+          languages: response.data.data,
+          defaultLang: response.data.data.filter((_: any) => _.is_default === true)?.[0],
+        });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -51,7 +69,7 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
     set({ saving: true, errorOnSaving: false });
     httpRequest('post', `${envConfig.api_url}/config_languages/config_language`, { languages }, true)
       .then((response) => {
-        set({ isSaved: true });
+        set({ isSaved: true, message: 'Changes Saved!' });
         enqueueSnackbar(`Language Configuration Updated`, { variant: 'success' });
       })
       .catch((err) => {
@@ -63,39 +81,55 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
       });
     return false;
   },
-  addLanguage: (lang: SelectBoxInterface) => {
-    if (get().languages.filter((_) => _.value === lang.value).length > 0) {
-      set((state) => ({
-        languages: [...state.languages, lang],
-        isSaved: false,
-        message: "Changes will be lost if you don't save.",
-      }));
+  addLanguage: (lang: SelectBoxInterface, index: number) => {
+    if (get().languages.filter((_) => _.value === lang.value).length === 0) {
+      set((state) => {
+        const newMasterLanguages = state.masterLanguages;
+        newMasterLanguages.splice(index, 1);
+        return {
+          languages: [...state.languages, lang],
+          isSaved: false,
+          message: "Changes will be lost if you don't save.",
+          defaultLang: state.languages.length === 0 ? lang : state.defaultLang,
+          masterLanguages: newMasterLanguages,
+        };
+      });
       enqueueSnackbar('Language added successfully!', { variant: 'success' });
     } else {
       enqueueSnackbar('Language already added!', { variant: 'warning' });
     }
+
     return true;
   },
   deleteLanguage: (lang: SelectBoxInterface, index: number) => {
     set((state) => {
       const newLanguages = state.languages;
       newLanguages.splice(index, 1);
-      return { languages: newLanguages, isSaved: false, message: "Changes will be lost if you don't save." };
+      const newMasterLanguages = state.masterLanguages;
+      newMasterLanguages.push(lang);
+      newMasterLanguages.sort((a: any, b: any) => b.label - a.label);
+      return {
+        languages: newLanguages,
+        masterLanguages: newMasterLanguages,
+        isSaved: false,
+        message: "Changes will be lost if you don't save.",
+      };
     });
     enqueueSnackbar('Language removed successfully!', { variant: 'success' });
     return true;
   },
-  updateDefaultLang: (lang: SelectBoxInterface) => {
+  updateDefaultLang: (lang: SelectBoxInterface, index: number) => {
+    set((state) => {
+      const newLanguages = state.languages.map((_) => ({ ..._, is_default: false }));
+      newLanguages[index].is_default = true;
+      return {
+        languages: newLanguages,
+        defaultLang: lang,
+        isSaved: false,
+        message: "Changes will be lost if you don't save.",
+      };
+    });
     set({ defaultLang: lang, isSaved: false, message: "Changes will be lost if you don't save." });
-    set((state) => ({
-      languages: state.languages.map((_) => {
-        if (lang.value === _.value) {
-          return { ..._, is_default: true };
-        } else {
-          return _;
-        }
-      }),
-    }));
     return true;
   },
 }));

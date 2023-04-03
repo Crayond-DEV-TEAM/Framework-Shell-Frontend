@@ -106,8 +106,8 @@ export interface LanguageConfigInterface {
   message: string;
   getSavedLanguage: () => boolean;
   getAllLanguages: () => boolean;
-  addLanguage: (lang: SelectBoxInterface) => boolean;
+  addLanguage: (lang: SelectBoxInterface, index: number) => boolean;
   deleteLanguage: (lang: SelectBoxInterface, index: number) => boolean;
-  updateDefaultLang: (lang: SelectBoxInterface) => boolean;
+  updateDefaultLang: (lang: SelectBoxInterface, index: number) => boolean;
   saveLanguage: () => boolean;
 }

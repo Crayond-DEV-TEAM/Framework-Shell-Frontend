@@ -11,13 +11,14 @@ export interface DropDownProps {
   className?: string;
   sx?: SxProps<Theme>;
   rootStyle?: object;
-  value?: string;
+  value?: string | number | undefined;
   optionListStyle?: object;
   selectOption?: Array<any>;
   isError?: any;
   placeholder?: string;
   onchange?: any;
   onClick?: any;
+  onSelect?: any;
   // IconComponent: NodeJS;
 }
 
@@ -33,6 +34,7 @@ export const DropDown = forwardRef((props: DropDownProps, ref: React.Ref<HTMLEle
     placeholder = '',
     onchange = () => false,
     onClick = () => false,
+    onSelect = () => false,
     ...rest
   } = props;
 
@@ -40,7 +42,6 @@ export const DropDown = forwardRef((props: DropDownProps, ref: React.Ref<HTMLEle
     <Box>
       <Select
         className={`${className}`}
-        onClick={onClick}
         {...rest}
         sx={{ ...dropDownStyle.rootSx, ...rootStyle }}
         labelId="demo-simple-select-label"
@@ -59,8 +60,14 @@ export const DropDown = forwardRef((props: DropDownProps, ref: React.Ref<HTMLEle
         }}
         IconComponent={SelectDown}
       >
-        {selectOption?.map((option) => (
-          <MenuItem key={option?.value} value={option?.value}>
+        {selectOption?.map((option: any, index: number) => (
+          <MenuItem
+            onClick={() => {
+              onSelect(option, index);
+            }}
+            key={option?.value}
+            value={option?.value}
+          >
             {option?.label}
           </MenuItem>
         ))}

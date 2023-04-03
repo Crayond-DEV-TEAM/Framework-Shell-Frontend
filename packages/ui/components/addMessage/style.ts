@@ -29,10 +29,19 @@ export const addMessageStyle: AddMessageStyleProps = {
     color: '#29302B',
   },
   dialogSx: {
-    width: '461px',
+    width: '500px',
     height: '414px',
   },
   inputSx: {
     fontWeight: '600',
+  },
+  noDataSx: {
+    fontWeight: '600',
+    padding: '31px 36px',
+    fontSize: ' 14px',
+  },
+  totalGroupSx: {
+    overflowY: 'scroll',
+    height: '49vh',
   },
 };

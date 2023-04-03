@@ -8,10 +8,10 @@ export const atomButton_style: ButtonStyleProps = {
   buttonSx: {
     borderRadius: '8px',
     '& .MuiLoadingButton-loadingIndicator': {
-      color: 'primary.main',
+      color: '#357968',
     },
     '&.MuiLoadingButton-loading': {
-      backgroundColor: 'primary.lighter',
+      backgroundColor: '#EAF1EF',
     },
   },
 };

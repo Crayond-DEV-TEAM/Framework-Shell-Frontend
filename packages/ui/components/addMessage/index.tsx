@@ -35,6 +35,8 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     deleteMessage,
     handleChipDelete,
     addMessage,
+    loading,
+    clearAddgroupState,
     getAllMessageGroup,
     addMessageGroup,
   } = useMessageGroup(
@@ -48,6 +50,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
       getAllMessageGroup: state.getAllMessageGroup,
       handleChipDelete: state.handleChipDelete,
       deleteMessage: state.deleteMessage,
+      clearAddgroupState: state.clearAddgroupState,
       handleStateChange: state.handleStateChange,
       loading: state.loading,
     }),
@@ -72,6 +75,8 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
   );
 
   const handleClose = () => {
+    clearAddgroupState();
+
     setOpen(false);
   };
 
@@ -99,8 +104,10 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
   const addGroup = async () => {
     if (isEdit) {
       await editMessage(addMessage, true);
+      clearAddgroupState();
     } else {
       await addMessageGroup();
+      clearAddgroupState();
     }
     setOpen(false);
     await getAllMessageGroup();
@@ -148,22 +155,29 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
         />
       </Box>
 
-      {Array.isArray(filteredMessageGroup) &&
-        filteredMessageGroup?.map((x: any, index: any) => {
-          return (
-            <Box key={index}>
-              <MessageCard
-                index={index}
-                title={x.title}
-                isActive={x.is_status}
-                onMessaageClick={() => handleMessage(x, index)}
-                select={selected}
-                onDelete={() => onDelete(x?.id)}
-                onEdit={() => onEdit(x?.id)}
-              />
-            </Box>
-          );
-        })}
+      <Box sx={addMessageStyle.totalGroupSx}>
+        {Array.isArray(filteredMessageGroup) && filteredMessageGroup?.length > 0 ? (
+          filteredMessageGroup?.map((x: any, index: any) => {
+            return (
+              <Box key={index}>
+                <MessageCard
+                  index={index}
+                  title={x.title}
+                  isActive={x.is_status}
+                  onMessaageClick={() => handleMessage(x, index)}
+                  select={selected}
+                  onDelete={() => onDelete(x?.id)}
+                  onEdit={() => onEdit(x?.id)}
+                />
+              </Box>
+            );
+          })
+        ) : (
+          <Box>
+            <Typography sx={addMessageStyle.noDataSx}>No Data Found!!!</Typography>
+          </Box>
+        )}
+      </Box>
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={open}
@@ -176,6 +190,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
             SwitchChange={(e: any) => handleStateChange('isAddGroup', e.target.checked)}
             onSave={addGroup}
             onCancel={handleClose}
+            loading={loading}
           />
         }
         dialogRootStyle={addMessageStyle.dialogSx}

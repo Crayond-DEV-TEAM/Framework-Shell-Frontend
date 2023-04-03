@@ -104,7 +104,7 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
         variant="permanent"
         open={drawer}
         onMouseEnter={handleDrawerOpen}
-        // onMouseLeave={handleDrawerClose}
+        onMouseLeave={handleDrawerClose}
         sx={sideBarStyle.drawerSx}
       >
         <List sx={sideBarStyle?.listing}>

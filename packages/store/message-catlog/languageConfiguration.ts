@@ -41,7 +41,7 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
           if (masterLanguages.length > 0) {
             masterLanguages.forEach((ml, index) => {
               response.data.data?.map((rdd: any) => {
-                if (ml.value === rdd.value) {
+                if (ml.value === rdd.language_id) {
                   newMasterLanguages.splice(index, 1);
                 }
               });
@@ -55,9 +55,10 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
         const newLanguages: SelectBoxInterface[] = [];
 
         response.data.data.forEach((lang: any) => {
-          newLanguages.push({ ...lang.language, is_default: lang.is_default });
+          const newLang = { ...lang.language, is_default: lang.is_default };
+          newLanguages.push(newLang);
           if (lang.is_default) {
-            newDefaultLang = lang;
+            newDefaultLang = newLang;
           }
         });
 

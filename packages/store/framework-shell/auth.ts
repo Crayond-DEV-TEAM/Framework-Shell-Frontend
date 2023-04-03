@@ -121,18 +121,18 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
       const response = await httpRequest('post', `${envConfig.auth_url}/sign_up`, payload);
 
       if (response?.status === 200) {
-        let seconds = 1;
+        let seconds = 5;
         set({
           signUpMessage:
             'You have been Successfully Signed Up, You will rediected to Login Page in ' + seconds + ' seconds.',
         });
         const interval = setInterval(() => {
-          seconds += 1;
+          seconds -= 1;
           set({
             signUpMessage:
               'You have been Successfully Signed Up, You will rediected to Login Page in ' + seconds + ' seconds.',
           });
-          if (seconds === 5) {
+          if (seconds === 1) {
             routeTo(useRouting, webRoutes.login);
             clearInterval(interval);
           }

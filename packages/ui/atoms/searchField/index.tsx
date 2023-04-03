@@ -1,7 +1,7 @@
 import { MenuItem } from '@material-ui/core';
 import { InputAdornment, SxProps, TextField, Theme } from '@mui/material';
 import { Box } from '@mui/material';
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 
 import { searchFieldStyle } from './style';
 
@@ -36,11 +36,25 @@ export const SearchField = forwardRef((props: SearchFieldProps): JSX.Element => 
     onclick = () => false,
   } = props;
 
-  // const [onSearch, setOnSearch] = useState<string>('');
+  const [inputText, setInputText] = useState('');
+  const inputHandler = (onSearch: any) => {
+    //convert input text to lower case
+    const lowerCase = onSearch.toLowerCase();
+    setInputText(lowerCase);
+  };
 
-  // const handleSearchChange = (e: any) => {
-  //   setOnSearch(e);
-  // };
+  const filteredData = selectOption.filter((el) => {
+    //if no input the return the original
+    if (inputText === '') {
+      return el;
+    }
+    //return the item which contains the user input
+    else {
+      return el.text.toLowerCase().includes(inputText);
+    }
+  });
+  console.log(filteredData, 'filteredData');
+
   return (
     <Box sx={{ ...searchFieldStyle.searchBoxSx, ...totalSearchSx }}>
       {/* Searchfield */}
@@ -49,7 +63,7 @@ export const SearchField = forwardRef((props: SearchFieldProps): JSX.Element => 
         placeholder={placeholder}
         sx={{ ...searchFieldStyle.searchFieldSx, ...searchField_Style }}
         variant="outlined"
-        onChange={setOnSearch}
+        onChange={inputHandler}
         // onChange={(e: any) => handleSearchChange(e.target.value)}
         value={onSearch}
         select={select}
@@ -67,7 +81,7 @@ export const SearchField = forwardRef((props: SearchFieldProps): JSX.Element => 
           ),
         }}
       >
-        {selectOption?.map((option: any) => (
+        {filteredData?.map((option: any) => (
           <MenuItem key={option?.value} value={option?.value}>
             {option?.label}
           </MenuItem>

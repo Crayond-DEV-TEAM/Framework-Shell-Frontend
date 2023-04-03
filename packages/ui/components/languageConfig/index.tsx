@@ -108,14 +108,14 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     addLangdisp();
   };
   const searchfunc = (val: any) => {
-    setOnSearch(val?.target?.value);
-    handleGroupChange('selectedState', val?.target?.value);
-    handleLanguageChange([{ language: { label: val?.target?.value } }]);
+    setOnSearch(val);
+    handleGroupChange('selectedState', val);
+    handleLanguageChange([{ language: { label: val } }]);
   };
   console.log(handleLanguageChange, 'handleLanguageChange');
   const handledropopen = (val: any) => {
-    handleGroupChange('dropState', val?.target?.value);
-    setDrop(val?.target?.value);
+    handleGroupChange('dropState', val);
+    setDrop(val);
   };
 
   // const addingFunc = () => {
@@ -198,7 +198,7 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
             }}
           >
             {/* {statusState === 200 ? ( */}
-            {onSearch.length === 0 ? (
+            {onSearch?.length === 0 ? (
               ''
             ) : (
               <>

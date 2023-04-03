@@ -8,5 +8,6 @@ export { Input } from './input';
 export { Label } from './label';
 export { LanguageCard } from './languageCard';
 export { MessageCard } from './messageCard';
+export { SearchBox } from './searchBox';
 export { SideBar } from './sideBar';
 export { ToggleButtons } from './toggleButton';

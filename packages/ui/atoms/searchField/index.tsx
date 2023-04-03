@@ -1,10 +1,9 @@
 import { MenuItem } from '@material-ui/core';
-import { InputAdornment, SxProps, TextField, Theme } from '@mui/material';
+import { InputAdornment, SxProps, TextField, Theme, Popover, List, ListItem, ListItemText } from '@mui/material';
 import { Box } from '@mui/material';
 import { forwardRef } from 'react';
-
+import { useState } from 'react';
 import { searchFieldStyle } from './style';
-
 export interface SearchFieldProps {
   className?: string;
   startAdornment?: any;
@@ -18,9 +17,8 @@ export interface SearchFieldProps {
   onSearch?: string;
   sx?: SxProps<Theme>;
   selectOption?: Array<any>;
-  onclick?: () => void;
+  onClick?: () => any;
 }
-
 export const SearchField = forwardRef((props: SearchFieldProps): JSX.Element => {
   const {
     startAdornment = '',
@@ -33,26 +31,28 @@ export const SearchField = forwardRef((props: SearchFieldProps): JSX.Element => 
     totalSearchSx = {},
     select = true,
     onSearch = '',
-    onclick = () => false,
+    onClick = () => false,
   } = props;
-
-  // const [onSearch, setOnSearch] = useState<string>('');
-
-  // const handleSearchChange = (e: any) => {
-  //   setOnSearch(e);
-  // };
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
   return (
     <Box sx={{ ...searchFieldStyle.searchBoxSx, ...totalSearchSx }}>
       {/* Searchfield */}
       <TextField
-        onClick={onclick}
+        onClick={handleClick}
         placeholder={placeholder}
         sx={{ ...searchFieldStyle.searchFieldSx, ...searchField_Style }}
         variant="outlined"
-        onChange={setOnSearch}
+        // onChange={}
         // onChange={(e: any) => handleSearchChange(e.target.value)}
         value={onSearch}
-        select={select}
         fullWidth
         InputProps={{
           startAdornment: (
@@ -66,15 +66,43 @@ export const SearchField = forwardRef((props: SearchFieldProps): JSX.Element => 
             </InputAdornment>
           ),
         }}
+        aria-describedby={id}
+      ></TextField>
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        sx={searchFieldStyle?.popove}
+        // {
+        //   // bgcolor: '#F1F1F1',
+        //   // width: '100vh',
+        //   // color: '#333',
+        //   // padding: '16px',
+        //   // borderRadius: '8px',
+        //   // boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
+        // }
       >
-        {selectOption?.map((option: any) => (
-          <MenuItem key={option?.value} value={option?.value}>
-            {option?.label}
-          </MenuItem>
-        ))}
-      </TextField>
+        <List sx={searchFieldStyle?.text}>
+          {selectOption?.map((option: any) => (
+            <ListItem key={option?.value} value={option?.value}>
+              <ListItemText
+                onClick={() => {
+                  setOnSearch(option?.value);
+                  handleClose();
+                }}
+              >
+                {option?.label}
+              </ListItemText>
+            </ListItem>
+          ))}
+        </List>
+      </Popover>
     </Box>
   );
 });
-
 SearchField.displayName = 'SearchField';

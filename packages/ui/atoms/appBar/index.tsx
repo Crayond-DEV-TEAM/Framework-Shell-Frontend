@@ -1,4 +1,4 @@
-import { ChatNav, KeyBoardDown, Logout, ManIcon } from '@atoms/icons';
+import { ApiProfile, ChatNav, KeyBoardDown, Logout, ManIcon } from '@atoms/icons';
 import React, { useState } from 'react';
 import { Avatar, SxProps, Typography, Menu, MenuItem, Theme } from '@mui/material';
 import MUIAppBar from '@mui/material/AppBar';
@@ -6,6 +6,8 @@ import Box from '@mui/material/Box';
 import { appBarStyle } from './style';
 import { useAuth } from '@core/store';
 import { UserDataInterface } from '@core/store/interface';
+import { localStorageKeys } from '@core/utils';
+import { parseJwt } from '@core/utils';
 export interface AppBarProps {
   className?: string;
   sx?: SxProps<Theme>;
@@ -17,6 +19,8 @@ export interface AppBarProps {
 export function AppBar(props: AppBarProps): JSX.Element {
   const { className = '', sx = {}, title = 'Message Catlogue', ...rest } = props;
   const [open, setOpen] = useState<boolean>(false);
+  const token = localStorage.getItem(localStorageKeys.authToken);
+  const user = parseJwt(token);
 
   const handleOpen = () => {
     setOpen(true);
@@ -24,8 +28,8 @@ export function AppBar(props: AppBarProps): JSX.Element {
   const handleClose = () => {
     setOpen(false);
   };
-
   const { logOut } = useAuth();
+  console.log(user, 'user');
 
   return (
     <Box
@@ -45,8 +49,8 @@ export function AppBar(props: AppBarProps): JSX.Element {
             <ChatNav />
             <Box sx={appBarStyle.profileSec}>
               <Box sx={{ pl: 3, pr: 1 }}>
-                <Typography sx={appBarStyle.profileName}>Dhandapani</Typography>
-                <Typography sx={appBarStyle.email}>dhandapani123@gmail.com</Typography>
+                <Typography sx={appBarStyle.profileName}>{user?.username}</Typography>
+                <Typography sx={appBarStyle.email}>{user?.email_id}</Typography>
               </Box>
               <Avatar
                 src={'https://expertphotography.b-cdn.net/wp-content/uploads/2020/08/social-media-profile-photos-3.jpg'}
@@ -72,7 +76,7 @@ export function AppBar(props: AppBarProps): JSX.Element {
           vertical: 'top',
           horizontal: 'right',
         }}
-        sx={{ top: '47px' }}
+        sx={{ top: '18px', right: '28px', '& .MuiPaper-root': { width: '162px' } }}
       >
         <MenuItem>
           <Box sx={appBarStyle.profileSec}>
@@ -82,7 +86,7 @@ export function AppBar(props: AppBarProps): JSX.Element {
         </MenuItem>
         <MenuItem>
           <Box sx={appBarStyle.profileSec}>
-            <ManIcon />
+            <ApiProfile />
             <Typography sx={appBarStyle.menutext}>API Key</Typography>
           </Box>
         </MenuItem>

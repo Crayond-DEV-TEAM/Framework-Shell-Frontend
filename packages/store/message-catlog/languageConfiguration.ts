@@ -50,9 +50,20 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
             clearInterval(updateMasterLanguages);
           }
         }, 1000);
+
+        let newDefaultLang: SelectBoxInterface | null = null;
+        const newLanguages: SelectBoxInterface[] = [];
+
+        response.data.data.forEach((lang: any) => {
+          newLanguages.push({ ...lang.language, is_default: lang.is_default });
+          if (lang.is_default) {
+            newDefaultLang = lang;
+          }
+        });
+
         set({
-          languages: response.data.data,
-          defaultLang: response.data.data.filter((_: any) => _.is_default === true)?.[0],
+          languages: newLanguages,
+          defaultLang: newDefaultLang,
         });
       })
       .catch((err) => {
@@ -67,7 +78,7 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
   saveLanguage: () => {
     const { languages } = get();
     set({ saving: true, errorOnSaving: false });
-    httpRequest('post', `${envConfig.api_url}/config_languages/config_language`, { languages }, true)
+    httpRequest('put', `${envConfig.api_url}/config_languages/edit_config_languages`, { languages }, true)
       .then((response) => {
         set({ isSaved: true, message: 'Changes Saved!' });
         enqueueSnackbar(`Language Configuration Updated`, { variant: 'success' });

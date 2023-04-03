@@ -5,9 +5,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import { SearchField } from '@atoms/searchField';
 import { Chip, Grid, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-import { forwardRef, useState, useEffect } from 'react';
-import { useLanguage } from '../../../store';
+import { forwardRef, useEffect } from 'react';
 import { languageConfigStyle } from './style';
+import { useLanguageConfiguration } from '@core/store';
+import { SelectBoxInterface } from '@core/store/interface';
 
 export interface LanguageConfigProps {
   className?: string;
@@ -15,123 +16,32 @@ export interface LanguageConfigProps {
   select?: string;
   payload?: any;
 }
-interface ChipData {
-  key: number;
-  label: string;
-}
 
 export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React.Ref<HTMLElement>): JSX.Element => {
-  const {
-    langState,
-    loading,
-    languagedisplay,
-    handleGroupChange,
-    addedlanguagedisplay,
-    handleDropChange,
-    addedLangState,
-    dropState,
-    savelanguages,
-    handleLanguageChange,
-    selectedState,
-    savelangState,
-    responseState,
-    statusState,
-  } = useLanguage((state) => ({
-    languagedisplay: state.languagedisplay,
-    langState: state.langState,
-    handleGroupChange: state.handleGroupChange,
-    handleLanguageChange: state.handleLanguageChange,
-    handleDropChange: state.selectedState,
-    addedLangState: state.addedLangState,
-    addedlanguagedisplay: state.addedlanguagedisplay,
-    savelanguages: state.savelanguages,
-    //setUser: state.setUser,
-    loading: state.loading,
-    selectedState: state.selectedState,
-    dropState: state.dropState,
-    savelangState: state.savelangState,
-    responseState: state.responseState,
-    statusState: state.statusState,
-  }));
-  console.log(statusState, 'console.log(addedLangStat;');
-  console.log(addedLangState, 'jhdkjhk');
   const { className = '', sx = {}, select = '', payload = {}, ...rest } = props;
-  const [chipData, setChipData] = useState<readonly ChipData[]>([
-    { key: 0, label: 'English' },
-    { key: 1, label: 'Tamil' },
-    { key: 2, label: 'Hindi' },
-    { key: 3, label: 'Arabic' },
-  ]);
-  const [onSearch, setOnSearch] = useState('');
-  const [drop, setDrop] = useState('');
-  const [check, setCheck] = useState([]);
-  const [lang, setLang] = useState([]);
-  const handleDelete = (chipToDelete: ChipData) => () => {
-    setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
-  };
-  const langSearch = async () => {
-    const response = await languagedisplay();
-    convertArrayToObject(langState);
-  };
-  const convertArrayToObject = (langState: any) => {
-    const array = [];
-    for (const data of langState) {
-      const obj = {
-        label: data.language_name,
-        value: data.language_name,
-      };
-      array.push(obj);
-    }
-    setCheck(array);
-  };
 
-  const addLangdisp = async () => {
-    const response = await addedlanguagedisplay({});
-    convertArrayObjectTwo(addedLangState);
-  };
-
-  const convertArrayObjectTwo = (addedLangState: any) => {
-    const array = [];
-    for (const data of addedLangState) {
-      const obj = {
-        label: data.language.label,
-        value: data.language.value,
-      };
-      array.push(obj);
-    }
-    setLang(array);
-  };
-
-  const saveLang = async () => {
-    const payloadsave = selectedState.selectedState;
-    const res = await savelanguages(payloadsave);
-    addLangdisp();
-  };
-  const searchfunc = (val: any) => {
-    setOnSearch(val?.target?.value);
-    handleGroupChange('selectedState', val?.target?.value);
-    handleLanguageChange([{ language: { label: val?.target?.value } }]);
-  };
-  console.log(handleLanguageChange, 'handleLanguageChange');
-  const handledropopen = (val: any) => {
-    handleGroupChange('dropState', val?.target?.value);
-    setDrop(val?.target?.value);
-  };
-
-  // const addingFunc = () => {
-  //   const a = selectedState + '' + addedLangState.language.language_name;
-  //   console.log(a, 'addingFunc');
-  // };
-
-  const initialData = async () => {
-    const languageResponse = await languagedisplay();
-    convertArrayToObject(languageResponse);
-    const displan = await addLangdisp();
-    convertArrayObjectTwo(displan);
-  };
+  const {
+    addLanguage,
+    deleteLanguage,
+    languages,
+    saving,
+    errorOnSaving,
+    updateDefaultLang,
+    isSaved,
+    defaultLang,
+    getSavedLanguage,
+    fetching,
+    errorOnFetching,
+    getAllLanguages,
+    masterLanguages,
+    masterLanguageError,
+    masterLanguageLoading,
+    message,
+  } = useLanguageConfiguration();
 
   useEffect(() => {
-    initialData();
+    getAllLanguages();
+    // eslint-disable-nextline
   }, []);
 
   return (
@@ -152,9 +62,9 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
           totalSearchSx={languageConfigStyle.searchBoxSx}
           searchField_Style={languageConfigStyle.innerSearchSx}
           select
-          selectOption={check}
-          setOnSearch={searchfunc}
-          onSearch={onSearch}
+          selectOption={masterLanguages}
+          setOnSearch={null}
+          onSearch={undefined}
         />
       </Box>
 
@@ -164,19 +74,23 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography sx={languageConfigStyle.default}>Default Language</Typography>
             <Box sx={{ width: '172px', height: '36px', pl: 1 }}>
-              <DropDown value={drop} selectOption={lang} onchange={handledropopen} />
+              <DropDown
+                value={defaultLang?.label}
+                selectOption={languages}
+                onchange={(e: any, lang: SelectBoxInterface) => updateDefaultLang(lang)}
+              />
             </Box>
           </Box>
         </Box>
         <Box sx={languageConfigStyle.content}>
           <Grid container spacing={1}>
-            {addedLangState?.map((data: any) => {
+            {languages?.map((data: SelectBoxInterface, index: number) => {
               return (
-                <Grid item key={data.key}>
+                <Grid item key={index}>
                   <Chip
                     sx={{ backgroundColor: 'primary.main', width: 'auto', py: '10px', color: '#fff' }}
-                    label={data.language.label}
-                    onDelete={handleDelete(data)}
+                    label={data.label}
+                    onDelete={() => deleteLanguage(data, index)}
                     deleteIcon={<DeleteChip height={'12px'} width={'12px'} />}
                   />
                 </Grid>
@@ -193,20 +107,12 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
               justifyContent: 'flex-end',
             }}
           >
-            {/* {statusState === 200 ? ( */}
-            {onSearch.length === 0 ? (
-              ''
-            ) : (
-              <>
-                {responseState === 200 ? (
-                  <Typography sx={languageConfigStyle.messageSuccess}>Changes saved.</Typography>
-                ) : responseState !== undefined ? (
-                  <Typography sx={languageConfigStyle.messageBox}>
-                    Changes will be lost if you don&apos;t save.
-                  </Typography>
-                ) : null}
-              </>
+            {message.length > 0 && (
+              <Typography sx={isSaved ? languageConfigStyle.messageSuccess : languageConfigStyle.messageBox}>
+                {message}
+              </Typography>
             )}
+
             <Button
               buttonStyle={{
                 width: '62px',
@@ -216,7 +122,7 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
                 justifyContent: 'flex-end',
                 mr: 2.5,
               }}
-              onclick={() => saveLang()}
+              onclick={() => false}
             >
               Save
             </Button>

@@ -83,3 +83,31 @@ export interface UserInterface {
   user?: null | UserDataInterface;
   setUser: (payload: { key: string; value: string }) => void;
 }
+
+export interface SelectBoxInterface {
+  value: number | string;
+  label: string;
+  is_default?: boolean;
+  id?: number | string;
+  name?: number | string;
+}
+
+export interface LanguageConfigInterface {
+  languages: SelectBoxInterface[];
+  masterLanguages: SelectBoxInterface[];
+  masterLanguageLoading: boolean;
+  masterLanguageError: boolean;
+  defaultLang: SelectBoxInterface | null;
+  isSaved: boolean;
+  saving: boolean;
+  errorOnSaving: boolean;
+  fetching: boolean;
+  errorOnFetching: boolean;
+  message: string;
+  getSavedLanguage: () => boolean;
+  getAllLanguages: () => boolean;
+  addLanguage: (lang: SelectBoxInterface) => boolean;
+  deleteLanguage: (lang: SelectBoxInterface, index: number) => boolean;
+  updateDefaultLang: (lang: SelectBoxInterface) => boolean;
+  saveLanguage: () => boolean;
+}

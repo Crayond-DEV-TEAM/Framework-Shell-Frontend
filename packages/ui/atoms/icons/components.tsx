@@ -173,3 +173,23 @@ export function DeleteIcon(props: any) {
     </SvgIcon>
   );
 }
+export function SearchIcon(props: any) {
+  const { rootStyle, ...rest } = props;
+
+  const rootSx = {
+    height: 16,
+    width: 16,
+    color: '#29302b',
+    ...rootStyle,
+  };
+  return (
+    <SvgIcon xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" {...rest} sx={rootSx}>
+      <path
+        id="icons8-search"
+        d="M13.16,6a7.16,7.16,0,1,0,4.306,12.865l2.847,2.846a.988.988,0,1,0,1.4-1.4l-2.846-2.847A7.144,7.144,0,0,0,13.16,6Zm0,1.975a5.186,5.186,0,0,1,3.777,8.739.988.988,0,0,0-.221.221,5.186,5.186,0,1,1-3.556-8.96Z"
+        transform="translate(-6 -6)"
+        fill="#29302b"
+      />
+    </SvgIcon>
+  );
+}

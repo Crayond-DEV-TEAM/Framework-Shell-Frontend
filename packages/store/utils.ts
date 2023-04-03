@@ -40,7 +40,7 @@ export const giveMeUserIntialState = (): UserDataInterface => ({
   token: '',
 });
 
-export const passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/;
+export const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
 
 export const validateSignUpData = (values: SignUpStateInterface) => {
   let isValid = true;
@@ -58,7 +58,7 @@ export const validateSignUpData = (values: SignUpStateInterface) => {
   if (values.password.length === 0) {
     isValid = false;
     error.password = 'Enter the password';
-  } else if (passwordRegex.test(values.password)) {
+  } else if (passwordRegex.test(values.password) === false) {
     isValid = false;
     error.password =
       'Password must have 8 digit and contain a uppercase, lowercase and a special character. (E.g Test@123)';

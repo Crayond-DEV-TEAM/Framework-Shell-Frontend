@@ -40,6 +40,8 @@ export interface MessageGroupProps {
   addMessageGroup: () => void;
   getTable: (id: string) => void;
   updateStatusReport: (satus: any) => void;
+  clearAddgroupState: () => void;
+  clearAddMessageState: () => void;
   addMessageTable: (languagePayload: any, messageGroupId: any) => void;
   tableEditMessage: (payload: any) => void;
   deleteTableMessage: (id: any) => void;
@@ -238,7 +240,7 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
     try {
       const { addMessage } = get();
       set({ loading: true });
-      const { data, status } = await queryClient.fetchQuery({
+      const { data, status, message } = await queryClient.fetchQuery({
         queryKey: ['addMessageGroup'],
         queryFn: async () => {
           const { data } = await httpRequest(
@@ -256,13 +258,13 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
         },
       });
       if (status === 200) {
-        enqueueSnackbar('New Message Group successfully Added!!!!', { variant: 'success' });
+        enqueueSnackbar('New Message Group successfully Added!!!!', { variant: 'success', autoHideDuration: null });
       }
       set({ loading: false });
     } catch (err: any) {
       set({ loading: false });
       log('error', err);
-      enqueueSnackbar('Something went wrong please try again!', { variant: 'error' });
+      enqueueSnackbar('Can&apos;t create message group with same name', { variant: 'error', autoHideDuration: null });
     }
   },
 
@@ -325,7 +327,7 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
     try {
       const { editTableMessage, status: serverity } = get();
       set({ loading: true });
-      const { data, status } = await queryClient.fetchQuery({
+      const { data, status, message } = await queryClient.fetchQuery({
         queryKey: ['addMessageTable'],
         queryFn: async () => {
           const { data } = await httpRequest(
@@ -346,7 +348,7 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
         },
       });
       if (status === 200) {
-        enqueueSnackbar('New Message Group successfully Added!!!!', { variant: 'success' });
+        enqueueSnackbar('New Message Group successfully Added!!!!', { variant: 'success', autoHideDuration: 5000 });
       }
       set({ loading: false });
     } catch (err: any) {
@@ -449,7 +451,7 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
     } catch (err: any) {
       set({ loading: false });
       log('error', err);
-      enqueueSnackbar('Sgain!', { variant: 'error' });
+      enqueueSnackbar('Something went wrong please try again!', { variant: 'error' });
     }
   },
 
@@ -594,18 +596,22 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
         },
       });
       if (status === 200) {
-        return set((state) => ({
+        set((state) => ({
+          status: data?.severity?.id,
           editTableMessage: {
             title: data?.title,
             description: data?.description,
             is_status: data?.is_status,
             msg_grp_id: data?.msg_grp_id,
             severtiy: data?.severity?.id,
-            msg_grp_msg_info_id: data?.msg_grp_msg_info_id,
+            msg_grp_msg_info_id: data?.id,
             msg_grp_msg_data: data?.msg_grp_msgs,
           },
         }));
       }
+      return set({
+        loading: false,
+      });
     } catch (err: any) {
       set({ loading: false });
       log('error', err);
@@ -616,19 +622,19 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
   // Edit Message
   tableEditMessage: async (payload: any) => {
     try {
-      const { severtiy } = get();
+      const { severtiy, status } = get();
       set({ loading: true });
       const response = await httpRequest(
         'put',
         // 'http://localhost:3000/api/v1/message_groups/edit_message_group',
-        `${envConfig.api_url}/api/v1/messages/edit_message`,
+        `${envConfig.api_url}/messages/edit_message`,
         {
           title: payload?.title,
           description: payload?.description,
           is_status: payload?.is_status,
           msg_grp_id: payload?.msg_grp_id,
           msg_grp_msg_info_id: payload?.msg_grp_msg_info_id,
-          severity_id: severtiy,
+          severity_id: status,
           msg_grp_msg_data: payload?.msg_grp_msg_data,
         },
 
@@ -679,6 +685,32 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
       groupState: {
         ...groupState,
       },
+    });
+  },
+
+  clearAddgroupState: () => {
+    set({
+      addMessage: {
+        group_id: '',
+        addTitle: '',
+        addDescription: '',
+        isAddGroup: false,
+        severity_id: '',
+      },
+    });
+  },
+  clearAddMessageState: () => {
+    set({
+      editTableMessage: {
+        title: '',
+        description: '',
+        isAddGroup: false,
+        severity: '',
+        msg_grp_id: '',
+        msg_grp_msg_info_id: '',
+        msg_grp_msg_data: [],
+      },
+      status: '',
     });
   },
 }));

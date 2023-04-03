@@ -9,8 +9,8 @@ export const messageTableStyle: MessageTableStyleProps = {
   commonTable: {
     bgcolor: '#fff',
     margin: {
-      lg: '0px 20px',
-      md: '0px 20px',
+      lg: '0px 12px',
+      md: '0px 12px',
       sm: '10px 20px',
       xs: '10px 0px',
     },
@@ -19,7 +19,7 @@ export const messageTableStyle: MessageTableStyleProps = {
     height: '70vh',
   },
   totalTableSx: {
-    margin: '26px 10px',
+    padding: '26px 12px',
   },
   // addSx: { width: '100%', maxWidth: '230px', margin: '0px 21px' },
 };

@@ -46,4 +46,17 @@ export const sideBarStyle: SideBarStyleProps = {
       color: 'typography.transparent',
     },
   },
+  listing: {
+    '& .MuiButtonBase-root.MuiListItemButton-root.MuiListItemButton-gutters.MuiListItemButton-root.MuiListItemButton-gutters.css-fok71q-MuiButtonBase-root-MuiListItemButton-root:focus':
+      {
+        background: '#eaf1f0 0% 0% no-repeat padding-box',
+        borderRadius: '6px',
+      },
+  },
+  mainList: {
+    '& .MuiButtonBase-root.MuiListItemButton-root.MuiListItemButton-gutters.MuiListItemButton-root.MuiListItemButton-gutters.css-w26y8z-MuiButtonBase-root-MuiListItemButton-root:focus':
+      {
+        background: '#eaf1f0 0% 0% no-repeat padding-box',
+      },
+  },
 };

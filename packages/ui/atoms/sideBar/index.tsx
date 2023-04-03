@@ -65,7 +65,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLElement>): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
-  const [drawer, setDrawer] = useState<boolean>(false);
+  const [drawer, setDrawer] = useState<boolean>(true);
   const [openSubCollapse, setopenSubCollapse] = useState<boolean>(false);
   const [openCollapse, setopenCollapse] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -104,19 +104,12 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
         variant="permanent"
         open={drawer}
         onMouseEnter={handleDrawerOpen}
-        onMouseLeave={handleDrawerClose}
+        // onMouseLeave={handleDrawerClose}
         sx={sideBarStyle.drawerSx}
       >
-        <List>
+        <List sx={sideBarStyle?.listing}>
           <Box>
-            <ListItem
-              // onClick={() => {
-              //   navigate('/user/dashboard');
-              // }}
-              key={'Inbox'}
-              disablePadding
-              sx={{ display: 'block' }}
-            >
+            <ListItem key={'Inbox'} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
                   minHeight: 56,
@@ -129,12 +122,12 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
                   sx={{
                     padding: '4px',
                     borderRadius: '8px',
-                    backgroundColor: '#daede8',
+                    backgroundColor: openCollapse ? '#daede8' : '',
                     minWidth: 0,
                     mr: drawer ? 1 : 'auto',
                   }}
                 >
-                  <Alert />
+                  <Alert rootStyle={{ color: openCollapse ? 'primary.main' : '#0E1824' }} />
                 </ListItemIcon>
                 <ListItemText primary={'Alerts Hub'} sx={{ ...sideBarStyle.listheading, opacity: drawer ? 1 : 0 }} />
                 {drawer ? openCollapse ? <ArrowDown /> : <ArrowRight /> : ''}
@@ -215,9 +208,11 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
                     padding: '4px',
                     minWidth: 0,
                     mr: drawer ? 1 : 'auto',
+                    backgroundColor: openSubCollapse ? '#daede8' : '',
+                    borderRadius: '8px',
                   }}
                 >
-                  <MessageHub />
+                  <MessageHub rootStyle={{ color: openSubCollapse ? 'primary.main' : '#0E1824' }} />
                 </ListItemIcon>
                 <ListItemText
                   primary={'Message Catlogue'}

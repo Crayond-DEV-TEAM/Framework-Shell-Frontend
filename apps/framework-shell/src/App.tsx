@@ -6,14 +6,14 @@ import '@styles/globle.css';
 
 import { lightTheme, theme } from '@core/theme';
 import { queryClient } from '@core/utils/api';
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { Button, CssBaseline, ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import RouterApp from '@router';
 // import * as Sentry from '@sentry/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { SnackbarProvider } from 'notistack';
-import { useMemo } from 'react';
-
+import { useMemo, useRef } from 'react';
+import { SnacbarClose } from '../../../packages/ui/atoms/snacbarClose';
 // function FallbackComponent() {
 //   return <div>An error has occurred</div>;
 // }
@@ -32,6 +32,7 @@ function App() {
       }),
     [],
   );
+
   return (
     // <Sentry.ErrorBoundary fallback={myFallback} showDialog>
     <QueryClientProvider client={queryClient}>
@@ -41,6 +42,8 @@ function App() {
             vertical: 'top',
             horizontal: 'center',
           }}
+          autoHideDuration={3000}
+          action={(key) => <SnacbarClose key={key} />}
         />
         <CssBaseline />
         <RouterApp />

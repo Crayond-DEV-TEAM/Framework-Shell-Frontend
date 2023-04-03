@@ -10,4 +10,5 @@ export { LanguageCard } from './languageCard';
 export { MessageCard } from './messageCard';
 export { SearchBox } from './searchbox';
 export { SideBar } from './sideBar';
+export { SnacbarClose } from './snacbarClose';
 export { ToggleButtons } from './toggleButton';

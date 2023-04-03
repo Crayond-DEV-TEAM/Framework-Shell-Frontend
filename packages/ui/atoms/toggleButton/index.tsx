@@ -28,7 +28,6 @@ export const ToggleButtons = (props: ToggleButtonProps): JSX.Element => {
     ...rest
   } = props;
   const [active, setActive] = useState(value);
-
   useEffect(() => {
     if (value !== active) {
       onChange(active, value);

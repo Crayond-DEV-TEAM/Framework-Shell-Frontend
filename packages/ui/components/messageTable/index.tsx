@@ -32,6 +32,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     filterTableContent,
     getTable,
     addMessageTable,
+    clearAddMessageState,
     handleGroupChange,
     tableEditMessage,
     handleChipDelete,
@@ -40,6 +41,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     getAllTableGroup,
     getSeverityDetails,
     deleteTableMessage,
+    loading,
   } = useMessageGroup(
     (state) => ({
       groupState: state.groupState,
@@ -55,6 +57,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       updateStatusReport: state.updateStatusReport,
       getStatus: state.getStatus,
       getTable: state.getTable,
+      clearAddMessageState: state.clearAddMessageState,
       tableEditMessage: state.tableEditMessage,
       deleteTableMessage: state.deleteTableMessage,
       addMessageTable: state.addMessageTable,
@@ -197,10 +200,11 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       type: ['ACTION'],
       name: 'action',
       variant: 'EDIT_WITH_DELETE',
-      editHandel: (id: any) => {
-        getTable(id);
+      editHandel: async (id: any) => {
+        const res = await getTable(id);
         setOpen(true);
         setIsEdit(true);
+        // updateStatusReport(status);
       },
       deleteHandel: (id: any) => {
         const msgId = tableMessageData
@@ -216,9 +220,9 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   ];
 
   const addMessageTableFun = async () => {
-    await addedlanguagedisplay({});
     if (isEdit) {
       await tableEditMessage(editTableMessage);
+      clearAddMessageState();
     } else {
       const languagePayload = addedLangState?.map((e: any, i: any) => {
         return {
@@ -227,7 +231,9 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
         };
       });
       await addMessageTable(languagePayload, messageGroupId);
+      clearAddMessageState();
     }
+    await addedlanguagedisplay({});
     setOpen(false);
     await getAllTableGroup(messageGroupId);
   };
@@ -282,8 +288,15 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     await getSeverityDetails();
   };
 
-  const openAddMessage = () => {
+  const handleOpen = () => {
     addedlanguagedisplay({});
+    setOpen(true);
+    clearAddMessageState();
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    clearAddMessageState();
   };
 
   useEffect(() => {
@@ -295,6 +308,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       setSwitchList(setstatus);
     }
   }, [tableMessageData]);
+
   return (
     <Box
       sx={[
@@ -352,11 +366,14 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                     handleStateChange={changehandle}
                     options={severtiy}
                     status={status}
+                    loading={loading}
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
-                    openAddMessage={openAddMessage}
+                    // openAddMessage={openAddMessage}
                     open={open}
                     isEdit={isEdit}
+                    handleOpen={handleOpen}
+                    handleClose={handleClose}
                     setOpen={setOpen}
                     language={language}
                     editTableMessage={editTableMessage}

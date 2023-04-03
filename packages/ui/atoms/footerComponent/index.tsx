@@ -9,7 +9,8 @@ import { CustomSwitches } from '..';
 export interface FooterComponentProps {
   className?: string;
   checked?: any;
-  SwitchChange?: (key: any, value: any) => void;
+  loading?: boolean;
+  SwitchChange?: (value: any) => void;
   onSave?: () => void;
   onCancel?: () => void;
   sx?: SxProps<Theme>;
@@ -20,13 +21,13 @@ export const FooterComponent = forwardRef((props: FooterComponentProps, ref: Rea
     className = '',
     sx = {},
     checked = false,
+    loading = false,
     SwitchChange = () => false,
     onSave = () => false,
     onCancel = () => false,
     ...rest
   } = props;
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
-
   return (
     <Box
       sx={[
@@ -40,31 +41,25 @@ export const FooterComponent = forwardRef((props: FooterComponentProps, ref: Rea
       {...rest}
       width={'100%'}
     >
-      <Grid container alignItems={'center'} display={'flex'}>
-        <Grid item xs={8} sm={8} md={8} lg={8} xl={8} display={'flex'} alignItems={'center'}>
-          <Switch {...label} checked={checked} onChange={SwitchChange} />
-          {/* <CustomSwitches /> */}
+      <Box sx={footerComponentStyle.totalFooterSx}>
+        {/* <Switch {...label} checked={checked} onChange={SwitchChange} /> */}
+        <Box sx={footerComponentStyle.btnSx}>
+          <CustomSwitches label="" value={checked} onChange={SwitchChange} />
           <Typography sx={footerComponentStyle.switch}>Make this active</Typography>
-        </Grid>
-        <Grid item xs={4} sm={4} md={4} lg={4} xl={4} width={'100%'}>
-          <Grid container display={'flex'} justifyContent={'flex-end'} spacing={1}>
-            <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
-              <Box sx={footerComponentStyle.btnBg}>
-                <Button buttonStyle={footerComponentStyle.cancelbtnText} onClick={onCancel}>
-                  Cancel
-                </Button>
-              </Box>
-            </Grid>
-            <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
-              <Box sx={footerComponentStyle.savebtnBg}>
-                <Button buttonStyle={footerComponentStyle.savebtnText} onClick={onSave}>
-                  Save
-                </Button>
-              </Box>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
+        </Box>
+        <Box sx={footerComponentStyle.btnSx}>
+          <Box sx={footerComponentStyle.btnBg}>
+            <Button buttonStyle={footerComponentStyle.cancelbtnText} onClick={onCancel}>
+              Cancel
+            </Button>
+          </Box>
+          <Box sx={footerComponentStyle.savebtnBg}>
+            <Button buttonStyle={footerComponentStyle.savebtnText} loading={loading} onClick={onSave}>
+              Save
+            </Button>
+          </Box>
+        </Box>
+      </Box>
     </Box>
   );
 });

@@ -21,6 +21,7 @@ export interface TableHeaderProps {
   editTableMessage?: any;
   status?: any;
   isEdit?: boolean;
+  loading?: boolean;
   setOpen?: any;
   searchTerm?: any;
   setSearchTerm?: any;
@@ -29,6 +30,8 @@ export interface TableHeaderProps {
   handleStateChange?: (key: any, value: any) => void;
   updateStatusReport?: (e: any) => void;
   onApply?: () => void;
+  handleOpen?: () => void;
+  handleClose?: () => void;
   openAddMessage?: (value: any) => void;
   language?: any;
   addedLangState?: any;
@@ -47,6 +50,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     isFilterRequired = true,
     isSearchRequired = true,
     isBtnRequired = true,
+    loading = true,
     handleStateChange = () => false,
     updateStatusReport = () => false,
     status,
@@ -66,18 +70,12 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     addMessageTable = () => false,
     handleChipDelete = () => false,
     onApply = () => false,
+    handleOpen = () => false,
     onChange = () => false,
+    handleClose = () => false,
     sx = {},
     ...rest
   } = props;
-
-  const handleOpen = () => {
-    setOpen(true);
-    openAddMessage({});
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   return (
     <Box
@@ -142,6 +140,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
             SwitchChange={(e: any) => handleStateChange('is_status', e.target.checked)}
             onSave={addMessageTable}
             onCancel={handleClose}
+            loading={loading}
           />
         }
         handleCloseDialog={handleClose}

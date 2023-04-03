@@ -21,4 +21,5 @@ export const addMessageGroupStyle: AddMessageGroupStyleProps = {
       fontWeight: 500,
     },
   },
+  totalLanguagesSx: {},
 };

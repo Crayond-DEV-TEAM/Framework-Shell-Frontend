@@ -50,6 +50,9 @@ export const messageCardStyle: MessageCardStyleProps = {
     color: 'typography.transparent',
   },
   menuSx: {
+    '& .MuiPopover-paper': {
+      borderRadius: '8px',
+    },
     '& .MuiMenu-list': {
       p: 1,
     },

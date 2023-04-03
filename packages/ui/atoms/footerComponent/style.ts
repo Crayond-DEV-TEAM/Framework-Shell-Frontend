@@ -39,15 +39,27 @@ export const footerComponentStyle: FooterComponentStyleProps = {
     fontSize: '12px',
     boxShadow: 'none',
     fontWeight: 400,
+    width: '64px',
+    ml: 1,
+    mr: 2,
   },
   switch: {
     color: '#5A5A5A',
     fontSize: '14px',
     fontWeight: 400,
-    paddingLeft: '12px',
   },
   header: {
     border: '1px solid #E4E8EE',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  totalFooterSx: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  btnSx: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',

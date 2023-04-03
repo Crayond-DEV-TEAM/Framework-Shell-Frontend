@@ -10,7 +10,7 @@ import { customSwitchesStyle } from './style';
 export interface CustomSwitchesProps {
   className?: string;
   sx?: SxProps<Theme>;
-  onChange: () => any;
+  onChange: (value: any) => any;
   value: boolean;
   label: string;
 }
@@ -36,6 +36,10 @@ const CustomSwitch = styled((props: SwitchProps) => (
         opacity: 0.5,
       },
     },
+    '&.MuiSwitch-switchBase.Mui-checked ': {
+      transform: 'translateX(20px)',
+    },
+
     '&.Mui-focusVisible .MuiSwitch-thumb': {
       color: 'primary.main',
       border: '6px solid #fff',
@@ -49,10 +53,12 @@ const CustomSwitch = styled((props: SwitchProps) => (
   },
   '& .MuiSwitch-thumb': {
     boxSizing: 'border-box',
-    width: 22,
-    height: 22,
+    width: 16,
+    height: 16,
+    margin: '1px',
   },
   '& .MuiSwitch-track': {
+    height: '22px',
     borderRadius: 26 / 2,
     backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
     opacity: 1,
@@ -63,7 +69,7 @@ const CustomSwitch = styled((props: SwitchProps) => (
 }));
 
 export const CustomSwitches = (props: CustomSwitchesProps): JSX.Element => {
-  const { className = '', sx = {}, onChange = {}, label = 'alkalk', value = false, ...rest } = props;
+  const { className = '', sx = {}, onChange = () => false, label = '', value = false, ...rest } = props;
 
   return (
     <Box
@@ -76,7 +82,10 @@ export const CustomSwitches = (props: CustomSwitchesProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
-      <FormControlLabel control={<CustomSwitch sx={{ m: 1 }} checked={props?.value} />} label={props.label} />
+      <FormControlLabel
+        control={<CustomSwitch sx={{ ml: 1 }} checked={props?.value} onChange={onChange} />}
+        label={props.label}
+      />
     </Box>
   );
 };

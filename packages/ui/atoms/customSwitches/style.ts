@@ -5,5 +5,7 @@ interface CustomSwitchesStyleProps {
 }
 
 export const customSwitchesStyle: CustomSwitchesStyleProps = {
-  rootSx: {},
+  rootSx: {
+    ml: 2,
+  },
 };

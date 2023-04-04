@@ -8,8 +8,9 @@ export const modalAddMessageStyle: ModalAddMessageStyleProps = {
   rootSx: { paddding: '12px' },
   labelSx: {
     fontSize: '12px',
-    color: 'typography.label',
+    color: '#262C33',
     pb: 1,
+    fontWeight: '500',
   },
 
   inputGroupSx: {
@@ -19,6 +20,7 @@ export const modalAddMessageStyle: ModalAddMessageStyleProps = {
   inputSx: {
     '& .MuiOutlinedInput-input': {
       fontWeight: 500,
+      fontSize: '14px',
     },
   },
 };

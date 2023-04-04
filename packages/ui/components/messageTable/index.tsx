@@ -5,7 +5,7 @@ import { AddMessage, TableHeader } from '..';
 import { forwardRef, useEffect } from 'react';
 import { useState } from 'react';
 import { messageTableStyle } from './style';
-import { useLanguage, useMessageGroup } from '@core/store';
+import { useAddGroup, useLanguage, useMessageGroup } from '@core/store';
 import { CommonTable } from 'crayond-components-library-1';
 import isEqual from 'react-fast-compare';
 import { DeleteIcon, EditIcon } from '@atoms/icons';
@@ -21,53 +21,60 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   // Store Data
   const {
     groupState,
-    status,
-    severtiy,
-    language,
-    setstatus,
-    editTableMessage,
     getStatus,
     tableMessageData,
     handleStateChange,
     filterTableContent,
+    clearfilter,
     getTable,
     addMessageTable,
     clearAddMessageState,
     handleGroupChange,
     tableEditMessage,
     handleChipDelete,
-    getAllMessageGroup,
     updateStatusReport,
     getAllTableGroup,
     getSeverityDetails,
+    updateErrorAddGroup,
+    updateStateAddGroup,
     deleteTableMessage,
     loading,
   } = useMessageGroup(
-    (state) => ({
+    (state: any) => ({
       groupState: state.groupState,
-      messageGroup: state.messageGroup,
-      setstatus: state.setstatus,
-      addMessage: state.addMessage,
-      language: state.language,
-      severtiy: state.severtiy,
       tableMessageData: state.tableMessageData,
-      editTableMessage: state.editTableMessage,
       getSeverityDetails: state.getSeverityDetails,
       handleStateChange: state.handleStateChange,
       updateStatusReport: state.updateStatusReport,
       getStatus: state.getStatus,
       getTable: state.getTable,
+      clearfilter: state.clearfilter,
       clearAddMessageState: state.clearAddMessageState,
       tableEditMessage: state.tableEditMessage,
       deleteTableMessage: state.deleteTableMessage,
       addMessageTable: state.addMessageTable,
+      updateStateAddGroup: state.updateStateAddGroup,
+      updateErrorAddGroup: state.updateErrorAddGroup,
       filterTableContent: state.filterTableContent,
       getAllTableGroup: state.getAllTableGroup,
-      getAllMessageGroup: state.getAllMessageGroup,
       handleChipDelete: state.handleChipDelete,
       handleGroupChange: state.handleGroupChange,
-      status: state.status,
       loading: state.loading,
+    }),
+    (prev: any, curr: any) => {
+      const data = isEqual(prev, curr);
+      return false;
+    },
+  );
+
+  const { status, editTableMessage, severtiy, language, setstatus } = groupState;
+
+  const { getAllMessageGroup, messageId, messageName } = useAddGroup(
+    (state) => ({
+      messageId: state.messageId,
+      messageName: state.messageName,
+      clearAddgroupState: state.clearAddgroupState,
+      getAllMessageGroup: state.getAllMessageGroup,
     }),
     (prev, curr) => {
       const data = isEqual(prev, curr);
@@ -83,19 +90,41 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const { filterContent } = groupState;
 
   // General Hooks
-  // const [isSelectedAll, setIsSelectedAll] = useState(false);
-  // const [selectedCheckbox, setSelectedCheckbox] = useState([1, 2]);
   const [switchList, setSwitchList] = useState(setstatus);
-  // const [headerSelect, setHederSelect] = useState('');
-  // const [headerCheckbox, setHederCheckbox] = useState(true);
   const [open, setOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [messageGroupId, setMessageGroupId] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [tableName, setTableName] = useState('');
+  const [message, setMessage] = useState([]);
 
   const filteredMessageGroup = tableMessageData?.filter((x: any) =>
     x.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+
+  const isValidToCreate = () => {
+    let isValid = true;
+    const error = editTableMessage?.error;
+
+    // Checking addTitle
+    if (editTableMessage?.title?.length === 0) {
+      isValid = false;
+      error.title = 'Title is required';
+    } else {
+      error.title = '';
+    }
+
+    // Checking addDescription
+    if (editTableMessage?.description?.length === 0) {
+      isValid = false;
+      error.description = 'Description is required';
+    } else {
+      error.description = '';
+    }
+
+    updateErrorAddGroup(error);
+    return isValid;
+  };
 
   const changehandle = (key: any, value: any) => {
     handleStateChange(key, value);
@@ -117,7 +146,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       getStatus({ id, status: false });
     }
   };
-  const statusdd = switchList.length > 0;
 
   const Header = [
     {
@@ -220,27 +248,30 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   ];
 
   const addMessageTableFun = async () => {
-    if (isEdit) {
+    if (isEdit && isValidToCreate()) {
+      editTableMessage?.msg_grp_msg_data?.forEach((e: any, i: any) => (e.message = message[i]));
       await tableEditMessage(editTableMessage);
+      setOpen(false);
       clearAddMessageState();
-    } else {
+    } else if (isValidToCreate()) {
       const languagePayload = addedLangState?.map((e: any, i: any) => {
         return {
           configuration_id: e?.id,
-          message: e?.language?.label,
+          message: message[i],
         };
       });
       await addMessageTable(languagePayload, messageGroupId);
+      setOpen(false);
       clearAddMessageState();
     }
-    await addedlanguagedisplay({});
-    setOpen(false);
     await getAllTableGroup(messageGroupId);
+    await addedlanguagedisplay({});
   };
 
   const onMessageTable = async (key: any, value: string) => {
     const tableResponse = await getAllTableGroup(key?.id);
     setMessageGroupId(key?.id);
+    setTableName(key?.title);
   };
 
   const onApply = async () => {
@@ -277,21 +308,25 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       }
     }
     await filterTableContent(FilterArray, created, updated, messageGroupId);
+    clearfilter();
   };
 
   const initialData = async () => {
     const response: any = await getAllMessageGroup();
-    if (response?.[0]?.id) {
-      await getAllTableGroup(response?.[0]?.id);
-      setMessageGroupId(response?.[0]?.id);
+    if (messageId) {
+      await getAllTableGroup(messageId);
+      setMessageGroupId(messageId);
+    }
+    if (messageName) {
+      setTableName(messageName);
     }
     await getSeverityDetails();
   };
 
-  const handleOpen = () => {
-    addedlanguagedisplay({});
-    setOpen(true);
+  const handleOpen = async () => {
+    await addedlanguagedisplay({});
     clearAddMessageState();
+    setOpen(true);
   };
 
   const handleClose = () => {
@@ -299,9 +334,25 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     clearAddMessageState();
   };
 
+  const onChangeMessage = (key: any, i: any, SetLanguageState: any) => {
+    SetLanguageState(key);
+    const a: any = [...message];
+    a[i] = key;
+    setMessage(a);
+  };
+
   useEffect(() => {
     initialData();
-  }, []);
+    updateStateAddGroup();
+    if (addedLangState) {
+      addedlanguagedisplay({});
+    }
+  }, [addedLangState]);
+
+  useEffect(() => {
+    setTableName(messageName);
+    setMessageGroupId(messageId);
+  }, [messageId]);
 
   useEffect(() => {
     if (tableMessageData) {
@@ -352,7 +403,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                 padding: '8px',
               }}
               tableMinWidth={'1500px'}
-              tableMinHeight={'50vh'}
+              tableMinHeight={'65vh'}
               paddingAll={'0px'}
               marginAll={'0px 0px 0px'}
               dense={'small'}
@@ -367,9 +418,10 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                     options={severtiy}
                     status={status}
                     loading={loading}
+                    tableHeader={tableName}
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
-                    // openAddMessage={openAddMessage}
+                    onChangeMessage={onChangeMessage}
                     open={open}
                     isEdit={isEdit}
                     handleOpen={handleOpen}

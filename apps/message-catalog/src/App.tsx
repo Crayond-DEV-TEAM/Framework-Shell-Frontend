@@ -14,7 +14,6 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { SnackbarProvider } from 'notistack';
 import { useMemo } from 'react';
-import { SnacbarClose } from '@core/ui/atoms/snacbarClose';
 
 // function FallbackComponent() {
 //   return <div>An error has occurred</div>;
@@ -43,8 +42,6 @@ function App() {
             vertical: 'top',
             horizontal: 'center',
           }}
-          autoHideDuration={3000}
-          action={(key) => <SnacbarClose key={key} />}
         />
         <CssBaseline />
         <RouterApp />

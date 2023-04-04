@@ -28,6 +28,11 @@ export const tableHeaderStyle: TableHeaderStyleProps = {
   },
   dialogSx: {
     width: '904px',
-    height: '550px',
+    height: '520px',
+  },
+  contentSx: {
+    '&.MuiDialogContent-root': {
+      paddingBottom: '0px',
+    },
   },
 };

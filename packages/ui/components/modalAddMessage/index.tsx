@@ -15,7 +15,6 @@ export interface ModalAddMessageProps {
 
 export const ModalAddMessage = forwardRef((props: ModalAddMessageProps, ref: React.Ref<HTMLElement>): JSX.Element => {
   const { className = '', sx = {}, handleChange = () => false, groupState, ...rest } = props;
-
   return (
     <Box
       sx={[
@@ -28,33 +27,33 @@ export const ModalAddMessage = forwardRef((props: ModalAddMessageProps, ref: Rea
       ref={ref}
       {...rest}
     >
-      <Box sx={{ px: 3, py: 1 }}>
+      <Box sx={{ pt: 2 }}>
         <Box sx={modalAddMessageStyle.inputGroupSx}>
-          <Label sx={modalAddMessageStyle.labelSx} htmlFor="username">
+          <Label sx={modalAddMessageStyle.labelSx} htmlFor="addTitle" isRequired>
             Title
           </Label>
           <Input
             size="small"
-            placeholder="username"
+            placeholder=" Add Title"
             value={groupState?.addTitle}
-            id="username"
+            id="addTitle"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('addTitle', e.target.value)
             }
             textFieldStyle={modalAddMessageStyle.inputSx}
-            // isError={values?.error?.username ? true : false}
-            // errorMessage={values?.error?.username ?? ''}
+            isError={groupState?.error?.addTitle ? true : false}
+            errorMessage={groupState?.error?.addTitle ?? ''}
           />
         </Box>
         <Box sx={modalAddMessageStyle.inputGroupSx}>
-          <Label sx={modalAddMessageStyle.labelSx} htmlFor="username">
-            Descriptionss
+          <Label sx={modalAddMessageStyle.labelSx} htmlFor="description" isRequired>
+            Description
           </Label>
           <Input
             size="small"
             placeholder="Add description"
             value={groupState?.addDescription}
-            id="username"
+            id="description"
             // textFieldStyle={{ height: '112px' }}
             rows={5}
             rowsMax={10}
@@ -63,8 +62,8 @@ export const ModalAddMessage = forwardRef((props: ModalAddMessageProps, ref: Rea
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('addDescription', e.target.value)
             }
-            // isError={values?.error?.username ? true : false}
-            // errorMessage={values?.error?.username ?? ''}
+            isError={groupState?.error?.addDescription ? true : false}
+            errorMessage={groupState?.error?.addDescription ?? ''}
           />
         </Box>
       </Box>

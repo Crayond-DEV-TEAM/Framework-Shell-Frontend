@@ -10,15 +10,17 @@ export const addMessageStyle: AddMessageStyleProps = {
     backgroundColor: 'primary.contrastText',
     // height: '500px',
     borderRadius: '8px',
-    height: '70vh',
+    border: '1px solid #EAEAEA',
+    height: '80vh',
   },
   header: {
-    borderBottom: '1px solid #EAEAEA',
     display: 'flex',
-    alignItems: 'center',
     justifyContent: 'space-between',
-    px: 2.5,
-    py: 2,
+    alignItems: 'center',
+    px: 2,
+    pt: 2,
+    pb: 1.25,
+    borderBottom: '1px solid #EAEAEA',
   },
   body: {
     padding: '12px',
@@ -30,18 +32,21 @@ export const addMessageStyle: AddMessageStyleProps = {
   },
   dialogSx: {
     width: '500px',
-    height: '414px',
+    height: '450px',
   },
   inputSx: {
     fontWeight: '600',
   },
   noDataSx: {
     fontWeight: '600',
-    padding: '31px 36px',
+    width: '100%',
+    margin: '0px auto',
+    p: 2,
     fontSize: ' 14px',
+    textAlign: 'center',
   },
   totalGroupSx: {
     overflowY: 'scroll',
-    height: '49vh',
+    height: '63vh',
   },
 };

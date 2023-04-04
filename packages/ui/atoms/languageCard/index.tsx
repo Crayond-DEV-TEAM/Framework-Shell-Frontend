@@ -12,7 +12,10 @@ export interface LanguageCardProps {
   handleLanguageChange?: (key: any, value: any) => void;
   languageBox?: (val: any) => void;
   value?: any;
+  placeholder?: any;
+  index?: number;
   language?: any;
+  onChange?: (key: any, value: any, state: any) => void;
   sx?: SxProps<Theme>;
 }
 
@@ -23,11 +26,13 @@ export const LanguageCard = (props: LanguageCardProps): JSX.Element => {
     title = '',
     language,
     value,
+    index = '',
+    placeholder = '',
+    onChange = () => false,
     languageBox = () => false,
     handleLanguageChange = () => false,
     ...rest
   } = props;
-
   const [languageState, SetLanguageState] = useState<any>(value);
   return (
     <Box
@@ -41,15 +46,16 @@ export const LanguageCard = (props: LanguageCardProps): JSX.Element => {
       {...rest}
     >
       <Box sx={languageCardStyle.rootMainSx}>
-        <Label sx={languageCardStyle.labelSx} htmlFor="username">
+        <Label sx={languageCardStyle.labelSx} htmlFor="language">
           {title}
         </Label>
         <Box sx={{ pt: 1 }}>
           <Input
             size="small"
             value={languageState}
+            placeholder={placeholder}
             textFieldStyle={languageCardStyle.inputSx}
-            onChange={(event) => SetLanguageState(event.target.value)}
+            onChange={(event) => onChange(event.target.value, index, SetLanguageState)}
           />
         </Box>
       </Box>

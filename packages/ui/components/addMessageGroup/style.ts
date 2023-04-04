@@ -19,7 +19,22 @@ export const addMessageGroupStyle: AddMessageGroupStyleProps = {
   inputSx: {
     '& .MuiOutlinedInput-input': {
       fontWeight: 500,
+      fontSize: '14px',
     },
   },
   totalLanguagesSx: {},
+
+  dividerSx: {
+    // border: '0.5px solid',
+    // backgroundColor: '#E0E0E0',
+    borderColor: '#E0E0E0',
+    height: '412px',
+    width: '1px',
+  },
+  totalDivider: {
+    display: 'flex',
+  },
+  totalGrid: {
+    display: 'flex',
+  },
 };

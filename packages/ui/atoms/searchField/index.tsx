@@ -1,5 +1,5 @@
 import { MenuItem, Typography } from '@material-ui/core';
-import { Popper, List, ListItem, ListItemText, InputBase, ListItemButton, Box } from '@mui/material';
+import { Popper, List, ListItem, ListItemText, InputBase, ListItemButton, Box, CircularProgress } from '@mui/material';
 import React, { useState } from 'react';
 import { searchFieldStyle } from './style';
 import { SearchIcon } from '@atoms/icons';
@@ -10,10 +10,11 @@ export interface SearchFieldProps {
   onSelect: (data: SelectBoxInterface, index: number) => void;
   onSearch: (searchStr: string) => void;
   options: SelectBoxInterface[];
+  loading: boolean;
 }
 
 export const SearchField = (props: SearchFieldProps): JSX.Element => {
-  const { placeholder, onSearch, onSelect, options } = props;
+  const { placeholder, onSearch, onSelect, options, loading = false } = props;
 
   const [anchorEl, setAnchorEl] = useState<any | null>(null);
 
@@ -39,28 +40,30 @@ export const SearchField = (props: SearchFieldProps): JSX.Element => {
   return (
     <Box sx={{ ...searchFieldStyle.searchBoxSx }}>
       <Box sx={{ ...searchFieldStyle.searchFieldSx }}>
-        <SearchIcon />
-        <InputBase
-          placeholder={placeholder}
-          value={search}
-          onChange={onTextChange}
-          onFocus={openOptions}
-          onBlur={() =>
-            setTimeout(() => {
-              closeOptions();
-            }, 250)
-          }
-          sx={{
-            width: '100vh',
-            marginLeft: '12px',
-            fontSize: '16px',
-            color: '#29302B',
-            fontWeight: 600,
-          }}
-          fullWidth
-        />
+        <Box>
+          <SearchIcon />
+          <InputBase
+            placeholder={placeholder}
+            value={search}
+            onChange={onTextChange}
+            onFocus={openOptions}
+            onBlur={() =>
+              setTimeout(() => {
+                closeOptions();
+              }, 250)
+            }
+            sx={{
+              width: '100vh',
+              marginLeft: '12px',
+              fontSize: '16px',
+              color: '#29302B',
+              fontWeight: 600,
+            }}
+            fullWidth
+          />
+        </Box>
+        {loading === true && <CircularProgress size={20} />}
       </Box>
-
       {/* Options */}
       <Popper id={id} open={open} anchorEl={anchorEl} sx={searchFieldStyle?.popove}>
         <Box sx={searchFieldStyle?.title}>Select language</Box>
@@ -87,5 +90,4 @@ export const SearchField = (props: SearchFieldProps): JSX.Element => {
     </Box>
   );
 };
-
 SearchField.displayName = 'SearchField';

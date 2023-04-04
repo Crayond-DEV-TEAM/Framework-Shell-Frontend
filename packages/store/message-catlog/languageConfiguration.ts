@@ -69,7 +69,7 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
       })
       .catch((err) => {
         set({ errorOnFetching: true });
-        enqueueSnackbar(`Opps! Something went wrong, Try Again Later`, { variant: 'error' });
+        // enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
       })
       .finally(() => {
         set({ fetching: false });
@@ -87,7 +87,7 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
           set({ message: '' });
         }, 5000);
 
-        enqueueSnackbar(`Language Configuration Updated`, { variant: 'success' });
+        // enqueueSnackbar(`Language Configuration Updated`, { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnSaving: true });
@@ -103,6 +103,7 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
       set((state) => {
         const newMasterLanguages = state.masterLanguages;
         newMasterLanguages.splice(index, 1);
+
         return {
           languages: [...state.languages, lang],
           isSaved: false,

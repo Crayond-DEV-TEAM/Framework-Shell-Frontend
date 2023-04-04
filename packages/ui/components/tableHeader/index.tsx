@@ -14,12 +14,14 @@ export interface TableHeaderProps {
   className?: string;
   tableHeader?: string;
   buttonName?: string;
+  placeholder?: string;
   isFilterRequired?: boolean;
   isSearchRequired?: boolean;
   isBtnRequired?: boolean;
   filterContent?: any;
   editTableMessage?: any;
   status?: any;
+  checked?: any;
   isEdit?: boolean;
   loading?: boolean;
   setOpen?: any;
@@ -27,6 +29,7 @@ export interface TableHeaderProps {
   setSearchTerm?: any;
   open?: boolean | any;
   addMessageTable?: any;
+  isDownloadRequired?: boolean | any;
   handleStateChange?: (key: any, value: any) => void;
   updateStatusReport?: (e: any) => void;
   onApply?: () => void;
@@ -47,6 +50,8 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
   const {
     className = '',
     tableHeader = 'Message Group 2',
+    placeholder = '',
+    isDownloadRequired = false,
     isFilterRequired = true,
     isSearchRequired = true,
     isBtnRequired = true,
@@ -67,6 +72,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     searchTerm,
     setSearchTerm,
     filterContent,
+    checked,
     addMessageTable = () => false,
     handleChipDelete = () => false,
     onApply = () => false,
@@ -145,7 +151,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
         }
         handleCloseDialog={handleClose}
         rootStyle={{ padding: '0px important' }}
-        // dialogstyle={{ width: '904px', height: '604px' }}
+      // dialogstyle={{ width: '904px', height: '604px' }}
       />
     </Box>
   );

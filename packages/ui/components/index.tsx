@@ -13,3 +13,4 @@ export { ResetPassword } from './resetPassword';
 export { RootLayout } from './rootLayout';
 export { SignUp } from './signUp';
 export { TableHeader } from './tableHeader';
+export { Reports } from './reports';

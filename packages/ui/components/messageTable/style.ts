@@ -16,10 +16,12 @@ export const messageTableStyle: MessageTableStyleProps = {
     },
     padding: '0px 10px',
     borderRadius: '8px',
-    height: '70vh',
+    height: '80vh',
+    border: '1px solid #EAEAEA',
   },
   totalTableSx: {
-    padding: '26px 12px',
+    padding: '10px 12px',
   },
+  tableHeaderSx: {},
   // addSx: { width: '100%', maxWidth: '230px', margin: '0px 21px' },
 };

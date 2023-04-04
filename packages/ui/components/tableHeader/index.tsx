@@ -28,6 +28,7 @@ export interface TableHeaderProps {
   open?: boolean | any;
   addMessageTable?: any;
   handleStateChange?: (key: any, value: any) => void;
+  onChangeMessage?: (key: any, value: any, state: any) => void;
   updateStatusReport?: (e: any) => void;
   onApply?: () => void;
   handleOpen?: () => void;
@@ -46,7 +47,7 @@ export interface TableHeaderProps {
 export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => {
   const {
     className = '',
-    tableHeader = 'Message Group 2',
+    tableHeader = 'Add Message',
     isFilterRequired = true,
     isSearchRequired = true,
     isBtnRequired = true,
@@ -62,6 +63,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     isEdit,
     options,
     openAddMessage = () => false,
+    onChangeMessage = () => false,
     languageBox = () => false,
     language,
     searchTerm,
@@ -76,7 +78,6 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     sx = {},
     ...rest
   } = props;
-
   return (
     <Box
       sx={[
@@ -120,6 +121,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
       </Box>
       <DialogDrawer
         dialogRootStyle={tableHeaderStyle.dialogSx}
+        contentStyleSx={tableHeaderStyle.contentSx}
         isDialogOpened={open}
         title={'Add New Message Group'}
         Bodycomponent={
@@ -128,6 +130,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
             updateStatusReport={updateStatusReport}
             groupState={editTableMessage}
             status={status}
+            onChangeMessage={onChangeMessage}
             languageBox={languageBox}
             isEdit={isEdit}
             options={options}
@@ -136,8 +139,8 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
         }
         Footercomponent={
           <FooterComponent
-            checked={editTableMessage?.is_status}
-            SwitchChange={(e: any) => handleStateChange('is_status', e.target.checked)}
+            checked={editTableMessage?.isAddGroup}
+            SwitchChange={(e: any) => handleStateChange('isAddGroup', e.target.checked)}
             onSave={addMessageTable}
             onCancel={handleClose}
             loading={loading}

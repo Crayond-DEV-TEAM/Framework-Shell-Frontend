@@ -76,7 +76,7 @@ export function AppBar(props: AppBarProps): JSX.Element {
           vertical: 'top',
           horizontal: 'right',
         }}
-        sx={{ top: '18px', right: '28px', '& .MuiPaper-root': { width: '162px' } }}
+        sx={{ top: '18px', right: '28px', '& .MuiPaper-root': { width: '162px', height: '120px' } }}
       >
         <MenuItem>
           <Box sx={appBarStyle.profileSec}>

@@ -3,7 +3,7 @@ import { DropDown } from '@atoms/dropDown';
 import { DeleteChip, LanguageTop } from '@atoms/icons';
 import SearchIcon from '@mui/icons-material/Search';
 import { SearchField } from '@atoms/searchField';
-import { Chip, Grid, SxProps, Theme } from '@mui/material';
+import { Chip, Grid, Skeleton, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { forwardRef, useEffect, useState } from 'react';
 import { languageConfigStyle } from './style';
@@ -46,7 +46,7 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     getSavedLanguage();
     // eslint-disable-nextline
   }, []);
-
+  console.log(fetching, 'masterLanguageError');
   return (
     <Box
       sx={[{ ...languageConfigStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]}
@@ -64,8 +64,14 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
           options={masterLanguages}
           onSelect={addLanguage}
           onSearch={() => false}
+          loading={masterLanguageLoading}
         />
       </Box>
+      {masterLanguageError === true && (
+        <Typography sx={{ fontSize: '12px', color: 'red', ml: 1 }}>
+          Oops! Something went wrong, Try Again Later
+        </Typography>
+      )}
       <Box sx={{ padding: '8px' }} />
 
       <Box sx={languageConfigStyle.sx}>
@@ -80,26 +86,51 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
         </Box>
         <Box sx={languageConfigStyle.content}>
           <Grid container spacing={1}>
-            {languages?.map((data: SelectBoxInterface, index: number) => {
-              return (
-                <Grid item key={index}>
-                  <Chip
-                    sx={{
-                      backgroundColor: 'primary.main',
-                      width: 'auto',
-                      py: '10px',
-                      color: '#fff',
-                      ' & .MuiChip-deleteIcon': {
-                        margin: '-3px 7px 0 -6px',
-                      },
-                    }}
-                    label={data.label}
-                    onDelete={() => deleteLanguage(data, index)}
-                    deleteIcon={<DeleteChip height={'16px'} width={'12px'} />}
-                  />
-                </Grid>
-              );
-            })}
+            {fetching === true ? (
+              <Box sx={{ display: 'flex' }}>
+                <Skeleton
+                  variant="rounded"
+                  width={98}
+                  height={37}
+                  sx={{ borderRadius: '19px', marginLeft: '10px', marginTop: '5px' }}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width={98}
+                  height={37}
+                  sx={{ borderRadius: '19px', marginLeft: '10px', marginTop: '5px' }}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width={98}
+                  height={37}
+                  sx={{ borderRadius: '19px', marginLeft: '10px', marginTop: '5px' }}
+                />
+              </Box>
+            ) : (
+              <>
+                {languages?.map((data: SelectBoxInterface, index: number) => {
+                  return (
+                    <Grid item key={index}>
+                      <Chip
+                        sx={{
+                          backgroundColor: 'primary.main',
+                          width: 'auto',
+                          py: '10px',
+                          color: '#fff',
+                          ' & .MuiChip-deleteIcon': {
+                            margin: '-3px 7px 0 -6px',
+                          },
+                        }}
+                        label={data.label}
+                        onDelete={() => deleteLanguage(data, index)}
+                        deleteIcon={<DeleteChip height={'16px'} width={'12px'} />}
+                      />
+                    </Grid>
+                  );
+                })}
+              </>
+            )}
           </Grid>
 
           <Box

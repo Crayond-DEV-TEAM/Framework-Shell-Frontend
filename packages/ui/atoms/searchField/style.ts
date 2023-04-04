@@ -35,6 +35,7 @@ export const searchFieldStyle: SearchFieldStyleProps = {
   searchFieldSx: {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'space-between',
     '& .MuiOutlinedInput-root': {
       px: 0,
       py: 1,

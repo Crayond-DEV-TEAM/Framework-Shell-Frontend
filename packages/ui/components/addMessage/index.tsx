@@ -3,10 +3,10 @@ import { FooterComponent } from '@atoms/footerComponent';
 import { AddIcon } from '@atoms/icons';
 import { MessageCard } from '@atoms/messageCard';
 import { SearchField } from '@atoms/searchField';
-import { useMessageGroup } from '@core/store';
+import { useAddGroup, useMessageGroup } from '@core/store';
 import SearchIcon from '@mui/icons-material/Search';
 import type { SxProps, Theme } from '@mui/material';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, IconButton } from '@mui/material';
 import { forwardRef, useEffect, useState } from 'react';
 import { useSnackbar } from 'notistack';
 import isEqual from 'react-fast-compare';
@@ -27,31 +27,31 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
 
   // store Data
   const {
-    get,
     groupState,
     messageGroup,
-    editMessage,
-    handleStateChange,
+    get,
     deleteMessage,
-    handleChipDelete,
-    addMessage,
-    loading,
-    clearAddgroupState,
     getAllMessageGroup,
+    handleStateChange,
+    editMessage,
+    clearAddgroupState,
     addMessageGroup,
-  } = useMessageGroup(
+    updateErrorAddGroup,
+    updateStateAddGroup,
+    loading,
+  } = useAddGroup(
     (state) => ({
       groupState: state.groupState,
       messageGroup: state.messageGroup,
       get: state.get,
       addMessageGroup: state.addMessageGroup,
       editMessage: state.editMessage,
-      addMessage: state.addMessage,
-      getAllMessageGroup: state.getAllMessageGroup,
-      handleChipDelete: state.handleChipDelete,
       deleteMessage: state.deleteMessage,
       clearAddgroupState: state.clearAddgroupState,
+      updateStateAddGroup: state.updateStateAddGroup,
+      getAllMessageGroup: state.getAllMessageGroup,
       handleStateChange: state.handleStateChange,
+      updateErrorAddGroup: state.updateErrorAddGroup,
       loading: state.loading,
     }),
     (prev, curr) => {
@@ -60,10 +60,15 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     },
   );
 
+  const { addMessage } = groupState;
+
   const [open, setOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
 
+  // const [values, setValues] = useState(addMessage);
+
   const [selected, setSelected] = useState(0);
+
   const handleOpen = () => {
     setOpen(true);
     setIsEdit(false);
@@ -76,8 +81,31 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
 
   const handleClose = () => {
     clearAddgroupState();
-
     setOpen(false);
+  };
+
+  const isValidToCreate = () => {
+    let isValid = true;
+    const error = addMessage?.error;
+
+    // Checking addTitle
+    if (addMessage?.addTitle?.length === 0) {
+      isValid = false;
+      error.addTitle = 'Title is required';
+    } else {
+      error.addTitle = '';
+    }
+
+    // Checking addDescription
+    if (addMessage?.addDescription?.length === 0) {
+      isValid = false;
+      error.addDescription = 'Description is required';
+    } else {
+      error.addDescription = '';
+    }
+
+    updateErrorAddGroup(error);
+    return isValid;
   };
 
   const handleMessage = (key: any, value: any) => {
@@ -86,30 +114,16 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     onMessageTable(key, value);
   };
 
-  const messageValue = [
-    {
-      title: 'Message Group 1',
-    },
-    {
-      title: 'Message Group 2',
-    },
-    {
-      title: 'Message Group 3',
-    },
-    {
-      title: 'Message Group 4',
-    },
-  ];
-
   const addGroup = async () => {
-    if (isEdit) {
+    if (isEdit && isValidToCreate()) {
       await editMessage(addMessage, true);
       clearAddgroupState();
-    } else {
+      setOpen(false);
+    } else if (isValidToCreate()) {
       await addMessageGroup();
       clearAddgroupState();
+      setOpen(false);
     }
-    setOpen(false);
     await getAllMessageGroup();
   };
 
@@ -123,11 +137,15 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     setOpen(true);
     setIsEdit(true);
   };
+
   useEffect(() => {
-    // const authToken = localStorage.getItem(localStorageKeys.authToken);
-    // const data = parseJwt(authToken);
+    updateStateAddGroup();
+  }, []);
+
+  useEffect(() => {
     getAllMessageGroup();
   }, []);
+
   return (
     <Box
       sx={[
@@ -142,13 +160,13 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     >
       <Box sx={addMessageStyle.header}>
         <Typography sx={addMessageStyle.titleSx}>Message Group</Typography>
-        <Box sx={{ cursor: 'pointer' }}>
-          <AddIcon onClick={handleOpen} />
-        </Box>
+        <IconButton onClick={handleOpen} sx={{ p: 0 }}>
+          <AddIcon />
+        </IconButton>
       </Box>
-      <Box sx={{ m: '12px', height: '32px' }}>
+      <Box sx={{ py: 2, px: 1.25 }}>
         <Input
-          placeholder="Search by title"
+          placeholder="Search"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           startAdornment={<SearchIcon sx={{ ml: 1, fontSize: '16px', color: '#818181' }} />}
@@ -159,7 +177,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
         {Array.isArray(filteredMessageGroup) && filteredMessageGroup?.length > 0 ? (
           filteredMessageGroup?.map((x: any, index: any) => {
             return (
-              <Box key={index}>
+              <Box key={index} sx={{ pb: 1.25 }}>
                 <MessageCard
                   index={index}
                   title={x.title}

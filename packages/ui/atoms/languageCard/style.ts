@@ -24,6 +24,7 @@ export const languageCardStyle: LanguageCardStyleProps = {
   inputSx: {
     '& .MuiOutlinedInput-input': {
       fontWeight: 500,
+      color: '#0F0B11',
     },
     backgroundColor: 'primary.contrastText',
   },

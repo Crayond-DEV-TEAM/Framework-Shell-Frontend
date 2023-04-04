@@ -67,6 +67,7 @@ export function ManIcon(props: any) {
     height: 22,
     width: 22,
     color: '#0E1824',
+    marginTop: '5px',
     ...rootStyle,
   };
   return (
@@ -88,6 +89,7 @@ export function Logout(props: any) {
     height: 22,
     width: 22,
     color: '#0E1824',
+    marginTop: '5px',
     ...rootStyle,
   };
   return (
@@ -488,13 +490,23 @@ export function ApiProfile(props: any) {
   const { rootStyle, ...rest } = props;
 
   const rootSx = {
-    height: 22,
-    width: 22,
+    height: '15px',
+    width: '20px',
     color: '#0E1824',
+    marginLeft: '-2px',
+    /* margin-top: 5px; */
+    marginRight: '5px',
     ...rootStyle,
   };
   return (
-    <SvgIcon xmlns="http://www.w3.org/2000/svg" width="19.603" height="16.663" viewBox="0 0 19.603 16.663">
+    <SvgIcon
+      xmlns="http://www.w3.org/2000/svg"
+      width="19.603"
+      height="16.663"
+      viewBox="0 0 19.603 16.663"
+      {...rest}
+      sx={rootSx}
+    >
       <path
         id="icons8-api"
         d="M6.7,7A2.707,2.707,0,0,0,4,9.7V20.967a2.707,2.707,0,0,0,2.7,2.7H20.908a2.707,2.707,0,0,0,2.7-2.7V9.7a2.707,2.707,0,0,0-2.7-2.7Zm0,1.47H20.908A1.214,1.214,0,0,1,22.133,9.7V20.967a1.214,1.214,0,0,1-1.225,1.225H6.7A1.214,1.214,0,0,1,5.47,20.967V9.7A1.214,1.214,0,0,1,6.7,8.47Zm3.186,3.921a.612.612,0,0,0-.57.388L7.474,17.434a.612.612,0,0,0,1.139.45l.187-.47h2.165l.186.47a.61.61,0,0,0,.57.388.6.6,0,0,0,.224-.043.612.612,0,0,0,.345-.794l-1.838-4.656A.612.612,0,0,0,9.881,12.391Zm4.043,0a.613.613,0,0,0-.613.613v4.656a.613.613,0,0,0,1.225,0V16.8h.98a2.205,2.205,0,1,0,0-4.411Zm5.391,0A.613.613,0,0,0,18.7,13v4.656a.613.613,0,1,0,1.225,0V13A.613.613,0,0,0,19.315,12.391Zm-4.778,1.225h.98a.98.98,0,1,1,0,1.96h-.98ZM9.881,14.672l.6,1.517h-1.2Z"

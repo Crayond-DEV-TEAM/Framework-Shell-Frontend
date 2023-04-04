@@ -62,7 +62,7 @@ export const AddMessageGroup = forwardRef((props: AddMessageGroupProps, ref: Rea
               </Label>
               <Input
                 size="small"
-                placeholder="title"
+                placeholder="Add Title"
                 required
                 value={groupState?.title}
                 textFieldStyle={addMessageGroupStyle.inputSx}

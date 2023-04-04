@@ -1,97 +1,91 @@
-import { MenuItem } from '@material-ui/core';
-import { InputAdornment, SxProps, TextField, Theme, Popover, List, ListItem, ListItemText } from '@mui/material';
-import { Box } from '@mui/material';
-import { forwardRef } from 'react';
-import { useState } from 'react';
+import { MenuItem, Typography } from '@material-ui/core';
+import { Popper, List, ListItem, ListItemText, InputBase, ListItemButton, Box } from '@mui/material';
+import React, { useState } from 'react';
 import { searchFieldStyle } from './style';
+import { SearchIcon } from '@atoms/icons';
+import { SelectBoxInterface } from '@core/store/interface';
+
 export interface SearchFieldProps {
-  className?: string;
-  startAdornment?: JSX.Element;
-  endAdornment?: JSX.Element;
-  searchField_Style?: any;
-  searchInputStyle?: any;
-  totalSearchSx?: any;
-  placeholder?: string;
-  onSelect?: any;
-  select?: boolean;
-  onSearch?: string;
-  sx?: SxProps<Theme>;
-  selectOption?: Array<any>;
-  onClick?: () => any;
+  placeholder: string;
+  onSelect: (data: SelectBoxInterface, index: number) => void;
+  onSearch: (searchStr: string) => void;
+  options: SelectBoxInterface[];
 }
-export const SearchField = forwardRef((props: SearchFieldProps): JSX.Element => {
-  const {
-    startAdornment = '',
-    endAdornment,
-    searchField_Style = {},
-    searchInputStyle = {},
-    selectOption = [],
-    placeholder = '',
-    onSelect = () => true,
-    totalSearchSx = {},
-    select = true,
-    onSearch = '',
-    onClick = () => false,
-  } = props;
 
-  const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
+export const SearchField = (props: SearchFieldProps): JSX.Element => {
+  const { placeholder, onSearch, onSelect, options } = props;
 
-  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => setAnchorEl(event.currentTarget);
+  const [anchorEl, setAnchorEl] = useState<any | null>(null);
 
-  const handleClose = () => setAnchorEl(null);
+  const [search, setSearch] = useState<string>('');
+
+  const openOptions = (event: React.FocusEvent<HTMLInputElement>) => setAnchorEl(event.currentTarget);
+
+  const closeOptions = () => setAnchorEl(null);
 
   const open = Boolean(anchorEl);
 
-  const id = open ? 'simple-popover' : undefined;
+  const id = open ? 'search-field-language-configuration' : undefined;
 
+  const onTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const str: string = e.target.value;
+    onSearch(str);
+    setSearch(str);
+  };
+  // searchfunc
+  const filteredMessageGroup = options?.filter((x: any) => x.label.toLowerCase().includes(search?.toLowerCase()));
+
+  console.log(onSelect, 'sss');
   return (
-    <Box sx={{ ...searchFieldStyle.searchBoxSx, ...totalSearchSx }}>
-      {/* Searchfield */}
-      <TextField
-        onClick={handleClick}
-        placeholder={placeholder}
-        sx={{ ...searchFieldStyle.searchFieldSx, ...searchField_Style }}
-        variant="outlined"
-        value={onSearch}
-        fullWidth
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start" sx={{ ...searchFieldStyle.searchInputSx, ...searchInputStyle }}>
-              {startAdornment}
-            </InputAdornment>
-          ),
-          endAdornment: (
-            <InputAdornment position="end" sx={{ ...searchFieldStyle.searchInputSx, ...searchInputStyle }}>
-              {endAdornment}
-            </InputAdornment>
-          ),
-        }}
-      />
+    <Box sx={{ ...searchFieldStyle.searchBoxSx }}>
+      <Box sx={{ ...searchFieldStyle.searchFieldSx }}>
+        <SearchIcon />
+        <InputBase
+          placeholder={placeholder}
+          value={search}
+          onChange={onTextChange}
+          onFocus={openOptions}
+          onBlur={() =>
+            setTimeout(() => {
+              closeOptions();
+            }, 250)
+          }
+          sx={{
+            width: '100vh',
+            marginLeft: '12px',
+            fontSize: '16px',
+            color: '#29302B',
+            fontWeight: 600,
+          }}
+          fullWidth
+        />
+      </Box>
 
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-        sx={searchFieldStyle?.popove}
-      >
-        <List sx={searchFieldStyle?.text}>
-          {selectOption?.map((option: any, index: number) => (
-            <ListItem
-              key={option?.value}
-              value={option?.value}
-              onClick={() => {
-                handleClose();
-                onSelect(option, index);
-              }}
-            >
-              <ListItemText>{option?.label}</ListItemText>
-            </ListItem>
-          ))}
-        </List>
-      </Popover>
+      {/* Options */}
+      <Popper id={id} open={open} anchorEl={anchorEl} sx={searchFieldStyle?.popove}>
+        <Box sx={searchFieldStyle?.title}>Select language</Box>
+        {Array.isArray(filteredMessageGroup) && filteredMessageGroup?.length > 0 ? (
+          <List sx={searchFieldStyle?.text}>
+            {filteredMessageGroup.map((option: SelectBoxInterface, index: number) => (
+              <ListItemButton
+                key={option?.value}
+                onClick={() => {
+                  closeOptions();
+                  onSelect(option, index);
+                }}
+              >
+                <ListItemText>{option.label}</ListItemText>
+              </ListItemButton>
+            ))}
+          </List>
+        ) : (
+          <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }}>
+            <p>No Languge Found!</p>
+          </Box>
+        )}
+      </Popper>
     </Box>
   );
-});
+};
+
 SearchField.displayName = 'SearchField';

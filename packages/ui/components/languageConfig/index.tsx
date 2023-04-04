@@ -5,9 +5,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import { SearchField } from '@atoms/searchField';
 import { Chip, Grid, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-import { forwardRef, useEffect } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { languageConfigStyle } from './style';
 import { useLanguageConfiguration } from '@core/store';
+// import { enqueueSnackbar } from 'notistack';
 import { SelectBoxInterface } from '@core/store/interface';
 
 export interface LanguageConfigProps {
@@ -59,16 +60,13 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
       </Box>
       <Box>
         <SearchField
-          startAdornment={<SearchIcon sx={{ fontSize: '20px', color: '#29302B' }} />}
           placeholder="Search and choose the language you're looking for..."
-          totalSearchSx={languageConfigStyle.searchBoxSx}
-          searchField_Style={languageConfigStyle.innerSearchSx}
-          select
-          selectOption={masterLanguages}
+          options={masterLanguages}
           onSelect={addLanguage}
-          onSearch={undefined}
+          onSearch={() => false}
         />
       </Box>
+      <Box sx={{ padding: '8px' }} />
 
       <Box sx={languageConfigStyle.sx}>
         <Box sx={languageConfigStyle.header}>
@@ -86,10 +84,18 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
               return (
                 <Grid item key={index}>
                   <Chip
-                    sx={{ backgroundColor: 'primary.main', width: 'auto', py: '10px', color: '#fff' }}
+                    sx={{
+                      backgroundColor: 'primary.main',
+                      width: 'auto',
+                      py: '10px',
+                      color: '#fff',
+                      ' & .MuiChip-deleteIcon': {
+                        margin: '-3px 7px 0 -6px',
+                      },
+                    }}
                     label={data.label}
                     onDelete={() => deleteLanguage(data, index)}
-                    deleteIcon={<DeleteChip height={'12px'} width={'12px'} />}
+                    deleteIcon={<DeleteChip height={'16px'} width={'12px'} />}
                   />
                 </Grid>
               );

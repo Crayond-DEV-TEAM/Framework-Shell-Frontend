@@ -82,6 +82,11 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
     httpRequest('put', `${envConfig.api_url}/config_languages/edit_config_languages`, { languages }, true)
       .then((response) => {
         set({ isSaved: true, message: 'Changes Saved!' });
+
+        setTimeout(() => {
+          set({ message: '' });
+        }, 5000);
+
         enqueueSnackbar(`Language Configuration Updated`, { variant: 'success' });
       })
       .catch((err) => {
@@ -106,6 +111,10 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
           masterLanguages: newMasterLanguages,
         };
       });
+      setTimeout(() => {
+        set({ message: '' });
+      }, 5000);
+
       enqueueSnackbar('Language added successfully!', { variant: 'success' });
     } else {
       enqueueSnackbar('Language already added!', { variant: 'warning' });
@@ -127,6 +136,10 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
         message: "Changes will be lost if you don't save.",
       };
     });
+    setTimeout(() => {
+      set({ message: '' });
+    }, 5000);
+
     enqueueSnackbar('Language removed successfully!', { variant: 'success' });
     return true;
   },
@@ -141,6 +154,10 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
         message: "Changes will be lost if you don't save.",
       };
     });
+    setTimeout(() => {
+      set({ message: '' });
+    }, 5000);
+
     set({ defaultLang: lang, isSaved: false, message: "Changes will be lost if you don't save." });
     return true;
   },

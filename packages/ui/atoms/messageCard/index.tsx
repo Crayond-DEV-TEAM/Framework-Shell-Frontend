@@ -69,7 +69,11 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
       {...rest}
     >
       <Box
-        sx={{ ...messageCardStyle.messageCard, backgroundColor: select === index ? '#EAF1EF' : 'none' }}
+        sx={{
+          ...messageCardStyle.messageCard,
+          p: select === index ? 1 : 1,
+          backgroundColor: select === index ? '#EAF1EF' : 'none',
+        }}
         onClick={onMessaageClick}
       >
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -88,7 +92,11 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
           aria-haspopup="true"
           // onMouseOver={handleClick}
         >
-          <MoreIcon rootStyle={{ width: '3px', height: '13px', cursor: 'pointer', opacity: anchorEl ? 0.5 : 1 }} />
+          {isHovering ? (
+            <MoreIcon rootStyle={{ width: '3px', height: '13px', cursor: 'pointer', opacity: anchorEl ? 0.5 : 1 }} />
+          ) : (
+            ''
+          )}
         </IconButton>
         <Menu open={open} anchorEl={anchorEl} onClose={handleClose} sx={messageCardStyle.menuSx}>
           <MenuItem onClick={onEdit} sx={{ justifyContent: 'space-between' }}>

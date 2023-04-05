@@ -372,13 +372,13 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       ref={ref}
       {...rest}
     >
-      <Grid container display="flex" sx={messageTableStyle.totalTableSx}>
-        <Grid item xs={12} sm={3} md={2}>
+      <Grid container display="flex" sx={messageTableStyle.totalTableSx} spacing={3}>
+        <Grid item xs={12} sm={4} md={2.25}>
           <Box sx={messageTableStyle.addSx}>
             <AddMessage onMessageTable={onMessageTable} />
           </Box>
         </Grid>
-        <Grid item xs={12} sm={9} md={10}>
+        <Grid item xs={12} sm={8} md={9.75}>
           <Box sx={messageTableStyle.commonTable}>
             <CommonTable
               Header={Header}
@@ -403,7 +403,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                 padding: '8px',
               }}
               tableMinWidth={'1500px'}
-              tableMinHeight={'65vh'}
+              tableMinHeight={'60vh'}
               paddingAll={'0px'}
               marginAll={'0px 0px 0px'}
               dense={'small'}

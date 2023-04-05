@@ -14,14 +14,22 @@ export const messageTableStyle: MessageTableStyleProps = {
       sm: '10px 20px',
       xs: '10px 0px',
     },
-    padding: '0px 10px',
+    padding: '20px 26px',
+    // margin: '24px 31px',
     borderRadius: '8px',
-    height: '80vh',
+    height: 'calc(100vh - 100px)',
     border: '1px solid #EAEAEA',
+    '& .css-x5ymgk': {
+      gap: '0px',
+      marginBottom: '14px',
+      padding: 0,
+    },
   },
   totalTableSx: {
-    padding: '10px 12px',
+    padding: '0px 12px',
   },
-  tableHeaderSx: {},
+  tableHeaderSx: {
+    // paddding: '40px',
+  },
   // addSx: { width: '100%', maxWidth: '230px', margin: '0px 21px' },
 };

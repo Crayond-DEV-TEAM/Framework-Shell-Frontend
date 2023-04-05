@@ -24,6 +24,7 @@ export const footerComponentStyle: FooterComponentStyleProps = {
   //   cursor: 'pointer',
   // },
   cancelbtnText: {
+    textTransform: 'capitalize',
     backgroundColor: '#EAEAEA',
     color: '#5A5A5A',
     fontSize: '12px',
@@ -35,6 +36,7 @@ export const footerComponentStyle: FooterComponentStyleProps = {
     },
   },
   savebtnText: {
+    textTransform: 'capitalize',
     color: '#FFFFFF',
     fontSize: '12px',
     boxShadow: 'none',

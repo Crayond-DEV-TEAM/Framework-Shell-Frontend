@@ -6,7 +6,7 @@ interface MessageCardStyleProps {
 
 export const messageCardStyle: MessageCardStyleProps = {
   rootSx: {
-    px: '12px',
+    mx: '12px',
   },
   messageCard: {
     display: 'flex',
@@ -14,7 +14,11 @@ export const messageCardStyle: MessageCardStyleProps = {
     justifyContent: 'space-between',
     cursor: 'pointer',
     borderRadius: '4px',
-    p: 0.75,
+    p: 1,
+    '&:hover': {
+      backgroundColor: '#EAF1EF',
+      p: 0.6,
+    },
   },
   dot: {
     mr: 0.6,

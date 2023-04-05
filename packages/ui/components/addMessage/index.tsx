@@ -177,7 +177,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
         {Array.isArray(filteredMessageGroup) && filteredMessageGroup?.length > 0 ? (
           filteredMessageGroup?.map((x: any, index: any) => {
             return (
-              <Box key={index} sx={{ pb: 1.25 }}>
+              <Box key={index} sx={{ pb: 0.75 }}>
                 <MessageCard
                   index={index}
                   title={x.title}

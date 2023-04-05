@@ -1,10 +1,11 @@
 import { alertsHubRoutes } from '@core/routes';
-import { AppLayout, PageNotFound, RootLayout } from '@core/ui/components';
+import { ApiDocumentation, AppLayout, PageNotFound, RootLayout } from '@core/ui/components';
 import ErrorBoundary from '@pages/errorBoundary';
 import Home from '@pages/home';
 import ReportsHub from '@pages/reports';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { PrivateRouter } from './privateRouter';
+import AlertRule from '@pages/alertRule';
 
 const router = createBrowserRouter([
   {
@@ -29,12 +30,20 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: alertsHubRoutes.reports,
-        // element: (
-        //   <AppLayout>
-        //     <LanguageConfigPage />
-        //   </AppLayout>
-        // ),
+        path: alertsHubRoutes.alertRule,
+        element: (
+          <AppLayout>
+            <AlertRule />
+          </AppLayout>
+        )
+      },
+      {
+        path: alertsHubRoutes.apiDocumentation,
+        element: (
+          <AppLayout>
+            <ApiDocumentation />
+          </AppLayout>
+        ),
       },
     ],
   },

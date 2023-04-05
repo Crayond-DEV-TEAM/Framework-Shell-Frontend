@@ -9,6 +9,7 @@ interface Props extends Omit<CheckboxProps, 'icon' | 'checkedIcon'> {
   checkedIcon?: React.ReactNode;
   checkStyle?: any;
   checkSecondStyle?: any;
+  header?: string;
 }
 
 const BpIcon = styled('span')<{ checkStyle?: any }>(({ checkStyle }) => ({
@@ -56,6 +57,7 @@ export const CheckBox: React.FC<Props> = ({
   disabled = false,
   value = '',
   className = '',
+  header = '',
   onChange = () => false,
   ...rest
 }) => {

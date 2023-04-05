@@ -64,7 +64,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     editTableMessage,
     setOpen,
     addedLangState,
-    open,
+    open = false,
     isEdit,
     options,
     openAddMessage = () => false,
@@ -130,32 +130,27 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
         contentStyleSx={tableHeaderStyle.contentSx}
         isDialogOpened={open}
         title={'Add New Message Group'}
-        Bodycomponent={
-          <AddMessageGroup
-            handleChange={handleStateChange}
-            updateStatusReport={updateStatusReport}
-            groupState={editTableMessage}
-            status={status}
-            onChangeMessage={onChangeMessage}
-            languageBox={languageBox}
-            isEdit={isEdit}
-            options={options}
-            language={addedLangState}
-          />
-        }
-        Footercomponent={
-          <FooterComponent
-            checked={editTableMessage?.isAddGroup}
-            SwitchChange={(e: any) => handleStateChange('isAddGroup', e.target.checked)}
-            onSave={addMessageTable}
-            onCancel={handleClose}
-            loading={loading}
-          />
-        }
+        Bodycomponent={<AddMessageGroup
+          handleChange={handleStateChange}
+          updateStatusReport={updateStatusReport}
+          groupState={editTableMessage}
+          status={status}
+          onChangeMessage={onChangeMessage}
+          languageBox={languageBox}
+          isEdit={isEdit}
+          options={options}
+          language={addedLangState} />}
+        Footercomponent={<FooterComponent
+          checked={editTableMessage?.isAddGroup}
+          SwitchChange={(e: any) => handleStateChange('isAddGroup', e.target.checked)}
+          onSave={addMessageTable}
+          onCancel={handleClose}
+          loading={loading} />}
         handleCloseDialog={handleClose}
-        rootStyle={{ padding: '0px important' }}
-        // dialogstyle={{ width: '904px', height: '604px' }}
-      />
+        rootStyle={{ padding: '0px important' }} // dialogstyle={{ width: '904px', height: '604px' }}
+        handleSubmit={function (): void {
+          throw new Error('Function not implemented.');
+        }} />
     </Box>
   );
 });

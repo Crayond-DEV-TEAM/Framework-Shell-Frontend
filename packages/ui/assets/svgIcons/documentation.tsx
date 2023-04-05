@@ -1,6 +1,6 @@
 import * as React from "react"
 
-const DocumentationSvg = (props) => (
+const DocumentationSvg = (props: React.SVGProps<SVGSVGElement>):JSX.Element => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     data-name="Group 93692"

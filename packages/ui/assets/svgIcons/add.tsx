@@ -1,6 +1,6 @@
 import * as React from "react"
 
-const AddSvg = (props) => (
+const AddSvg = (props: React.SVGProps<SVGSVGElement>):JSX.Element => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={15.548}

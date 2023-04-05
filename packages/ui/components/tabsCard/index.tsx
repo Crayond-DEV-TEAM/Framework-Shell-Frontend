@@ -7,7 +7,6 @@ import { tabsCardStyle } from "./style";
 
 export interface TabsCardProps {
   data?: any;
-  val?: any;
   sx?: SxProps<Theme>;
 }
 
@@ -15,9 +14,9 @@ export const TabsCard = forwardRef((props: TabsCardProps): JSX.Element => {
   const { data } = props
   return (
     <Grid container>
-      {data?.data?.map((val: any) => {
+      {data?.data?.map((val: any, index: any) => {
         return (
-          <Grid item xs={4} sx={tabsCardStyle.boxCard}>
+          <Grid key={index} item xs={4} sx={tabsCardStyle.boxCard}>
             <Box sx={tabsCardStyle.header}>
               <span>{val?.icon}</span>
               <Typography>
@@ -26,9 +25,9 @@ export const TabsCard = forwardRef((props: TabsCardProps): JSX.Element => {
             </Box>
             <Grid container spacing={1}>
               {
-                val?.cardDetails.map((ele: any) => {
+                val?.cardDetails.map((ele: any, index: any) => {
                   return (
-                    <Grid item xs={3}>
+                    <Grid key={index} item xs={3}>
                       <TabsValueCard data={ele} />
                     </Grid>
                   )

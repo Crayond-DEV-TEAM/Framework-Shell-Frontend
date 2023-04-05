@@ -1,6 +1,6 @@
 import * as React from "react"
 
-const AddRule = (props) => (
+const AddRule = (props: React.SVGProps<SVGSVGElement>):JSX.Element => (
   <svg
     data-name="Group 93692"
     xmlns="http://www.w3.org/2000/svg"

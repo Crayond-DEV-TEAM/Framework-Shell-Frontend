@@ -1,24 +1,23 @@
-import React from "react";
-import SmallNotificationIcon from "@assets/smallNotificationIcon";
-import SingleTickGreen from "@assets/sgTickGreen";
-import SmallMailIcon from "@assets/smallMailIcon";
-import DoubleTickGreen from "@assets/dbTickGreen";
-import SmallSmsIcon from "@assets/smallSmsIcon";
-import DoubleTickBlue from "@assets/dbTickBlue";
-import DashRed from "@assets/dashRed";
-import EditIcon from "@assets/editIcon";
-import DeleteIcon from "@assets/deleteIcon";
-import type { SxProps, Theme } from '@mui/material';
-import EmailIcon from "@assets/emailIcon";
-import NotificationIcon from "@assets/notificationIcon";
-import SmsIcon from "@assets/smsIcon";
-import { Grid } from "@mui/material";
+import { ReportTabs } from "@core/ui/components/tabs";
+import { TabsCard } from "@core/ui/components/tabsCard";
+import DashRed from "@core/ui/assets/dashRed";
+import DoubleTickBlue from "@core/ui/assets/dbTickBlue";
+import DoubleTickGreen from "@core/ui/assets/dbTickGreen";
+import DeleteIcon from "@core/ui/assets/deleteIcon";
+import EditIcon from "@core/ui/assets/editIcon";
+import EmailIcon from "@core/ui/assets/emailIcon";
+import NotificationIcon from "@core/ui/assets/notificationIcon";
+import SingleTickGreen from "@core/ui/assets/sgTickGreen";
+import SmallMailIcon from "@core/ui/assets/smallMailIcon";
+import SmallNotificationIcon from "@core/ui/assets/smallNotificationIcon";
+import SmallSmsIcon from "@core/ui/assets/smallSmsIcon";
+import SmsIcon from "@core/ui/assets/smsIcon";
 import { TableHeader } from '@core/ui/components/tableHeader';
-import { Box } from '@mui/material';
-import { ReportTabs } from "@components/tabs";
-import { CommonTable, BasicButtons } from "crayond-components-library-1";
+import type { SxProps, Theme } from '@mui/material';
+import { Box, Grid } from "@mui/material";
+import { CommonTable } from "crayond-components-library-1";
+import React from "react";
 import { reports_styles } from './style';
-import { TabsCard } from "@components/tabsCard";
 
 export interface ReportsProps {
     data?: any;
@@ -250,9 +249,8 @@ const tabs = [
     },
 ];
 
-
 export function Reports(props: ReportsProps): JSX.Element {
-    const { data } = props
+    const { data } = props;
 
     const [isSelectedAll, setIsSelectedAll] = React.useState(false)
     const [selectedCheckbox, setSelectedCheckbox] = React.useState([1, 2]);
@@ -825,7 +823,6 @@ export function Reports(props: ReportsProps): JSX.Element {
         },
     ];
 
-
     return (
         <Box>
             <Grid container>
@@ -872,6 +869,7 @@ export function Reports(props: ReportsProps): JSX.Element {
                                         filterContent={filterContent}
                                         onChange={handleChange}
                                         checked={checked}
+                                        open={false}
                                     // handleGroupChange={handleGroupChange}
                                     // handleChipDelete={handleChipDelete}
                                     />,

@@ -1,14 +1,13 @@
 import { Button } from '@atoms/button';
-import type { SxProps, Theme } from '@mui/material';
-import { Box, Typography } from '@mui/material';
-import { forwardRef, useState } from 'react';
-import SearchIcon from '@mui/icons-material/Search';
-import { AddMessageGroup, Filter } from '..';
-import { tableHeaderStyle } from './style';
-import { SearchField } from '@atoms/searchField';
 import { DialogDrawer } from '@atoms/dialogDrawer';
 import { FooterComponent } from '@atoms/footerComponent';
 import { Input } from '@atoms/input';
+import SearchIcon from '@mui/icons-material/Search';
+import type { SxProps, Theme } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import { forwardRef } from 'react';
+import { AddMessageGroup, Filter } from '..';
+import { tableHeaderStyle } from './style';
 
 export interface TableHeaderProps {
   className?: string;
@@ -44,6 +43,7 @@ export interface TableHeaderProps {
   addMessage?: any;
   options?: any;
   onChange?: any;
+  onClick?: any;
   sx?: SxProps<Theme>;
 }
 
@@ -81,6 +81,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     handleOpen = () => false,
     onChange = () => false,
     handleClose = () => false,
+    onClick = () => false,
     sx = {},
     ...rest
   } = props;

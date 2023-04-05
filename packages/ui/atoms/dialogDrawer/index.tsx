@@ -22,6 +22,7 @@ export interface DialogDrawerProps {
   contentStyleSx?: any;
   Footercomponent?: ReactNode;
   Bodycomponent?: ReactNode;
+  handleSubmit: () => void;
 }
 
 //export const DialogDrawer = forwardRef((props: DialogDrawerProps): JSX.Element => {
@@ -35,6 +36,7 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
       false;
     },
     dialogRootStyle = {},
+    handleSubmit = {},
     title = 'Add New Message',
     content = '',
     Bodycomponent = null,

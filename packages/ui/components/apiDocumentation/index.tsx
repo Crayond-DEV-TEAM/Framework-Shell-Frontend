@@ -56,7 +56,7 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
                 <TextBox
                     label="API Calls"
                     placeholder="https://alertshub-api.crayond.com/api/v1/sendmessage"
-                    inputProps={{
+                    InputProps={{
                         endAdornment: (<CopyLinkIcon />),
                         startAdornment: "",
                     }}

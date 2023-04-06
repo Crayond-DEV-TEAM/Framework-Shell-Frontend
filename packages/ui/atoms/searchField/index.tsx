@@ -34,9 +34,9 @@ export const SearchField = (props: SearchFieldProps): JSX.Element => {
     setSearch(str);
   };
   // searchfunc
-  const filteredMessageGroup = options?.filter((x: any) => x.label.toLowerCase().includes(search?.toLowerCase()));
+  const filteredMessageGroup = options?.filter((x: any) => x?.label?.toLowerCase()?.includes(search?.toLowerCase()));
 
-  console.log(onSelect, 'sss');
+  // console.log(onSelect, 'sss');
   return (
     <Box sx={{ ...searchFieldStyle.searchBoxSx }}>
       <Box sx={{ ...searchFieldStyle.searchFieldSx }}>

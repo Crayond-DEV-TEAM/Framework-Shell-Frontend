@@ -11,13 +11,15 @@ export const messageCardStyle: MessageCardStyleProps = {
   messageCard: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     cursor: 'pointer',
     borderRadius: '4px',
-    p: 1,
+    width: '206px',
+    height: '36px',
+    // p: '6px 10px',
     '&:hover': {
       backgroundColor: '#EAF1EF',
-      p: 0.6,
+      p: '6px 10px',
     },
   },
   dot: {
@@ -54,8 +56,15 @@ export const messageCardStyle: MessageCardStyleProps = {
     color: 'typography.transparent',
   },
   menuSx: {
+    // '& .MuiPopover-root': {
+    //   top: '275px',
+    //   left: '184px',
+    // },
     '& .MuiPopover-paper': {
       borderRadius: '8px',
+      width: '106px',
+      height: '70px',
+      left: '184px !important',
     },
     '& .MuiMenu-list': {
       p: 1,
@@ -63,5 +72,38 @@ export const messageCardStyle: MessageCardStyleProps = {
     '& .MuiMenuItem-root': {
       p: 0.5,
     },
+  },
+  cancelbtnText: {
+    textTransform: 'capitalize',
+    backgroundColor: '#EAEAEA',
+    color: '#5A5A5A',
+    fontSize: '12px',
+    fontWeight: 400,
+    boxShadow: 'none',
+    '&:hover': {
+      backgroundColor: '#EAEAEA',
+      boxShadow: 'none',
+    },
+  },
+  savebtnText: {
+    textTransform: 'capitalize',
+    color: '#FFFFFF',
+    fontSize: '12px',
+    boxShadow: 'none',
+    fontWeight: 400,
+    width: '64px',
+    ml: 1,
+    mr: 2,
+  },
+  totalFooterSx: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'end',
+    paddingTop: '16px',
+  },
+  btnSx: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 };

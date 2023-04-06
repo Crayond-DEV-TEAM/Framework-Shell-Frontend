@@ -11,9 +11,9 @@ export const filterStyle: FilterStyleProps = {
     borderRadius: '8px',
   },
   totalFilterSx: {
-    // '& .MuiPopover-root': {
-    //   top: '80px!improtant',
-    //   left: '541px!important',
+    // '&.MuiPopover-root': {
+    //   top: '135px!improtant',
+    //   left: '720px!important',
     // },
 
     '& .MuiPopover-paper': {
@@ -21,21 +21,22 @@ export const filterStyle: FilterStyleProps = {
       height: '360px',
       borderRadius: '8px',
       mt: 1,
+
       // ml: '-116px',
     },
   },
   totalFilterSideSx: {
-    // '&.MuiPopover-root': {
-    //   position: 'fixed',
-    //   top: '-56px',
-    //   left: '40px',
-    // },
+    '&.MuiPopover-root': {
+      position: 'fixed',
+      top: '-56px',
+      left: '30px',
+    },
     // position: 'fixed',
     // top: '-56px',
     // left: '37px',
     transformOrigin: '0px 0px !important',
     '& .MuiPopover-paper': {
-      width: '186px',
+      width: '156px',
       height: '360px',
       borderRadius: '8px',
     },

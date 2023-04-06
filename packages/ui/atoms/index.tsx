@@ -1,6 +1,7 @@
 export { AppBar } from './appBar';
 export { Button } from './button';
 export { CustomSwitches } from './customSwitches';
+export { DeleteDailog } from './deleteDailog';
 export { DialogDrawer } from './dialogDrawer';
 export { DropDown } from './dropDown';
 export { FooterComponent } from './footerComponent';

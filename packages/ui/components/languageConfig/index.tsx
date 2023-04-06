@@ -10,6 +10,7 @@ import { languageConfigStyle } from './style';
 import { useLanguageConfiguration } from '@core/store';
 // import { enqueueSnackbar } from 'notistack';
 import { SelectBoxInterface } from '@core/store/interface';
+import { DeleteDailog } from '@atoms/deletedailog';
 
 export interface LanguageConfigProps {
   className?: string;
@@ -46,7 +47,20 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     getSavedLanguage();
     // eslint-disable-nextline
   }, []);
-  console.log(fetching, 'masterLanguageError');
+  const [selected, setSelected] = useState(false);
+
+  const handleOpen = () => {
+    setSelected(true);
+    // setIsEdit(false);
+  };
+  const handlemodalClose = () => {
+    setSelected(false);
+  };
+  const handleDelete = () => {
+    deleteLanguage();
+    setSelected(false);
+  };
+
   return (
     <Box
       sx={[{ ...languageConfigStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]}
@@ -73,7 +87,6 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
         </Typography>
       )}
       <Box sx={{ padding: '8px' }} />
-
       <Box sx={languageConfigStyle.sx}>
         <Box sx={languageConfigStyle.header}>
           <Typography sx={languageConfigStyle.selectLang}>Selected Language</Typography>
@@ -123,7 +136,7 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
                           },
                         }}
                         label={data.label}
-                        onDelete={() => deleteLanguage(data, index)}
+                        onDelete={handleOpen}
                         deleteIcon={<DeleteChip height={'16px'} width={'12px'} />}
                       />
                     </Grid>
@@ -165,6 +178,28 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
           </Box>
         </Box>
       </Box>
+      <DeleteDailog
+        isDialogOpened={selected}
+        Bodycomponent={
+          <Box>
+            <Typography sx={{ fontWeight: 600 }}>Are you sure want to delete this ??</Typography>
+            <Box sx={languageConfigStyle.totalFooterSx}>
+              <Box sx={languageConfigStyle.btnSx}>
+                <Box sx={languageConfigStyle.btnBg}>
+                  <Button buttonStyle={languageConfigStyle.cancelbtnText} onClick={handlemodalClose}>
+                    Cancel
+                  </Button>
+                </Box>
+                <Box sx={languageConfigStyle.savebtnBg}>
+                  <Button buttonStyle={languageConfigStyle.savebtnText} onClick={handleDelete}>
+                    Delete
+                  </Button>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        }
+      />
     </Box>
   );
 });

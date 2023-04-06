@@ -38,30 +38,54 @@ function TabPanel(props: any) {
 export const ReportTabs = forwardRef((props: ReportTabsProps): JSX.Element => {
     const { tabs = [] } = props;
     const [value, setValue] = React.useState(0);
+    const [index, setIndex] = React.useState(0);
+
 
     const handleChange = (event: any, newValue: any) => {
         setValue(newValue);
     };
+
+    const handleTabChange = (i: any) => {
+        setIndex(i)
+    }
 
     return (
         <Box sx={tabs_style.tabBar}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                     {tabs.length > 0 &&
-                        tabs.map((tab: any, i: any) => (
-                            <Tab
-                                key={i}
-                                label={tab?.label}
-                            // sx={{ color: disabled === true ? "#B9B9B9" : "" }}
-                            />
-                        ))}
+                        tabs.map((tab: any, i: any) => {
+                            return (
+                                <Typography
+                                    onClick={() => handleTabChange(i)}
+                                    key={i}
+                                    pt={2}
+                                    pb={2}
+                                    sx={
+                                        i === index
+                                            ? tabs_style.alertConfigTabTxt
+                                            : tabs_style.alertConfigTab
+                                    }
+                                // sx={{ color: disabled === true ? "#B9B9B9" : "" }}
+                                >
+                                    {tab?.label}
+                                </Typography>
+                            )
+                        })}
                 </Tabs>
             </Box>
-            {tabs.map((tab: any, index: any) => (
-                <TabPanel key={index} value={value} index={index}>
-                    {tab?.children}
-                </TabPanel>
-            ))}
+            {/* {
+                tabs?.map((tab: any, index: any) => {
+                    console.log("tab card", tab);
+                    return ( */}
+                        <TabPanel>
+                            {index === 0 && <Box>{tabs[0]?.children}</Box>}
+                            {index === 1 && <Box>{tabs[1]?.children}</Box>}
+                            {index === 2 && <Box>{tabs[2]?.children}</Box>}
+                        </TabPanel>
+                    {/* )
+                })
+            } */}
         </Box>
     );
 });

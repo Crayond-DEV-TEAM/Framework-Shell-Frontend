@@ -15,8 +15,9 @@ export const subHeader_Style = {
   },
   title: {
     color: '#10061D',
-    // fontSize: "19px",
-    fontFamily: 'crayond_medium',
+    fontSize: "19px",
+    fontWeight: 600,
+    // fontFamily: 'crayond_medium',
     lg: {
       fontSize: '19px',
     },
@@ -64,8 +65,8 @@ export const subHeader_Style = {
     },
   },
   filterIconBox: {
-    // boxShadow: theme.palette.primary.boxShadow,
-    // backgroundColor: theme.typography.color.white,
+    boxShadow: "0 5px 20px #0000000A",
+    backgroundColor: "#FFFFFF",
     width: '38px',
     height: '38px',
     borderRadius: '50%',
@@ -82,6 +83,6 @@ export const subHeader_Style = {
     width: '40px',
     height: '40px',
     cursor: 'pointer',
-    // boxShadow: theme.palette.primary.boxShadow,
+    boxShadow: "0 5px 20px #0000000A",
   },
 };

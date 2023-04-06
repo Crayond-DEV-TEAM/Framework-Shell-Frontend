@@ -9,7 +9,7 @@ export const popup_style = {
   },
   btns: {
     marginLeft: 'auto',
-    // borderTop: `1px solid ${theme.palette.border.lightGrey}`,
+    borderTop: "1px solid #707070",
     paddingTop: '24px',
     marginTop: '80px',
     sm: {
@@ -17,17 +17,17 @@ export const popup_style = {
     },
   },
   btnone: {
-    // color: theme.typography.color.red,
-    // border: `1px solid ${theme.typography.color.darkGrey}`,
+    color: "#FF3232",
+    border: "1px solid #848484",
     padding: '10px 14px',
     borderRadius: '8px',
     fontSize: '14px',
     cursor: 'pointer',
   },
   btn2: {
-    // color: theme.typography.color.white,
+    color: "#FFFFFF",
     // backgroundColor: theme.typography.color.blue,
-    // border: `1px solid ${theme.typography.color.darkGrey}`,
+    border: "1px solid #848484",
     padding: '10px 20px',
     borderRadius: '8px',
     fontSize: '14px',

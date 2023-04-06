@@ -7,7 +7,7 @@ interface TabsCardStyleProps {
 export const tabsCardStyle: TabsCardStyleProps = {
   header: {
     display: 'flex',
-    marginTop: '18px',
+    marginTop: '10px',
     marginBottom: '13px',
     padding: '0px 7px',
     '& span': {
@@ -15,7 +15,7 @@ export const tabsCardStyle: TabsCardStyleProps = {
     },
     '& p': {
       fontSize: '16px',
-      fontWeight: 900,
+      fontWeight: 600,
     },
   },
 

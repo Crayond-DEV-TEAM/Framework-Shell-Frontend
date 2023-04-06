@@ -1,11 +1,12 @@
 import React from 'react';
 import type { SxProps, Theme } from '@mui/material';
 import { Grid, Stack, Typography, Box } from "@mui/material";
-// import { TextBox } from "@core/ui/components/textBox";
 import { SubHeader } from "@core/ui/components/subHeader";
 import { DocumentationTable } from '@core/ui/components/documentationTable';
-import CopyLinkIcon from "../../assets/copyLinkIcon";
+// import CopyLinkIcon from "../../assets/copyLinkIcon";
+import CopyLinkIcon from "@core/ui/assets/copyLinkIcon"
 import { apiDocumentation_style } from "./style";
+import { TextBox } from '@components/textBox';
 
 
 export interface ApiDocumentationProps {
@@ -52,14 +53,14 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
         <Box sx={apiDocumentation_style.root}>
             <SubHeader title="API Documentation" />
             <Box sx={apiDocumentation_style.firstInput}>
-                {/* <TextBox
+                <TextBox
                     label="API Calls"
                     placeholder="https://alertshub-api.crayond.com/api/v1/sendmessage"
-                    InputProps={{
+                    inputProps={{
                         endAdornment: (<CopyLinkIcon />),
                         startAdornment: "",
                     }}
-                /> */}
+                />
             </Box>
             <Box sx={apiDocumentation_style.gridBox}>
                 <Grid container sx={apiDocumentation_style.referenceParent}>
@@ -72,7 +73,7 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
                                 {textBox?.map((e: any, index: any) => {
                                     return (
                                         <Box key={index} sx={apiDocumentation_style.textBox}>
-                                            {/* <TextBox label={e} /> */}
+                                            <TextBox label={e} placeholder={e} />
                                         </Box>
                                     );
                                 })}

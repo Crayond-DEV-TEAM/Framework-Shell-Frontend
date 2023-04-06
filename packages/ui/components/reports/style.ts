@@ -7,15 +7,16 @@ export const reports_styles = {
     margin: '24px',
     '& .MuiTableContainer-root': {
       borderRadius: '7px 7px 0px 0px',
-    //   border: '1px solid' + theme.typography.color.tableHead,
+      border: '1px solid #EAEAEA',
     },
     '& .TABLE_BOX': {
       padding: '0px !important',
       gap: '0px !important',
       backgroundColor: '#F8F8F8',
       paddingBottom: '13px !important',
-      '& .MuiTextField-root': {
+      '& .MuiInputBase-root': {
         backgroundColor: '#FFFFFF',
+        width: "332px"
       },
       '& .MuiIconButton-root': {
         backgroundColor: '#FFFFFF',

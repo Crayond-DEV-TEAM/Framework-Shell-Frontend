@@ -12,9 +12,10 @@ export interface TabsCardProps {
 
 export const TabsCard = forwardRef((props: TabsCardProps): JSX.Element => {
   const { data } = props
+
   return (
     <Grid container>
-      {data?.data?.map((val: any, index: any) => {
+      {data?.map((val: any, index: any) => {
         return (
           <Grid key={index} item xs={4} sx={tabsCardStyle.boxCard}>
             <Box sx={tabsCardStyle.header}>
@@ -26,6 +27,7 @@ export const TabsCard = forwardRef((props: TabsCardProps): JSX.Element => {
             <Grid container spacing={1}>
               {
                 val?.cardDetails.map((ele: any, index: any) => {
+                  console.log("ele-123", ele);
                   return (
                     <Grid key={index} item xs={3}>
                       <TabsValueCard data={ele} />

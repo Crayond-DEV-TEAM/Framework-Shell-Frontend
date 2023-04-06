@@ -1,19 +1,20 @@
 export const alertRuleStyles = {
   commonTable: {
     margin: '24px',
-    // border: "1px solid" + theme.typography.color.tableHead,
+    // border: "1px solid #EAEAEA",
     '& .MuiTableContainer-root': {
-      //   borderBottom: '1px solid' + theme.typography.color.tableHead,
+      borderBottom: '1px solid #EAEAEA',
       borderRadius: '7px 7px 0px 0px',
     },
     '& .TABLE_BOX': {
       padding: '0px !important',
       gap: '0px !important',
-      backgroundColor: '#F8F8F8',
+      backgroundColor: '#F6F6F6',
       paddingTop: '10px !important',
       paddingBottom: '13px !important',
-      '& .MuiTextField-root': {
+      '& .MuiInputBase-root': {
         backgroundColor: '#FFFFFF',
+        width: "332px"
       },
       '& .MuiIconButton-root': {
         backgroundColor: '#FFFFFF',
@@ -22,7 +23,7 @@ export const alertRuleStyles = {
     '& button': {
       textTransform: 'capitalize !important',
       '&:hover': {
-        // backgroundColor: theme.palette.primary.main,
+        backgroundColor: "#357968",
       },
     },
   },

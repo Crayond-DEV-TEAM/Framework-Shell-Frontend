@@ -14,17 +14,41 @@ export const tabs_style = {
     },
 
     '& .Mui-selected': {
-      // color: theme.palette.primary.main + "!important",
+      color: "#357968 !important",
       fontWeight: 600,
     },
 
     '& .MuiTabs-indicator': {
-      // backgroundColor: theme.palette.primary.main + "!important",
-      // width: "65px !important"
+      display: "none"
+      // backgroundColor: "#357968 !important",
+      // height: "3px !important"
     },
     '& .MuiTab-root': {
       minWidth: '10px',
-      padding: '14px 8px 12px 4px ',
+      // padding: '14px 8px 12px 4px ',
+    },
+  },
+
+  alertConfigTab: {
+    cursor: "pointer",
+    fontSize: "14px",
+    fontWeight: 500,
+    paddingBottom: "0px !important",
+    "&:nth-child(2)": {
+      margin: "0 24px ",
+    },
+  },
+
+  alertConfigTabTxt: {
+    cursor: "pointer",
+    fontSize: "14px",
+    fontWeight: 600,
+    color: "#357968",
+    // color: theme.palette.primary.mailInput,
+    borderBottom: "3px solid #357968",
+    paddingBottom: "0px !important",
+    "&:nth-child(2)": {
+      margin: "0 24px",
     },
   },
 };

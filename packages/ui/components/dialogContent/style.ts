@@ -5,9 +5,9 @@ export const dialogContent_style = {
 
   commonTable: {
     margin: '24px',
-    // border: "1px solid" + theme.typography.color.tableHead,
+    border: "1px solid #EAEAEA",
     '& .MuiTableContainer-root': {
-      // borderBottom: "1px solid" + theme.typography.color.tableHead,
+      borderBottom: "1px solid #EAEAEA",
       borderRadius: '7px 7px 0px 0px',
     },
     '& .TABLE_BOX': {
@@ -16,8 +16,9 @@ export const dialogContent_style = {
       backgroundColor: '#F8F8F8',
       paddingTop: '10px !important',
       paddingBottom: '13px !important',
-      '& .MuiTextField-root': {
+      '& .MuiInputBase-root': {
         backgroundColor: '#FFFFFF',
+        width: "332px"
       },
       '& .MuiIconButton-root': {
         backgroundColor: '#FFFFFF',
@@ -26,7 +27,7 @@ export const dialogContent_style = {
     '& button': {
       textTransform: 'capitalize !important',
       '&:hover': {
-        // backgroundColor: theme.palette.primary.main
+        backgroundColor: "#357968"
       },
     },
   },

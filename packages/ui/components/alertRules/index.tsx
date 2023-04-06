@@ -18,7 +18,7 @@ import { DialogDrawer } from '@core/ui/atoms/dialogDrawer';
 // import { DialogContent } from "@core/ui/components/dialogContent";
 // import { Popup } from "@core/ui/components/popup";
 import type { SxProps, Theme } from '@mui/material';
-// import { alertRuleStyles } from "./style";
+import { alertRuleStyles } from "./style";
 export interface AlertRuleProps {
   data?: any;
   id?: any;
@@ -371,7 +371,7 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
       <Grid container>
         <Grid item xs={12}>
           <Grid item xs={12}>
-            <Box>
+            <Box sx={alertRuleStyles.commonTable}>
               <CommonTable
                 Header={Header}
                 dataList={dataList}
@@ -392,7 +392,7 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
                 }}
                 switchList={switchList}
                 tableMinWidth={'1200px'}
-                tableMinHeight={'439px'}
+                tableMinHeight={'539px'}
                 paddingAll={'0px'}
                 marginAll={'0px'}
                 dense={'small'}
@@ -432,10 +432,10 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
                 isDialogOpened={open}
                 handleCloseDialog={handleClose}
                 handleSubmit={handleSubmit}
-                // content={<DialogContent
-                //     data={alertRule}
-                //     updateState={updateState}
-                // />}
+              // content={<DialogContent
+              //     data={alertRule}
+              //     updateState={updateState}
+              // />}
               />
             </Box>
           </Grid>

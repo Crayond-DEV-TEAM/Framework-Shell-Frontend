@@ -50,7 +50,7 @@ export interface TableHeaderProps {
 export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => {
   const {
     className = '',
-    placeholder = 'Search',
+    placeholder = '',
     isDownloadRequired = false,
     tableHeader = 'Add Message',
     isFilterRequired = true,
@@ -101,7 +101,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
           {isSearchRequired && (
             <Box sx={{ mr: 1 }}>
               <Input
-                placeholder="Search"
+                placeholder={placeholder}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 startAdornment={<SearchIcon sx={{ ml: 1, fontSize: '16px', color: '#818181' }} />}

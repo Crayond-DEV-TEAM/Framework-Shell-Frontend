@@ -19,8 +19,8 @@ export const apiDocumentation_style = {
 
   firstInput: {
     backgroundColor: '#fff',
-    // borderRadius: theme.palette.borderRadius,
-    // boxShadow: theme.palette.primary.boxShadow,
+    borderRadius: "8px",
+    boxShadow: "0 5px 20px #0000000A",
     padding: '24px 16px',
     sm: {
       padding: '16px 24px',
@@ -38,9 +38,9 @@ export const apiDocumentation_style = {
     padding: ' 0px 16px 0px 16px',
   },
   gridBox: {
-    // backgroundColor: theme.typography.color.white,
-    // boxShadow: theme.palette.primary.boxShadow,
-    // borderRadius: theme.palette.borderRadius,
+    backgroundColor: "#FFFFFF",
+    boxShadow: "0 5px 20px #0000000A",
+    borderRadius: "8px",
     marginTop: '16px',
   },
 
@@ -61,9 +61,9 @@ export const apiDocumentation_style = {
   },
 
   reqHead: {
-    // color: theme.typography.color.black,
+    color: "#10061D",
     fontSize: '16px',
-    fontFamily: 'crayond_medium',
+    // fontFamily: 'crayond_medium',
     padding: ' 16px 16px 0px 16px',
     sm: {
       fontSize: '14px',
@@ -73,7 +73,7 @@ export const apiDocumentation_style = {
 
   tryBtn: {
     fontSize: '14px',
-    // backgroundColor: theme.palette.primary.main,
+    backgroundColor: "#357968",
     borderRadius: '8px',
     width: '43px',
     height: '32px',
@@ -89,18 +89,18 @@ export const apiDocumentation_style = {
 
   sampleTabBHead: {
     backgroundColor: '#FFFFFF',
-    // borderTopLeftRadius: theme.palette.borderRadius,
-    // borderTopRightRadius: theme.palette.borderRadius,
+    borderTopLeftRadius: "8px",
+    borderTopRightRadius: "8px",
     marginTop: '16px',
   },
 
   sampleTabTxt: {
     cursor: 'pointer',
     fontSize: '16px',
-    fontFamily: 'crayond_medium',
+    // fontFamily: 'crayond_medium',
     marginLeft: '32px',
     paddingTop: '16px',
-    paddingBottom: '16px',
+    paddingBottom: '5px',
     fontWeight: 600,
     sm: {
       fontSize: '13px',
@@ -113,12 +113,12 @@ export const apiDocumentation_style = {
   sampleTabClickTxt: {
     cursor: 'pointer',
     fontSize: '16px',
-    fontFamily: 'crayond_medium',
-    // color: theme.palette.primary.main,
+    // fontFamily: 'crayond_medium',
+    color: "#357968",
     marginLeft: '32px',
     paddingTop: '16px',
-    paddingBottom: '16px',
-    // borderBottom: "3px solid" + theme.palette.primary.main,
+    paddingBottom: '5px',
+    borderBottom: "3px solid #357968",
     fontWeight: 600,
     sm: {
       fontSize: '13px',

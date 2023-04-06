@@ -38,17 +38,21 @@ export const tabsCardStyle: TabsCardStyleProps = {
 
   sent: {
     padding: '14px 12px',
+    paddingBottom: "30px",
     backgroundColor: '#E1E7FA',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     borderRadius: '8px',
+    position: "relative",
     '& span': {
       fontSize: '24px',
       color: '#1A3DA0',
       fontWeight: 600,
     },
     '& p': {
+      position: "absolute",
+      bottom: "12px",
       fontSize: '11px',
       color: '#29302B',
       fontWeight: 600,
@@ -57,17 +61,21 @@ export const tabsCardStyle: TabsCardStyleProps = {
 
   delivered: {
     padding: '14px 12px',
+    paddingBottom: "30px",
     backgroundColor: '#CFFAE5',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     borderRadius: '8px',
+    position: "relative",
     '& span': {
       fontSize: '24px',
       color: '#187547',
       fontWeight: 600,
     },
     '& p': {
+      position: "absolute",
+      bottom: "12px",
       fontSize: '11px',
       color: '#29302B',
       fontWeight: 600,
@@ -76,36 +84,52 @@ export const tabsCardStyle: TabsCardStyleProps = {
 
   notDelivered: {
     padding: '14px 12px',
+    paddingBottom: "30px",
     backgroundColor: '#F9FACF',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     borderRadius: '8px',
+    position: "relative",
     '& span': {
       fontSize: '24px',
       color: '#187569',
       fontWeight: 600,
     },
     '& p': {
+      position: "absolute",
+      bottom: "12px",
       fontSize: '11px',
       color: '#29302B',
       fontWeight: 600,
+      // whiteSpace: "nowrap",
+      // width: "70px",
+      // overflow: "hidden",
+      // textOverflow: "ellipsis",
+      // "&:hover": {
+      //   overflow: "visible",
+      //   whiteSpace: "normal",
+      // }
     },
   },
 
   clicked: {
     padding: '14px 12px',
+    paddingBottom: "30px",
     backgroundColor: '#CFFAF4',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     borderRadius: '8px',
+    position: "relative",
     '& span': {
       fontSize: '24px',
       color: '#187569',
       fontWeight: 600,
     },
     '& p': {
+      position: "absolute",
+      bottom: "12px",
       fontSize: '11px',
       color: '#29302B',
       fontWeight: 600,

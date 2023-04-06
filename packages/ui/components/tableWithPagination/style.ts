@@ -34,7 +34,7 @@ export const tableWithPagination_style = {
         padding: '20px !important',
         '& p': {
           fontSize: '14px !important',
-          //   color: theme.typography.color.darkGrey,
+          color: "#848484",
           sm: {
             fontSize: '12px !important',
           },
@@ -45,7 +45,7 @@ export const tableWithPagination_style = {
       padding: '20px !important',
       '& p': {
         fontSize: '14px !important',
-        // color: `${theme.typography.color.darkGrey} !important`,
+        color: "#848484 !important",
       },
     },
   },
@@ -64,13 +64,13 @@ export const tableWithPagination_style = {
   },
   paginate: {
     '& .MuiButtonBase-root.MuiPaginationItem-root': {
-      //   borderRadius: theme.palette.borderRadius,
+      borderRadius: "8px",
       border: 'none',
       color: '#606060',
     },
     '& .MuiButtonBase-root.MuiPaginationItem-root.Mui-selected': {
       color: 'white',
-      //   borderRadius: theme.palette.borderRadius,
+      borderRadius: "8px",
       border: 'none',
       backgroundColor: '#5078E1',
     },
@@ -137,7 +137,7 @@ export const tableWithPagination_style = {
       fontSize: '16px !important',
       color: '#10061D !important',
       fontFamily: 'crayond_medium',
-      //   backgroundColor: theme.typography.color.tableHead + "!important",
+      backgroundColor: "#EAEAEA !important",
       padding: '16px 24px !important',
       zIndex: '0 !important',
       whiteSpace: 'nowrap',
@@ -184,7 +184,7 @@ export const tableWithPagination_style = {
   inprogress: {
     padding: '4px 6px',
     backgroundColor: '#78B1FE',
-    // borderRadius: theme.palette.borderRadius,
+    borderRadius: "8px",
     display: 'inline',
     color: 'white',
     fontSize: '10px',
@@ -193,7 +193,7 @@ export const tableWithPagination_style = {
   activego: {
     padding: '4px 6px',
     backgroundColor: '#5AC782',
-    // borderRadius: theme.palette.borderRadius,
+    borderRadius: "8px",
     display: 'inline',
     color: 'white',
     fontSize: '10px',
@@ -201,7 +201,7 @@ export const tableWithPagination_style = {
   inactivego: {
     padding: '4px 6px',
     backgroundColor: '#CED3DD',
-    // borderRadius: theme.palette.borderRadius,
+    borderRadius: "8px",
     display: 'inline',
     color: 'white',
     fontSize: '10px',
@@ -218,7 +218,7 @@ export const tableWithPagination_style = {
   menuList: {
     '& .MuiPopover-paper': {
       boxShadow: '0px 0px 6px #0717411F',
-      //   borderRadius: theme.palette.borderRadius,
+      borderRadius: "8px",
       backgroundColor: 'white',
     },
   },
@@ -236,7 +236,7 @@ export const tableWithPagination_style = {
     fontSize: '14px',
     '& .ql-editor': {
       // padding: "0px 0px 16px 0px",
-      //   color: theme.typography.color.primary,
+      color: "#091B29",
       fontSize: '14px',
       textTransform: 'capitalize',
       wordBreak: 'break-all',
@@ -245,7 +245,7 @@ export const tableWithPagination_style = {
   },
   tooltip: {
     '&:hover': {
-      //   backgroundColor: theme.typography.color.white,
+      backgroundColor: "#FFFFFF",
     },
   },
   qstatus: {
@@ -336,7 +336,7 @@ export const tableWithPagination_style = {
     '& p': {
       padding: '5px 14px',
       fontSize: '12px',
-      //   color: `${theme.typography.color.white} !important`,
+      color: "#FFFFFF !important",
       backgroundColor: '#464775',
       borderRadius: '13px',
       textAlign: 'center',

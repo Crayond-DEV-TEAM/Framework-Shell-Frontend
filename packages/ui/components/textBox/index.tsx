@@ -70,7 +70,7 @@ export const TextBox = forwardRef((props: TextBoxProps): JSX.Element => {
             InputProps = '',
             autocomplete = '',
             variant = 'outlined',
-            // label = '',
+            label = '',
             id = '',
             placeholder = '',
             multiline = false,

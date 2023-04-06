@@ -60,6 +60,13 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
                         endAdornment: (<CopyLinkIcon />),
                         startAdornment: "",
                     }}
+                    errorMessage={undefined}
+                    autoFocus={undefined}
+                    fontSize={''}
+                    startAdornment={undefined}
+                    endAdornment={<CopyLinkIcon />}
+                    autocomplete={undefined}
+                    variant={undefined}
                 />
             </Box>
             <Box sx={apiDocumentation_style.gridBox}>
@@ -73,7 +80,17 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
                                 {textBox?.map((e: any, index: any) => {
                                     return (
                                         <Box key={index} sx={apiDocumentation_style.textBox}>
-                                            <TextBox label={e} placeholder={e} />
+                                            <TextBox
+                                                label={e}
+                                                placeholder={e}
+                                                errorMessage={undefined}
+                                                autoFocus={undefined}
+                                                fontSize={''}
+                                                startAdornment={undefined}
+                                                endAdornment={undefined}
+                                                InputProps={undefined}
+                                                autocomplete={undefined}
+                                                variant={undefined} />
                                         </Box>
                                     );
                                 })}

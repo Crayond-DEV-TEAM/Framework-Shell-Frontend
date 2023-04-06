@@ -3,10 +3,12 @@ import { DialogDrawer } from '@atoms/dialogDrawer';
 import { FooterComponent } from '@atoms/footerComponent';
 import { Input } from '@atoms/input';
 import SearchIcon from '@mui/icons-material/Search';
-import type { SxProps, Theme } from '@mui/material';
+import { SxProps, Theme, Popover } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { forwardRef } from 'react';
 import { AddMessageGroup, Filter } from '..';
+import DownloadIcon from "@core/ui/assets/downloadIcon";
+import XlsIcon from "@core/ui/assets/xlsIcon";
 import { tableHeaderStyle } from './style';
 
 export interface TableHeaderProps {
@@ -28,6 +30,8 @@ export interface TableHeaderProps {
   setSearchTerm?: any;
   open?: boolean | any;
   addMessageTable?: any;
+  id?: any;
+  anchorEl?: any;
   isDownloadRequired?: boolean | any;
   handleStateChange?: (key: any, value: any) => void;
   onChangeMessage?: (key: any, value: any, state: any) => void;
@@ -35,6 +39,7 @@ export interface TableHeaderProps {
   onApply?: () => void;
   handleOpen?: () => void;
   handleClose?: () => void;
+  handleClickOpen?: () => void;
   openAddMessage?: (value: any) => void;
   language?: any;
   addedLangState?: any;
@@ -81,6 +86,9 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     handleOpen = () => false,
     onChange = () => false,
     handleClose = () => false,
+    handleClickOpen = () => false,
+    id,
+    anchorEl,
     onClick = () => false,
     sx = {},
     ...rest
@@ -124,6 +132,37 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
               </Button>
             </Box>
           )}
+          {isDownloadRequired && (
+            <Box onClick={handleClickOpen} sx={tableHeaderStyle.downloadIcon}>
+              <DownloadIcon />
+            </Box>
+          )}
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            sx={tableHeaderStyle.totalFilterSx}
+          >
+            <Box sx={tableHeaderStyle.downloadBox}>
+              <Box sx={tableHeaderStyle.download}>
+                <XlsIcon />
+                <Typography>Download as CSV</Typography>
+              </Box>
+              <Box sx={tableHeaderStyle.download}>
+                <XlsIcon />
+                <Typography>Download as Excel</Typography>
+              </Box>
+            </Box>
+          </Popover>
         </Box>
       </Box>
       <DialogDrawer

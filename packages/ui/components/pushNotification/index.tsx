@@ -245,7 +245,9 @@ export function PushNotification(): JSX.Element {
                                 component: <TableHeader
                                     tableHeader="Push Notification"
                                     buttonName="Add New Config"
-                                    isBtnRequired
+                                    isBtnRequired={true}
+                                    isFilterRequired={false}
+                                    isSearchRequired={false}
                                     onClick={handleClick}
                                 />
                             }}

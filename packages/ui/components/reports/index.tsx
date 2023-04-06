@@ -252,12 +252,25 @@ const tabs = [
 export function Reports(props: ReportsProps): JSX.Element {
     const { data } = props;
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
     const [isSelectedAll, setIsSelectedAll] = React.useState(false)
     const [selectedCheckbox, setSelectedCheckbox] = React.useState([1, 2]);
     const [checked, setChecked] = React.useState(true);
     const [switchList, setSwitchList] = React.useState([1, 4]);
     const [headerSelect, setHederSelect] = React.useState('status');
     const [headerCheckbox, setHederCheckbox] = React.useState(true);
+
+    const handleClickOpen = (event: any) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = (anchorEl);
+    const id = open ? 'simple-popover' : undefined;
+
     const checkboxHandleChange = (data: any) => {
         if (!selectedCheckbox.includes(data)) {
             setSelectedCheckbox([...selectedCheckbox, data]);
@@ -863,13 +876,18 @@ export function Reports(props: ReportsProps): JSX.Element {
                                         tableHeader="Total Reports (12)"
                                         buttonName="Add New Config"
                                         placeholder="Search by receiver info (or) description"
-                                        isFilterRequired
-                                        isSearchRequired
-                                        isDownloadRequired
+                                        isFilterRequired={true}
+                                        isSearchRequired={true}
+                                        isDownloadRequired={true}
+                                        isBtnRequired={false}
                                         filterContent={filterContent}
                                         onChange={handleChange}
                                         checked={checked}
                                         open={false}
+                                        anchorEl={anchorEl}
+                                        // handleClickOpen={handleClickOpen}
+                                        handleClose={handleClose}
+                                        id={id}
                                     // handleGroupChange={handleGroupChange}
                                     // handleChipDelete={handleChipDelete}
                                     />,

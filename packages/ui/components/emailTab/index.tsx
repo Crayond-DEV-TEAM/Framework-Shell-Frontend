@@ -210,8 +210,11 @@ export function EmailTab(): JSX.Element {
                                 component: <TableHeader
                                     tableHeader="Email"
                                     buttonName="Add New Config"
-                                    isBtnRequired
+                                    isBtnRequired={true}
+                                    isFilterRequired={false}
+                                    isSearchRequired={false}
                                     onClick={handleClick}
+
                                 />
                             }}
                         />

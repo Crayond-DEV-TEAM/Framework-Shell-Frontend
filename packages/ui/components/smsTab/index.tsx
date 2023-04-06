@@ -10,7 +10,7 @@ import React from 'react';
 import { smsTab_style } from './style';
 
 export function SmsTab(): JSX.Element {
-    
+
     const [open, setOpen] = React.useState(false);
     const [isSelectedAll, setIsSelectedAll] = React.useState(false)
     const [selectedCheckbox, setSelectedCheckbox] = React.useState([1, 2]);
@@ -209,7 +209,9 @@ export function SmsTab(): JSX.Element {
                                 component: <TableHeader
                                     tableHeader="Sms"
                                     buttonName="Add New Config"
-                                    isBtnRequired
+                                    isBtnRequired={true}
+                                    isFilterRequired={false}
+                                    isSearchRequired={false}
                                     onClick={handleClick}
                                 />
                             }}

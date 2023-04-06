@@ -6,9 +6,9 @@ export const alertConfig_style = {
   alertConfigTab: {
     cursor: 'pointer',
     fontSize: '14px',
-    fontFamily: 'crayond_medium',
+    // fontFamily: 'crayond_medium',
     fontWeight: 600,
-    paddingBottom: '8px !important',
+    paddingBottom: '0px !important',
     '&:nth-child(1)': {
       marginLeft: '38px ',
       sm: {
@@ -16,7 +16,7 @@ export const alertConfig_style = {
       },
     },
     '&:nth-child(2)': {
-      margin: '0 40px ',
+      margin: '0 20px ',
       sm: {
         margin: '0 20px',
       },
@@ -31,11 +31,11 @@ export const alertConfig_style = {
   alertConfigTabTxt: {
     cursor: 'pointer',
     fontSize: '14px',
-    fontFamily: 'crayond_medium',
+    // fontFamily: 'crayond_medium',
     fontWeight: 600,
     // color: theme.palette.primary.mailInput,
-    // borderBottom: '3px solid' + theme.palette.primary.main,
-    paddingBottom: '8px !important',
+    borderBottom: '3px solid #357968',
+    paddingBottom: '0px !important',
     '&:nth-child(1)': {
       marginLeft: '38px ',
       sm: {
@@ -43,7 +43,7 @@ export const alertConfig_style = {
       },
     },
     '&:nth-child(2)': {
-      margin: '0 40px',
+      margin: '0 20px',
       sm: {
         margin: '0 20px',
       },
@@ -56,20 +56,20 @@ export const alertConfig_style = {
   },
 
   referenceDiv: {
-    // backgroundColor: theme.typography.color.white,
-    // borderRadius: theme.palette.borderRadius,
-    // boxShadow: theme.palette.primary.boxShadow,
+    backgroundColor: "#FFFFFF",
+    borderRadius: "8px",
+    boxShadow: "0 5px 20px #0000000A",
   },
 
   sampleTabBHead: {
     backgroundColor: '#FFFFFF',
-    // borderTopLeftRadius: theme.palette.borderRadius,
-    // borderTopRightRadius: theme.palette.borderRadius,
+    borderTopLeftRadius: "8px",
+    borderTopRightRadius: "8px",
   },
 
   checkBox: {
     '& label': {
-      //   color: theme.typography.color.darkGrey,
+      color: "#848484",
       '& span ': {
         '&:nth-child(1)': {
           color: '#28c397 !important',
@@ -86,17 +86,17 @@ export const alertConfig_style = {
   },
 
   btnone: {
-    // color: theme.typography.color.red,
-    // border: `1px solid ${theme.typography.color.darkGrey}`,
+    color: "#FF3232",
+    border: "1px solid #848484",
     padding: '10px 14px',
     borderRadius: '8px',
     fontSize: '14px',
   },
 
   btn2: {
-    // color: theme.typography.color.white,
+    color: "#FFFFFF",
     // backgroundColor: theme.typography.color.blue,
-    // border: `1px solid ${theme.typography.color.darkGrey}`,
+    border: "1px solid #848484",
     padding: '10px 20px',
     borderRadius: '8px',
     fontSize: '14px',
@@ -156,16 +156,18 @@ export const alertConfig_style = {
 
   tabDivs: {
     height: '100%',
-    padding: '24px 32px',
+    padding: '24px 21px',
+    paddingLeft: "21px !important",
+    paddingRight: "21px !important",
     sm: {
       padding: '16px 20px',
     },
   },
 
   referenceDiv2: {
-    // backgroundColor: theme.typography.color.white,
-    // borderRadius: theme.palette.borderRadius,
-    // boxShadow: theme.palette.primary.boxShadow,
+    backgroundColor: "#FFFFFF",
+    borderRadius: "8px",
+    boxShadow: "0 5px 20px #0000000A",
     height: '550px',
     sm: {
       height: 'auto',
@@ -181,9 +183,9 @@ export const alertConfig_style = {
   },
 
   commonTable: {
-    // border: "1px solid" + theme.typography.color.tableHead,
+    border: "1px solid #EAEAEA",
     '& .MuiTableContainer-root': {
-      //   border: '1px solid' + theme.typography.color.tableHead,
+      border: '1px solid #EAEAEA',
       borderRadius: '7px 7px 0px 0px',
     },
     '& .TABLE_BOX': {
@@ -194,7 +196,7 @@ export const alertConfig_style = {
     '& button': {
       textTransform: 'capitalize !important',
       '&:hover': {
-        // backgroundColor: theme.palette.primary.main,
+        backgroundColor: "#357968",
       },
     },
   },

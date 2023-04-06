@@ -9,7 +9,7 @@ export const appLayoutStyle: AppLayoutStyleProps = {
   childrenSx: {
     backgroundColor: 'grey.100',
     overflow: 'auto',
-    padding: '30px 0px 0px 60px',
+    padding: '8px 0px 0px 57px',
     height: 'calc(100vh - 50px)',
   },
 };

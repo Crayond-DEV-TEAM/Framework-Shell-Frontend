@@ -423,7 +423,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                     tableHeader={tableName}
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
-                    onChangeMessage={onChangeMessage}
                     open={open}
                     isEdit={isEdit}
                     handleOpen={handleOpen}

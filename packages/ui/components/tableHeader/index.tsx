@@ -63,7 +63,6 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     isEdit,
     options,
     openAddMessage = () => false,
-    onChangeMessage = () => false,
     language,
     searchTerm,
     setSearchTerm,

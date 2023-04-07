@@ -29,6 +29,8 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
   const {
     groupState,
     messageGroup,
+    messageId,
+    messageName,
     get,
     deleteMessage,
     getAllMessageGroup,
@@ -44,6 +46,8 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
       groupState: state.groupState,
       messageGroup: state.messageGroup,
       get: state.get,
+      messageId: state.messageId,
+      messageName: state.messageName,
       addMessageGroup: state.addMessageGroup,
       editMessage: state.editMessage,
       deleteMessage: state.deleteMessage,
@@ -140,11 +144,11 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
 
   useEffect(() => {
     updateStateAddGroup();
-  }, []);
+  }, [messageId, messageName]);
 
   useEffect(() => {
     getAllMessageGroup();
-  }, []);
+  }, [messageId, messageName]);
 
   return (
     <Box
@@ -177,7 +181,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
         {Array.isArray(filteredMessageGroup) && filteredMessageGroup?.length > 0 ? (
           filteredMessageGroup?.map((x: any, index: any) => {
             return (
-              <Box key={index} sx={{ pb: 1.25 }}>
+              <Box key={index} sx={{ pb: 0.75 }}>
                 <MessageCard
                   index={index}
                   title={x.title}

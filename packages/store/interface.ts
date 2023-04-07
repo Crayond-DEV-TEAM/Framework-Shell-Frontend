@@ -111,3 +111,41 @@ export interface LanguageConfigInterface {
   updateDefaultLang: (lang: SelectBoxInterface, index: number) => boolean;
   saveLanguage: () => boolean;
 }
+
+export interface Menu {
+  id: number;
+  link: string;
+  name: string;
+  baseUrl: string;
+  links?: string[];
+  icon: (isSelectd: boolean) => JSX.Element;
+  childrens?: Menu[];
+}
+export interface MenusProps {
+  sideMenus?: Menu[];
+  onLinkClick: (data: Menu) => boolean;
+  loading: boolean;
+  error: boolean;
+  getMenu: () => void;
+}
+export interface MessageCreateInterface {
+  title: number | string;
+  description: number | string;
+}
+
+export interface MessageConfigInterface {
+  messageGroup: MessageCreateInterface[];
+  editmessage: MessageCreateInterface[];
+  addMessage: MessageCreateInterface[];
+  deleteMessage: MessageCreateInterface[];
+  fetching: boolean;
+  errorOnFetching: boolean;
+  messageGroupError: boolean;
+  editMessageLoading: boolean;
+  editMessageError: boolean;
+  addMessaageLoading: boolean;
+  addMessageError: boolean;
+  deleteMessageLoading: boolean;
+  deleteMessageError: boolean;
+  getMessageGroups: () => boolean;
+}

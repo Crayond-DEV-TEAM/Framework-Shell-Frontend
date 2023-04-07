@@ -11,7 +11,9 @@ export const addMessageStyle: AddMessageStyleProps = {
     // height: '500px',
     borderRadius: '8px',
     border: '1px solid #EAEAEA',
-    height: '80vh',
+    // height: '100vh',
+    width: '230px',
+    height: 'calc(100vh - 100px)',
   },
   header: {
     display: 'flex',
@@ -46,7 +48,7 @@ export const addMessageStyle: AddMessageStyleProps = {
     textAlign: 'center',
   },
   totalGroupSx: {
-    overflowY: 'scroll',
-    height: '63vh',
+    // overflowY: 'scroll',
+    // height: '63vh',
   },
 };

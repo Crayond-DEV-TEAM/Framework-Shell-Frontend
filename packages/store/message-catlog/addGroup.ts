@@ -165,9 +165,14 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
       );
 
       if (response.data?.status === 200) {
+        set((state) => ({
+          messageId: '',
+          messageName: '',
+        }));
         enqueueSnackbar('Deleted message Group Successfully!!', { variant: 'success' });
         return response;
       }
+      set({ loading: false });
     } catch (err: any) {
       set({ loading: false });
       log('error', err);

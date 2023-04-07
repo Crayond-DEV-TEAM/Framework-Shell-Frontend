@@ -81,7 +81,16 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
         name: 'Status',
         children: [
           {
-            // label: 'No Data',
+            component: 'checkbox',
+            label: 'Active',
+            id: 1,
+            value: true,
+          },
+          {
+            component: 'checkbox',
+            label: 'Inactive',
+            id: 2,
+            value: true,
           },
         ],
       },
@@ -387,7 +396,7 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
         'put',
         `${envConfig.api_url}/messages/delete_message`,
         {
-          msg_grp_msg_info_id: payload?.id,
+          msg_grp_msg_info_id: payload?.delid,
           msg_grp_msg_data: payload?.messageId,
         },
         true,

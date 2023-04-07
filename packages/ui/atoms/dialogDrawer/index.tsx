@@ -1,5 +1,4 @@
 // import { CloseIcon } from '@atoms/icons';
-import { FooterComponent } from '@atoms/footerComponent/index';
 import { SxProps, Theme, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { Box, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { ReactNode, useState } from 'react';
@@ -19,6 +18,7 @@ export interface DialogDrawerProps {
   handleCloseDialog?: () => void;
   handleSubmit?: () => void;
   handleClose?: () => void;
+  // handleSubmit: () => void;
   title: string;
   titleStyle?: object;
   content?: React.ReactNode;
@@ -41,12 +41,12 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
       false;
     },
     dialogRootStyle = {},
-    handleSubmit = () => false,
+    // handleSubmit = {},
     title = 'Add New Message',
     content = '',
     Bodycomponent = null,
     check = false,
-    Footercomponent = <FooterComponent check={false} onCancel={handleClose} onSave={handleSubmit} />,
+    Footercomponent,
     contentStyleSx = {},
     maxModalWidth = '',
     fullWidth = false,

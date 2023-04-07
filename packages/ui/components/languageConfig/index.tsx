@@ -3,13 +3,14 @@ import { DropDown } from '@atoms/dropDown';
 import { DeleteChip, LanguageTop } from '@atoms/icons';
 import SearchIcon from '@mui/icons-material/Search';
 import { SearchField } from '@atoms/searchField';
-import { Chip, Grid, SxProps, Theme } from '@mui/material';
+import { Chip, Grid, Skeleton, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { forwardRef, useEffect, useState } from 'react';
 import { languageConfigStyle } from './style';
 import { useLanguageConfiguration } from '@core/store';
 // import { enqueueSnackbar } from 'notistack';
 import { SelectBoxInterface } from '@core/store/interface';
+import { DeleteDailog } from '@atoms/deletedailog';
 
 export interface LanguageConfigProps {
   className?: string;
@@ -46,6 +47,19 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     getSavedLanguage();
     // eslint-disable-nextline
   }, []);
+  const [selected, setSelected] = useState(false);
+
+  const handleOpen = () => {
+    setSelected(true);
+    // setIsEdit(false);
+  };
+  const handlemodalClose = () => {
+    setSelected(false);
+  };
+  const handleDelete = () => {
+    deleteLanguage();
+    setSelected(false);
+  };
 
   return (
     <Box
@@ -64,10 +78,15 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
           options={masterLanguages}
           onSelect={addLanguage}
           onSearch={() => false}
+          loading={masterLanguageLoading}
         />
       </Box>
+      {masterLanguageError === true && (
+        <Typography sx={{ fontSize: '12px', color: 'red', ml: 1 }}>
+          Oops! Something went wrong, Try Again Later
+        </Typography>
+      )}
       <Box sx={{ padding: '8px' }} />
-
       <Box sx={languageConfigStyle.sx}>
         <Box sx={languageConfigStyle.header}>
           <Typography sx={languageConfigStyle.selectLang}>Selected Language</Typography>
@@ -80,26 +99,51 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
         </Box>
         <Box sx={languageConfigStyle.content}>
           <Grid container spacing={1}>
-            {languages?.map((data: SelectBoxInterface, index: number) => {
-              return (
-                <Grid item key={index}>
-                  <Chip
-                    sx={{
-                      backgroundColor: 'primary.main',
-                      width: 'auto',
-                      py: '10px',
-                      color: '#fff',
-                      ' & .MuiChip-deleteIcon': {
-                        margin: '-3px 7px 0 -6px',
-                      },
-                    }}
-                    label={data.label}
-                    onDelete={() => deleteLanguage(data, index)}
-                    deleteIcon={<DeleteChip height={'16px'} width={'12px'} />}
-                  />
-                </Grid>
-              );
-            })}
+            {fetching === true ? (
+              <Box sx={{ display: 'flex' }}>
+                <Skeleton
+                  variant="rounded"
+                  width={98}
+                  height={37}
+                  sx={{ borderRadius: '19px', marginLeft: '10px', marginTop: '5px' }}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width={98}
+                  height={37}
+                  sx={{ borderRadius: '19px', marginLeft: '10px', marginTop: '5px' }}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width={98}
+                  height={37}
+                  sx={{ borderRadius: '19px', marginLeft: '10px', marginTop: '5px' }}
+                />
+              </Box>
+            ) : (
+              <>
+                {languages?.map((data: SelectBoxInterface, index: number) => {
+                  return (
+                    <Grid item key={index}>
+                      <Chip
+                        sx={{
+                          backgroundColor: 'primary.main',
+                          width: 'auto',
+                          py: '10px',
+                          color: '#fff',
+                          ' & .MuiChip-deleteIcon': {
+                            margin: '-3px 7px 0 -6px',
+                          },
+                        }}
+                        label={data.label}
+                        onDelete={handleOpen}
+                        deleteIcon={<DeleteChip height={'16px'} width={'12px'} />}
+                      />
+                    </Grid>
+                  );
+                })}
+              </>
+            )}
           </Grid>
 
           <Box
@@ -134,6 +178,28 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
           </Box>
         </Box>
       </Box>
+      <DeleteDailog
+        isDialogOpened={selected}
+        Bodycomponent={
+          <Box>
+            <Typography sx={{ fontWeight: 600 }}>Are you sure want to delete this ??</Typography>
+            <Box sx={languageConfigStyle.totalFooterSx}>
+              <Box sx={languageConfigStyle.btnSx}>
+                <Box sx={languageConfigStyle.btnBg}>
+                  <Button buttonStyle={languageConfigStyle.cancelbtnText} onClick={handlemodalClose}>
+                    Cancel
+                  </Button>
+                </Box>
+                <Box sx={languageConfigStyle.savebtnBg}>
+                  <Button buttonStyle={languageConfigStyle.savebtnText} onClick={handleDelete}>
+                    Delete
+                  </Button>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        }
+      />
     </Box>
   );
 });

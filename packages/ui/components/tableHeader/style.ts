@@ -10,12 +10,14 @@ export const tableHeaderStyle: TableHeaderStyleProps = {
     fontSize: '16px',
     fontWeight: '600',
     color: '#29302B',
+    textTransform: 'capitalize',
   },
   totalHeaderSx: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    px: 0,
+    // p: 2,
+    // px: 0,
   },
   leftSx: {
     display: 'flex',
@@ -27,8 +29,8 @@ export const tableHeaderStyle: TableHeaderStyleProps = {
     textTransform: 'capitalize',
   },
   dialogSx: {
-    width: '904px',
-    height: '520px',
+    width: '1020px',
+    // height: '520px',
   },
   contentSx: {
     '&.MuiDialogContent-root': {

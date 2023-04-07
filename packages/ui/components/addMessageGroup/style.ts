@@ -22,7 +22,10 @@ export const addMessageGroupStyle: AddMessageGroupStyleProps = {
       fontSize: '14px',
     },
   },
-  totalLanguagesSx: {},
+  totalLanguagesSx: {
+    height: '350px',
+    overflowY: 'scroll',
+  },
 
   dividerSx: {
     // border: '0.5px solid',

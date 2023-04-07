@@ -12,6 +12,7 @@ import React from 'react';
 // import { Popup } from "@core/ui/components/popup";
 import type { SxProps, Theme } from '@mui/material';
 import { alertRuleStyles } from './style';
+import { FooterComponent } from '@atoms/footerComponent';
 export interface AlertRuleProps {
   data?: any;
   id?: any;
@@ -447,7 +448,8 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
                 handleSubmit={handleSubmit}
                 fullWidth={false}
                 fullScreen={false}
-                content={<DialogContent data={alertRule} updateState={updateState} />}
+                Bodycomponent={<DialogContent data={alertRule} updateState={updateState} />}
+                Footercomponent={<FooterComponent onSave={handleSubmit} onCancel={handleClose} />}
               />
             </Box>
           </Grid>

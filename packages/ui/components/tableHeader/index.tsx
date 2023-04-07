@@ -28,7 +28,7 @@ export interface TableHeaderProps {
   open?: boolean | any;
   addMessageTable?: any;
   handleStateChange?: (key: any, value: any) => void;
-  onChangeMessage?: (key: any, value: any, state: any) => void;
+  // onChangeMessage?: (key: any, value: any, state: any) => void;
   updateStatusReport?: (e: any) => void;
   onApply?: () => void;
   handleOpen?: () => void;
@@ -64,7 +64,6 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     options,
     openAddMessage = () => false,
     onChangeMessage = () => false,
-    languageBox = () => false,
     language,
     searchTerm,
     setSearchTerm,
@@ -119,37 +118,6 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
           )}
         </Box>
       </Box>
-      <DialogDrawer
-        dialogRootStyle={tableHeaderStyle.dialogSx}
-        contentStyleSx={tableHeaderStyle.contentSx}
-        isDialogOpened={open}
-        title={'Add New Message Group'}
-        Bodycomponent={
-          <AddMessageGroup
-            handleChange={handleStateChange}
-            updateStatusReport={updateStatusReport}
-            groupState={editTableMessage}
-            status={status}
-            onChangeMessage={onChangeMessage}
-            languageBox={languageBox}
-            isEdit={isEdit}
-            options={options}
-            language={addedLangState}
-          />
-        }
-        Footercomponent={
-          <FooterComponent
-            checked={editTableMessage?.isAddGroup}
-            SwitchChange={(e: any) => handleStateChange('isAddGroup', e.target.checked)}
-            onSave={addMessageTable}
-            onCancel={handleClose}
-            loading={loading}
-          />
-        }
-        handleCloseDialog={handleClose}
-        rootStyle={{ padding: '0px important' }}
-        // dialogstyle={{ width: '904px', height: '604px' }}
-      />
     </Box>
   );
 });

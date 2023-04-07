@@ -111,3 +111,20 @@ export interface LanguageConfigInterface {
   updateDefaultLang: (lang: SelectBoxInterface, index: number) => boolean;
   saveLanguage: () => boolean;
 }
+
+export interface Menu {
+  id: number;
+  link: string;
+  name: string;
+  baseUrl: string;
+  links?: string[];
+  icon: (isSelectd: boolean) => JSX.Element;
+  childrens?: Menu[];
+}
+export interface MenusProps {
+  sideMenus?: Menu[];
+  onLinkClick: (data: Menu) => boolean;
+  loading: boolean;
+  error: boolean;
+  getMenu: () => void;
+}

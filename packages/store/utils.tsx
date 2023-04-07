@@ -1,11 +1,25 @@
 import { ValidateEmail } from '@core/utils';
 import {
   ForgotPasswordState,
+  Menu,
   ResetPasswordState,
   SignInState,
   SignUpStateInterface,
   UserDataInterface,
 } from './interface';
+import {
+  Alert,
+  AlertConfigIcon,
+  AlertRuleIcon,
+  ApiIcon,
+  ArrowDown,
+  ArrowRight,
+  MessageHub,
+  ReportIcon,
+  SubMessageGroup,
+  SubMessageLanguage,
+  ApiDocument,
+} from '@atoms/icons';
 
 export const giveMeAuthInitialState = (): {
   signUpState: SignUpStateInterface;
@@ -144,4 +158,69 @@ export const validateResetPasswordData = (values: ResetPasswordState) => {
   }
 
   return { isValid, message };
+};
+
+export const AllRoutes: { [key: number]: Menu } = {
+  1: {
+    id: 1,
+    link: '/',
+    name: 'Alert Hubs',
+    baseUrl: '',
+    links: [],
+    icon: (isSelected: boolean) => <Alert sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+    childrens: [
+      {
+        id: 1,
+        link: '/',
+        name: 'Reports',
+        baseUrl: '',
+        icon: (isSelected: boolean) => <ReportIcon sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+      },
+      {
+        id: 2,
+        link: '/',
+        name: 'Alert Rule',
+        baseUrl: '',
+        icon: (isSelected: boolean) => <AlertRuleIcon sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+      },
+      {
+        id: 3,
+        link: '/',
+        name: 'API Documentation',
+        baseUrl: '',
+        icon: (isSelected: boolean) => <ApiDocument sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+      },
+      {
+        id: 3,
+        link: '/',
+        name: 'Alert Configuration',
+        baseUrl: '',
+        icon: (isSelected: boolean) => <AlertConfigIcon sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+      },
+    ],
+  },
+  2: {
+    id: 2,
+    link: '/',
+    name: 'Message Catlog',
+    baseUrl: '',
+    links: ['/languageConfig', '/messagegroup'],
+    icon: (isSelected: boolean) => <MessageHub sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+    childrens: [
+      {
+        id: 1,
+        link: '/languageConfig',
+        name: 'Language Configuration',
+        baseUrl: '',
+        icon: (isSelected: boolean) => <SubMessageLanguage sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+      },
+      {
+        id: 2,
+        link: '/messagegroup',
+        name: 'Message Group',
+        baseUrl: '',
+        icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+      },
+    ],
+  },
 };

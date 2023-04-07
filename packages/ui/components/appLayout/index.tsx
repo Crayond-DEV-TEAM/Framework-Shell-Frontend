@@ -5,6 +5,8 @@ import type { BoxProps, SxProps, Theme } from '@mui/material';
 import { Box } from '@mui/material';
 
 import { appLayoutStyle } from './style';
+import { useEffect, useState } from 'react';
+import { useMenu } from '@core/store';
 
 export interface AppLayoutProps {
   className?: string;
@@ -15,8 +17,22 @@ export interface AppLayoutProps {
 
 export function AppLayout(props: AppLayoutProps): JSX.Element {
   const { className = '', children, childrenWrapperProps = {}, sx = {}, ...rest } = props;
+  //store data
+  const { sideMenus } = useMenu((state) => ({
+    sideMenus: state.sideMenus,
+  }));
+
+  const [title, setTitle] = useState();
+
+  const menuItems = (item: any, index: any) => {
+    setTitle(item?.menuName);
+  };
 
   const user = useUser((state) => state.user);
+
+  // useEffect(() => {
+  //   setTitle(sideMenus?.[0]?.menuName);
+  // }, []);
 
   return (
     <Box
@@ -29,8 +45,8 @@ export function AppLayout(props: AppLayoutProps): JSX.Element {
       className={`${className}`}
       {...rest}
     >
-      <AppBar user={user} />
-      <SideBar />
+      <AppBar user={user} title={title} />
+      <SideBar menuItems={menuItems} />
       {/* Children */}
       <Box
         sx={[

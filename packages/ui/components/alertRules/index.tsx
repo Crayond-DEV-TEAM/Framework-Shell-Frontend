@@ -1,24 +1,17 @@
-import { Grid, Box } from '@mui/material';
-import React from 'react';
-import DashRed from '@core/ui/assets/dashRed';
-import DoubleTickBlue from '@core/ui/assets/dbTickBlue';
-import DoubleTickGreen from '@core/ui/assets/dbTickGreen';
 import DeleteIcon from '@core/ui/assets/deleteIcon';
 import EditIcon from '@core/ui/assets/editIcon';
-import EmailIcon from '@core/ui/assets/emailIcon';
-import NotificationIcon from '@core/ui/assets/notificationIcon';
-import SingleTickGreen from '@core/ui/assets/sgTickGreen';
 import SmallMailIcon from '@core/ui/assets/smallMailIcon';
 import SmallNotificationIcon from '@core/ui/assets/smallNotificationIcon';
 import SmallSmsIcon from '@core/ui/assets/smallSmsIcon';
-import SmsIcon from '@core/ui/assets/smsIcon';
-import { CommonTable, BasicButtons } from 'crayond-components-library-1';
-import { TableHeader } from '@core/ui/components/tableHeader';
 import { DialogDrawer } from '@core/ui/atoms/dialogDrawer';
-// import { DialogContent } from "@core/ui/components/dialogContent";
+import { DialogContent } from '@core/ui/components/dialogContent';
+import { TableHeader } from '@core/ui/components/tableHeader';
+import { Box, Grid } from '@mui/material';
+import { CommonTable } from 'crayond-components-library-1';
+import React from 'react';
 // import { Popup } from "@core/ui/components/popup";
 import type { SxProps, Theme } from '@mui/material';
-import { alertRuleStyles } from "./style";
+import { alertRuleStyles } from './style';
 export interface AlertRuleProps {
   data?: any;
   id?: any;
@@ -27,10 +20,26 @@ export interface AlertRuleProps {
   handleSubmit?: any;
 }
 export function AlertRules(props: AlertRuleProps): JSX.Element {
+  const initialState = {
+    profileId: '',
+    alert_code: '',
+    reference_id: '',
+    hashtags: '',
+    description: '',
+    is_email: true,
+    is_push: false,
+    is_sms: false,
+    push_title: '',
+    push_body: '',
+    email_subject: '',
+    email_body: '',
+    SMS_body: '',
+  };
+
   const { data } = props;
   const [open, setOpen] = React.useState(false);
   const [alertRow, setAlertRow] = React.useState([]);
-  const [alertRule, setAlertRule] = React.useState({});
+  const [alertRule, setAlertRule] = React.useState({ ...initialState });
   const [isSelectedAll, setIsSelectedAll] = React.useState(false);
   const [selectedCheckbox, setSelectedCheckbox] = React.useState([1, 2]);
   const [switchList, setSwitchList] = React.useState([1, 4]);
@@ -348,11 +357,11 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
     });
   };
   const handleClick = () => {
-    setAlertRule({});
+    setAlertRule({ ...initialState });
     setOpen(true);
   };
   const handleClose = () => {
-    setAlertRule({});
+    setAlertRule({ ...initialState });
     setOpen(false);
   };
   const handleSubmit = () => {
@@ -406,7 +415,7 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
                       isFilterRequired
                       isSearchRequired
                       isBtnRequired
-                      handleOpen={handleClick}
+                      onClick={handleClick}
                     />
                   ),
                 }}
@@ -428,14 +437,17 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
             /> */}
             <Box>
               <DialogDrawer
+                dialogRootStyle={{
+                  width: '650px',
+                  height: '450px',
+                }}
                 title="Add New Rule"
                 isDialogOpened={open}
-                handleCloseDialog={handleClose}
+                handleClose={handleClose}
                 handleSubmit={handleSubmit}
-              // content={<DialogContent
-              //     data={alertRule}
-              //     updateState={updateState}
-              // />}
+                fullWidth={false}
+                fullScreen={false}
+                content={<DialogContent data={alertRule} updateState={updateState} />}
               />
             </Box>
           </Grid>

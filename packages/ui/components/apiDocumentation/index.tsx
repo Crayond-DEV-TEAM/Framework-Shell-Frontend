@@ -116,7 +116,7 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
                                 <Typography sx={apiDocumentation_style.tryBtn}>Try</Typography>
                             </Box>
                             <Box sx={apiDocumentation_style.referenceScroll} p={2}>
-                                <Typography sx={apiDocumentation_style.dummy}>
+                                <Typography component={"pre"} sx={apiDocumentation_style.dummy}>
                                     {`{ "reference_id": "", 
                                       "push_receivers": [],
                                       "push_title": [],

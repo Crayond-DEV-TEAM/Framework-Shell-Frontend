@@ -17,7 +17,7 @@ export interface DropDownProps {
   isError?: any;
   placeholder?: string;
   onchange?: any;
-  header?: string,
+  header?: string;
   onClick?: any;
   onSelect?: any;
   // IconComponent: NodeJS;
@@ -40,8 +40,22 @@ export const DropDown = forwardRef((props: DropDownProps, ref: React.Ref<HTMLEle
     ...rest
   } = props;
 
+  const getLabel = (props: any) => {
+    return (
+      <Typography sx={{ ...dropDownStyle.Label }} noWrap>
+        {props.header}
+        {props.isrequired && (
+          <Typography variant="caption" sx={{ ...dropDownStyle.required }}>
+            *
+          </Typography>
+        )}
+      </Typography>
+    );
+  };
+
   return (
     <Box>
+      {getLabel(props)}
       <Select
         className={`${className}`}
         {...rest}

@@ -37,4 +37,14 @@ export const dropDownStyle: DropDownStyleProps = {
   menuitemhidden: {
     display: 'none',
   },
+
+  Label: {
+    color: '#262C33',
+    fontSize: '12px',
+    marginBottom: '6px',
+  },
+
+  required: {
+    color: 'red',
+  },
 };

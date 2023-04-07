@@ -13,6 +13,8 @@ export interface DialogDrawerProps {
   rootStyle?: object;
   dialogstyle?: object;
   isDialogOpened: boolean;
+  fullWidth: boolean;
+  fullScreen: boolean;
   check?: boolean;
   handleCloseDialog?: () => void;
   handleSubmit?: () => void;
@@ -44,13 +46,11 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
     content = '',
     Bodycomponent = null,
     check = false,
-    Footercomponent = <FooterComponent
-      check={false}
-      onCancel={handleClose}
-      onSave={handleSubmit}
-    />,
+    Footercomponent = <FooterComponent check={false} onCancel={handleClose} onSave={handleSubmit} />,
     contentStyleSx = {},
     maxModalWidth = '',
+    fullWidth = false,
+    fullScreen = false,
     ...rest
   } = props;
 
@@ -62,6 +62,7 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
     <Box sx={{ ...dialogDrawerStyle.rootSx, ...rootStyle }} className={`${className}`} {...rest}>
       <Dialog
         fullScreen={fullscreen}
+        fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isDialogOpened}
         aria-labelledby="draggable-dialog-title"

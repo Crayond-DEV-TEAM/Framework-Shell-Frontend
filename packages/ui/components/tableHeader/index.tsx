@@ -7,8 +7,8 @@ import { SxProps, Theme, Popover } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { forwardRef } from 'react';
 import { AddMessageGroup, Filter } from '..';
-import DownloadIcon from "@core/ui/assets/downloadIcon";
-import XlsIcon from "@core/ui/assets/xlsIcon";
+import DownloadIcon from '@core/ui/assets/downloadIcon';
+import XlsIcon from '@core/ui/assets/xlsIcon';
 import { tableHeaderStyle } from './style';
 
 export interface TableHeaderProps {
@@ -34,7 +34,7 @@ export interface TableHeaderProps {
   anchorEl?: any;
   isDownloadRequired?: boolean | any;
   handleStateChange?: (key: any, value: any) => void;
-  onChangeMessage?: (key: any, value: any, state: any) => void;
+  // onChangeMessage?: (key: any, value: any, state: any) => void;
   updateStatusReport?: (e: any) => void;
   onApply?: () => void;
   handleOpen?: () => void;
@@ -73,8 +73,6 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     isEdit,
     options,
     openAddMessage = () => false,
-    onChangeMessage = () => false,
-    languageBox = () => false,
     language,
     searchTerm,
     setSearchTerm,
@@ -165,32 +163,6 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
           </Popover>
         </Box>
       </Box>
-      <DialogDrawer
-        dialogRootStyle={tableHeaderStyle.dialogSx}
-        contentStyleSx={tableHeaderStyle.contentSx}
-        isDialogOpened={open}
-        title={'Add New Message Group'}
-        Bodycomponent={<AddMessageGroup
-          handleChange={handleStateChange}
-          updateStatusReport={updateStatusReport}
-          groupState={editTableMessage}
-          status={status}
-          onChangeMessage={onChangeMessage}
-          languageBox={languageBox}
-          isEdit={isEdit}
-          options={options}
-          language={addedLangState} />}
-        Footercomponent={<FooterComponent
-          checked={editTableMessage?.isAddGroup}
-          SwitchChange={(e: any) => handleStateChange('isAddGroup', e.target.checked)}
-          onSave={addMessageTable}
-          onCancel={handleClose}
-          loading={loading} />}
-        handleCloseDialog={handleClose}
-        rootStyle={{ padding: '0px important' }} // dialogstyle={{ width: '904px', height: '604px' }}
-        handleSubmit={function (): void {
-          throw new Error('Function not implemented.');
-        }} />
     </Box>
   );
 });

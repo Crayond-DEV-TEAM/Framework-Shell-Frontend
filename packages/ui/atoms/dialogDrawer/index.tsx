@@ -14,7 +14,7 @@ export interface DialogDrawerProps {
   dialogstyle?: object;
   isDialogOpened: boolean;
   handleCloseDialog: () => void;
-  handleSubmit: () => void;
+  // handleSubmit: () => void;
   title: string;
   titleStyle?: object;
   content?: React.ReactNode;
@@ -32,13 +32,13 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
     className = '',
     rootStyle = {},
     dialogstyle = {},
-    handleClose = () => { },
+    handleClose = () => {},
     isDialogOpened = true,
     handleCloseDialog = () => {
       false;
     },
     dialogRootStyle = {},
-    handleSubmit = {},
+    // handleSubmit = {},
     title = 'Add New Message',
     content = '',
     Bodycomponent = null,

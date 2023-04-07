@@ -36,7 +36,7 @@ export const sideBarStyle: SideBarStyleProps = {
   },
   listheading: {
     '& .MuiTypography-root': {
-      fontSize: '12px',
+      fontSize: '14px',
       fontWeight: 600,
     },
   },
@@ -58,5 +58,33 @@ export const sideBarStyle: SideBarStyleProps = {
       {
         background: '#eaf1f0 0% 0% no-repeat padding-box',
       },
+  },
+  menuSx: {
+    pl: 0,
+    alignItems: 'center',
+    margin: '4px 14px',
+    padding: '0px 0px',
+    borderRadius: '7px',
+    '&:hover': {
+      backgroundColor: '#EAF1EF',
+    },
+  },
+  totalBtnSx: {
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
+  },
+  dividerSx: {
+    // border: '0.5px solid',
+    // backgroundColor: '#E0E0E0',
+    borderColor: '#EAEAEA',
+    height: '2px',
+    width: '180px',
+    margin: '0px auto',
+  },
+  skeletonSx: {
+    padding: '16px',
+    margin: '4px 10px',
+    backgroundColor: '#eaf1ef',
   },
 };

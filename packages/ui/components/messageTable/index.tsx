@@ -1,7 +1,7 @@
 import { Grid, Switch, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 
-import { AddMessage, TableHeader } from '..';
+import { AddMessage, AddMessageGroup, TableHeader } from '..';
 import { forwardRef, useEffect } from 'react';
 import { useState } from 'react';
 import { messageTableStyle } from './style';
@@ -9,8 +9,10 @@ import { useAddGroup, useLanguage, useMessageGroup } from '@core/store';
 import { CommonTable } from 'crayond-components-library-1';
 import isEqual from 'react-fast-compare';
 import { DeleteIcon, EditIcon } from '@atoms/icons';
-import { DeleteDailog } from '@atoms/deletedailog';
+import { FooterComponent } from '@atoms/footerComponent';
+import { DialogDrawer } from '@atoms/dialogDrawer';
 import { Button } from '@atoms/button';
+import { DeleteDailog } from '@atoms/deleteDailog';
 
 export interface MessageTableProps {
   className?: string;
@@ -450,7 +452,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                     tableHeader={tableName}
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
-                    onChangeMessage={onChangeMessage}
                     open={open}
                     isEdit={isEdit}
                     handleOpen={handleOpen}
@@ -469,6 +470,36 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
           </Box>
         </Grid>
       </Grid>
+      <DialogDrawer
+        dialogRootStyle={messageTableStyle.dialogSx}
+        contentStyleSx={messageTableStyle.contentSx}
+        isDialogOpened={open}
+        title={'Add New Message Group'}
+        Bodycomponent={
+          <AddMessageGroup
+            handleChange={handleStateChange}
+            updateStatusReport={updateStatusReport}
+            groupState={editTableMessage}
+            status={status}
+            onChangeMessage={addMessageTableFun}
+            isEdit={isEdit}
+            options={severtiy}
+            language={addedLangState}
+          />
+        }
+        Footercomponent={
+          <FooterComponent
+            checked={editTableMessage?.isAddGroup}
+            SwitchChange={(e: any) => handleStateChange('isAddGroup', e.target.checked)}
+            onSave={addMessageTable}
+            onCancel={handleClose}
+            loading={loading}
+          />
+        }
+        handleCloseDialog={handleClose}
+        rootStyle={{ padding: '0px important' }}
+        // dialogstyle={{ width: '904px', height: '604px' }}
+      />
       <DeleteDailog
         isDialogOpened={selected}
         Bodycomponent={

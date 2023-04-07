@@ -15,6 +15,7 @@ export interface ModalAddMessageProps {
 
 export const ModalAddMessage = forwardRef((props: ModalAddMessageProps, ref: React.Ref<HTMLElement>): JSX.Element => {
   const { className = '', sx = {}, handleChange = () => false, groupState, ...rest } = props;
+  console.log(groupState, 'GroupState');
   return (
     <Box
       sx={[
@@ -35,14 +36,14 @@ export const ModalAddMessage = forwardRef((props: ModalAddMessageProps, ref: Rea
           <Input
             size="small"
             placeholder=" Add Title"
-            value={groupState?.addTitle}
-            id="addTitle"
+            value={groupState?.title}
+            id="title"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-              handleChange('addTitle', e.target.value)
+              handleChange('title', e?.target?.value)
             }
             textFieldStyle={modalAddMessageStyle.inputSx}
-            isError={groupState?.error?.addTitle ? true : false}
-            errorMessage={groupState?.error?.addTitle ?? ''}
+            // isError={groupState?.error?.addTitle ? true : false}
+            // errorMessage={groupState?.error?.addTitle ?? ''}
           />
         </Box>
         <Box sx={modalAddMessageStyle.inputGroupSx}>
@@ -52,7 +53,7 @@ export const ModalAddMessage = forwardRef((props: ModalAddMessageProps, ref: Rea
           <Input
             size="small"
             placeholder="Add description"
-            value={groupState?.addDescription}
+            value={groupState?.description}
             id="description"
             // textFieldStyle={{ height: '112px' }}
             rows={5}
@@ -60,10 +61,10 @@ export const ModalAddMessage = forwardRef((props: ModalAddMessageProps, ref: Rea
             textFieldStyle={modalAddMessageStyle.inputSx}
             isMulti={true}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-              handleChange('addDescription', e.target.value)
+              handleChange('description', e.target.value)
             }
-            isError={groupState?.error?.addDescription ? true : false}
-            errorMessage={groupState?.error?.addDescription ?? ''}
+            // isError={groupState?.error?.addDescription ? true : false}
+            // errorMessage={groupState?.error?.addDescription ?? ''}
           />
         </Box>
       </Box>

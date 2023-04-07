@@ -5,6 +5,7 @@ import {
   SignInState,
   SignUpStateInterface,
   UserDataInterface,
+  MessageGroup,
 } from './interface';
 
 export const giveMeAuthInitialState = (): {
@@ -144,4 +145,8 @@ export const validateResetPasswordData = (values: ResetPasswordState) => {
   }
 
   return { isValid, message };
+};
+
+export const giveMeMessageGroupInitialState = (): MessageGroup => {
+  return { title: '', description: '', is_status: false };
 };

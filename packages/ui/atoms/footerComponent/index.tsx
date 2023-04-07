@@ -44,7 +44,7 @@ export const FooterComponent = forwardRef((props: FooterComponentProps, ref: Rea
       <Box sx={footerComponentStyle.totalFooterSx}>
         {/* <Switch {...label} checked={checked} onChange={SwitchChange} /> */}
         <Box sx={footerComponentStyle.btnSx}>
-          <CustomSwitches label="" value={checked} onChange={SwitchChange} />
+          <CustomSwitches label="" value={checked.status} onChange={SwitchChange} />
           <Typography sx={footerComponentStyle.switch}>Make this active</Typography>
         </Box>
         <Box sx={footerComponentStyle.btnSx}>

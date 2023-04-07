@@ -111,24 +111,42 @@ export interface LanguageConfigInterface {
   updateDefaultLang: (lang: SelectBoxInterface, index: number) => boolean;
   saveLanguage: () => boolean;
 }
-export interface MessageCreateInterface {
+export interface MessageGroup {
+  id?: number | string;
   title: number | string;
   description: number | string;
+  is_status: boolean;
 }
 
 export interface MessageConfigInterface {
-  messageGroup: MessageCreateInterface[];
-  editmessage: MessageCreateInterface[];
-  addMessage: MessageCreateInterface[];
-  deleteMessage: MessageCreateInterface[];
+  messageGroup: MessageGroup[];
+  deleteMessage: () => boolean;
+  setdeleteMessage: (payload: { id: string }) => void;
+
+  editMessage: MessageGroup;
+  // seteditMessage: (payload: { key: string; value: string }) => void;
+
+  addMessage: MessageGroup;
+  setaddMessage: (payload: { key: string; value: string }) => void;
+
+  editMessageList: MessageGroup;
+  seteditMessagelist: (payload: { key: string; value: string }) => void;
+
   fetching: boolean;
   errorOnFetching: boolean;
-  messageGroupError: boolean;
+
   editMessageLoading: boolean;
   editMessageError: boolean;
-  addMessaageLoading: boolean;
+
+  addMessageLoading: boolean;
   addMessageError: boolean;
+
   deleteMessageLoading: boolean;
   deleteMessageError: boolean;
+
   getMessageGroups: () => boolean;
+  editMessageGroups: () => boolean;
+  deleteMessageGroups: () => boolean;
+  addMessageGroups: () => boolean;
+  editMessageListGroups: () => boolean;
 }

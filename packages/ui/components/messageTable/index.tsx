@@ -245,7 +245,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       },
       deleteHandel: (id: any) => {
         setDelid(id);
-
         handlemodalOpen();
       },
       editIcon: <EditIcon />,
@@ -318,7 +317,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   };
 
   const initialData = async () => {
-    const response: any = await getAllMessageGroup();
     if (messageId) {
       await getAllTableGroup(messageId);
       setMessageGroupId(messageId);
@@ -327,6 +325,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       setTableName(messageName);
     }
     await getSeverityDetails();
+    getAllMessageGroup();
   };
 
   const handleOpen = async () => {
@@ -367,7 +366,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   };
 
   useEffect(() => {
-    initialData();
     updateStateAddGroup();
     if (addedLangState) {
       addedlanguagedisplay({});
@@ -377,7 +375,8 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   useEffect(() => {
     setTableName(messageName);
     setMessageGroupId(messageId);
-  }, [messageId]);
+    initialData();
+  }, [messageId, messageName]);
 
   useEffect(() => {
     if (tableMessageData) {

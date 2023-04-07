@@ -48,7 +48,7 @@ export interface TableHeaderProps {
   addMessage?: any;
   options?: any;
   onChange?: any;
-  onClick?: any;
+  onClick?: () => void;
   sx?: SxProps<Theme>;
 }
 
@@ -127,7 +127,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
           )}
           {isBtnRequired && (
             <Box sx={{ ml: 1 }}>
-              <Button sx={tableHeaderStyle.btnSx} onClick={handleOpen}>
+              <Button sx={tableHeaderStyle.btnSx} onClick={onClick}>
                 {buttonName}
               </Button>
             </Box>

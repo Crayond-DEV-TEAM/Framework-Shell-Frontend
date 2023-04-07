@@ -4,7 +4,7 @@ import { Input } from '@atoms/input';
 import { Box, FormControlLabel } from "@mui/material";
 import { emailDialog_style } from './style';
 
-export function EmailDialog(): JSX.Element {
+export function EmailDialog(props: any): JSX.Element {
 
     return (
         <Box sx={emailDialog_style.leftContent}>
@@ -12,7 +12,7 @@ export function EmailDialog(): JSX.Element {
                 <Input header="Provider" value="Provider" />
             </Box>
             <Box sx={emailDialog_style.field}>
-                <Input isMulti rowMax={5} header="API Key" />
+                <Input isMulti rowMax={5} header="API Key" value="" />
             </Box>
             <FormControlLabel
                 label="Mark As Default"

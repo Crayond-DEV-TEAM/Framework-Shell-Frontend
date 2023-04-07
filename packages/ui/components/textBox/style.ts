@@ -45,5 +45,8 @@ export const textBoxstyle = {
         borderColor: '#5078E1',
       },
     },
+    "& svg": {
+      cursor: "pointer"
+    }
   },
 };

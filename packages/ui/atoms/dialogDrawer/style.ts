@@ -25,6 +25,12 @@ export const dialogDrawerStyle: DialogDrawerStyleProps = {
   //     // padding: (props) => props?.padding ?? '',
   //   },
   // },
+  dialogRootSx: {
+    '& .MuiDialogContent-root': {
+      padding: "0px !important"
+    }
+  },
+
   header: {
     border: '1px solid #E4E8EE',
     display: 'flex',

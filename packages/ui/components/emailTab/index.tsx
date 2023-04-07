@@ -224,6 +224,7 @@ export function EmailTab(): JSX.Element {
             <Box sx={emailTab_style.emailDialog}>
                 <DialogDrawer
                     title="Add Email Details"
+                    check={false}
                     isDialogOpened={open}
                     handleClose={handleClose}
                     handleSubmit={handleSubmit}

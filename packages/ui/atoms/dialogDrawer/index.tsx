@@ -13,8 +13,10 @@ export interface DialogDrawerProps {
   rootStyle?: object;
   dialogstyle?: object;
   isDialogOpened: boolean;
-  handleCloseDialog: () => void;
-  handleSubmit: () => void;
+  check?: boolean;
+  handleCloseDialog?: () => void;
+  handleSubmit?: () => void;
+  handleClose?: () => void;
   title: string;
   titleStyle?: object;
   content?: React.ReactNode;
@@ -23,7 +25,6 @@ export interface DialogDrawerProps {
   contentStyleSx?: any;
   Footercomponent?: ReactNode;
   Bodycomponent?: ReactNode;
-  handleClose?: any;
 }
 
 //export const DialogDrawer = forwardRef((props: DialogDrawerProps): JSX.Element => {
@@ -32,17 +33,22 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
     className = '',
     rootStyle = {},
     dialogstyle = {},
-    handleClose = () => { },
+    handleClose = () => false,
     isDialogOpened = true,
     handleCloseDialog = () => {
       false;
     },
     dialogRootStyle = {},
-    handleSubmit = {},
+    handleSubmit = () => false,
     title = 'Add New Message',
     content = '',
     Bodycomponent = null,
-    Footercomponent,
+    check = false,
+    Footercomponent = <FooterComponent
+      check={false}
+      onCancel={handleClose}
+      onSave={handleSubmit}
+    />,
     contentStyleSx = {},
     maxModalWidth = '',
     ...rest
@@ -69,7 +75,7 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
             <Box
               component="img"
               src={CloseIcon}
-              onClick={handleCloseDialog}
+              onClick={handleClose}
               sx={{ cursor: 'pointer' }}
               height={16}
               width={16}

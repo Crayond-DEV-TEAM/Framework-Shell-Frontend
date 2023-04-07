@@ -76,7 +76,7 @@ export const TextBox = forwardRef((props: TextBoxProps): JSX.Element => {
             multiline = false,
             disabled = false,
             type = '',
-            isReadonly = '',
+            isReadonly = false,
             onChange = () => { },
             isError = '',
             rowsMax = '',
@@ -124,7 +124,7 @@ export const TextBox = forwardRef((props: TextBoxProps): JSX.Element => {
                                 padding: multiline ? 0 : "none"
                             }
                         }}
-                        // disabled={isReadonly ?? false}
+                        disabled={isReadonly ?? false}
                         size="small"
                         multiline={multiline}
                         rows={rowsMax}

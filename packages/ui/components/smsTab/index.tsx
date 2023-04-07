@@ -207,7 +207,7 @@ export function SmsTab(): JSX.Element {
                             HeaderComponent={{
                                 variant: "CUSTOM",
                                 component: <TableHeader
-                                    tableHeader="Sms"
+                                    tableHeader="SMS"
                                     buttonName="Add New Config"
                                     isBtnRequired={true}
                                     isFilterRequired={false}

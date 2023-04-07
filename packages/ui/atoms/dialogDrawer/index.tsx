@@ -14,14 +14,16 @@ export interface DialogDrawerProps {
   dialogstyle?: object;
   isDialogOpened: boolean;
   handleCloseDialog: () => void;
+  // handleSubmit: () => void;
   title: string;
   titleStyle?: object;
-  content?: string;
+  content?: React.ReactNode;
   maxModalWidth?: any;
   dialogRootStyle?: any;
   contentStyleSx?: any;
   Footercomponent?: ReactNode;
   Bodycomponent?: ReactNode;
+  handleClose?: any;
 }
 
 //export const DialogDrawer = forwardRef((props: DialogDrawerProps): JSX.Element => {
@@ -30,11 +32,13 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
     className = '',
     rootStyle = {},
     dialogstyle = {},
+    handleClose = () => {},
     isDialogOpened = true,
     handleCloseDialog = () => {
       false;
     },
     dialogRootStyle = {},
+    // handleSubmit = {},
     title = 'Add New Message',
     content = '',
     Bodycomponent = null,

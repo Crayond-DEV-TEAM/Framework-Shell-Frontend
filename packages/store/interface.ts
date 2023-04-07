@@ -128,3 +128,24 @@ export interface MenusProps {
   error: boolean;
   getMenu: () => void;
 }
+export interface MessageCreateInterface {
+  title: number | string;
+  description: number | string;
+}
+
+export interface MessageConfigInterface {
+  messageGroup: MessageCreateInterface[];
+  editmessage: MessageCreateInterface[];
+  addMessage: MessageCreateInterface[];
+  deleteMessage: MessageCreateInterface[];
+  fetching: boolean;
+  errorOnFetching: boolean;
+  messageGroupError: boolean;
+  editMessageLoading: boolean;
+  editMessageError: boolean;
+  addMessaageLoading: boolean;
+  addMessageError: boolean;
+  deleteMessageLoading: boolean;
+  deleteMessageError: boolean;
+  getMessageGroups: () => boolean;
+}

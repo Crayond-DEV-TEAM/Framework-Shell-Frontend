@@ -11,6 +11,8 @@ import isEqual from 'react-fast-compare';
 import { DeleteIcon, EditIcon } from '@atoms/icons';
 import { FooterComponent } from '@atoms/footerComponent';
 import { DialogDrawer } from '@atoms/dialogDrawer';
+import { Button } from '@atoms/button';
+import { DeleteDailog } from '@atoms/deleteDailog';
 
 export interface MessageTableProps {
   className?: string;
@@ -99,7 +101,8 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const [searchTerm, setSearchTerm] = useState('');
   const [tableName, setTableName] = useState('');
   const [message, setMessage] = useState([]);
-
+  const [delid, setDelid] = useState('');
+  const [messageIds, setmessageIds] = useState('');
   const filteredMessageGroup = tableMessageData?.filter((x: any) =>
     x.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
@@ -132,7 +135,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     handleStateChange(key, value);
   };
 
-  const handleSwitch = (id: string, e: any) => {
+  const handleSwitch = (id: string, data: any, e: any) => {
     if (!switchList.includes(id)) {
       setSwitchList([...switchList, id]);
     } else {
@@ -143,10 +146,15 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       }
     }
     if (e.target.checked) {
+      console.log(id);
+
       getStatus({ id, status: true });
     } else {
+      console.log(id);
+
       getStatus({ id, status: false });
     }
+    console.log(switchList);
   };
 
   const Header = [
@@ -155,12 +163,14 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       align: 'left',
       disablePadding: false,
       label: 'Reference ID',
+      isSortable: false,
     },
     {
       id: 'title',
       align: 'left',
       disablePadding: false,
-      label: 'title',
+      label: 'Title',
+      isSortable: true,
     },
     {
       id: 'description',
@@ -187,7 +197,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       label: 'Languages Configuried',
     },
     {
-      id: 'Created_On',
+      id: 'updated_at',
       align: 'left',
       disablePadding: false,
       label: 'Created On',
@@ -199,7 +209,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       label: 'Modified On',
     },
     {
-      id: 'Status',
+      id: 'status',
       align: 'left',
       disablePadding: false,
       label: 'Status',
@@ -211,7 +221,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       label: 'Action',
     },
   ];
-
   const tableData = [
     { type: ['TEXT'], name: 'id' },
     { type: ['TEXT'], name: 'title' },
@@ -219,12 +228,12 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     { type: ['LABEL'], name: 'severity' },
     // { type: ['TEXT'], name: 'Message_Group' },
     { type: ['TEXT'], name: 'msg_grp_msgs' },
-    { type: ['DATE'], name: 'created_at', format: 'DD MMM hh:mm' },
-    { type: ['DATE'], name: 'updated_at', format: 'DD MMM hh:mm' },
+    { type: ['DATE'], name: 'created_at', format: 'Do MMM,hh:mm A IST' },
+    { type: ['DATE'], name: 'updated_at', format: 'Do MMM,hh:mm A IST' },
     {
       type: ['SWITCH'],
       name: 'status',
-      switchText: [{ lable_1: 'In Active', lable_2: 'Active' }],
+      switchText: [{ label_1: 'In Active', label_2: 'Active' }],
     },
     {
       type: ['ACTION'],
@@ -237,12 +246,8 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
         // updateStatusReport(status);
       },
       deleteHandel: (id: any) => {
-        const msgId = tableMessageData
-          ?.filter(({ msg_grp_msgs_Total }: any) => msg_grp_msgs_Total)
-          .map(({ id }: any) => id);
-        const messageId = msgId.map((id: any) => ({ id }));
-        deleteTableMessage({ id, messageId });
-        getAllTableGroup(messageId);
+        setDelid(id);
+        handlemodalOpen();
       },
       editIcon: <EditIcon />,
       deleteIcon: <DeleteIcon />,
@@ -343,6 +348,25 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     setMessage(a);
   };
 
+  const onDelete = () => {
+    const msgId = tableMessageData
+      ?.filter(({ msg_grp_msgs_Total }: any) => msg_grp_msgs_Total)
+      .map(({ id }: any) => id);
+    const messageId = msgId.map((id: any) => ({ id }));
+    // setmessageIds(messageId);
+    deleteTableMessage({ delid, messageId });
+    getAllTableGroup(messageGroupId);
+  };
+  console.log(delid, 'delid');
+  const [selected, setSelected] = useState(false);
+
+  const handlemodalOpen = () => {
+    setSelected(true);
+  };
+  const handlemodalClose = () => {
+    setSelected(false);
+  };
+
   useEffect(() => {
     updateStateAddGroup();
     if (addedLangState) {
@@ -374,13 +398,13 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       ref={ref}
       {...rest}
     >
-      <Grid container display="flex" sx={messageTableStyle.totalTableSx}>
-        <Grid item xs={12} sm={3} md={2}>
+      <Grid container display="flex" sx={messageTableStyle.totalTableSx} spacing={3}>
+        <Grid item xs={12} sm={4} md={2.25}>
           <Box sx={messageTableStyle.addSx}>
             <AddMessage onMessageTable={onMessageTable} />
           </Box>
         </Grid>
-        <Grid item xs={12} sm={9} md={10}>
+        <Grid item xs={12} sm={8} md={9.75}>
           <Box sx={messageTableStyle.commonTable}>
             <CommonTable
               Header={Header}
@@ -395,17 +419,22 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                 bgColor: '#EAEAEA',
                 borderBottom: '0px',
                 width: '100%',
+                padding: '6px 16px 6px 7px',
               }}
               cellOptions={{
                 fontSize: '14px',
                 fontWeight: '500',
                 color: '#5A5A5A',
-                bgColor: '#fff',
+                // bgColor: '#fff',
                 borderBottom: '0px',
                 padding: '8px',
               }}
+              rowOptions={{
+                rowOddBgColor: '#fff',
+                rowEvenBgColor: '#F7F7F7',
+              }}
               tableMinWidth={'1500px'}
-              tableMinHeight={'65vh'}
+              tableMinHeight={'60vh'}
               paddingAll={'0px'}
               marginAll={'0px 0px 0px'}
               dense={'small'}
@@ -470,6 +499,28 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
         handleCloseDialog={handleClose}
         rootStyle={{ padding: '0px important' }}
         // dialogstyle={{ width: '904px', height: '604px' }}
+      />
+      <DeleteDailog
+        isDialogOpened={selected}
+        Bodycomponent={
+          <Box>
+            <Typography sx={{ fontWeight: 600 }}>Are you sure want to delete this ??</Typography>
+            <Box sx={messageTableStyle.totalFooterSx}>
+              <Box sx={messageTableStyle.btnSx}>
+                <Box sx={messageTableStyle.btnBg}>
+                  <Button buttonStyle={messageTableStyle.cancelbtnText} onClick={handlemodalClose}>
+                    Cancel
+                  </Button>
+                </Box>
+                <Box sx={messageTableStyle.savebtnBg}>
+                  <Button buttonStyle={messageTableStyle.savebtnText} onClick={onDelete}>
+                    Delete
+                  </Button>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        }
       />
     </Box>
   );

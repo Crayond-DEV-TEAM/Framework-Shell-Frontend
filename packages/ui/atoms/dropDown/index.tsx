@@ -17,6 +17,7 @@ export interface DropDownProps {
   isError?: any;
   placeholder?: string;
   onchange?: any;
+  header?: string,
   onClick?: any;
   onSelect?: any;
   // IconComponent: NodeJS;
@@ -35,6 +36,7 @@ export const DropDown = forwardRef((props: DropDownProps, ref: React.Ref<HTMLEle
     onchange = () => false,
     onClick = () => false,
     onSelect = () => false,
+    header = '',
     ...rest
   } = props;
 

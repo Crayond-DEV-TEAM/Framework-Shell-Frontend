@@ -1,25 +1,28 @@
 import { Button } from '@atoms/button';
-import type { SxProps, Theme } from '@mui/material';
-import { Box, Typography } from '@mui/material';
-import { forwardRef, useState } from 'react';
-import SearchIcon from '@mui/icons-material/Search';
-import { AddMessageGroup, Filter } from '..';
-import { tableHeaderStyle } from './style';
-import { SearchField } from '@atoms/searchField';
 import { DialogDrawer } from '@atoms/dialogDrawer';
 import { FooterComponent } from '@atoms/footerComponent';
 import { Input } from '@atoms/input';
+import SearchIcon from '@mui/icons-material/Search';
+import { SxProps, Theme, Popover } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import { forwardRef } from 'react';
+import { AddMessageGroup, Filter } from '..';
+import DownloadIcon from '@core/ui/assets/downloadIcon';
+import XlsIcon from '@core/ui/assets/xlsIcon';
+import { tableHeaderStyle } from './style';
 
 export interface TableHeaderProps {
   className?: string;
   tableHeader?: string;
   buttonName?: string;
+  placeholder?: string;
   isFilterRequired?: boolean;
   isSearchRequired?: boolean;
   isBtnRequired?: boolean;
   filterContent?: any;
   editTableMessage?: any;
   status?: any;
+  checked?: any;
   isEdit?: boolean;
   loading?: boolean;
   setOpen?: any;
@@ -27,12 +30,16 @@ export interface TableHeaderProps {
   setSearchTerm?: any;
   open?: boolean | any;
   addMessageTable?: any;
+  id?: any;
+  anchorEl?: any;
+  isDownloadRequired?: boolean | any;
   handleStateChange?: (key: any, value: any) => void;
   // onChangeMessage?: (key: any, value: any, state: any) => void;
   updateStatusReport?: (e: any) => void;
   onApply?: () => void;
   handleOpen?: () => void;
   handleClose?: () => void;
+  handleClickOpen?: () => void;
   openAddMessage?: (value: any) => void;
   language?: any;
   addedLangState?: any;
@@ -41,12 +48,15 @@ export interface TableHeaderProps {
   addMessage?: any;
   options?: any;
   onChange?: any;
+  onClick?: any;
   sx?: SxProps<Theme>;
 }
 
 export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => {
   const {
     className = '',
+    placeholder = '',
+    isDownloadRequired = false,
     tableHeader = 'Add Message',
     isFilterRequired = true,
     isSearchRequired = true,
@@ -59,7 +69,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     editTableMessage,
     setOpen,
     addedLangState,
-    open,
+    open = false,
     isEdit,
     options,
     openAddMessage = () => false,
@@ -67,12 +77,17 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     searchTerm,
     setSearchTerm,
     filterContent,
+    checked,
     addMessageTable = () => false,
     handleChipDelete = () => false,
     onApply = () => false,
     handleOpen = () => false,
     onChange = () => false,
     handleClose = () => false,
+    handleClickOpen = () => false,
+    id,
+    anchorEl,
+    onClick = () => false,
     sx = {},
     ...rest
   } = props;
@@ -93,7 +108,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
           {isSearchRequired && (
             <Box sx={{ mr: 1 }}>
               <Input
-                placeholder="Search"
+                placeholder={placeholder}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 startAdornment={<SearchIcon sx={{ ml: 1, fontSize: '16px', color: '#818181' }} />}
@@ -115,6 +130,37 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
               </Button>
             </Box>
           )}
+          {isDownloadRequired && (
+            <Box onClick={handleClickOpen} sx={tableHeaderStyle.downloadIcon}>
+              <DownloadIcon />
+            </Box>
+          )}
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            sx={tableHeaderStyle.totalFilterSx}
+          >
+            <Box sx={tableHeaderStyle.downloadBox}>
+              <Box sx={tableHeaderStyle.download}>
+                <XlsIcon />
+                <Typography>Download as CSV</Typography>
+              </Box>
+              <Box sx={tableHeaderStyle.download}>
+                <XlsIcon />
+                <Typography>Download as Excel</Typography>
+              </Box>
+            </Box>
+          </Popover>
         </Box>
       </Box>
     </Box>

@@ -28,10 +28,11 @@ export interface TableHeaderProps {
   setOpen?: any;
   searchTerm?: any;
   setSearchTerm?: any;
-  open?: boolean | any;
+  openPop?: boolean | any;
   addMessageTable?: any;
   id?: any;
   anchorEl?: any;
+  openAnchorEl?: any;
   isDownloadRequired?: boolean | any;
   handleStateChange?: (key: any, value: any) => void;
   // onChangeMessage?: (key: any, value: any, state: any) => void;
@@ -39,7 +40,7 @@ export interface TableHeaderProps {
   onApply?: () => void;
   handleOpen?: () => void;
   handleClose?: () => void;
-  handleClickOpen?: () => void;
+  handleClick?: (e: any) => void;
   openAddMessage?: (value: any) => void;
   language?: any;
   addedLangState?: any;
@@ -69,7 +70,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     editTableMessage,
     setOpen,
     addedLangState,
-    open = false,
+    openPop = false,
     isEdit,
     options,
     openAddMessage = () => false,
@@ -84,9 +85,10 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     handleOpen = () => false,
     onChange = () => false,
     handleClose = () => false,
-    handleClickOpen = () => false,
+    handleClick = () => false,
     id,
     anchorEl,
+    openAnchorEl,
     onClick = () => false,
     sx = {},
     ...rest
@@ -131,14 +133,14 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
             </Box>
           )}
           {isDownloadRequired && (
-            <Box onClick={handleClickOpen} sx={tableHeaderStyle.downloadIcon}>
+            <Box onClick={handleClick} sx={tableHeaderStyle.downloadIcon}>
               <DownloadIcon />
             </Box>
           )}
           <Popover
             id={id}
-            open={open}
-            anchorEl={anchorEl}
+            open={openPop}
+            anchorEl={openAnchorEl}
             onClose={handleClose}
             anchorOrigin={{
               vertical: 'bottom',

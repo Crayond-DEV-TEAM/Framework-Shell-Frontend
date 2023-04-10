@@ -8,6 +8,7 @@ import { CustomSwitches } from '..';
 
 export interface FooterComponentProps {
   className?: string;
+  check?: boolean;
   checked?: any;
   loading?: boolean;
   SwitchChange?: (value: any) => void;
@@ -20,6 +21,7 @@ export const FooterComponent = forwardRef((props: FooterComponentProps, ref: Rea
   const {
     className = '',
     sx = {},
+    check = false,
     checked = false,
     loading = false,
     SwitchChange = () => false,
@@ -41,13 +43,16 @@ export const FooterComponent = forwardRef((props: FooterComponentProps, ref: Rea
       {...rest}
       width={'100%'}
     >
-      <Box sx={footerComponentStyle.totalFooterSx}>
+      <Box sx={check ? footerComponentStyle.totalFooterSx : footerComponentStyle.totalFooterSxTwo}>
         {/* <Switch {...label} checked={checked} onChange={SwitchChange} /> */}
-        <Box sx={footerComponentStyle.btnSx}>
-          <CustomSwitches label="" value={checked} onChange={SwitchChange} />
-          <Typography sx={footerComponentStyle.switch}>Make this active</Typography>
-        </Box>
-        <Box sx={footerComponentStyle.btnSx}>
+        {
+          check &&
+          (<Box sx={footerComponentStyle.btnSx}>
+            <CustomSwitches label="" value={checked} onChange={SwitchChange} />
+            <Typography sx={footerComponentStyle.switch}>Make this active</Typography>
+          </Box>)
+        }
+        <Box sx={check ? footerComponentStyle.btnSx : footerComponentStyle.btnSxTwo}>
           <Box sx={footerComponentStyle.btnBg}>
             <Button buttonStyle={footerComponentStyle.cancelbtnText} onClick={onCancel}>
               Cancel

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { SxProps, Theme } from '@mui/material';
+import { IconButton, SxProps, Theme } from '@mui/material';
 import { Grid, Stack, Typography, Box } from "@mui/material";
 import { SubHeader } from "@core/ui/components/subHeader";
 import { DocumentationTable } from '@core/ui/components/documentationTable';
@@ -49,22 +49,35 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
         settabindex(i);
     };
 
+    const handleCopy = () => {
+        console.log("Hi");
+    }
+
     return (
         <Box sx={apiDocumentation_style.root}>
             <SubHeader title="API Documentation" />
             <Box sx={apiDocumentation_style.firstInput}>
                 <TextBox
                     label="API Calls"
-                    placeholder="https://alertshub-api.crayond.com/api/v1/sendmessage"
+                    value="https://alertshub-api.crayond.com/api/v1/sendmessage"
                     InputProps={{
-                        endAdornment: (<CopyLinkIcon />),
+                        endAdornment: (
+                            <IconButton onClick={handleCopy}>
+                                <CopyLinkIcon />
+                            </IconButton>
+                        ),
                         startAdornment: "",
                     }}
+                    isReadonly={true}
                     errorMessage={undefined}
                     autoFocus={undefined}
                     fontSize={''}
                     startAdornment={undefined}
-                    endAdornment={<CopyLinkIcon />}
+                    endAdornment={
+                        <IconButton onClick={handleCopy}>
+                            <CopyLinkIcon />
+                        </IconButton>
+                    }
                     autocomplete={undefined}
                     variant={undefined}
                 />
@@ -103,7 +116,7 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
                                 <Typography sx={apiDocumentation_style.tryBtn}>Try</Typography>
                             </Box>
                             <Box sx={apiDocumentation_style.referenceScroll} p={2}>
-                                <Typography sx={apiDocumentation_style.dummy}>
+                                <Typography component={"pre"} sx={apiDocumentation_style.dummy}>
                                     {`{ "reference_id": "", 
                                       "push_receivers": [],
                                       "push_title": [],

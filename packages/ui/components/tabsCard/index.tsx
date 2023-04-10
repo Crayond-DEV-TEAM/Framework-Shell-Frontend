@@ -27,7 +27,6 @@ export const TabsCard = forwardRef((props: TabsCardProps): JSX.Element => {
             <Grid container spacing={1}>
               {
                 val?.cardDetails.map((ele: any, index: any) => {
-                  console.log("ele-123", ele);
                   return (
                     <Grid key={index} item xs={3}>
                       <TabsValueCard data={ele} />

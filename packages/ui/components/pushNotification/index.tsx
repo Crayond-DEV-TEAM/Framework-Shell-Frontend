@@ -256,7 +256,7 @@ export function PushNotification(): JSX.Element {
                 </Grid>
             </Grid>
             <DialogDrawer
-                title="Add Email Details"
+                title="Add Push Notification Details"
                 isDialogOpened={open}
                 handleClose={handleClose}
                 handleSubmit={handleSubmit}

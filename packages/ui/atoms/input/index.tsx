@@ -49,8 +49,23 @@ export function Input(props: InputProps): JSX.Element {
     ...rest
   } = props;
 
+  const getLabel = (props: any) => {
+    return (
+      <Typography sx={{ ...inputStyle.Label }} noWrap>
+        {props.header}
+        {props.isrequired && (
+          <Typography variant="caption" sx={{ ...inputStyle.required }}>
+            *
+          </Typography>
+        )}
+
+      </Typography>
+    );
+  };
+
   return (
     <>
+      {getLabel(props)}
       <TextField
         type={type}
         size={size}

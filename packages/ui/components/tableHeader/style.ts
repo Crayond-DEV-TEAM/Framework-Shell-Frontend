@@ -20,7 +20,7 @@ export const tableHeaderStyle: TableHeaderStyleProps = {
     // px: 0,
   },
   leftSx: {
-    display: 'flex',
+    display: "flex",
     alignItems: 'center',
     justifyContent: 'space-between',
   },

@@ -22,4 +22,14 @@ export const inputStyle: InputStyleProps = {
       mx: 0,
     },
   },
+
+  Label: {
+    color: "#262C33",
+    fontSize: "12px",
+    marginBottom: "6px",
+  },
+
+  required: {
+    color: "red",
+  },
 };

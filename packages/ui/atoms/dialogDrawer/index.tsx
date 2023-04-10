@@ -1,5 +1,4 @@
 // import { CloseIcon } from '@atoms/icons';
-import { FooterComponent } from '@atoms/footerComponent/index';
 import { SxProps, Theme, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { Box, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { ReactNode, useState } from 'react';
@@ -13,7 +12,12 @@ export interface DialogDrawerProps {
   rootStyle?: object;
   dialogstyle?: object;
   isDialogOpened: boolean;
-  handleCloseDialog: () => void;
+  fullWidth: boolean;
+  fullScreen: boolean;
+  check?: boolean;
+  handleCloseDialog?: () => void;
+  handleSubmit?: () => void;
+  handleClose?: () => void;
   // handleSubmit: () => void;
   title: string;
   titleStyle?: object;
@@ -23,7 +27,6 @@ export interface DialogDrawerProps {
   contentStyleSx?: any;
   Footercomponent?: ReactNode;
   Bodycomponent?: ReactNode;
-  handleClose?: any;
 }
 
 //export const DialogDrawer = forwardRef((props: DialogDrawerProps): JSX.Element => {
@@ -32,7 +35,7 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
     className = '',
     rootStyle = {},
     dialogstyle = {},
-    handleClose = () => {},
+    handleClose = () => false,
     isDialogOpened = true,
     handleCloseDialog = () => {
       false;
@@ -42,9 +45,12 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
     title = 'Add New Message',
     content = '',
     Bodycomponent = null,
+    check = false,
     Footercomponent,
     contentStyleSx = {},
     maxModalWidth = '',
+    fullWidth = false,
+    fullScreen = false,
     ...rest
   } = props;
 
@@ -56,6 +62,7 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
     <Box sx={{ ...dialogDrawerStyle.rootSx, ...rootStyle }} className={`${className}`} {...rest}>
       <Dialog
         fullScreen={fullscreen}
+        fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isDialogOpened}
         aria-labelledby="draggable-dialog-title"
@@ -69,7 +76,7 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
             <Box
               component="img"
               src={CloseIcon}
-              onClick={handleCloseDialog}
+              onClick={handleClose}
               sx={{ cursor: 'pointer' }}
               height={16}
               width={16}

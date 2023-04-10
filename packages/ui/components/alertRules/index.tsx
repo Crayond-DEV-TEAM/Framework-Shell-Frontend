@@ -1,8 +1,6 @@
 import DeleteIcon from '@core/ui/assets/deleteIcon';
 import EditIcon from '@core/ui/assets/editIcon';
-import SmallMailIcon from '@core/ui/assets/smallMailIcon';
-import SmallNotificationIcon from '@core/ui/assets/smallNotificationIcon';
-import SmallSmsIcon from '@core/ui/assets/smallSmsIcon';
+
 import { DialogDrawer } from '@core/ui/atoms/dialogDrawer';
 import { DialogContent } from '@core/ui/components/dialogContent';
 import { TableHeader } from '@core/ui/components/tableHeader';

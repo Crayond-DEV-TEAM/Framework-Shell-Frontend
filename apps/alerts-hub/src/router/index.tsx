@@ -10,7 +10,7 @@ import { PrivateRouter } from './privateRouter';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: (
       <PrivateRouter>
         <RootLayout />
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
       {
         path: alertsHubRoutes.reports,
         element: (
-          <AppLayout>
+          <AppLayout title="Alert Hub">
             <ReportsHub />
           </AppLayout>
         ),
@@ -33,15 +33,15 @@ const router = createBrowserRouter([
       {
         path: alertsHubRoutes.alertRule,
         element: (
-          <AppLayout>
+          <AppLayout title="Alert Hub">
             <AlertRule />
           </AppLayout>
-        )
+        ),
       },
       {
         path: alertsHubRoutes.apiDocumentation,
         element: (
-          <AppLayout>
+          <AppLayout title="Alert Hub">
             <ApiDocumentation />
           </AppLayout>
         ),
@@ -49,11 +49,11 @@ const router = createBrowserRouter([
       {
         path: alertsHubRoutes.alertConfig,
         element: (
-          <AppLayout>
+          <AppLayout title="Alert Hub">
             <AlertConfiguration />
           </AppLayout>
-        )
-      }
+        ),
+      },
     ],
   },
   {

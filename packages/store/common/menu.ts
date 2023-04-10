@@ -16,15 +16,22 @@ export const useMenu = create<MenusProps>((set, get) => ({
     try {
       set({ loading: true, error: false });
       const { data } = await httpRequest('get', `${envConfig.auth_url}/access_tools`, {}, true);
-
       if (data.status === 200) {
         const sideMenus: Menu[] = [];
         data.data?.tools_details?.forEach(
-          (tool: { id: string; tool: { id: string; tool_name: string; url: string }; tool_id: number }) => {
-            sideMenus.push({ ...AllRoutes[tool.tool_id], baseUrl: tool.tool.url });
+          (tool: {
+            id: string;
+            tool: {
+              id: string;
+              tool_name: string;
+              baseUrl: string; // assuming the property is actually baseUrl
+            };
+            tool_id: number;
+          }) => {
+            sideMenus.push({ ...AllRoutes[tool.tool_id], baseUrl: tool.tool.baseUrl });
           },
         );
-        set({ sideMenus });
+        set({ sideMenus: sideMenus });
       }
 
       return data;

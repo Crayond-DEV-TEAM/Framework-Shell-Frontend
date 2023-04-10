@@ -12,7 +12,7 @@ import { DeleteIcon, EditIcon } from '@atoms/icons';
 import { FooterComponent } from '@atoms/footerComponent';
 import { DialogDrawer } from '@atoms/dialogDrawer';
 import { Button } from '@atoms/button';
-import { DeleteDailog } from '@atoms/deleteDailog';
+import { DeleteDailog } from '@atoms/deletedailog';
 
 export interface MessageTableProps {
   className?: string;
@@ -449,10 +449,10 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                     options={severtiy}
                     status={status}
                     loading={loading}
+                    open={open}
                     tableHeader={tableName}
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
-                    open={open}
                     isEdit={isEdit}
                     handleOpen={handleOpen}
                     handleClose={handleClose}
@@ -470,36 +470,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
           </Box>
         </Grid>
       </Grid>
-      <DialogDrawer
-        dialogRootStyle={messageTableStyle.dialogSx}
-        contentStyleSx={messageTableStyle.contentSx}
-        isDialogOpened={open}
-        title={'Add New Message Group'}
-        Bodycomponent={
-          <AddMessageGroup
-            handleChange={handleStateChange}
-            updateStatusReport={updateStatusReport}
-            groupState={editTableMessage}
-            status={status}
-            onChangeMessage={addMessageTableFun}
-            isEdit={isEdit}
-            options={severtiy}
-            language={addedLangState}
-          />
-        }
-        Footercomponent={
-          <FooterComponent
-            checked={editTableMessage?.isAddGroup}
-            SwitchChange={(e: any) => handleStateChange('isAddGroup', e.target.checked)}
-            onSave={addMessageTable}
-            onCancel={handleClose}
-            loading={loading}
-          />
-        }
-        handleCloseDialog={handleClose}
-        rootStyle={{ padding: '0px important' }}
-        // dialogstyle={{ width: '904px', height: '604px' }}
-      />
+
       <DeleteDailog
         isDialogOpened={selected}
         Bodycomponent={
@@ -521,6 +492,40 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
             </Box>
           </Box>
         }
+      />
+
+      <DialogDrawer
+        dialogRootStyle={{
+          width: '832px',
+          // height: '604px',
+        }}
+        contentStyleSx={messageTableStyle.contentSx}
+        isDialogOpened={open}
+        title={'Add New Message Group'}
+        Bodycomponent={
+          <AddMessageGroup
+            handleChange={handleStateChange}
+            updateStatusReport={updateStatusReport}
+            groupState={editTableMessage}
+            status={status}
+            onChangeMessage={addMessageTableFun}
+            isEdit={isEdit}
+            options={severtiy}
+            language={addedLangState}
+          />
+        }
+        Footercomponent={
+          <FooterComponent
+            check
+            checked={editTableMessage?.isAddGroup}
+            SwitchChange={(e: any) => handleStateChange('isAddGroup', e.target.checked)}
+            onSave={addMessageTable}
+            onCancel={handleClose}
+            loading={loading}
+          />
+        }
+        handleCloseDialog={handleClose}
+        rootStyle={{ padding: '0px important' }}
       />
     </Box>
   );

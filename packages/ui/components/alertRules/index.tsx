@@ -13,6 +13,8 @@ import React from 'react';
 import type { SxProps, Theme } from '@mui/material';
 import { alertRuleStyles } from './style';
 import { FooterComponent } from '@atoms/footerComponent';
+import { useAlertRules } from '@core/store';
+import { dummyTableData } from '@core/store/utils';
 export interface AlertRuleProps {
   data?: any;
   id?: any;
@@ -21,54 +23,21 @@ export interface AlertRuleProps {
   handleSubmit?: any;
 }
 export function AlertRules(props: AlertRuleProps): JSX.Element {
-  const initialState = {
-    profileId: '',
-    alert_code: '',
-    reference_id: '',
-    hashtags: '',
-    description: '',
-    is_email: true,
-    is_push: false,
-    is_sms: false,
-    push_title: '',
-    push_body: '',
-    email_subject: '',
-    email_body: '',
-    SMS_body: '',
-  };
+  // store Data
+  const {
+    addAlertRules,
+    setaddAlertRule,
+    editAlertRule,
+    //  addAlertRule, getAlertTable
+  } = useAlertRules();
+
+  const updateState = (key: string, value: string) => setaddAlertRule({ key, value });
 
   const { data } = props;
   const [open, setOpen] = React.useState(false);
-  const [alertRow, setAlertRow] = React.useState([]);
-  const [alertRule, setAlertRule] = React.useState({ ...initialState });
-  const [isSelectedAll, setIsSelectedAll] = React.useState(false);
-  const [selectedCheckbox, setSelectedCheckbox] = React.useState([1, 2]);
+  const [searchTerm, setSearchTerm] = React.useState('');
   const [switchList, setSwitchList] = React.useState([1, 4]);
-  const [headerSelect, setHederSelect] = React.useState('status');
-  const [headerCheckbox, setHederCheckbox] = React.useState(true);
-  const checkboxHandleChange = (data: any) => {
-    if (!selectedCheckbox.includes(data)) {
-      setSelectedCheckbox([...selectedCheckbox, data]);
-    } else {
-      const index = selectedCheckbox.indexOf(data);
-      if (index > -1) {
-        selectedCheckbox.splice(index, 1);
-        setSelectedCheckbox([...selectedCheckbox]);
-      }
-    }
-  };
-  const setHederSearch = (value: any) => {
-    console.log(':rocket: ~ file: App.tsx:31 ~ setHederSearch ~ value:', value);
-  };
-  const SelectAll = (data: any, isRestSet: any) => {
-    if (!isRestSet) {
-      setSelectedCheckbox([...data]);
-      setIsSelectedAll(true);
-    } else {
-      setSelectedCheckbox([]);
-      setIsSelectedAll(false);
-    }
-  };
+
   const handleSwitch = (id: any) => {
     if (!switchList.includes(id)) {
       setSwitchList([...switchList, id]);
@@ -80,18 +49,10 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
       }
     }
   };
-  const downloadMethod = () => {
-    console.log('Download Method working!');
-  };
-  const fillerMethod = () => {
-    console.log('Filter Method working!');
-  };
-  const primaryBtnMethod = () => {
-    console.log('primary Btn Method working!');
-  };
-  const secondaryBtnMethod = () => {
-    console.log('secondary Btn Method working!');
-  };
+  const alertRuleData = dummyTableData?.filter(
+    (x) => typeof x.alert_rule_code === 'string' && x.alert_rule_code.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
   const Header = [
     // {
     //   id: 'no',
@@ -142,188 +103,7 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
       label: 'Action',
     },
   ];
-  const dataList = [
-    {
-      id: 1,
-      alert_rule_code: 'kdjf-jdhd-3fd',
-      reference_id: 'id-3409',
-      hashtag: {
-        label: '#hashtag',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-      description: 'Quam vitae velit',
-      alert_type: {
-        label: 'Push Notification',
-        color: '#754218',
-        bgColor: '#FAE2CF',
-        icon: <SmallNotificationIcon />,
-      },
-      status: false,
-    },
-    {
-      id: 2,
-      alert_rule_code: 'pdfi-sdff-024',
-      reference_id: 'id-4985',
-      hashtag: {
-        label: '#hashtag',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-      description: 'Malesuada elit',
-      alert_type: {
-        label: 'Email',
-        color: '#77277F',
-        bgColor: '#F7CFFA',
-        icon: <SmallMailIcon />,
-      },
-      status: false,
-    },
-    {
-      id: 3,
-      alert_rule_code: 'gdg-fsds-dd2',
-      reference_id: 'id-6832',
-      hashtag: {
-        label: '#hashtag',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-      description: 'Quam dictum',
-      alert_type: {
-        label: 'SMS',
-        color: '#185C75',
-        bgColor: '#CFEFFA',
-        icon: <SmallSmsIcon />,
-      },
-      status: true,
-    },
-    {
-      id: 4,
-      alert_rule_code: 'jduy-sdff-2s1',
-      reference_id: 'id-9231',
-      hashtag: {
-        label: '#hashtag',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-      description: 'Enim nisl dapibus',
-      alert_type: {
-        label: 'Email',
-        color: '#77277F',
-        bgColor: '#F7CFFA',
-        icon: <SmallMailIcon />,
-      },
-      status: false,
-    },
-    {
-      id: 5,
-      alert_rule_code: 'hdyt-hst-s5s',
-      reference_id: 'id-4875',
-      hashtag: {
-        label: '#hashtag',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-      description: 'Interdum est pulvinar',
-      alert_type: {
-        label: 'SMS',
-        color: '#185C75',
-        bgColor: '#CFEFFA',
-        icon: <SmallSmsIcon />,
-      },
-      status: true,
-    },
-    {
-      id: 6,
-      alert_rule_code: 1072,
-      reference_id: 'ID-201',
-      hashtag: {
-        label: '#hashtag',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-      description: 'Quam vitae velit',
-      alert_type: {
-        label: 'Push Notification',
-        color: '#754218',
-        bgColor: '#FAE2CF',
-        icon: <SmallNotificationIcon />,
-      },
-      status: false,
-    },
-    {
-      id: 7,
-      alert_rule_code: 1616,
-      reference_id: 'ID-244',
-      hashtag: {
-        label: '#hashtag',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-      description: 'Malesuada elit',
-      alert_type: {
-        label: 'Email',
-        color: '#77277F',
-        bgColor: '#F7CFFA',
-        icon: <SmallMailIcon />,
-      },
-      status: false,
-    },
-    {
-      id: 8,
-      alert_rule_code: 722,
-      reference_id: 'ID-174',
-      hashtag: {
-        label: '#hashtag',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-      description: 'Quam dictum',
-      alert_type: {
-        label: 'SMS',
-        color: '#185C75',
-        bgColor: '#CFEFFA',
-        icon: <SmallSmsIcon />,
-      },
-      status: true,
-    },
-    {
-      id: 9,
-      alert_rule_code: 2139,
-      reference_id: 'ID-232',
-      hashtag: {
-        label: '#hashtag',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-      description: 'Enim nisl dapibus',
-      alert_type: {
-        label: 'Email',
-        color: '#77277F',
-        bgColor: '#F7CFFA',
-        icon: <SmallMailIcon />,
-      },
-      status: false,
-    },
-    {
-      id: 10,
-      alert_rule_code: 4039,
-      reference_id: 'ID-156',
-      hashtag: {
-        label: '#hashtag',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-      description: 'Interdum est pulvinar',
-      alert_type: {
-        label: 'SMS',
-        color: '#185C75',
-        bgColor: '#CFEFFA',
-        icon: <SmallSmsIcon />,
-      },
-      status: true,
-    },
-  ];
+
   const tableData = [
     // { type: ['INCREMENT'], name: 'sl_no' },
     { type: ['TEXT'], name: 'alert_rule_code' },
@@ -341,8 +121,8 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
       name: 'action',
       variant: 'EDIT_WITH_DELETE',
       editHandel: (id: any) => {
-        console.log(id);
-        // handleIcon(id)
+        editAlertRule(dummyTableData[id]);
+        setOpen(true);
       },
       deleteHandel: (id: any) => {
         console.log(id);
@@ -351,108 +131,95 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
       deleteIcon: <DeleteIcon />,
     },
   ];
-  const updateState = (key: any, value: any) => {
-    setAlertRule({
-      ...alertRule,
-      [key]: value,
-    });
-  };
+
   const handleClick = () => {
-    setAlertRule({ ...initialState });
     setOpen(true);
   };
+
   const handleClose = () => {
-    setAlertRule({ ...initialState });
     setOpen(false);
   };
+
   const handleSubmit = () => {
+    // addAlertRule();
     setOpen(false);
   };
+
+  // commenting for now
   // React.useEffect(() => {
-  //     getTableData();
+  //   getAlertTable();
   // }, []);
-  // const getTableData = () => {
-  // };
-  const handleIcon = () => {
-    setOpen(true);
-  };
+
   return (
     <Box>
       <Grid container>
         <Grid item xs={12}>
-          <Grid item xs={12}>
-            <Box sx={alertRuleStyles.commonTable}>
-              <CommonTable
-                Header={Header}
-                dataList={dataList}
-                tableData={tableData}
-                headerOptions={{
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  color: '#818181',
-                  bgColor: '#EAEAEA',
-                  borderBottom: '0px',
-                }}
-                cellOptions={{
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  color: '#5A5A5A',
-                  bgColor: '#fff',
-                  borderBottom: '0px',
-                }}
-                switchList={switchList}
-                tableMinWidth={'1200px'}
-                tableMinHeight={'539px'}
-                paddingAll={'0px'}
-                marginAll={'0px'}
-                dense={'small'}
-                HeaderComponent={{
-                  variant: 'CUSTOM',
-                  component: (
-                    <TableHeader
-                      tableHeader="Alert Rule"
-                      buttonName="Add New Rule"
-                      placeholder="Search by rule code"
-                      isFilterRequired
-                      isSearchRequired
-                      isBtnRequired
-                      onClick={handleClick}
-                    />
-                  ),
-                }}
-              />
-            </Box>
-            {/* <AlertDialog
-              open={open}
-              onClose={() => setOpen(!open)}
-              header="Add Alert Rule"
-              component={
-                <Popup
-                  data={alertRule}
-                  handleClose={handleClose}
-                  handleSubmit={handleSubmit}
-                  updateState={updateState}
+          <Box sx={alertRuleStyles.commonTable}>
+            <CommonTable
+              Header={Header}
+              dataList={alertRuleData}
+              tableData={tableData}
+              handleSwitch={handleSwitch}
+              headerOptions={{
+                fontSize: '14px',
+                fontWeight: '500',
+                color: '#818181',
+                bgColor: '#EAEAEA',
+                borderBottom: '0px',
+              }}
+              cellOptions={{
+                fontSize: '14px',
+                fontWeight: '500',
+                color: '#5A5A5A',
+                bgColor: '#fff',
+                borderBottom: '0px',
+              }}
+              switchList={switchList}
+              tableMinWidth={'1200px'}
+              tableMinHeight={'539px'}
+              paddingAll={'0px'}
+              marginAll={'0px'}
+              dense={'small'}
+              HeaderComponent={{
+                variant: 'CUSTOM',
+                component: (
+                  <TableHeader
+                    tableHeader="Alert Rule"
+                    buttonName="Add New Rule"
+                    placeholder="Search by rule code"
+                    isFilterRequired
+                    searchTerm={searchTerm}
+                    setSearchTerm={setSearchTerm}
+                    isBtnRequired
+                    handleOpen={handleClick}
+                  />
+                ),
+              }}
+            />
+          </Box>
+          <Box>
+            <DialogDrawer
+              dialogRootStyle={{
+                width: '832px',
+                height: '550px',
+              }}
+              title="Add New Rule"
+              isDialogOpened={open}
+              handleCloseDialog={handleClose}
+              // handleSubmit={handleSubmit}
+              fullWidth={false}
+              fullScreen={false}
+              Bodycomponent={<DialogContent data={addAlertRules} updateState={updateState} />}
+              Footercomponent={
+                <FooterComponent
+                  check
+                  SwitchChange={(e: any) => updateState('is_status', e.target.checked)}
+                  onSave={handleSubmit}
+                  onCancel={handleClose}
                 />
               }
-              medium
-            /> */}
-            <Box>
-              <DialogDrawer
-                dialogRootStyle={{
-                  width: '650px',
-                  height: '450px',
-                }}
-                title="Add New Rule"
-                isDialogOpened={open}
-                handleClose={handleClose}
-                handleSubmit={handleSubmit}
-                fullWidth={false}
-                fullScreen={false}
-                Bodycomponent={<DialogContent data={alertRule} updateState={updateState} />}
-                Footercomponent={<FooterComponent onSave={handleSubmit} onCancel={handleClose} />}
-              />
-            </Box>
-          </Grid>
+            />
+          </Box>
         </Grid>
       </Grid>
     </Box>

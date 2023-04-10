@@ -10,29 +10,16 @@ import { useMenu } from '@core/store';
 
 export interface AppLayoutProps {
   className?: string;
+  title?: string;
   sx?: SxProps<Theme>;
   childrenWrapperProps?: BoxProps;
   children: JSX.Element;
 }
 
 export function AppLayout(props: AppLayoutProps): JSX.Element {
-  const { className = '', children, childrenWrapperProps = {}, sx = {}, ...rest } = props;
-  //store data
-  const { sideMenus } = useMenu((state) => ({
-    sideMenus: state.sideMenus,
-  }));
-
-  const [title, setTitle] = useState();
-
-  const menuItems = (item: any, index: any) => {
-    setTitle(item?.menuName);
-  };
+  const { className = '', title = '', children, childrenWrapperProps = {}, sx = {}, ...rest } = props;
 
   const user = useUser((state) => state.user);
-
-  // useEffect(() => {
-  //   setTitle(sideMenus?.[0]?.menuName);
-  // }, []);
 
   return (
     <Box
@@ -46,7 +33,7 @@ export function AppLayout(props: AppLayoutProps): JSX.Element {
       {...rest}
     >
       <AppBar user={user} title={title} />
-      <SideBar menuItems={menuItems} />
+      <SideBar />
       {/* Children */}
       <Box
         sx={[

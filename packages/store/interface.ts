@@ -149,3 +149,35 @@ export interface MessageConfigInterface {
   deleteMessageError: boolean;
   getMessageGroups: () => boolean;
 }
+
+export interface AddAlertRule {
+  id?: number | string;
+  alert_code: number | string;
+  reference_id: number | string;
+  hashtags: number | string;
+  description: number | string;
+  push_title: number | string;
+  push_body: number | string;
+  email_subject: number | string;
+  email_body: number | string;
+  SMS_body: number | string;
+  is_email: boolean;
+  is_push: boolean;
+  is_sms: boolean;
+  is_status: boolean;
+  alert_rule_code: number | string;
+  hashtag: number | string;
+  isActive: boolean;
+}
+export interface AlertRuleInterface {
+  addAlert: AddAlertRule[];
+  alertsList: AddAlertRule[];
+  addAlertRules: AddAlertRule;
+  addAlertRuleLoading: boolean;
+  setaddAlertRule: (payload: { key: string; value: string }) => void;
+  addAlertRule: () => boolean;
+  getAlertTable: () => boolean;
+  editAlertRule: (data: any) => void;
+  fetching: boolean;
+  errorOnFetching: boolean;
+}

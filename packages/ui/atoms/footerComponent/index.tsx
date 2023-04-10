@@ -45,13 +45,12 @@ export const FooterComponent = forwardRef((props: FooterComponentProps, ref: Rea
     >
       <Box sx={check ? footerComponentStyle.totalFooterSx : footerComponentStyle.totalFooterSxTwo}>
         {/* <Switch {...label} checked={checked} onChange={SwitchChange} /> */}
-        {
-          check &&
-          (<Box sx={footerComponentStyle.btnSx}>
+        {check && (
+          <Box sx={footerComponentStyle.btnSx}>
             <CustomSwitches label="" value={checked} onChange={SwitchChange} />
             <Typography sx={footerComponentStyle.switch}>Make this active</Typography>
-          </Box>)
-        }
+          </Box>
+        )}
         <Box sx={check ? footerComponentStyle.btnSx : footerComponentStyle.btnSxTwo}>
           <Box sx={footerComponentStyle.btnBg}>
             <Button buttonStyle={footerComponentStyle.cancelbtnText} onClick={onCancel}>

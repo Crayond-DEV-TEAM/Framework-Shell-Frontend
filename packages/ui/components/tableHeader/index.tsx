@@ -31,6 +31,7 @@ export interface TableHeaderProps {
   openPop?: boolean | any;
   addMessageTable?: any;
   id?: any;
+  open?: boolean;
   anchorEl?: any;
   openAnchorEl?: any;
   isDownloadRequired?: boolean | any;

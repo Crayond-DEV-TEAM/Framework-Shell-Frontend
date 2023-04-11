@@ -12,8 +12,8 @@ export interface DialogDrawerProps {
   rootStyle?: object;
   dialogstyle?: object;
   isDialogOpened: boolean;
-  fullWidth: boolean;
-  fullScreen: boolean;
+  fullWidth?: boolean;
+  fullScreen?: boolean;
   check?: boolean;
   handleCloseDialog?: () => void;
   handleSubmit?: () => void;

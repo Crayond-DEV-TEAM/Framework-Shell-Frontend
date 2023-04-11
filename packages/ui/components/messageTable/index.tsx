@@ -12,7 +12,7 @@ import { DeleteIcon, EditIcon } from '@atoms/icons';
 import { FooterComponent } from '@atoms/footerComponent';
 import { DialogDrawer } from '@atoms/dialogDrawer';
 import { Button } from '@atoms/button';
-import { DeleteDailog } from '@atoms/deleteDailog';
+import { DeleteDailog } from '@atoms/deletedailog';
 
 export interface MessageTableProps {
   className?: string;

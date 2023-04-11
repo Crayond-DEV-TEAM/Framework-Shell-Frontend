@@ -56,7 +56,7 @@ export interface TableHeaderProps {
 export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => {
   const {
     className = '',
-    placeholder = '',
+    placeholder = 'search',
     isDownloadRequired = false,
     tableHeader = 'Add Message',
     isFilterRequired = true,
@@ -108,7 +108,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
         <Typography sx={tableHeaderStyle.titleSx}>{tableHeader}</Typography>
         <Box sx={tableHeaderStyle.leftSx}>
           {isSearchRequired && (
-            <Box sx={{ mr: 1 }}>
+            <Box sx={{ pr: 1, pt: '3px' }}>
               <Input
                 placeholder={placeholder}
                 value={searchTerm}

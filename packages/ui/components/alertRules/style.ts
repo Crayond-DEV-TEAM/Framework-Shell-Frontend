@@ -10,7 +10,7 @@ export const alertRuleStyles = {
       padding: '0px !important',
       gap: '0px !important',
       backgroundColor: '#F6F6F6',
-      paddingTop: '10px !important',
+      // paddingTop: '10px !important',
       paddingBottom: '12px !important',
       '& .MuiInputBase-root': {
         backgroundColor: '#FFFFFF',

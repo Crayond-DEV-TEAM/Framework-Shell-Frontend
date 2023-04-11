@@ -1,6 +1,7 @@
 import { ValidateEmail } from '@core/utils';
 import {
   AddAlertRule,
+  AddNewConfig,
   ForgotPasswordState,
   Menu,
   MessageGroup,
@@ -9,6 +10,7 @@ import {
   SignUpStateInterface,
   UserDataInterface,
 } from './interface';
+
 import {
   Alert,
   AlertConfigIcon,
@@ -22,6 +24,18 @@ import {
   SubMessageLanguage,
   ApiDocument,
 } from '@atoms/icons';
+
+import SingleTickGreen from '@core/ui/assets/sgTickGreen';
+import SmallMailIcon from '@core/ui/assets/smallMailIcon';
+import SmallNotificationIcon from '@core/ui/assets/smallNotificationIcon';
+import SmallSmsIcon from '@core/ui/assets/smallSmsIcon';
+import SmsIcon from '@core/ui/assets/smsIcon';
+import DoubleTickBlue from '@core/ui/assets/dbTickBlue';
+import DoubleTickGreen from '@core/ui/assets/dbTickGreen';
+import DeleteIcon from '@core/ui/assets/deleteIcon';
+import EditIcon from '@core/ui/assets/editIcon';
+import EmailIcon from '@core/ui/assets/emailIcon';
+import NotificationIcon from '@core/ui/assets/notificationIcon';
 
 export const giveMeAuthInitialState = (): {
   signUpState: SignUpStateInterface;
@@ -169,7 +183,7 @@ export const AllRoutes: { [key: number]: Menu } = {
     name: 'Alert Hubs',
     baseUrl: '',
     links: ['/alertConfig', '/apiDocumentation', '/reports', '/alertrule'],
-    icon: (isSelected: boolean) => <Alert sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+    icon: (isSelected: boolean) => <Alert sx={{ fontSize: '22px', color: isSelected ? '#357968' : 'action' }} />,
     childrens: [
       {
         id: 1,
@@ -207,7 +221,9 @@ export const AllRoutes: { [key: number]: Menu } = {
     name: 'Message Catlog',
     baseUrl: '',
     links: ['/languageConfig', '/messagegroup'],
-    icon: (isSelected: boolean) => <MessageHub sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+    icon: (isSelected: boolean) => (
+      <MessageHub sx={{ fontSize: '22px', color: isSelected ? 'primary.main' : 'action' }} />
+    ),
     childrens: [
       {
         id: 1,
@@ -248,6 +264,14 @@ export const giveMeAlertRule = (): AddAlertRule => {
   };
 };
 
+export const giveMeAlertConfig = (): AddNewConfig => {
+  return {
+    Provider: '',
+    API_Key: '',
+    isActive: false,
+  };
+};
+
 export const dummyTableData = [
   {
     id: 1,
@@ -263,7 +287,7 @@ export const dummyTableData = [
       label: 'Push Notification',
       color: '#754218',
       bgColor: '#FAE2CF',
-      // icon: <SmallNotificationIcon />,
+      icon: <SmallNotificationIcon />,
     },
     status: false,
   },
@@ -281,7 +305,7 @@ export const dummyTableData = [
       label: 'Email',
       color: '#77277F',
       bgColor: '#F7CFFA',
-      // icon: <SmallMailIcon />,
+      icon: <SmallMailIcon />,
     },
     status: false,
   },
@@ -299,7 +323,7 @@ export const dummyTableData = [
       label: 'SMS',
       color: '#185C75',
       bgColor: '#CFEFFA',
-      // icon: <SmallSmsIcon />,
+      icon: <SmallSmsIcon />,
     },
     status: true,
   },
@@ -317,7 +341,7 @@ export const dummyTableData = [
       label: 'Email',
       color: '#77277F',
       bgColor: '#F7CFFA',
-      // icon: <SmallMailIcon />,
+      icon: <SmallMailIcon />,
     },
     status: false,
   },
@@ -335,7 +359,7 @@ export const dummyTableData = [
       label: 'SMS',
       color: '#185C75',
       bgColor: '#CFEFFA',
-      // icon: <SmallSmsIcon />,
+      icon: <SmallSmsIcon />,
     },
     status: true,
   },
@@ -353,7 +377,7 @@ export const dummyTableData = [
       label: 'Push Notification',
       color: '#754218',
       bgColor: '#FAE2CF',
-      // icon: <SmallNotificationIcon />,
+      icon: <SmallNotificationIcon />,
     },
     status: false,
   },
@@ -371,62 +395,236 @@ export const dummyTableData = [
       label: 'Email',
       color: '#77277F',
       bgColor: '#F7CFFA',
-      // icon: <SmallMailIcon />,
+      icon: <SmallMailIcon />,
     },
     status: false,
-  },
-  {
-    id: 8,
-    alert_rule_code: 722,
-    reference_id: 'ID-174',
-    hashtag: {
-      label: '#hashtag',
-      color: '#305AAE',
-      bgColor: '#E2EAFA',
-    },
-    description: 'Quam dictum',
-    alert_type: {
-      label: 'SMS',
-      color: '#185C75',
-      bgColor: '#CFEFFA',
-      // icon: <SmallSmsIcon />,
-    },
-    status: true,
-  },
-  {
-    id: 9,
-    alert_rule_code: 2139,
-    reference_id: 'ID-232',
-    hashtag: {
-      label: '#hashtag',
-      color: '#305AAE',
-      bgColor: '#E2EAFA',
-    },
-    description: 'Enim nisl dapibus',
-    alert_type: {
-      label: 'Email',
-      color: '#77277F',
-      bgColor: '#F7CFFA',
-      // icon: <SmallMailIcon />,
-    },
-    status: false,
-  },
-  {
-    id: 10,
-    alert_rule_code: 4039,
-    reference_id: 'ID-156',
-    hashtag: {
-      label: '#hashtag',
-      color: '#305AAE',
-      bgColor: '#E2EAFA',
-    },
-    description: 'Interdum est pulvinar',
-    alert_type: {
-      label: 'SMS',
-      color: '#185C75',
-      bgColor: '#CFEFFA',
-      // icon: <SmallSmsIcon />,
-    },
-    status: true,
   },
 ];
+
+export const dummyAlert = [
+  {
+    id: 1,
+    parameter: 'push',
+    type: 'string',
+    description: 'Enim nisl dapibus',
+  },
+  {
+    id: 2,
+    parameter: 'push',
+    type: 'string',
+    description: 'Enim nisl dapibus',
+  },
+  {
+    id: 3,
+    parameter: 'push',
+    type: 'string',
+    description: 'Enim nisl dapibus',
+  },
+];
+
+export const tabsCard = {
+  today: [
+    {
+      icon: <SmsIcon />,
+      header: 'SMS',
+      cardDetails: [
+        {
+          number: '250',
+          value: 'Sent',
+        },
+        {
+          number: '243',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '165',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <EmailIcon />,
+      header: 'Email',
+      cardDetails: [
+        {
+          number: '825',
+          value: 'Sent',
+        },
+        {
+          number: '675',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '243',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <NotificationIcon />,
+      header: 'Push Notification',
+      cardDetails: [
+        {
+          number: '064',
+          value: 'Sent',
+        },
+        {
+          number: '056',
+          value: 'Delivered',
+        },
+        {
+          number: '012',
+          value: 'Not Delivered',
+        },
+        {
+          number: '042',
+          value: 'Clicked',
+        },
+      ],
+    },
+  ],
+  thisWeek: [
+    {
+      icon: <EmailIcon />,
+      header: 'Email',
+      cardDetails: [
+        {
+          number: '250',
+          value: 'Sent',
+        },
+        {
+          number: '243',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '165',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <NotificationIcon />,
+      header: 'Push Notification',
+      cardDetails: [
+        {
+          number: '825',
+          value: 'Sent',
+        },
+        {
+          number: '675',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '243',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <SmsIcon />,
+      header: 'SMS',
+      cardDetails: [
+        {
+          number: '064',
+          value: 'Sent',
+        },
+        {
+          number: '056',
+          value: 'Delivered',
+        },
+        {
+          number: '012',
+          value: 'Not Delivered',
+        },
+        {
+          number: '042',
+          value: 'Clicked',
+        },
+      ],
+    },
+  ],
+  thisMonth: [
+    {
+      icon: <NotificationIcon />,
+      header: 'Push Notification',
+      cardDetails: [
+        {
+          number: '250',
+          value: 'Sent',
+        },
+        {
+          number: '243',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '165',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <SmsIcon />,
+      header: 'SMS',
+      cardDetails: [
+        {
+          number: '825',
+          value: 'Sent',
+        },
+        {
+          number: '675',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '243',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <EmailIcon />,
+      header: 'Email',
+      cardDetails: [
+        {
+          number: '064',
+          value: 'Sent',
+        },
+        {
+          number: '056',
+          value: 'Delivered',
+        },
+        {
+          number: '012',
+          value: 'Not Delivered',
+        },
+        {
+          number: '042',
+          value: 'Clicked',
+        },
+      ],
+    },
+  ],
+};

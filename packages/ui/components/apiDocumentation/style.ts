@@ -1,13 +1,11 @@
 export const apiDocumentation_style = {
   root: {
-    margin: '24px',
-    marginTop: '35px',
+    px: 3,
     // [theme.breakpoints.up("lg")]: {
     //   padding: "6% 0 1% 0 ",
     // },
     // [theme.breakpoints.down("lg")]: {
     //   padding: "8% 0 1% 0 ",
-
     // },
     // [theme.breakpoints.down("md")]: {
     //   padding: "9% 0 1% 0 ",
@@ -19,12 +17,18 @@ export const apiDocumentation_style = {
 
   firstInput: {
     backgroundColor: '#fff',
-    borderRadius: "8px",
-    boxShadow: "0 5px 20px #0000000A",
-    padding: '24px 16px',
+    borderRadius: '8px',
+    boxShadow: '0 5px 20px #0000000A',
+    padding: '0px 16px',
+    pt: '7px',
+    pb: '16px',
     sm: {
       padding: '16px 24px',
     },
+  },
+  copySx: {
+    backgroundColor: '#E9F0EF',
+    borderRadius: '0px',
   },
 
   textBox: {
@@ -38,9 +42,9 @@ export const apiDocumentation_style = {
     padding: ' 0px 16px 0px 16px',
   },
   gridBox: {
-    backgroundColor: "#FFFFFF",
-    boxShadow: "0 5px 20px #0000000A",
-    borderRadius: "8px",
+    backgroundColor: '#FFFFFF',
+    boxShadow: '0 5px 20px #0000000A',
+    borderRadius: '8px',
     marginTop: '16px',
   },
 
@@ -61,7 +65,7 @@ export const apiDocumentation_style = {
   },
 
   reqHead: {
-    color: "#10061D",
+    color: '#10061D',
     fontSize: '16px',
     // fontFamily: 'crayond_medium',
     padding: ' 16px 16px 0px 16px',
@@ -73,7 +77,7 @@ export const apiDocumentation_style = {
 
   tryBtn: {
     fontSize: '14px',
-    backgroundColor: "#357968",
+    backgroundColor: '#357968',
     borderRadius: '8px',
     width: '43px',
     height: '32px',
@@ -89,16 +93,21 @@ export const apiDocumentation_style = {
 
   sampleTabBHead: {
     backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: "8px",
-    borderTopRightRadius: "8px",
+    borderTopLeftRadius: '8px',
+    borderTopRightRadius: '8px',
     marginTop: '16px',
+  },
+  labelSx: {
+    fontSize: '12px',
+    color: 'typography.label',
+    lineHeight: '2.4200em',
   },
 
   sampleTabTxt: {
     cursor: 'pointer',
     fontSize: '16px',
     // fontFamily: 'crayond_medium',
-    marginLeft: '32px',
+    marginLeft: '22px',
     paddingTop: '16px',
     paddingBottom: '5px',
     fontWeight: 600,
@@ -114,11 +123,11 @@ export const apiDocumentation_style = {
     cursor: 'pointer',
     fontSize: '16px',
     // fontFamily: 'crayond_medium',
-    color: "#357968",
-    marginLeft: '32px',
+    color: '#357968',
+    marginLeft: '22px',
     paddingTop: '16px',
     paddingBottom: '5px',
-    borderBottom: "3px solid #357968",
+    borderBottom: '3px solid #357968',
     fontWeight: 600,
     sm: {
       fontSize: '13px',
@@ -144,7 +153,8 @@ export const apiDocumentation_style = {
     display: 'block',
     overflow: 'hidden',
     backgroundColor: '#F7F7F7',
-    padding: '16px',
+    p: 2,
+    pb: 9,
     borderRadius: '8px',
     fontSize: '14px',
     sm: {
@@ -162,6 +172,34 @@ export const apiDocumentation_style = {
   referenceParent1: {
     sm: {
       width: '100%',
+    },
+  },
+  subHeader: {
+    fontSize: '16px',
+  },
+  lastSx: {
+    backgroundColor: '#fff',
+    boxShadow: '0 5px 20px #0000000A',
+    bordeRadius: '8px',
+    marginTop: '16px',
+  },
+  inputSx: {
+    '& .MuiOutlinedInput-root': {
+      pl: 0.7,
+    },
+  },
+  commonTable: {
+    // border: "1px solid #EAEAEA",
+    '& .MuiTableContainer-root': {
+      borderBottom: '1px solid #EAEAEA',
+      borderRadius: '7px 7px 0px 0px',
+    },
+    '& .TABLE_BOX': {
+      padding: '0px !important',
+      gap: '0px !important',
+    },
+    '& .TEXT': {
+      maxWidth: '100px',
     },
   },
 };

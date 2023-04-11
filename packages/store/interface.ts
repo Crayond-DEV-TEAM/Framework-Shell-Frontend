@@ -181,3 +181,37 @@ export interface AlertRuleInterface {
   fetching: boolean;
   errorOnFetching: boolean;
 }
+
+export interface ReportInterface {
+  reportCard: [];
+  fetching: boolean;
+  errorOnFetching: boolean;
+  getTotalReports: [];
+  getReportCard: () => void;
+  getReportTable: () => void;
+}
+export interface AddNewConfig {
+  Provider: number | string;
+  API_Key: number | string;
+  isActive: boolean;
+}
+export interface AlertConfig {
+  addAlertConfig: AddNewConfig;
+  getAlertConfigList: AddNewConfig[];
+  errorOnFetching: boolean;
+  fetching: boolean;
+  addAlertConfigRule: () => void;
+  setaddAlertConfig: (payload: { key: string; value: string }) => void;
+}
+
+export interface APIConfig {
+  apiCallsList: string;
+  requestAPI: [];
+  getPushBody: [];
+  getResquestBody: [];
+  errorOnFetching: boolean;
+  fetching: boolean;
+  getRequest: () => void;
+  getPushTableList: () => void;
+  getResquestBodyData: () => void;
+}

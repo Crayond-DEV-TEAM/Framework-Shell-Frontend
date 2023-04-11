@@ -98,7 +98,7 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
         variant="permanent"
         open={drawer}
         onMouseEnter={handleDrawerOpen}
-        onMouseLeave={handleDrawerClose}
+        // onMouseLeave={handleDrawerClose}
         sx={sideBarStyle.drawerSx}
       >
         <List sx={sideBarStyle?.listing}>
@@ -138,7 +138,7 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
                           borderRadius: '8px',
                           backgroundColor: `${isSelected ? '#EAF1EF' : 'transperant'}`,
                           minWidth: 0,
-                          mr: drawer ? 0.75 : 'auto',
+                          mr: drawer ? 1 : 'auto',
                         }}
                       >
                         {item.icon(isSelected)}
@@ -195,7 +195,8 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
                         </Collapse>
                       );
                     })}
-                    {drawer ? <Divider orientation="horizontal" sx={sideBarStyle.dividerSx} /> : ''}
+
+                    {drawer ? <Divider orientation="horizontal" sx={{ ...sideBarStyle.dividerSx }} /> : ''}
                   </ListItem>
                 );
               })}

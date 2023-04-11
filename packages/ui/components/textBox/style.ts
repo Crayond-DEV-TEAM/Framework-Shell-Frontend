@@ -1,9 +1,9 @@
 export const textBoxstyle = {
   Label: {
     color: '#262C33',
-    fontSize: '14px',
-    fontWeight: 600,
-    marginBottom: '12px',
+    fontSize: '12px',
+    fontWeight: 500,
+    marginBottom: '8px',
     sm: {
       fontSize: '13px ',
     },
@@ -45,8 +45,8 @@ export const textBoxstyle = {
         borderColor: '#5078E1',
       },
     },
-    "& svg": {
-      cursor: "pointer"
-    }
+    '& svg': {
+      cursor: 'pointer',
+    },
   },
 };

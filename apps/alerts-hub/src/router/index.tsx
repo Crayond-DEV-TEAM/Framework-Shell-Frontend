@@ -25,7 +25,7 @@ const router = createBrowserRouter([
       {
         path: alertsHubRoutes.reports,
         element: (
-          <AppLayout title="Alert Hub">
+          <AppLayout title="Alerts Hub">
             <ReportsHub />
           </AppLayout>
         ),
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
       {
         path: alertsHubRoutes.alertRule,
         element: (
-          <AppLayout title="Alert Hub">
+          <AppLayout title="Alerts Hub">
             <AlertRule />
           </AppLayout>
         ),
@@ -41,7 +41,7 @@ const router = createBrowserRouter([
       {
         path: alertsHubRoutes.apiDocumentation,
         element: (
-          <AppLayout title="Alert Hub">
+          <AppLayout title="Alerts Hub">
             <ApiDocumentation />
           </AppLayout>
         ),
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
       {
         path: alertsHubRoutes.alertConfig,
         element: (
-          <AppLayout title="Alert Hub">
+          <AppLayout title="Alerts Hub">
             <AlertConfiguration />
           </AppLayout>
         ),

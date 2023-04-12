@@ -149,3 +149,69 @@ export interface MessageConfigInterface {
   deleteMessageError: boolean;
   getMessageGroups: () => boolean;
 }
+
+export interface AddAlertRule {
+  id?: number | string;
+  alert_code: number | string;
+  reference_id: number | string;
+  hashtags: number | string;
+  description: number | string;
+  push_title: number | string;
+  push_body: number | string;
+  email_subject: number | string;
+  email_body: number | string;
+  SMS_body: number | string;
+  is_email: boolean;
+  is_push: boolean;
+  is_sms: boolean;
+  is_status: boolean;
+  alert_rule_code: number | string;
+  hashtag: number | string;
+  isActive: boolean;
+}
+export interface AlertRuleInterface {
+  addAlert: AddAlertRule[];
+  alertsList: AddAlertRule[];
+  addAlertRules: AddAlertRule;
+  addAlertRuleLoading: boolean;
+  setaddAlertRule: (payload: { key: string; value: string }) => void;
+  addAlertRule: () => boolean;
+  getAlertTable: () => boolean;
+  editAlertRule: (data: any) => void;
+  fetching: boolean;
+  errorOnFetching: boolean;
+}
+
+export interface ReportInterface {
+  reportCard: [];
+  fetching: boolean;
+  errorOnFetching: boolean;
+  getTotalReports: [];
+  getReportCard: () => void;
+  getReportTable: () => void;
+}
+export interface AddNewConfig {
+  Provider: number | string;
+  API_Key: number | string;
+  isActive: boolean;
+}
+export interface AlertConfig {
+  addAlertConfig: AddNewConfig;
+  getAlertConfigList: AddNewConfig[];
+  errorOnFetching: boolean;
+  fetching: boolean;
+  addAlertConfigRule: () => void;
+  setaddAlertConfig: (payload: { key: string; value: string }) => void;
+}
+
+export interface APIConfig {
+  apiCallsList: string;
+  requestAPI: [];
+  getPushBody: [];
+  getResquestBody: [];
+  errorOnFetching: boolean;
+  fetching: boolean;
+  getRequest: () => void;
+  getPushTableList: () => void;
+  getResquestBodyData: () => void;
+}

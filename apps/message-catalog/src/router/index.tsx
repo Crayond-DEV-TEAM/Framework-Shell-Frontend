@@ -24,7 +24,7 @@ const router = createBrowserRouter([
       {
         path: messageRoutes.messagegroup,
         element: (
-          <AppLayout>
+          <AppLayout title="Message Catalog">
             <MessageGroup />
           </AppLayout>
         ),
@@ -32,7 +32,7 @@ const router = createBrowserRouter([
       {
         path: messageRoutes.languageConfig,
         element: (
-          <AppLayout>
+          <AppLayout title="Message Catalog">
             <LanguageConfigPage />
           </AppLayout>
         ),

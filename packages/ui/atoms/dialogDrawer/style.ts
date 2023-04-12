@@ -27,8 +27,8 @@ export const dialogDrawerStyle: DialogDrawerStyleProps = {
   // },
   dialogRootSx: {
     '& .MuiDialogContent-root': {
-      padding: "0px !important"
-    }
+      padding: '0px !important',
+    },
   },
 
   header: {

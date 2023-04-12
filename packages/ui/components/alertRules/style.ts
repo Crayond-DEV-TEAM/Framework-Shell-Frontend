@@ -1,6 +1,6 @@
 export const alertRuleStyles = {
   commonTable: {
-    margin: '24px',
+    mx: 3,
     // border: "1px solid #EAEAEA",
     '& .MuiTableContainer-root': {
       borderBottom: '1px solid #EAEAEA',
@@ -10,11 +10,11 @@ export const alertRuleStyles = {
       padding: '0px !important',
       gap: '0px !important',
       backgroundColor: '#F6F6F6',
-      paddingTop: '10px !important',
-      paddingBottom: '13px !important',
+      // paddingTop: '10px !important',
+      paddingBottom: '12px !important',
       '& .MuiInputBase-root': {
         backgroundColor: '#FFFFFF',
-        width: "332px"
+        width: '332px',
       },
       '& .MuiIconButton-root': {
         backgroundColor: '#FFFFFF',
@@ -23,7 +23,7 @@ export const alertRuleStyles = {
     '& button': {
       textTransform: 'capitalize !important',
       '&:hover': {
-        backgroundColor: "#357968",
+        backgroundColor: '#357968',
       },
     },
   },

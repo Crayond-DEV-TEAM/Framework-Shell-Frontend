@@ -1,12 +1,16 @@
 import { ValidateEmail } from '@core/utils';
 import {
+  AddAlertRule,
+  AddNewConfig,
   ForgotPasswordState,
   Menu,
+  MessageGroup,
   ResetPasswordState,
   SignInState,
   SignUpStateInterface,
   UserDataInterface,
 } from './interface';
+
 import {
   Alert,
   AlertConfigIcon,
@@ -20,6 +24,18 @@ import {
   SubMessageLanguage,
   ApiDocument,
 } from '@atoms/icons';
+
+import SingleTickGreen from '@core/ui/assets/sgTickGreen';
+import SmallMailIcon from '@core/ui/assets/smallMailIcon';
+import SmallNotificationIcon from '@core/ui/assets/smallNotificationIcon';
+import SmallSmsIcon from '@core/ui/assets/smallSmsIcon';
+import SmsIcon from '@core/ui/assets/smsIcon';
+import DoubleTickBlue from '@core/ui/assets/dbTickBlue';
+import DoubleTickGreen from '@core/ui/assets/dbTickGreen';
+import DeleteIcon from '@core/ui/assets/deleteIcon';
+import EditIcon from '@core/ui/assets/editIcon';
+import EmailIcon from '@core/ui/assets/emailIcon';
+import NotificationIcon from '@core/ui/assets/notificationIcon';
 
 export const giveMeAuthInitialState = (): {
   signUpState: SignUpStateInterface;
@@ -166,33 +182,33 @@ export const AllRoutes: { [key: number]: Menu } = {
     link: '/',
     name: 'Alert Hubs',
     baseUrl: '',
-    links: [],
-    icon: (isSelected: boolean) => <Alert sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+    links: ['/alertConfig', '/apiDocumentation', '/reports', '/alertrule'],
+    icon: (isSelected: boolean) => <Alert sx={{ fontSize: '22px', color: isSelected ? '#357968' : 'action' }} />,
     childrens: [
       {
         id: 1,
-        link: '/',
+        link: '/reports',
         name: 'Reports',
         baseUrl: '',
         icon: (isSelected: boolean) => <ReportIcon sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 2,
-        link: '/',
+        link: '/alertrule',
         name: 'Alert Rule',
         baseUrl: '',
         icon: (isSelected: boolean) => <AlertRuleIcon sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 3,
-        link: '/',
+        link: '/apidocumentation',
         name: 'API Documentation',
         baseUrl: '',
         icon: (isSelected: boolean) => <ApiDocument sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
-        id: 3,
-        link: '/',
+        id: 4,
+        link: '/alertconfig',
         name: 'Alert Configuration',
         baseUrl: '',
         icon: (isSelected: boolean) => <AlertConfigIcon sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
@@ -205,11 +221,13 @@ export const AllRoutes: { [key: number]: Menu } = {
     name: 'Message Catlog',
     baseUrl: '',
     links: ['/languageConfig', '/messagegroup'],
-    icon: (isSelected: boolean) => <MessageHub sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+    icon: (isSelected: boolean) => (
+      <MessageHub sx={{ fontSize: '22px', color: isSelected ? 'primary.main' : 'action' }} />
+    ),
     childrens: [
       {
         id: 1,
-        link: '/languageConfig',
+        link: '/languageconfig',
         name: 'Language Configuration',
         baseUrl: '',
         icon: (isSelected: boolean) => <SubMessageLanguage sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
@@ -223,4 +241,390 @@ export const AllRoutes: { [key: number]: Menu } = {
       },
     ],
   },
+};
+
+export const giveMeAlertRule = (): AddAlertRule => {
+  return {
+    alert_code: '',
+    reference_id: '',
+    description: '',
+    hashtags: '',
+    push_title: '',
+    push_body: '',
+    email_subject: '',
+    email_body: '',
+    SMS_body: '',
+    is_email: true,
+    is_push: false,
+    is_sms: false,
+    is_status: false,
+    alert_rule_code: '',
+    hashtag: '',
+    isActive: false,
+  };
+};
+
+export const giveMeAlertConfig = (): AddNewConfig => {
+  return {
+    Provider: '',
+    API_Key: '',
+    isActive: false,
+  };
+};
+
+export const dummyTableData = [
+  {
+    id: 1,
+    alert_rule_code: 'kdjf-jdhd-3fd',
+    reference_id: 'id-3409',
+    hashtag: {
+      label: '#hashtag',
+      color: '#305AAE',
+      bgColor: '#E2EAFA',
+    },
+    description: 'Quam vitae velit',
+    alert_type: {
+      label: 'Push Notification',
+      color: '#754218',
+      bgColor: '#FAE2CF',
+      icon: <SmallNotificationIcon />,
+    },
+    status: false,
+  },
+  {
+    id: 2,
+    alert_rule_code: 'pdfi-sdff-024',
+    reference_id: 'id-4985',
+    hashtag: {
+      label: '#hashtag',
+      color: '#305AAE',
+      bgColor: '#E2EAFA',
+    },
+    description: 'Malesuada elit',
+    alert_type: {
+      label: 'Email',
+      color: '#77277F',
+      bgColor: '#F7CFFA',
+      icon: <SmallMailIcon />,
+    },
+    status: false,
+  },
+  {
+    id: 3,
+    alert_rule_code: 'gdg-fsds-dd2',
+    reference_id: 'id-6832',
+    hashtag: {
+      label: '#hashtag',
+      color: '#305AAE',
+      bgColor: '#E2EAFA',
+    },
+    description: 'Quam dictum',
+    alert_type: {
+      label: 'SMS',
+      color: '#185C75',
+      bgColor: '#CFEFFA',
+      icon: <SmallSmsIcon />,
+    },
+    status: true,
+  },
+  {
+    id: 4,
+    alert_rule_code: 'jduy-sdff-2s1',
+    reference_id: 'id-9231',
+    hashtag: {
+      label: '#hashtag',
+      color: '#305AAE',
+      bgColor: '#E2EAFA',
+    },
+    description: 'Enim nisl dapibus',
+    alert_type: {
+      label: 'Email',
+      color: '#77277F',
+      bgColor: '#F7CFFA',
+      icon: <SmallMailIcon />,
+    },
+    status: false,
+  },
+  {
+    id: 5,
+    alert_rule_code: 'hdyt-hst-s5s',
+    reference_id: 'id-4875',
+    hashtag: {
+      label: '#hashtag',
+      color: '#305AAE',
+      bgColor: '#E2EAFA',
+    },
+    description: 'Interdum est pulvinar',
+    alert_type: {
+      label: 'SMS',
+      color: '#185C75',
+      bgColor: '#CFEFFA',
+      icon: <SmallSmsIcon />,
+    },
+    status: true,
+  },
+  {
+    id: 6,
+    alert_rule_code: 1072,
+    reference_id: 'ID-201',
+    hashtag: {
+      label: '#hashtag',
+      color: '#305AAE',
+      bgColor: '#E2EAFA',
+    },
+    description: 'Quam vitae velit',
+    alert_type: {
+      label: 'Push Notification',
+      color: '#754218',
+      bgColor: '#FAE2CF',
+      icon: <SmallNotificationIcon />,
+    },
+    status: false,
+  },
+  {
+    id: 7,
+    alert_rule_code: 1616,
+    reference_id: 'ID-244',
+    hashtag: {
+      label: '#hashtag',
+      color: '#305AAE',
+      bgColor: '#E2EAFA',
+    },
+    description: 'Malesuada elit',
+    alert_type: {
+      label: 'Email',
+      color: '#77277F',
+      bgColor: '#F7CFFA',
+      icon: <SmallMailIcon />,
+    },
+    status: false,
+  },
+];
+
+export const dummyAlert = [
+  {
+    id: 1,
+    parameter: 'push',
+    type: 'string',
+    description: 'Enim nisl dapibus',
+  },
+  {
+    id: 2,
+    parameter: 'push',
+    type: 'string',
+    description: 'Enim nisl dapibus',
+  },
+  {
+    id: 3,
+    parameter: 'push',
+    type: 'string',
+    description: 'Enim nisl dapibus',
+  },
+];
+
+export const tabsCard = {
+  today: [
+    {
+      icon: <SmsIcon />,
+      header: 'SMS',
+      cardDetails: [
+        {
+          number: '250',
+          value: 'Sent',
+        },
+        {
+          number: '243',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '165',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <EmailIcon />,
+      header: 'Email',
+      cardDetails: [
+        {
+          number: '825',
+          value: 'Sent',
+        },
+        {
+          number: '675',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '243',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <NotificationIcon />,
+      header: 'Push Notification',
+      cardDetails: [
+        {
+          number: '064',
+          value: 'Sent',
+        },
+        {
+          number: '056',
+          value: 'Delivered',
+        },
+        {
+          number: '012',
+          value: 'Not Delivered',
+        },
+        {
+          number: '042',
+          value: 'Clicked',
+        },
+      ],
+    },
+  ],
+  thisWeek: [
+    {
+      icon: <EmailIcon />,
+      header: 'Email',
+      cardDetails: [
+        {
+          number: '250',
+          value: 'Sent',
+        },
+        {
+          number: '243',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '165',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <NotificationIcon />,
+      header: 'Push Notification',
+      cardDetails: [
+        {
+          number: '825',
+          value: 'Sent',
+        },
+        {
+          number: '675',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '243',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <SmsIcon />,
+      header: 'SMS',
+      cardDetails: [
+        {
+          number: '064',
+          value: 'Sent',
+        },
+        {
+          number: '056',
+          value: 'Delivered',
+        },
+        {
+          number: '012',
+          value: 'Not Delivered',
+        },
+        {
+          number: '042',
+          value: 'Clicked',
+        },
+      ],
+    },
+  ],
+  thisMonth: [
+    {
+      icon: <NotificationIcon />,
+      header: 'Push Notification',
+      cardDetails: [
+        {
+          number: '250',
+          value: 'Sent',
+        },
+        {
+          number: '243',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '165',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <SmsIcon />,
+      header: 'SMS',
+      cardDetails: [
+        {
+          number: '825',
+          value: 'Sent',
+        },
+        {
+          number: '675',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '243',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <EmailIcon />,
+      header: 'Email',
+      cardDetails: [
+        {
+          number: '064',
+          value: 'Sent',
+        },
+        {
+          number: '056',
+          value: 'Delivered',
+        },
+        {
+          number: '012',
+          value: 'Not Delivered',
+        },
+        {
+          number: '042',
+          value: 'Clicked',
+        },
+      ],
+    },
+  ],
 };

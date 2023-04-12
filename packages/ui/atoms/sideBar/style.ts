@@ -36,7 +36,7 @@ export const sideBarStyle: SideBarStyleProps = {
   },
   listheading: {
     '& .MuiTypography-root': {
-      fontSize: '14px',
+      fontSize: '12px',
       fontWeight: 600,
     },
   },
@@ -61,6 +61,7 @@ export const sideBarStyle: SideBarStyleProps = {
   },
   menuSx: {
     pl: 0,
+    mb: 2,
     alignItems: 'center',
     margin: '4px 14px',
     padding: '0px 0px',
@@ -80,6 +81,7 @@ export const sideBarStyle: SideBarStyleProps = {
     borderColor: '#EAEAEA',
     height: '2px',
     width: '180px',
+
     margin: '0px auto',
   },
   skeletonSx: {

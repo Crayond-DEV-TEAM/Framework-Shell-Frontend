@@ -53,8 +53,8 @@ export const AddMessageGroup = forwardRef((props: AddMessageGroupProps, ref: Rea
       ref={ref}
       {...rest}
     >
-      <Grid sx={addMessageGroupStyle.totalGrid}>
-        <Grid xs={12} sm={6} md={6} lg={6} xl={6} sx={{ pr: 2, pt: 2 }}>
+      <Grid container sx={addMessageGroupStyle.totalGrid}>
+        <Grid xs={12} sm={6} md={6} lg={6} xl={6} sx={{ borderRight: '1px solid #E0E0E0', p: 3 }}>
           <Box>
             <Box sx={addMessageGroupStyle.inputGroupSx}>
               <Label sx={addMessageGroupStyle.labelSx} htmlFor="title" isRequired>
@@ -110,10 +110,8 @@ export const AddMessageGroup = forwardRef((props: AddMessageGroupProps, ref: Rea
           </Box> */}
           </Box>
         </Grid>
-        <Grid>
-          <Divider orientation="vertical" sx={addMessageGroupStyle.dividerSx} />
-        </Grid>
-        <Grid xs={12} sm={6} md={6} lg={6} xl={6} sx={{ pl: 2, py: 2 }}>
+
+        <Grid xs={12} sm={6} md={6} lg={6} xl={6} sx={{ p: 3 }}>
           <Box sx={addMessageGroupStyle}>
             <Divider orientation="vertical" />
             <Box>

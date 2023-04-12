@@ -42,8 +42,8 @@ function App() {
             vertical: 'top',
             horizontal: 'center',
           }}
-          autoHideDuration={3000}
-          action={(key) => <SnacbarClose key={key} />}
+          autoHideDuration={2000}
+          // action={(key) => <SnacbarClose key={key} />}
         />
         <CssBaseline />
         <RouterApp />

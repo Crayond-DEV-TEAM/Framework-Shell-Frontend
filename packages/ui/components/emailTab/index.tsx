@@ -7,6 +7,7 @@ import { Box, Grid } from '@mui/material';
 import { CommonTable } from 'crayond-components-library-1';
 import React from 'react';
 import { emailTab_style } from './style';
+import { FooterComponent } from '@atoms/footerComponent';
 
 export function EmailTab(): JSX.Element {
   const [open, setOpen] = React.useState(false);
@@ -211,7 +212,7 @@ export function EmailTab(): JSX.Element {
                     isBtnRequired={true}
                     isFilterRequired={false}
                     isSearchRequired={false}
-                    onClick={handleClick}
+                    handleOpen={handleClick}
                   />
                 ),
               }}
@@ -221,17 +222,20 @@ export function EmailTab(): JSX.Element {
       </Grid>
       <Box sx={emailTab_style.emailDialog}>
         <DialogDrawer
+          dialogRootStyle={{
+            width: '400px',
+            // height: '604px',
+          }}
           fullWidth={false}
           title="Add Email Details"
           fullScreen={false}
           check={false}
           isDialogOpened={open}
           handleClose={handleClose}
+          handleCloseDialog={handleClose}
           handleSubmit={handleSubmit}
           content={<EmailDialog />}
-          handleCloseDialog={function (): void {
-            throw new Error('Function not implemented.');
-          }}
+          Footercomponent={<FooterComponent onCancel={handleClose} />}
         />
       </Box>
     </Box>

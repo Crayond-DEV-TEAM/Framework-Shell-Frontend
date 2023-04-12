@@ -1,6 +1,6 @@
 export const alertConfig_style = {
   root: {
-    padding: '31px 24px',
+    padding: '0px 24px',
   },
 
   alertConfigTab: {
@@ -56,20 +56,20 @@ export const alertConfig_style = {
   },
 
   referenceDiv: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: "8px",
-    boxShadow: "0 5px 20px #0000000A",
+    backgroundColor: '#FFFFFF',
+    borderRadius: '8px',
+    boxShadow: '0 5px 20px #0000000A',
   },
 
   sampleTabBHead: {
     backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: "8px",
-    borderTopRightRadius: "8px",
+    borderTopLeftRadius: '8px',
+    borderTopRightRadius: '8px',
   },
 
   checkBox: {
     '& label': {
-      color: "#848484",
+      color: '#848484',
       '& span ': {
         '&:nth-child(1)': {
           color: '#28c397 !important',
@@ -86,17 +86,17 @@ export const alertConfig_style = {
   },
 
   btnone: {
-    color: "#FF3232",
-    border: "1px solid #848484",
+    color: '#FF3232',
+    border: '1px solid #848484',
     padding: '10px 14px',
     borderRadius: '8px',
     fontSize: '14px',
   },
 
   btn2: {
-    color: "#FFFFFF",
+    color: '#FFFFFF',
     // backgroundColor: theme.typography.color.blue,
-    border: "1px solid #848484",
+    border: '1px solid #848484',
     padding: '10px 20px',
     borderRadius: '8px',
     fontSize: '14px',
@@ -157,17 +157,17 @@ export const alertConfig_style = {
   tabDivs: {
     height: '100%',
     padding: '24px 21px',
-    paddingLeft: "21px !important",
-    paddingRight: "21px !important",
+    paddingLeft: '21px !important',
+    paddingRight: '21px !important',
     sm: {
       padding: '16px 20px',
     },
   },
 
   referenceDiv2: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: "8px",
-    boxShadow: "0 5px 20px #0000000A",
+    backgroundColor: '#FFFFFF',
+    borderRadius: '8px',
+    boxShadow: '0 5px 20px #0000000A',
     height: '550px',
     sm: {
       height: 'auto',
@@ -183,7 +183,7 @@ export const alertConfig_style = {
   },
 
   commonTable: {
-    border: "1px solid #EAEAEA",
+    border: '1px solid #EAEAEA',
     '& .MuiTableContainer-root': {
       border: '1px solid #EAEAEA',
       borderRadius: '7px 7px 0px 0px',
@@ -196,7 +196,7 @@ export const alertConfig_style = {
     '& button': {
       textTransform: 'capitalize !important',
       '&:hover': {
-        backgroundColor: "#357968",
+        backgroundColor: '#357968',
       },
     },
   },

@@ -14,12 +14,12 @@ export const tabs_style = {
     },
 
     '& .Mui-selected': {
-      color: "#357968 !important",
+      color: '#357968 !important',
       fontWeight: 600,
     },
 
     '& .MuiTabs-indicator': {
-      display: "none"
+      display: 'none',
       // backgroundColor: "#357968 !important",
       // height: "3px !important"
     },
@@ -30,25 +30,27 @@ export const tabs_style = {
   },
 
   alertConfigTab: {
-    cursor: "pointer",
-    fontSize: "14px",
+    cursor: 'pointer',
+    fontSize: '14px',
     fontWeight: 500,
-    paddingBottom: "0px !important",
-    "&:nth-child(2)": {
-      margin: "0 24px ",
+    paddingBottom: '0px !important',
+    '&:nth-child(2)': {
+      margin: '0 24px ',
     },
   },
 
   alertConfigTabTxt: {
-    cursor: "pointer",
-    fontSize: "14px",
+    cursor: 'pointer',
+    fontSize: '14px',
     fontWeight: 600,
-    color: "#357968",
+    color: '#357968',
     // color: theme.palette.primary.mailInput,
-    borderBottom: "3px solid #357968",
-    paddingBottom: "0px !important",
-    "&:nth-child(2)": {
-      margin: "0 24px",
+    borderBottom: '3px solid #357968',
+    borderRadius: '2px',
+
+    paddingBottom: '0px !important',
+    '&:nth-child(2)': {
+      margin: '0 24px',
     },
   },
 };

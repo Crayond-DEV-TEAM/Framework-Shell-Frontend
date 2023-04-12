@@ -76,7 +76,7 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
             <Box
               component="img"
               src={CloseIcon}
-              onClick={handleClose}
+              onClick={handleCloseDialog}
               sx={{ cursor: 'pointer' }}
               height={16}
               width={16}

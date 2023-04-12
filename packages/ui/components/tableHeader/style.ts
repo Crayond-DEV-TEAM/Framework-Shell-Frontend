@@ -20,7 +20,7 @@ export const tableHeaderStyle: TableHeaderStyleProps = {
     // px: 0,
   },
   leftSx: {
-    display: "flex",
+    display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
@@ -38,27 +38,33 @@ export const tableHeaderStyle: TableHeaderStyleProps = {
     },
   },
   downloadIcon: {
-    backgroundColor: "#FFFFFF",
-    border: "1px solid #E0E0E0",
-    borderRadius: "8px",
-    padding: "4px 8px",
-    marginLeft: "8px",
-    cursor: "pointer"
-},
-download: {
-    display: "flex",
-    alignItems: "center",
-    paddingBottom: "14px",
-    cursor: "pointer",
-    "& p": {
-        fontSize: "12px",
-        marginLeft: "10px",
+    backgroundColor: '#FFFFFF',
+    border: '1px solid #E0E0E0',
+    borderRadius: '8px',
+    padding: '4px 8px',
+    marginLeft: '8px',
+    cursor: 'pointer',
+  },
+  download: {
+    display: 'flex',
+    alignItems: 'center',
+    paddingBottom: '14px',
+    cursor: 'pointer',
+    '& p': {
+      fontSize: '12px',
+      marginLeft: '10px',
     },
-    "&:nth-child(2)": {
-        paddingBottom: "0px",
-    }
-},
-downloadBox: {
-    padding: "14px"
-}
+    '&:nth-child(2)': {
+      paddingBottom: '0px',
+    },
+  },
+  downloadBox: {
+    padding: '14px',
+  },
+  inputSx: {
+    '& .MuiOutlinedInput-input': {
+      fontWeight: 500,
+      fontSize: '14px',
+    },
+  },
 };

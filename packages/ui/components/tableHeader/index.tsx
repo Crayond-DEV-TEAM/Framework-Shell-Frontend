@@ -50,14 +50,14 @@ export interface TableHeaderProps {
   addMessage?: any;
   options?: any;
   onChange?: any;
-  onClick?: () => void;
+  onClick?: () => boolean;
   sx?: SxProps<Theme>;
 }
 
 export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => {
   const {
     className = '',
-    placeholder = '',
+    placeholder = 'search',
     isDownloadRequired = false,
     tableHeader = 'Add Message',
     isFilterRequired = true,
@@ -109,7 +109,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
         <Typography sx={tableHeaderStyle.titleSx}>{tableHeader}</Typography>
         <Box sx={tableHeaderStyle.leftSx}>
           {isSearchRequired && (
-            <Box sx={{ mr: 1 }}>
+            <Box sx={{ pr: 1, pt: '3px' }}>
               <Input
                 placeholder={placeholder}
                 value={searchTerm}
@@ -128,7 +128,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
           )}
           {isBtnRequired && (
             <Box sx={{ ml: 1 }}>
-              <Button sx={tableHeaderStyle.btnSx} onClick={onClick}>
+              <Button sx={tableHeaderStyle.btnSx} onClick={handleOpen}>
                 {buttonName}
               </Button>
             </Box>

@@ -18,218 +18,12 @@ import { Box, Grid } from '@mui/material';
 import { CommonTable } from 'crayond-components-library-1';
 import React from 'react';
 import { reports_styles } from './style';
+import { dummyTableData, tabsCard } from '@core/store/utils';
 
 export interface ReportsProps {
   data?: any;
   sx?: SxProps<Theme>;
 }
-
-const tabsCard = {
-  today: [
-    {
-      icon: <SmsIcon />,
-      header: 'SMS',
-      cardDetails: [
-        {
-          number: '250',
-          value: 'Sent',
-        },
-        {
-          number: '243',
-          value: 'Delivered',
-        },
-        {
-          number: '356',
-          value: 'Not Delivered',
-        },
-        {
-          number: '165',
-          value: 'Clicked',
-        },
-      ],
-    },
-    {
-      icon: <EmailIcon />,
-      header: 'Email',
-      cardDetails: [
-        {
-          number: '825',
-          value: 'Sent',
-        },
-        {
-          number: '675',
-          value: 'Delivered',
-        },
-        {
-          number: '356',
-          value: 'Not Delivered',
-        },
-        {
-          number: '243',
-          value: 'Clicked',
-        },
-      ],
-    },
-    {
-      icon: <NotificationIcon />,
-      header: 'Push Notification',
-      cardDetails: [
-        {
-          number: '064',
-          value: 'Sent',
-        },
-        {
-          number: '056',
-          value: 'Delivered',
-        },
-        {
-          number: '012',
-          value: 'Not Delivered',
-        },
-        {
-          number: '042',
-          value: 'Clicked',
-        },
-      ],
-    },
-  ],
-  thisWeek: [
-    {
-      icon: <EmailIcon />,
-      header: 'Email',
-      cardDetails: [
-        {
-          number: '250',
-          value: 'Sent',
-        },
-        {
-          number: '243',
-          value: 'Delivered',
-        },
-        {
-          number: '356',
-          value: 'Not Delivered',
-        },
-        {
-          number: '165',
-          value: 'Clicked',
-        },
-      ],
-    },
-    {
-      icon: <NotificationIcon />,
-      header: 'Push Notification',
-      cardDetails: [
-        {
-          number: '825',
-          value: 'Sent',
-        },
-        {
-          number: '675',
-          value: 'Delivered',
-        },
-        {
-          number: '356',
-          value: 'Not Delivered',
-        },
-        {
-          number: '243',
-          value: 'Clicked',
-        },
-      ],
-    },
-    {
-      icon: <SmsIcon />,
-      header: 'SMS',
-      cardDetails: [
-        {
-          number: '064',
-          value: 'Sent',
-        },
-        {
-          number: '056',
-          value: 'Delivered',
-        },
-        {
-          number: '012',
-          value: 'Not Delivered',
-        },
-        {
-          number: '042',
-          value: 'Clicked',
-        },
-      ],
-    },
-  ],
-  thisMonth: [
-    {
-      icon: <NotificationIcon />,
-      header: 'Push Notification',
-      cardDetails: [
-        {
-          number: '250',
-          value: 'Sent',
-        },
-        {
-          number: '243',
-          value: 'Delivered',
-        },
-        {
-          number: '356',
-          value: 'Not Delivered',
-        },
-        {
-          number: '165',
-          value: 'Clicked',
-        },
-      ],
-    },
-    {
-      icon: <SmsIcon />,
-      header: 'SMS',
-      cardDetails: [
-        {
-          number: '825',
-          value: 'Sent',
-        },
-        {
-          number: '675',
-          value: 'Delivered',
-        },
-        {
-          number: '356',
-          value: 'Not Delivered',
-        },
-        {
-          number: '243',
-          value: 'Clicked',
-        },
-      ],
-    },
-    {
-      icon: <EmailIcon />,
-      header: 'Email',
-      cardDetails: [
-        {
-          number: '064',
-          value: 'Sent',
-        },
-        {
-          number: '056',
-          value: 'Delivered',
-        },
-        {
-          number: '012',
-          value: 'Not Delivered',
-        },
-        {
-          number: '042',
-          value: 'Clicked',
-        },
-      ],
-    },
-  ],
-};
 
 const tabs = [
   {
@@ -253,7 +47,7 @@ export function Reports(props: ReportsProps): JSX.Element {
   const { data } = props;
 
   const [openAnchorEl, setOpenAnchorEl] = React.useState<HTMLButtonElement | null>(null);
-//   const [openAnchorEl, setOpenAnchorEl] = React.useState(null);
+  //   const [openAnchorEl, setOpenAnchorEl] = React.useState(null);
   const [isSelectedAll, setIsSelectedAll] = React.useState(false);
   const [selectedCheckbox, setSelectedCheckbox] = React.useState([1, 2]);
   const [checked, setChecked] = React.useState(true);
@@ -328,12 +122,6 @@ export function Reports(props: ReportsProps): JSX.Element {
   };
 
   const Header = [
-    // {
-    //   id: 'no',
-    //   align: 'left',
-    //   disablePadding: false,
-    //   label: 'Sl no',
-    // },
     {
       id: 'alert_rule_code',
       align: 'left',
@@ -401,288 +189,7 @@ export function Reports(props: ReportsProps): JSX.Element {
       label: 'Action',
     },
   ];
-  const dataList = [
-    {
-      id: 1,
-      alert_rule_code: 1072,
-      reference_id: 'ID-201',
-      hashtag: {
-        label: '#hashtag',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-      description: 'Quam vitae velit',
-      receiver_info: {
-        image: 'sample.jpg',
-        label: 'Brandon Sanders',
-      },
-      alert_type: {
-        label: 'Push Notification',
-        color: '#754218',
-        bgColor: '#FAE2CF',
-        icon: <SmallNotificationIcon />,
-      },
-      sent_on: '2022-01-23T15:00:21.055Z',
-      delivered_on: '2022-01-23T15:00:21.055Z',
-      clicked: '2022-01-23T15:00:21.055Z',
-      status: {
-        label: 'Sent',
-        icon: <SingleTickGreen />,
-      },
-    },
-    {
-      id: 2,
-      alert_rule_code: 1616,
-      reference_id: 'ID-244',
-      hashtag: {
-        label: '#hashtag',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-      description: 'Malesuada elit',
-      receiver_info: {
-        image: 'sample.jpg',
-        label: 'Carolyn Bailey',
-      },
-      alert_type: {
-        label: 'Email',
-        color: '#77277F',
-        bgColor: '#F7CFFA',
-        icon: <SmallMailIcon />,
-      },
-      sent_on: '2022-01-23T15:00:21.055Z',
-      delivered_on: '2022-01-23T15:00:21.055Z',
-      clicked: '2022-01-23T15:00:21.055Z',
-      status: {
-        label: 'Delivered',
-        icon: <DoubleTickGreen />,
-      },
-    },
-    {
-      id: 3,
-      alert_rule_code: 722,
-      reference_id: 'ID-174',
-      hashtag: {
-        label: '#hashtag',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-      description: 'Quam dictum',
-      receiver_info: {
-        image: 'sample.jpg',
-        label: 'Brandon',
-      },
-      alert_type: {
-        label: 'SMS',
-        color: '#185C75',
-        bgColor: '#CFEFFA',
-        icon: <SmallSmsIcon />,
-      },
-      sent_on: '2022-01-23T15:00:21.055Z',
-      delivered_on: '2022-01-23T15:00:21.055Z',
-      clicked: '2022-01-23T15:00:21.055Z',
-      status: {
-        label: 'Read',
-        icon: <DoubleTickBlue />,
-      },
-    },
-    {
-      id: 4,
-      alert_rule_code: 2139,
-      reference_id: 'ID-232',
-      hashtag: {
-        label: '#hashtag',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-      description: 'Enim nisl dapibus',
-      receiver_info: {
-        image: 'sample.jpg',
-        label: 'Emma Elliot',
-      },
-      alert_type: {
-        label: 'Email',
-        color: '#77277F',
-        bgColor: '#F7CFFA',
-        icon: <SmallMailIcon />,
-      },
-      sent_on: '2022-01-23T15:00:21.055Z',
-      delivered_on: '2022-01-23T15:00:21.055Z',
-      clicked: '2022-01-23T15:00:21.055Z',
-      status: {
-        label: 'Sent',
-        icon: <SingleTickGreen />,
-      },
-    },
-    {
-      id: 5,
-      alert_rule_code: 4039,
-      reference_id: 'ID-156',
-      hashtag: {
-        label: '#hashtag',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-      description: 'Interdum est pulvinar',
-      receiver_info: {
-        image: 'sample.jpg',
-        label: 'Tyler Hart',
-      },
-      alert_type: {
-        label: 'SMS',
-        color: '#185C75',
-        bgColor: '#CFEFFA',
-        icon: <SmallSmsIcon />,
-      },
-      sent_on: '2022-01-23T15:00:21.055Z',
-      delivered_on: '2022-01-23T15:00:21.055Z',
-      clicked: '2022-01-23T15:00:21.055Z',
-      status: {
-        label: 'Not Delivered',
-        icon: <DashRed />,
-      },
-    },
-    {
-      id: 6,
-      alert_rule_code: 1072,
-      reference_id: 'ID-201',
-      hashtag: {
-        label: '#hashtag',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-      description: 'Quam vitae velit',
-      receiver_info: {
-        image: 'sample.jpg',
-        label: 'Brandon Sanders',
-      },
-      alert_type: {
-        label: 'Push Notification',
-        color: '#754218',
-        bgColor: '#FAE2CF',
-        icon: <SmallNotificationIcon />,
-      },
-      sent_on: '2022-01-23T15:00:21.055Z',
-      delivered_on: '2022-01-23T15:00:21.055Z',
-      clicked: '2022-01-23T15:00:21.055Z',
-      status: {
-        label: 'Sent',
-        icon: <SingleTickGreen />,
-      },
-    },
-    {
-      id: 7,
-      alert_rule_code: 1616,
-      reference_id: 'ID-244',
-      hashtag: {
-        label: '#hashtag',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-      description: 'Malesuada elit',
-      receiver_info: {
-        image: 'sample.jpg',
-        label: 'Carolyn Bailey',
-      },
-      alert_type: {
-        label: 'Email',
-        color: '#77277F',
-        bgColor: '#F7CFFA',
-        icon: <SmallMailIcon />,
-      },
-      sent_on: '2022-01-23T15:00:21.055Z',
-      delivered_on: '2022-01-23T15:00:21.055Z',
-      clicked: '2022-01-23T15:00:21.055Z',
-      status: {
-        label: 'Sent',
-        icon: <DoubleTickGreen />,
-      },
-    },
-    {
-      id: 8,
-      alert_rule_code: 722,
-      reference_id: 'ID-174',
-      hashtag: {
-        label: '#hashtag',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-      description: 'Quam dictum',
-      receiver_info: {
-        image: 'sample.jpg',
-        label: 'Brandon',
-      },
-      alert_type: {
-        label: 'SMS',
-        color: '#185C75',
-        bgColor: '#CFEFFA',
-        icon: <SmallSmsIcon />,
-      },
-      sent_on: '2022-01-23T15:00:21.055Z',
-      delivered_on: '2022-01-23T15:00:21.055Z',
-      clicked: '2022-01-23T15:00:21.055Z',
-      status: {
-        label: 'Sent',
-        icon: <DoubleTickBlue />,
-      },
-    },
-    {
-      id: 9,
-      alert_rule_code: 2139,
-      reference_id: 'ID-232',
-      hashtag: {
-        label: '#hashtag',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-      description: 'Enim nisl dapibus',
-      receiver_info: {
-        image: 'sample.jpg',
-        label: 'Emma Elliot',
-      },
-      alert_type: {
-        label: 'Email',
-        color: '#77277F',
-        bgColor: '#F7CFFA',
-        icon: <SmallMailIcon />,
-      },
-      sent_on: '2022-01-23T15:00:21.055Z',
-      delivered_on: '2022-01-23T15:00:21.055Z',
-      clicked: '2022-01-23T15:00:21.055Z',
-      status: {
-        label: 'Sent',
-        icon: <SingleTickGreen />,
-      },
-    },
-    {
-      id: 10,
-      alert_rule_code: 4039,
-      reference_id: 'ID-156',
-      hashtag: {
-        label: '#hashtag',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-      description: 'Interdum est pulvinar',
-      receiver_info: {
-        image: 'sample.jpg',
-        label: 'Tyler Hart',
-      },
-      alert_type: {
-        label: 'SMS',
-        color: '#185C75',
-        bgColor: '#CFEFFA',
-        icon: <SmallSmsIcon />,
-      },
-      sent_on: '2022-01-23T15:00:21.055Z',
-      delivered_on: '2022-01-23T15:00:21.055Z',
-      clicked: '2022-01-23T15:00:21.055Z',
-      status: {
-        label: 'Sent',
-        icon: <DashRed />,
-      },
-    },
-  ];
+
   const tableData = [
     // { type: ['INCREMENT'], name: 'sl_no' },
     { type: ['TEXT'], name: 'alert_rule_code' },
@@ -843,65 +350,67 @@ export function Reports(props: ReportsProps): JSX.Element {
 
   return (
     <Box>
-      <Grid container>
+      <Grid container sx={reports_styles.totalReportSx}>
         <Grid item xs={12}>
           <Box sx={reports_styles.reportTabs}>
             <ReportTabs tabs={tabs} />
           </Box>
         </Grid>
-        <Grid item xs={12}>
-          <Grid item xs={12}>
-            <Box sx={reports_styles.commonTable}>
-              <CommonTable
-                Header={Header}
-                dataList={dataList}
-                tableData={tableData}
-                headerOptions={{
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  color: '#818181',
-                  bgColor: '#EAEAEA',
-                  borderBottom: '0px',
-                }}
-                cellOptions={{
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  color: '#5A5A5A',
-                  bgColor: '#fff',
-                  borderBottom: '0px',
-                }}
-                tableMinWidth={'1800px'}
-                tableMinHeight={'439px'}
-                paddingAll={'0px'}
-                marginAll={'0px'}
-                dense={'small'}
-                HeaderComponent={{
-                  variant: 'CUSTOM',
-                  component: (
-                    <TableHeader
-                      tableHeader="Total Reports (12)"
-                      buttonName="Add New Config"
-                      placeholder="Search by receiver info (or) description"
-                      isFilterRequired={true}
-                      isSearchRequired={true}
-                      isDownloadRequired={true}
-                      isBtnRequired={false}
-                      filterContent={filterContent}
-                      onChange={handleChange}
-                      checked={checked}
-                      openPop={openPop}
-                      openAnchorEl={openAnchorEl}
-                      handleClick={(e: any) => handleClick(e)}
-                      handleClose={handleClose}
-                      id={id}
-                      // handleGroupChange={handleGroupChange}
-                      // handleChipDelete={handleChipDelete}
-                    />
-                  ),
-                }}
-              />
-            </Box>
-          </Grid>
+        <Grid item xs={12} sx={{ pb: 2 }}>
+          <Box sx={reports_styles.commonTable}>
+            <CommonTable
+              Header={Header}
+              dataList={dummyTableData}
+              tableData={tableData}
+              headerOptions={{
+                fontSize: '14px',
+                fontWeight: '500',
+                color: '#818181',
+                bgColor: '#EAEAEA',
+                borderBottom: '0px',
+              }}
+              rowOptions={{
+                rowOddBgColor: '#fff',
+                rowEvenBgColor: '#F7F7F7',
+              }}
+              cellOptions={{
+                fontSize: '14px',
+                fontWeight: '500',
+                color: '#5A5A5A',
+                bgColor: '#fff',
+                borderBottom: '0px',
+              }}
+              tableMinWidth={'1800px'}
+              tableMinHeight={'400px'}
+              paddingAll={'0px'}
+              marginAll={'0px'}
+              dense={'mmedium'}
+              HeaderComponent={{
+                variant: 'CUSTOM',
+                component: (
+                  <TableHeader
+                    tableHeader="Total Reports (12)"
+                    buttonName="Add New Config"
+                    placeholder="Search by receiver info (or) description"
+                    isFilterRequired={true}
+                    isSearchRequired={true}
+                    isDownloadRequired={true}
+                    isBtnRequired={false}
+                    filterContent={filterContent}
+                    onChange={handleChange}
+                    checked={checked}
+                    openPop={openPop}
+                    openAnchorEl={openAnchorEl}
+                    handleClick={(e: any) => handleClick(e)}
+                    handleClose={handleClose}
+                    id={id}
+                    // handleGroupChange={handleGroupChange}
+                    // handleChipDelete={handleChipDelete}
+                  />
+                ),
+              }}
+            />
+          </Box>
         </Grid>
       </Grid>
     </Box>

@@ -369,6 +369,10 @@ export function Reports(props: ReportsProps): JSX.Element {
                 bgColor: '#EAEAEA',
                 borderBottom: '0px',
               }}
+              rowOptions={{
+                rowOddBgColor: '#fff',
+                rowEvenBgColor: '#F7F7F7',
+              }}
               cellOptions={{
                 fontSize: '14px',
                 fontWeight: '500',

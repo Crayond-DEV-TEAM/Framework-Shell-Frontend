@@ -271,7 +271,7 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
                                 <Chip
                                   size="small"
                                   key={i}
-                                  sx={{ ml: '5px', borderRadius: '6px' }}
+                                  sx={{ ml: '5px', mb: 1, borderRadius: '6px' }}
                                   label={chip?.label}
                                   // onClick={handleClick}
                                   onDelete={() => handleChipDelete(chip?.label, i, state.index)}
@@ -289,6 +289,7 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
                             p: '2px 3px',
                             textAlign: 'center',
                             ml: 1,
+                            mb: 1,
                           }}
                           onClick={onClear}
                         >
@@ -332,132 +333,6 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
           </Box>
         </Box>
       </Drawer>
-
-      {/* <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        // onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        sx={filterStyle.totalFilterSx}
-      >
-        <Box sx={filterStyle.totalSx}>
-          <Typography sx={filterStyle.headerSx}>{title}</Typography>
-          <Box sx={filterStyle.contentBoxSx}>
-            {filterContent?.map((val: any, i: any) => {
-              return (
-                <Box key={i}>
-                  <Box sx={filterStyle.totalCardSx}>
-                    <Box
-                      key={i}
-                      sx={filterStyle.CardSx}
-                      onClick={(e: any) =>
-                        val?.children?.length > 0 ? onFilterFunc(e, i, val) : onFilterFunc(null, 0, null)
-                      }
-                    >
-                      <Typography>{val?.name}</Typography>
-
-                      <IconButton disableRipple>
-                        <ArrowForwardIosIcon sx={{ color: '#5A5A5A', width: 16, height: 16 }} />
-                      </IconButton>
-                    </Box>
-                    <Box>
-                      {val?.children?.length > 0 &&
-                        val?.children?.map((chip: any, i: any) => {
-                          if (chip.component === 'checkbox' && chip?.value) {
-                            return (
-                              <Chip
-                                size="small"
-                                key={i}
-                                sx={{ ml: '5px' }}
-                                label={chip?.label}
-                                // onClick={handleClick}
-                                onDelete={() => handleChipDelete(chip?.label, i, state.index)}
-                              />
-                            );
-                          }
-                        })}
-                    </Box>
-                  </Box>
-
-                  {i === state?.index && state?.editData?.length > 0 && (
-                    <Popover
-                      id={idSide}
-                      open={openSide}
-                      // open={i === state?.index}
-                      anchorEl={sideContent}
-                      onClose={handleClose}
-                      anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                      }}
-                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'left',
-                      }}
-                      sx={filterStyle.totalFilterSideSx}
-                    >
-                      {
-                        <Box sx={filterStyle.totalSx}>
-                          <Typography sx={{ ...filterStyle.headerSx, border: 'none' }}>{val?.name}</Typography>
-
-                          {state?.editData?.map((option: any, index: any) => (
-                            <Box key={index}>
-                              {renderComponents(
-                                option?.component,
-                                filterContent[state.index],
-                                state.index,
-                                index,
-                                option,
-                                onChange,
-                              )}
-                            </Box>
-                          ))}
-
-                          {footer && (
-                            <Box sx={filterStyle.footerSx}>
-                              <Box sx={filterStyle.subFooterSx}>
-                                <Button buttonStyle={filterStyle.footerCancelBtn}>Cancel</Button>
-                                <Button buttonStyle={filterStyle.footerBtn}>Apply</Button>
-                              </Box>
-                            </Box>
-                          )}
-                        </Box>
-                      }
-                    </Popover>
-                  )}
-                </Box>
-              );
-            })}
-            <Box sx={filterStyle.footerSx}>
-              <Box sx={filterStyle.clearSx}>
-                <Box sx={{ ...filterStyle.clearSX, justifyContent: close ? 'space-between' : 'end' }}>
-                  {close && (
-                    <Button buttonStyle={filterStyle.footerClearSx} onClick={onClear}>
-                      Clear All
-                    </Button>
-                  )}
-                  <Box sx={filterStyle.subFooterSx}>
-                    <Button buttonStyle={filterStyle.footerCancelBtn} onClick={filterClose}>
-                      Cancel
-                    </Button>
-                    <Button buttonStyle={filterStyle.footerBtn} onClick={onApplyBtn}>
-                      Apply
-                    </Button>
-                  </Box>
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-        </Box>
-      </Popover> */}
     </Box>
   );
 });

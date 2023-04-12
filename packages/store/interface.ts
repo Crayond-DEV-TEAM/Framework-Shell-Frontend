@@ -120,18 +120,17 @@ export interface MessageGroup {
 
 export interface MessageConfigInterface {
   messageGroup: MessageGroup[];
-  deleteMessage: () => boolean;
-  setdeleteMessage: (payload: { id: string }) => void;
+  deleteMessage: MessageGroup[];
 
   editMessage: MessageGroup;
-  // seteditMessage: (payload: { key: string; value: string }) => void;
+  seteditMessage: (payload: { key: string; value: string }) => void;
 
   addMessage: MessageGroup;
   setaddMessage: (payload: { key: string; value: string }) => void;
 
   editMessageList: MessageGroup;
-  seteditMessagelist: (payload: { key: string; value: string }) => void;
 
+  setselctedMessage: (payload: { key: string; value: string }) => void;
   fetching: boolean;
   errorOnFetching: boolean;
 
@@ -146,7 +145,70 @@ export interface MessageConfigInterface {
 
   getMessageGroups: () => boolean;
   editMessageGroups: () => boolean;
-  deleteMessageGroups: () => boolean;
+  deleteMessageGroups: (payload: any) => void;
   addMessageGroups: () => boolean;
-  editMessageListGroups: () => boolean;
+  editMessageListGroups: (payload: any) => void;
+}
+
+export interface messageListbox {
+  id: string;
+}
+
+export interface MessageDetails {
+  id?: number | string;
+  title?: number | string;
+  description?: number | string;
+  is_status?: boolean;
+  severity_id?: number;
+  configuration_id?: string;
+  message?: string;
+  msg_grp_id?: string;
+  msg_grp_msgs_infos?: string;
+}
+
+export interface MessageGroupsDetails {
+  idList: messageListbox[];
+  setList: (id: { key: string; value: string }) => void;
+
+  MessagesList: messageListbox[];
+  MessagesListStatus: messageListbox[];
+
+  addMessageList: MessageDetails;
+  setaddMessage: (payload: { key: string; value: string }) => void;
+
+  editMessageList: MessageDetails;
+  seteditMessage: (payload: { key: string; value: string }) => void;
+
+  StatusList: MessageDetails;
+  SevorityList: MessageDetails[];
+  MessageArray: MessageDetails[];
+  fetching: boolean;
+  errorOnFetching: boolean;
+
+  statusLoading: boolean;
+  erronOnStatus: boolean;
+
+  severityLoading: boolean;
+  errorOnsevority: boolean;
+
+  deleteLoading: boolean;
+  errorOnDelete: boolean;
+
+  errorOnAddMesage: boolean;
+  addMessageLoading: boolean;
+
+  editMessageLoading: boolean;
+  errorOnEditMesage: boolean;
+
+  errorOnFilterMesage: boolean;
+  filterMessageLoading: boolean;
+
+  getMessageList: () => boolean;
+  getServerity: () => boolean;
+  deleteMessage: () => boolean;
+  addMessageTable: () => boolean;
+  editMessageTable: () => boolean;
+  filterMessage: () => boolean;
+  getStatus: (id: string, is_status: boolean) => void;
+  editDisplayMessageTable: (id: any) => void;
 }

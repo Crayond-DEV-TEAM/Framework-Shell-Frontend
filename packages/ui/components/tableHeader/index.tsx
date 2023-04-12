@@ -33,6 +33,7 @@ export interface TableHeaderProps {
   onApply?: () => void;
   handleOpen?: () => void;
   handleClose?: () => void;
+  handleChange?: any;
   openAddMessage?: (value: any) => void;
   language?: any;
   addedLangState?: any;
@@ -72,6 +73,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     addMessageTable = () => false,
     handleChipDelete = () => false,
     onApply = () => false,
+    handleChange = () => false,
     handleOpen = () => false,
     onChange = () => false,
     handleClose = () => false,
@@ -126,7 +128,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
         title={'Add New Message Group'}
         Bodycomponent={
           <AddMessageGroup
-            handleChange={handleStateChange}
+            handleChange={onChange}
             updateStatusReport={updateStatusReport}
             groupState={editTableMessage}
             status={status}
@@ -134,13 +136,13 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
             languageBox={languageBox}
             isEdit={isEdit}
             options={options}
-            language={addedLangState}
+            language={language}
           />
         }
         Footercomponent={
           <FooterComponent
             checked={editTableMessage?.isAddGroup}
-            SwitchChange={(e: any) => handleStateChange('isAddGroup', e.target.checked)}
+            SwitchChange={(e: any) => onChange('is_status', e.target.checked)}
             onSave={addMessageTable}
             onCancel={handleClose}
             loading={loading}

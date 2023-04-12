@@ -3,7 +3,7 @@ import { FooterComponent } from '@atoms/footerComponent';
 import { AddIcon } from '@atoms/icons';
 import { MessageCard } from '@atoms/messageCard';
 import { SearchField } from '@atoms/searchField';
-import { useAddGroup, useMessageConfiguration, useMessageGroup } from '@core/store';
+import { useMessageConfiguration, useMessageGroupDetails } from '@core/store';
 import SearchIcon from '@mui/icons-material/Search';
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography, IconButton } from '@mui/material';
@@ -19,12 +19,13 @@ export interface AddMessageProps {
   className?: string;
   sx?: SxProps<Theme>;
   onMessageTable?: (key: any, value: string) => void;
+  setList?: (key: any, value: string) => void;
   open?: boolean;
   payload?: any;
 }
 
 export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTMLElement>): JSX.Element => {
-  const { className = '', sx = {}, onMessageTable = () => false, payload = {}, ...rest } = props;
+  const { className = '', sx = {}, setList = {}, onMessageTable = () => false, payload = {}, ...rest } = props;
 
   // store Data
   const {
@@ -34,6 +35,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     addMessageGroups,
     addMessageLoading,
     setaddMessage,
+    setselctedMessage,
     deleteMessageGroups,
     seteditMessage,
     editMessageGroups,
@@ -41,100 +43,71 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     editMessageList,
   } = useMessageConfiguration();
 
-  // const { addMessage } = groupState;
+  // const { getMessageList } = useMessageGroupDetails();
+
   const [open, setOpen] = useState(false);
 
   const [values, setValues] = useState(false);
+
+  const [searchTerm, setSearchTerm] = useState('');
 
   const [selected, setSelected] = useState(0);
 
   const handleOpen = () => {
     setOpen(true);
-    // setIsEdit(false);
   };
-  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleEditClose = () => {
+    setValues(false);
+  };
+
+  const handleAddMsg = () => {
+    setOpen(false);
+    addMessageGroups();
+  };
 
   const filteredMessageGroup = messageGroup?.filter((x: any) =>
     x.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  const handleClose = () => {
-    // clearAddgroupState();
-    setOpen(false);
-  };
-
   const handleChange = (key: string, value: string) => {
     setaddMessage({ key, value });
-    // seteditMessage({ key, value });
   };
   const handleeditChange = (key: string, value: string) => {
     seteditMessage({ key, value });
   };
-  const handleEditClose = () => {
-    setValues(false);
-  };
-
-  // const isValidToCreate = () => {
-  //   let isValid = true;
-  //   const error = addMessage?.error;
-
-  //   // Checking addTitle
-  //   if (addMessage?.addTitle?.length === 0) {
-  //     isValid = false;
-  //     error.addTitle = 'Title is required';
-  //   } else {
-  //     error.addTitle = '';
-  //   }
-
-  //   // Checking addDescription
-  //   if (addMessage?.addDescription?.length === 0) {
-  //     isValid = false;
-  //     error.addDescription = 'Description is required';
-  //   } else {
-  //     error.addDescription = '';
-  //   }
-
-  //   updateErrorAddGroup(error);
-  //   return isValid;
-  // };
-
-  // const handleMessage = (key: any, value: any) => {
-  //   handleStateChange(key, value);
-  //   setSelected(value);
-  //   onMessageTable(key, value);
-  // };
-
-  // const addGroup = async () => {
-  //   if (isEdit && isValidToCreate()) {
-  //     await editMessage(addMessage, true);
-  //     clearAddgroupState();
-  //     setOpen(false);
-  //   } else if (isValidToCreate()) {
-  //     await addMessageGroup();
-  //     clearAddgroupState();
-  //     setOpen(false);
-  //   }
-  //   await getAllMessageGroup();
-  // };
-  // const onDelete = async (id) => {
-  //   deleteMessageGroups(id);
-  // };
-
-  const onEdit = async (id: any) => {
+  const onEdit = async (id: string) => {
     setValues(true);
     editMessageListGroups({ id: id });
   };
-  // const Edit = (id: any) => {
-  //   editMessageGroups();
-  // };
 
-  // useEffect(() => {
-  //   updateStateAddGroup();
-  // }, []);
+  const Edit = () => {
+    editMessageGroups();
+    setValues(false);
+  };
+
+  const handleMessage = (key: string, value: any) => {
+    setselctedMessage({ key, value });
+    setSelected(value);
+    onMessageTable(key, value);
+  };
 
   useEffect(() => {
     getMessageGroups();
   }, []);
+
+  // useEffect(() => {
+  //   if (filteredMessageGroup?.length !== 0) {
+  //     console.log(filteredMessageGroup, 'filteredMessageGroup');
+  //     setList({ key: filteredMessageGroup[0], value: '0' });
+  //     getMessageList();
+  //     console.log(filteredMessageGroup, 'filteredMessageGroup');
+  //   }
+  // }, [filteredMessageGroup?.[0]]);
 
   return (
     <Box
@@ -171,7 +144,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
                   index={index}
                   title={x.title}
                   isActive={x.is_status}
-                  // onMessaageClick={() => handleMessage(x, index)}
+                  onMessaageClick={() => handleMessage(x, index)}
                   select={selected}
                   onDelete={() => deleteMessageGroups({ id: x.id })}
                   onEdit={() => onEdit(x?.id)}
@@ -185,6 +158,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
           </Box>
         )}
       </Box>
+      {/* add message */}
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={open}
@@ -195,7 +169,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
           <FooterComponent
             checked={addMessage}
             SwitchChange={(e: any) => handleChange('is_status', e.target.checked)}
-            onSave={() => addMessageGroups()}
+            onSave={handleAddMsg}
             onCancel={handleClose}
             // onEdit={Edit}
             loading={addMessageLoading}
@@ -203,24 +177,24 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
         }
         dialogRootStyle={addMessageStyle.dialogSx}
       />
+      {/* edit message */}
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={values}
         title={'Edit message Group'}
         Bodycomponent={<ModalAddMessage handleChange={handleeditChange} groupState={editMessageList} />}
-        handleCloseDialog={handleClose}
+        handleCloseDialog={handleEditClose}
         Footercomponent={
           <FooterComponent
             checked={addMessage}
             SwitchChange={(e: any) => handleeditChange('is_status', e.target.checked)}
-            onSave={() => editMessageGroups()}
+            onSave={Edit}
             onCancel={handleEditClose}
             loading={addMessageLoading}
           />
         }
         dialogRootStyle={addMessageStyle.dialogSx}
       />
-      ;
     </Box>
   );
 });

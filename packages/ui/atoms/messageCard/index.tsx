@@ -5,10 +5,9 @@ import { Box, Typography } from '@mui/material';
 import CircleIcon from '@mui/icons-material/Circle';
 import { forwardRef, useState, useRef } from 'react';
 import { useHover } from 'ahooks';
-import { Button } from '..';
+import { Button, DeleteDailog } from '..';
 
 import { messageCardStyle } from './style';
-import { DeleteDailog } from '../deletedailog';
 
 export interface MessageCardProps {
   className?: string;
@@ -60,6 +59,11 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const deleteFunc = () => {
+    onDelete();
+    setSelected(false);
   };
 
   return (
@@ -139,7 +143,7 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
                   </Button>
                 </Box>
                 <Box sx={messageCardStyle.savebtnBg}>
-                  <Button buttonStyle={messageCardStyle.savebtnText} onClick={onDelete}>
+                  <Button buttonStyle={messageCardStyle.savebtnText} onClick={deleteFunc}>
                     Delete
                   </Button>
                 </Box>

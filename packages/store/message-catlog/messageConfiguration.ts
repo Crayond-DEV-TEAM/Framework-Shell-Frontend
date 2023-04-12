@@ -19,7 +19,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
   addMessageError: false,
 
   editMessageList: giveMeMessageGroupInitialState(),
-  // deleteMessage: [],
+  deleteMessage: [],
   deleteMessageLoading: false,
   deleteMessageError: false,
 
@@ -27,7 +27,10 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
     set((state) => ({ addMessage: { ...state.addMessage, [payload.key]: payload.value } }));
   },
 
-  seteditMessageList: (payload: { key: string; value: string }) => {
+  seteditMessage: (payload: { key: string; value: string }) => {
+    set((state) => ({ editMessageList: { ...state.editMessageList, [payload.key]: payload.value } }));
+  },
+  setselctedMessage: (payload: { key: string; value: string }) => {
     set((state) => ({ editMessageList: { ...state.editMessageList, [payload.key]: payload.value } }));
   },
 
@@ -107,7 +110,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
     set({ editMessageLoading: true, errorOnFetching: false });
     httpRequest('post', `${envConfig.api_url}/message_groups/display_all_message_from_grp_by_id `, payload, true)
       .then((response) => {
-        set({ editMessageList: response.data.data });
+        set({ editMessageList: response.data.data.message_group_data });
       })
       .catch((err) => {
         set({ errorOnFetching: true });

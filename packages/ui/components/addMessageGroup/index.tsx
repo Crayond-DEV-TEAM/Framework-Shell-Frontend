@@ -5,7 +5,7 @@ import { Grid, SxProps, Theme } from '@mui/material';
 import { Box, Typography, Divider } from '@mui/material';
 import { forwardRef, useState, useEffect } from 'react';
 import { addMessageGroupStyle } from './style';
-
+import { useMessageGroupDetails, useLanguageConfiguration } from '@core/store';
 export interface AddMessageGroupProps {
   className?: string;
   handleChange?: (key: string, value: string) => void;
@@ -35,8 +35,14 @@ export const AddMessageGroup = forwardRef((props: AddMessageGroupProps, ref: Rea
     groupState,
     ...rest
   } = props;
+
+  const { MessagesList } = useMessageGroupDetails();
+  const { addLanguage } = useLanguageConfiguration();
+
   const [addTableData, setaddTableData] = useState<any>();
 
+  console.log(language, 'languagelanguagelanguagelanguage');
+  console.log(groupState, 'groupStategroupStategroupStategroupState');
   useEffect(() => {
     setaddTableData(isEdit ? groupState?.msg_grp_msg_data : language);
   }, [groupState, groupState?.severtiy]);
@@ -83,7 +89,7 @@ export const AddMessageGroup = forwardRef((props: AddMessageGroupProps, ref: Rea
                 placeholder="Add description"
                 value={groupState?.description}
                 required
-                id="Add description"
+                id="description"
                 // textFieldStyle={{ height: '112px' }}
                 rows={5}
                 rowsMax={10}
@@ -98,16 +104,12 @@ export const AddMessageGroup = forwardRef((props: AddMessageGroupProps, ref: Rea
             </Box>
             <Box sx={addMessageGroupStyle.inputGroupSx}>
               <Label sx={addMessageGroupStyle.labelSx}>Severity</Label>
-              <ToggleButtons onChange={(e: any) => updateStatusReport(e)} value={status} options={options} />
+              <ToggleButtons
+                onChange={(e: any) => handleChange('severity_id', e)}
+                value={groupState?.severity_id}
+                options={options}
+              />
             </Box>
-            {/* <Box sx={addMessageGroupStyle.inputGroupSx}>
-            <Label sx={addMessageGroupStyle.labelSx} htmlFor="username">
-              Message Group
-            </Label>
-            <Box sx={{ height: '40px', pt: 1 }}>
-              <DropDown />
-            </Box>
-          </Box> */}
           </Box>
         </Grid>
         <Grid>
@@ -121,18 +123,16 @@ export const AddMessageGroup = forwardRef((props: AddMessageGroupProps, ref: Rea
                 Please provide message titles in respective language
               </Typography>
               <Box sx={addMessageGroupStyle.totalLanguagesSx}>
-                {addTableData &&
-                  addTableData?.map((val: any, i: number) => {
+                {language &&
+                  language?.map((val: any, i: number) => {
                     return (
                       <Box key={i}>
                         <LanguageCard
-                          title={isEdit ? val?.configuration?.language?.language_name : val?.language?.language_name}
-                          value={isEdit ? groupState?.msg_grp_msg_data[i]?.message : ''}
-                          onChange={onChangeMessage}
+                          title={val?.language_name}
+                          value={groupState}
+                          onChange={handleChange}
                           index={i}
-                          placeholder={
-                            isEdit ? val?.configuration?.language?.language_name : val?.language?.language_name
-                          }
+                          placeholder={val?.language_name}
                         />
                       </Box>
                     );

@@ -15,7 +15,7 @@ export interface LanguageCardProps {
   placeholder?: any;
   index?: number;
   language?: any;
-  onChange?: (key: any, value: any, state: any) => void;
+  onChange?: (key: any, value: any) => void;
   sx?: SxProps<Theme>;
 }
 
@@ -25,7 +25,7 @@ export const LanguageCard = (props: LanguageCardProps): JSX.Element => {
     sx = {},
     title = '',
     language,
-    value,
+    value = {},
     index = '',
     placeholder = '',
     onChange = () => false,
@@ -52,10 +52,10 @@ export const LanguageCard = (props: LanguageCardProps): JSX.Element => {
         <Box sx={{ pt: 1 }}>
           <Input
             size="small"
-            value={languageState}
+            value={value?.message}
             placeholder={placeholder}
             textFieldStyle={languageCardStyle.inputSx}
-            onChange={(event) => onChange(event.target.value, index, SetLanguageState)}
+            onChange={(e: any) => onChange('message', e.target.value)}
           />
         </Box>
       </Box>

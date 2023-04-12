@@ -5,12 +5,12 @@ import { AddMessage, TableHeader } from '..';
 import { forwardRef, useEffect } from 'react';
 import { useState } from 'react';
 import { messageTableStyle } from './style';
-import { useAddGroup, useLanguage, useMessageGroup } from '@core/store';
+import { useLanguageConfiguration, useLanguage, useMessageGroupDetails } from '@core/store';
 import { CommonTable } from 'crayond-components-library-1';
 import isEqual from 'react-fast-compare';
 import { DeleteIcon, EditIcon } from '@atoms/icons';
-import { DeleteDailog } from '@atoms/deletedailog';
 import { Button } from '@atoms/button';
+import { DeleteDailog } from '@atoms/deletedailog';
 
 export interface MessageTableProps {
   className?: string;
@@ -22,138 +22,50 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
 
   // Store Data
   const {
-    groupState,
+    getMessageList,
+    MessagesList,
     getStatus,
-    tableMessageData,
-    handleStateChange,
-    filterTableContent,
-    clearfilter,
-    getTable,
+    StatusList,
+    getServerity,
+    SevorityList,
+    deleteLoading,
+    deleteMessage,
+    errorOnDelete,
+    setaddMessage,
+    seteditMessage,
+    setList,
+    idList,
+    addMessageList,
+    editMessageList,
+    editMessageTable,
     addMessageTable,
-    clearAddMessageState,
-    handleGroupChange,
-    tableEditMessage,
-    handleChipDelete,
-    updateStatusReport,
-    getAllTableGroup,
-    getSeverityDetails,
-    updateErrorAddGroup,
-    updateStateAddGroup,
-    deleteTableMessage,
-    loading,
-  } = useMessageGroup(
-    (state: any) => ({
-      groupState: state.groupState,
-      tableMessageData: state.tableMessageData,
-      getSeverityDetails: state.getSeverityDetails,
-      handleStateChange: state.handleStateChange,
-      updateStatusReport: state.updateStatusReport,
-      getStatus: state.getStatus,
-      getTable: state.getTable,
-      clearfilter: state.clearfilter,
-      clearAddMessageState: state.clearAddMessageState,
-      tableEditMessage: state.tableEditMessage,
-      deleteTableMessage: state.deleteTableMessage,
-      addMessageTable: state.addMessageTable,
-      updateStateAddGroup: state.updateStateAddGroup,
-      updateErrorAddGroup: state.updateErrorAddGroup,
-      filterTableContent: state.filterTableContent,
-      getAllTableGroup: state.getAllTableGroup,
-      handleChipDelete: state.handleChipDelete,
-      handleGroupChange: state.handleGroupChange,
-      loading: state.loading,
-    }),
-    (prev: any, curr: any) => {
-      const data = isEqual(prev, curr);
-      return false;
-    },
-  );
-
-  const { status, editTableMessage, severtiy, language, setstatus } = groupState;
-
-  const { getAllMessageGroup, messageId, messageName } = useAddGroup(
-    (state) => ({
-      messageId: state.messageId,
-      messageName: state.messageName,
-      clearAddgroupState: state.clearAddgroupState,
-      getAllMessageGroup: state.getAllMessageGroup,
-    }),
-    (prev, curr) => {
-      const data = isEqual(prev, curr);
-      return false;
-    },
-  );
+    editDisplayMessageTable,
+    MessagesListStatus,
+  } = useMessageGroupDetails();
 
   const { addedLangState, addedlanguagedisplay } = useLanguage((state) => ({
     addedLangState: state.addedLangState,
     addedlanguagedisplay: state.addedlanguagedisplay,
   }));
-
-  const { filterContent } = groupState;
+  const { languages, getSavedLanguage } = useLanguageConfiguration();
 
   // General Hooks
-  const [switchList, setSwitchList] = useState(setstatus);
   const [open, setOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [messageGroupId, setMessageGroupId] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [tableName, setTableName] = useState('');
-  const [message, setMessage] = useState([]);
   const [delid, setDelid] = useState('');
-  const [messageIds, setmessageIds] = useState('');
-  const filteredMessageGroup = tableMessageData?.filter((x: any) =>
+  const filteredMessageGroup = MessagesList.filter((x: any) =>
     x.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+  // const filteredMessageGroupStatus = MessagesList.filter((x: any) => Boolean(x.status)).map(({ id }) => id);
+  const [switchList, setSwitchList] = useState<any>([]);
+  console.log(MessagesList, 'filteredMessageGroupStatus');
 
-  const isValidToCreate = () => {
-    let isValid = true;
-    const error = editTableMessage?.error;
-
-    // Checking addTitle
-    if (editTableMessage?.title?.length === 0) {
-      isValid = false;
-      error.title = 'Title is required';
-    } else {
-      error.title = '';
-    }
-
-    // Checking addDescription
-    if (editTableMessage?.description?.length === 0) {
-      isValid = false;
-      error.description = 'Description is required';
-    } else {
-      error.description = '';
-    }
-
-    updateErrorAddGroup(error);
-    return isValid;
-  };
-
-  const changehandle = (key: any, value: any) => {
-    handleStateChange(key, value);
-  };
-
-  const handleSwitch = (id: string, data: any, e: any) => {
-    if (!switchList.includes(id)) {
-      setSwitchList([...switchList, id]);
-    } else {
-      const index = switchList.indexOf(id);
-      if (index > -1) {
-        switchList.splice(index, 1);
-        setSwitchList([...switchList]);
-      }
-    }
-    if (e.target.checked) {
-      console.log(id);
-
-      getStatus({ id, status: true });
-    } else {
-      console.log(id);
-
-      getStatus({ id, status: false });
-    }
-    console.log(switchList);
-  };
+  useEffect(() => {
+    setSwitchList(MessagesListStatus);
+    console.log('f useEff', switchList);
+  }, [MessagesListStatus]);
 
   const Header = [
     {
@@ -161,7 +73,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       align: 'left',
       disablePadding: false,
       label: 'Reference ID',
-      isSortable: false,
+      isSortable: true,
     },
     {
       id: 'title',
@@ -171,7 +83,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       isSortable: true,
     },
     {
-      id: 'description',
+      id: 'Description',
       align: 'left',
       disablePadding: false,
       label: 'Description',
@@ -238,125 +150,76 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       name: 'action',
       variant: 'EDIT_WITH_DELETE',
       editHandel: async (id: any) => {
-        const res = await getTable(id);
         setOpen(true);
         setIsEdit(true);
-        // updateStatusReport(status);
+        editDisplayMessageTable(id);
       },
       deleteHandel: (id: any) => {
         setDelid(id);
-
         handlemodalOpen();
       },
       editIcon: <EditIcon />,
       deleteIcon: <DeleteIcon />,
     },
   ];
-
-  const addMessageTableFun = async () => {
-    if (isEdit && isValidToCreate()) {
-      editTableMessage?.msg_grp_msg_data?.forEach((e: any, i: any) => (e.message = message[i]));
-      await tableEditMessage(editTableMessage);
-      setOpen(false);
-      clearAddMessageState();
-    } else if (isValidToCreate()) {
-      const languagePayload = addedLangState?.map((e: any, i: any) => {
-        return {
-          configuration_id: e?.id,
-          message: message[i],
-        };
-      });
-      await addMessageTable(languagePayload, messageGroupId);
-      setOpen(false);
-      clearAddMessageState();
-    }
-    await getAllTableGroup(messageGroupId);
-    await addedlanguagedisplay({});
+  const handleDelFunc = () => {
+    deleteMessage();
+  };
+  const handleChange = (key: any, value: string) => {
+    setList({ key, value });
+    setTableName(key.title);
+    getMessageList();
   };
 
-  const onMessageTable = async (key: any, value: string) => {
-    const tableResponse = await getAllTableGroup(key?.id);
-    setMessageGroupId(key?.id);
-    setTableName(key?.title);
+  const handleAddChange = (key: string, value: string) => {
+    setaddMessage({ key, value });
+    // addMessageList?.message;
+
+    // debugger;
+
+    // if (key === 'message') {
+    //   const newMessageObject = { ...addMessageList?.message };
+
+    //   newMessageObject[uniqueId] = value;
+
+    //   setaddMessage({ key, value: newMessageObject });
+    // } else {
+    //   setaddMessage({ key, value });
+    // }
   };
 
-  const onApply = async () => {
-    const FilterArray: any = [];
-    if (Array.isArray(filterContent?.[0]?.children) && filterContent?.[0]?.children?.length > 0) {
-      filterContent?.[0]?.children?.filter((val: any) => val?.value === true && FilterArray.push(val?.id));
-    }
-    let created = {
-      from_date: '',
-      end_date: '',
-    };
-    let updated = {
-      from_date: '',
-      end_date: '',
-    };
-    if (Array.isArray(filterContent?.[2]?.children) && filterContent?.[2]?.children?.length > 0) {
-      if (
-        filterContent?.[2]?.children?.filter((val: any) => val?.label === 'Created On' && val?.value === true)?.length >
-        0
-      ) {
-        created = {
-          from_date: filterContent?.[2]?.children?.[2]?.value ?? '',
-          end_date: filterContent?.[2]?.children?.[3]?.value ?? '',
-        };
-      }
-      if (
-        filterContent?.[2]?.children?.filter((val: any) => val?.label === 'Modified On' && val?.value === true)
-          ?.length > 0
-      ) {
-        updated = {
-          from_date: filterContent?.[2]?.children?.[2]?.value ?? '',
-          end_date: filterContent?.[2]?.children?.[3]?.value ?? '',
-        };
+  const handleSwitch = (id: string, data: any, e: any) => {
+    if (!switchList.includes(id)) {
+      setSwitchList([...switchList, id]);
+    } else {
+      const index = switchList.indexOf(id);
+      if (index > -1) {
+        switchList.splice(index, 1);
+        setSwitchList([...switchList]);
       }
     }
-    await filterTableContent(FilterArray, created, updated, messageGroupId);
-    clearfilter();
+    if (e.target.checked) {
+      console.log(id);
+      getStatus(id, true);
+    } else {
+      console.log(id);
+      getStatus(id, false);
+    }
   };
 
-  const initialData = async () => {
-    const response: any = await getAllMessageGroup();
-    if (messageId) {
-      await getAllTableGroup(messageId);
-      setMessageGroupId(messageId);
-    }
-    if (messageName) {
-      setTableName(messageName);
-    }
-    await getSeverityDetails();
+  const handleeditChange = (key: string, value: string) => {
+    seteditMessage({ key, value });
   };
 
   const handleOpen = async () => {
-    await addedlanguagedisplay({});
-    clearAddMessageState();
     setOpen(true);
+    getSavedLanguage();
   };
 
   const handleClose = () => {
     setOpen(false);
-    clearAddMessageState();
   };
 
-  const onChangeMessage = (key: any, i: any, SetLanguageState: any) => {
-    SetLanguageState(key);
-    const a: any = [...message];
-    a[i] = key;
-    setMessage(a);
-  };
-
-  const onDelete = () => {
-    const msgId = tableMessageData
-      ?.filter(({ msg_grp_msgs_Total }: any) => msg_grp_msgs_Total)
-      .map(({ id }: any) => id);
-    const messageId = msgId.map((id: any) => ({ id }));
-    // setmessageIds(messageId);
-    deleteTableMessage({ delid, messageId });
-    getAllTableGroup(messageGroupId);
-  };
-  console.log(delid, 'delid');
   const [selected, setSelected] = useState(false);
 
   const handlemodalOpen = () => {
@@ -366,24 +229,19 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     setSelected(false);
   };
 
-  useEffect(() => {
-    initialData();
-    updateStateAddGroup();
-    if (addedLangState) {
-      addedlanguagedisplay({});
-    }
-  }, [addedLangState]);
+  const handleSave = () => {
+    addMessageTable();
+    setOpen(false);
+  };
+
+  const handleEdit = () => {
+    editMessageTable();
+    setOpen(false);
+  };
 
   useEffect(() => {
-    setTableName(messageName);
-    setMessageGroupId(messageId);
-  }, [messageId]);
-
-  useEffect(() => {
-    if (tableMessageData) {
-      setSwitchList(setstatus);
-    }
-  }, [tableMessageData]);
+    getServerity();
+  }, []);
 
   return (
     <Box
@@ -400,7 +258,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       <Grid container display="flex" sx={messageTableStyle.totalTableSx} spacing={3}>
         <Grid item xs={12} sm={4} md={2.25}>
           <Box sx={messageTableStyle.addSx}>
-            <AddMessage onMessageTable={onMessageTable} />
+            <AddMessage onMessageTable={handleChange} setList={setList} />
           </Box>
         </Grid>
         <Grid item xs={12} sm={8} md={9.75}>
@@ -424,7 +282,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                 fontSize: '14px',
                 fontWeight: '500',
                 color: '#5A5A5A',
-                // bgColor: '#fff',
                 borderBottom: '0px',
                 padding: '8px',
               }}
@@ -441,28 +298,19 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                 variant: 'CUSTOM',
                 component: (
                   <TableHeader
-                    filterContent={filterContent}
-                    onChange={handleGroupChange}
-                    handleChipDelete={handleChipDelete}
-                    handleStateChange={changehandle}
-                    options={severtiy}
-                    status={status}
-                    loading={loading}
+                    onChange={isEdit ? handleeditChange : handleAddChange}
+                    options={SevorityList}
+                    status={StatusList}
                     tableHeader={tableName}
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
-                    onChangeMessage={onChangeMessage}
                     open={open}
-                    isEdit={isEdit}
                     handleOpen={handleOpen}
                     handleClose={handleClose}
                     setOpen={setOpen}
-                    language={language}
-                    editTableMessage={editTableMessage}
-                    addMessageTable={addMessageTableFun}
-                    updateStatusReport={updateStatusReport}
-                    onApply={onApply}
-                    addedLangState={addedLangState}
+                    language={languages}
+                    editTableMessage={isEdit ? editMessageList : addMessageList}
+                    addMessageTable={isEdit ? handleEdit : handleSave}
                   />
                 ),
               }}
@@ -483,7 +331,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                   </Button>
                 </Box>
                 <Box sx={messageTableStyle.savebtnBg}>
-                  <Button buttonStyle={messageTableStyle.savebtnText} onClick={onDelete}>
+                  <Button buttonStyle={messageTableStyle.savebtnText} onClick={handleDelFunc}>
                     Delete
                   </Button>
                 </Box>

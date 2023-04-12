@@ -5,6 +5,7 @@ import { dialogContent_style } from './style';
 import { Input } from '@atoms/input';
 import { CheckBox } from '@atoms/checkBox';
 import { DropDown } from '@atoms/dropDown';
+import { Label } from '@atoms/label';
 
 export interface DialogContentProps {
   data?: any;
@@ -22,6 +23,9 @@ export function DialogContent(props: DialogContentProps): JSX.Element {
       <Grid item xs={6}>
         <Box sx={dialogContent_style.leftContent}>
           <Box sx={dialogContent_style.field}>
+            <Label sx={dialogContent_style.labelSx} htmlFor="username">
+              Alert Rule Code
+            </Label>
             <Input
               header="Alert Rule Code"
               placeholder="Add Alert Rule Code"
@@ -30,6 +34,9 @@ export function DialogContent(props: DialogContentProps): JSX.Element {
             />
           </Box>
           <Box sx={dialogContent_style.field}>
+            <Label sx={dialogContent_style.labelSx} htmlFor="username">
+              Reference ID
+            </Label>
             <Input
               header="Reference ID"
               placeholder="Add Reference ID"
@@ -38,6 +45,9 @@ export function DialogContent(props: DialogContentProps): JSX.Element {
             />
           </Box>
           <Box sx={dialogContent_style.field}>
+            <Label sx={dialogContent_style.labelSx} htmlFor="username">
+              Hashtags
+            </Label>
             <Input
               placeholder="select (or) add hashtag"
               header="Hashtags"
@@ -52,6 +62,9 @@ export function DialogContent(props: DialogContentProps): JSX.Element {
             /> */}
           </Box>
           <Box sx={dialogContent_style.field}>
+            <Label sx={dialogContent_style.labelSx} htmlFor="username">
+              Add Description
+            </Label>
             <Input
               isMulti
               rowMax={5}

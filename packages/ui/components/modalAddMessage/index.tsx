@@ -27,7 +27,7 @@ export const ModalAddMessage = forwardRef((props: ModalAddMessageProps, ref: Rea
       ref={ref}
       {...rest}
     >
-      <Box sx={{ pt: 2 }}>
+      <Box sx={{ p: 3 }}>
         <Box sx={modalAddMessageStyle.inputGroupSx}>
           <Label sx={modalAddMessageStyle.labelSx} htmlFor="addTitle" isRequired>
             Title

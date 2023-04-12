@@ -369,16 +369,16 @@ export function Reports(props: ReportsProps): JSX.Element {
                 bgColor: '#EAEAEA',
                 borderBottom: '0px',
               }}
-              rowOptions={{
-                rowOddBgColor: '#fff',
-                rowEvenBgColor: '#F7F7F7',
-              }}
               cellOptions={{
                 fontSize: '14px',
                 fontWeight: '500',
                 color: '#5A5A5A',
-                bgColor: '#fff',
+                // bgColor: '#fff',
                 borderBottom: '0px',
+              }}
+              rowOptions={{
+                rowOddBgColor: '#fff',
+                rowEvenBgColor: '#F7F7F7',
               }}
               tableMinWidth={'1800px'}
               tableMinHeight={'400px'}

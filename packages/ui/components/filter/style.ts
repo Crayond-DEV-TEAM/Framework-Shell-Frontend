@@ -51,17 +51,14 @@ export const filterStyle: FilterStyleProps = {
   CardSx: {
     display: 'flex',
     alignItems: 'center',
-    py: 1,
     justifyContent: 'space-between',
     cursor: 'pointer',
+    py: 2,
   },
   totalCardSx: {
     borderBottom: '1px solid #E0E0E0',
-    pb: 1,
   },
-  contentBoxSx: {
-    px: 2.5,
-  },
+  contentBoxSx: {},
   footerSx: {
     position: 'absolute',
     bottom: '0px',
@@ -101,7 +98,14 @@ export const filterStyle: FilterStyleProps = {
       backgroundColor: '#EAEAEA',
     },
   },
-
+  totalSx: {
+    // pt: 2,
+  },
+  drawerBody: {
+    pt: 0,
+    pb: 2,
+    px: 2,
+  },
   checkBoxSx: {
     borderRadius: '4px',
     width: 18,
@@ -150,20 +154,19 @@ export const filterStyle: FilterStyleProps = {
     display: 'flex',
     justifyContent: 'start',
     alignItems: 'center',
-    px: 2,
-    pb: 1,
+    pb: 1.78,
   },
   clearSX: {
     display: 'flex',
     alignItems: 'center',
   },
   footerClearSx: {
-    width: '84px',
+    width: '80px',
     boxShadow: 'none',
     backgroundColor: '#FDDFE1',
     color: '#F44F5A',
     ml: 2.5,
-    p: 1,
+    p: '6px',
     fontSize: '12px',
     '&:hover': {
       boxShadow: 'none',
@@ -184,10 +187,13 @@ export const filterStyle: FilterStyleProps = {
   },
   dateSx: {
     // mt: 1,
-    borderTop: '1px solid #E0E0E0',
+    // borderTop: '1px solid #E0E0E0',
   },
   alternateButtonPosition: {
     position: 'relative',
     left: '100',
+  },
+  searchSx: {
+    pb: 1,
   },
 };

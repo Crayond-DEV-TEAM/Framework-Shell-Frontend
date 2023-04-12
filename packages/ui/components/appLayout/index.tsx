@@ -5,16 +5,19 @@ import type { BoxProps, SxProps, Theme } from '@mui/material';
 import { Box } from '@mui/material';
 
 import { appLayoutStyle } from './style';
+import { useEffect, useState } from 'react';
+import { useMenu } from '@core/store';
 
 export interface AppLayoutProps {
   className?: string;
+  title?: string;
   sx?: SxProps<Theme>;
   childrenWrapperProps?: BoxProps;
   children: JSX.Element;
 }
 
 export function AppLayout(props: AppLayoutProps): JSX.Element {
-  const { className = '', children, childrenWrapperProps = {}, sx = {}, ...rest } = props;
+  const { className = '', title = '', children, childrenWrapperProps = {}, sx = {}, ...rest } = props;
 
   const user = useUser((state) => state.user);
 
@@ -29,7 +32,7 @@ export function AppLayout(props: AppLayoutProps): JSX.Element {
       className={`${className}`}
       {...rest}
     >
-      <AppBar user={user} />
+      <AppBar user={user} title={title} />
       <SideBar />
       {/* Children */}
       <Box

@@ -28,6 +28,76 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   addMessageLoading: false,
   editMessageLoading: false,
   filterMessageLoading: false,
+  FilterList: [],
+  filterLoading: false,
+  errorOnFilter: false,
+  filterContent: [
+    {
+      name: 'Severity',
+      children: [
+        {
+          component: 'checkbox',
+          label: 'High',
+          id: 1,
+          value: false,
+        },
+        {
+          component: 'checkbox',
+          label: 'Low',
+          id: 2,
+          value: false,
+        },
+        {
+          component: 'checkbox',
+          label: 'Medium',
+          id: 3,
+          value: false,
+        },
+      ],
+    },
+    {
+      name: 'Status',
+      children: [
+        {
+          component: 'checkbox',
+          label: 'Active',
+          id: 1,
+          value: true,
+        },
+        {
+          component: 'checkbox',
+          label: 'Inactive',
+          id: 2,
+          value: true,
+        },
+      ],
+    },
+    {
+      name: 'Date',
+      children: [
+        {
+          component: 'dateCheckbox',
+          label: 'Created On',
+          value: false,
+        },
+        {
+          component: 'dateCheckbox',
+          label: 'Modified On',
+          value: false,
+        },
+        {
+          component: 'dateInput',
+          label: 'Select Date From',
+          value: '23rd Jan, 22',
+        },
+        {
+          component: 'dateInput',
+          label: 'Select Date To',
+          value: '25th Jan, 22',
+        },
+      ],
+    },
+  ],
 
   setaddMessage: (payload: { key: string; value: string }) => {
     set((state) => {
@@ -40,6 +110,9 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   setList: (id: { key: string; value: string }) => {
     set((state) => ({ idList: id.key.id }));
   },
+  setfilter: (payload: { key: string; value: string }) => {
+    set((state) => ({ FilterList: { ...state.FilterList, [payload.key]: payload.value } }));
+  },
 
   getMessageList: () => {
     const { idList } = get();
@@ -49,7 +122,6 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     set({ fetching: true, errorOnFetching: false });
     httpRequest('post', `${envConfig.api_url}/message_groups/display_all_msg_in_grp`, payload, true)
       .then((response) => {
-        console.log(response.data.data.all_msg_by_grp.msg_grp_msgs_infos, '.............');
         set({ MessageArray: response.data });
         const dataTable: any = [];
         const dataTableStatus: any = [];
@@ -87,7 +159,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
       })
       .catch((err) => {
         set({ errorOnFetching: true });
-        enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
+        // enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
       })
       .finally(() => {
         set({ fetching: false });
@@ -129,7 +201,6 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
           });
         }
         set({ SevorityList: severtiyCopy });
-        // console.log()
       })
       .catch((err) => {
         set({ erronOnStatus: true });
@@ -142,7 +213,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   },
 
   deleteMessage: () => {
-    const { idList, MessageArray } = get();
+    const { idList } = get();
     const { MessagesList } = get();
     const msgId = MessagesList?.filter(({ msg_grp_msgs_Total }: any) => msg_grp_msgs_Total).map(({ id }: any) => id);
     const messageId = msgId.map((id: any) => ({ id }));
@@ -216,13 +287,12 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   },
   editMessageTable: () => {
     const { editMessageList, idList } = get();
-
     const payload = {
       title: editMessageList.title,
       description: editMessageList.description,
       is_status: editMessageList.is_status,
       severity_id: 0,
-      msg_grp_id: 'string',
+      msg_grp_id: idList,
       msg_grp_msg_info_id: 'string',
       msg_grp_msg_data: [
         {
@@ -247,24 +317,26 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     return false;
   },
 
-  filterMessage: () => {
+  filterMessage: (serverityFilter: string | number, createdOn: any, updateOn: any) => {
+    const { idList } = get();
+
     const payload = {
-      msg_grp_id: '0aa3eba1-9524-431c-a484-74aaeb21aa83',
+      msg_grp_id: idList,
       is_status: true,
-      severity_id: [1],
-      created: {
-        from_date: 'Mon,10 Apr 2023 04:38:14 GMT',
-        end_date: 'Mon,10 Apr 2023 04:38:14 GMT',
+      severity_id: serverityFilter ?? [],
+      created: createdOn ?? {
+        from_date: '',
+        end_date: '',
       },
-      updated: {
-        from_date: 'Mon,10 Apr 2023 04:38:14 GMT',
-        end_date: 'Mon,10 Apr 2023 04:38:14 GMT3',
+      updated: updateOn ?? {
+        from_date: '',
+        end_date: '',
       },
     };
     set({ filterMessageLoading: true, errorOnFilterMesage: false });
     httpRequest('post', `${envConfig.api_url}/messages/filter_message`, payload, true)
       .then((response) => {
-        enqueueSnackbar(`Deleted message Successfully !`, { variant: 'success' });
+        enqueueSnackbar(`Filtered Successfully !`, { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFilterMesage: true });
@@ -274,5 +346,57 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
         set({ filterMessageLoading: false });
       });
     return false;
+  },
+
+  onApply: () => {
+    const { filterContent, filterMessage } = get();
+    const FilterArray: any = [];
+    if (Array.isArray(filterContent?.[0]?.children) && filterContent?.[0]?.children?.length > 0) {
+      filterContent?.[0]?.children?.filter((val: any) => val?.value === true && FilterArray.push(val?.id));
+    }
+    let created = {
+      from_date: '',
+      end_date: '',
+    };
+    let updated = {
+      from_date: '',
+      end_date: '',
+    };
+    if (Array.isArray(filterContent?.[2]?.children) && filterContent?.[2]?.children?.length > 0) {
+      if (
+        filterContent?.[2]?.children?.filter((val: any) => val?.label === 'Created On' && val?.value === true)?.length >
+        0
+      ) {
+        created = {
+          from_date: filterContent?.[2]?.children?.[2]?.value ?? '',
+          end_date: filterContent?.[2]?.children?.[3]?.value ?? '',
+        };
+      }
+      if (
+        filterContent?.[2]?.children?.filter((val: any) => val?.label === 'Modified On' && val?.value === true)
+          ?.length > 0
+      ) {
+        updated = {
+          from_date: filterContent?.[2]?.children?.[2]?.value ?? '',
+          end_date: filterContent?.[2]?.children?.[3]?.value ?? '',
+        };
+      }
+    }
+    filterMessage(FilterArray, created, updated);
+    // clearfilter();
+  },
+
+  clearAll: () => {
+    // const { addMessageList, editMessageList } = get();
+    set({
+      addMessageList: giveMestatusGroupState(),
+      editMessageList: giveMestatusGroupState(),
+    });
+  },
+
+  clearfilter: () => {
+    set({
+      FilterList: [],
+    });
   },
 }));

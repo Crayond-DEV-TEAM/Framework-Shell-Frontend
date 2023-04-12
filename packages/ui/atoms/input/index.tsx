@@ -13,10 +13,12 @@ export type InputProps = StandardTextFieldProps & {
   isMulti?: boolean;
   rowsMax?: any;
   rows?: number;
+  rowMax?: number;
   rowMin?: number;
   value?: string;
   endAdornment?: any;
   startAdornment?: any;
+  header?: string;
   textFieldStyle?: object | any;
   variant?: 'filled' | 'outlined' | 'standard';
 };
@@ -30,6 +32,7 @@ export function Input(props: InputProps): JSX.Element {
     isError = false,
     isMulti = false,
     rowsMax = 5,
+    rowMax = 5,
     rowMin = 5,
     placeholder = '',
     size = 'small',
@@ -42,6 +45,7 @@ export function Input(props: InputProps): JSX.Element {
     variant = 'outlined',
     textFieldStyle = {},
     className = '',
+    header = '',
     ...rest
   } = props;
 

@@ -43,6 +43,15 @@ export const messageTableStyle: MessageTableStyleProps = {
       boxShadow: 'none',
     },
   },
+  dialogSx: {
+    width: '904px',
+    height: '604px',
+  },
+  contentSx: {
+    '&.MuiDialogContent-root': {
+      paddingBottom: '0px',
+    },
+  },
   savebtnText: {
     textTransform: 'capitalize',
     color: '#FFFFFF',

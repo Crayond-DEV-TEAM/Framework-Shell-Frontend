@@ -1,39 +1,48 @@
 import { Button } from '@atoms/button';
-import type { SxProps, Theme } from '@mui/material';
-import { Box, Typography } from '@mui/material';
-import { forwardRef, useState } from 'react';
-import SearchIcon from '@mui/icons-material/Search';
-import { AddMessageGroup, Filter } from '..';
-import { tableHeaderStyle } from './style';
-import { SearchField } from '@atoms/searchField';
 import { DialogDrawer } from '@atoms/dialogDrawer';
 import { FooterComponent } from '@atoms/footerComponent';
 import { Input } from '@atoms/input';
+import SearchIcon from '@mui/icons-material/Search';
+import { SxProps, Theme, Popover } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import { forwardRef } from 'react';
+import { AddMessageGroup, Filter } from '..';
+import DownloadIcon from '@core/ui/assets/downloadIcon';
+import XlsIcon from '@core/ui/assets/xlsIcon';
+import { tableHeaderStyle } from './style';
 
 export interface TableHeaderProps {
   className?: string;
   tableHeader?: string;
   buttonName?: string;
+  placeholder?: string;
   isFilterRequired?: boolean;
   isSearchRequired?: boolean;
   isBtnRequired?: boolean;
   filterContent?: any;
   editTableMessage?: any;
   status?: any;
+  checked?: any;
   isEdit?: boolean;
   loading?: boolean;
   setOpen?: any;
   searchTerm?: any;
   setSearchTerm?: any;
-  open?: boolean | any;
+  openPop?: boolean | any;
   addMessageTable?: any;
+  id?: any;
+  open?: boolean;
+  anchorEl?: any;
+  openAnchorEl?: any;
+  isDownloadRequired?: boolean | any;
   handleStateChange?: (key: any, value: any) => void;
-  onChangeMessage?: (key: any, value: any, state: any) => void;
+  // onChangeMessage?: (key: any, value: any, state: any) => void;
   updateStatusReport?: (e: any) => void;
   onApply?: () => void;
   handleOpen?: () => void;
+  handleChange?: () => void;
   handleClose?: () => void;
-  handleChange?: any;
+  handleClick?: (e: any) => void;
   openAddMessage?: (value: any) => void;
   language?: any;
   addedLangState?: any;
@@ -42,12 +51,16 @@ export interface TableHeaderProps {
   addMessage?: any;
   options?: any;
   onChange?: any;
+  filterChange?: any;
+  onClick?: () => boolean;
   sx?: SxProps<Theme>;
 }
 
 export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => {
   const {
     className = '',
+    placeholder = 'search',
+    isDownloadRequired = false,
     tableHeader = 'Add Message',
     isFilterRequired = true,
     isSearchRequired = true,
@@ -60,23 +73,28 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     editTableMessage,
     setOpen,
     addedLangState,
-    open,
+    openPop = false,
     isEdit,
     options,
     openAddMessage = () => false,
-    onChangeMessage = () => false,
-    languageBox = () => false,
     language,
     searchTerm,
     setSearchTerm,
     filterContent,
+    checked,
     addMessageTable = () => false,
     handleChipDelete = () => false,
+    filterChange = () => false,
     onApply = () => false,
     handleChange = () => false,
     handleOpen = () => false,
     onChange = () => false,
     handleClose = () => false,
+    handleClick = () => false,
+    id,
+    anchorEl,
+    openAnchorEl,
+    onClick = () => false,
     sx = {},
     ...rest
   } = props;
@@ -95,9 +113,9 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
         <Typography sx={tableHeaderStyle.titleSx}>{tableHeader}</Typography>
         <Box sx={tableHeaderStyle.leftSx}>
           {isSearchRequired && (
-            <Box sx={{ mr: 1 }}>
+            <Box sx={{ pr: 1, pt: '3px' }}>
               <Input
-                placeholder="Search"
+                placeholder={placeholder}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 startAdornment={<SearchIcon sx={{ ml: 1, fontSize: '16px', color: '#818181' }} />}
@@ -108,7 +126,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
             <Filter
               filterContent={filterContent}
               handleChipDelete={handleChipDelete}
-              onChange={onChange}
+              onChange={filterChange}
               onApply={onApply}
             />
           )}
@@ -119,39 +137,39 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
               </Button>
             </Box>
           )}
+          {isDownloadRequired && (
+            <Box onClick={handleClick} sx={tableHeaderStyle.downloadIcon}>
+              <DownloadIcon />
+            </Box>
+          )}
+          <Popover
+            id={id}
+            open={openPop}
+            anchorEl={openAnchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            sx={tableHeaderStyle.totalFilterSx}
+          >
+            <Box sx={tableHeaderStyle.downloadBox}>
+              <Box sx={tableHeaderStyle.download}>
+                <XlsIcon />
+                <Typography>Download as CSV</Typography>
+              </Box>
+              <Box sx={tableHeaderStyle.download}>
+                <XlsIcon />
+                <Typography>Download as Excel</Typography>
+              </Box>
+            </Box>
+          </Popover>
         </Box>
       </Box>
-      <DialogDrawer
-        dialogRootStyle={tableHeaderStyle.dialogSx}
-        contentStyleSx={tableHeaderStyle.contentSx}
-        isDialogOpened={open}
-        title={'Add New Message Group'}
-        Bodycomponent={
-          <AddMessageGroup
-            handleChange={onChange}
-            updateStatusReport={updateStatusReport}
-            groupState={editTableMessage}
-            status={status}
-            onChangeMessage={onChangeMessage}
-            languageBox={languageBox}
-            isEdit={isEdit}
-            options={options}
-            language={language}
-          />
-        }
-        Footercomponent={
-          <FooterComponent
-            checked={editTableMessage?.isAddGroup}
-            SwitchChange={(e: any) => onChange('is_status', e.target.checked)}
-            onSave={addMessageTable}
-            onCancel={handleClose}
-            loading={loading}
-          />
-        }
-        handleCloseDialog={handleClose}
-        rootStyle={{ padding: '0px important' }}
-        // dialogstyle={{ width: '904px', height: '604px' }}
-      />
     </Box>
   );
 });

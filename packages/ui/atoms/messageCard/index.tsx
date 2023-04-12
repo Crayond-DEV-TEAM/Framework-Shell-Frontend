@@ -63,7 +63,7 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
 
   const deleteFunc = () => {
     onDelete();
-    setSelected(false);
+    handlemodalClose();
   };
 
   return (

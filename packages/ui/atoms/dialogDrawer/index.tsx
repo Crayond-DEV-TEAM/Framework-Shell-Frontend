@@ -1,5 +1,4 @@
 // import { CloseIcon } from '@atoms/icons';
-import { FooterComponent } from '@atoms/footerComponent/index';
 import { SxProps, Theme, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { Box, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { ReactNode, useState } from 'react';
@@ -13,10 +12,16 @@ export interface DialogDrawerProps {
   rootStyle?: object;
   dialogstyle?: object;
   isDialogOpened: boolean;
-  handleCloseDialog: () => void;
+  fullWidth?: boolean;
+  fullScreen?: boolean;
+  check?: boolean;
+  handleCloseDialog?: () => void;
+  handleSubmit?: () => void;
+  handleClose?: () => void;
+  // handleSubmit: () => void;
   title: string;
   titleStyle?: object;
-  content?: string;
+  content?: React.ReactNode;
   maxModalWidth?: any;
   dialogRootStyle?: any;
   contentStyleSx?: any;
@@ -30,17 +35,22 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
     className = '',
     rootStyle = {},
     dialogstyle = {},
+    handleClose = () => false,
     isDialogOpened = true,
     handleCloseDialog = () => {
       false;
     },
     dialogRootStyle = {},
+    // handleSubmit = {},
     title = 'Add New Message',
     content = '',
     Bodycomponent = null,
+    check = false,
     Footercomponent,
     contentStyleSx = {},
     maxModalWidth = '',
+    fullWidth = false,
+    fullScreen = false,
     ...rest
   } = props;
 
@@ -52,6 +62,7 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
     <Box sx={{ ...dialogDrawerStyle.rootSx, ...rootStyle }} className={`${className}`} {...rest}>
       <Dialog
         fullScreen={fullscreen}
+        fullWidth={fullWidth}
         maxWidth={maxWidth}
         open={isDialogOpened}
         aria-labelledby="draggable-dialog-title"

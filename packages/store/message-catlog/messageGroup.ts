@@ -69,12 +69,6 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
             id: 3,
             value: false,
           },
-          {
-            component: 'checkbox',
-            label: 'Moderate',
-            id: 4,
-            value: false,
-          },
         ],
       },
       {

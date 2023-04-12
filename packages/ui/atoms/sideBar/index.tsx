@@ -1,30 +1,25 @@
-import type { SxProps } from '@mui/material';
-import { Box, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Collapse } from '@mui/material';
+import { Divider, SxProps } from '@mui/material';
+import { Box, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Collapse, Skeleton } from '@mui/material';
 import { forwardRef } from 'react';
 import React, { useState } from 'react';
 import { sideBarStyle } from './style';
 import MuiDrawer from '@mui/material/Drawer';
 import { styled, Theme, CSSObject } from '@mui/material/styles';
-import {
-  Alert,
-  AlertConfigIcon,
-  AlertRuleIcon,
-  ApiIcon,
-  ArrowDown,
-  ArrowRight,
-  MessageHub,
-  ReportIcon,
-  SubMessageGroup,
-  SubMessageLanguage,
-} from '@atoms/icons';
-import { useNavigate } from 'react-router-dom';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import { messageRoutes } from '@core/routes';
+import { useMenu } from '@core/store';
+import { localStorageKeys, parseJwt } from '@core/utils';
+import { RiArrowDownLine, RiArrowRightDownLine } from 'react-icons/ri';
+import { Menu } from '@core/store/interface';
 
 export interface SideBarProps {
   className?: string;
   sx?: SxProps<Theme>;
   open?: boolean;
   onClick?: () => void;
+  menuItems?: (item: any, index: any) => void;
 }
 const drawerWidth = 208;
 
@@ -64,38 +59,37 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 }));
 
 export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLElement>): JSX.Element => {
-  const { className = '', sx = {}, ...rest } = props;
+  const { className = '', menuItems = () => false, sx = {}, ...rest } = props;
+
+  //store data
+  const { sideMenus, loading, error, getMenu, onLinkClick } = useMenu();
+  const { pathname } = useLocation();
+
   const [drawer, setDrawer] = useState<boolean>(false);
-  const [openSubCollapse, setopenSubCollapse] = useState<boolean>(false);
-  const [openCollapse, setopenCollapse] = useState<boolean>(false);
-  const navigate = useNavigate();
+  const [openCollapse, setopenCollapse] = useState<any>(false);
+
   const handleDrawerOpen = () => {
+    setopenCollapse(!openCollapse);
     setDrawer(true);
   };
-  const handleDrawerClose = () => {
-    setDrawer(false);
+
+  const handleDrawerClose = () => setDrawer(false);
+
+  const handleClickCollapse = (index: number) => {
+    setopenCollapse(index === openCollapse ? -1 : index);
   };
-  const handleClickSubCollapse = () => {
-    setopenSubCollapse(!openSubCollapse);
+
+  const fetchMenu = () => {
+    getMenu();
   };
-  const handleClickCollapse = () => {
-    setopenCollapse(!openCollapse);
-  };
-  const handleroute = () => {
-    navigate(messageRoutes.languageConfig);
-  };
-  const handleroutelang = () => {
-    navigate(messageRoutes.messagegroup);
-  };
+
+  React.useEffect(() => {
+    fetchMenu();
+  }, []);
 
   return (
     <Box
-      sx={[
-        {
-          ...sideBarStyle.rootSx,
-        },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
+      sx={[{ ...sideBarStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]}
       className={`${className}`}
       ref={ref}
       {...rest}
@@ -108,148 +102,106 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
         sx={sideBarStyle.drawerSx}
       >
         <List sx={sideBarStyle?.listing}>
-          <Box>
-            <ListItem key={'Inbox'} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 56,
-                  justifyContent: drawer ? 'initial' : 'center',
-                  px: 2.0,
-                }}
-                onClick={handleClickCollapse}
-              >
-                <ListItemIcon
-                  sx={{
-                    padding: '4px',
-                    borderRadius: '8px',
-                    backgroundColor: openCollapse ? '#daede8' : '',
-                    minWidth: 0,
-                    mr: drawer ? 1 : 'auto',
-                  }}
-                >
-                  <Alert rootStyle={{ color: openCollapse ? 'primary.main' : '#0E1824' }} />
-                </ListItemIcon>
-                <ListItemText primary={'Alerts Hub'} sx={{ ...sideBarStyle.listheading, opacity: drawer ? 1 : 0 }} />
-                {drawer ? openCollapse ? <ArrowDown /> : <ArrowRight /> : ''}
-              </ListItemButton>
-              <Collapse in={openCollapse} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding sx={{ display: drawer ? 'block' : 'none' }}>
-                  <ListItemButton sx={{ pl: 3.5 }}>
-                    <ListItemIcon
+          {loading ? (
+            <Box>
+              <Skeleton variant="text" sx={sideBarStyle.skeletonSx} />
+              <Skeleton variant="text" sx={sideBarStyle.skeletonSx} />
+              <Skeleton variant="text" sx={sideBarStyle.skeletonSx} />
+            </Box>
+          ) : (
+            <Box>
+              {sideMenus?.map((item: Menu, index: number) => {
+                let isSelected = matchPath(item.link, pathname) ? true : false;
+                item.links?.every((link: string) => {
+                  isSelected = matchPath(link, pathname) ? true : false;
+                  if (isSelected) {
+                    return false;
+                  }
+                  return true;
+                });
+                return (
+                  <ListItem key={index} disablePadding sx={{ display: 'block' }}>
+                    <ListItemButton
                       sx={{
-                        padding: '4px',
-                        minWidth: 0,
-                        mr: drawer ? 1 : 'auto',
+                        ...sideBarStyle.totalBtnSx,
+                        justifyContent: drawer ? 'initial' : 'center',
+                        py: 1,
+                        my: '4px',
+                        px: 1.25,
                       }}
+                      disableRipple
+                      onClick={() => handleClickCollapse(index)}
                     >
-                      <ReportIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Reports" sx={{ ...sideBarStyle.listSubheading }} />
-                  </ListItemButton>
-                  <ListItemButton sx={{ pl: 3.5 }}>
-                    <ListItemIcon
-                      sx={{
-                        padding: '4px',
-                        minWidth: 0,
-                        mr: drawer ? 1 : 'auto',
-                      }}
-                    >
-                      <AlertRuleIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Alert Rule" sx={{ ...sideBarStyle.listSubheading }} />
-                  </ListItemButton>
-                  <ListItemButton sx={{ pl: 3.5 }}>
-                    <ListItemIcon
-                      sx={{
-                        padding: '4px',
-                        minWidth: 0,
-                        mr: drawer ? 1 : 'auto',
-                      }}
-                    >
-                      <ApiIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="API Documentation" sx={{ ...sideBarStyle.listSubheading }} />
-                  </ListItemButton>
+                      <ListItemIcon
+                        sx={{
+                          padding: '4px',
+                          borderRadius: '8px',
+                          backgroundColor: `${isSelected ? '#EAF1EF' : 'transperant'}`,
+                          minWidth: 0,
+                          mr: drawer ? 1 : 'auto',
+                        }}
+                      >
+                        {item.icon(isSelected)}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={item.name}
+                        sx={{
+                          ...sideBarStyle.listheading,
+                          opacity: drawer ? 1 : 0,
+                        }}
+                      />
+                      {drawer ? (
+                        index === openCollapse ? (
+                          <ExpandMoreIcon sx={{ fontSize: '18px', color: '#29302B' }} />
+                        ) : (
+                          <ChevronRightIcon sx={{ fontSize: '18px', color: '#29302B' }} />
+                        )
+                      ) : (
+                        ''
+                      )}
+                    </ListItemButton>
+                    {item?.childrens?.map((child: Menu, i: number) => {
+                      const isChildSelected = matchPath(child.link, pathname) ? true : false;
+                      return (
+                        <Collapse key={i} in={index === openCollapse} timeout="auto" unmountOnExit>
+                          <List component="div" disablePadding sx={{ display: drawer ? 'block' : 'none' }}>
+                            <ListItemButton
+                              sx={{ ...sideBarStyle.menuSx, pl: 3.5 }}
+                              disableRipple
+                              selected={isChildSelected}
+                              onClick={() => onLinkClick(child)}
+                            >
+                              <ListItemIcon
+                                sx={{
+                                  padding: '4px',
+                                  minWidth: 0,
+                                  mr: drawer ? 0.5 : 'auto',
+                                }}
+                              >
+                                {child?.icon(isChildSelected)}
+                              </ListItemIcon>
+                              <ListItemText
+                                primary={child?.name}
+                                sx={{
+                                  ...sideBarStyle.listSubheading,
+                                  '& .MuiTypography-root': {
+                                    fontSize: '12px',
+                                    color: isChildSelected ? '#357968' : 'typography.transparent',
+                                  },
+                                }}
+                              />
+                            </ListItemButton>
+                          </List>
+                        </Collapse>
+                      );
+                    })}
 
-                  <ListItemButton sx={{ pl: 3.5 }}>
-                    <ListItemIcon
-                      sx={{
-                        padding: '4px',
-                        minWidth: 0,
-                        mr: drawer ? 1 : 'auto',
-                      }}
-                    >
-                      <AlertConfigIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Alert Configuration" sx={{ ...sideBarStyle.listSubheading }} />
-                  </ListItemButton>
-                </List>
-              </Collapse>
-            </ListItem>
-            <ListItem
-              // onClick={() => {
-              //   navigate('/user/dashboard');
-              // }}
-              key={'Inbox'}
-              disablePadding
-              sx={{ display: 'block' }}
-            >
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: drawer ? 'initial' : 'center',
-                  px: 2.0,
-                  alignItems: 'center',
-                }}
-                onClick={handleClickSubCollapse}
-              >
-                <ListItemIcon
-                  sx={{
-                    padding: '4px',
-                    minWidth: 0,
-                    mr: drawer ? 1 : 'auto',
-                    backgroundColor: openSubCollapse ? '#daede8' : '',
-                    borderRadius: '8px',
-                  }}
-                >
-                  <MessageHub rootStyle={{ color: openSubCollapse ? 'primary.main' : '#0E1824' }} />
-                </ListItemIcon>
-                <ListItemText
-                  primary={'Message Catlogue'}
-                  sx={{ ...sideBarStyle.listheading, opacity: drawer ? 1 : 0 }}
-                />
-                {drawer ? openSubCollapse ? <ArrowDown /> : <ArrowRight /> : ''}
-              </ListItemButton>
-              <Collapse in={openSubCollapse} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding sx={{ display: drawer ? 'block' : 'none' }}>
-                  <ListItemButton sx={{ pl: 3.5 }} onClick={handleroute}>
-                    <ListItemIcon
-                      sx={{
-                        padding: '4px',
-                        minWidth: 0,
-                        mr: drawer ? 1 : 'auto',
-                      }}
-                    >
-                      <SubMessageLanguage />
-                    </ListItemIcon>
-                    <ListItemText primary="Language Config" sx={{ ...sideBarStyle.listSubheading }} />
-                  </ListItemButton>
-                  <ListItemButton sx={{ pl: 3.5 }} onClick={handleroutelang}>
-                    <ListItemIcon
-                      sx={{
-                        padding: '4px',
-                        minWidth: 0,
-                        mr: drawer ? 1 : 'auto',
-                      }}
-                    >
-                      <SubMessageGroup />
-                    </ListItemIcon>
-                    <ListItemText primary="message Group" sx={{ ...sideBarStyle.listSubheading }} />
-                  </ListItemButton>
-                </List>
-              </Collapse>
-            </ListItem>
-          </Box>
+                    {drawer ? <Divider orientation="horizontal" sx={{ ...sideBarStyle.dividerSx }} /> : ''}
+                  </ListItem>
+                );
+              })}
+            </Box>
+          )}
         </List>
       </Drawer>
     </Box>

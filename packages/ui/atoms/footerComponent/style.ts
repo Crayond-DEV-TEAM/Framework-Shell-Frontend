@@ -61,9 +61,19 @@ export const footerComponentStyle: FooterComponentStyleProps = {
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  totalFooterSxTwo: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'end',
+  },
   btnSx: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  btnSxTwo: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'end !important',
+  }
 };

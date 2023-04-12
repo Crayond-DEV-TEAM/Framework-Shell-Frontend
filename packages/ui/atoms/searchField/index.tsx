@@ -40,7 +40,7 @@ export const SearchField = (props: SearchFieldProps): JSX.Element => {
   return (
     <Box sx={{ ...searchFieldStyle.searchBoxSx }}>
       <Box sx={{ ...searchFieldStyle.searchFieldSx }}>
-        <Box>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <SearchIcon />
           <InputBase
             placeholder={placeholder}

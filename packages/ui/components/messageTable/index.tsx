@@ -1,7 +1,7 @@
 import { Grid, Switch, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 
-import { AddMessage, TableHeader } from '..';
+import { AddMessage, AddMessageGroup, TableHeader } from '..';
 import { forwardRef, useEffect } from 'react';
 import { useState } from 'react';
 import { messageTableStyle } from './style';
@@ -9,6 +9,8 @@ import { useLanguageConfiguration, useLanguage, useMessageGroupDetails } from '@
 import { CommonTable } from 'crayond-components-library-1';
 import isEqual from 'react-fast-compare';
 import { DeleteIcon, EditIcon } from '@atoms/icons';
+import { FooterComponent } from '@atoms/footerComponent';
+import { DialogDrawer } from '@atoms/dialogDrawer';
 import { Button } from '@atoms/button';
 import { DeleteDailog } from '@atoms/deletedailog';
 
@@ -41,6 +43,15 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     addMessageTable,
     editDisplayMessageTable,
     MessagesListStatus,
+    addMessageLoading,
+    editMessageLoading,
+    FilterList,
+    filterMessage,
+    filterContent,
+    clearfilter,
+    setfilter,
+    onApply,
+    clearAll,
   } = useMessageGroupDetails();
 
   const { addedLangState, addedlanguagedisplay } = useLanguage((state) => ({
@@ -48,7 +59,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     addedlanguagedisplay: state.addedlanguagedisplay,
   }));
   const { languages, getSavedLanguage } = useLanguageConfiguration();
-
+  // const filterContent = filterContentState.filterContent;
   // General Hooks
   const [open, setOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -60,11 +71,9 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   );
   // const filteredMessageGroupStatus = MessagesList.filter((x: any) => Boolean(x.status)).map(({ id }) => id);
   const [switchList, setSwitchList] = useState<any>([]);
-  console.log(MessagesList, 'filteredMessageGroupStatus');
-
+  console.log(languages, 'languageslanguageslanguages');
   useEffect(() => {
     setSwitchList(MessagesListStatus);
-    console.log('f useEff', switchList);
   }, [MessagesListStatus]);
 
   const Header = [
@@ -131,6 +140,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       label: 'Action',
     },
   ];
+
   const tableData = [
     { type: ['TEXT'], name: 'id' },
     { type: ['TEXT'], name: 'title' },
@@ -162,8 +172,15 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       deleteIcon: <DeleteIcon />,
     },
   ];
+
+  const handleFilterChange = (key: any, value: string, parent: any, parentIndex: any, childrenIndex: any) => {
+    filterContent[parentIndex].children[childrenIndex]['value'] = value;
+    setfilter({ key, value });
+  };
+
   const handleDelFunc = () => {
     deleteMessage();
+    handlemodalClose();
   };
   const handleChange = (key: any, value: string) => {
     setList({ key, value });
@@ -175,8 +192,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     setaddMessage({ key, value });
     // addMessageList?.message;
 
-    // debugger;
-
     // if (key === 'message') {
     //   const newMessageObject = { ...addMessageList?.message };
 
@@ -187,6 +202,42 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     //   setaddMessage({ key, value });
     // }
   };
+  // const onApply = () => {
+  //   const FilterArray: any = [];
+  //   if (Array.isArray(filterContent?.[0]?.children) && filterContent?.[0]?.children?.length > 0) {
+  //     filterContent?.[0]?.children?.filter((val: any) => val?.value === true && FilterArray.push(val?.id));
+  //   }
+  //   let created = {
+  //     from_date: '',
+  //     end_date: '',
+  //   };
+  //   let updated = {
+  //     from_date: '',
+  //     end_date: '',
+  //   };
+  //   if (Array.isArray(filterContent?.[2]?.children) && filterContent?.[2]?.children?.length > 0) {
+  //     if (
+  //       filterContent?.[2]?.children?.filter((val: any) => val?.label === 'Created On' && val?.value === true)?.length >
+  //       0
+  //     ) {
+  //       created = {
+  //         from_date: filterContent?.[2]?.children?.[2]?.value ?? '',
+  //         end_date: filterContent?.[2]?.children?.[3]?.value ?? '',
+  //       };
+  //     }
+  //     if (
+  //       filterContent?.[2]?.children?.filter((val: any) => val?.label === 'Modified On' && val?.value === true)
+  //         ?.length > 0
+  //     ) {
+  //       updated = {
+  //         from_date: filterContent?.[2]?.children?.[2]?.value ?? '',
+  //         end_date: filterContent?.[2]?.children?.[3]?.value ?? '',
+  //       };
+  //     }
+  //   }
+  //   filterMessage(FilterArray, created, updated);
+  //   clearfilter();
+  // };
 
   const handleSwitch = (id: string, data: any, e: any) => {
     if (!switchList.includes(id)) {
@@ -231,18 +282,21 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
 
   const handleSave = () => {
     addMessageTable();
-    setOpen(false);
+    handleClose();
+    clearAll();
   };
 
   const handleEdit = () => {
     editMessageTable();
-    setOpen(false);
+    handleClose();
+    clearAll();
   };
 
   useEffect(() => {
     getServerity();
+    getMessageList();
   }, []);
-
+  console.log(editMessageList, 'editMessageListeditMessageListeditMessageList');
   return (
     <Box
       sx={[
@@ -298,6 +352,8 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                 variant: 'CUSTOM',
                 component: (
                   <TableHeader
+                    filterContent={filterContent}
+                    filterChange={handleFilterChange}
                     onChange={isEdit ? handleeditChange : handleAddChange}
                     options={SevorityList}
                     status={StatusList}
@@ -308,9 +364,9 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                     handleOpen={handleOpen}
                     handleClose={handleClose}
                     setOpen={setOpen}
+                    onApply={onApply}
                     language={languages}
                     editTableMessage={isEdit ? editMessageList : addMessageList}
-                    addMessageTable={isEdit ? handleEdit : handleSave}
                   />
                 ),
               }}
@@ -318,6 +374,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
           </Box>
         </Grid>
       </Grid>
+
       <DeleteDailog
         isDialogOpened={selected}
         Bodycomponent={
@@ -339,6 +396,37 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
             </Box>
           </Box>
         }
+      />
+
+      <DialogDrawer
+        dialogRootStyle={{
+          width: '832px',
+        }}
+        contentStyleSx={messageTableStyle.contentSx}
+        isDialogOpened={open}
+        title={'Add New Message Group'}
+        Bodycomponent={
+          <AddMessageGroup
+            handleChange={isEdit ? handleeditChange : handleAddChange}
+            groupState={isEdit ? editMessageList : addMessageList}
+            status={StatusList}
+            isEdit={isEdit}
+            options={SevorityList}
+            language={languages}
+          />
+        }
+        Footercomponent={
+          <FooterComponent
+            check
+            checked={isEdit ? editMessageList?.is_status : addMessageList?.is_status}
+            SwitchChange={(e: any) => (isEdit ? handleeditChange : handleAddChange('is_status', e.target.checked))}
+            onSave={isEdit ? handleEdit : handleSave}
+            onCancel={handleClose}
+            loading={isEdit ? editMessageLoading : addMessageLoading}
+          />
+        }
+        handleCloseDialog={handleClose}
+        rootStyle={{ padding: '0px important' }}
       />
     </Box>
   );

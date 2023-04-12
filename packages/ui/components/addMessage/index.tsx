@@ -89,7 +89,6 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     editMessageGroups();
     setValues(false);
   };
-
   const handleMessage = (key: string, value: any) => {
     setselctedMessage({ key, value });
     setSelected(value);
@@ -167,7 +166,8 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
         handleCloseDialog={handleClose}
         Footercomponent={
           <FooterComponent
-            checked={addMessage}
+            check={true}
+            checked={addMessage.is_status}
             SwitchChange={(e: any) => handleChange('is_status', e.target.checked)}
             onSave={handleAddMsg}
             onCancel={handleClose}
@@ -186,7 +186,8 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
         handleCloseDialog={handleEditClose}
         Footercomponent={
           <FooterComponent
-            checked={addMessage}
+            check={true}
+            checked={editMessageList.is_status}
             SwitchChange={(e: any) => handleeditChange('is_status', e.target.checked)}
             onSave={Edit}
             onCancel={handleEditClose}

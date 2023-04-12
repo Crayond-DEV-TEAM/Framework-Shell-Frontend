@@ -117,6 +117,27 @@ export interface MessageGroup {
   description: number | string;
   is_status: boolean;
 }
+export interface Menu {
+  id: number;
+  link: string;
+  name: string;
+  baseUrl: string;
+  links?: string[];
+  icon: (isSelectd: boolean) => JSX.Element;
+  childrens?: Menu[];
+}
+export interface MenusProps {
+  sideMenus?: Menu[];
+  onLinkClick: (data: Menu) => boolean;
+  loading: boolean;
+  error: boolean;
+  getMenu: () => void;
+}
+export interface MessageCreateInterface {
+  title: number | string;
+  description: number | string;
+  is_status: boolean;
+}
 
 export interface MessageConfigInterface {
   messageGroup: MessageGroup[];
@@ -165,10 +186,40 @@ export interface MessageDetails {
   msg_grp_id?: string;
   msg_grp_msgs_infos?: string;
 }
+export interface FilterDetails {
+  created_date_from?: string;
+  created_date_end?: string;
+  updated_date_from?: string;
+  updated_date_end?: string;
+  id?: number | string;
+  is_status?: boolean;
+  severity_id?: number;
+  msg_grp_id?: string;
+}
+
+// export interface FilterSetContent {
+//   filterContent: any;
+//   filterContent: [
+//     {
+//       name: string;
+//       children: [
+//         {
+//           component: any;
+//           label: string;
+//           id: number;
+//           value: boolean;
+//         },
+//       ];
+//     },
+//   ];
+// }
 
 export interface MessageGroupsDetails {
   idList: messageListbox[];
   setList: (id: { key: string; value: string }) => void;
+
+  FilterList: FilterDetails[];
+  setfilter: (payload: { key: string; value: string }) => void;
 
   MessagesList: messageListbox[];
   MessagesListStatus: messageListbox[];
@@ -182,6 +233,12 @@ export interface MessageGroupsDetails {
   StatusList: MessageDetails;
   SevorityList: MessageDetails[];
   MessageArray: MessageDetails[];
+  // filterContentState: FilterSetContent[];
+  // filterContent: FilterSetContent[];
+
+  filterLoading: boolean;
+  errorOnFilter: boolean;
+
   fetching: boolean;
   errorOnFetching: boolean;
 
@@ -208,7 +265,76 @@ export interface MessageGroupsDetails {
   deleteMessage: () => boolean;
   addMessageTable: () => boolean;
   editMessageTable: () => boolean;
-  filterMessage: () => boolean;
+  onApply: () => void;
+  filterMessage: (serverityFilter: string | number, createdOn: any, updateOn: any) => void;
   getStatus: (id: string, is_status: boolean) => void;
   editDisplayMessageTable: (id: any) => void;
+  clearAll: () => void;
+  clearfilter: () => void;
+}
+
+export interface AddAlertRule {
+  id?: number | string;
+  alert_code: number | string;
+  reference_id: number | string;
+  hashtags: number | string;
+  description: number | string;
+  push_title: number | string;
+  push_body: number | string;
+  email_subject: number | string;
+  email_body: number | string;
+  SMS_body: number | string;
+  is_email: boolean;
+  is_push: boolean;
+  is_sms: boolean;
+  is_status: boolean;
+  alert_rule_code: number | string;
+  hashtag: number | string;
+  isActive: boolean;
+}
+export interface AlertRuleInterface {
+  addAlert: AddAlertRule[];
+  alertsList: AddAlertRule[];
+  addAlertRules: AddAlertRule;
+  addAlertRuleLoading: boolean;
+  setaddAlertRule: (payload: { key: string; value: string }) => void;
+  addAlertRule: () => boolean;
+  getAlertTable: () => boolean;
+  editAlertRule: (data: any) => void;
+  fetching: boolean;
+  errorOnFetching: boolean;
+}
+
+export interface ReportInterface {
+  reportCard: [];
+  fetching: boolean;
+  errorOnFetching: boolean;
+  getTotalReports: [];
+  getReportCard: () => void;
+  getReportTable: () => void;
+}
+export interface AddNewConfig {
+  Provider: number | string;
+  API_Key: number | string;
+  isActive: boolean;
+}
+export interface AlertConfig {
+  addAlertConfig: AddNewConfig;
+  getAlertConfigList: AddNewConfig[];
+  errorOnFetching: boolean;
+  fetching: boolean;
+  addAlertConfigRule: () => void;
+  setaddAlertConfig: (payload: { key: string; value: string }) => void;
+}
+
+export interface APIConfig {
+  apiCallsList: string;
+  requestAPI: [];
+  getPushBody: [];
+  getResquestBody: [];
+  errorOnFetching: boolean;
+  fetching: boolean;
+  getRequest: () => void;
+  getPushTableList: () => void;
+  getResquestBodyData: () => void;
 }

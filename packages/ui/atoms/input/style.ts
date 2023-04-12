@@ -17,7 +17,11 @@ export const inputStyle: InputStyleProps = {
       borderRadius: '8px',
       border: '1.5px solid',
       borderColor: '#EAEAEA',
+      '& .Mui-focused': {
+        border: '0px',
+      },
     },
+
     '& .MuiFormHelperText-root': {
       mx: 0,
     },

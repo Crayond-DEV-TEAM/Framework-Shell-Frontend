@@ -223,6 +223,9 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
           width: '448px',
           height: '346px',
           p: 0,
+          '& .MuiDialogContent-root': {
+            padding: '20px 24px !important',
+          },
         }}
         closeIcon={false}
         fullWidth

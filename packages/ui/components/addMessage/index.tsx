@@ -71,7 +71,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
 
   // const [values, setValues] = useState(addMessage);
 
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState();
 
   const handleOpen = () => {
     setOpen(true);

@@ -226,12 +226,11 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
       const { groupState } = get();
       const { setstatus } = groupState;
       set({ loading: true });
-      const { data, status, total_config_language } = await queryClient.fetchQuery({
+      const { data, status } = await queryClient.fetchQuery({
         queryKey: ['table'],
         queryFn: async () => {
           const { data } = await httpRequest(
             'post',
-            // 'http://localhost:3000/api/v1/message_groups/display_message_group',
             `${envConfig.api_url}/message_groups/display_all_msg_in_grp`,
             {
               id: id,
@@ -243,27 +242,27 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
       });
       if (status === 200) {
         const dataTable: any = [];
-        if (Array.isArray(data?.msg_grp_msgs_infos) && data?.msg_grp_msgs_infos?.length > 0) {
-          data?.msg_grp_msgs_infos?.map(
-            (tableData: any, i: any) =>
-              dataTable.push({
-                id: tableData?.id ?? i,
-                msg_grp_id: tableData?.msg_grp_id ?? '',
-                updated_at: tableData?.updated_at ?? '',
-                created_at: tableData?.created_at ?? '',
-                severity: {
-                  label: `${tableData?.severity?.severity_name ?? ''}`,
-                  color: '#6F6F6F',
-                  bgColor: '#EAEAEA',
-                },
-                msg_grp_msgs: tableData?.msg_grp_msgs?.length + ' / ' + total_config_language ?? '',
-                msg_grp_msgs_Total: tableData?.msg_grp_msgs,
-                status: tableData?.is_status ?? '',
-                title: tableData?.title ?? '',
-                description: tableData?.description ?? '',
-              }),
-
-            // dataTable.push(obj)
+        if (
+          Array.isArray(data?.all_msg_by_grp.msg_grp_msgs_infos) &&
+          data?.all_msg_by_grp.msg_grp_msgs_infos?.length > 0
+        ) {
+          data?.all_msg_by_grp.msg_grp_msgs_infos?.map((tableData: any, i: any) =>
+            dataTable.push({
+              id: tableData?.id ?? i,
+              msg_grp_id: tableData?.msg_grp_id ?? '',
+              updated_at: tableData?.updated_at ?? '',
+              created_at: tableData?.created_at ?? '',
+              severity: {
+                label: `${tableData?.severity?.severity_name ?? ''}`,
+                color: '#6F6F6F',
+                bgColor: '#EAEAEA',
+              },
+              msg_grp_msgs: tableData?.msg_grp_msgs?.length + ' / ' + data?.total_config_language ?? '',
+              msg_grp_msgs_Total: tableData?.msg_grp_msgs,
+              status: tableData?.is_status ?? '',
+              title: tableData?.title ?? '',
+              description: tableData?.description ?? '',
+            }),
           );
         }
 

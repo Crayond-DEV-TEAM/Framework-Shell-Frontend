@@ -378,7 +378,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     setTableName(messageName);
     setMessageGroupId(messageId);
     initialData();
-  }, [messageId, messageName]);
+  }, [messageId, messageName, messageGroupId]);
 
   useEffect(() => {
     if (tableMessageData) {

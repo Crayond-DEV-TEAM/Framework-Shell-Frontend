@@ -25,7 +25,7 @@ function PrivateRouter(props: { children: JSX.Element }) {
       setSearchParams({});
       setShowComponent(true);
     } else {
-      window.location.replace(envConfig.frame_work_shell_ui + '/login');
+      window.location.replace(envConfig.frame_work_shell_ui + '/?redirect_url=' + window.location.href);
     }
   }, [location]);
 

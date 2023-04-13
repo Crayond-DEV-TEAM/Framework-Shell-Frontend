@@ -1,61 +1,23 @@
-import { DropDown, LanguageCard, ToggleButtons } from '@atoms/index';
+import { LanguageCard, ToggleButtons } from '@atoms/index';
 import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
-import { Grid, SxProps, Theme } from '@mui/material';
-import { Box, Typography, Divider } from '@mui/material';
-import { forwardRef, useState, useEffect } from 'react';
+import { useMessage } from '@core/store';
+import { Box, Divider, Grid, Typography } from '@mui/material';
 import { addMessageGroupStyle } from './style';
-import { useMessageGroupDetails, useLanguageConfiguration } from '@core/store';
+
 export interface AddMessageGroupProps {
-  className?: string;
-  handleChange?: (key: string, value: string) => void;
-  updateStatusReport?: (e: any) => void;
-  groupState?: any;
   isEdit?: boolean;
   options?: any;
   language?: any;
   status?: any;
-  sx?: SxProps<Theme>;
 }
 
-export const AddMessageGroup = forwardRef((props: AddMessageGroupProps, ref: React.Ref<HTMLElement>): JSX.Element => {
-  const {
-    className = '',
-    sx = {},
-    status,
-    handleChange = () => false,
-    updateStatusReport = () => false,
-    language,
-    isEdit,
-    options,
-    groupState,
-    ...rest
-  } = props;
+export const AddMessageGroup = (props: AddMessageGroupProps): JSX.Element => {
 
-  const { MessagesList } = useMessageGroupDetails();
-  const { addLanguage } = useLanguageConfiguration();
+  const { addEditMessageState, handleAddEditStateChange, handleAddEditMessageChange } = useMessage();
 
-  const [addTableData, setaddTableData] = useState<any>();
-
-  console.log(language, 'languagelanguagelanguagelanguage');
-  console.log(groupState, 'groupStategroupStategroupStategroupState');
-  useEffect(() => {
-    setaddTableData(isEdit ? groupState?.msg_grp_msg_data : language);
-  }, [groupState, groupState?.severtiy]);
-
-  // const sevority = isEdit ? groupState?.severity.id : groupState?.severity_id;
   return (
-    <Box
-      sx={[
-        {
-          ...addMessageGroupStyle.rootSx,
-        },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-      className={`${className}`}
-      ref={ref}
-      {...rest}
-    >
+    <Box sx={addMessageGroupStyle.rootSx}>
       <Grid container sx={addMessageGroupStyle.totalGrid}>
         <Grid xs={12} sm={6} md={6} lg={6} xl={6} sx={{ borderRight: '1px solid #E0E0E0', p: 3 }}>
           <Box>
@@ -67,14 +29,14 @@ export const AddMessageGroup = forwardRef((props: AddMessageGroupProps, ref: Rea
                 size="small"
                 placeholder="Add Title"
                 required
-                value={groupState?.title}
+                value={addEditMessageState?.title}
                 textFieldStyle={addMessageGroupStyle.inputSx}
                 id="title"
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                  handleChange('title', e.target.value)
+                  handleAddEditStateChange('title', e.target.value)
                 }
-                isError={groupState?.error?.title ? true : false}
-                errorMessage={groupState?.error?.title ?? ''}
+                isError={addEditMessageState?.error?.title ? true : false}
+                errorMessage={addEditMessageState?.error?.title ?? ''}
               />
             </Box>
             <Box sx={addMessageGroupStyle.inputGroupSx}>
@@ -84,7 +46,7 @@ export const AddMessageGroup = forwardRef((props: AddMessageGroupProps, ref: Rea
               <Input
                 size="small"
                 placeholder="Add description"
-                value={groupState?.description}
+                value={addEditMessageState?.description}
                 required
                 id="description"
                 // textFieldStyle={{ height: '112px' }}
@@ -92,19 +54,19 @@ export const AddMessageGroup = forwardRef((props: AddMessageGroupProps, ref: Rea
                 rowsMax={10}
                 isMulti={true}
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                  handleChange('description', e.target.value)
+                  handleAddEditStateChange('description', e.target.value)
                 }
                 textFieldStyle={addMessageGroupStyle.inputSx}
-                isError={groupState?.error?.description ? true : false}
-                errorMessage={groupState?.error?.description ?? ''}
+                isError={addEditMessageState?.error?.description ? true : false}
+                errorMessage={addEditMessageState?.error?.description ?? ''}
               />
             </Box>
             <Box sx={addMessageGroupStyle.inputGroupSx}>
               <Label sx={addMessageGroupStyle.labelSx}>Severity</Label>
               <ToggleButtons
-                onChange={(e: any) => handleChange('severity_id', e)}
-                value={groupState.severity_id}
-                options={options}
+                onChange={(e: any) => handleAddEditStateChange('severity', e)}
+                value={addEditMessageState.severity}
+                options={props.options}
               />
             </Box>
           </Box>
@@ -118,15 +80,14 @@ export const AddMessageGroup = forwardRef((props: AddMessageGroupProps, ref: Rea
                 Please provide message titles in respective language
               </Typography>
               <Box sx={addMessageGroupStyle.totalLanguagesSx}>
-                {language &&
-                  language?.map((val: any, i: number) => {
+                {props.language &&
+                  props.language?.map((val: any, i: number) => {
                     return (
                       <Box key={i}>
                         <LanguageCard
                           title={val?.language_name}
-                          value={groupState}
-                          onChange={handleChange}
-                          index={i}
+                          value={addEditMessageState.messages?.[val?.configuration_id]?.message ?? ""}
+                          onChange={(message: string) => handleAddEditMessageChange(val?.configuration_id, message)}
                           placeholder={val?.language_name}
                         />
                       </Box>
@@ -139,6 +100,6 @@ export const AddMessageGroup = forwardRef((props: AddMessageGroupProps, ref: Rea
       </Grid>
     </Box>
   );
-});
+};
 
 AddMessageGroup.displayName = 'AddMessageGroup';

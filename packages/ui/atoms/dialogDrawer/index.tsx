@@ -20,9 +20,9 @@ export interface DialogDrawerProps {
   handleClose?: () => void;
   // handleSubmit: () => void;
   title: string;
-  closeIcon: boolean;
-  isFooterRequired: boolean;
-  isHeaderTitleRequired: boolean;
+  closeIcon?: boolean;
+  isFooterRequired?: boolean;
+  isHeaderTitleRequired?: boolean;
   titleStyle?: object;
   content?: React.ReactNode;
   maxModalWidth?: any;

@@ -1,6 +1,7 @@
 import { ValidateEmail } from '@core/utils';
 import {
   AddAlertRule,
+  AddEditMessageState,
   AddNewConfig,
   ForgotPasswordState,
   Menu,
@@ -647,8 +648,24 @@ export const giveMestatusGroupState = (): MessageDetails => {
     msg_grp_msgs_infos: '',
   };
 };
+
 export const giveMeStateOfid = (): MessageDetails => {
   return {
     id: '',
   };
 };
+
+export const giveMeAddEditMessageInitialState = (): AddEditMessageState => {
+  return {
+    id: "",
+    title: "",
+    description: "",
+    severity: null,
+    status: false,
+    messages: null,
+    error: {
+      title: "",
+      description: "",
+    }
+  }
+}

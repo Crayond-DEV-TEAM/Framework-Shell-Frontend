@@ -1,19 +1,14 @@
 import { DialogDrawer } from '@atoms/dialogDrawer';
 import { FooterComponent } from '@atoms/footerComponent';
 import { AddIcon } from '@atoms/icons';
+import { Input } from '@atoms/input';
 import { MessageCard } from '@atoms/messageCard';
-import { SearchField } from '@atoms/searchField';
-import { useMessageConfiguration, useMessageGroupDetails } from '@core/store';
+import { useMessageConfiguration } from '@core/store';
 import SearchIcon from '@mui/icons-material/Search';
-import type { SxProps, Theme } from '@mui/material';
-import { Box, Typography, IconButton } from '@mui/material';
+import { Box, IconButton, Skeleton, Stack, SxProps, Theme, Typography } from '@mui/material';
 import { forwardRef, useEffect, useState } from 'react';
-import { useSnackbar } from 'notistack';
-import isEqual from 'react-fast-compare';
 import { ModalAddMessage } from '..';
 import { addMessageStyle } from './style';
-import { localStorageKeys, parseJwt } from '@core/utils';
-import { Input } from '@atoms/input';
 
 export interface AddMessageProps {
   className?: string;
@@ -29,6 +24,8 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
 
   // store Data
   const {
+    fetching,
+    errorOnFetching,
     messageGroup,
     addMessage,
     getMessageGroups,
@@ -43,8 +40,6 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     editMessageList,
   } = useMessageConfiguration();
 
-  // const { getMessageList } = useMessageGroupDetails();
-
   const [open, setOpen] = useState(false);
 
   const [values, setValues] = useState(false);
@@ -53,17 +48,11 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
 
   const [selected, setSelected] = useState(0);
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  const handleOpen = () => setOpen(true);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClose = () => setOpen(false);
 
-  const handleEditClose = () => {
-    setValues(false);
-  };
+  const handleEditClose = () => setValues(false);
 
   const handleAddMsg = () => {
     setOpen(false);
@@ -74,12 +63,10 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     x.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  const handleChange = (key: string, value: string) => {
-    setaddMessage({ key, value });
-  };
-  const handleeditChange = (key: string, value: string) => {
-    seteditMessage({ key, value });
-  };
+  const handleChange = (key: string, value: string) => setaddMessage({ key, value });
+
+  const handleeditChange = (key: string, value: string) => seteditMessage({ key, value });
+
   const onEdit = async (id: string) => {
     setValues(true);
     editMessageListGroups({ id: id });
@@ -97,35 +84,19 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
 
   useEffect(() => {
     getMessageGroups();
+    // eslint-disable-next-line
   }, []);
 
-  // useEffect(() => {
-  //   if (filteredMessageGroup?.length !== 0) {
-  //     console.log(filteredMessageGroup, 'filteredMessageGroup');
-  //     setList({ key: filteredMessageGroup[0], value: '0' });
-  //     getMessageList();
-  //     console.log(filteredMessageGroup, 'filteredMessageGroup');
-  //   }
-  // }, [filteredMessageGroup?.[0]]);
-
   return (
-    <Box
-      sx={[
-        {
-          ...addMessageStyle.rootSx,
-        },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-      className={`${className}`}
-      ref={ref}
-      {...rest}
-    >
+    <Box sx={[{ ...addMessageStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]} className={`${className}`} ref={ref} {...rest}>
+
       <Box sx={addMessageStyle.header}>
         <Typography sx={addMessageStyle.titleSx}>Message Group</Typography>
         <IconButton onClick={handleOpen} sx={{ p: 0 }}>
           <AddIcon />
         </IconButton>
       </Box>
+
       <Box sx={{ py: 2, px: 1.25 }}>
         <Input
           placeholder="Search"
@@ -134,6 +105,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
           startAdornment={<SearchIcon sx={{ ml: 1, fontSize: '16px', color: '#818181' }} />}
         />
       </Box>
+
       <Box sx={addMessageStyle.totalGroupSx}>
         {Array.isArray(filteredMessageGroup) && filteredMessageGroup?.length > 0 ? (
           filteredMessageGroup?.map((x: any, index: any) => {
@@ -153,7 +125,10 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
           })
         ) : (
           <Box>
-            <Typography sx={addMessageStyle.noDataSx}>No Data Found!!!</Typography>
+            {!fetching && <Typography variant='body2' color="textSecondary">You are yet to add a message group.</Typography>}
+            {fetching && <Stack spacing={0.25} px={2}>
+              {Array.from(Array(10).keys()).map( _ => <Skeleton height={40} width={'100%'} key={_} />)}  
+            </Stack>}
           </Box>
         )}
       </Box>
@@ -171,13 +146,13 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
             SwitchChange={(e: any) => handleChange('is_status', e.target.checked)}
             onSave={handleAddMsg}
             onCancel={handleClose}
-            // onEdit={Edit}
             loading={addMessageLoading}
           />
         }
         dialogRootStyle={addMessageStyle.dialogSx}
       />
-      {/* edit message */}
+
+      {/* Edit message */}
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={values}

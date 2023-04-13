@@ -70,6 +70,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
     httpRequest('post', `${envConfig.api_url}/message_groups/add_message_group`, payload, true)
       .then((response) => {
         enqueueSnackbar('New Message Group successfully Added!', { variant: 'success' });
+        get().getMessageGroups();
       })
       .catch((err) => {
         set({ addMessageError: true });

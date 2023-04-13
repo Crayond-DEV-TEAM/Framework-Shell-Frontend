@@ -55,7 +55,7 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
         const newLanguages: SelectBoxInterface[] = [];
 
         response.data.data.forEach((lang: any) => {
-          const newLang = { ...lang.language, is_default: lang.is_default };
+          const newLang = { configuration_id: lang.id, ...lang.language, is_default: lang.is_default };
           newLanguages.push(newLang);
           if (lang.is_default) {
             newDefaultLang = newLang;

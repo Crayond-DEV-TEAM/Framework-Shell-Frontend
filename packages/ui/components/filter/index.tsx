@@ -96,7 +96,6 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
 
   // on Clear
   const onClear = () => {
-    debugger;
     setClear(false);
     clearfilter();
   };

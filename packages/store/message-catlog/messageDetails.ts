@@ -396,7 +396,73 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
 
   clearfilter: () => {
     set({
-      FilterList: [],
+      filterContent: [
+        {
+          name: 'Severity',
+          children: [
+            {
+              component: 'checkbox',
+              label: 'High',
+              id: 1,
+              value: false,
+            },
+            {
+              component: 'checkbox',
+              label: 'Low',
+              id: 2,
+              value: false,
+            },
+            {
+              component: 'checkbox',
+              label: 'Medium',
+              id: 3,
+              value: false,
+            },
+          ],
+        },
+        {
+          name: 'Status',
+          children: [
+            {
+              component: 'checkbox',
+              label: 'Active',
+              id: 1,
+              value: true,
+            },
+            {
+              component: 'checkbox',
+              label: 'Inactive',
+              id: 2,
+              value: true,
+            },
+          ],
+        },
+        {
+          name: 'Date',
+          children: [
+            {
+              component: 'dateCheckbox',
+              label: 'Created On',
+              value: false,
+            },
+            {
+              component: 'dateCheckbox',
+              label: 'Modified On',
+              value: false,
+            },
+            {
+              component: 'dateInput',
+              label: 'Select Date From',
+              value: '23rd Jan, 22',
+            },
+            {
+              component: 'dateInput',
+              label: 'Select Date To',
+              value: '25th Jan, 22',
+            },
+          ],
+        },
+      ],
     });
   },
 }));

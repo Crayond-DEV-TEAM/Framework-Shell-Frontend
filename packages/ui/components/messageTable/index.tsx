@@ -202,42 +202,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     //   setaddMessage({ key, value });
     // }
   };
-  // const onApply = () => {
-  //   const FilterArray: any = [];
-  //   if (Array.isArray(filterContent?.[0]?.children) && filterContent?.[0]?.children?.length > 0) {
-  //     filterContent?.[0]?.children?.filter((val: any) => val?.value === true && FilterArray.push(val?.id));
-  //   }
-  //   let created = {
-  //     from_date: '',
-  //     end_date: '',
-  //   };
-  //   let updated = {
-  //     from_date: '',
-  //     end_date: '',
-  //   };
-  //   if (Array.isArray(filterContent?.[2]?.children) && filterContent?.[2]?.children?.length > 0) {
-  //     if (
-  //       filterContent?.[2]?.children?.filter((val: any) => val?.label === 'Created On' && val?.value === true)?.length >
-  //       0
-  //     ) {
-  //       created = {
-  //         from_date: filterContent?.[2]?.children?.[2]?.value ?? '',
-  //         end_date: filterContent?.[2]?.children?.[3]?.value ?? '',
-  //       };
-  //     }
-  //     if (
-  //       filterContent?.[2]?.children?.filter((val: any) => val?.label === 'Modified On' && val?.value === true)
-  //         ?.length > 0
-  //     ) {
-  //       updated = {
-  //         from_date: filterContent?.[2]?.children?.[2]?.value ?? '',
-  //         end_date: filterContent?.[2]?.children?.[3]?.value ?? '',
-  //       };
-  //     }
-  //   }
-  //   filterMessage(FilterArray, created, updated);
-  //   clearfilter();
-  // };
 
   const handleSwitch = (id: string, data: any, e: any) => {
     if (!switchList.includes(id)) {

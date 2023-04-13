@@ -197,21 +197,30 @@ export interface FilterDetails {
   msg_grp_id?: string;
 }
 
+export interface FilterSetContent {
+  name: string;
+  children: [
+    {
+      component: any;
+      label: string;
+      id: number;
+      value: boolean;
+    },
+  ];
+}
+
 // export interface FilterSetContent {
-//   filterContent: any;
-//   filterContent: [
-//     {
-//       name: string;
-//       children: [
-//         {
-//           component: any;
-//           label: string;
-//           id: number;
-//           value: boolean;
-//         },
-//       ];
-//     },
-//   ];
+//   // existing properties
+//   filterContent: (
+//     | { name: string; children: { component: string; label: string; id: number; value: boolean }[] }
+//     | {
+//         name: string;
+//         children: (
+//           | { component: string; label: string; value: boolean }
+//           | { component: string; label: string; value: string }
+//         )[];
+//       }
+//   )[];
 // }
 
 export interface MessageGroupsDetails {
@@ -234,7 +243,7 @@ export interface MessageGroupsDetails {
   SevorityList: MessageDetails[];
   MessageArray: MessageDetails[];
   // filterContentState: FilterSetContent[];
-  // filterContent: FilterSetContent[];
+  filterContent: FilterSetContent[];
 
   filterLoading: boolean;
   errorOnFilter: boolean;

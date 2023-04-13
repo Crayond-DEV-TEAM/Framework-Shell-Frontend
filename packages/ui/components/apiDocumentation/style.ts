@@ -25,6 +25,7 @@ export const apiDocumentation_style = {
     sm: {
       padding: '16px 24px',
     },
+    border: '1px solid #eaeaea',
   },
   copySx: {
     backgroundColor: '#E9F0EF',
@@ -46,6 +47,7 @@ export const apiDocumentation_style = {
     boxShadow: '0 5px 20px #0000000A',
     borderRadius: '8px',
     marginTop: '16px',
+    border: '1px solid #eaeaea',
   },
 
   referenceScroll: {
@@ -194,8 +196,9 @@ export const apiDocumentation_style = {
   lastSx: {
     backgroundColor: '#fff',
     boxShadow: '0 5px 20px #0000000A',
-    bordeRadius: '8px',
+    borderRadius: '8px',
     marginTop: '16px',
+    border: '1px solid #eaeaea',
   },
   inputSx: {
     '& .MuiOutlinedInput-root': {

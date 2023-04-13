@@ -255,6 +255,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   ];
 
   const addMessageTableFun = async () => {
+    debugger;
     if (isEdit && isValidToCreate()) {
       editTableMessage?.msg_grp_msg_data?.forEach((e: any, i: any) => (e.message = message[i]));
       await tableEditMessage(editTableMessage);
@@ -357,7 +358,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     deleteTableMessage({ delid, messageId });
     getAllTableGroup(messageGroupId);
   };
-  console.log(delid, 'delid');
+  console.log(editTableMessage, 'delid');
   const [selected, setSelected] = useState(false);
 
   const handlemodalOpen = () => {
@@ -508,7 +509,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
             updateStatusReport={updateStatusReport}
             groupState={editTableMessage}
             status={status}
-            onChangeMessage={addMessageTableFun}
+            onChangeMessage={handleStateChange}
             isEdit={isEdit}
             options={severtiy}
             language={addedLangState}
@@ -516,7 +517,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
         }
         Footercomponent={
           <FooterComponent
-            check
+            check={true}
             checked={editTableMessage?.isAddGroup}
             SwitchChange={(e: any) => handleStateChange('isAddGroup', e.target.checked)}
             onSave={addMessageTable}

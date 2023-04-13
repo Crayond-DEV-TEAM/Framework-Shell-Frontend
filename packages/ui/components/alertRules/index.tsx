@@ -175,7 +175,7 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
                 fontSize: '14px',
                 fontWeight: '500',
                 color: '#5A5A5A',
-                bgColor: '#fff',
+                // bgColor: '#fff',
                 borderBottom: '0px',
               }}
               switchList={switchList}

@@ -20,6 +20,9 @@ export interface DialogDrawerProps {
   handleClose?: () => void;
   // handleSubmit: () => void;
   title: string;
+  closeIcon: boolean;
+  isFooterRequired: boolean;
+  isHeaderTitleRequired: boolean;
   titleStyle?: object;
   content?: React.ReactNode;
   maxModalWidth?: any;
@@ -41,9 +44,12 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
       false;
     },
     dialogRootStyle = {},
+    isFooterRequired = true,
+    isHeaderTitleRequired = true,
     // handleSubmit = {},
     title = 'Add New Message',
     content = '',
+    closeIcon = true,
     Bodycomponent = null,
     check = false,
     Footercomponent,
@@ -70,23 +76,27 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
           sx: { ...dialogDrawerStyle.dialogRootSx, ...dialogRootStyle },
         }}
       >
-        <DialogTitle id="scroll-dialog-title" sx={dialogDrawerStyle.header}>
-          <Box sx={dialogDrawerStyle.headAlign}>
-            <Typography sx={dialogDrawerStyle.title}>{title}</Typography>
-            <Box
-              component="img"
-              src={CloseIcon}
-              onClick={handleCloseDialog}
-              sx={{ cursor: 'pointer' }}
-              height={16}
-              width={16}
-            />
-          </Box>
-        </DialogTitle>
+        {isHeaderTitleRequired && (
+          <DialogTitle id="scroll-dialog-title" sx={dialogDrawerStyle.header}>
+            <Box sx={dialogDrawerStyle.headAlign}>
+              <Typography sx={dialogDrawerStyle.title}>{title}</Typography>
+              {closeIcon && (
+                <Box
+                  component="img"
+                  src={CloseIcon}
+                  onClick={handleCloseDialog}
+                  sx={{ cursor: 'pointer' }}
+                  height={16}
+                  width={16}
+                />
+              )}
+            </Box>
+          </DialogTitle>
+        )}
         <DialogContent sx={{ ...dialogDrawerStyle.contentSx, ...contentStyleSx }}>
           {content ? content : Bodycomponent}
         </DialogContent>
-        <DialogActions sx={dialogDrawerStyle.header}>{Footercomponent}</DialogActions>
+        {isFooterRequired && <DialogActions sx={dialogDrawerStyle.header}>{Footercomponent}</DialogActions>}
       </Dialog>
     </Box>
   );

@@ -5,9 +5,9 @@ export const dialogContent_style = {
 
   commonTable: {
     margin: '24px',
-    border: "1px solid #EAEAEA",
+    border: '1px solid #EAEAEA',
     '& .MuiTableContainer-root': {
-      borderBottom: "1px solid #EAEAEA",
+      borderBottom: '1px solid #EAEAEA',
       borderRadius: '7px 7px 0px 0px',
     },
     '& .TABLE_BOX': {
@@ -18,7 +18,7 @@ export const dialogContent_style = {
       paddingBottom: '13px !important',
       '& .MuiInputBase-root': {
         backgroundColor: '#FFFFFF',
-        width: "332px"
+        width: '332px',
       },
       '& .MuiIconButton-root': {
         backgroundColor: '#FFFFFF',
@@ -27,7 +27,7 @@ export const dialogContent_style = {
     '& button': {
       textTransform: 'capitalize !important',
       '&:hover': {
-        backgroundColor: "#357968"
+        backgroundColor: '#357968',
       },
     },
   },
@@ -36,7 +36,11 @@ export const dialogContent_style = {
     padding: '24px',
     borderRight: '1px solid #E0E0E0',
   },
-
+  labelSx: {
+    fontSize: '12px',
+    color: 'typography.label',
+    lineHeight: '30px',
+  },
   rightContent: {
     padding: '24px',
     height: '458px',
@@ -51,7 +55,7 @@ export const dialogContent_style = {
   },
 
   field: {
-    marginBottom: '17px',
+    marginBottom: '12px',
     '& .MuiInputBase-root': {
       backgroundColor: '#FFFFFF',
     },
@@ -66,7 +70,7 @@ export const dialogContent_style = {
   checkBoxGroup: {
     '& .MuiFormControlLabel-label': {
       fontSize: '14px',
-      fontWeight: 600,
+      fontWeight: 500,
       '& .active': {
         color: '#357968',
       },

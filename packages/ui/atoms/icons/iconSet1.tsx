@@ -619,3 +619,30 @@ export function ApiDocument(props: IconInterface) {
     </SvgIcon>
   );
 }
+export function ErrorInfo(props: IconInterface) {
+  const { rootStyle, ...rest } = props;
+
+  const rootSx = {
+    height: 33,
+    width: 33,
+    ...rootStyle,
+  };
+  return (
+    <SvgIcon
+      xmlns="http://www.w3.org/2000/svg"
+      width="33.466"
+      height="30.943"
+      viewBox="0 0 33.466 30.943"
+      {...rest}
+      sx={rootSx}
+    >
+      <path
+        id="icons8-error_1_"
+        data-name="icons8-error (1)"
+        d="M20.753,5.053a3.731,3.731,0,0,0-3.307,1.906L4.481,30.38A3.822,3.822,0,0,0,7.788,36H33.719a3.822,3.822,0,0,0,3.307-5.615L24.061,6.958A3.731,3.731,0,0,0,20.753,5.053Zm0,2.426a1.27,1.27,0,0,1,1.109.7L34.828,31.6a1.235,1.235,0,0,1-1.109,1.886H7.788A1.235,1.235,0,0,1,6.679,31.6L19.644,8.175A1.27,1.27,0,0,1,20.753,7.479Zm-.02,6.724A1.256,1.256,0,0,0,19.5,15.477v8.375a1.256,1.256,0,1,0,2.513,0V15.477A1.256,1.256,0,0,0,20.734,14.2Zm.02,13.418A1.675,1.675,0,1,0,22.428,29.3,1.675,1.675,0,0,0,20.753,27.621Z"
+        transform="translate(-4.021 -5.053)"
+        fill="#ff4d4a"
+      />
+    </SvgIcon>
+  );
+}

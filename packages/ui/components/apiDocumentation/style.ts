@@ -148,7 +148,21 @@ export const apiDocumentation_style = {
       fontSize: '13px',
     },
   },
-
+  btnSx: {
+    borderRadius: '8px',
+    textTransform: ' capitalize',
+    width: ' 44px',
+    backgroundColor: '#357968',
+    textAlign: 'center',
+    color: ' #fff',
+    padding: '3px 3px',
+  },
+  trySx: {
+    display: 'flex',
+    justifyContent: 'end',
+    p: 2,
+    cursor: 'pointer',
+  },
   apicontent: {
     display: 'block',
     overflow: 'hidden',
@@ -201,5 +215,39 @@ export const apiDocumentation_style = {
     '& .TEXT': {
       maxWidth: '100px',
     },
+  },
+  contentSx: {},
+  errorSx: {
+    backgroundColor: '#ffe8e8',
+    borderRadius: '50px',
+    p: 2,
+    width: '96px',
+    display: 'flex',
+    margin: '0px auto',
+    justifyContent: 'center',
+    height: '96px',
+    alignItems: 'center',
+  },
+  totalError: {
+    textAlign: 'center',
+    // px: 3,
+    pt: 3,
+    // pb: 3,
+  },
+  responseSx: {
+    fontSize: '16px',
+    fontWeight: '600',
+    p: 2,
+  },
+  bodySx: {
+    overflow: 'hidden',
+    backgroundColor: '#F7F7F7',
+    p: 2,
+    mb: 3,
+    borderRadius: '8px',
+  },
+  ResponseBtn: {
+    maxWidth: '242px',
+    borderRadius: '8px',
   },
 };

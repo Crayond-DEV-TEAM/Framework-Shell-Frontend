@@ -8,8 +8,9 @@ import { CommonTable } from 'crayond-components-library-1';
 import CopyLinkIcon from '@core/ui/assets/copyLinkIcon';
 import { apiDocumentation_style } from './style';
 import { TextBox } from '@components/textBox';
-import { Input, Label } from '@atoms';
+import { Button, DialogDrawer, Input, Label } from '@atoms';
 import { dummyAlert } from '@core/store/utils';
+import { ErrorInfo } from '@atoms/icons';
 
 export interface ApiDocumentationProps {
   data?: any;
@@ -23,7 +24,7 @@ export interface ApiDocumentationProps {
 
 export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
   const [tabindex, settabindex] = React.useState(0);
-
+  const [open, setOpen] = React.useState(false);
   const textBox = [
     'Reference ID',
     'Alert Key',
@@ -80,6 +81,10 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
     console.log('Hi');
   };
 
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
   return (
     <Box sx={apiDocumentation_style.root}>
       <SubHeader title="API Documentation" sx={apiDocumentation_style.subHeader} />
@@ -122,8 +127,10 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
           </Grid>
           <Grid item md={6} sm={12}>
             <Box m={1} mt={2} mr={0}>
-              <Box>
-                <Typography sx={apiDocumentation_style.tryBtn}>Try</Typography>
+              <Box sx={apiDocumentation_style.trySx}>
+                <Box sx={apiDocumentation_style.btnSx} onClick={handleOpen}>
+                  try
+                </Box>
               </Box>
               <Box sx={apiDocumentation_style.referenceScroll} p={2}>
                 <Typography component={'pre'} sx={apiDocumentation_style.dummy}>
@@ -176,7 +183,7 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
               fontSize: '14px',
               fontWeight: '500',
               color: '#5A5A5A',
-              bgColor: '#fff',
+              // bgColor: '#fff',
               borderBottom: '0px',
             }}
             tableMinWidth={'300px'}
@@ -185,12 +192,6 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
             paddingAll={'0px'}
             marginAll={'0px'}
             dense={'medium'}
-            //   HeaderComponent={{
-            //     variant: 'CUSTOM',
-            //     component: (
-
-            //     ),
-            //   }}
           />
         </Box>
       </Box>
@@ -216,6 +217,45 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
           </Typography>
         </Box>
       </Box>
+
+      <DialogDrawer
+        dialogRootStyle={{
+          width: '448px',
+          height: '346px',
+          p: 0,
+          '& .MuiDialogContent-root': {
+            padding: '20px 24px !important',
+          },
+        }}
+        closeIcon={false}
+        fullWidth
+        fullScreen
+        isFooterRequired={false}
+        isHeaderTitleRequired={false}
+        title=""
+        contentStyleSx={apiDocumentation_style.contentSx}
+        isDialogOpened={open}
+        Bodycomponent={
+          <Box sx={apiDocumentation_style.totalError}>
+            <Box sx={apiDocumentation_style.errorSx}>
+              <ErrorInfo />
+            </Box>
+            <Typography sx={apiDocumentation_style.responseSx}>Response</Typography>
+
+            <Box>
+              <Typography sx={apiDocumentation_style.bodySx}>Request failed with status code 402</Typography>
+
+              <Button
+                sx={apiDocumentation_style.ResponseBtn}
+                // onClick={handleOpen}
+              >
+                close
+              </Button>
+            </Box>
+          </Box>
+        }
+        // handleCloseDialog={handleClose}
+      />
     </Box>
   );
 }

@@ -230,7 +230,7 @@ export const AllRoutes: { [key: number]: Menu } = {
       {
         id: 1,
         link: '/languageconfig',
-        name: 'Language Configuration',
+        name: 'Language Config',
         baseUrl: '',
         icon: (isSelected: boolean) => <SubMessageLanguage sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },

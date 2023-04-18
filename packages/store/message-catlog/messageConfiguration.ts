@@ -139,4 +139,10 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
       });
     return false;
   },
+  clearAll: () => {
+    set({
+      addMessage: giveMeMessageGroupInitialState(),
+      editMessage: giveMeMessageGroupInitialState(),
+    });
+  },
 }));

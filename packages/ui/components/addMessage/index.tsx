@@ -38,6 +38,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     editMessageGroups,
     editMessageListGroups,
     editMessageList,
+    clearAll,
   } = useMessageConfiguration();
 
   const [open, setOpen] = useState(false);
@@ -50,9 +51,15 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
 
   const handleOpen = () => setOpen(true);
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    clearAll();
+  };
 
-  const handleEditClose = () => setValues(false);
+  const handleEditClose = () => {
+    setValues(false);
+    clearAll();
+  };
 
   const handleAddMsg = () => {
     setOpen(false);
@@ -88,8 +95,12 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
   }, []);
 
   return (
-    <Box sx={[{ ...addMessageStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]} className={`${className}`} ref={ref} {...rest}>
-
+    <Box
+      sx={[{ ...addMessageStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]}
+      className={`${className}`}
+      ref={ref}
+      {...rest}
+    >
       <Box sx={addMessageStyle.header}>
         <Typography sx={addMessageStyle.titleSx}>Message Group</Typography>
         <IconButton onClick={handleOpen} sx={{ p: 0 }}>
@@ -125,10 +136,18 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
           })
         ) : (
           <Box>
-            {!fetching && <Typography variant='body2' color="textSecondary">You are yet to add a message group.</Typography>}
-            {fetching && <Stack spacing={0.25} px={2}>
-              {Array.from(Array(10).keys()).map( _ => <Skeleton height={40} width={'100%'} key={_} />)}  
-            </Stack>}
+            {!fetching && (
+              <Typography variant="body2" color="textSecondary">
+                You are yet to add a message group.
+              </Typography>
+            )}
+            {fetching && (
+              <Stack spacing={0.25} px={2}>
+                {Array.from(Array(10).keys()).map((_) => (
+                  <Skeleton height={40} width={'100%'} key={_} />
+                ))}
+              </Stack>
+            )}
           </Box>
         )}
       </Box>

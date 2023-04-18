@@ -48,7 +48,7 @@ export const addMessageStyle: AddMessageStyleProps = {
     textAlign: 'center',
   },
   totalGroupSx: {
-    // overflowY: 'scroll',
-    // height: '63vh',
+    overflowY: 'scroll',
+    height: '60vh',
   },
 };

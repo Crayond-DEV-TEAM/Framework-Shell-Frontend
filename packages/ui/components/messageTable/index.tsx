@@ -41,24 +41,30 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     clearfilter,
     setfilter,
     onApply,
-    clearAll,
   } = useMessageGroupDetails();
 
   const {
-    addEditMessageState, handleAddEditStateChange,
-    adding, addMessage,
-    editing, editMessage,
+    addEditMessageState,
+    handleAddEditStateChange,
+    adding,
+    addMessage,
+    editing,
+    editMessage,
     onEditClicked,
-    open, setOpen
+    open,
+    setOpen,
+    clearAll,
   } = useMessage();
 
-  const filterContent: any[] = [];
+  const { filterContentState } = useMessageGroupDetails();
+
+  // const filterContent: any[] = [];
 
   const { languages, getSavedLanguage } = useLanguageConfiguration();
   const [isEdit, setIsEdit] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [tableName, setTableName] = useState('');
-  const [groupId, setGroupId] = useState<string>("");
+  const [groupId, setGroupId] = useState<string>('');
 
   const filteredMessageGroup = MessagesList.filter((x: any) =>
     x.title.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -74,9 +80,9 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
 
   const handleTableDelete = (id: string) => {
     handlemodalOpen();
-  }
+  };
 
-  const handleFilterChange = (key: any, value: string, parent: any, parentIndex: any, childrenIndex: any) => {
+  const handleFilterChange = (key: any, value: string) => {
     setfilter({ key, value });
   };
 
@@ -157,7 +163,12 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   }, []);
 
   return (
-    <Box sx={[{ ...messageTableStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]} className={`${className}`} ref={ref} {...rest}>
+    <Box
+      sx={[{ ...messageTableStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]}
+      className={`${className}`}
+      ref={ref}
+      {...rest}
+    >
       <Grid container display="flex" sx={messageTableStyle.totalTableSx} spacing={3}>
         {/* Message Group */}
         <Grid item xs={12} sm={4} md={2.25}>
@@ -203,7 +214,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                 variant: 'CUSTOM',
                 component: (
                   <TableHeader
-                    filterContent={filterContent}
+                    filterContentState={filterContentState}
                     filterChange={handleFilterChange}
                     onChange={isEdit ? handleeditChange : handleAddChange}
                     options={SevorityList}
@@ -255,21 +266,18 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
         }}
         contentStyleSx={messageTableStyle.contentSx}
         isDialogOpened={open}
-        title={`${isEdit ? "Edit" : "Add New"} Message`}
+        title={`${isEdit ? 'Edit' : 'Add New'} Message`}
         Bodycomponent={
-          <AddMessageGroup
-            status={StatusList}
-            isEdit={isEdit}
-            options={SevorityList}
-            language={languages}
-          />
+          <AddMessageGroup status={StatusList} isEdit={isEdit} options={SevorityList} language={languages} />
         }
         Footercomponent={
           <FooterComponent
             check
             checked={addEditMessageState.status}
-            SwitchChange={(e: React.ChangeEvent<HTMLInputElement>) => handleAddEditStateChange('status', e.target.checked)}
-            onSave={ () => isEdit ? editMessage(groupId) : addMessage(groupId)}
+            SwitchChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleAddEditStateChange('status', e.target.checked)
+            }
+            onSave={() => (isEdit ? editMessage(groupId) : addMessage(groupId))}
             onCancel={handleClose}
             loading={isEdit ? editing : adding}
           />

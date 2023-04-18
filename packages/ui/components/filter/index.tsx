@@ -9,7 +9,7 @@ import { filterStyle } from './style';
 import { Button } from '@atoms/button';
 import Chip from '@mui/material/Chip';
 import { CheckBox } from '@atoms/checkBox';
-// import { filterContent } from '@core/utils';
+import { filterContent } from '@core/utils';
 import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
 import { DropDown } from '@atoms/dropDown';
@@ -24,7 +24,7 @@ export interface FilterProps {
   onChange?: () => void;
   onApply?: () => void;
   handleChipDelete?: (chip: string, i: any, parentIndex: any) => void;
-  filterContent?: any;
+  filterContentState?: any;
   sx?: SxProps<Theme>;
 }
 
@@ -38,9 +38,10 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
     onChange = () => null,
     onApply = () => false,
     handleChipDelete = () => null,
-    filterContent,
+    filterContentState,
     ...rest
   } = props;
+  console.log(filterContentState, 'filterContentStatefilterContentState');
   const { clearfilter } = useMessageGroupDetails();
   // General Hooks
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -109,16 +110,16 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
     option: any,
     handleChange: any,
   ) => {
-    const handleChangeFunc = (label: string, value: any, isParent: any, parentIndex: any, childrenIndex: any) => {
-      handleChange(label, value, isParent, parentIndex, childrenIndex);
-    };
+    // const onChange = (label: string, value: any, isParent: any, parentIndex: any, childrenIndex: any) => {
+    //   handleChange(label, value, isParent, parentIndex, childrenIndex);
+    // };
     if (type === 'checkbox') {
       return (
         <Box sx={filterStyle.contentBoxSideSx}>
           <CheckBox
             checkStyle={filterStyle.checkBoxSx}
-            checked={option?.value}
-            onChange={(e) => handleChangeFunc(option?.label, e.target.checked, isParent, parentIndex, childrenIndex)}
+            checked={filterContentState?.value}
+            onChange={(e) => onChange('high', e.target.checked)}
             checkSecondStyle={filterStyle.checkSecondBoxSx}
           />
           <Typography
@@ -126,7 +127,7 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
               ...filterStyle.quesSx,
             }}
           >
-            {option?.label}
+            {filterContentState?.label}
           </Typography>
         </Box>
       );
@@ -136,15 +137,14 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
           <Typography
             sx={{
               ...filterStyle.quesSx,
-              // fontWeight: option?.selected ? '600' : '400',
             }}
           >
             {option?.label}
           </Typography>
           <CheckBox
             checkStyle={{ ...filterStyle.checkBoxSx, borderRadius: '50px' }}
-            checked={option?.value}
-            onChange={(e) => handleChangeFunc(option?.label, e.target.checked, isParent, parentIndex, childrenIndex)}
+            checked={option?.filterContentState}
+            onChange={(e) => onChange(status, e.target.checked)}
             checkSecondStyle={filterStyle.checkSecondBoxSx}
           />
         </Box>
@@ -161,32 +161,33 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
                   pb: 0.75,
                 }}
               >
-                {option?.label}
+                dtae
               </Typography>
               <Input
                 size="small"
                 type="date"
                 textFieldStyle={filterStyle.dateInputSx}
-                value={option?.value ?? ''}
+                value={option?.filterContentState ?? ''}
                 id="username"
-                onChange={(e) => handleChangeFunc(option?.label, e.target.value, isParent, parentIndex, childrenIndex)}
+                onChange={(e) => onChange('clickedOnStartdate', e.target.value)}
               />
             </Box>
           </Box>
         </Box>
       );
-    } else if (type === 'searchField') {
-      return (
-        <Box sx={filterStyle.searchSx}>
-          <Input
-            placeholder="search"
-            value={option?.value ?? ''}
-            onChange={(e) => handleChangeFunc(option?.label, e.target.value, isParent, parentIndex, childrenIndex)}
-            startAdornment={<SearchIcon sx={{ fontSize: '16px', color: '#818181' }} />}
-          />
-        </Box>
-      );
     }
+    // else if (type === 'searchField') {
+    //   return (
+    //     <Box sx={filterStyle.searchSx}>
+    //       <Input
+    //         placeholder="search"
+    //         value={option?.value ?? ''}
+    //         onChange={(e) => onChange(option?.label, e.target.value, isParent, parentIndex, childrenIndex)}
+    //         startAdornment={<SearchIcon sx={{ fontSize: '16px', color: '#818181' }} />}
+    //       />
+    //     </Box>
+    //   );
+    // }
   };
 
   return (
@@ -318,15 +319,6 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
                               )}
                             </Box>
                           ))}
-
-                          {/* {footer && (
-                            <Box sx={filterStyle.footerSx}>
-                              <Box sx={filterStyle.subFooterSx}>
-                                <Button buttonStyle={filterStyle.footerCancelBtn}>Cancel</Button>
-                                <Button buttonStyle={filterStyle.footerBtn}>Apply</Button>
-                              </Box>
-                            </Box>
-                          )} */}
                         </Box>
                       ) : (
                         ''

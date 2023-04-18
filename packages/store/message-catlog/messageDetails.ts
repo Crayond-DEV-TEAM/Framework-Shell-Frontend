@@ -31,73 +31,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   FilterList: [],
   filterLoading: false,
   errorOnFilter: false,
-  filterContent: [
-    {
-      name: 'Severity',
-      children: [
-        {
-          component: 'checkbox',
-          label: 'High',
-          id: 1,
-          value: false,
-        },
-        {
-          component: 'checkbox',
-          label: 'Low',
-          id: 2,
-          value: false,
-        },
-        {
-          component: 'checkbox',
-          label: 'Medium',
-          id: 3,
-          value: false,
-        },
-      ],
-    },
-    {
-      name: 'Status',
-      children: [
-        {
-          component: 'checkbox',
-          label: 'Active',
-          id: 1,
-          value: true,
-        },
-        {
-          component: 'checkbox',
-          label: 'Inactive',
-          id: 2,
-          value: true,
-        },
-      ],
-    },
-    {
-      name: 'Date',
-      children: [
-        {
-          component: 'dateCheckbox',
-          label: 'Created On',
-          value: false,
-        },
-        {
-          component: 'dateCheckbox',
-          label: 'Modified On',
-          value: false,
-        },
-        {
-          component: 'dateInput',
-          label: 'Select Date From',
-          value: '23rd Jan, 22',
-        },
-        {
-          component: 'dateInput',
-          label: 'Select Date To',
-          value: '25th Jan, 22',
-        },
-      ],
-    },
-  ],
+  filterContentState: [],
 
   setaddMessage: (payload: { key: string; value: string }) => {
     set((state) => {
@@ -111,7 +45,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     set((state) => ({ idList: id.key.id }));
   },
   setfilter: (payload: { key: string; value: string }) => {
-    set((state) => ({ FilterList: { ...state.FilterList, [payload.key]: payload.value } }));
+    set((state) => ({ filterContentState: { ...state.filterContentState, [payload.key]: payload.value } }));
   },
 
   getMessageList: () => {
@@ -349,40 +283,40 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   },
 
   onApply: () => {
-    const { filterContent, filterMessage } = get();
-    const FilterArray: any = [];
-    if (Array.isArray(filterContent?.[0]?.children) && filterContent?.[0]?.children?.length > 0) {
-      filterContent?.[0]?.children?.filter((val: any) => val?.value === true && FilterArray.push(val?.id));
-    }
-    let created = {
-      from_date: '',
-      end_date: '',
-    };
-    let updated = {
-      from_date: '',
-      end_date: '',
-    };
-    if (Array.isArray(filterContent?.[2]?.children) && filterContent?.[2]?.children?.length > 0) {
-      if (
-        filterContent?.[2]?.children?.filter((val: any) => val?.label === 'Created On' && val?.value === true)?.length >
-        0
-      ) {
-        created = {
-          from_date: filterContent?.[2]?.children?.[2]?.value ?? '',
-          end_date: filterContent?.[2]?.children?.[3]?.value ?? '',
-        };
-      }
-      if (
-        filterContent?.[2]?.children?.filter((val: any) => val?.label === 'Modified On' && val?.value === true)
-          ?.length > 0
-      ) {
-        updated = {
-          from_date: filterContent?.[2]?.children?.[2]?.value ?? '',
-          end_date: filterContent?.[2]?.children?.[3]?.value ?? '',
-        };
-      }
-    }
-    filterMessage(FilterArray, created, updated);
+    // const { filterContent, filterMessage } = get();
+    // const FilterArray: any = [];
+    // if (Array.isArray(filterContent?.[0]?.children) && filterContent?.[0]?.children?.length > 0) {
+    //   filterContent?.[0]?.children?.filter((val: any) => val?.value === true && FilterArray.push(val?.id));
+    // }
+    // let created = {
+    //   from_date: '',
+    //   end_date: '',
+    // };
+    // let updated = {
+    //   from_date: '',
+    //   end_date: '',
+    // };
+    // if (Array.isArray(filterContent?.[2]?.children) && filterContent?.[2]?.children?.length > 0) {
+    //   if (
+    //     filterContent?.[2]?.children?.filter((val: any) => val?.label === 'Created On' && val?.value === true)?.length >
+    //     0
+    //   ) {
+    //     created = {
+    //       from_date: filterContent?.[2]?.children?.[2]?.value ?? '',
+    //       end_date: filterContent?.[2]?.children?.[3]?.value ?? '',
+    //     };
+    //   }
+    //   if (
+    //     filterContent?.[2]?.children?.filter((val: any) => val?.label === 'Modified On' && val?.value === true)
+    //       ?.length > 0
+    //   ) {
+    //     updated = {
+    //       from_date: filterContent?.[2]?.children?.[2]?.value ?? '',
+    //       end_date: filterContent?.[2]?.children?.[3]?.value ?? '',
+    //     };
+    //   }
+    // }
+    // filterMessage(FilterArray, created, updated);
     // clearfilter();
   },
 
@@ -396,73 +330,73 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
 
   clearfilter: () => {
     set({
-      filterContent: [
-        {
-          name: 'Severity',
-          children: [
-            {
-              component: 'checkbox',
-              label: 'High',
-              id: 1,
-              value: false,
-            },
-            {
-              component: 'checkbox',
-              label: 'Low',
-              id: 2,
-              value: false,
-            },
-            {
-              component: 'checkbox',
-              label: 'Medium',
-              id: 3,
-              value: false,
-            },
-          ],
-        },
-        {
-          name: 'Status',
-          children: [
-            {
-              component: 'checkbox',
-              label: 'Active',
-              id: 1,
-              value: true,
-            },
-            {
-              component: 'checkbox',
-              label: 'Inactive',
-              id: 2,
-              value: true,
-            },
-          ],
-        },
-        {
-          name: 'Date',
-          children: [
-            {
-              component: 'dateCheckbox',
-              label: 'Created On',
-              value: false,
-            },
-            {
-              component: 'dateCheckbox',
-              label: 'Modified On',
-              value: false,
-            },
-            {
-              component: 'dateInput',
-              label: 'Select Date From',
-              value: '23rd Jan, 22',
-            },
-            {
-              component: 'dateInput',
-              label: 'Select Date To',
-              value: '25th Jan, 22',
-            },
-          ],
-        },
-      ],
+      // filterContent: [
+      //   {
+      //     name: 'Severity',
+      //     children: [
+      //       {
+      //         component: 'checkbox',
+      //         label: 'High',
+      //         id: 1,
+      //         value: false,
+      //       },
+      //       {
+      //         component: 'checkbox',
+      //         label: 'Low',
+      //         id: 2,
+      //         value: false,
+      //       },
+      //       {
+      //         component: 'checkbox',
+      //         label: 'Medium',
+      //         id: 3,
+      //         value: false,
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     name: 'Status',
+      //     children: [
+      //       {
+      //         component: 'checkbox',
+      //         label: 'Active',
+      //         id: 1,
+      //         value: true,
+      //       },
+      //       {
+      //         component: 'checkbox',
+      //         label: 'Inactive',
+      //         id: 2,
+      //         value: true,
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     name: 'Date',
+      //     children: [
+      //       {
+      //         component: 'dateCheckbox',
+      //         label: 'Created On',
+      //         value: false,
+      //       },
+      //       {
+      //         component: 'dateCheckbox',
+      //         label: 'Modified On',
+      //         value: false,
+      //       },
+      //       {
+      //         component: 'dateInput',
+      //         label: 'Select Date From',
+      //         value: '23rd Jan, 22',
+      //       },
+      //       {
+      //         component: 'dateInput',
+      //         label: 'Select Date To',
+      //         value: '25th Jan, 22',
+      //       },
+      //     ],
+      //   },
+      // ],
     });
   },
 }));

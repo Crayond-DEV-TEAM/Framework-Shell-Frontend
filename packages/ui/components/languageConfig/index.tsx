@@ -145,37 +145,36 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
               </>
             )}
           </Grid>
+        </Box>
+        <Box
+          sx={{
+            position: 'relative',
+            // top: '200px',
+            bottom: 0,
+            display: 'flex',
+            justifyContent: 'flex-end',
+          }}
+        >
+          {message.length > 0 && (
+            <Typography sx={isSaved ? languageConfigStyle.messageSuccess : languageConfigStyle.messageBox}>
+              {message}
+            </Typography>
+          )}
 
-          <Box
-            sx={{
-              position: 'relative',
-              top: '200px',
-              bottom: 0,
+          <Button
+            buttonStyle={{
+              width: '62px',
+              height: '28px',
+              textTransform: 'capitalize',
               display: 'flex',
               justifyContent: 'flex-end',
+              mr: 2.5,
             }}
+            onclick={saveLanguage}
+            loading={saving}
           >
-            {message.length > 0 && (
-              <Typography sx={isSaved ? languageConfigStyle.messageSuccess : languageConfigStyle.messageBox}>
-                {message}
-              </Typography>
-            )}
-
-            <Button
-              buttonStyle={{
-                width: '62px',
-                height: '28px',
-                textTransform: 'capitalize',
-                display: 'flex',
-                justifyContent: 'flex-end',
-                mr: 2.5,
-              }}
-              onclick={saveLanguage}
-              loading={saving}
-            >
-              Save
-            </Button>
-          </Box>
+            Save
+          </Button>
         </Box>
       </Box>
       <DeleteDailog

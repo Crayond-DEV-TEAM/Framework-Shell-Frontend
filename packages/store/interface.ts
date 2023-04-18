@@ -169,6 +169,7 @@ export interface MessageConfigInterface {
   deleteMessageGroups: (payload: any) => void;
   addMessageGroups: () => boolean;
   editMessageListGroups: (payload: any) => void;
+  clearAll: () => void;
 }
 
 export interface messageListbox {
@@ -197,31 +198,67 @@ export interface FilterDetails {
   msg_grp_id?: string;
 }
 
-export interface FilterSetContent {
+// export interface FilterSetContent {
+//   name: string;
+//   children: [
+//     {
+//       component: any;
+//       label: string;
+//       id: number;
+//       value: boolean;
+//     },
+//   ];
+// }
+
+export interface CheckboxItem {
+  component: 'checkbox';
+  label: string;
+  id: number;
+  value: boolean;
+}
+
+export interface DateCheckboxItem {
+  component: 'dateCheckbox';
+  label: string;
+  value: boolean;
+}
+
+export interface DateInputItem {
+  component: 'dateInput';
+  label: string;
+  value: string;
+}
+
+export interface FilterGroup {
   name: string;
-  children: [
-    {
-      component: any;
-      label: string;
-      id: number;
-      value: boolean;
+  children: (CheckboxItem | DateCheckboxItem | DateInputItem)[];
+}
+
+export interface FilterSetContent {
+  filterContent: FilterGroup[];
+}
+
+export interface filtertech {
+  filterContent: [
+    severity: {
+      high: boolean;
+      low: boolean;
+      medium: boolean;
+    },
+    status: {
+      active: boolean;
+      inActive: boolean;
+    },
+    date: {
+      clickedOnStartdate: string;
+      clickedOnEnddate: string;
+      sendOnDate: string;
+      SendOnEndDate: string;
+      deliveredOnDate: string;
+      deliverdOnEndDate: string;
     },
   ];
 }
-
-// export interface FilterSetContent {
-//   // existing properties
-//   filterContent: (
-//     | { name: string; children: { component: string; label: string; id: number; value: boolean }[] }
-//     | {
-//         name: string;
-//         children: (
-//           | { component: string; label: string; value: boolean }
-//           | { component: string; label: string; value: string }
-//         )[];
-//       }
-//   )[];
-// }
 
 export interface MessageGroupsDetails {
   idList: messageListbox[];
@@ -242,8 +279,8 @@ export interface MessageGroupsDetails {
   StatusList: MessageDetails;
   SevorityList: MessageDetails[];
   MessageArray: MessageDetails[];
-  // filterContentState: FilterSetContent[];
-  filterContent: FilterSetContent[];
+  filterContentState: filtertech[];
+  // filterContent: filtertech[];
 
   filterLoading: boolean;
   errorOnFilter: boolean;
@@ -283,52 +320,53 @@ export interface MessageGroupsDetails {
 }
 
 export interface AddEditMessageState {
-  id?: string,
-  title: string,
-  description: string,
-  severity: number | null,
-  status: boolean,
+  id?: string;
+  title: string;
+  description: string;
+  severity: number | null;
+  status: boolean;
   messages?: {
     [key: string]: {
-      configuration_id?: string,
-      language_id?: number | null,
-      message: string
-    }
-  } | null,
+      configuration_id?: string;
+      language_id?: number | null;
+      message: string;
+    };
+  } | null;
   error: {
-    title: string,
-    description: string,
-  }
+    title: string;
+    description: string;
+  };
 }
 export interface MessageStoreInterface {
-  open: boolean,
-  setOpen: (open:boolean) => void,
+  open: boolean;
+  setOpen: (open: boolean) => void;
 
-  messages: MessageDetails[],
-  fetching: boolean,
-  errorOnFetching: boolean,
+  messages: MessageDetails[];
+  fetching: boolean;
+  errorOnFetching: boolean;
 
-  addEditMessageState: AddEditMessageState,
-  handleAddEditStateChange: (key: string, value: string | number | boolean) => void,
-  handleAddEditMessageChange: (configuration_id: string, message: string) => void,
+  addEditMessageState: AddEditMessageState;
+  handleAddEditStateChange: (key: string, value: string | number | boolean) => void;
+  handleAddEditMessageChange: (configuration_id: string, message: string) => void;
 
-  onEditClicked: (id: string) => void,
-  editDataLoading: boolean,
-  errorOnEditData: boolean,
+  onEditClicked: (id: string) => void;
+  editDataLoading: boolean;
+  errorOnEditData: boolean;
 
-  addMessage: (group_id: string) => void,
-  adding: boolean,
-  errorOnAdding: boolean,
+  addMessage: (group_id: string) => void;
+  adding: boolean;
+  errorOnAdding: boolean;
 
-  editMessage: (group_id: string) => void,
-  editing: boolean,
-  errorOnEditing: boolean,
+  editMessage: (group_id: string) => void;
+  editing: boolean;
+  errorOnEditing: boolean;
 
-  deleteMessage: (id: string) => void,
-  deleting: boolean,
-  errorOnDeleting: boolean,
+  deleteMessage: (id: string) => void;
+  deleting: boolean;
+  errorOnDeleting: boolean;
 
-  getAllMessages: (id: string) => void,
+  getAllMessages: (id: string) => void;
+  clearAll: () => void;
 }
 export interface AddAlertRule {
   id?: number | string;

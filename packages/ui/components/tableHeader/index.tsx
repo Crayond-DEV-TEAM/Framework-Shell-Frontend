@@ -19,7 +19,7 @@ export interface TableHeaderProps {
   isFilterRequired?: boolean;
   isSearchRequired?: boolean;
   isBtnRequired?: boolean;
-  filterContent?: any;
+  filterContentState?: any;
   editTableMessage?: any;
   status?: any;
   checked?: any;
@@ -80,7 +80,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     language,
     searchTerm,
     setSearchTerm,
-    filterContent,
+    filterContentState,
     checked,
     addMessageTable = () => false,
     handleChipDelete = () => false,
@@ -124,7 +124,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
           )}
           {isFilterRequired && (
             <Filter
-              filterContent={filterContent}
+              filterContentState={filterContentState}
               handleChipDelete={handleChipDelete}
               onChange={filterChange}
               onApply={onApply}

@@ -38,6 +38,8 @@ export const languageConfigStyle: LanguageConfigStyleProps = {
   content: {
     pl: 3,
     pt: 2,
+    height: '250px',
+    overflow: 'scroll',
   },
   messageBox: {
     backgroundColor: '#fadede',

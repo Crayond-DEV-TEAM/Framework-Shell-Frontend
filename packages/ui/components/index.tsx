@@ -8,6 +8,7 @@ export { DialogContent } from './dialogContent';
 export { DocumentationTable } from './documentationTable';
 export { EmailDialog } from './emailDialog';
 export { EmailTab } from './emailTab';
+export { EnvironmentTabs } from './environmentTabs';
 export { Filter } from './filter';
 export { ForgotPassword } from './forgotPassword';
 export { LanguageConfig } from './languageConfig';
@@ -31,4 +32,5 @@ export { TableWithPagination } from './tableWithPagination';
 export { ReportTabs } from './tabs';
 export { TabsCard } from './tabsCard';
 export { TabsValueCard } from './tabsValueCard';
+
 

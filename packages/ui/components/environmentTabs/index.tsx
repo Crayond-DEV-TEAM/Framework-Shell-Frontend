@@ -12,24 +12,32 @@ import XlsIcon from '@core/ui/assets/xlsIcon';
 import { EnvironmentTabsStyle } from './style';
 import { TabPanel } from '@mui/lab';
 import React from 'react';
+import Settings from '../../assets/settings';
 
 export interface EnvironmentTabsProps {
   className?: string;
   sx?: SxProps<Theme>;
 }
 
+const handleTabEdit = (e: any) => {
+  console.log(e);
+};
+
 const tabs = [
   {
     title: 'Staging',
     descr: 'Staging',
+    icon: <Settings onClick={() => handleTabEdit('Staging')} />,
   },
   {
     title: 'UAT',
     descr: 'UAT',
+    icon: <Settings onClick={() => handleTabEdit('UAT')} />,
   },
   {
     title: 'Production',
     descr: 'Production',
+    icon: <Settings onClick={() => handleTabEdit('Production')} />,
   },
 ];
 
@@ -54,15 +62,18 @@ export const EnvironmentTabs = forwardRef((props: EnvironmentTabsProps): JSX.Ele
       {...rest}
     >
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs aria-label="basic tabs example">
-          {tabs?.map((_e: any, i: any) => (
-            <Tab
-              onClick={() => onChange(_e, i)}
-              sx={selected === i ? EnvironmentTabsStyle.selectedSx : EnvironmentTabsStyle.unSelectedSx}
-              key={i}
-              label={_e.title}
-            />
-          ))}
+        <Tabs aria-label="basic tabs example" sx={EnvironmentTabsStyle.tabsSx}>
+          {tabs?.map((_e: any, i: any) => {
+            return (
+              <Tab
+                onClick={() => onChange(_e, i)}
+                sx={selected === i ? EnvironmentTabsStyle.selectedSx : EnvironmentTabsStyle.unSelectedSx}
+                key={i}
+                label={_e.title}
+                icon={_e.icon}
+              />
+            );
+          })}
         </Tabs>
       </Box>
     </Box>

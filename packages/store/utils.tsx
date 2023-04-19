@@ -8,6 +8,7 @@ import {
   MessageDetails,
   MessageGroup,
   ResetPasswordState,
+  ServiceInterface,
   SignInState,
   SignUpStateInterface,
   UserDataInterface,
@@ -657,15 +658,28 @@ export const giveMeStateOfid = (): MessageDetails => {
 
 export const giveMeAddEditMessageInitialState = (): AddEditMessageState => {
   return {
-    id: "",
-    title: "",
-    description: "",
+    id: '',
+    title: '',
+    description: '',
     severity: null,
     status: false,
     messages: null,
     error: {
-      title: "",
-      description: "",
-    }
-  }
-}
+      title: '',
+      description: '',
+    },
+  };
+};
+
+export const dummyServicesData = [
+  {
+    id: '575b7055-480f-4aaf-bcbc-01ea9767eed3',
+    name: 'kamesh',
+    repository_url: 'squad',
+    isActive: false,
+  },
+];
+
+export const giveMeServicesInitialState = (): ServiceInterface => {
+  return { name: '', repository_url: '', is_status: false };
+};

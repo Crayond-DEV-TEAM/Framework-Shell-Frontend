@@ -2,21 +2,22 @@ import { Button } from '@atoms/button';
 import { DeleteDailog } from '@atoms/deletedailog';
 import { DialogDrawer } from '@atoms/dialogDrawer';
 import { FooterComponent } from '@atoms/footerComponent';
-import { useLanguageConfiguration, useMessage, useMessageGroupDetails } from '@core/store';
-import { Box, Grid, SxProps, Theme, Typography } from '@mui/material';
+import { useLanguageConfiguration, useMessage, useMessageGroupDetails, useServices } from '@core/store';
+import { Box, Grid, Stack, SxProps, Theme, Typography } from '@mui/material';
 import { CommonTable } from 'crayond-components-library-1';
 import { forwardRef, useEffect, useState } from 'react';
-import { AddMessage, AddMessageGroup, TableHeader } from '..';
+import { AddMessage, AddMessageGroup, EnvironmentTabs, ModalAddEnvironmentKey, TableHeader } from '..';
 import { messageTableStyle } from './style';
 import { Header, tableData } from './utils';
 
 export interface MessageTableProps {
   className?: string;
   sx?: SxProps<Theme>;
+  isSecretStash?: boolean;
 }
 
 export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref<HTMLElement>): JSX.Element => {
-  const { className = '', sx = {}, ...rest } = props;
+  const { className = '', sx = {}, isSecretStash = false, ...rest } = props;
 
   // Store Data
   const {
@@ -45,11 +46,15 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   } = useMessageGroupDetails();
 
   const {
-    addEditMessageState, handleAddEditStateChange,
-    adding, addMessage,
-    editing, editMessage,
+    addEditMessageState,
+    handleAddEditStateChange,
+    adding,
+    addMessage,
+    editing,
+    editMessage,
     onEditClicked,
-    open, setOpen
+    open,
+    setOpen,
   } = useMessage();
 
   const filterContent: any[] = [];
@@ -58,7 +63,9 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const [isEdit, setIsEdit] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [tableName, setTableName] = useState('');
-  const [groupId, setGroupId] = useState<string>("");
+  const [groupId, setGroupId] = useState<string>('');
+  const [secretStashOpen, setSecretStashOpen] = useState(false);
+  const [addKey, setAddkey] = useState(false);
 
   const filteredMessageGroup = MessagesList.filter((x: any) =>
     x.title.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -74,7 +81,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
 
   const handleTableDelete = (id: string) => {
     handlemodalOpen();
-  }
+  };
 
   const handleFilterChange = (key: any, value: string, parent: any, parentIndex: any, childrenIndex: any) => {
     setfilter({ key, value });
@@ -147,6 +154,16 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     clearAll();
   };
 
+  const handleAddEnvironment = (key: string) => {
+    if (key) {
+      setAddkey(true);
+      setSecretStashOpen(true);
+    } else {
+      setAddkey(false);
+      setSecretStashOpen(true);
+    }
+  };
+
   useEffect(() => {
     setSwitchList(MessagesListStatus);
   }, [MessagesListStatus]);
@@ -157,17 +174,33 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   }, []);
 
   return (
-    <Box sx={[{ ...messageTableStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]} className={`${className}`} ref={ref} {...rest}>
+    <Box
+      sx={[{ ...messageTableStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]}
+      className={`${className}`}
+      ref={ref}
+      {...rest}
+    >
       <Grid container display="flex" sx={messageTableStyle.totalTableSx} spacing={3}>
         {/* Message Group */}
         <Grid item xs={12} sm={4} md={2.25}>
           <Box sx={messageTableStyle.addSx}>
-            <AddMessage onMessageTable={handleChange} setList={setList} />
+            <AddMessage isSecretStash={isSecretStash} onMessageTable={handleChange} setList={setList} />
           </Box>
         </Grid>
 
         <Grid item xs={12} sm={8} md={9.75}>
           <Box sx={messageTableStyle.commonTable}>
+            {isSecretStash && (
+              <>
+                <Stack direction="row" alignItems={'center'} justifyContent={'space-between'}>
+                  <Typography sx={messageTableStyle.environmentHeading}>Environment</Typography>
+                  <Button onclick={() => handleAddEnvironment('key')} sx={messageTableStyle.addEnvironmentSx}>
+                    {'Add Environment'}
+                  </Button>
+                </Stack>
+                <EnvironmentTabs />
+              </>
+            )}
             <CommonTable
               Header={Header}
               dataList={filteredMessageGroup}
@@ -195,9 +228,9 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                 rowEvenBgColor: '#F7F7F7',
               }}
               tableMinWidth={'1500px'}
-              tableMinHeight={'60vh'}
+              tableMinHeight={'45vh'}
               paddingAll={'0px'}
-              marginAll={'0px 0px 0px'}
+              marginAll={'16px 0px 0px'}
               dense={'small'}
               HeaderComponent={{
                 variant: 'CUSTOM',
@@ -208,11 +241,11 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                     onChange={isEdit ? handleeditChange : handleAddChange}
                     options={SevorityList}
                     status={StatusList}
-                    tableHeader={tableName}
+                    tableHeader={'Keys'}
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
                     open={open}
-                    handleOpen={handleOpen}
+                    handleOpen={() => handleAddEnvironment()}
                     handleClose={handleClose}
                     setOpen={setOpen}
                     onApply={onApply}
@@ -255,21 +288,46 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
         }}
         contentStyleSx={messageTableStyle.contentSx}
         isDialogOpened={open}
-        title={`${isEdit ? "Edit" : "Add New"} Message`}
+        title={`${isEdit ? 'Edit' : 'Add New'} Message`}
         Bodycomponent={
-          <AddMessageGroup
-            status={StatusList}
-            isEdit={isEdit}
-            options={SevorityList}
-            language={languages}
-          />
+          <AddMessageGroup status={StatusList} isEdit={isEdit} options={SevorityList} language={languages} />
         }
         Footercomponent={
           <FooterComponent
             check
             checked={addEditMessageState.status}
-            SwitchChange={(e: React.ChangeEvent<HTMLInputElement>) => handleAddEditStateChange('status', e.target.checked)}
-            onSave={ () => isEdit ? editMessage(groupId) : addMessage(groupId)}
+            SwitchChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleAddEditStateChange('status', e.target.checked)
+            }
+            onSave={() => (isEdit ? editMessage(groupId) : addMessage(groupId))}
+            onCancel={handleClose}
+            loading={isEdit ? editing : adding}
+          />
+        }
+        handleCloseDialog={handleClose}
+        rootStyle={{ padding: '0px important' }}
+      />
+
+      {/* secret-stash add environment and key */}
+      <DialogDrawer
+        contentStyleSx={messageTableStyle.contentSx}
+        isDialogOpened={secretStashOpen}
+        title={addKey ? 'Add Key' : 'Add Environment'}
+        Bodycomponent={
+          addKey ? (
+            <ModalAddEnvironmentKey title={'Key'} description={'Value'} />
+          ) : (
+            <ModalAddEnvironmentKey title={'Name'} description={'Webhook Url'} />
+          )
+        }
+        Footercomponent={
+          <FooterComponent
+            check
+            checked={addEditMessageState.status}
+            SwitchChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleAddEditStateChange('status', e.target.checked)
+            }
+            onSave={() => (isEdit ? editMessage(groupId) : addMessage(groupId))}
             onCancel={handleClose}
             loading={isEdit ? editing : adding}
           />

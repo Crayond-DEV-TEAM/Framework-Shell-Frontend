@@ -47,7 +47,7 @@ function DialogDrawer(props: DialogDrawerProps): JSX.Element {
     isFooterRequired = true,
     isHeaderTitleRequired = true,
     // handleSubmit = {},
-    title = 'Add New Message',
+    title = 'Add Key',
     content = '',
     closeIcon = true,
     Bodycomponent = null,

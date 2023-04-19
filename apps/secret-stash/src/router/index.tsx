@@ -1,15 +1,14 @@
-import { messageRoutes } from '@core/routes';
+import { environmentRoutes } from '@core/routes';
 import { AppLayout, PageNotFound, RootLayout } from '@core/ui/components';
 import ErrorBoundary from '@pages/errorBoundary';
 import Home from '@pages/home';
-import LanguageConfigPage from '@pages/languageConfig';
-import MessageGroup from '@pages/messageGroup';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { PrivateRouter } from './privateRouter';
+import Environments from '@pages/environments';
 
 const router = createBrowserRouter([
   {
-    path: messageRoutes.home,
+    path: environmentRoutes.home,
     element: (
       <PrivateRouter>
         <RootLayout />
@@ -22,18 +21,10 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: messageRoutes.messagegroup,
+        path: environmentRoutes.environment,
         element: (
-          <AppLayout title="Message Catalog">
-            <MessageGroup />
-          </AppLayout>
-        ),
-      },
-      {
-        path: messageRoutes.languageConfig,
-        element: (
-          <AppLayout title="Message Catalog">
-            <LanguageConfigPage />
+          <AppLayout title="Environments">
+            <Environments />
           </AppLayout>
         ),
       },

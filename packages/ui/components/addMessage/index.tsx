@@ -3,11 +3,11 @@ import { FooterComponent } from '@atoms/footerComponent';
 import { AddIcon } from '@atoms/icons';
 import { Input } from '@atoms/input';
 import { MessageCard } from '@atoms/messageCard';
-import { useMessageConfiguration } from '@core/store';
+import { useMessageConfiguration, useServices } from '@core/store';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, IconButton, Skeleton, Stack, SxProps, Theme, Typography } from '@mui/material';
 import { forwardRef, useEffect, useState } from 'react';
-import { ModalAddMessage } from '..';
+import { ModalAddMessage, ModalAddServices } from '..';
 import { addMessageStyle } from './style';
 
 export interface AddMessageProps {
@@ -17,10 +17,19 @@ export interface AddMessageProps {
   setList?: (key: any, value: string) => void;
   open?: boolean;
   payload?: any;
+  isSecretStash?: boolean;
 }
 
 export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTMLElement>): JSX.Element => {
-  const { className = '', sx = {}, setList = {}, onMessageTable = () => false, payload = {}, ...rest } = props;
+  const {
+    className = '',
+    sx = {},
+    setList = {},
+    onMessageTable = () => false,
+    payload = {},
+    isSecretStash = false,
+    ...rest
+  } = props;
 
   // store Data
   const {
@@ -39,6 +48,11 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     editMessageListGroups,
     editMessageList,
   } = useMessageConfiguration();
+  const { getServices, services, setEditServicesfn, editServices } = useServices();
+
+  console.log(services, 'services====');
+  console.log(editMessageList, 'editMessageList====');
+  console.log(editServices, 'editServices====');
 
   const [open, setOpen] = useState(false);
 
@@ -72,6 +86,11 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     editMessageListGroups({ id: id });
   };
 
+  const onEditServices = async (key: any, value: any) => {
+    debugger;
+    setValues(true);
+    setEditServicesfn(key.name, value);
+  };
   const Edit = () => {
     editMessageGroups();
     setValues(false);
@@ -84,14 +103,19 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
 
   useEffect(() => {
     getMessageGroups();
+    getServices();
     // eslint-disable-next-line
   }, []);
 
   return (
-    <Box sx={[{ ...addMessageStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]} className={`${className}`} ref={ref} {...rest}>
-
+    <Box
+      sx={[{ ...addMessageStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]}
+      className={`${className}`}
+      ref={ref}
+      {...rest}
+    >
       <Box sx={addMessageStyle.header}>
-        <Typography sx={addMessageStyle.titleSx}>Message Group</Typography>
+        <Typography sx={addMessageStyle.titleSx}>{isSecretStash ? 'Services' : 'Message Group'}</Typography>
         <IconButton onClick={handleOpen} sx={{ p: 0 }}>
           <AddIcon />
         </IconButton>
@@ -118,26 +142,75 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
                   onMessaageClick={() => handleMessage(x, index)}
                   select={selected}
                   onDelete={() => deleteMessageGroups({ id: x.id })}
-                  onEdit={() => onEdit(x?.id)}
+                  onEdit={() => onEditServices(x, index)}
                 />
               </Box>
             );
           })
         ) : (
           <Box>
-            {!fetching && <Typography variant='body2' color="textSecondary">You are yet to add a message group.</Typography>}
-            {fetching && <Stack spacing={0.25} px={2}>
-              {Array.from(Array(10).keys()).map( _ => <Skeleton height={40} width={'100%'} key={_} />)}  
-            </Stack>}
+            {!fetching && (
+              <Typography variant="body2" color="textSecondary">
+                You are yet to add a message group.
+              </Typography>
+            )}
+            {fetching && (
+              <Stack spacing={0.25} px={2}>
+                {Array.from(Array(10).keys()).map((_) => (
+                  <Skeleton height={40} width={'100%'} key={_} />
+                ))}
+              </Stack>
+            )}
           </Box>
         )}
       </Box>
+
+      {/* <Box sx={addMessageStyle.totalGroupSx}>
+        {isSecretStash && Array.isArray(services) && services?.length > 0 ? (
+          services?.map((x: any, index: any) => {
+            return (
+              <Box key={index} sx={{ pb: 0.75 }}>
+                <MessageCard
+                  index={index}
+                  title={x.name}
+                  isActive={x.isActive}
+                  onMessaageClick={() => handleMessage(x, index)}
+                  select={selected}
+                  onDelete={() => deleteMessageGroups({ id: x.id })}
+                  onEdit={() => onEditServices(x, index)}
+                />
+              </Box>
+            );
+          })
+        ) : (
+          <Box>
+            {!fetching && (
+              <Typography variant="body2" color="textSecondary">
+                You are yet to add a message group.
+              </Typography>
+            )}
+            {fetching && (
+              <Stack spacing={0.25} px={2}>
+                {Array.from(Array(10).keys()).map((_) => (
+                  <Skeleton height={40} width={'100%'} key={_} />
+                ))}
+              </Stack>
+            )}
+          </Box>
+        )}
+      </Box> */}
       {/* add message */}
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={open}
-        title={'Add New Message Group'}
-        Bodycomponent={<ModalAddMessage handleChange={handleChange} groupState={addMessage} />}
+        title={isSecretStash ? 'Add Services' : 'Add New Message Group'}
+        Bodycomponent={
+          isSecretStash ? (
+            <ModalAddServices />
+          ) : (
+            <ModalAddMessage handleChange={handleeditChange} groupState={editMessageList} />
+          )
+        }
         handleCloseDialog={handleClose}
         Footercomponent={
           <FooterComponent
@@ -156,8 +229,14 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={values}
-        title={'Edit message Group'}
-        Bodycomponent={<ModalAddMessage handleChange={handleeditChange} groupState={editMessageList} />}
+        title={isSecretStash ? 'Edit Services' : 'Edit New Message Group'}
+        Bodycomponent={
+          isSecretStash ? (
+            <ModalAddServices groupState={editServices} />
+          ) : (
+            <ModalAddMessage handleChange={handleeditChange} groupState={editMessageList} />
+          )
+        }
         handleCloseDialog={handleEditClose}
         Footercomponent={
           <FooterComponent

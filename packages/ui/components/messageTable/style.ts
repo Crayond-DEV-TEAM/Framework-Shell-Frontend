@@ -73,5 +73,14 @@ export const messageTableStyle: MessageTableStyleProps = {
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  environmentHeading: {
+    fontSize: '16px',
+    color: '#29302B',
+    fontWeight: '600',
+  },
+  addEnvironmentSx: {
+    width: '150px',
+    textTransform: 'capitalize',
+  },
   // addSx: { width: '100%', maxWidth: '230px', margin: '0px 21px' },
 };

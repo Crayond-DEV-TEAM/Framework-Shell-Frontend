@@ -48,7 +48,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     editMessageListGroups,
     editMessageList,
   } = useMessageConfiguration();
-  const { getServices, services, setEditServicesfn, editServices } = useServices();
+  const { getServices, services, setHandleChangefn, editServices } = useServices();
 
   console.log(services, 'services====');
   console.log(editMessageList, 'editMessageList====');
@@ -87,9 +87,8 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
   };
 
   const onEditServices = async (key: any, value: any) => {
-    debugger;
     setValues(true);
-    setEditServicesfn(key.name, value);
+    setHandleChangefn(key.name, value);
   };
   const Edit = () => {
     editMessageGroups();

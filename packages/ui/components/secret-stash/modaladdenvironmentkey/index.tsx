@@ -1,9 +1,8 @@
-import type { SxProps, Theme } from '@mui/material';
-import { Box, Typography } from '@mui/material';
-import { Label } from '@atoms/label';
 import { Input } from '@atoms/input';
-import { modalAddEnvironmentKeyStyle } from './style';
-
+import { Label } from '@atoms/label';
+import type { SxProps, Theme } from '@mui/material';
+import { Box } from '@mui/material';
+import { modalAddEnvironmentKeyStyle } from './style'
 export interface ModalAddEnvironmentKeyProps {
   className?: string;
   title?: string;
@@ -24,6 +23,8 @@ export const ModalAddEnvironmentKey = (props: ModalAddEnvironmentKeyProps): JSX.
     ...rest
   } = props;
 
+  console.log(groupState, 'groupState=====');
+
   return (
     <Box
       sx={[
@@ -43,10 +44,10 @@ export const ModalAddEnvironmentKey = (props: ModalAddEnvironmentKeyProps): JSX.
           <Input
             size="small"
             placeholder=" Add Name"
-            value={groupState?.title}
-            id="Name"
+            value={groupState?.key}
+            id="key"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-              handleChange('name', e?.target?.value)
+              handleChange('key', e?.target?.value)
             }
             textFieldStyle={modalAddEnvironmentKeyStyle.inputSx}
             // isError={groupState?.error?.addTitle ? true : false}
@@ -60,12 +61,12 @@ export const ModalAddEnvironmentKey = (props: ModalAddEnvironmentKeyProps): JSX.
           <Input
             size="small"
             placeholder="Add Repository Url"
-            value={groupState?.description}
-            id="Webhook_url"
+            value={groupState?.webhook_url}
+            id="webhook_url"
             // textFieldStyle={{ height: '112px' }}
             textFieldStyle={modalAddEnvironmentKeyStyle.inputSx}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-              handleChange('Webhook_url', e.target.value)
+              handleChange('webhook_url', e.target.value)
             }
             // isError={groupState?.error?.addDescription ? true : false}
             // errorMessage={groupState?.error?.addDescription ?? ''}

@@ -1,10 +1,12 @@
 import { environmentRoutes } from '@core/routes';
-import { AppLayout, PageNotFound, RootLayout } from '@core/ui/components';
+import { AppLayout, Login, PageNotFound, RootLayout } from '@core/ui/components';
+import { LoginLayout } from '@core/ui/components/secret-stash/loginLayout';
 import ErrorBoundary from '@pages/errorBoundary';
 import Home from '@pages/home';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { PrivateRouter } from './privateRouter';
 import Environments from '@pages/environments';
+import LoginPage from '@pages/login';
 
 const router = createBrowserRouter([
   {
@@ -21,9 +23,17 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: environmentRoutes.login,
+        element: (
+          <LoginLayout>
+            <LoginPage />
+          </LoginLayout>
+        ),
+      },
+      {
         path: environmentRoutes.environment,
         element: (
-          <AppLayout title="Environments">
+          <AppLayout title="Secret Stash">
             <Environments />
           </AppLayout>
         ),

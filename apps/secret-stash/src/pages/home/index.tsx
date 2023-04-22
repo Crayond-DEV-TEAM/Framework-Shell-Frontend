@@ -9,9 +9,10 @@ export default function Home() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    navigate(environmentRoutes.environment);
+    debugger;
+    navigate(environmentRoutes.login);
   });
-
+  debugger;
   return (
     <Box sx={homeStyle.rootSx}>
       <Typography variant="h3" color="primary.main" sx={{ fontWeight: 500 }}>

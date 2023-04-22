@@ -5,6 +5,10 @@ export const localStorageKeys = {
   messageTable: 'messageTable',
 };
 
+export const secret_stash_localstorageKeys = {
+  token: 'token',
+};
+
 export const loginRoutes = ['/createaccount', '/login', '/forgotpassword'];
 
 export const filterContent = [

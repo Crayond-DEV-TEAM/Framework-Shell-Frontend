@@ -113,10 +113,10 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     }
     if (e.target.checked) {
       console.log(id);
-      getStatus(id, true);
+      // getStatus(id, true);
     } else {
       console.log(id);
-      getStatus(id, false);
+      // getStatus(id, false);
     }
   };
 
@@ -184,7 +184,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
         {/* Message Group */}
         <Grid item xs={12} sm={4} md={2.25}>
           <Box sx={messageTableStyle.addSx}>
-            <AddMessage isSecretStash={isSecretStash} onMessageTable={handleChange} setList={setList} />
+            <AddMessage onMessageTable={handleChange} setList={setList} />
           </Box>
         </Grid>
 
@@ -245,7 +245,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
                     open={open}
-                    handleOpen={() => handleAddEnvironment()}
+                    handleOpen={() => handleAddEnvironment('')}
                     handleClose={handleClose}
                     setOpen={setOpen}
                     onApply={onApply}
@@ -291,34 +291,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
         title={`${isEdit ? 'Edit' : 'Add New'} Message`}
         Bodycomponent={
           <AddMessageGroup status={StatusList} isEdit={isEdit} options={SevorityList} language={languages} />
-        }
-        Footercomponent={
-          <FooterComponent
-            check
-            checked={addEditMessageState.status}
-            SwitchChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              handleAddEditStateChange('status', e.target.checked)
-            }
-            onSave={() => (isEdit ? editMessage(groupId) : addMessage(groupId))}
-            onCancel={handleClose}
-            loading={isEdit ? editing : adding}
-          />
-        }
-        handleCloseDialog={handleClose}
-        rootStyle={{ padding: '0px important' }}
-      />
-
-      {/* secret-stash add environment and key */}
-      <DialogDrawer
-        contentStyleSx={messageTableStyle.contentSx}
-        isDialogOpened={secretStashOpen}
-        title={addKey ? 'Add Key' : 'Add Environment'}
-        Bodycomponent={
-          addKey ? (
-            <ModalAddEnvironmentKey title={'Key'} description={'Value'} />
-          ) : (
-            <ModalAddEnvironmentKey title={'Name'} description={'Webhook Url'} />
-          )
         }
         Footercomponent={
           <FooterComponent

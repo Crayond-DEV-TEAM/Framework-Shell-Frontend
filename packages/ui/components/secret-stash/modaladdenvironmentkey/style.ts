@@ -7,4 +7,3 @@ interface ModalAddEnvironmentKeyStyleProps {
 export const modalAddEnvironmentKeyStyle: ModalAddEnvironmentKeyStyleProps = {
   rootSx: {},
 };
-

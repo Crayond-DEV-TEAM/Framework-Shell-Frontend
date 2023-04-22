@@ -396,17 +396,62 @@ export interface APIConfig {
   getResquestBodyData: () => void;
 }
 
+export interface SecretStashSignInState {
+  user_name: string;
+  password: string;
+}
+
 export interface Services {
+  data: {
+    slug: string;
+    name: string;
+    repository_url: string;
+    isActive: boolean;
+  };
+  offset: number;
+  limit: number;
+}
+
+export interface keys {
   id: string;
-  name: string;
-  repository_url: string;
+  env: string;
+  key: string;
+  value: string;
   isActive: boolean;
+}
+
+export interface Environment {
+  name: string;
+  webhook_url: string;
+  isActive: boolean;
+}
+
+export interface SecretStashInterface {
+  SecretStashSignInState: SecretStashSignInState;
+
+  signInLoading: boolean;
+  signInMessage: string;
+  signInError: boolean;
+
+  signIn: () => void;
+  setSignInState: (payload: { key: string; value: string }) => void;
 }
 export interface ServiceInterface {
   services: Services[];
   editServices: Services;
+  environment: Environment[];
+  keys: keys[];
+  editKey: keys;
+  editEnvironment: Environment;
   fetching: boolean;
   errorOnFetching: boolean;
-  setEditServicesfn: (key: string, value: string) => void;
-  getServices: () => void;
+  setHandleChangefn: (key: string, value: string) => void;
+  getServices: () => any;
+  getEnvironment: (slug: string) => any;
+  addEnvironment: (payload: any, slug: string) => void;
+  getKeys: (environment: string, slug: string) => any;
+
+  handleEdit: (e: any) => void;
+  handleChange: (key: any, value: any) => void;
+  handleKeyChange: (key: any, value: any) => void;
 }

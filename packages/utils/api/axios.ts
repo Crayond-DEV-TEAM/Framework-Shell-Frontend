@@ -26,7 +26,6 @@ export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, 
     ...(includeToken && { Authorization: `Bearer ${localStorage.getItem(localStorageKeys.authToken)}` }),
     ...(config?.headers ?? {}),
   };
-
   return axios({
     method,
     url,

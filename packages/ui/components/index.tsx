@@ -26,6 +26,7 @@ export { ResetPassword } from './resetPassword';
 export { RootLayout } from './rootLayout';
 export { SearchTextField } from './searchTextField';
 export { ModalAddEnvironmentKey } from './secret-stash/modalAddEnvironmentKey';
+export { SecretstashTable } from './secret-stash/secretstashTable';
 export { SignUp } from './signUp';
 export { SmsDialog } from './smsDialog';
 export { SmsTab } from './smsTab';
@@ -35,3 +36,4 @@ export { ReportTabs } from './tabs';
 export { TabsCard } from './tabsCard';
 export { TabsValueCard } from './tabsValueCard';
 
+export { ServicesListing } from './secret-stash/servicesListing';

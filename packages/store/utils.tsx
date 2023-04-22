@@ -3,42 +3,40 @@ import {
   AddAlertRule,
   AddEditMessageState,
   AddNewConfig,
+  Environment,
   ForgotPasswordState,
   Menu,
   MessageDetails,
   MessageGroup,
   ResetPasswordState,
+  SecretStashInterface,
+  SecretStashSignInState,
   ServiceInterface,
+  Services,
   SignInState,
   SignUpStateInterface,
   UserDataInterface,
+  keys,
 } from './interface';
 
 import {
   Alert,
   AlertConfigIcon,
   AlertRuleIcon,
-  ApiIcon,
-  ArrowDown,
-  ArrowRight,
+  ApiDocument,
   MessageHub,
   ReportIcon,
   SubMessageGroup,
   SubMessageLanguage,
-  ApiDocument,
 } from '@atoms/icons';
 
-import SingleTickGreen from '@core/ui/assets/sgTickGreen';
+import EmailIcon from '@core/ui/assets/emailIcon';
+import NotificationIcon from '@core/ui/assets/notificationIcon';
 import SmallMailIcon from '@core/ui/assets/smallMailIcon';
 import SmallNotificationIcon from '@core/ui/assets/smallNotificationIcon';
 import SmallSmsIcon from '@core/ui/assets/smallSmsIcon';
 import SmsIcon from '@core/ui/assets/smsIcon';
-import DoubleTickBlue from '@core/ui/assets/dbTickBlue';
-import DoubleTickGreen from '@core/ui/assets/dbTickGreen';
-import DeleteIcon from '@core/ui/assets/deleteIcon';
-import EditIcon from '@core/ui/assets/editIcon';
-import EmailIcon from '@core/ui/assets/emailIcon';
-import NotificationIcon from '@core/ui/assets/notificationIcon';
+import Settings from '@core/ui/assets/settings';
 
 export const giveMeAuthInitialState = (): {
   signUpState: SignUpStateInterface;
@@ -277,9 +275,9 @@ export const giveMeAlertConfig = (): AddNewConfig => {
 
 export const dummyTableData = [
   {
-    id: 1,
-    alert_rule_code: 'kdjf-jdhd-3fd',
-    reference_id: 'id-3409',
+    value: 1,
+    key: 'kdjf-jdhd-3fd',
+    title: 'id-3409',
     hashtag: {
       label: '#hashtag',
       color: '#305AAE',
@@ -292,12 +290,12 @@ export const dummyTableData = [
       bgColor: '#FAE2CF',
       icon: <SmallNotificationIcon />,
     },
-    status: false,
+    status: true,
   },
   {
-    id: 2,
-    alert_rule_code: 'pdfi-sdff-024',
-    reference_id: 'id-4985',
+    value: 2,
+    key: 'pdfi-sdff-024',
+    title: 'id-4985',
     hashtag: {
       label: '#hashtag',
       color: '#305AAE',
@@ -313,9 +311,9 @@ export const dummyTableData = [
     status: false,
   },
   {
-    id: 3,
-    alert_rule_code: 'gdg-fsds-dd2',
-    reference_id: 'id-6832',
+    value: 3,
+    key: 'gdg-fsds-dd2',
+    title: 'id-6832',
     hashtag: {
       label: '#hashtag',
       color: '#305AAE',
@@ -331,9 +329,9 @@ export const dummyTableData = [
     status: true,
   },
   {
-    id: 4,
-    alert_rule_code: 'jduy-sdff-2s1',
-    reference_id: 'id-9231',
+    value: 4,
+    key: 'jduy-sdff-2s1',
+    title: 'id-9231',
     hashtag: {
       label: '#hashtag',
       color: '#305AAE',
@@ -349,9 +347,9 @@ export const dummyTableData = [
     status: false,
   },
   {
-    id: 5,
-    alert_rule_code: 'hdyt-hst-s5s',
-    reference_id: 'id-4875',
+    value: 5,
+    key: 'hdyt-hst-s5s',
+    title: 'id-4875',
     hashtag: {
       label: '#hashtag',
       color: '#305AAE',
@@ -367,9 +365,9 @@ export const dummyTableData = [
     status: true,
   },
   {
-    id: 6,
-    alert_rule_code: 1072,
-    reference_id: 'ID-201',
+    value: 6,
+    key: 1072,
+    title: 'ID-201',
     hashtag: {
       label: '#hashtag',
       color: '#305AAE',
@@ -385,9 +383,9 @@ export const dummyTableData = [
     status: false,
   },
   {
-    id: 7,
-    alert_rule_code: 1616,
-    reference_id: 'ID-244',
+    value: 7,
+    key: 1616,
+    title: 'ID-244',
     hashtag: {
       label: '#hashtag',
       color: '#305AAE',
@@ -680,6 +678,59 @@ export const dummyServicesData = [
   },
 ];
 
-export const giveMeServicesInitialState = (): ServiceInterface => {
-  return { name: '', repository_url: '', is_status: false };
+export const tabs = [
+  {
+    name: 'Staging',
+    webhook_url: '',
+    icon: <Settings />,
+  },
+  {
+    name: 'UAT',
+    webhook_url: '',
+    icon: <Settings />,
+  },
+  {
+    name: 'Production',
+    webhook_url: '',
+    icon: <Settings />,
+  },
+];
+
+export const giveMeSSAuthLoginInitialState = (): {
+  SecretStashSignInState: SecretStashSignInState;
+} => {
+  return {
+    SecretStashSignInState: { user_name: '', password: '' },
+  };
+};
+
+export const giveMeServicesInitialState = (): Services => {
+  return {
+    data: {
+      id: '',
+      name: '',
+      repository_url: '',
+      isActive: false,
+    },
+    offset: 0,
+    limit: 0,
+  };
+};
+
+export const giveMeEnvironmentState = (): Environment => {
+  return {
+    name: '',
+    webhook_url: '',
+    isActive: false,
+  };
+};
+
+export const giveMeKeyState = (): keys => {
+  return {
+    key: '',
+    value: '',
+    isActive: false,
+    id: '',
+    env: '',
+  };
 };

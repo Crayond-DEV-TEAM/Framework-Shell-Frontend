@@ -22,7 +22,7 @@ function PrivateRouter(props: { children: JSX.Element }) {
     } else if (searchParams.get('token')) {
       const newAuthToken = searchParams.get('token');
       localStorage.setItem(localStorageKeys.authToken, newAuthToken as string);
-      setSearchParams({});
+      // setSearchParams({});
       setShowComponent(true);
     } else {
       window.location.replace(envConfig.frame_work_shell_ui + '/?redirect_url=' + window.location.href);

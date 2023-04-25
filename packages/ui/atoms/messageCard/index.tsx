@@ -17,7 +17,7 @@ export interface MessageCardProps {
   onDelete?: () => void;
   isActive?: boolean;
   index?: any;
-  select?: any;
+  select?: string | number;
   onEdit?: () => void;
   open?: boolean;
 }
@@ -79,11 +79,7 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
       {...rest}
     >
       <Box
-        sx={{
-          ...messageCardStyle.messageCard,
-          backgroundColor: select === index ? '#EAF1EF' : 'none',
-          padding: select === index ? '8px 10px' : '6px 10px',
-        }}
+        sx={select === index ? messageCardStyle.messageCard : messageCardStyle.unSelectedCard}
         onClick={onMessaageClick}
       >
         <Grid container alignItems={'center'}>
@@ -95,7 +91,9 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
             )}
           </Grid>
           <Grid item xs={10} sm={10} md={10} lg={10}>
-            <Typography sx={messageCardStyle.messageTitle}>{title}</Typography>
+            <Typography sx={select === index ? messageCardStyle.serviceTitle : messageCardStyle.unslectedServiceTitle}>
+              {title}
+            </Typography>
           </Grid>
           <Grid item xs={1} sm={1} md={1} lg={1}>
             <IconButton

@@ -6,7 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { SxProps, Theme, Popover } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { forwardRef } from 'react';
-import { AddMessageGroup, Filter } from '..';
+import { AddMessageGroup, Filter, ShowValue } from '..';
 import DownloadIcon from '@core/ui/assets/downloadIcon';
 import XlsIcon from '@core/ui/assets/xlsIcon';
 import { tableHeaderStyle } from './style';
@@ -47,12 +47,15 @@ export interface TableHeaderProps {
   language?: any;
   addedLangState?: any;
   languageBox?: () => void;
+  handleVisibility?: () => void;
   handleChipDelete?: any;
   addMessage?: any;
   options?: any;
   onChange?: any;
   filterChange?: any;
   onClick?: () => boolean;
+  isShowValue?: boolean;
+  isVisible?: boolean;
   sx?: SxProps<Theme>;
 }
 
@@ -68,6 +71,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     loading = true,
     handleStateChange = () => false,
     updateStatusReport = () => false,
+    handleVisibility = () => false,
     status,
     buttonName = 'Add Message',
     editTableMessage,
@@ -95,6 +99,8 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     anchorEl,
     openAnchorEl,
     onClick = () => false,
+    isShowValue = false,
+    isVisible = false,
     sx = {},
     ...rest
   } = props;
@@ -122,6 +128,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
               />
             </Box>
           )}
+          {isShowValue && <ShowValue isVisible={isVisible} handleClick={handleVisibility} />}
           {isFilterRequired && (
             <Filter
               filterContent={filterContent}

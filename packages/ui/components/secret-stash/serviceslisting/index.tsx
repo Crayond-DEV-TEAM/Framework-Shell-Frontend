@@ -1,6 +1,5 @@
-import { IconButton, SxProps, Theme } from '@mui/material';
+import { IconButton, Skeleton, Stack, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-
 import { servicesListingStyle } from './styles';
 import { AddIcon, SearchIcon } from '@atoms/icons';
 import { Input } from '@atoms/input';
@@ -14,7 +13,11 @@ export interface ServicesListingProps {
   services?: any;
   searchTerm?: string;
   handleOpen?: () => void;
+  handleServiceClick?: (e: any, index: number) => void;
   handleSearch?: (e: any) => void;
+  onEditServices?: (e: any, index: number) => void;
+  fetching: boolean;
+  slugIndex: string;
 }
 
 export const ServicesListing = (props: ServicesListingProps): JSX.Element => {
@@ -25,8 +28,12 @@ export const ServicesListing = (props: ServicesListingProps): JSX.Element => {
     setList = {},
     sx = {},
     services = [],
+    fetching = false,
+    handleServiceClick = () => false,
+    slugIndex,
     searchTerm = '',
     handleSearch = () => false,
+    onEditServices = () => false,
     ...rest
   } = props;
 
@@ -56,38 +63,37 @@ export const ServicesListing = (props: ServicesListingProps): JSX.Element => {
           startAdornment={<SearchIcon sx={{ ml: 1, fontSize: '16px', color: '#818181' }} />}
         />
       </Box>
-
       <Box sx={servicesListingStyle.totalGroupSx}>
         {Array.isArray(services) && services?.length > 0 ? (
           services?.map((x: any, index: any) => {
             return (
-              <Box key={index} sx={{ pb: 0.75 }}>
+              <Box key={index}>
                 <MessageCard
-                  index={index}
                   title={x.name}
                   isActive={x.isActive}
-                  // onMessaageClick={() => handleMessage(x, index)}
-                  // select={selected}
+                  index={index}
+                  select={slugIndex}
+                  onMessaageClick={() => handleServiceClick(x, index)}
                   // onDelete={() => deleteMessageGroups({ id: x.id })}
-                  // onEdit={() => onEditServices(x, index)}
+                  onEdit={() => onEditServices(x, index)}
                 />
               </Box>
             );
           })
         ) : (
           <Box>
-            {/* {!fetching && (
-              <Typography variant="body2" color="textSecondary">
-                You are yet to add a message group.
-              </Typography>
-            )}
-            {fetching && (
+            {!fetching && (
               <Stack spacing={0.25} px={2}>
                 {Array.from(Array(10).keys()).map((_) => (
                   <Skeleton height={40} width={'100%'} key={_} />
                 ))}
               </Stack>
-            )} */}
+            )}
+            {fetching && (
+              <Typography variant="body2" color="textSecondary">
+                You are yet to add a message group.
+              </Typography>
+            )}
           </Box>
         )}
       </Box>

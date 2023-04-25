@@ -714,6 +714,7 @@ export const giveMeServicesInitialState = (): Services => {
     },
     offset: 0,
     limit: 0,
+    slug: '',
   };
 };
 
@@ -727,7 +728,7 @@ export const giveMeEnvironmentState = (): Environment => {
 
 export const giveMeKeyState = (): keys => {
   return {
-    key: '',
+    name: '',
     value: '',
     isActive: false,
     id: '',

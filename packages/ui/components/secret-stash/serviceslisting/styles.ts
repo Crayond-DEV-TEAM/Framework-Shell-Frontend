@@ -46,4 +46,9 @@ export const servicesListingStyle: ServicesListingStyleProps = {
     fontSize: ' 14px',
     textAlign: 'center',
   },
+  sericesCard: {
+    backgroundColor: '#EAF1EF',
+    color: '#EAF1EF',
+    pb: 1.25,
+  },
 };

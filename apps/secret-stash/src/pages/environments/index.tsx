@@ -1,5 +1,11 @@
 /* eslint-disable react/jsx-key */
-import { EnvironmentTabs, ModalAddEnvironmentKey, ServicesListing, TableHeader } from '@core/ui/components';
+import {
+  EnvironmentTabs,
+  ModalAddEnvironmentKey,
+  ServicesListing,
+  TableHeader,
+  SingleFileComponent,
+} from '@core/ui/components';
 import { Box, Grid, Stack, Typography } from '@mui/material';
 // import { MessageTable } from '..';
 import { useServices } from '@core/store';
@@ -17,41 +23,62 @@ export default function Environments() {
     getEnvironment,
     getKeys,
     editKey,
-    addEnvironment,
+    createEnvironment,
+    addServices,
+    addKeys,
     services,
-    setHandleChangefn,
     editServices,
-    handleEdit,
+    handleEditKeysState,
     environment,
     keys,
     handleChange,
-    handleKeyChange,
+    setHandleServices,
+    handleEditServicesState,
     editEnvironment,
+    Servicefetching,
+    editKeysAPI,
+    clearAll,
+    environmentFetching,
+    handleKeyChange,
   } = useServices();
+
+  const [open, setOpen] = useState({
+    services: false,
+    environment: false,
+    key: false,
+  });
+  const [isEdit, setIsEdit] = useState({
+    services: false,
+    environment: false,
+    key: false,
+  });
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selected, setSelected] = React.useState(0);
+  const [slugIndex, setSlugIndex] = React.useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const [switchList, setSwitchList] = useState<any>([]);
+  // const handleClose = () => setOpen(false);
 
   console.log(editKey, 'editKey==');
 
-  const [open, setOpen] = useState(false);
-  const [secretStashOpen, setSecretStashOpen] = useState(false);
-  const [addKey, setAddkey] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selected, setSelected] = React.useState(0);
-  const [switchList, setSwitchList] = useState<any>([]);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
   const handleAddEnvironment = (addEnvironment: string) => {
     debugger;
-    if (addEnvironment === 'environment') {
-      setAddkey(false);
+    if (addEnvironment === 'services') {
+      setOpen({
+        ...open,
+        services: true,
+      });
+    } else if (addEnvironment === 'environment') {
+      setOpen({
+        ...open,
+        environment: true,
+      });
     } else {
-      setAddkey(true);
+      setOpen({
+        ...open,
+        key: true,
+      });
     }
-
-    // if (addEnvironment === 'key') {
-
-    // }
-    setSecretStashOpen(true);
   };
 
   const components = (editState: boolean) => [
@@ -73,10 +100,22 @@ export default function Environments() {
   ];
 
   const handleEnvironmentClose = (addEnvironment: string) => {
-    if (addEnvironment) {
-      setSecretStashOpen(false);
+    clearAll();
+    if (addEnvironment === 'services') {
+      setOpen({
+        ...open,
+        services: false,
+      });
+    } else if (addEnvironment === 'environment') {
+      setOpen({
+        ...open,
+        environment: false,
+      });
     } else {
-      setSecretStashOpen(false);
+      setOpen({
+        ...open,
+        key: false,
+      });
     }
   };
 
@@ -88,13 +127,9 @@ export default function Environments() {
     // eslint-disable-next-line no-debugger
     debugger;
     setSelected(i);
-  };
+    console.log(slugIndex);
 
-  const handleTabEdit = (event: any, e: string) => {
-    // eslint-disable-next-line no-debugger
-    debugger;
-    handleAddEnvironment('addEnvironment');
-    handleEdit(e);
+    makeGetkeyRequest(environment?.[i]?.name, services[slugIndex].slug);
   };
 
   const handleSwitch = (id: string, data: any, e: any) => {
@@ -115,30 +150,83 @@ export default function Environments() {
       // getStatus(id, false);
     }
   };
+  console.log(editKey, 'editKey');
 
   const handleTableEdit = (e: any) => {
     debugger;
-    handleAddEnvironment('');
+    setIsEdit({
+      ...isEdit,
+      key: true,
+    });
+    const filterKey = keys.find((x) => x?.id === e);
+    handleAddEnvironment('key');
+    handleEditKeysState(filterKey);
   };
   const handleTableDelete = () => {};
 
-  const makeGetkeyRequest = (environment: string, slug: string) => {
-    getKeys(environment, slug);
+  const makeGetkeyRequest = async (environment: string, slug: string) => {
+    await getKeys(environment, slug);
   };
 
   const makeGetEnvironmentRequest = async (slug: any) => {
     const environmentResponse = await getEnvironment(slug);
-    makeGetkeyRequest(environmentResponse?.[0]?.name, slug);
+    await makeGetkeyRequest(environmentResponse?.[0]?.name, slug);
   };
 
   const makeGetServicesRequest = async () => {
     const response = await getServices();
-    makeGetEnvironmentRequest(response?.[0]?.slug);
+    await makeGetEnvironmentRequest(response?.[slugIndex]?.slug);
   };
 
-  const addEnvironmentFn = () => {
+  const onSave = async (key: string) => {
     debugger;
-    addEnvironment(editKey?.key, services?.[0]?.slug);
+    if (key === 'services') {
+      await addServices()
+        .then(() => getServices())
+        .catch(() => console.log('err'));
+    } else if (key === 'environment') {
+      if (isEdit.environment) {
+        // await addEnvironment(editKey?.key, services?.[selected]?.slug);
+        console.log('qwerty');
+      } else {
+        await createEnvironment(editEnvironment, services?.[selected]?.slug);
+        await await getEnvironment(services?.[slugIndex]?.slug);
+      }
+    } else {
+      if (isEdit.key) {
+        await editKeysAPI(editKey, services?.[slugIndex]?.slug, environment?.[selected]?.name);
+        await getKeys(environment?.[selected]?.name, services?.[slugIndex]?.slug);
+      } else {
+        await addKeys(editKey, services?.[slugIndex]?.slug, environment?.[selected]?.name);
+        await getKeys(environment?.[selected]?.name, services?.[slugIndex]?.slug);
+      }
+    }
+  };
+
+  const handleServiceClick = async (e: any, index: number) => {
+    debugger;
+    setSlugIndex(index);
+    await makeGetEnvironmentRequest(services?.[index]?.slug);
+  };
+
+  // edit services
+  const onEditServices = (e: any, i: number) => {
+    setIsEdit({
+      ...isEdit,
+      services: true,
+    });
+    handleAddEnvironment('services');
+    debugger;
+    handleEditServicesState(e);
+  };
+
+  const handleVisibility = (e: any, index: number) => {
+    debugger;
+    setIsVisible(!isVisible);
+  };
+
+  const handleUpload = () => {
+    debugger;
   };
 
   useEffect(() => {
@@ -154,10 +242,13 @@ export default function Environments() {
         <Grid item xs={12} sm={4} md={2.25}>
           <ServicesListing
             services={services}
-            // handleOpen={() => handleAddEnvironment('services')}
-            handleOpen={components(false)[0]?.fn}
+            handleOpen={() => handleAddEnvironment('services')}
+            handleServiceClick={handleServiceClick}
             searchTerm={searchTerm}
+            fetching={Servicefetching}
             handleSearch={handleSearch}
+            slugIndex={slugIndex}
+            onEditServices={onEditServices}
             environment={environment}
           />
         </Grid>
@@ -165,9 +256,10 @@ export default function Environments() {
           <Box sx={EnvironmentsStyle.commonTable}>
             <Stack direction="row" alignItems={'center'} justifyContent={'space-between'}>
               <Typography sx={EnvironmentsStyle.environmentHeading}>Environment</Typography>
-              <Button onClick={components(false)[1]?.fn} sx={EnvironmentsStyle.addEnvironmentSx}>
+              <Button onClick={() => handleAddEnvironment('environment')} sx={EnvironmentsStyle.addEnvironmentSx}>
                 {'Add Environment'}
               </Button>
+              <SingleFileComponent />
             </Stack>
             <EnvironmentTabs
               handleAddEnvironment={handleAddEnvironment}
@@ -176,6 +268,7 @@ export default function Environments() {
               onChange={onChange}
               selected={selected}
               environments={environment}
+              fetching={environmentFetching}
             />
 
             <CommonTable
@@ -204,8 +297,8 @@ export default function Environments() {
                 rowOddBgColor: '#fff',
                 rowEvenBgColor: '#F7F7F7',
               }}
-              tableMinWidth={'1500px'}
-              tableMinHeight={'20vh'}
+              tableMinWidth={'1000px'}
+              tableMinHeight={'40vh'}
               paddingAll={'0px'}
               marginAll={'16px 0px 0px'}
               dense={'small'}
@@ -214,16 +307,19 @@ export default function Environments() {
                 component: (
                   <TableHeader
                     // filterContent={filterContent}
-                    // filterChange={handleFilterChange}
+                    filterChange={() => handleUpload()}
                     // onChange={isEdit ? handleeditChange : handleAddChange}
                     // status={StatusList}
                     tableHeader={'Keys'}
+                    isShowValue={true}
+                    handleVisibility={handleVisibility}
+                    isVisible={isVisible}
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
-                    open={open}
-                    handleOpen={components(false)[2]?.fn}
-                    handleClose={handleClose}
-                    setOpen={setOpen}
+                    open={open?.key}
+                    // handleClose={handleClose}
+                    handleOpen={() => handleAddEnvironment('key')}
+
                     // onApply={onApply}
                     // editTableMessage={isEdit ? editMessageList : addMessageList}
                   />
@@ -233,40 +329,93 @@ export default function Environments() {
           </Box>
         </Grid>
       </Grid>
-
-      {/* secret-stash add environment and key */}
+      {/* add & edit services Drawer */}
       <DialogDrawer
         contentStyleSx={EnvironmentsStyle.contentSx}
-        isDialogOpened={secretStashOpen}
-        handleCloseDialog={() => handleEnvironmentClose('')}
-        title={addKey ? 'Add Key' : 'Add Environment'}
+        isDialogOpened={open?.services}
+        handleCloseDialog={() => handleEnvironmentClose('services')}
+        title={'Add Services'}
         Bodycomponent={
-          addKey ? (
-            <ModalAddEnvironmentKey
-              handleChange={handleChange}
-              title={'Name'}
-              description={'Webhook Url'}
-              groupState={editEnvironment}
-            />
-          ) : (
-            <ModalAddEnvironmentKey
-              groupState={editKey}
-              handleChange={handleKeyChange}
-              title={'Key'}
-              description={'Value'}
-            />
-          )
+          <ModalAddEnvironmentKey
+            handleChange={setHandleServices}
+            valueName={'name'}
+            webHookValueName={'repository_url'}
+            value={editServices?.data?.name}
+            webHookValue={editServices?.data?.repository_url}
+            title={'Name'}
+            description={'Repository Url'}
+            groupState={editServices?.data}
+          />
         }
         Footercomponent={
           <FooterComponent
             check
             checked={editEnvironment.isActive}
             SwitchChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange('isActive', e.target.checked)}
-            onSave={() => {
-              debugger;
-              addEnvironmentFn();
-            }}
-            onCancel={handleClose}
+            onSave={() => onSave('services')}
+            // onCancel={handleEnvironmentClose('services')}
+            // loading={addEnvironment}
+          />
+        }
+        rootStyle={{ padding: '0px important' }}
+      />
+
+      {/* add & edit environment Drawer */}
+      <DialogDrawer
+        contentStyleSx={EnvironmentsStyle.contentSx}
+        isDialogOpened={open?.environment}
+        handleCloseDialog={() => handleEnvironmentClose('environment')}
+        title={'Add Environment'}
+        Bodycomponent={
+          <ModalAddEnvironmentKey
+            groupState={editEnvironment}
+            handleChange={handleChange}
+            title={'Name'}
+            valueName={'name'}
+            webHookValueName={'webhook_url'}
+            value={editEnvironment?.name}
+            webHookValue={editEnvironment?.webhook_url}
+            description={'Webhook Url'}
+          />
+        }
+        Footercomponent={
+          <FooterComponent
+            check
+            checked={editEnvironment.isActive}
+            SwitchChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange('isActive', e.target.checked)}
+            onSave={() => onSave('environment')}
+            onCancel={() => handleEnvironmentClose('key')}
+            // loading={addEnvironment}
+          />
+        }
+        rootStyle={{ padding: '0px important' }}
+      />
+      {/* add & edit key Drawer */}
+
+      <DialogDrawer
+        contentStyleSx={EnvironmentsStyle.contentSx}
+        isDialogOpened={open?.key}
+        handleCloseDialog={() => handleEnvironmentClose('key')}
+        title={'Add Key'}
+        Bodycomponent={
+          <ModalAddEnvironmentKey
+            groupState={editKey}
+            handleChange={handleKeyChange}
+            title={'Key'}
+            valueName={'name'}
+            webHookValueName={'value'}
+            value={editKey?.name}
+            webHookValue={editKey?.value}
+            description={'Value'}
+          />
+        }
+        Footercomponent={
+          <FooterComponent
+            check
+            checked={editEnvironment.isActive}
+            SwitchChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange('isActive', e.target.checked)}
+            onSave={() => onSave('key')}
+            onCancel={() => handleEnvironmentClose('key')}
             // loading={addEnvironment}
           />
         }

@@ -1,11 +1,9 @@
-import { envConfig } from '@core/envconfig';
-import { httpRequest, secret_stash_localstorageKeys } from '@core/utils';
+import { log } from '@core/logger';
+import { httpRequest } from '@core/utils';
 import { enqueueSnackbar } from 'notistack';
 import { create } from 'zustand';
 import { ServiceInterface } from '../interface';
-import { dummyServicesData, giveMeEnvironmentState, giveMeKeyState, giveMeServicesInitialState, tabs } from '../utils';
-import { log } from '@core/logger';
-
+import { giveMeEnvironmentState, giveMeKeyState, giveMeServicesInitialState } from '../utils';
 export const useServices = create<ServiceInterface>((set, get) => ({
   services: [],
   environment: [],
@@ -13,13 +11,15 @@ export const useServices = create<ServiceInterface>((set, get) => ({
   editKey: giveMeKeyState(),
   editServices: giveMeServicesInitialState(),
   keys: [],
-  fetching: false,
-  errorOnFetching: false,
+  servicefetching: false,
+  errorOnServiceFetching: false,
+  environmentFetching: false,
+  errorOnEnvironmentFetching: false,
 
   getServices: () => {
     return new Promise((resolve, reject) => {
       try {
-        const { editServices } = get();
+        set({ servicefetching: true, errorOnServiceFetching: false });
         httpRequest(
           'post',
           `https://dev-secrethub-api.crayond.com/api/v1/service/list`,
@@ -41,10 +41,12 @@ export const useServices = create<ServiceInterface>((set, get) => ({
           })
           .catch((error) => {
             reject(error);
+          })
+          .finally(() => {
+            set({ servicefetching: false });
           });
       } catch (err: any) {
         log('error', err);
-        const message = err?.response?.data?.message ?? 'Something went wrong while signing in!';
         enqueueSnackbar('errror', { variant: 'error' });
         reject(new Error('Internal Server Error'));
       }
@@ -55,7 +57,7 @@ export const useServices = create<ServiceInterface>((set, get) => ({
     // debugger;
     return new Promise((resolve, reject) => {
       try {
-        const { editEnvironment } = get();
+        set({ environmentFetching: true, errorOnEnvironmentFetching: false });
         httpRequest(
           'post',
           `https://dev-secrethub-api.crayond.com/api/v1/service/environments/list`,
@@ -79,10 +81,12 @@ export const useServices = create<ServiceInterface>((set, get) => ({
           })
           .catch((error) => {
             reject(error);
+          })
+          .finally(() => {
+            set({ environmentFetching: false });
           });
       } catch (err: any) {
         log('error', err);
-        const message = err?.response?.data?.message ?? 'Something went wrong while signing in!';
         enqueueSnackbar('tab errror', { variant: 'error' });
       }
     });
@@ -91,8 +95,6 @@ export const useServices = create<ServiceInterface>((set, get) => ({
   getKeys: async (environment: string, slug: string) => {
     return new Promise((resolve, reject) => {
       try {
-        const { editEnvironment } = get();
-        debugger;
         httpRequest(
           'post',
           `https://dev-secrethub-api.crayond.com/api/v1/service/my/keys`,
@@ -129,23 +131,23 @@ export const useServices = create<ServiceInterface>((set, get) => ({
     });
   },
 
-  addEnvironment: async (payload: any, slug: any) => {
-    const { editKey } = get();
+  createEnvironment: async (payload: any, slug: any) => {
+    // const { editKey } = get();
     try {
-      // set({ loading: true });
       debugger;
+      // set({ loading: true });
       const response = await httpRequest(
         'post',
         `https://dev-secrethub-api.crayond.com/api/v1/service/add/environment`,
         {
-          environment: editKey?.key,
+          environment: payload?.name,
           slug: slug,
         },
         true,
       );
 
       if (response.data?.status === 200) {
-        enqueueSnackbar('added Successfully!!', { variant: 'success' });
+        enqueueSnackbar(response.data.message, { variant: 'success' });
         // set({ loading: false });
         return response;
       }
@@ -156,13 +158,26 @@ export const useServices = create<ServiceInterface>((set, get) => ({
     }
   },
 
-  setHandleChangefn: (key, value) => {
-    // debugger;
-    set((prevstate) => ({ editServices: { ...prevstate.editServices, [key]: value } }));
+  setHandleServices: (key, value) => {
+    debugger;
+    const { editServices } = get();
+    const { data } = editServices;
+
+    set((state) => {
+      return {
+        editServices: {
+          ...state.editServices,
+          data: {
+            ...state.editServices.data,
+            [key]: value,
+          },
+        },
+      };
+    });
   },
 
   handleChange: (key, value) => {
-    // debugger;
+    debugger;
     set((prevstate) => ({ editEnvironment: { ...prevstate.editEnvironment, [key]: value } }));
   },
 
@@ -171,11 +186,110 @@ export const useServices = create<ServiceInterface>((set, get) => ({
     set((prevstate) => ({ editKey: { ...prevstate.editKey, [key]: value } }));
   },
 
-  handleEdit: (e) => {
+  handleEditServicesState: (e) => {
     debugger;
-    set({ environment: [e] });
+    set({ editServices: e });
+  },
+
+  handleEditKeysState: (e) => {
+    debugger;
+    set({ editKey: e });
+  },
+
+  addServices: async (e: any) => {
+    const { editServices } = get();
+    try {
+      // set({ loading: true });
+      debugger;
+      const response = await httpRequest(
+        'post',
+        `https://dev-secrethub-api.crayond.com/api/v1/service/create`,
+        {
+          name: editServices?.data?.name,
+          project_id: 'd49a455b-a608-4d32-9912-f45251b31d56',
+        },
+        true,
+      );
+
+      if (response.data?.status === 200) {
+        enqueueSnackbar(response.data.response, { variant: 'success' });
+        // set({ loading: false });
+        return response;
+      }
+    } catch (err: any) {
+      // set({ loading: false });
+      log('error', err);
+      enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while adding!', { variant: 'error' });
+    }
+  },
+
+  addKeys: async (e: any, slug: string, environment: string) => {
+    const { editKey } = get();
+    try {
+      // set({ loading: true });
+      debugger;
+      const response = await httpRequest(
+        'post',
+        `https://dev-secrethub-api.crayond.com/api/v1/service/add/key`,
+        {
+          environment: environment,
+          slug: slug,
+          name: e?.name,
+          value: e?.value,
+        },
+        true,
+      );
+
+      if (response.data?.status === 200) {
+        enqueueSnackbar(response.data.message, { variant: 'success' });
+        // set({ loading: false });
+        return response;
+      }
+    } catch (err: any) {
+      // set({ loading: false });
+      log('error', err);
+      enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while adding Key!', { variant: 'error' });
+    }
+  },
+
+  editKeysAPI: async (e: any, slug: string, environment: string) => {
+    try {
+      // set({ loading: true });
+      debugger;
+      const response = await httpRequest(
+        'post',
+        `https://dev-secrethub-api.crayond.com/api/v1/service/update/key`,
+        {
+          slug: slug,
+          name: e?.name,
+          value: e?.value,
+          id: e?.id,
+        },
+        true,
+      );
+
+      if (response.data?.status === 200) {
+        enqueueSnackbar(response.data.message, { variant: 'success' });
+        // set({ loading: false });
+        return response;
+      }
+    } catch (err: any) {
+      // set({ loading: false });
+      log('error', err);
+      enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while adding Key!', { variant: 'error' });
+    }
+  },
+
+  clearAll: () => {
+    // const { addMessageList, editMessageList } = get();
+    set({
+      editEnvironment: giveMeEnvironmentState(),
+      editServices: giveMeServicesInitialState(),
+      editKey: giveMeKeyState(),
+    });
   },
 }));
+
 function reject(error: any) {
   throw new Error('Function not implemented.');
 }

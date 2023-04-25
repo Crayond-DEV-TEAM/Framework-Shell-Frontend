@@ -16,22 +16,39 @@ export const messageCardStyle: MessageCardStyleProps = {
     borderRadius: '4px',
     width: '206px',
     height: '36px',
-    // p: '6px 10px',
-    '&:hover': {
-      backgroundColor: '#EAF1EF',
-      p: '6px 10px',
-    },
+    backgroundColor: '#EAF1EF',
+    padding: '8px 10px',
+    p: '6px 10px',
+  },
+  unSelectedCard: {
+    display: 'flex',
+    alignItems: 'center',
+    // justifyContent: 'space-between',
+    cursor: 'pointer',
+    borderRadius: '4px',
+    width: '206px',
+    height: '36px',
+    backgroundColor: 'none',
+    padding: '6px 10px',
+    p: '6px 10px',
   },
   dot: {
     mr: 0.6,
     fontSize: '12px',
   },
-  messageTitle: {
+  serviceTitle: {
+    fontSize: '14px',
+    fontWeight: 500,
+    pl: 0.3,
+    color: '#357968',
+  },
+  unslectedServiceTitle: {
     fontSize: '14px',
     fontWeight: 400,
     pl: 0.3,
-    color: '#5A5A5A',
+    color: 'color.green',
   },
+
   profileSec: {
     display: 'flex',
     alignItems: 'center',

@@ -35,5 +35,7 @@ export { TableWithPagination } from './tableWithPagination';
 export { ReportTabs } from './tabs';
 export { TabsCard } from './tabsCard';
 export { TabsValueCard } from './tabsValueCard';
-
+export { SingleFileComponent } from './singlefilecomponent';
 export { ServicesListing } from './secret-stash/servicesListing';
+export { ShowValue } from './secret-stash/showValue';
+export { SingleFileComponent } from './singleFileComponent';

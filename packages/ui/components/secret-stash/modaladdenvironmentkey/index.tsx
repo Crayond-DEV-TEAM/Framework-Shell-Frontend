@@ -6,6 +6,8 @@ import { modalAddEnvironmentKeyStyle } from './style'
 export interface ModalAddEnvironmentKeyProps {
   className?: string;
   title?: string;
+  webHookValue?: string;
+  nameValue?: string;
   description?: string;
   handleChange?: (key: string, value: string) => void;
   groupState?: any;
@@ -17,13 +19,17 @@ export const ModalAddEnvironmentKey = (props: ModalAddEnvironmentKeyProps): JSX.
     className = '',
     title = '',
     description = '',
+    valueName = '',
+    value= '',
+    webHookValueName = '',
+    webHookValue= '',
     sx = {},
     handleChange = () => false,
     groupState,
     ...rest
   } = props;
 
-  console.log(groupState, 'groupState=====');
+  console.log(valueName, 'nameValue=====');
 
   return (
     <Box
@@ -44,10 +50,10 @@ export const ModalAddEnvironmentKey = (props: ModalAddEnvironmentKeyProps): JSX.
           <Input
             size="small"
             placeholder=" Add Name"
-            value={groupState?.key}
-            id="key"
+            value={value}
+            id={valueName}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-              handleChange('key', e?.target?.value)
+              handleChange(valueName, e?.target?.value)
             }
             textFieldStyle={modalAddEnvironmentKeyStyle.inputSx}
             // isError={groupState?.error?.addTitle ? true : false}
@@ -61,12 +67,12 @@ export const ModalAddEnvironmentKey = (props: ModalAddEnvironmentKeyProps): JSX.
           <Input
             size="small"
             placeholder="Add Repository Url"
-            value={groupState?.webhook_url}
-            id="webhook_url"
+            value={webHookValue}
+            id={webHookValueName}
             // textFieldStyle={{ height: '112px' }}
             textFieldStyle={modalAddEnvironmentKeyStyle.inputSx}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-              handleChange('webhook_url', e.target.value)
+              handleChange(webHookValueName, e.target.value)
             }
             // isError={groupState?.error?.addDescription ? true : false}
             // errorMessage={groupState?.error?.addDescription ?? ''}

@@ -50,9 +50,6 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
   } = useMessageConfiguration();
   const { getServices, services, setHandleChangefn, editServices } = useServices();
 
-  console.log(services, 'services====');
-  console.log(editMessageList, 'editMessageList====');
-  console.log(editServices, 'editServices====');
 
   const [open, setOpen] = useState(false);
 

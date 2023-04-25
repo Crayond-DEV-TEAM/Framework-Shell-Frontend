@@ -410,12 +410,13 @@ export interface Services {
   };
   offset: number;
   limit: number;
+  slug: string;
 }
 
 export interface keys {
   id: string;
   env: string;
-  key: string;
+  name: string;
   value: string;
   isActive: boolean;
 }
@@ -443,15 +444,22 @@ export interface ServiceInterface {
   keys: keys[];
   editKey: keys;
   editEnvironment: Environment;
-  fetching: boolean;
-  errorOnFetching: boolean;
-  setHandleChangefn: (key: string, value: string) => void;
+  servicefetching: boolean;
+  errorOnServiceFetching: boolean;
+  environmentFetching: boolean;
+  errorOnEnvironmentFetching: boolean;
+  setHandleServices: (key: string, value: string) => void;
   getServices: () => any;
   getEnvironment: (slug: string) => any;
-  addEnvironment: (payload: any, slug: string) => void;
+  createEnvironment: (payload: any, slug: string) => void;
+  addServices: (e: any) => void;
+  addKeys: (e: any, slug: string, environment: string) => void;
+  editKeysAPI: async (e: any, slug: string, environment: string) => void;
   getKeys: (environment: string, slug: string) => any;
+  clearAll: () => void;
+  handleEditServicesState: (e: any) => void;
+  handleEditKeysState: (e: any) => void;
 
-  handleEdit: (e: any) => void;
   handleChange: (key: any, value: any) => void;
   handleKeyChange: (key: any, value: any) => void;
 }

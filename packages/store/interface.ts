@@ -422,14 +422,15 @@ export interface keys {
 }
 
 export interface Environment {
-  name: string;
-  webhook_url: string;
-  isActive: boolean;
+  data: {
+    name: string;
+    webhook_url: string;
+    isActive: boolean;
+  }
 }
 
 export interface SecretStashInterface {
   SecretStashSignInState: SecretStashSignInState;
-
   signInLoading: boolean;
   signInMessage: string;
   signInError: boolean;
@@ -438,28 +439,58 @@ export interface SecretStashInterface {
   setSignInState: (payload: { key: string; value: string }) => void;
 }
 export interface ServiceInterface {
+  openService: boolean;
+  edit: boolean;
+  slugIndex: number;
   services: Services[];
   editServices: Services;
-  environment: Environment[];
-  keys: keys[];
-  editKey: keys;
-  editEnvironment: Environment;
   servicefetching: boolean;
   errorOnServiceFetching: boolean;
-  environmentFetching: boolean;
-  errorOnEnvironmentFetching: boolean;
   setHandleServices: (key: string, value: string) => void;
   getServices: () => any;
-  getEnvironment: (slug: string) => any;
-  createEnvironment: (payload: any, slug: string) => void;
   addServices: (e: any) => void;
-  addKeys: (e: any, slug: string, environment: string) => void;
-  editKeysAPI: async (e: any, slug: string, environment: string) => void;
-  getKeys: (environment: string, slug: string) => any;
   clearAll: () => void;
-  handleEditServicesState: (e: any) => void;
-  handleEditKeysState: (e: any) => void;
-
+  handleServiceDrawerOpen: (e: string) => void;
+  handleServiceDrawerClose: (e: string) => void;
   handleChange: (key: any, value: any) => void;
   handleKeyChange: (key: any, value: any) => void;
+  onEditServices: (e: any, i: number) => void;
+  handleServiceClick: (e: any, i: number) => void;
+  onSaveServices: (key: string) => void;
+}
+
+export interface EnvironmentInterface {
+  editEnvironment: Environment;
+  selectedTab: number;
+  openEnvironment: boolean;
+  edit: boolean,
+  environment: Environment[];
+  tabOnChange: (e: any, i: any) => void;
+  environmentFetching: boolean;
+  errorOnEnvironmentFetching: boolean;
+  handleEnvironmentDrawerOpen: (e: string) => void;
+  handleEnvironmentDrawerClose: (e: string) => void;
+  createEnvironment: (payload: any, slug: string) => void;
+  handleChange: (key: string, value: any) => void;
+  onSaveKeys: (key: string) => void;
+}
+
+export interface KeyInterface {
+  editKey: keys;
+  keys: keys[];
+  openKey: false;
+  edit: false,
+  keyFetching: boolean;
+  handleTableEdit: (e: any) => void;
+  handleUploadFile: (e: any, slug: string, environment: string) => void;
+  singleFileUpload: (file: File) => any;
+  addFileAPI: (formdata: any) => any;
+  errorOnKeyFetching: boolean;
+  handleKeyDrawerOpen: (e: string) => void;
+  handleKeyDrawerClose: (e: string) => void;
+  addKeys: (e: any, slug: string, environment: string) => void;
+  handleKeyChange: (key:string, value: any) => void;
+  getKeys: (environment: string, slug: string) => any;
+  editKeysAPI: (e: any, slug: string, environment: string) => void;
+  onSaveEnvironment: (key: string) => void;
 }

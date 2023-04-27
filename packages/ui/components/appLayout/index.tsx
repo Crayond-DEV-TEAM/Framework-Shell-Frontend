@@ -14,10 +14,19 @@ export interface AppLayoutProps {
   sx?: SxProps<Theme>;
   childrenWrapperProps?: BoxProps;
   children: JSX.Element;
+  paddingElement?: any;
 }
 
 export function AppLayout(props: AppLayoutProps): JSX.Element {
-  const { className = '', title = '', children, childrenWrapperProps = {}, sx = {}, ...rest } = props;
+  const {
+    className = '',
+    title = '',
+    children,
+    childrenWrapperProps = {},
+    sx = {},
+    paddingElement = {},
+    ...rest
+  } = props;
 
   const user = useUser((state) => state.user);
 
@@ -39,6 +48,7 @@ export function AppLayout(props: AppLayoutProps): JSX.Element {
         sx={[
           {
             ...appLayoutStyle.childrenSx,
+            paddingElement,
           },
           ...(Array.isArray(childrenWrapperProps['sx']) ? childrenWrapperProps['sx'] : [childrenWrapperProps['sx']]),
         ]}

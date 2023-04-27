@@ -5,7 +5,7 @@ interface ModalAddMessageStyleProps {
 }
 
 export const modalAddMessageStyle: ModalAddMessageStyleProps = {
-  rootSx: { paddding: '12px' },
+  rootSx: {},
   labelSx: {
     fontSize: '12px',
     color: '#262C33',

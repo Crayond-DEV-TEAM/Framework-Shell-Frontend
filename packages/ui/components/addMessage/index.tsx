@@ -17,10 +17,23 @@ export interface AddMessageProps {
   setList?: (key: any, value: string) => void;
   open?: boolean;
   payload?: any;
+  title?: string;
+  addTitle?: string;
+  editTitle?: string;
 }
 
 export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTMLElement>): JSX.Element => {
-  const { className = '', sx = {}, setList = {}, onMessageTable = () => false, payload = {}, ...rest } = props;
+  const {
+    className = '',
+    sx = {},
+    setList = {},
+    onMessageTable = () => false,
+    payload = {},
+    title = '',
+    addTitle = '',
+    editTitle = '',
+    ...rest
+  } = props;
 
   // store Data
   const {
@@ -102,7 +115,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
       {...rest}
     >
       <Box sx={addMessageStyle.header}>
-        <Typography sx={addMessageStyle.titleSx}>Message Group</Typography>
+        <Typography sx={addMessageStyle.titleSx}>{title}</Typography>
         <IconButton onClick={handleOpen} sx={{ p: 0 }}>
           <AddIcon />
         </IconButton>
@@ -155,7 +168,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={open}
-        title={'Add New Message Group'}
+        title={addTitle}
         Bodycomponent={<ModalAddMessage handleChange={handleChange} groupState={addMessage} />}
         handleCloseDialog={handleClose}
         Footercomponent={
@@ -175,7 +188,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={values}
-        title={'Edit message Group'}
+        title={editTitle}
         Bodycomponent={<ModalAddMessage handleChange={handleeditChange} groupState={editMessageList} />}
         handleCloseDialog={handleEditClose}
         Footercomponent={

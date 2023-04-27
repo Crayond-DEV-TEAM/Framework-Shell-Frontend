@@ -173,7 +173,13 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
         {/* Message Group */}
         <Grid item xs={12} sm={4} md={2.25}>
           <Box sx={messageTableStyle.addSx}>
-            <AddMessage onMessageTable={handleChange} setList={setList} />
+            <AddMessage
+              onMessageTable={handleChange}
+              setList={setList}
+              title="Message Group"
+              addTitle="Add New Message Group"
+              editTitle="Edit Message Group"
+            />
           </Box>
         </Grid>
 

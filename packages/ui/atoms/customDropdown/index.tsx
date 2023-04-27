@@ -98,7 +98,7 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
     ...rest
   } = props;
   // const [currentValue, setCurrentValue] = useState([]);
-  const name = [{ values: 'dsp' }, { values: 'FGHF' }, { values: 'dsdghdgp' }];
+  const name = [{ values: 'Facility' }, { values: 'Manager' }, { values: 'Management' }];
 
   return (
     <Box

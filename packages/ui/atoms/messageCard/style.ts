@@ -14,7 +14,6 @@ export const messageCardStyle: MessageCardStyleProps = {
     // justifyContent: 'space-between',
     cursor: 'pointer',
     borderRadius: '4px',
-    width: '206px',
     height: '36px',
     // p: '6px 10px',
     '&:hover': {

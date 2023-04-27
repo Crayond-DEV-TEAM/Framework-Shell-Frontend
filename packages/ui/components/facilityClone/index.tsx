@@ -37,7 +37,7 @@ export const FacilityClone = (props: FacilityCloneProps): JSX.Element => {
         </Box>
       </Box>
       <Box sx={facilityCloneStyle.borderLine} />
-      <Box sx={{ height: '295px', overflow: 'scroll' }}>
+      <Box sx={{ height: 'calc(100vh - 323px)', overflow: 'scroll' }}>
         <TreeComponent data={RepoJson} checkboxsection={true} />
       </Box>
       {/* sx={{ height: '50vh', overflow: 'scroll' }} */}

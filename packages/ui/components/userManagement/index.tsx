@@ -90,7 +90,7 @@ export const UserManagement = (props: UserManagementProps): JSX.Element => {
           </Box>
         </Box>
       </Box>
-      <Box sx={{ margin: '30px 22px 8px 22px' }}>
+      <Box sx={{ margin: '24px 20px' }}>
         <TabPanel>
           {index === 0 && <Box>{tabs[0]?.children}</Box>}
           {index === 1 && <Box>{tabs[1]?.children}</Box>}

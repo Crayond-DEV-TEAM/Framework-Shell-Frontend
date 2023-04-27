@@ -44,7 +44,7 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
           handleOpen={handleOpen}
         />
       </Box>
-      <Box sx={{ height: '60vh', overflow: 'scroll' }}>
+      <Box sx={{ height: 'calc( 100vh - 237px )', overflow: 'scroll' }}>
         <TreeComponent data={RepoJson} />
       </Box>
       <DialogDrawer

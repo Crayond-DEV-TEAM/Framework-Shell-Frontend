@@ -23,11 +23,11 @@ export const Permission = (props: PermissionProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={4} md={2.5} lg={2.5} xl={2.5}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={3} md={2.5} lg={2.5} xl={2.5}>
           <AddPermission title="Permissions" addTitle="Add Permission" editTitle="Edit Permission" />
         </Grid>
-        <Grid item xs={12} sm={8} md={9.5} lg={9.5} xl={9.5}>
+        <Grid item xs={12} sm={9} md={9.5} lg={9.5} xl={9.5}>
           <FacilityClone />
         </Grid>
       </Grid>

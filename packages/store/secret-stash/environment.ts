@@ -9,49 +9,39 @@ export const useEnvironment = create<EnvironmentInterface>((set, get) => ({
   editEnvironment: giveMeEnvironmentState(),
   selectedTab: 0,
   openEnvironment: false,
-  edit: false,
+  isEditEnvironment: false,
 
   getEnvironment: async (slug: string) => {
-    // debugger;
-    return new Promise((resolve, reject) => {
-      try {
-        set({ environmentFetching: true, errorOnEnvironmentFetching: false });
-        httpRequest(
-          'post',
-          `https://dev-secrethub-api.crayond.com/api/v1/service/environments/list`,
-          {
-            slug: slug ?? '',
-            offset: 0,
-            limit: 10,
-          },
-          true,
-        )
-          .then((response) => {
-            if (response?.data?.response?.status === 200) {
-              set({ environment: response?.data?.response?.response?.rows });
+    // return new Promise((resolve, reject) => {
+    const { environmentFetching, errorOnEnvironmentFetching } = get();
+    try {
+      set({ environmentFetching: true, errorOnEnvironmentFetching: false });
+      const response = await httpRequest(
+        'post',
+        `https://dev-secrethub-api.crayond.com/api/v1/service/environments/list`,
+        {
+          slug: slug ?? null,
+          offset: 0,
+          limit: 10,
+        },
+        true,
+      )
+      debugger;
+      if (response?.data?.response?.status === 200) {
+        set({ environment: response?.data?.response?.response?.rows });
 
-              enqueueSnackbar('tabs listed', { variant: 'success' });
+        // enqueueSnackbar('tabs listed', { variant: 'success' });
 
-              resolve(response?.data?.response?.response?.rows);
-            } else {
-              throw new Error('Internal Server Error');
-            }
-          })
-          .catch((error) => {
-            reject(error);
-          })
-          .finally(() => {
-            set({ environmentFetching: false });
-          });
-      } catch (err: any) {
-        log('error', err);
-        enqueueSnackbar('tab errror', { variant: 'error' });
+        return (response?.data?.response?.response?.rows);
       }
-    });
+    } catch (err: any) {
+      log('error', err);
+      enqueueSnackbar('tab errror', { variant: 'error' });
+    }
   },
 
   createEnvironment: async (payload: any, slug: any) => {
-    // const { editKey } = get();
+    const { handleEnvironmentDrawerClose } = get();
     try {
       debugger;
       // set({ loading: true });
@@ -68,6 +58,36 @@ export const useEnvironment = create<EnvironmentInterface>((set, get) => ({
       if (response.data?.status === 200) {
         enqueueSnackbar(response.data.message, { variant: 'success' });
         // set({ loading: false });
+        handleEnvironmentDrawerClose('');
+
+        return response;
+      }
+    } catch (err: any) {
+      // set({ loading: false });
+      log('error', err);
+      enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while adding!', { variant: 'error' });
+    }
+  },
+
+  updateEnvironment: async (payload: any) => {
+    const { handleEnvironmentDrawerClose } = get();
+    try {
+      debugger;
+      // set({ loading: true });
+      const response = await httpRequest(
+        'post',
+        `https://dev-secrethub-api.crayond.com/api/v1/service/environment/update`,
+        {
+          name: payload?.name,
+          id: payload?.id,
+        },
+        true,
+      );
+
+      if (response.data?.status === 200) {
+        enqueueSnackbar(response.data.message, { variant: 'success' });
+        // set({ loading: false });
+        handleEnvironmentDrawerClose('');
         return response;
       }
     } catch (err: any) {
@@ -82,29 +102,39 @@ export const useEnvironment = create<EnvironmentInterface>((set, get) => ({
     set((prevstate) => ({ editEnvironment: { ...prevstate.editEnvironment, [key]: value } }));
   },
 
-  tabOnChange: async (e: any, i: any) => {
+  tabOnChange: async (i: any) => {
     const { index } = get();
     debugger;
     set({ selectedTab: i });
-    // await makeGetkeyRequest(environment?.[i]?.name, services[index.index.slugIndex].slug);
   },
 
   handleEnvironmentDrawerOpen: () => {
-    set({openEnvironment: true})
+    set({ openEnvironment: true });
   },
 
   handleEnvironmentDrawerClose: () => {
-    set({openEnvironment: false})
+    debugger;
+    const { editEnvironment, isEditEnvironment, openEnvironment } = get();
+    set({ editEnvironment: giveMeEnvironmentState(), openEnvironment: false, isEditEnvironment: false });
   },
 
-  onSaveEnvironment: async (key: string) => {
+  handleTabEdit: (e: any) => {
     debugger;
-    if(edit){
-    //   await editKeysAPI(editKeys, slug, environment)
-      await getEnvironment(slug);
-    }else {
-      await createEnvironment(e, slug, environment)
-      await getEnvironment(slug);
+    const { isEditEnvironment, handleEnvironmentDrawerOpen } = get();
+    set({ isEditEnvironment: true });
+    handleEnvironmentDrawerOpen();
+    set({ editEnvironment: e });
+  },
+
+  onSaveEnvironment: async (environment: any, slug: string) => {
+    debugger;
+    const { isEditEnvironment, getEnvironment, createEnvironment, updateEnvironment } = get();
+    if (isEditEnvironment) {
+      await updateEnvironment(environment);
+      await getEnvironment(environment?.slug);
+    } else {
+      await createEnvironment(environment, slug);
+      await getEnvironment(environment?.slug);
     }
   },
 }));

@@ -726,6 +726,7 @@ export const giveMeEnvironmentState = (): Environment => {
     name: '',
     webhook_url: '',
     isActive: false,
+    id: '',
   };
 };
 

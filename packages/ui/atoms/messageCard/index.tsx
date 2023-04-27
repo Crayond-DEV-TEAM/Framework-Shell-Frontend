@@ -80,7 +80,6 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
     >
       <Box
         sx={select === index ? messageCardStyle.messageCard : messageCardStyle.unSelectedCard}
-        onClick={onMessaageClick}
       >
         <Grid container alignItems={'center'}>
           <Grid item xs={1} sm={1} md={1} lg={1}>
@@ -91,7 +90,7 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
             )}
           </Grid>
           <Grid item xs={10} sm={10} md={10} lg={10}>
-            <Typography sx={select === index ? messageCardStyle.serviceTitle : messageCardStyle.unslectedServiceTitle}>
+            <Typography onClick={onMessaageClick} sx={select === index ? messageCardStyle.serviceTitle : messageCardStyle.unslectedServiceTitle}>
               {title}
             </Typography>
           </Grid>
@@ -101,7 +100,7 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
               onClick={handleClick}
               aria-owns={anchorEl ? 'simple-menu' : undefined}
               aria-haspopup="true"
-              // onMouseOver={handleClick}
+            // onMouseOver={handleClick}
             >
               {isHovering ? (
                 <MoreIcon
@@ -114,7 +113,17 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
           </Grid>
         </Grid>
         <Menu open={open} anchorEl={anchorEl} onClose={handleClose} sx={messageCardStyle.menuSx}>
-          <MenuItem onClick={onEdit} sx={{ justifyContent: 'space-between' }}>
+          <MenuItem
+            id="ec33277c-74e7-4b23-94cc-4cddb997548c"
+            onClick={(e) => {
+              if (e?.target?.id === 'ec33277c-74e7-4b23-94cc-4cddb997548c') {
+                debugger;
+                e?.stopPropagation();
+                onEdit();
+              }
+            }}
+            sx={{ justifyContent: 'space-between' }}
+          >
             <Typography sx={messageCardStyle.menutext}>Edit</Typography>
             <IconButton disableRipple sx={{ p: 0 }}>
               <EditIcon rootStyle={{ width: '18px', height: '18px', cursor: 'pointer' }} />

@@ -6,7 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { SxProps, Theme, Popover } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { forwardRef } from 'react';
-import { AddMessageGroup, Filter, ShowValue } from '..';
+import { AddMessageGroup, Filter, ShowValue, SingleFileComponent } from '..';
 import DownloadIcon from '@core/ui/assets/downloadIcon';
 import XlsIcon from '@core/ui/assets/xlsIcon';
 import { tableHeaderStyle } from './style';
@@ -47,7 +47,7 @@ export interface TableHeaderProps {
   language?: any;
   addedLangState?: any;
   languageBox?: () => void;
-  handleVisibility?: () => void;
+  handleUploadFile?: (e: any) => void;
   handleChipDelete?: any;
   addMessage?: any;
   options?: any;
@@ -71,7 +71,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     loading = true,
     handleStateChange = () => false,
     updateStatusReport = () => false,
-    handleVisibility = () => false,
+    handleUploadFile = () => false,
     status,
     buttonName = 'Add Message',
     editTableMessage,
@@ -128,7 +128,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
               />
             </Box>
           )}
-          {isShowValue && <ShowValue isVisible={isVisible} handleClick={handleVisibility} />}
+          {isShowValue && <SingleFileComponent handleChange={(e: any) => handleUploadFile(e)} />}
           {isFilterRequired && (
             <Filter
               filterContent={filterContent}

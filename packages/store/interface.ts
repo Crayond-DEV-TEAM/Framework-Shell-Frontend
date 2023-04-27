@@ -426,7 +426,8 @@ export interface Environment {
     name: string;
     webhook_url: string;
     isActive: boolean;
-  }
+    id: string;
+  };
 }
 
 export interface SecretStashInterface {
@@ -440,7 +441,7 @@ export interface SecretStashInterface {
 }
 export interface ServiceInterface {
   openService: boolean;
-  edit: boolean;
+  isEditService: boolean;
   slugIndex: number;
   services: Services[];
   editServices: Services;
@@ -449,6 +450,7 @@ export interface ServiceInterface {
   setHandleServices: (key: string, value: string) => void;
   getServices: () => any;
   addServices: (e: any) => void;
+  editServicesfn: () => void;
   clearAll: () => void;
   handleServiceDrawerOpen: (e: string) => void;
   handleServiceDrawerClose: (e: string) => void;
@@ -463,23 +465,26 @@ export interface EnvironmentInterface {
   editEnvironment: Environment;
   selectedTab: number;
   openEnvironment: boolean;
-  edit: boolean,
+  isEditEnvironment: boolean;
   environment: Environment[];
-  tabOnChange: (e: any, i: any) => void;
+  tabOnChange: (i: any) => void;
   environmentFetching: boolean;
+  handleTabEdit: (e: any) => void;
   errorOnEnvironmentFetching: boolean;
   handleEnvironmentDrawerOpen: (e: string) => void;
+  getEnvironment: (slug: string) => void;
   handleEnvironmentDrawerClose: (e: string) => void;
   createEnvironment: (payload: any, slug: string) => void;
+  updateEnvironment: (payload: any) => void;
   handleChange: (key: string, value: any) => void;
-  onSaveKeys: (key: string) => void;
+  onSaveEnvironment: (environment: any, slug: string) => void;
 }
 
 export interface KeyInterface {
   editKey: keys;
   keys: keys[];
-  openKey: false;
-  edit: false,
+  openKey: boolean;
+  isEditKey: boolean;
   keyFetching: boolean;
   handleTableEdit: (e: any) => void;
   handleUploadFile: (e: any, slug: string, environment: string) => void;
@@ -488,9 +493,9 @@ export interface KeyInterface {
   errorOnKeyFetching: boolean;
   handleKeyDrawerOpen: (e: string) => void;
   handleKeyDrawerClose: (e: string) => void;
-  addKeys: (e: any, slug: string, environment: string) => void;
-  handleKeyChange: (key:string, value: any) => void;
-  getKeys: (environment: string, slug: string) => any;
+  addKeys: (e: any, slug: string, environment: any) => void;
+  handleKeyChange: (key: string, value: any) => void;
+  getKeys: (environment: any, slug: string) => any;
   editKeysAPI: (e: any, slug: string, environment: string) => void;
-  onSaveEnvironment: (key: string) => void;
+  onSaveKeys: (key: any, slug: string, environment: any) => void;
 }

@@ -18,7 +18,7 @@ export interface EnvironmentTabsProps {
   className?: string;
   sx?: SxProps<Theme>;
   selected?: number;
-  handleTabEdit?: (event: any, _e: any) => void;
+  handleTabEdit?: (_e: any) => void;
   onChange?: (event: any, _e: any) => void;
   handleEnvironmentClose?: (e: string) => void;
   handleAddEnvironment?: (e: string) => void;
@@ -72,7 +72,7 @@ export const EnvironmentTabs = forwardRef((props: EnvironmentTabsProps): JSX.Ele
                       id="stopPropagation"
                       onClick={(event) => {
                         if (event.currentTarget.id === 'stopPropagation') {
-                          handleTabEdit(event, _e);
+                          handleTabEdit(_e, i);
                         }
                       }}
                     >

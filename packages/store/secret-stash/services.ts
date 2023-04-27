@@ -3,14 +3,11 @@ import { httpRequest } from '@core/utils';
 import { enqueueSnackbar } from 'notistack';
 import { create } from 'zustand';
 import { ServiceInterface } from '../interface';
-import {
-  giveMeKeyState,
-  giveMeServicesInitialState,
-} from '../utils';
+import { giveMeKeyState, giveMeServicesInitialState } from '../utils';
 export const useServices = create<ServiceInterface>((set, get) => ({
   serviceOpen: false,
-  slugIndex: 0,
-  edit: false,
+  slugIndex: 4,
+  isEditService: false,
   services: [],
   editServices: giveMeServicesInitialState(),
   servicefetching: false,
@@ -31,9 +28,17 @@ export const useServices = create<ServiceInterface>((set, get) => ({
         )
           .then((response) => {
             if (response?.data?.response?.status === 200) {
-              set({ services: response?.data?.response?.response?.data });
+              set((state) => {
+                return {
+                  services: {
+                    ...state.services,
+                    data: response?.data?.response?.response?.data,
+                  },
+                };
+              });
+              // set({ services: response?.data?.response?.response?.data });
 
-              enqueueSnackbar('datalisted', { variant: 'success' });
+              // enqueueSnackbar('datalisted', { variant: 'success' });
 
               // return response?.data?.response?.response?.data;
               resolve(response?.data?.response?.response?.data);
@@ -98,20 +103,51 @@ export const useServices = create<ServiceInterface>((set, get) => ({
     }
   },
 
+  editServicesfn: async () => {
+    const { editServices } = get();
+    debugger;
+
+    try {
+      // set({ loading: true });
+      const response = await httpRequest(
+        'post',
+        `https://dev-secrethub-api.crayond.com/api/v1/service/update`,
+        {
+          name: editServices?.data?.name,
+          id: editServices?.data?.id,
+        },
+        true,
+      );
+
+      if (response.data?.status === 200) {
+        enqueueSnackbar(response.data.response, { variant: 'success' });
+        // set({ loading: false });
+        return response;
+      }
+    } catch (err: any) {
+      // set({ loading: false });
+      log('error', err);
+      enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while adding!', { variant: 'error' });
+    }
+  },
+
   handleServiceDrawerOpen: () => {
-    set({openService: true})
+    const { serviceOpen } = get();
+    set({ serviceOpen: true });
   },
 
   handleServiceDrawerClose: () => {
-    set({openService: false})
+    const { serviceOpen, editServices, isEditService } = get();
+    set({ serviceOpen: false, editServices: giveMeServicesInitialState(), isEditService: false });
   },
 
   onSaveServices: async (key: string) => {
     debugger;
-    if(edit){
-      // await addServices();
+    const { isEditService, editServicesfn, addServices, getServices } = get();
+    if (isEditService) {
+      await editServicesfn();
       await getServices();
-    }else{
+    } else {
       await addServices();
       await getServices();
     }
@@ -125,12 +161,19 @@ export const useServices = create<ServiceInterface>((set, get) => ({
 
   // edit services
   onEditServices: (e: any, i: number) => {
-    const { isEdit, editServices, handleDrawerOpen } = get();
-    set((prevState) => ({ isEdit: { ...prevState.isEdit, services: true } }));
-
-    handleDrawerOpen('services');
+    const { isEditService, editServices, handleServiceDrawerOpen } = get();
     debugger;
-    set({ editServices: e });
+    set({ isEditService: true });
+    handleServiceDrawerOpen('');
+    // set({ editServices.data: e });
+    set((state) => {
+      return {
+        editServices: {
+          ...state.editServices,
+          data: e,
+        },
+      };
+    });
   },
 
   clearAll: () => {

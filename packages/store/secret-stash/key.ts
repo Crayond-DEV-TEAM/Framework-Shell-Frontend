@@ -8,18 +8,19 @@ export const useKeys = create<KeyInterface>((set, get) => ({
   editKey: giveMeKeyState(),
   keys: [],
   openKey: false,
-  edit: false,
+  isEditKey: false,
   keyFetching: false,
   errorOnKeyFetching: false,
 
-  getKeys: async (environment: string, slug: string) => {
+  getKeys: async (environment: any, slug: string) => {
+    debugger
     return new Promise((resolve, reject) => {
       try {
         httpRequest(
           'post',
           `https://dev-secrethub-api.crayond.com/api/v1/service/my/keys`,
           {
-            environment: environment ?? '',
+            environment: environment?.name ?? '',
             slug: slug ?? '',
             offset: 0,
             limit: 10,
@@ -31,10 +32,17 @@ export const useKeys = create<KeyInterface>((set, get) => ({
             if (response?.data?.status === 200) {
               // debugger
               // console.log(response?.data?.response?.rows, '');
+              const tempRow = response?.data?.response?.rows?.map((e: any) => {
 
-              set({ keys: response?.data?.response?.rows });
+                return {
+                  ...e,
+                  password: e?.value
+                }
+              })
+              debugger
+              set({ keys: tempRow });
 
-              enqueueSnackbar('keys listed', { variant: 'success' });
+              // enqueueSnackbar('keys listed', { variant: 'success' });
               resolve(response?.data);
             } else {
               throw new Error('Internal Server Error');
@@ -51,7 +59,7 @@ export const useKeys = create<KeyInterface>((set, get) => ({
     });
   },
 
-  addKeys: async (e: any, slug: string, environment: string) => {
+  addKeys: async (e: any, slug: string, environment: any) => {
     const { editKey } = get();
     try {
       // set({ loading: true });
@@ -60,7 +68,7 @@ export const useKeys = create<KeyInterface>((set, get) => ({
         'post',
         `https://dev-secrethub-api.crayond.com/api/v1/service/add/key`,
         {
-          environment: environment,
+          environment: environment?.name,
           slug: slug,
           name: e?.name,
           value: e?.value,
@@ -81,6 +89,7 @@ export const useKeys = create<KeyInterface>((set, get) => ({
   },
 
   editKeysAPI: async (e: any, slug: string, environment: string) => {
+    const { handleKeyDrawerClose } = get();
     try {
       // set({ loading: true });
       debugger;
@@ -91,14 +100,15 @@ export const useKeys = create<KeyInterface>((set, get) => ({
           slug: slug,
           name: e?.name,
           value: e?.value,
-          id: e?.id,
+          id: environment?.id,
         },
         true,
       );
 
       if (response.data?.status === 200) {
-        enqueueSnackbar(response.data.message, { variant: 'success' });
+        enqueueSnackbar(response.data.message ?? 'key updated successfully', { variant: 'success' });
         // set({ loading: false });
+        handleKeyDrawerClose('');
         return response;
       }
     } catch (err: any) {
@@ -106,6 +116,15 @@ export const useKeys = create<KeyInterface>((set, get) => ({
       log('error', err);
       enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while adding Key!', { variant: 'error' });
     }
+  },
+
+  handleKeyDrawerOpen: () => {
+    set({ openKey: true });
+  },
+
+  handleKeyDrawerClose: () => {
+    const { openKey, editKey, isEditKey } = get();
+    set({ openKey: false, editKey: giveMeKeyState(), isEditKey: false });
   },
 
   addFileAPI: async (formdata: any) => {
@@ -184,30 +203,23 @@ export const useKeys = create<KeyInterface>((set, get) => ({
   },
 
   handleTableEdit: (e: any) => {
-    const { handleDrawerOpen, keys } = get();
+    const { openKey, keys, handleKeyDrawerOpen } = get();
     debugger;
-    set(({ edit: true }));
+    set({ isEditKey: true });
     const filterKey = keys.find((x) => x?.id === e);
-    handleDrawerOpen();
+    handleKeyDrawerOpen('');
     set({ editKey: filterKey });
   },
 
-  handleKeyDrawerOpen: () => {
-    set({openKey: true})
-  },
-
-  handleKeyDrawerClose: () => {
-    set({openKey: false})
-  },
-
-  onSaveKeys: async (key: string) => {
+  onSaveKeys: async (e: any, slug: string, environment: any) => {
     debugger;
-    if(edit){
-      await editKeysAPI(e, slug, environment)
-      await getKeys(slug, environment);
-    }else{
-      await addKeys(e, slug, environment)
-      await getKeys(slug, environment);
+    const { isEditKey, editKeysAPI, getKeys, addKeys } = get();
+    if (isEditKey) {
+      await editKeysAPI(e, slug, environment);
+      await getKeys(environment, slug);
+    } else {
+      await addKeys(e, slug, environment);
+      await getKeys(environment, slug);
     }
   },
 }));

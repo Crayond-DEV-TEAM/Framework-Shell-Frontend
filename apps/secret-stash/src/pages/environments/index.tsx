@@ -8,7 +8,7 @@ import {
 } from '@core/ui/components';
 import { Box, Grid, Stack, Typography } from '@mui/material';
 // import { MessageTable } from '..';
-import { useServices, useKeys, useEnvironment } from '@core/store';
+import { useServices, useEnvironment, useKeys } from '@core/store';
 import { dummyTableData } from '@core/store/utils';
 import { Button, FooterComponent } from '@core/ui/atoms';
 import { DialogDrawer } from '@core/ui/atoms/dialogDrawer';
@@ -23,6 +23,7 @@ export default function Environments() {
     slugIndex,
     services,
     editServices,
+    isEditService,
     // servicefetching,
     errorOnServiceFetching,
     getServices,
@@ -32,11 +33,12 @@ export default function Environments() {
     onEditServices,
     handleServiceDrawerOpen,
     handleServiceDrawerClose,
-    onSaveServices
+    onSaveServices,
   } = useServices();
 
   const {
     environment,
+    isEditEnvironment,
     editEnvironment,
     selectedTab,
     openEnvironment,
@@ -47,11 +49,13 @@ export default function Environments() {
     handleEnvironmentDrawerOpen,
     // environmentFetching,
     handleEnvironmentDrawerClose,
-    onSaveEnvironment
+    onSaveEnvironment,
+    handleTabEdit,
   } = useEnvironment();
 
   const {
     keys,
+    isEditKey,
     editKey,
     openKey,
     keyFetching,
@@ -64,13 +68,11 @@ export default function Environments() {
     handleUploadFile,
     handleKeyDrawerOpen,
     handleKeyDrawerClose,
-    onSaveKeys
+    onSaveKeys,
   } = useKeys();
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [isVisible, setIsVisible] = useState(false);
   const [switchList, setSwitchList] = useState<any>([]);
-  // const handleClose = () => setOpen(false);
 
   // console.log(servicefetching, 'servicefetching==');
 
@@ -96,32 +98,61 @@ export default function Environments() {
       // getStatus(id, false);
     }
   };
-  console.log(editKey, 'editKey');
+  // console.log(editKey, 'editKey');
 
-  const handleTableDelete = () => {};
+  const handleTableDelete = () => { };
 
   const saveFn = async (key: string) => {
     debugger;
-    onSave(key);
+    if (key === 'services') {
+      onSaveServices(key);
+    } else if (key === 'environment') {
+      onSaveEnvironment(editEnvironment, services?.data?.[slugIndex]?.slug);
+    } else {
+      console.log('err');
+      onSaveKeys(editKey, services?.data?.[slugIndex]?.slug, environment?.[selectedTab]);
+    }
   };
 
-  const handleVisibility = (e: any, index: number) => {
+  const handleUpload = async (e: any) => {
     debugger;
-    setIsVisible(!isVisible);
+    await handleUploadFile(e, services?.data?.[slugIndex]?.slug, environment?.[selectedTab]?.name)
+    await getKeys(environmentRes?.[selectedTab]?.name, services?.data?.[slugIndex]?.slug);
   };
 
-  const listingAPIs= async () =>{
-    await getServices()
-    await getEnvironment(services?.[0]?.slug)
-    await getKeys(environment?.[0]?.name ,services?.[0]?.slug)
-    
+  const makeGetEnvironmentRequest = async (slug: string) => {
+    debugger;
+    const environmentRes = await getEnvironment(slug);
+    console.log(environmentRes?.[selectedTab]?.name, 'environmentRes?.[selectedTab]?.name');
+
+    await getKeys(environmentRes?.[selectedTab]?.name, slug);
+  };
+
+  const listingAPIs = async () => {
+    // debugger;
+    const getServicesRes = await getServices();
+    await makeGetEnvironmentRequest(getServicesRes?.[slugIndex]?.slug);
+  };
+
+  const handleOnClick = async (e: any, i: number) => {
+    debugger
+    handleServiceClick(e, i);
+    makeGetEnvironmentRequest(services?.data?.[i]?.slug);
+  };
+
+  const handleTabClick = async (e: any, i: number) => {
+    debugger
+    tabOnChange(i);
+    await getKeys(environment?.[i], services?.data?.[slugIndex]?.slug);
+    // await makeGetkeyRequest(environment?.[i]?.name, services[slugIndex].slug);
+
   }
 
-  console.log(selectedTab , "selected====")
-  console.log(slugIndex , "selected====")
+  // console.log(selectedTab, 'selected====');
+  console.log(openEnvironment, 'openEnvironment====');
 
   useEffect(() => {
-    listingAPIs()
+    listingAPIs();
   }, []);
 
   return (
@@ -130,15 +161,16 @@ export default function Environments() {
         {/* Message Group */}
         <Grid item xs={12} sm={4} md={2.25}>
           <ServicesListing
-            services={services}
+            services={services?.data}
             handleOpen={() => handleServiceDrawerOpen('')}
-            handleServiceClick={handleServiceClick}
+            handleServiceClick={handleOnClick}
             searchTerm={searchTerm}
             // fetching={Servicefetching}
             handleSearch={handleSearch}
             slugIndex={slugIndex}
             onEditServices={onEditServices}
-            environment={environment}
+
+          // environment={environment}
           />
         </Grid>
         <Grid item xs={12} sm={8} md={9.75}>
@@ -148,24 +180,15 @@ export default function Environments() {
               <Button onClick={() => handleEnvironmentDrawerOpen('')} sx={EnvironmentsStyle.addEnvironmentSx}>
                 {'Add Environment'}
               </Button>
-              <SingleFileComponent
-                handleChange={(e) =>
-                  handleUploadFile(
-                    e,
-                    services?.[slugIndex]?.slug,
-                    environment?.[selectedTab]?.name,
-                  )
-                }
-              />
             </Stack>
             <EnvironmentTabs
               // handleAddEnvironment={handleDrawerOpen}
               // handleEnvironmentClose={handleDrawerClose}
-              // handleTabEdit={components(false)[0]?.fn}
-              onChange={tabOnChange}
+              handleTabEdit={handleTabEdit}
+              onChange={handleTabClick}
               selected={selectedTab}
               environments={environment}
-              // fetching={environmentFetching}
+            // fetching={environmentFetching}
             />
 
             <CommonTable
@@ -207,18 +230,18 @@ export default function Environments() {
                     // filterChange={() => handleUpload()}
                     // onChange={isEdit ? handleeditChange : handleAddChange}
                     // status={StatusList}
+                    buttonName={'Add Keys'}
                     tableHeader={'Keys'}
                     isShowValue={true}
-                    handleVisibility={handleVisibility}
-                    isVisible={isVisible}
+                    handleUploadFile={handleUpload}
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
                     open={open?.key}
                     // handleClose={handleClose}
                     handleOpen={() => handleKeyDrawerOpen('')}
 
-                    // onApply={onApply}
-                    // editTableMessage={isEdit ? editMessageList : addMessageList}
+                  // onApply={onApply}
+                  // editTableMessage={isEdit ? editMessageList : addMessageList}
                   />
                 ),
               }}
@@ -226,12 +249,13 @@ export default function Environments() {
           </Box>
         </Grid>
       </Grid>
+      {console.log(editEnvironment, 'serviceOpen')}
       {/* add & edit services Drawer */}
       <DialogDrawer
         contentStyleSx={EnvironmentsStyle.contentSx}
-        isDialogOpened={open?.services}
-        handleCloseDialog={() => handleServiceDrawerClose('services')}
-        title={'Add Services'}
+        isDialogOpened={serviceOpen}
+        handleCloseDialog={() => handleServiceDrawerClose('')}
+        title={isEditService ? 'Edit key' : 'Add Keys'}
         Bodycomponent={
           <ModalAddEnvironmentKey
             handleChange={setHandleServices}
@@ -247,11 +271,11 @@ export default function Environments() {
         Footercomponent={
           <FooterComponent
             check
-            checked={editEnvironment.isActive}
-            SwitchChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange('isActive', e.target.checked)}
+            // checked={editEnvironment.isActive}
+            // SwitchChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange('isActive', e.target.checked)}
             onSave={() => saveFn('services')}
-            onCancel={handleServiceDrawerClose('')}
-            // loading={addEnvironment}
+            onCancel={handleServiceDrawerClose}
+          // loading={addEnvironment}
           />
         }
         rootStyle={{ padding: '0px important' }}
@@ -260,7 +284,7 @@ export default function Environments() {
       {/* add & edit environment Drawer */}
       <DialogDrawer
         contentStyleSx={EnvironmentsStyle.contentSx}
-        isDialogOpened={open?.environment}
+        isDialogOpened={openEnvironment}
         handleCloseDialog={() => handleEnvironmentDrawerClose('')}
         title={'Add Environment'}
         Bodycomponent={
@@ -279,10 +303,10 @@ export default function Environments() {
           <FooterComponent
             check
             checked={editEnvironment.isActive}
-            SwitchChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange('isActive', e.target.checked)}
+            // SwitchChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange('isActive', e.target.checked)}
             onSave={() => saveFn('environment')}
             onCancel={() => handleEnvironmentDrawerClose('')}
-            // loading={addEnvironment}
+          // loading={addEnvironment}
           />
         }
         rootStyle={{ padding: '0px important' }}
@@ -291,7 +315,7 @@ export default function Environments() {
 
       <DialogDrawer
         contentStyleSx={EnvironmentsStyle.contentSx}
-        isDialogOpened={open?.key}
+        isDialogOpened={openKey}
         handleCloseDialog={() => handleKeyDrawerClose('')}
         title={'Add Key'}
         Bodycomponent={
@@ -309,11 +333,11 @@ export default function Environments() {
         Footercomponent={
           <FooterComponent
             check
-            checked={editEnvironment.isActive}
-            SwitchChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange('isActive', e.target.checked)}
+            // checked={editEnvironment.isActive}
+            // SwitchChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange('isActive', e.target.checked)}
             onSave={() => saveFn('key')}
             onCancel={() => handleKeyDrawerClose('')}
-            // loading={addEnvironment}
+          // loading={addEnvironment}
           />
         }
         rootStyle={{ padding: '0px important' }}

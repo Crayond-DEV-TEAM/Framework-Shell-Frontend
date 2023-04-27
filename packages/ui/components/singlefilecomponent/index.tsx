@@ -23,10 +23,11 @@ export const SingleFileComponent = (props: SingleFileComponentProps): JSX.Elemen
       className={`${className}`}
       {...rest}
     >
-      <Box>
+      <Box sx={singleFileComponentStyle?.rootSx}>
         <label htmlFor="uplodebtn">
           <Avatar
             variant="circular"
+            sx={singleFileComponentStyle?.eyeSx}
             // sx={{ ...ProfilePictureEditStyle?.avatarInner, ...batchAvatarStyle }}
           >
             <CloudUploadIcon />

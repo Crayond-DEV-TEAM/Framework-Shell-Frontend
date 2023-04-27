@@ -2,7 +2,7 @@ import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
 import type { SxProps, Theme } from '@mui/material';
 import { Box } from '@mui/material';
-import { modalAddEnvironmentKeyStyle } from './style'
+import { modalAddEnvironmentKeyStyle } from './style';
 export interface ModalAddEnvironmentKeyProps {
   className?: string;
   title?: string;
@@ -20,16 +20,14 @@ export const ModalAddEnvironmentKey = (props: ModalAddEnvironmentKeyProps): JSX.
     title = '',
     description = '',
     valueName = '',
-    value= '',
+    value = '',
     webHookValueName = '',
-    webHookValue= '',
+    webHookValue = '',
     sx = {},
     handleChange = () => false,
     groupState,
     ...rest
   } = props;
-
-  console.log(valueName, 'nameValue=====');
 
   return (
     <Box

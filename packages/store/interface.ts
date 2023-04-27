@@ -197,19 +197,6 @@ export interface FilterDetails {
   severity_id?: number;
   msg_grp_id?: string;
 }
-
-// export interface FilterSetContent {
-//   name: string;
-//   children: [
-//     {
-//       component: any;
-//       label: string;
-//       id: number;
-//       value: boolean;
-//     },
-//   ];
-// }
-
 export interface CheckboxItem {
   component: 'checkbox';
   label: string;
@@ -261,26 +248,16 @@ export interface filtertech {
 }
 
 export interface MessageGroupsDetails {
-  idList: messageListbox[];
-  setList: (id: { key: string; value: string }) => void;
+  group: MessageGroup | null;
+  setGroup: (group:MessageGroup) => void;
 
-  FilterList: FilterDetails[];
-  setfilter: (payload: { key: string; value: string }) => void;
-
-  MessagesList: messageListbox[];
-  MessagesListStatus: messageListbox[];
+  messageList: MessageL
 
   addMessageList: MessageDetails;
   setaddMessage: (payload: { key: string; value: string }) => void;
 
   editMessageList: MessageDetails;
   seteditMessage: (payload: { key: string; value: string }) => void;
-
-  StatusList: MessageDetails;
-  SevorityList: MessageDetails[];
-  MessageArray: MessageDetails[];
-  filterContentState: filtertech[];
-  // filterContent: filtertech[];
 
   filterLoading: boolean;
   errorOnFilter: boolean;

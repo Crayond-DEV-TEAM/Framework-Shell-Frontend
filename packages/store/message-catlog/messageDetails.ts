@@ -8,10 +8,12 @@ import { giveMestatusGroupState, giveMeStateOfid } from '../utils';
 export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) => ({
   MessagesList: [],
   MessagesListStatus: [],
+
   addMessageList: giveMestatusGroupState(),
   editMessageList: giveMestatusGroupState(),
+  
   StatusList: giveMestatusGroupState(),
-  idList: [],
+  group: null,
   SevorityList: [],
   MessageArray: [],
   fetching: false,
@@ -42,16 +44,16 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     set((state) => ({ editMessageList: { ...state.editMessageList, [payload.key]: payload.value } }));
   },
   setList: (id: { key: string; value: string }) => {
-    set((state) => ({ idList: id.key.id }));
+    set((state) => ({ group: id.key.id }));
   },
   setfilter: (payload: { key: string; value: string }) => {
     set((state) => ({ filterContentState: { ...state.filterContentState, [payload.key]: payload.value } }));
   },
 
   getMessageList: () => {
-    const { idList } = get();
+    const { group } = get();
 
-    const payload = { id: idList };
+    const payload = { id: group };
 
     set({ fetching: true, errorOnFetching: false });
     httpRequest('post', `${envConfig.api_url}/message_groups/display_all_msg_in_grp`, payload, true)
@@ -147,14 +149,14 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   },
 
   deleteMessage: () => {
-    const { idList } = get();
+    const { group } = get();
     const { MessagesList } = get();
     const msgId = MessagesList?.filter(({ msg_grp_msgs_Total }: any) => msg_grp_msgs_Total).map(({ id }: any) => id);
     const messageId = msgId.map((id: any) => ({ id }));
     console.log(messageId);
 
     const payload = {
-      msg_grp_msg_info_id: idList,
+      msg_grp_msg_info_id: group,
       msg_grp_msg_data: messageId,
     };
     set({ deleteLoading: true, errorOnDelete: false });
@@ -173,14 +175,14 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   },
 
   addMessageTable: () => {
-    const { addMessageList, idList } = get();
+    const { addMessageList, group } = get();
     console.log(addMessageList, 'addMessageList');
     const payload = {
       title: addMessageList.title,
       description: addMessageList.description,
       is_status: addMessageList.is_status,
       severity_id: addMessageList.severity_id,
-      msg_grp_id: idList,
+      msg_grp_id: group,
       msg_grp_msg_data: [
         {
           configuration_id: '0d376964-991f-4ae4-ad4f-8f88ab57e836',
@@ -220,13 +222,13 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     return false;
   },
   editMessageTable: () => {
-    const { editMessageList, idList } = get();
+    const { editMessageList, group } = get();
     const payload = {
       title: editMessageList.title,
       description: editMessageList.description,
       is_status: editMessageList.is_status,
       severity_id: 0,
-      msg_grp_id: idList,
+      msg_grp_id: group,
       msg_grp_msg_info_id: 'string',
       msg_grp_msg_data: [
         {
@@ -252,10 +254,10 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   },
 
   filterMessage: (serverityFilter: string | number, createdOn: any, updateOn: any) => {
-    const { idList } = get();
+    const { group } = get();
 
     const payload = {
-      msg_grp_id: idList,
+      msg_grp_id: group,
       is_status: true,
       severity_id: serverityFilter ?? [],
       created: createdOn ?? {

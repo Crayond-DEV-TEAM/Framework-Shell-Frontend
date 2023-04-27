@@ -57,10 +57,8 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   } = useMessage();
 
   const { filterContentState } = useMessageGroupDetails();
-
-  // const filterContent: any[] = [];
-
   const { languages, getSavedLanguage } = useLanguageConfiguration();
+  
   const [isEdit, setIsEdit] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [tableName, setTableName] = useState('');

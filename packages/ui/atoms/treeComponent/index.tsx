@@ -55,12 +55,12 @@ const StyledTreeItem = styled(TreeItem)<StyledTreeItemProps>(({ rootNode }) => {
       top: 18,
       borderBottom:
         // only display if the TreeItem is not root node
-        !rootNode ? `1px solid #cccccc` : 'none',
+        !rootNode ? `2px solid #c1c1c1` : 'none',
     },
     [`& .${treeItemClasses.group}`]: {
       marginLeft: 16,
       paddingLeft: 18,
-      borderLeft: `1px solid #cccccc`,
+      borderLeft: `2px solid #c1c1c1`,
     },
     '& .MuiTreeItem-label': {
       color: '#29302B',
@@ -141,7 +141,9 @@ export const TreeComponent = (props: TreeComponentProps): JSX.Element => {
                   />
                 }
               />
+              {checkboxsection && <Box sx={treeComponentStyle.mild}></Box>}
             </StyledTreeItem>
+
             <StyledTreeItem
               sx={treeComponentStyle.child}
               nodeId={`${book.title}-secondTitle`}
@@ -174,6 +176,7 @@ export const TreeComponent = (props: TreeComponentProps): JSX.Element => {
                   />
                 }
               />
+              {checkboxsection && <Box sx={treeComponentStyle.mild}></Box>}
             </StyledTreeItem>
           </StyledTreeItem>
         ))}

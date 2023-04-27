@@ -88,7 +88,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
             rowEvenBgColor: '#F7F7F7',
           }}
           tableMinWidth={'700px'}
-          tableMinHeight={'calc(100vh - 50vh)'}
+          tableMinHeight={'calc(100vh - 308px)'}
           paddingAll={'0px'}
           marginAll={'0px 0px 0px'}
           dense={'small'}

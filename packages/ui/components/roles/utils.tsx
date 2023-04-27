@@ -58,7 +58,7 @@ export const tableData = (editHandel: (id: string) => void, deleteHandel: (id: s
 export const tableJson = [
   {
     roles_name: 'property Manager',
-    description: 'sed massa',
+    description: 'description',
     permission: {
       label: `Facility`,
       color: '#305AAE',
@@ -68,7 +68,7 @@ export const tableJson = [
   },
   {
     roles_name: 'Client Manager',
-    description: 'client take hjhu',
+    description: 'client description',
     permission: {
       label: `Client Management`,
       color: '#305AAE',
@@ -78,7 +78,7 @@ export const tableJson = [
   },
   {
     roles_name: 'property Manager',
-    description: 'sed massa',
+    description: 'Management',
     permission: {
       label: `Facility`,
       color: '#305AAE',
@@ -88,7 +88,7 @@ export const tableJson = [
   },
   {
     roles_name: 'Client Manager',
-    description: 'client take hjhu',
+    description: 'client description',
     permission: {
       label: `Client Management`,
       color: '#305AAE',
@@ -98,7 +98,7 @@ export const tableJson = [
   },
   {
     roles_name: 'property Manager',
-    description: 'sed massa',
+    description: 'Management',
     permission: {
       label: `Facility`,
       color: '#305AAE',
@@ -108,7 +108,7 @@ export const tableJson = [
   },
   {
     roles_name: 'property Manager',
-    description: 'sed massa',
+    description: 'Management',
     permission: {
       label: `Facility`,
       color: '#305AAE',

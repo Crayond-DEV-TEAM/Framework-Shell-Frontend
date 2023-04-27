@@ -1,5 +1,5 @@
 export const environmentRoutes = {
   home: '/',
-  environment: '/environments',
+  environment: '/environment',
   login: '/login',
 };

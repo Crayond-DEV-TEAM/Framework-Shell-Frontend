@@ -40,7 +40,7 @@ export const useKeys = create<KeyInterface>((set, get) => ({
                 }
               })
               debugger
-              set({ keys: tempRow });
+              set({ keys: tempRow.map((val: object) => (val.value)) });
 
               // enqueueSnackbar('keys listed', { variant: 'success' });
               resolve(response?.data);

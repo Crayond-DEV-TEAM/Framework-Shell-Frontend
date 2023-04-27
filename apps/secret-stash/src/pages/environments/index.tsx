@@ -16,6 +16,8 @@ import { CommonTable } from 'crayond-components-library-1';
 import React, { useEffect, useState } from 'react';
 import { EnvironmentsStyle } from './style';
 import { Header, tableData } from './tableUtils';
+import { useNavigate, useParams } from 'react-router-dom';
+import { environmentRoutes } from '@core/routes';
 
 export default function Environments() {
   const {
@@ -73,8 +75,12 @@ export default function Environments() {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [switchList, setSwitchList] = useState<any>([]);
+  const navigate = useNavigate()
 
-  // console.log(servicefetching, 'servicefetching==');
+
+  const { id, environmentId } = useParams()
+
+  console.log(id, 'id==');
 
   const handleSearch = (e: any) => {
     setSearchTerm(e.target.value);
@@ -136,6 +142,7 @@ export default function Environments() {
 
   const handleOnClick = async (e: any, i: number) => {
     debugger
+    navigate(`/environments?${e?.id}&${}`)
     handleServiceClick(e, i);
     makeGetEnvironmentRequest(services?.data?.[i]?.slug);
   };
@@ -194,7 +201,19 @@ export default function Environments() {
             <CommonTable
               Header={Header}
               dataList={keys}
-              tableData={tableData(handleTableEdit, handleTableDelete)}
+              tableData={[
+                // { type: ['TEXT'], name: 'name' },
+                { type: ['MASK_DATA'], name: 'password', maskText: "X" },
+                {
+                  type: ['ACTION'],
+                  name: 'action',
+                  variant: 'EDIT_WITH_DELETE',
+                  // editHandel,
+                  // deleteHandel,
+                  // editIcon: <EditIcon />,
+                  // deleteIcon: <DeleteIcon />,
+                },
+              ]}
               switchList={switchList}
               handleSwitch={handleSwitch}
               headerOptions={{

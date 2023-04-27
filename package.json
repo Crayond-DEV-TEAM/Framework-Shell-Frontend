@@ -57,6 +57,7 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.12.4",
-    "@mui/icons-material": "^5.11.11"
+    "@mui/icons-material": "^5.11.11",
+    "crayond-components-library-1": "^0.0.26"
   }
 }

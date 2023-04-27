@@ -66,7 +66,7 @@ export const RoleMapping = (props: RoleMappingProps): JSX.Element => {
             rowEvenBgColor: '#F7F7F7',
           }}
           tableMinWidth={'1000px'}
-          tableMinHeight={'49vh'}
+          tableMinHeight={'calc(100vh - 50vh)'}
           paddingAll={'0px'}
           marginAll={'0px 0px 0px'}
           dense={'small'}

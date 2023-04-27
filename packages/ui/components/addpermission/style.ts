@@ -12,8 +12,7 @@ export const addPermissionStyle: AddPermissionStyleProps = {
     borderRadius: '8px',
     border: '1px solid #EAEAEA',
     // height: '100vh',
-    width: '230px',
-    height: 'calc(100vh - 154px)',
+    height: 'calc(100vh - 164px)',
   },
   header: {
     display: 'flex',

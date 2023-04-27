@@ -14,8 +14,9 @@ interface Props extends Omit<CheckboxProps, 'icon' | 'checkedIcon'> {
 
 const BpIcon = styled('span')<{ checkStyle?: any }>(({ checkStyle }) => ({
   borderRadius: '50px',
-  width: 16,
-  height: 16,
+  border: '1px solid #d5d4d4',
+  width: 17,
+  height: 17,
   boxShadow: checkStyle ? 'inset 0 0 0 1px rgba(16,22,26,.2), inset 0 -1px 0 rgba(16,22,26,.1)' : 'none',
   backgroundColor: '#f5f8fa',
   '.Mui-focusVisible &': {

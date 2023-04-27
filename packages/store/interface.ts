@@ -283,52 +283,52 @@ export interface MessageGroupsDetails {
 }
 
 export interface AddEditMessageState {
-  id?: string,
-  title: string,
-  description: string,
-  severity: number | null,
-  status: boolean,
+  id?: string;
+  title: string;
+  description: string;
+  severity: number | null;
+  status: boolean;
   messages?: {
     [key: string]: {
-      configuration_id?: string,
-      language_id?: number | null,
-      message: string
-    }
-  } | null,
+      configuration_id?: string;
+      language_id?: number | null;
+      message: string;
+    };
+  } | null;
   error: {
-    title: string,
-    description: string,
-  }
+    title: string;
+    description: string;
+  };
 }
 export interface MessageStoreInterface {
-  open: boolean,
-  setOpen: (open:boolean) => void,
+  open: boolean;
+  setOpen: (open: boolean) => void;
 
-  messages: MessageDetails[],
-  fetching: boolean,
-  errorOnFetching: boolean,
+  messages: MessageDetails[];
+  fetching: boolean;
+  errorOnFetching: boolean;
 
-  addEditMessageState: AddEditMessageState,
-  handleAddEditStateChange: (key: string, value: string | number | boolean) => void,
-  handleAddEditMessageChange: (configuration_id: string, message: string) => void,
+  addEditMessageState: AddEditMessageState;
+  handleAddEditStateChange: (key: string, value: string | number | boolean) => void;
+  handleAddEditMessageChange: (configuration_id: string, message: string) => void;
 
-  onEditClicked: (id: string) => void,
-  editDataLoading: boolean,
-  errorOnEditData: boolean,
+  onEditClicked: (id: string) => void;
+  editDataLoading: boolean;
+  errorOnEditData: boolean;
 
-  addMessage: (group_id: string) => void,
-  adding: boolean,
-  errorOnAdding: boolean,
+  addMessage: (group_id: string) => void;
+  adding: boolean;
+  errorOnAdding: boolean;
 
-  editMessage: (group_id: string) => void,
-  editing: boolean,
-  errorOnEditing: boolean,
+  editMessage: (group_id: string) => void;
+  editing: boolean;
+  errorOnEditing: boolean;
 
-  deleteMessage: (id: string) => void,
-  deleting: boolean,
-  errorOnDeleting: boolean,
+  deleteMessage: (id: string) => void;
+  deleting: boolean;
+  errorOnDeleting: boolean;
 
-  getAllMessages: (id: string) => void,
+  getAllMessages: (id: string) => void;
 }
 export interface AddAlertRule {
   id?: number | string;

@@ -657,15 +657,15 @@ export const giveMeStateOfid = (): MessageDetails => {
 
 export const giveMeAddEditMessageInitialState = (): AddEditMessageState => {
   return {
-    id: "",
-    title: "",
-    description: "",
+    id: '',
+    title: '',
+    description: '',
     severity: null,
     status: false,
     messages: null,
     error: {
-      title: "",
-      description: "",
-    }
-  }
-}
+      title: '',
+      description: '',
+    },
+  };
+};

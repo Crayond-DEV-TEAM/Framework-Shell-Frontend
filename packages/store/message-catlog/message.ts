@@ -6,142 +6,142 @@ import { AddEditMessageState, MessageStoreInterface } from '../interface';
 import { giveMeAddEditMessageInitialState } from '../utils';
 
 export const useMessage = create<MessageStoreInterface>((set, get) => ({
+  open: false,
+  setOpen: (open: boolean) => set({ open }),
 
-    open: false,
-    setOpen: (open: boolean) => set({ open }),
+  messages: [],
+  addEditMessageState: giveMeAddEditMessageInitialState(),
 
-    messages: [],
-    addEditMessageState: giveMeAddEditMessageInitialState(),
+  fetching: false,
+  errorOnFetching: false,
 
-    fetching: false,
-    errorOnFetching: false,
+  adding: false,
+  errorOnAdding: false,
 
-    adding: false,
-    errorOnAdding: false,
+  editing: false,
+  errorOnEditing: false,
 
-    editing: false,
-    errorOnEditing: false,
+  deleting: false,
+  errorOnDeleting: false,
 
-    deleting: false,
-    errorOnDeleting: false,
+  editDataLoading: false,
+  errorOnEditData: false,
 
-    editDataLoading: false,
-    errorOnEditData: false,
+  handleAddEditStateChange: (key: string, value: string | number | boolean) => {
+    set((state) => ({ addEditMessageState: { ...state.addEditMessageState, [key]: value } }));
+  },
 
-    handleAddEditStateChange: (key: string, value: string | number | boolean) => {
-        set((state) => ({ addEditMessageState: { ...state.addEditMessageState, [key]: value } }));
-    },
+  handleAddEditMessageChange: (configuration_id: string, message: string) => {
+    set((state) => ({
+      addEditMessageState: {
+        ...state.addEditMessageState,
+        messages: {
+          ...(state.addEditMessageState?.messages ?? {}),
+          [configuration_id]: {
+            ...(state.addEditMessageState.messages?.[configuration_id] ?? {}),
+            configuration_id,
+            message,
+          },
+        },
+      },
+    }));
+  },
 
-    handleAddEditMessageChange: (configuration_id: string, message: string) => {
-        set((state) => ({
-            addEditMessageState: {
-                ...state.addEditMessageState,
-                messages: {
-                    ...state.addEditMessageState?.messages ?? {},
-                    [configuration_id]: { ...state.addEditMessageState.messages?.[configuration_id] ?? {}, configuration_id, message }
-                }
-            }
-        }));
-    },
+  onEditClicked: (id: string) => {
+    set({ editDataLoading: true, errorOnEditData: false });
+    httpRequest('post', `${envConfig.api_url}/messages/display_message_by_id`, { id }, true)
+      .then((response) => {
+        const data = response?.data?.data?.language_info ?? {};
+        const messages: { [key: string]: { configuration_id: string; language_id?: number; message: string } } = {};
+        response?.data?.data?.message_details?.forEach((_: any) => {
+          messages[_.configuration_id] = { ..._ };
+        });
+        set({
+          addEditMessageState: {
+            ...response?.data?.data?.language_info,
+            status: data.is_status,
+            severity: data.severity.id,
+            messages,
+          },
+        });
+      })
+      .catch((err) => {
+        set({ errorOnEditData: true });
+        enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
+      })
+      .finally(() => {
+        set({ editDataLoading: false });
+      });
+  },
 
-    onEditClicked: (id: string) => {
-        set({ editDataLoading: true, errorOnEditData: false });
-        httpRequest('post', `${envConfig.api_url}/messages/display_message_by_id`, { id }, true)
-            .then((response) => {
-                const data = response?.data?.data?.language_info ?? {};
-                const messages: { [key: string]: { configuration_id: string, language_id?: number, message: string } } = {};
-                response?.data?.data?.message_details?.forEach((_: any) => {
-                    messages[_.configuration_id] = { ..._ };
-                });
-                set({
-                    addEditMessageState: {
-                        ...response?.data?.data?.language_info,
-                        status: data.is_status,
-                        severity: data.severity.id,
-                        messages
-                    }
-                });
-            })
-            .catch((err) => {
-                set({ errorOnEditData: true });
-                enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
-            })
-            .finally(() => {
-                set({ editDataLoading: false });
-            });
-    },
+  addMessage: (group_id: string) => {
+    const { addEditMessageState } = get();
+    const payload = {
+      title: addEditMessageState.title,
+      description: addEditMessageState.description,
+      is_status: addEditMessageState.status,
+      severity_id: addEditMessageState.severity,
+      msg_grp_id: group_id,
+      msg_grp_msg_data: Object.values(addEditMessageState?.messages ?? {}),
+    };
 
-    addMessage: (group_id: string) => {
-        const { addEditMessageState } = get();
-        const payload = {
-            title: addEditMessageState.title,
-            description: addEditMessageState.description,
-            is_status: addEditMessageState.status,
-            severity_id: addEditMessageState.severity,
-            msg_grp_id: group_id,
-            msg_grp_msg_data: Object.values(addEditMessageState?.messages ?? {})
-        };
+    set({ adding: true, errorOnAdding: false });
+    httpRequest('post', `${envConfig.api_url}/messages/add_message`, payload, true)
+      .then((response) => {
+        set({ addEditMessageState: giveMeAddEditMessageInitialState(), open: false });
+        enqueueSnackbar(`Added message Successfully !`, { variant: 'success' });
+      })
+      .catch((err) => {
+        set({ errorOnAdding: true });
+        enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
+      })
+      .finally(() => {
+        set({ adding: false });
+      });
+  },
 
-        set({ adding: true, errorOnAdding: false });
-        httpRequest('post', `${envConfig.api_url}/messages/add_message`, payload, true)
-            .then((response) => {
-                set({ addEditMessageState: giveMeAddEditMessageInitialState(),open: false });
-                enqueueSnackbar(`Added message Successfully !`, { variant: 'success' });
-            })
-            .catch((err) => {
-                set({ errorOnAdding: true });
-                enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
-            })
-            .finally(() => {
-                set({ adding: false });
-            });
-    },
+  editMessage: (group_id: string) => {
+    const { addEditMessageState } = get();
+    const payload = {
+      title: addEditMessageState.title,
+      description: addEditMessageState.description,
+      is_status: addEditMessageState.status,
+      severity_id: addEditMessageState.severity,
+      msg_grp_id: group_id,
+      msg_grp_msg_info_id: addEditMessageState.id,
+      msg_grp_msg_data: Object.values(addEditMessageState?.messages ?? {}),
+    };
 
-    editMessage: (group_id: string) => {
-        const { addEditMessageState } = get();
-        const payload = {
-            title: addEditMessageState.title,
-            description: addEditMessageState.description,
-            is_status: addEditMessageState.status,
-            severity_id: addEditMessageState.severity,
-            msg_grp_id: group_id,
-            msg_grp_msg_info_id: addEditMessageState.id,
-            msg_grp_msg_data: Object.values(addEditMessageState?.messages ?? {})
-        };
+    set({ editing: true, errorOnEditing: false });
+    httpRequest('put', `${envConfig.api_url}/messages/edit_message`, payload, true)
+      .then((response) => {
+        set({ addEditMessageState: giveMeAddEditMessageInitialState(), open: false });
+        enqueueSnackbar(`Message Updated Successfully !`, { variant: 'success' });
+      })
+      .catch((err) => {
+        set({ errorOnEditing: true });
+        enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
+      })
+      .finally(() => {
+        set({ editing: false });
+      });
+  },
 
-        set({ editing: true, errorOnEditing: false });
-        httpRequest('put', `${envConfig.api_url}/messages/edit_message`, payload, true)
-            .then((response) => {
-                set({ addEditMessageState: giveMeAddEditMessageInitialState(),open: false });
-                enqueueSnackbar(`Message Updated Successfully !`, { variant: 'success' });
-            })
-            .catch((err) => {
-                set({ errorOnEditing: true });
-                enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
-            })
-            .finally(() => {
-                set({ editing: false });
-            });
-    },
+  deleteMessage: (id: string) => {},
 
-    deleteMessage: (id: string) => {
+  getAllMessages: (id: string) => {
+    const payload = { id };
 
-    },
-
-    getAllMessages: (id: string) => {
-        const payload = { id };
-
-        set({ fetching: true, errorOnFetching: false });
-        httpRequest('post', `${envConfig.api_url}/message_groups/display_all_msg_in_grp`, payload, true)
-            .then((response) => {
-                set({ messages: response.data });
-            })
-            .catch((err) => {
-                set({ errorOnFetching: true });
-            })
-            .finally(() => {
-                set({ fetching: false });
-            });
-    }
-
+    set({ fetching: true, errorOnFetching: false });
+    httpRequest('post', `${envConfig.api_url}/message_groups/display_all_msg_in_grp`, payload, true)
+      .then((response) => {
+        set({ messages: response.data });
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+      })
+      .finally(() => {
+        set({ fetching: false });
+      });
+  },
 }));

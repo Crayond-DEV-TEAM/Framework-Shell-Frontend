@@ -33,6 +33,7 @@ function TabPanel(props: any) {
   );
 }
 
+// eslint-disable-next-line react/display-name
 export const ReportTabs = forwardRef((props: ReportTabsProps): JSX.Element => {
   const { tabs = [] } = props;
   const [value, setValue] = React.useState(0);
@@ -47,38 +48,34 @@ export const ReportTabs = forwardRef((props: ReportTabsProps): JSX.Element => {
   };
 
   return (
-    <Box sx={tabs_style.tabBar}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          {tabs.length > 0 &&
-            tabs.map((tab: any, i: any) => {
-              return (
-                <Typography
-                  onClick={() => handleTabChange(i)}
-                  key={i}
-                  pt={2}
-                  pb={2}
-                  sx={i === index ? tabs_style.alertConfigTabTxt : tabs_style.alertConfigTab}
-                  // sx={{ color: disabled === true ? "#B9B9B9" : "" }}
-                >
-                  {tab?.label}
-                </Typography>
-              );
-            })}
-        </Tabs>
+    <>
+      <Box sx={tabs_style.tabBar}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+            {tabs.length > 0 &&
+              tabs.map((tab: any, i: any) => {
+                return (
+                  <Typography
+                    onClick={() => handleTabChange(i)}
+                    key={i}
+                    pt={2}
+                    pb={2}
+                    sx={i === index ? tabs_style.alertConfigTabTxt : tabs_style.alertConfigTab}
+                    // sx={{ color: disabled === true ? "#B9B9B9" : "" }}
+                  >
+                    {tab?.label}
+                  </Typography>
+                );
+              })}
+          </Tabs>
+        </Box>
       </Box>
-      {/* {
-                tabs?.map((tab: any, index: any) => {
-                    console.log("tab card", tab);
-                    return ( */}
       <TabPanel>
         {index === 0 && <Box>{tabs[0]?.children}</Box>}
         {index === 1 && <Box>{tabs[1]?.children}</Box>}
         {index === 2 && <Box>{tabs[2]?.children}</Box>}
+        {index === 3 && <Box>{tabs[3]?.children}</Box>}
       </TabPanel>
-      {/* )
-                })
-            } */}
-    </Box>
+    </>
   );
 });

@@ -144,4 +144,9 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
         set({ fetching: false });
       });
   },
+  clearAll: () => {
+    set({
+      addEditMessageState: giveMeAddEditMessageInitialState(),
+    });
+  },
 }));

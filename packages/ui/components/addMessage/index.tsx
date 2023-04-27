@@ -51,6 +51,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     editMessageGroups,
     editMessageListGroups,
     editMessageList,
+    clearAll,
   } = useMessageConfiguration();
 
   const [open, setOpen] = useState(false);
@@ -63,9 +64,15 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
 
   const handleOpen = () => setOpen(true);
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    clearAll();
+  };
 
-  const handleEditClose = () => setValues(false);
+  const handleEditClose = () => {
+    setValues(false);
+    clearAll();
+  };
 
   const handleAddMsg = () => {
     setOpen(false);
@@ -143,7 +150,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
         ) : (
           <Box>
             {!fetching && (
-              <Typography variant="body2" color="textSecondary" sx={{ padding: '16px' }}>
+              <Typography variant="body2" color="textSecondary">
                 You are yet to add a message group.
               </Typography>
             )}

@@ -41,7 +41,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     clearfilter,
     setfilter,
     onApply,
-    clearAll,
   } = useMessageGroupDetails();
 
   const {
@@ -54,9 +53,12 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     onEditClicked,
     open,
     setOpen,
+    clearAll,
   } = useMessage();
 
-  const filterContent: any[] = [];
+  const { filterContentState } = useMessageGroupDetails();
+
+  // const filterContent: any[] = [];
 
   const { languages, getSavedLanguage } = useLanguageConfiguration();
   const [isEdit, setIsEdit] = useState(false);
@@ -80,7 +82,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     handlemodalOpen();
   };
 
-  const handleFilterChange = (key: any, value: string, parent: any, parentIndex: any, childrenIndex: any) => {
+  const handleFilterChange = (key: any, value: string) => {
     setfilter({ key, value });
   };
 
@@ -218,7 +220,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                 variant: 'CUSTOM',
                 component: (
                   <TableHeader
-                    filterContent={filterContent}
+                    filterContentState={filterContentState}
                     filterChange={handleFilterChange}
                     onChange={isEdit ? handleeditChange : handleAddChange}
                     options={SevorityList}

@@ -180,9 +180,8 @@ export const useKeys = create<KeyInterface>((set, get) => ({
     });
   },
 
-  handleUploadFile: async (e: any, slug: string, environment: string) => {
-    const { singleFileUpload } = get();
-    const { addFileAPI } = get();
+  handleUploadFile: async (e: any, slug: string, environment: object) => {
+    const { singleFileUpload, getKeys, addFileAPI } = get();
     debugger;
     if (e?.target?.files) {
       const res = await singleFileUpload(e.target.files[0]);
@@ -190,9 +189,10 @@ export const useKeys = create<KeyInterface>((set, get) => ({
         const formData = new FormData();
         formData.append('file', e?.target?.files[0]);
         formData.append('slug', slug);
-        formData.append('environment', environment);
+        formData.append('environment', environment?.name);
 
         await addFileAPI(formData);
+        await getKeys(environment, slug)
       }
     }
   },

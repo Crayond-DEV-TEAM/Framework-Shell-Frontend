@@ -207,6 +207,9 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
               tableData={tableData(handleTableEdit, handleTableDelete)}
               switchList={switchList}
               handleSwitch={handleSwitch}
+              paginationOption={{
+                rowPerPage: 20
+              }}
               headerOptions={{
                 fontSize: '14px',
                 fontWeight: '500',

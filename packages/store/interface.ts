@@ -487,7 +487,7 @@ export interface KeyInterface {
   isEditKey: boolean;
   keyFetching: boolean;
   handleTableEdit: (e: any) => void;
-  handleUploadFile: (e: any, slug: string, environment: string) => void;
+  handleUploadFile: (e: any, slug: string, environment: object) => void;
   singleFileUpload: (file: File) => any;
   addFileAPI: (formdata: any) => any;
   errorOnKeyFetching: boolean;

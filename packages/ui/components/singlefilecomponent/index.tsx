@@ -28,7 +28,7 @@ export const SingleFileComponent = (props: SingleFileComponentProps): JSX.Elemen
           <Avatar
             variant="circular"
             sx={singleFileComponentStyle?.eyeSx}
-            // sx={{ ...ProfilePictureEditStyle?.avatarInner, ...batchAvatarStyle }}
+          // sx={{ ...ProfilePictureEditStyle?.avatarInner, ...batchAvatarStyle }}
           >
             <CloudUploadIcon />
           </Avatar>
@@ -36,7 +36,7 @@ export const SingleFileComponent = (props: SingleFileComponentProps): JSX.Elemen
         <input
           type="file"
           name="img"
-          accept="image/*"
+          accept="*"
           style={{ display: 'none' }}
           id="uplodebtn"
           onChange={handleChange}

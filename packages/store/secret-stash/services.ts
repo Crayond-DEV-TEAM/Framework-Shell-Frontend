@@ -6,7 +6,7 @@ import { ServiceInterface } from '../interface';
 import { giveMeKeyState, giveMeServicesInitialState } from '../utils';
 export const useServices = create<ServiceInterface>((set, get) => ({
   serviceOpen: false,
-  slugIndex: 4,
+  slugIndex: 0,
   isEditService: false,
   services: [],
   editServices: giveMeServicesInitialState(),

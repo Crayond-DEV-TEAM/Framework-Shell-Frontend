@@ -116,16 +116,16 @@ export default function Environments() {
 
   const handleUpload = async (e: any) => {
     debugger;
-    await handleUploadFile(e, services?.data?.[slugIndex]?.slug, environment?.[selectedTab]?.name)
+    await handleUploadFile(e, services?.data?.[slugIndex]?.slug, environment?.[selectedTab])
     await getKeys(environmentRes?.[selectedTab]?.name, services?.data?.[slugIndex]?.slug);
   };
 
   const makeGetEnvironmentRequest = async (slug: string) => {
     debugger;
     const environmentRes = await getEnvironment(slug);
-    console.log(environmentRes?.[selectedTab]?.name, 'environmentRes?.[selectedTab]?.name');
+    console.log(environmentRes?.[selectedTab], 'environmentRes?.[selectedTab]?.name');
 
-    await getKeys(environmentRes?.[selectedTab]?.name, slug);
+    await getKeys(environmentRes?.[selectedTab], slug);
   };
 
   const listingAPIs = async () => {

@@ -65,7 +65,7 @@ export const EnvironmentTabs = forwardRef((props: EnvironmentTabsProps): JSX.Ele
                   <Stack
                     direction={'row'}
                     alignItems={'center'}
-                    sx={selected === i ? EnvironmentTabsStyle.selectedSx : EnvironmentTabsStyle.unSelectedSx}
+                    sx={selected === _e?.id ? EnvironmentTabsStyle.selectedSx : EnvironmentTabsStyle.unSelectedSx}
                   >
                     <Typography>{_e.name}</Typography>
                     <Box

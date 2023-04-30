@@ -16,17 +16,24 @@ import { CommonTable } from 'crayond-components-library-1';
 import React, { useEffect, useState } from 'react';
 import { EnvironmentsStyle } from './style';
 import { Header, tableData } from './tableUtils';
-import { useNavigate, useParams } from 'react-router-dom';
+import { createSearchParams, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { environmentRoutes } from '@core/routes';
+import { addQueryParamsToUrl } from 'utils';
 
 export default function Environments() {
+  let [searchParams] = useSearchParams();
+  var slugId = searchParams.get("slugId");
+  var envId = searchParams.get("envId");
+
+
+
   const {
     serviceOpen,
     slugIndex,
     services,
     editServices,
     isEditService,
-    // servicefetching,
+    servicefetching,
     errorOnServiceFetching,
     getServices,
     handleServiceClick,
@@ -49,7 +56,7 @@ export default function Environments() {
     handleChange,
     tabOnChange,
     handleEnvironmentDrawerOpen,
-    // environmentFetching,
+    environmentFetching,
     handleEnvironmentDrawerClose,
     onSaveEnvironment,
     handleTabEdit,
@@ -77,11 +84,6 @@ export default function Environments() {
   const [switchList, setSwitchList] = useState<any>([]);
   const navigate = useNavigate()
 
-
-  const { id, environmentId } = useParams()
-
-  console.log(id, 'id==');
-
   const handleSearch = (e: any) => {
     setSearchTerm(e.target.value);
   };
@@ -104,9 +106,6 @@ export default function Environments() {
       // getStatus(id, false);
     }
   };
-  // console.log(editKey, 'editKey');
-
-  const handleTableDelete = () => { };
 
   const saveFn = async (key: string) => {
     debugger;
@@ -131,37 +130,79 @@ export default function Environments() {
     const environmentRes = await getEnvironment(slug);
     console.log(environmentRes?.[selectedTab]?.name, 'environmentRes?.[selectedTab]?.name');
 
-    await getKeys(environmentRes?.[selectedTab]?.name, slug);
+    await getKeys(environmentRes?.[selectedTab], slug);
+    return environmentRes
   };
 
-  const listingAPIs = async () => {
+  const listingAPIs = async (val: any) => {
     // debugger;
     const getServicesRes = await getServices();
-    await makeGetEnvironmentRequest(getServicesRes?.[slugIndex]?.slug);
+    const getEnvironmentRes = await makeGetEnvironmentRequest(val);
+    return { getServicesRes, getEnvironmentRes };
   };
 
   const handleOnClick = async (e: any, i: number) => {
     debugger
-    navigate(`/environments?${e?.id}&${}`)
     handleServiceClick(e, i);
-    makeGetEnvironmentRequest(services?.data?.[i]?.slug);
+    const res = await makeGetEnvironmentRequest(services?.data?.[i]?.slug);
+    // navigate(`/environment?slugId=${e?.id}&envId=${res?.[0]?.id}`)
+    navigate({
+      pathname: "/environment",
+      search: createSearchParams({
+        slugId: e?.id,
+        envId: res?.[0]?.id
+      }).toString()
+    })
   };
 
   const handleTabClick = async (e: any, i: number) => {
     debugger
     tabOnChange(i);
-    await getKeys(environment?.[i], services?.data?.[slugIndex]?.slug);
+    // navigate(`/environment?slugId=${slugId}&envId=${e?.id}`)
+    navigate({
+      pathname: "/environment",
+      search: createSearchParams({
+        slugId: slugId ?? "",
+        envId: e?.id ?? ""
+      }).toString()
+    })
+    await getKeys(environment?.[i], environment?.[i]?.slug);
     // await makeGetkeyRequest(environment?.[i]?.name, services[slugIndex].slug);
 
   }
 
   // console.log(selectedTab, 'selected====');
-  console.log(openEnvironment, 'openEnvironment====');
+  console.log(slugId, envId, 'openEnvironment====');
+  console.log(environment?.[0]?.id, 'environment');
 
   useEffect(() => {
-    listingAPIs();
+    debugger
+    const APIfn = async () => {
+      const getServicesRes = await getServices();
+
+      const res = getServicesRes.find((v: any) => v?.id === (slugId ?? getServicesRes?.[0]?.id))
+      const { getEnvironmentRes } = await listingAPIs(res?.slug);
+
+      // addQueryParamsToUrl(url, queryParams)
+
+      navigate({
+        pathname: "/environment",
+        search: createSearchParams({
+          slugId: slugId ?? getServicesRes?.[0]?.id,
+          envId: envId ?? getEnvironmentRes?.[0]?.id ?? ""
+        }).toString()
+      })
+
+
+      // navigate(`/environment?slugId=${slugId ?? getServicesRes?.[0]?.id}`${envId ? `&envId=${envId}` : `&envId=${getEnvironmentRes?.[0]?.id}`}`)
+    }
+    APIfn()
   }, []);
 
+  const handleDelete = () => {
+
+  }
+  console.log(keys, 'LEYS=====');
   return (
     <Box sx={EnvironmentsStyle.rootSx}>
       <Grid container display="flex" sx={EnvironmentsStyle.totalTableSx} spacing={3}>
@@ -172,11 +213,10 @@ export default function Environments() {
             handleOpen={() => handleServiceDrawerOpen('')}
             handleServiceClick={handleOnClick}
             searchTerm={searchTerm}
-            // fetching={Servicefetching}
+            fetching={servicefetching}
             handleSearch={handleSearch}
-            slugIndex={slugIndex}
+            slugIndex={slugId}
             onEditServices={onEditServices}
-
           // environment={environment}
           />
         </Grid>
@@ -193,27 +233,15 @@ export default function Environments() {
               // handleEnvironmentClose={handleDrawerClose}
               handleTabEdit={handleTabEdit}
               onChange={handleTabClick}
-              selected={selectedTab}
+              selected={envId}
               environments={environment}
-            // fetching={environmentFetching}
+              fetching={environmentFetching}
             />
 
             <CommonTable
               Header={Header}
               dataList={keys}
-              tableData={[
-                // { type: ['TEXT'], name: 'name' },
-                { type: ['MASK_DATA'], name: 'password', maskText: "X" },
-                {
-                  type: ['ACTION'],
-                  name: 'action',
-                  variant: 'EDIT_WITH_DELETE',
-                  // editHandel,
-                  // deleteHandel,
-                  // editIcon: <EditIcon />,
-                  // deleteIcon: <DeleteIcon />,
-                },
-              ]}
+              tableData={tableData(handleTabEdit, handleDelete)}
               switchList={switchList}
               handleSwitch={handleSwitch}
               headerOptions={{
@@ -268,13 +296,12 @@ export default function Environments() {
           </Box>
         </Grid>
       </Grid>
-      {console.log(editEnvironment, 'serviceOpen')}
       {/* add & edit services Drawer */}
       <DialogDrawer
         contentStyleSx={EnvironmentsStyle.contentSx}
         isDialogOpened={serviceOpen}
         handleCloseDialog={() => handleServiceDrawerClose('')}
-        title={isEditService ? 'Edit key' : 'Add Keys'}
+        title={isEditService ? 'Edit Services' : 'Add Services'}
         Bodycomponent={
           <ModalAddEnvironmentKey
             handleChange={setHandleServices}
@@ -305,7 +332,7 @@ export default function Environments() {
         contentStyleSx={EnvironmentsStyle.contentSx}
         isDialogOpened={openEnvironment}
         handleCloseDialog={() => handleEnvironmentDrawerClose('')}
-        title={'Add Environment'}
+        title={isEditEnvironment ? 'Edit Environment' : 'Add Environment'}
         Bodycomponent={
           <ModalAddEnvironmentKey
             groupState={editEnvironment}
@@ -336,7 +363,7 @@ export default function Environments() {
         contentStyleSx={EnvironmentsStyle.contentSx}
         isDialogOpened={openKey}
         handleCloseDialog={() => handleKeyDrawerClose('')}
-        title={'Add Key'}
+        title={isEditKey ? 'Edit Key' : 'Add Key'}
         Bodycomponent={
           <ModalAddEnvironmentKey
             groupState={editKey}

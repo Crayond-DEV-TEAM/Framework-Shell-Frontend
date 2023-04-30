@@ -21,16 +21,18 @@ export const Header = [
   },
 ];
 
-export const tableData = (editHandel: (id: string) => void, deleteHandel: (id: string) => void) => [
-  { type: ['TEXT'], name: 'name' },
-  { type: ['TEXT'], name: 'value' },
-  {
-    type: ['ACTION'],
-    name: 'action',
-    variant: 'EDIT_WITH_DELETE',
-    editHandel,
-    deleteHandel,
-    editIcon: <EditIcon />,
-    deleteIcon: <DeleteIcon />,
-  },
-];
+export const tableData = (editHandel: (id: string) => void, deleteHandel: (id: string) => void) => {
+  return [
+    { type: ['TEXT'], name: 'name' },
+    { type: ['TEXT'], name: 'value' },
+    {
+      type: ['ACTION'],
+      name: 'action',
+      variant: 'EDIT_WITH_DELETE',
+      editHandel,
+      deleteHandel,
+      editIcon: <EditIcon />,
+      deleteIcon: <DeleteIcon />,
+    },
+  ]
+};

@@ -71,7 +71,7 @@ export const ServicesListing = (props: ServicesListingProps): JSX.Element => {
                 <MessageCard
                   title={x.name}
                   isActive={x.isActive}
-                  index={index}
+                  index={x?.id}
                   select={slugIndex}
                   onMessaageClick={() => handleServiceClick(x, index)}
                   // onDelete={() => deleteMessageGroups({ id: x.id })}
@@ -82,18 +82,16 @@ export const ServicesListing = (props: ServicesListingProps): JSX.Element => {
           })
         ) : (
           <Box>
-            {!fetching && (
+            {fetching ? (
               <Stack spacing={0.25} px={2}>
                 {Array.from(Array(10).keys()).map((_) => (
                   <Skeleton height={40} width={'100%'} key={_} />
                 ))}
               </Stack>
-            )}
-            {fetching && (
-              <Typography variant="body2" color="textSecondary">
-                You are yet to add a message group.
-              </Typography>
-            )}
+            ) : <Typography variant="body2" color="textSecondary">
+              You are yet to add a message group.
+            </Typography>}
+
           </Box>
         )}
       </Box>

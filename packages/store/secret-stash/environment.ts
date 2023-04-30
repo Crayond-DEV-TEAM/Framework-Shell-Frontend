@@ -12,32 +12,41 @@ export const useEnvironment = create<EnvironmentInterface>((set, get) => ({
   isEditEnvironment: false,
 
   getEnvironment: async (slug: string) => {
-    // return new Promise((resolve, reject) => {
-    const { environmentFetching, errorOnEnvironmentFetching } = get();
-    try {
-      set({ environmentFetching: true, errorOnEnvironmentFetching: false });
-      const response = await httpRequest(
-        'post',
-        `https://dev-secrethub-api.crayond.com/api/v1/service/environments/list`,
-        {
-          slug: slug ?? null,
-          offset: 0,
-          limit: 10,
-        },
-        true,
-      )
-      debugger;
-      if (response?.data?.response?.status === 200) {
-        set({ environment: response?.data?.response?.response?.rows });
+    // debugger;
+    return new Promise((resolve, reject) => {
+      try {
+        set({ environmentFetching: true, errorOnEnvironmentFetching: false });
+        httpRequest(
+          'post',
+          `https://dev-secrethub-api.crayond.com/api/v1/service/environments/list`,
+          {
+            slug: slug ?? '',
+            offset: 0,
+            limit: 10,
+          },
+          true,
+        )
+          .then((response) => {
+            if (response?.data?.response?.status === 200) {
+              set({ environment: response?.data?.response?.response?.rows });
+              enqueueSnackbar('environment listed', { variant: 'success' });
 
-        // enqueueSnackbar('tabs listed', { variant: 'success' });
-
-        return (response?.data?.response?.response?.rows);
+              resolve(response?.data?.response?.response?.rows);
+            } else {
+              throw new Error('Internal Server Error');
+            }
+          })
+          .catch((error) => {
+            reject(error);
+          })
+          .finally(() => {
+            set({ environmentFetching: false });
+          });
+      } catch (err: any) {
+        log('error', err);
+        enqueueSnackbar('tab errror', { variant: 'error' });
       }
-    } catch (err: any) {
-      log('error', err);
-      enqueueSnackbar('tab errror', { variant: 'error' });
-    }
+    });
   },
 
   createEnvironment: async (payload: any, slug: any) => {
@@ -85,7 +94,7 @@ export const useEnvironment = create<EnvironmentInterface>((set, get) => ({
       );
 
       if (response.data?.status === 200) {
-        enqueueSnackbar(response.data.message, { variant: 'success' });
+        enqueueSnackbar(response?.data?.response, { variant: 'success' });
         // set({ loading: false });
         handleEnvironmentDrawerClose('');
         return response;
@@ -131,7 +140,7 @@ export const useEnvironment = create<EnvironmentInterface>((set, get) => ({
     const { isEditEnvironment, getEnvironment, createEnvironment, updateEnvironment } = get();
     if (isEditEnvironment) {
       await updateEnvironment(environment);
-      await getEnvironment(environment?.slug);
+      await getEnvironment(slug);
     } else {
       await createEnvironment(environment, slug);
       await getEnvironment(environment?.slug);

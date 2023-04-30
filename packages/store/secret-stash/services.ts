@@ -6,7 +6,7 @@ import { ServiceInterface } from '../interface';
 import { giveMeKeyState, giveMeServicesInitialState } from '../utils';
 export const useServices = create<ServiceInterface>((set, get) => ({
   serviceOpen: false,
-  slugIndex: 4,
+  slugIndex: 0,
   isEditService: false,
   services: [],
   editServices: giveMeServicesInitialState(),
@@ -77,7 +77,7 @@ export const useServices = create<ServiceInterface>((set, get) => ({
   },
 
   addServices: async (e: any) => {
-    const { editServices } = get();
+    const { editServices, handleServiceDrawerClose } = get();
     try {
       // set({ loading: true });
       debugger;
@@ -94,6 +94,7 @@ export const useServices = create<ServiceInterface>((set, get) => ({
       if (response.data?.status === 200) {
         enqueueSnackbar(response.data.response, { variant: 'success' });
         // set({ loading: false });
+        handleServiceDrawerClose('')
         return response;
       }
     } catch (err: any) {
@@ -104,7 +105,7 @@ export const useServices = create<ServiceInterface>((set, get) => ({
   },
 
   editServicesfn: async () => {
-    const { editServices } = get();
+    const { handleServiceDrawerClose, editServices } = get();
     debugger;
 
     try {
@@ -122,6 +123,7 @@ export const useServices = create<ServiceInterface>((set, get) => ({
       if (response.data?.status === 200) {
         enqueueSnackbar(response.data.response, { variant: 'success' });
         // set({ loading: false });
+        handleServiceDrawerClose('')
         return response;
       }
     } catch (err: any) {

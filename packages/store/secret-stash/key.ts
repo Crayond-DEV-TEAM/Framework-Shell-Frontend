@@ -28,10 +28,9 @@ export const useKeys = create<KeyInterface>((set, get) => ({
           true,
         )
           .then((response) => {
-            console.log(response);
             if (response?.data?.status === 200) {
-              // debugger
-              // console.log(response?.data?.response?.rows, '');
+              debugger
+              console.log(response?.data?.response?.rows, '');
               const tempRow = response?.data?.response?.rows?.map((e: any) => {
 
                 return {
@@ -40,9 +39,9 @@ export const useKeys = create<KeyInterface>((set, get) => ({
                 }
               })
               debugger
-              set({ keys: tempRow.map((val: object) => (val.value)) });
+              set({ keys: tempRow });
 
-              // enqueueSnackbar('keys listed', { variant: 'success' });
+              enqueueSnackbar('keys listed', { variant: 'success' });
               resolve(response?.data);
             } else {
               throw new Error('Internal Server Error');
@@ -60,7 +59,7 @@ export const useKeys = create<KeyInterface>((set, get) => ({
   },
 
   addKeys: async (e: any, slug: string, environment: any) => {
-    const { editKey } = get();
+    const { handleKeyDrawerClose, editKey } = get();
     try {
       // set({ loading: true });
       debugger;
@@ -77,8 +76,10 @@ export const useKeys = create<KeyInterface>((set, get) => ({
       );
 
       if (response.data?.status === 200) {
-        enqueueSnackbar(response.data.message, { variant: 'success' });
+        enqueueSnackbar(response?.data?.message, { variant: 'success' });
         // set({ loading: false });
+        handleKeyDrawerClose('');
+
         return response;
       }
     } catch (err: any) {
@@ -106,7 +107,7 @@ export const useKeys = create<KeyInterface>((set, get) => ({
       );
 
       if (response.data?.status === 200) {
-        enqueueSnackbar(response.data.message ?? 'key updated successfully', { variant: 'success' });
+        enqueueSnackbar(response?.data?.message ?? 'key updated successfully', { variant: 'success' });
         // set({ loading: false });
         handleKeyDrawerClose('');
         return response;

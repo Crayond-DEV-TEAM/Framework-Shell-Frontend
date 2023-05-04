@@ -407,18 +407,26 @@ export interface Services {
     name: string;
     repository_url: string;
     isActive: boolean;
+    id: string;
+    error: {
+      name: string;
+      repository_url: string;
+    };
   };
-  offset: number;
-  limit: number;
-  slug: string;
 }
 
 export interface keys {
-  id: string;
-  env: string;
-  name: string;
-  value: string;
-  isActive: boolean;
+  data: {
+    id: string;
+    env: string;
+    name: string;
+    value: string;
+    isActive: boolean;
+    error: {
+      name: string;
+      value: string;
+    };
+  };
 }
 
 export interface Environment {
@@ -427,6 +435,10 @@ export interface Environment {
     webhook_url: string;
     isActive: boolean;
     id: string;
+    error: {
+      name: string;
+      webhook_url: string;
+    };
   };
 }
 
@@ -440,25 +452,28 @@ export interface SecretStashInterface {
   setSignInState: (payload: { key: string; value: string }) => void;
 }
 export interface ServiceInterface {
-  openService: boolean;
+  offset: number;
+  serviceOpen: boolean;
   isEditService: boolean;
   slugIndex: number;
+  editLoadingService: boolean;
+  addLoadingService: boolean;
   services: Services[];
   editServices: Services;
   servicefetching: boolean;
   errorOnServiceFetching: boolean;
-  setHandleServices: (key: string, value: string) => void;
-  getServices: () => any;
+  setHandleServices: (key: string, value: string) => any;
+  getServices: (offset: number) => any;
   addServices: (e: any) => void;
   editServicesfn: () => void;
-  clearAll: () => void;
+  fetchMoreData: () => void;
   handleServiceDrawerOpen: (e: string) => void;
   handleServiceDrawerClose: (e: string) => void;
-  handleChange: (key: any, value: any) => void;
-  handleKeyChange: (key: any, value: any) => void;
   onEditServices: (e: any, i: number) => void;
   handleServiceClick: (e: any, i: number) => void;
   onSaveServices: (key: string) => void;
+  HandleDeleteServiceAPI: (id: string) => void;
+  validate: (state: any) => any;
 }
 
 export interface EnvironmentInterface {
@@ -478,6 +493,8 @@ export interface EnvironmentInterface {
   updateEnvironment: (payload: any) => void;
   handleChange: (key: string, value: any) => void;
   onSaveEnvironment: (environment: any, slug: string) => void;
+  handleDeleteEnv: (id: object) => void;
+  validate: (state: any) => any;
 }
 
 export interface KeyInterface {
@@ -494,8 +511,13 @@ export interface KeyInterface {
   handleKeyDrawerOpen: (e: string) => void;
   handleKeyDrawerClose: (e: string) => void;
   addKeys: (e: any, slug: string, environment: any) => void;
-  handleKeyChange: (key: string, value: any) => void;
+  handleKeyChange: (key: string, value: any) => any;
   getKeys: (environment: any, slug: string) => any;
-  editKeysAPI: (e: any, slug: string, environment: string) => void;
+  editKeysAPI: (e: any, slug: string, environment: object) => void;
   onSaveKeys: (key: any, slug: string, environment: any) => void;
+  handleDownloadEnv: (slug: string, environment: string) => void;
+  downloadTextAsFile: (text: string, filename: string) => void;
+  handleDeleteKey: (id: string) => void;
+  validate: (state: any) => any;
+
 }

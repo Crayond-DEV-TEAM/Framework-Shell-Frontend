@@ -38,6 +38,7 @@ export const footerComponentStyle: FooterComponentStyleProps = {
   savebtnText: {
     textTransform: 'capitalize',
     color: '#FFFFFF',
+    background: '#357968',
     fontSize: '12px',
     boxShadow: 'none',
     fontWeight: 400,

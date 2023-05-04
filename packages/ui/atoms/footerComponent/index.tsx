@@ -5,6 +5,7 @@ import { Button } from '..';
 
 import { footerComponentStyle } from './style';
 import { CustomSwitches } from '..';
+import { LoadingButton } from '@mui/lab';
 
 export interface FooterComponentProps {
   className?: string;
@@ -58,9 +59,9 @@ export const FooterComponent = forwardRef((props: FooterComponentProps, ref: Rea
             </Button>
           </Box>
           <Box sx={footerComponentStyle.savebtnBg}>
-            <Button buttonStyle={footerComponentStyle.savebtnText} onClick={onSave}>
+            <LoadingButton sx={footerComponentStyle.savebtnText} loading={loading} onClick={onSave}>
               Save
-            </Button>
+            </LoadingButton>
           </Box>
         </Box>
       </Box>

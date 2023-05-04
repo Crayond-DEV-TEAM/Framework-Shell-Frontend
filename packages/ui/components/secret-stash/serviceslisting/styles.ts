@@ -14,6 +14,11 @@ export const servicesListingStyle: ServicesListingStyleProps = {
     width: '230px',
     height: 'calc(100vh - 100px)',
   },
+  infiniteScroll: {
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+  },
   header: {
     display: 'flex',
     justifyContent: 'space-between',

@@ -3,17 +3,19 @@ import { httpRequest } from '@core/utils';
 import { enqueueSnackbar } from 'notistack';
 import { create } from 'zustand';
 import { ServiceInterface } from '../interface';
-import { giveMeKeyState, giveMeServicesInitialState } from '../utils';
+import { giveMeServicesInitialState } from '../utils';
 export const useServices = create<ServiceInterface>((set, get) => ({
+  offset: 0,
   serviceOpen: false,
+  addLoadingService: false,
+  editLoadingService: false,
   slugIndex: 0,
   isEditService: false,
-  services: [],
+  services: {},
   editServices: giveMeServicesInitialState(),
   servicefetching: false,
   errorOnServiceFetching: false,
-
-  getServices: () => {
+  getServices: (offset) => {
     return new Promise((resolve, reject) => {
       try {
         set({ servicefetching: true, errorOnServiceFetching: false });
@@ -21,7 +23,7 @@ export const useServices = create<ServiceInterface>((set, get) => ({
           'post',
           `https://dev-secrethub-api.crayond.com/api/v1/service/list`,
           {
-            offset: 0,
+            offset: offset,
             limit: 10,
           },
           true,
@@ -32,15 +34,13 @@ export const useServices = create<ServiceInterface>((set, get) => ({
                 return {
                   services: {
                     ...state.services,
-                    data: response?.data?.response?.response?.data,
+                    data:
+                      offset > 10
+                        ? state?.services?.data?.concat(response?.data?.response?.response?.data)
+                        : response?.data?.response?.response?.data,
                   },
                 };
               });
-              // set({ services: response?.data?.response?.response?.data });
-
-              // enqueueSnackbar('datalisted', { variant: 'success' });
-
-              // return response?.data?.response?.response?.data;
               resolve(response?.data?.response?.response?.data);
             }
           })
@@ -57,12 +57,15 @@ export const useServices = create<ServiceInterface>((set, get) => ({
       }
     });
   },
-
-  setHandleServices: (key, value) => {
-    debugger;
+  fetchMoreData: async () => {
+    const { getServices, offset } = get();
+    await getServices(offset + 10);
+    set({ offset: offset + 10 });
+  },
+  setHandleServices: (key: string, value: string) => {
     const { editServices } = get();
-    const { data } = editServices;
-
+    const error = editServices?.data?.error;
+    error[key] = '';
     set((state) => {
       return {
         editServices: {
@@ -70,46 +73,68 @@ export const useServices = create<ServiceInterface>((set, get) => ({
           data: {
             ...state.editServices.data,
             [key]: value,
+            error,
           },
         },
       };
     });
   },
-
+  validate: (state: any) => {
+    let isValid = true;
+    debugger
+    const error = state?.data?.error;
+    if (state?.data?.name?.length === 0) {
+      isValid = false;
+      error.name = 'Name required';
+    } else {
+      error.name = '';
+    }
+    if (state?.data?.repository_url?.length === 0) {
+      isValid = false;
+      error.repository_url = 'Repository url required';
+    } else {
+      error.repository_url = '';
+    }
+    return { isValid, error };
+  },
   addServices: async (e: any) => {
-    const { editServices, handleServiceDrawerClose } = get();
-    try {
-      // set({ loading: true });
-      debugger;
-      const response = await httpRequest(
-        'post',
-        `https://dev-secrethub-api.crayond.com/api/v1/service/create`,
-        {
-          name: editServices?.data?.name,
-          project_id: 'd49a455b-a608-4d32-9912-f45251b31d56',
-        },
-        true,
-      );
+    const { editServices, handleServiceDrawerClose, validate, addLoadingService } = get();
+    const { isValid, error } = validate(editServices);
+    debugger
+    if (!isValid) {
+      set((state) => ({ editServices: { ...state.editServices, error } }));
+      return false;
+    } else {
+      set({ addLoadingService: true });
+      try {
+        const response = await httpRequest(
+          'post',
+          `https://dev-secrethub-api.crayond.com/api/v1/service/create`,
+          {
+            name: editServices?.data?.name,
+            project_id: 'd49a455b-a608-4d32-9912-f45251b31d56',
+          },
+          true,
+        );
 
-      if (response.data?.status === 200) {
-        enqueueSnackbar(response.data.response, { variant: 'success' });
-        // set({ loading: false });
-        handleServiceDrawerClose('')
-        return response;
+        if (response.data?.status === 200) {
+          enqueueSnackbar(response.data.response, { variant: 'success' });
+          handleServiceDrawerClose('');
+          return response;
+        }
+      } catch (err: any) {
+        log('error', err);
+        enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while adding!', { variant: 'error' });
+      } finally {
+        set({ addLoadingService: false });
       }
-    } catch (err: any) {
-      // set({ loading: false });
-      log('error', err);
-      enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while adding!', { variant: 'error' });
     }
   },
 
   editServicesfn: async () => {
     const { handleServiceDrawerClose, editServices } = get();
-    debugger;
-
     try {
-      // set({ loading: true });
+      set({ editLoadingService: true });
       const response = await httpRequest(
         'post',
         `https://dev-secrethub-api.crayond.com/api/v1/service/update`,
@@ -123,7 +148,32 @@ export const useServices = create<ServiceInterface>((set, get) => ({
       if (response.data?.status === 200) {
         enqueueSnackbar(response.data.response, { variant: 'success' });
         // set({ loading: false });
-        handleServiceDrawerClose('')
+        handleServiceDrawerClose('');
+        return response;
+      }
+    } catch (err: any) {
+      // set({ loading: false });
+      log('error', err);
+      enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while adding!', { variant: 'error' });
+    } finally {
+      set({ editLoadingService: false });
+    }
+  },
+
+  HandleDeleteServiceAPI: async (i: string) => {
+    try {
+      // set({ loading: true });
+      const response = await httpRequest(
+        'post',
+        `https://dev-secrethub-api.crayond.com/api/v1/service/remove`,
+        {
+          id: i?.id,
+        },
+        true,
+      );
+      if (response.data?.status === 200) {
+        enqueueSnackbar(response.data.response, { variant: 'success' });
+        // set({ loading: false });
         return response;
       }
     } catch (err: any) {
@@ -144,46 +194,36 @@ export const useServices = create<ServiceInterface>((set, get) => ({
   },
 
   onSaveServices: async (key: string) => {
-    debugger;
-    const { isEditService, editServicesfn, addServices, getServices } = get();
+    const { isEditService, editServicesfn, addServices, getServices, offset } = get();
     if (isEditService) {
       await editServicesfn();
-      await getServices();
+      await getServices(offset);
     } else {
-      await addServices();
-      await getServices();
+      await addServices('');
+      await getServices(offset);
     }
   },
 
   handleServiceClick: async (e: any, i: number) => {
-    const { makeGetEnvironmentRequest, index, services } = get();
-    debugger;
     set({ slugIndex: i });
   },
-
   // edit services
   onEditServices: (e: any, i: number) => {
     const { isEditService, editServices, handleServiceDrawerOpen } = get();
-    debugger;
     set({ isEditService: true });
     handleServiceDrawerOpen('');
+    debugger
     // set({ editServices.data: e });
     set((state) => {
       return {
         editServices: {
-          ...state.editServices,
-          data: e,
+          ...state?.editServices,
+          data: {
+            error: state?.editServices?.data?.error,
+            ...e,
+          },
         },
       };
-    });
-  },
-
-  clearAll: () => {
-    // const { addMessageList, editMessageList } = get();
-    set({
-      // editEnvironment: giveMeEnvironmentState(),
-      editServices: giveMeServicesInitialState(),
-      // editKey: giveMeKeyState(),
     });
   },
 }));

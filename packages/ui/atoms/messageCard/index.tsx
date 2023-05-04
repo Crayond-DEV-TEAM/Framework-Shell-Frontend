@@ -80,6 +80,7 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
     >
       <Box
         sx={select === index ? messageCardStyle.messageCard : messageCardStyle.unSelectedCard}
+        onClick={onMessaageClick}
       >
         <Grid container alignItems={'center'}>
           <Grid item xs={1} sm={1} md={1} lg={1}>
@@ -90,7 +91,7 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
             )}
           </Grid>
           <Grid item xs={10} sm={10} md={10} lg={10}>
-            <Typography onClick={onMessaageClick} sx={select === index ? messageCardStyle.serviceTitle : messageCardStyle.unslectedServiceTitle}>
+            <Typography sx={select === index ? messageCardStyle.serviceTitle : messageCardStyle.unslectedServiceTitle}>
               {title}
             </Typography>
           </Grid>
@@ -117,7 +118,6 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
             id="ec33277c-74e7-4b23-94cc-4cddb997548c"
             onClick={(e) => {
               if (e?.target?.id === 'ec33277c-74e7-4b23-94cc-4cddb997548c') {
-                debugger;
                 e?.stopPropagation();
                 onEdit();
               }

@@ -1,13 +1,6 @@
 /* eslint-disable react/jsx-key */
-import {
-  EnvironmentTabs,
-  ModalAddEnvironmentKey,
-  ServicesListing,
-  TableHeader,
-  SingleFileComponent,
-} from '@core/ui/components';
+import { EnvironmentTabs, ModalAddEnvironmentKey, ServicesListing, TableHeader } from '@core/ui/components';
 import { Box, Grid, Stack, Typography } from '@mui/material';
-// import { MessageTable } from '..';
 import { useServices, useEnvironment, useKeys } from '@core/store';
 import { dummyTableData } from '@core/store/utils';
 import { Button, FooterComponent } from '@core/ui/atoms';
@@ -16,16 +9,13 @@ import { CommonTable } from 'crayond-components-library-1';
 import React, { useEffect, useState } from 'react';
 import { EnvironmentsStyle } from './style';
 import { Header, tableData } from './tableUtils';
-import { createSearchParams, useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { environmentRoutes } from '@core/routes';
-import { addQueryParamsToUrl } from 'utils';
+import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { saveAs } from 'file-saver';
 
 export default function Environments() {
-  let [searchParams] = useSearchParams();
-  var slugId = searchParams.get("slugId");
-  var envId = searchParams.get("envId");
-
-
+  const [searchParams] = useSearchParams();
+  const slugId = searchParams.get('slugId');
+  const envId = searchParams.get('envId');
 
   const {
     serviceOpen,
@@ -34,6 +24,7 @@ export default function Environments() {
     editServices,
     isEditService,
     servicefetching,
+    offset,
     errorOnServiceFetching,
     getServices,
     handleServiceClick,
@@ -43,6 +34,10 @@ export default function Environments() {
     handleServiceDrawerOpen,
     handleServiceDrawerClose,
     onSaveServices,
+    editLoadingService,
+    addLoadingService,
+    fetchMoreData,
+    HandleDeleteServiceAPI,
   } = useServices();
 
   const {
@@ -60,6 +55,7 @@ export default function Environments() {
     handleEnvironmentDrawerClose,
     onSaveEnvironment,
     handleTabEdit,
+    handleDeleteEnv,
   } = useEnvironment();
 
   const {
@@ -75,134 +71,136 @@ export default function Environments() {
     handleKeyChange,
     handleTableEdit,
     handleUploadFile,
+    handleDownloadEnv,
     handleKeyDrawerOpen,
     handleKeyDrawerClose,
     onSaveKeys,
+    downloadTextAsFile,
+    handleDeleteKey,
   } = useKeys();
 
+  console.log(addLoadingService, 'addLoadingService');
+
+
   const [searchTerm, setSearchTerm] = useState('');
+  const [selected, setSelected] = useState(false);
   const [switchList, setSwitchList] = useState<any>([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSearch = (e: any) => {
     setSearchTerm(e.target.value);
   };
 
-  const handleSwitch = (id: string, data: any, e: any) => {
-    if (!switchList.includes(id)) {
-      setSwitchList([...switchList, id]);
-    } else {
-      const index = switchList.indexOf(id);
-      if (index > -1) {
-        switchList.splice(index, 1);
-        setSwitchList([...switchList]);
-      }
-    }
-    if (e.target.checked) {
-      console.log(id);
-      // getStatus(id, true);
-    } else {
-      console.log(id);
-      // getStatus(id, false);
-    }
-  };
-
   const saveFn = async (key: string) => {
-    debugger;
     if (key === 'services') {
       onSaveServices(key);
     } else if (key === 'environment') {
-      onSaveEnvironment(editEnvironment, services?.data?.[slugIndex]?.slug);
+      const envRes = await onSaveEnvironment(editEnvironment?.data, services?.data?.[slugIndex]?.slug);
+      if (envRes?.length > 0) {
+        navigate({
+          pathname: '/environment',
+          search: createSearchParams({
+            slugId: envRes?.[0]?.slug,
+            envId: envRes?.[0]?.id,
+          }).toString(),
+        });
+      }
     } else {
       console.log('err');
-      onSaveKeys(editKey, services?.data?.[slugIndex]?.slug, environment?.[selectedTab]);
+      onSaveKeys(editKey?.data, services?.data?.[slugIndex]?.slug, environment?.data?.[selectedTab]);
     }
   };
+  console.log(environment?.data?.[selectedTab], '1234567');
 
   const handleUpload = async (e: any) => {
-    debugger;
-    await handleUploadFile(e, services?.data?.[slugIndex]?.slug, environment?.[selectedTab]?.name)
-    await getKeys(environmentRes?.[selectedTab]?.name, services?.data?.[slugIndex]?.slug);
+    await handleUploadFile(e, services?.data?.[slugIndex]?.slug, environment?.data?.[selectedTab]?.name);
+    await getKeys(environment?.data?.[selectedTab], environment?.data?.[selectedTab]?.slug);
   };
 
+  const handleDownload = async () => {
+    const fileResponse = await handleDownloadEnv(environment?.data?.[selectedTab]?.slug, environment?.data?.[selectedTab]?.name);
+    const filename = `${services?.data?.[slugIndex]?.name}_${environment?.data?.[selectedTab]?.name}.env`;
+    downloadTextAsFile(fileResponse, filename);
+  };
   const makeGetEnvironmentRequest = async (slug: string) => {
-    debugger;
     const environmentRes = await getEnvironment(slug);
     console.log(environmentRes?.[selectedTab]?.name, 'environmentRes?.[selectedTab]?.name');
-
     await getKeys(environmentRes?.[selectedTab], slug);
-    return environmentRes
+    return environmentRes;
   };
 
   const listingAPIs = async (val: any) => {
-    // debugger;
-    const getServicesRes = await getServices();
     const getEnvironmentRes = await makeGetEnvironmentRequest(val);
-    return { getServicesRes, getEnvironmentRes };
+    return { getEnvironmentRes };
   };
 
   const handleOnClick = async (e: any, i: number) => {
-    debugger
     handleServiceClick(e, i);
     const res = await makeGetEnvironmentRequest(services?.data?.[i]?.slug);
-    // navigate(`/environment?slugId=${e?.id}&envId=${res?.[0]?.id}`)
     navigate({
-      pathname: "/environment",
+      pathname: '/environment',
       search: createSearchParams({
         slugId: e?.id,
-        envId: res?.[0]?.id
-      }).toString()
-    })
+        envId: res?.[0]?.id,
+      }).toString(),
+    });
   };
 
   const handleTabClick = async (e: any, i: number) => {
-    debugger
     tabOnChange(i);
     // navigate(`/environment?slugId=${slugId}&envId=${e?.id}`)
     navigate({
-      pathname: "/environment",
+      pathname: '/environment',
       search: createSearchParams({
-        slugId: slugId ?? "",
-        envId: e?.id ?? ""
-      }).toString()
-    })
-    await getKeys(environment?.[i], environment?.[i]?.slug);
-    // await makeGetkeyRequest(environment?.[i]?.name, services[slugIndex].slug);
+        slugId: slugId ?? '',
+        envId: e?.id ?? '',
+      }).toString(),
+    });
+    await getKeys(environment?.data?.[i], environment?.data?.[i]?.slug);
+  };
+  const HandleDeleteService = async (i: string) => {
+    await HandleDeleteServiceAPI(i);
+    await getServices(offset);
+  };
 
-  }
-
-  // console.log(selectedTab, 'selected====');
-  console.log(slugId, envId, 'openEnvironment====');
-  console.log(environment?.[0]?.id, 'environment');
+  const handleDelete = async (i: string) => {
+    await handleDeleteKey(i);
+    await getKeys(environment?.data?.[selectedTab], environment?.data?.[selectedTab]?.slug);
+  };
+  const handleOpen = () => {
+    setSelected(true);
+    // setIsEdit(false);
+  };
+  const handlemodalClose = () => {
+    setSelected(false);
+  };
+  const handleDeleteEnvFn = async (e: object) => {
+    handleDeleteEnv(e);
+    await makeGetEnvironmentRequest(services?.data?.[slugIndex]?.slug);
+    handlemodalClose();
+  };
 
   useEffect(() => {
-    debugger
     const APIfn = async () => {
-      const getServicesRes = await getServices();
+      const getServicesRes = await getServices(offset);
 
-      const res = getServicesRes.find((v: any) => v?.id === (slugId ?? getServicesRes?.[0]?.id))
+      const res = getServicesRes.find((v: any) => v?.id === (slugId ?? getServicesRes?.[0]?.id));
       const { getEnvironmentRes } = await listingAPIs(res?.slug);
 
-      // addQueryParamsToUrl(url, queryParams)
-
       navigate({
-        pathname: "/environment",
+        pathname: '/environment',
         search: createSearchParams({
           slugId: slugId ?? getServicesRes?.[0]?.id,
-          envId: envId ?? getEnvironmentRes?.[0]?.id ?? ""
-        }).toString()
-      })
-
-
-      // navigate(`/environment?slugId=${slugId ?? getServicesRes?.[0]?.id}`${envId ? `&envId=${envId}` : `&envId=${getEnvironmentRes?.[0]?.id}`}`)
-    }
-    APIfn()
+          envId: envId ?? getEnvironmentRes?.[0]?.id,
+        }).toString(),
+      });
+    };
+    APIfn();
   }, []);
+  console.log(editKey, 'LEYS=====');
+  console.log(editEnvironment, 'editEnvironment=====');
 
-  const handleDelete = () => {
-
-  }
-  console.log(keys, 'LEYS=====');
+  console.log(editServices, 'editServices=====');
   return (
     <Box sx={EnvironmentsStyle.rootSx}>
       <Grid container display="flex" sx={EnvironmentsStyle.totalTableSx} spacing={3}>
@@ -215,8 +213,10 @@ export default function Environments() {
             searchTerm={searchTerm}
             fetching={servicefetching}
             handleSearch={handleSearch}
+            fetchMoreData={fetchMoreData}
             slugIndex={slugId}
             onEditServices={onEditServices}
+            deleteService={HandleDeleteService}
           // environment={environment}
           />
         </Grid>
@@ -233,17 +233,19 @@ export default function Environments() {
               // handleEnvironmentClose={handleDrawerClose}
               handleTabEdit={handleTabEdit}
               onChange={handleTabClick}
-              selected={envId}
-              environments={environment}
+              selectedId={envId}
+              environments={environment?.data}
               fetching={environmentFetching}
+              handleDeleteEnvFn={handleDeleteEnvFn}
+              handlemodalClose={handlemodalClose}
+              selected={selected}
+              handleOpen={handleOpen}
             />
-
             <CommonTable
               Header={Header}
-              dataList={keys}
-              tableData={tableData(handleTabEdit, handleDelete)}
+              dataList={keys?.data}
+              tableData={tableData(handleTableEdit, handleDelete)}
               switchList={switchList}
-              handleSwitch={handleSwitch}
               headerOptions={{
                 fontSize: '14px',
                 fontWeight: '500',
@@ -273,22 +275,17 @@ export default function Environments() {
                 variant: 'CUSTOM',
                 component: (
                   <TableHeader
-                    // filterContent={filterContent}
-                    // filterChange={() => handleUpload()}
-                    // onChange={isEdit ? handleeditChange : handleAddChange}
-                    // status={StatusList}
                     buttonName={'Add Keys'}
                     tableHeader={'Keys'}
-                    isShowValue={true}
+                    isFileUpload={true}
+                    handleClick={handleDownload}
+                    isDownloadRequired={true}
                     handleUploadFile={handleUpload}
-                    searchTerm={searchTerm}
-                    setSearchTerm={setSearchTerm}
+                    isSearchRequired={false}
+                    isFilterRequired={false}
                     open={open?.key}
                     // handleClose={handleClose}
                     handleOpen={() => handleKeyDrawerOpen('')}
-
-                  // onApply={onApply}
-                  // editTableMessage={isEdit ? editMessageList : addMessageList}
                   />
                 ),
               }}
@@ -306,26 +303,28 @@ export default function Environments() {
           <ModalAddEnvironmentKey
             handleChange={setHandleServices}
             valueName={'name'}
+            titlePlaceHolder={'Add Name'}
+            descrPlaceHolder={'Add Repository Url'}
             webHookValueName={'repository_url'}
             value={editServices?.data?.name}
             webHookValue={editServices?.data?.repository_url}
             title={'Name'}
+            addTitleErr={editServices?.data?.error?.name}
+            addDescriptionErr={editServices?.data?.error?.repository_url}
             description={'Repository Url'}
             groupState={editServices?.data}
           />
         }
         Footercomponent={
           <FooterComponent
-            check
-            // checked={editEnvironment.isActive}
-            // SwitchChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange('isActive', e.target.checked)}
             onSave={() => saveFn('services')}
-            onCancel={handleServiceDrawerClose}
-          // loading={addEnvironment}
+            onCancel={() => handleServiceDrawerClose('')}
+            loading={isEditService ? editLoadingService : addLoadingService}
           />
         }
         rootStyle={{ padding: '0px important' }}
       />
+      {console.log(editEnvironment?.data, '98765432')}
 
       {/* add & edit environment Drawer */}
       <DialogDrawer
@@ -335,21 +334,22 @@ export default function Environments() {
         title={isEditEnvironment ? 'Edit Environment' : 'Add Environment'}
         Bodycomponent={
           <ModalAddEnvironmentKey
-            groupState={editEnvironment}
+            groupState={editEnvironment?.data}
+            addTitleErr={editEnvironment?.data?.error?.name}
+            addDescriptionErr={editEnvironment?.data?.error?.webhook_url}
+            titlePlaceHolder="Add Name"
+            descrPlaceHolder="Add Webhook url"
             handleChange={handleChange}
             title={'Name'}
             valueName={'name'}
             webHookValueName={'webhook_url'}
-            value={editEnvironment?.name}
-            webHookValue={editEnvironment?.webhook_url}
+            value={editEnvironment?.data?.name}
+            webHookValue={editEnvironment?.data?.webhook_url}
             description={'Webhook Url'}
           />
         }
         Footercomponent={
           <FooterComponent
-            check
-            checked={editEnvironment.isActive}
-            // SwitchChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange('isActive', e.target.checked)}
             onSave={() => saveFn('environment')}
             onCancel={() => handleEnvironmentDrawerClose('')}
           // loading={addEnvironment}
@@ -358,7 +358,6 @@ export default function Environments() {
         rootStyle={{ padding: '0px important' }}
       />
       {/* add & edit key Drawer */}
-
       <DialogDrawer
         contentStyleSx={EnvironmentsStyle.contentSx}
         isDialogOpened={openKey}
@@ -366,21 +365,22 @@ export default function Environments() {
         title={isEditKey ? 'Edit Key' : 'Add Key'}
         Bodycomponent={
           <ModalAddEnvironmentKey
-            groupState={editKey}
+            addTitleErr={editKey?.data?.error?.name}
+            addDescriptionErr={editKey?.data?.error?.value}
+            groupState={editKey?.data}
             handleChange={handleKeyChange}
+            titlePlaceHolder="Add Key"
+            descrPlaceHolder="Add Value"
             title={'Key'}
             valueName={'name'}
             webHookValueName={'value'}
-            value={editKey?.name}
-            webHookValue={editKey?.value}
+            value={editKey?.data?.name}
+            webHookValue={editKey?.data?.value}
             description={'Value'}
           />
         }
         Footercomponent={
           <FooterComponent
-            check
-            // checked={editEnvironment.isActive}
-            // SwitchChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange('isActive', e.target.checked)}
             onSave={() => saveFn('key')}
             onCancel={() => handleKeyDrawerClose('')}
           // loading={addEnvironment}

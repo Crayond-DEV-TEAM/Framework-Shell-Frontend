@@ -36,7 +36,7 @@ export const SingleFileComponent = (props: SingleFileComponentProps): JSX.Elemen
         <input
           type="file"
           name="img"
-          accept="image/*"
+          accept="*"
           style={{ display: 'none' }}
           id="uplodebtn"
           onChange={handleChange}

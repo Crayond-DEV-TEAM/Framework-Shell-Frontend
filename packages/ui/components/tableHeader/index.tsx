@@ -31,7 +31,7 @@ export interface TableHeaderProps {
   openPop?: boolean | any;
   addMessageTable?: any;
   id?: any;
-  open?: boolean;
+  open?: any;
   anchorEl?: any;
   openAnchorEl?: any;
   isDownloadRequired?: boolean | any;
@@ -54,7 +54,7 @@ export interface TableHeaderProps {
   onChange?: any;
   filterChange?: any;
   onClick?: () => boolean;
-  isShowValue?: boolean;
+  isFileUpload?: boolean;
   isVisible?: boolean;
   sx?: SxProps<Theme>;
 }
@@ -99,7 +99,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     anchorEl,
     openAnchorEl,
     onClick = () => false,
-    isShowValue = false,
+    isFileUpload = false,
     isVisible = false,
     sx = {},
     ...rest
@@ -128,7 +128,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
               />
             </Box>
           )}
-          {isShowValue && <SingleFileComponent handleChange={(e: any) => handleUploadFile(e)} />}
+          {isFileUpload && <SingleFileComponent handleChange={(e: any) => handleUploadFile(e)} />}
           {isFilterRequired && (
             <Filter
               filterContent={filterContent}

@@ -13,7 +13,7 @@ export const useKeys = create<KeyInterface>((set, get) => ({
   errorOnKeyFetching: false,
 
   getKeys: async (environment: any, slug: string) => {
-    debugger
+    const { keys } = get();
     return new Promise((resolve, reject) => {
       try {
         httpRequest(
@@ -29,19 +29,22 @@ export const useKeys = create<KeyInterface>((set, get) => ({
         )
           .then((response) => {
             if (response?.data?.status === 200) {
-              debugger
-              console.log(response?.data?.response?.rows, '');
               const tempRow = response?.data?.response?.rows?.map((e: any) => {
-
                 return {
                   ...e,
-                  password: e?.value
-                }
-              })
-              debugger
-              set({ keys: tempRow });
+                  password: e?.value,
+                };
+              });
+              console.log(tempRow, 'tempRow');
 
-              enqueueSnackbar('keys listed', { variant: 'success' });
+              set((state) => {
+                return {
+                  keys: {
+                    ...state.keys,
+                    data: response?.data?.response?.rows,
+                  },
+                };
+              });
               resolve(response?.data);
             } else {
               throw new Error('Internal Server Error');
@@ -58,42 +61,72 @@ export const useKeys = create<KeyInterface>((set, get) => ({
     });
   },
 
+  validate: (state: any) => {
+    let isValid = true;
+    // debugger
+    const passwordRegex = /^[a-zA-Z0-9_]{1,}$/;
+    const error = state?.data?.error;
+    if (state?.data?.name?.length === 0) {
+      isValid = false;
+      error.name = 'Name required';
+    } else {
+      error.name = '';
+    }
+    if (state?.data?.value?.length === 0) {
+      isValid = false;
+      error.value = 'value required';
+    } else if (passwordRegex.test(state?.data?.value) === false) {
+      debugger
+      isValid = false;
+      error.value = 'Please give valid value';
+    } else {
+      error.value = '';
+    }
+    return { isValid, error };
+  },
+
   addKeys: async (e: any, slug: string, environment: any) => {
-    const { handleKeyDrawerClose, editKey } = get();
-    try {
-      // set({ loading: true });
-      debugger;
-      const response = await httpRequest(
-        'post',
-        `https://dev-secrethub-api.crayond.com/api/v1/service/add/key`,
-        {
-          environment: environment?.name,
-          slug: slug,
-          name: e?.name,
-          value: e?.value,
-        },
-        true,
-      );
+    const { handleKeyDrawerClose, editKey, validate } = get();
+    const { isValid, error } = validate(editKey);
+    debugger
+    if (!isValid) {
+      set((state) => ({ editKey: { ...state.editKey, error } }));
+      return false;
+    } else {
+      try {
+        // set({ loading: true });
+        const response = await httpRequest(
+          'post',
+          `https://dev-secrethub-api.crayond.com/api/v1/service/add/key`,
+          {
+            environment: environment?.name,
+            slug: slug,
+            name: e?.name,
+            value: e?.value,
+          },
+          true,
+        );
 
-      if (response.data?.status === 200) {
-        enqueueSnackbar(response?.data?.message, { variant: 'success' });
+        if (response.data?.status === 200) {
+          enqueueSnackbar(response?.data?.message, { variant: 'success' });
+          // set({ loading: false });
+          handleKeyDrawerClose('');
+
+          return response;
+        }
+      } catch (err: any) {
         // set({ loading: false });
-        handleKeyDrawerClose('');
-
-        return response;
+        log('error', err);
+        enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while adding Key!', { variant: 'error' });
       }
-    } catch (err: any) {
-      // set({ loading: false });
-      log('error', err);
-      enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while adding Key!', { variant: 'error' });
     }
   },
 
-  editKeysAPI: async (e: any, slug: string, environment: string) => {
+  editKeysAPI: async (e: any, slug: string, environment: object) => {
     const { handleKeyDrawerClose } = get();
+    debugger
     try {
       // set({ loading: true });
-      debugger;
       const response = await httpRequest(
         'post',
         `https://dev-secrethub-api.crayond.com/api/v1/service/update/key`,
@@ -101,7 +134,7 @@ export const useKeys = create<KeyInterface>((set, get) => ({
           slug: slug,
           name: e?.name,
           value: e?.value,
-          id: environment?.id,
+          id: e?.id,
         },
         true,
       );
@@ -119,6 +152,68 @@ export const useKeys = create<KeyInterface>((set, get) => ({
     }
   },
 
+  handleDeleteKey: async (id: string) => {
+    try {
+      // set({ loading: true });
+      const response = await httpRequest(
+        'post',
+        `https://dev-secrethub-api.crayond.com/api/v1/service/remove/key`,
+        {
+          id: id,
+        },
+        true,
+      );
+      debugger
+      if (response?.data?.status === 200) {
+        enqueueSnackbar(response?.data?.message ?? 'Env downloaded successfully', { variant: 'success' });
+        // set({ loading: false });
+
+        return response?.data;
+      }
+    } catch (err: any) {
+      // set({ loading: false });
+      log('error', err);
+      enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while adding Key!', { variant: 'error' });
+    }
+  },
+  handleDownloadEnv: async (slug: string, environment: string) => {
+    try {
+      // set({ loading: true });
+      const response = await httpRequest(
+        'post',
+        `https://dev-secrethub-api.crayond.com/api/v1/service/download/env`,
+        {
+          slug: slug,
+          environment: environment,
+        },
+        true,
+      );
+      if (response.status === 200) {
+        enqueueSnackbar(response?.data?.message ?? 'Env downloaded successfully', { variant: 'success' });
+        // set({ loading: false });
+        console.log(response, ' response');
+
+        return response?.data;
+      }
+    } catch (err: any) {
+      // set({ loading: false });
+      log('error', err);
+      enqueueSnackbar(err?.response?.data?.message ?? 'Something went wrong while adding Key!', { variant: 'error' });
+    }
+  },
+
+  downloadTextAsFile: (text: any, filename: string) => {
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  },
+
   handleKeyDrawerOpen: () => {
     set({ openKey: true });
   },
@@ -131,7 +226,6 @@ export const useKeys = create<KeyInterface>((set, get) => ({
   addFileAPI: async (formdata: any) => {
     try {
       // set({ loading: true });
-      debugger;
       const response = await httpRequest(
         'post',
         `https://dev-secrethub-api.crayond.com/api/v1/service/upload/env`,
@@ -140,8 +234,6 @@ export const useKeys = create<KeyInterface>((set, get) => ({
         {
           headers: { 'Content-Type': 'multipart/form-data' },
         },
-
-        // 'Content-Type': 'multipart/form-data'
       );
 
       if (response.data?.status === 200) {
@@ -157,8 +249,7 @@ export const useKeys = create<KeyInterface>((set, get) => ({
   },
 
   singleFileUpload: async (file: File): Promise<boolean> => {
-    return new Promise<boolean>(async (resolve, reject) => {
-      debugger;
+    return new Promise<boolean>((resolve, reject) => {
       try {
         const allowed_image_size = 5;
         const file_type = file?.type.split('/')?.[0];
@@ -182,9 +273,7 @@ export const useKeys = create<KeyInterface>((set, get) => ({
   },
 
   handleUploadFile: async (e: any, slug: string, environment: string) => {
-    const { singleFileUpload } = get();
-    const { addFileAPI } = get();
-    debugger;
+    const { singleFileUpload, getKeys, addFileAPI } = get();
     if (e?.target?.files) {
       const res = await singleFileUpload(e.target.files[0]);
       if (res === true) {
@@ -199,21 +288,43 @@ export const useKeys = create<KeyInterface>((set, get) => ({
   },
 
   handleKeyChange: (key: string, value: any) => {
-    // debugger;
-    set((prevstate) => ({ editKey: { ...prevstate.editKey, [key]: value } }));
+    const { editKey } = get();
+    const error = editKey?.data?.error;
+    error[key] = '';
+    set((state) => {
+      return {
+        editKey: {
+          ...state.editKey,
+          data: {
+            ...state.editKey.data,
+            [key]: value,
+            error,
+          },
+        },
+      };
+    });
   },
 
   handleTableEdit: (e: any) => {
-    const { openKey, keys, handleKeyDrawerOpen } = get();
-    debugger;
+    const { openKey, keys, handleKeyDrawerOpen, editKey } = get();
     set({ isEditKey: true });
-    const filterKey = keys.find((x) => x?.id === e);
+    const filterKey = keys?.data?.find((x: object) => x?.id === e);
     handleKeyDrawerOpen('');
-    set({ editKey: filterKey });
+    // set({ editKey: filterKey });
+    set((state) => {
+      return {
+        editKey: {
+          ...state?.editKey,
+          data: {
+            error: state?.editKey?.data?.error,
+            ...filterKey,
+          },
+        },
+      };
+    });
   },
 
   onSaveKeys: async (e: any, slug: string, environment: any) => {
-    debugger;
     const { isEditKey, editKeysAPI, getKeys, addKeys } = get();
     if (isEditKey) {
       await editKeysAPI(e, slug, environment);

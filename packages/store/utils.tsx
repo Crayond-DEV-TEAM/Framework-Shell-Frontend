@@ -681,24 +681,6 @@ export const dummyServicesData = [
   },
 ];
 
-export const tabs = [
-  {
-    name: 'Staging',
-    webhook_url: '',
-    icon: <Settings />,
-  },
-  {
-    name: 'UAT',
-    webhook_url: '',
-    icon: <Settings />,
-  },
-  {
-    name: 'Production',
-    webhook_url: '',
-    icon: <Settings />,
-  },
-];
-
 export const giveMeSSAuthLoginInitialState = (): {
   SecretStashSignInState: SecretStashSignInState;
 } => {
@@ -714,28 +696,42 @@ export const giveMeServicesInitialState = (): Services => {
       name: '',
       repository_url: '',
       isActive: false,
+      slug: '',
+      error: {
+        name: '',
+        repository_url: '',
+      },
     },
-    offset: 0,
-    limit: 0,
-    slug: '',
   };
 };
 
 export const giveMeEnvironmentState = (): Environment => {
   return {
-    name: '',
-    webhook_url: '',
-    isActive: false,
-    id: '',
+    data: {
+      name: '',
+      webhook_url: '',
+      isActive: false,
+      id: '',
+      error: {
+        name: '',
+        webhook_url: '',
+      },
+    },
   };
 };
 
 export const giveMeKeyState = (): keys => {
   return {
-    name: '',
-    value: '',
-    isActive: false,
-    id: '',
-    env: '',
+    data: {
+      name: '',
+      value: '',
+      isActive: false,
+      id: '',
+      env: '',
+      error: {
+        name: '',
+        value: '',
+      },
+    },
   };
 };

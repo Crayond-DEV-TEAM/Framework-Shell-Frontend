@@ -4,6 +4,7 @@ import { servicesListingStyle } from './styles';
 import { AddIcon, SearchIcon } from '@atoms/icons';
 import { Input } from '@atoms/input';
 import { MessageCard } from '@atoms/messageCard';
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export interface ServicesListingProps {
   className?: any;
@@ -16,8 +17,10 @@ export interface ServicesListingProps {
   handleServiceClick?: (e: any, index: number) => void;
   handleSearch?: (e: any) => void;
   onEditServices?: (e: any, index: number) => void;
+  fetchMoreData?: () => void;
+  deleteService?: (i: string) => void;
   fetching: boolean;
-  slugIndex: string;
+  slugIndex: string | null;
 }
 
 export const ServicesListing = (props: ServicesListingProps): JSX.Element => {
@@ -29,10 +32,12 @@ export const ServicesListing = (props: ServicesListingProps): JSX.Element => {
     sx = {},
     services = [],
     fetching = false,
+    fetchMoreData = () => null,
     handleServiceClick = () => false,
     slugIndex,
     searchTerm = '',
     handleSearch = () => false,
+    deleteService = () => false,
     onEditServices = () => false,
     ...rest
   } = props;
@@ -64,36 +69,45 @@ export const ServicesListing = (props: ServicesListingProps): JSX.Element => {
         />
       </Box>
       <Box sx={servicesListingStyle.totalGroupSx}>
-        {Array.isArray(services) && services?.length > 0 ? (
-          services?.map((x: any, index: any) => {
-            return (
-              <Box key={index}>
-                <MessageCard
-                  title={x.name}
-                  isActive={x.isActive}
-                  index={x?.id}
-                  select={slugIndex}
-                  onMessaageClick={() => handleServiceClick(x, index)}
-                  // onDelete={() => deleteMessageGroups({ id: x.id })}
-                  onEdit={() => onEditServices(x, index)}
-                />
-              </Box>
-            );
-          })
-        ) : (
-          <Box>
-            {fetching ? (
-              <Stack spacing={0.25} px={2}>
-                {Array.from(Array(10).keys()).map((_) => (
-                  <Skeleton height={40} width={'100%'} key={_} />
-                ))}
-              </Stack>
-            ) : <Typography variant="body2" color="textSecondary">
-              You are yet to add a message group.
-            </Typography>}
-
-          </Box>
-        )}
+        <InfiniteScroll
+          dataLength={services?.length ?? 0}
+          next={fetchMoreData}
+          hasMore={true}
+          style={servicesListingStyle?.infiniteScroll}
+          height={`calc(100vh - 235px)`}
+        >
+          {Array.isArray(services) && services?.length > 0 ? (
+            services?.map((x: any, index: any) => {
+              return (
+                <Box key={index}>
+                  <MessageCard
+                    title={x.name}
+                    isActive={x.isActive}
+                    index={x?.id}
+                    select={slugIndex}
+                    onMessaageClick={() => handleServiceClick(x, index)}
+                    onDelete={() => deleteService({ id: x.id })}
+                    onEdit={() => onEditServices(x, index)}
+                  />
+                </Box>
+              );
+            })
+          ) : (
+            <Box>
+              {fetching ? (
+                <Stack spacing={0.25} px={2}>
+                  {Array.from(Array(10).keys()).map((_) => (
+                    <Skeleton height={40} width={'100%'} key={_} />
+                  ))}
+                </Stack>
+              ) : (
+                <Typography m={2} variant="body2" color="textSecondary">
+                  You are yet to add a Service.
+                </Typography>
+              )}
+            </Box>
+          )}
+        </InfiniteScroll>
       </Box>
     </Box>
   );

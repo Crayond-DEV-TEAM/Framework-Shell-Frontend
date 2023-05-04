@@ -7,8 +7,14 @@ export interface ModalAddEnvironmentKeyProps {
   className?: string;
   title?: string;
   webHookValue?: string;
-  nameValue?: string;
+  valueName?: string;
+  value?: string;
+  webHookValueName?: string;
+  descrPlaceHolder?: string;
+  titlePlaceHolder?: string;
   description?: string;
+  addDescriptionErr?: string;
+  addTitleErr?: string;
   handleChange?: (key: string, value: string) => void;
   groupState?: any;
   sx?: SxProps<Theme>;
@@ -25,9 +31,14 @@ export const ModalAddEnvironmentKey = (props: ModalAddEnvironmentKeyProps): JSX.
     webHookValue = '',
     sx = {},
     handleChange = () => false,
+    descrPlaceHolder = '',
+    titlePlaceHolder = '',
+    addTitleErr = '',
+    addDescriptionErr = '',
     groupState,
     ...rest
   } = props;
+  console.log(groupState, 'groupState');
 
   return (
     <Box
@@ -47,15 +58,15 @@ export const ModalAddEnvironmentKey = (props: ModalAddEnvironmentKeyProps): JSX.
           </Label>
           <Input
             size="small"
-            placeholder=" Add Name"
+            placeholder={titlePlaceHolder}
             value={value}
             id={valueName}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange(valueName, e?.target?.value)
             }
             textFieldStyle={modalAddEnvironmentKeyStyle.inputSx}
-            // isError={groupState?.error?.addTitle ? true : false}
-            // errorMessage={groupState?.error?.addTitle ?? ''}
+            isError={addTitleErr ? true : false}
+            errorMessage={addTitleErr ?? ''}
           />
         </Box>
         <Box sx={modalAddEnvironmentKeyStyle.inputGroupSx}>
@@ -64,7 +75,7 @@ export const ModalAddEnvironmentKey = (props: ModalAddEnvironmentKeyProps): JSX.
           </Label>
           <Input
             size="small"
-            placeholder="Add Repository Url"
+            placeholder={descrPlaceHolder}
             value={webHookValue}
             id={webHookValueName}
             // textFieldStyle={{ height: '112px' }}
@@ -72,8 +83,8 @@ export const ModalAddEnvironmentKey = (props: ModalAddEnvironmentKeyProps): JSX.
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange(webHookValueName, e.target.value)
             }
-            // isError={groupState?.error?.addDescription ? true : false}
-            // errorMessage={groupState?.error?.addDescription ?? ''}
+            isError={addDescriptionErr ? true : false}
+            errorMessage={addDescriptionErr ?? ''}
           />
         </Box>
       </Box>

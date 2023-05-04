@@ -281,7 +281,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
           </Box>
         }
       />
-
       <DialogDrawer
         dialogRootStyle={{
           width: '832px',

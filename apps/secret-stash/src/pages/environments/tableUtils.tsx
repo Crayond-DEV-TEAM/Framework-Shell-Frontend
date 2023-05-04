@@ -34,5 +34,5 @@ export const tableData = (editHandel: (id: string) => void, deleteHandel: (id: s
       editIcon: <EditIcon />,
       deleteIcon: <DeleteIcon />,
     },
-  ]
+  ];
 };

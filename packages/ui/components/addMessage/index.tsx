@@ -48,7 +48,6 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     editMessageListGroups,
     editMessageList,
   } = useMessageConfiguration();
-  const { getServices, services, setHandleChangefn, editServices } = useServices();
 
 
   const [open, setOpen] = useState(false);
@@ -85,7 +84,6 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
 
   const onEditServices = async (key: any, value: any) => {
     setValues(true);
-    setHandleChangefn(key.name, value);
   };
   const Edit = () => {
     editMessageGroups();
@@ -99,7 +97,6 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
 
   useEffect(() => {
     getMessageGroups();
-    getServices();
     // eslint-disable-next-line
   }, []);
 

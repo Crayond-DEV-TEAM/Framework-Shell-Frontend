@@ -138,6 +138,7 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
         renderTags={(value: readonly string[], getTagProps) =>
           value.map((option: string, index: number) => <Chip key={option} label={option} />)
         }
+        onChange={onChange}
         sx={{
           '& .MuiChip-root': { height: '28px', borderRadius: '8px', marginLeft: '4px', marginTop: '-7px' },
           '& .MuiAutocomplete-input': {

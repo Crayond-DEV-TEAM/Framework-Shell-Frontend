@@ -7,10 +7,12 @@ import { JsonViewer } from '@atoms/jsonViewer';
 export interface ConfigureRepoProps {
   className?: string;
   sx?: SxProps<Theme>;
+  data?: any;
+  onChange?: any;
 }
 
 export const ConfigureRepo = (props: ConfigureRepoProps): JSX.Element => {
-  const { className = '', sx = {}, ...rest } = props;
+  const { className = '', sx = {}, data = [], onChange = {}, ...rest } = props;
 
   return (
     <Box
@@ -29,7 +31,7 @@ export const ConfigureRepo = (props: ConfigureRepoProps): JSX.Element => {
       </Box>
       <Box sx={{ padding: '8px' }} />
       <Box sx={{ height: '30%' }}>
-        <JsonViewer />
+        <JsonViewer data={data} onChange={onChange} />
       </Box>
     </Box>
   );

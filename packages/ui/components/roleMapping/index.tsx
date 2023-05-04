@@ -6,8 +6,8 @@ import { ModalAddPermission, TableHeader } from '..';
 import { Header, tableData, tableJson } from './utils';
 import { DialogDrawer } from '@atoms/dialogDrawer';
 import { FooterComponent } from '@atoms/footerComponent';
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
+import { useRoleMapping } from '@core/store';
 export interface RoleMappingProps {
   className?: string;
   sx?: SxProps<Theme>;
@@ -16,6 +16,10 @@ export interface RoleMappingProps {
 export const RoleMapping = (props: RoleMappingProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
   const [values, setValues] = useState(false);
+  const [searchTerm, setSearchterm] = useState('');
+  const [switchList, setSwitchList] = useState<any>([]);
+
+  const { getRolesMappingList, RolesMappingList } = useRoleMapping();
 
   const handleClose = () => {
     setValues(false);
@@ -24,7 +28,44 @@ export const RoleMapping = (props: RoleMappingProps): JSX.Element => {
     setValues(true);
   };
   // debugger;
-  // const filteredMessageGroup = tableJson.filter((x: any) => x.title?.toLowerCase().includes(searchTerm.toLowerCase()));
+  const filteredMessageGroup = RolesMappingList.filter((x: any) =>
+    x.username.label.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
+  // const handleSwitch = (id: string, data: any, e: any) => {
+  //   if (!switchList.includes(id)) {
+  //     setSwitchList([...switchList, id]);
+  //   } else {
+  //     const index = switchList.indexOf(id);
+  //     if (index > -1) {
+  //       switchList.splice(index, 1);
+  //       setSwitchList([...switchList]);
+  //     }
+  //   }
+  //   if (e.target.checked) {
+  //     console.log(id);
+  //     setSwitchList(true);
+  //   } else {
+  //     console.log(id);
+  //     setSwitchList(false);
+  //   }
+  // };
+
+  const handleSwitch = (id: any) => {
+    if (!switchList.includes(id)) {
+      setSwitchList([...switchList, id]);
+    } else {
+      const index = switchList.indexOf(id);
+      if (index > -1) {
+        switchList.splice(index, 1);
+        setSwitchList([...switchList]);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getRolesMappingList();
+  }, []);
 
   return (
     <Box
@@ -40,10 +81,10 @@ export const RoleMapping = (props: RoleMappingProps): JSX.Element => {
       <Box sx={roleMappingStyle.commonTable}>
         <CommonTable
           Header={Header}
-          dataList={tableJson}
+          dataList={filteredMessageGroup}
           tableData={tableData}
-          // switchList={switchList}
-          // handleSwitch={handleSwitch}
+          switchList={switchList}
+          handleSwitch={handleSwitch}
           headerOptions={{
             fontSize: '14px',
             fontWeight: '500',
@@ -77,7 +118,8 @@ export const RoleMapping = (props: RoleMappingProps): JSX.Element => {
                 isFilterRequired={false}
                 isBtnRequired={false}
                 tableHeader={'Role Mapping'}
-                // setSearchTerm={setSearchTerm}
+                setSearchTerm={setSearchterm}
+                searchTerm={searchTerm}
               />
             ),
           }}

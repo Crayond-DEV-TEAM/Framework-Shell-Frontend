@@ -30,6 +30,9 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
     ...rest
   } = props;
 
+  // const handle = (key, value) => {
+  //   debugger;
+  // };
   return (
     <Box
       sx={[
@@ -89,7 +92,13 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
             <Label sx={modalAddPermissionStyle.labelSx} htmlFor="description" isRequired>
               Select Permission
             </Label>
-            <CustomDropdown placeholder="Select Role" />
+            <CustomDropdown
+              placeholder="Select Role"
+              label={groupState.permission}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                handleChange('permission', e.target.value)
+              }
+            />
           </Box>
         )}
       </Box>

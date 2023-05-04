@@ -433,3 +433,108 @@ export interface APIConfig {
   getPushTableList: () => void;
   getResquestBodyData: () => void;
 }
+
+export interface RolesInterfaceField {
+  id: string;
+  title: string;
+  description: string;
+  status: boolean;
+  permission: string;
+}
+
+export interface Repository {
+  mainTitle: string;
+  title: string;
+  titlesecond: string;
+  contentone: string;
+  contentTwo: string;
+  contentThree: string;
+  contentfour: string;
+}
+
+export interface AddPermissionInterface {
+  title: string;
+  description: string;
+  status: boolean;
+}
+
+export interface RoleMap {
+  username: {
+    label: string;
+  };
+  contactnumber: string;
+  email: string;
+  lastlogin: string;
+  rolename: {
+    label: string;
+    color: string;
+    bgColor: string;
+  };
+  status: boolean;
+}
+export interface UserManagementInterface {
+  RepositoryList: Repository[];
+  editRepositoryList: Repository;
+
+  fetching: boolean;
+  errorOnFetching: boolean;
+
+  seteditRepository: (value: any) => void;
+
+  getAllRepository: () => void;
+  editRepository: () => void;
+}
+
+export interface PermissionInterface {
+  RepositoryList: AddPermissionInterface[];
+  PermissionList: AddPermissionInterface[];
+  addPermissionList: AddPermissionInterface;
+  setaddPermission: (payload: { key: string; value: string }) => void;
+  editPermissionList: AddPermissionInterface;
+  fetching: boolean;
+  errorOnFetching: boolean;
+
+  getPermissionList: () => void;
+  addPermission: () => void;
+  getFaciltyRepository: () => void;
+  clearAll: () => void;
+}
+
+export interface RolesInterface {
+  RolesList: RolesInterfaceField[];
+  setaddMessage: (payload: { key: string; value: string }) => void;
+  StatusList: RolesInterfaceField[];
+  addRole: RolesInterfaceField;
+  editRole: RolesInterfaceField[];
+  deleteRole: RolesInterfaceField[];
+
+  fetching: boolean;
+  errorOnFetching: boolean;
+
+  addLoading: boolean;
+  errorOnadding: boolean;
+
+  editLoading: boolean;
+  errorOnediting: boolean;
+
+  deleteLoading: boolean;
+  errorOndelete: boolean;
+
+  getRolesList: () => void;
+  getStatusList: () => void;
+  addRolesList: () => void;
+  editRoleList: () => void;
+  deleteRoleList: () => void;
+  clearAll: () => void;
+}
+
+export interface RolesMappingInterface {
+  RolesMappingList: RoleMap[];
+  StatusList: RoleMap[];
+
+  fetching: boolean;
+  errorOnFetching: boolean;
+
+  getRolesMappingList: () => void;
+  getStatusList: () => void;
+}

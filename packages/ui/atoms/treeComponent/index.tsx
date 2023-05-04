@@ -73,6 +73,50 @@ const StyledTreeItem = styled(TreeItem)<StyledTreeItemProps>(({ rootNode }) => {
     },
   };
 });
+const styles = (id: string, checks: boolean) => {
+  switch (id) {
+    case 'parent':
+      return {
+        iconProp: <SettingIcon />,
+        fontsize: { fontSize: '14px', fontWeight: 600 },
+      };
+    case 'parentchild':
+      return {
+        iconProp: <InfoIcon />,
+        fontsize: { fontSize: '14px', fontWeight: 500 },
+      };
+    default:
+      return {
+        fontsize: { fontSize: '14px', fontWeight: 500, color: '#818181', margin: '7px' },
+        checkBox: checks === true ? true : false,
+      };
+      break;
+  }
+};
+const renderTree = (nodes: any, test: string, checkBox: any) => (
+  <StyledTreeItem
+    rootNode={test === 'parent' ? true : false}
+    key={nodes?.name}
+    nodeId={`${nodes?.name}`}
+    label={
+      <CustomLabel
+        labelText={nodes?.name}
+        // iconProp={<SettingIcon />}
+        // fontsize={{ fontSize: '14px', fontWeight: 600 }}
+        {...styles(test, checkBox)}
+        // checkBox={checkBox}
+      />
+    }
+
+    // You can add custom properties to each node as well
+    // create={nodes?.create}
+    // read={nodes?.read}
+    // update={nodes?.update}
+    // delete={nodes?.delete}
+  >
+    {Array.isArray(nodes?.child) ? nodes?.child.map((node: any) => renderTree(node, test + 'child', checkBox)) : null}
+  </StyledTreeItem>
+);
 
 export const TreeComponent = (props: TreeComponentProps): JSX.Element => {
   const { className = '', sx = {}, data = [], checkboxsection = false, ...rest } = props;
@@ -94,92 +138,9 @@ export const TreeComponent = (props: TreeComponentProps): JSX.Element => {
         defaultParentIcon={<SettingIcon />}
         sx={{ height: 220, flexGrow: 1, m: 2 }}
       >
-        {data.map((book: any) => (
-          <StyledTreeItem
-            rootNode
-            key={book.title}
-            nodeId={book.title}
-            // label={book.title}
-            label={
-              <CustomLabel
-                labelText={book.mainTitle}
-                iconProp={<SettingIcon />}
-                fontsize={{ fontSize: '14px', fontWeight: 600 }}
-              />
-            }
-            // icon={<SettingIcon />}
-          >
-            <StyledTreeItem
-              sx={treeComponentStyle.child}
-              nodeId={`${book.title}-titleone`}
-              label={
-                <CustomLabel
-                  labelText={book.title}
-                  iconProp={<InfoIcon />}
-                  fontsize={{ fontSize: '14px', fontWeight: 500 }}
-                />
-              }
-              // icon={<InfoIcon />}
-            >
-              <StyledTreeItem
-                nodeId={`${book.title}-subTitle`}
-                label={
-                  <CustomLabel
-                    labelText={book.subTitle}
-                    fontsize={{ fontSize: '14px', fontWeight: 500, color: '#818181', margin: '7px' }}
-                    checkBox={checkboxsection && true}
-                  />
-                }
-              />
-              <StyledTreeItem
-                nodeId={`${book.title}-content`}
-                label={
-                  <CustomLabel
-                    labelText={book.content}
-                    fontsize={{ fontSize: '14px', fontWeight: 500, color: '#818181', margin: '7px' }}
-                    checkBox={checkboxsection && true}
-                  />
-                }
-              />
-              {checkboxsection && <Box sx={treeComponentStyle.mild}></Box>}
-            </StyledTreeItem>
-
-            <StyledTreeItem
-              sx={treeComponentStyle.child}
-              nodeId={`${book.title}-secondTitle`}
-              label={
-                <CustomLabel
-                  labelText={book.secondTitle}
-                  iconProp={<InfoIcon />}
-                  fontsize={{ fontSize: '14px', fontWeight: 500 }}
-                />
-              }
-              // icon={<InfoIcon />}
-            >
-              <StyledTreeItem
-                nodeId={`${book.title}-secondSubTitle`}
-                label={
-                  <CustomLabel
-                    labelText={book.secondSubTitle}
-                    fontsize={{ fontSize: '14px', fontWeight: 500, color: '#818181', margin: '7px' }}
-                    checkBox={checkboxsection && true}
-                  />
-                }
-              />
-              <StyledTreeItem
-                nodeId={`${book.title}-secondContent`}
-                label={
-                  <CustomLabel
-                    labelText={book.secondContent}
-                    fontsize={{ fontSize: '14px', fontWeight: 500, color: '#818181', margin: '7px' }}
-                    checkBox={checkboxsection && true}
-                  />
-                }
-              />
-              {checkboxsection && <Box sx={treeComponentStyle.mild}></Box>}
-            </StyledTreeItem>
-          </StyledTreeItem>
-        ))}
+        {data.map((val: any, index: number) => {
+          return renderTree(val, 'parent', checkboxsection && true);
+        })}
       </TreeView>
     </Box>
   );

@@ -13,7 +13,7 @@ export interface MessageCardProps {
   className?: string;
   sx?: SxProps<Theme>;
   title?: string;
-  onMessaageClick?: () => void;
+  onMessaageClick?: (x: any) => void | undefined;
   onDelete?: () => void;
   isActive?: boolean;
   index?: any;

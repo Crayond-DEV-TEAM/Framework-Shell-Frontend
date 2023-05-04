@@ -29,7 +29,7 @@ export { ModalAddEnvironmentKey } from './secret-stash';
 export { ServicesListing } from './secret-stash';
 export { ShowValue } from './secret-stash';
 export { SignUp } from './signUp';
-export { SingleFileComponent } from './singleFileComponent';
+export { SingleFileComponent } from './singlefilecomponent';
 export { SmsDialog } from './smsDialog';
 export { SmsTab } from './smsTab';
 export { TableHeader } from './tableHeader';

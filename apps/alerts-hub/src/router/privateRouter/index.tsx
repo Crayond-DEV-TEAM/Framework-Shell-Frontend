@@ -23,7 +23,7 @@ function PrivateRouter(props: { children: JSX.Element }) {
       setSearchParams({});
       setShowComponent(true);
     } else {
-      window.location.replace(envConfig.frame_work_shell_ui + '/?redirect_url=' + window.location.href);
+      window.location.replace(envConfig.secret_stash_auth_url + '/?redirect_url=' + window.location.href);
     }
   }, [location]);
 

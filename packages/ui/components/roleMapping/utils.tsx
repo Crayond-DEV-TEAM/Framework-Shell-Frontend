@@ -1,4 +1,3 @@
-import { DeleteIcon, EditIcon } from '@atoms/icons';
 
 export const Header = [
   {
@@ -81,6 +80,20 @@ export const tableJson = [
       color: 'primary.contrastText',
       bgColor: '#357968',
     },
+    id:'1',
+    status: true ,
+  },
+  {
+    username: { label: 'property Manager' },
+    contactnumber: '+91 8972984838',
+    email: 'dsp123@gmail.com',
+    lastlogin: '23rd Jan, 03:00 PM IST',
+    rolename: {
+      label: `Role Facility`,
+      color: 'primary.contrastText',
+      bgColor: '#357968',
+    },
+    id:'2',
     status: true,
   },
   {
@@ -93,6 +106,7 @@ export const tableJson = [
       color: 'primary.contrastText',
       bgColor: '#357968',
     },
+    id:'3',
     status: true,
   },
   {
@@ -105,6 +119,7 @@ export const tableJson = [
       color: 'primary.contrastText',
       bgColor: '#357968',
     },
+    id:'4',
     status: true,
   },
   {
@@ -117,18 +132,7 @@ export const tableJson = [
       color: 'primary.contrastText',
       bgColor: '#357968',
     },
-    status: true,
-  },
-  {
-    username: { label: 'property Manager' },
-    contactnumber: '+91 8972984838',
-    email: 'dsp123@gmail.com',
-    lastlogin: '23rd Jan, 03:00 PM IST',
-    rolename: {
-      label: `Role Facility`,
-      color: 'primary.contrastText',
-      bgColor: '#357968',
-    },
+    id:'5',
     status: true,
   },
 ];

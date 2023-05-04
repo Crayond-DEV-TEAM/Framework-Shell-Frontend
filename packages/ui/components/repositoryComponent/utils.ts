@@ -21,30 +21,76 @@ export const books = [
 
 export const RepoJson = [
   {
-    mainTitle: 'OnBoarding',
-    title: 'Sign up',
-    subTitle: 'basic info',
-    content: 'professional details',
-    secondTitle: 'SignIn',
-    secondSubTitle: ' Sign in with mobile number',
-    secondContent: 'Sign in With email id',
+    name: 'Onboarding',
+    child: [
+      {
+        name: 'Sign up',
+        child: [
+          {
+            name: 'basic info',
+            create: true,
+            read: false,
+            update: false,
+            delete: false,
+          },
+          {
+            name: 'Proffesional details',
+          },
+        ],
+      },
+      {
+        name: 'Sign in',
+        child: [
+          {
+            name: 'Sign in with mobile number',
+            create: true,
+            read: false,
+            update: false,
+            delete: false,
+          },
+          {
+            name: 'Sign in with email id',
+          },
+        ],
+      },
+      {
+        name: 'Forgot Password',
+      },
+    ],
   },
   {
-    mainTitle: 'Dashboard',
-    title: 'mobile',
-    subTitle: 'email',
-    content: 'professional details',
-    secondTitle: 'profession',
-    secondSubTitle: 'OnBoarding',
-    secondContent: 'Profile',
-  },
-  {
-    mainTitle: 'Profile',
-    title: 'profession',
-    subTitle: 'details',
-    content: 'mobile details',
-    secondTitle: 'SignIn',
-    secondSubTitle: 'email',
-    secondContent: 'Sign in With details',
+    name: 'Dashboard',
+    child: [
+      {
+        name: 'To-do',
+        child: [
+          {
+            name: 'basic information',
+            create: true,
+            read: false,
+            update: false,
+            delete: false,
+          },
+          {
+            name: 'Proffesional',
+          },
+        ],
+      },
+      {
+        name: 'Rename',
+        child: [
+          {
+            name: 'Changed successfull',
+            create: true,
+            read: false,
+            update: false,
+            delete: false,
+          },
+          {
+            name: 'Forgot number',
+          },
+        ],
+      },
+    ],
   },
 ];

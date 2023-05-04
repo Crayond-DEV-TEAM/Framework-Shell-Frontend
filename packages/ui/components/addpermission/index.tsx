@@ -8,8 +8,9 @@ import { DialogDrawer } from '@atoms/dialogDrawer';
 import { MessageCard } from '@atoms/messageCard';
 import { AddIcon } from '@atoms/icons';
 import SearchIcon from '@mui/icons-material/Search';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Input } from '@atoms/input';
+import { usePermission } from '@core/store';
 
 export interface AddPermissionProps {
   className?: string;
@@ -23,6 +24,9 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
   const { className = '', sx = {}, title = '', addTitle = '', editTitle = '', ...rest } = props;
   const [open, setOpen] = useState(false);
 
+  const { getPermissionList, PermissionList, addPermissionList, setaddPermission, addPermission, clearAll } =
+    usePermission();
+
   const [values, setValues] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -31,12 +35,16 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
 
   const handleOpen = () => setOpen(true);
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    clearAll();
+  };
 
   const handleEditClose = () => setValues(false);
 
   const handleAddMsg = () => {
-    setOpen(false);
+    addPermission();
+    handleClose();
   };
   const onEdit = async () => {
     setValues(true);
@@ -48,13 +56,19 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
     // onMessageTable(key, value);
   };
 
-  const data = [
-    { title: 'tech', isStatus: true },
-    { title: 'technic', isStatus: true },
-    { title: 'technical', isStatus: true },
-  ];
+  const filteredMessageGroup = PermissionList.filter((x: any) =>
+    x.title.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
 
-  // const filteredMessageGroup = { data?.filter((x: any) => x.title.toLowerCase().includes(searchTerm.toLowerCase()), )}
+  console.log(filteredMessageGroup, 'filteredMessageGroupfilteredMessageGroupfilteredMessageGroup');
+
+  const handleChange = (key: string, value: string) => {
+    setaddPermission({ key, value });
+  };
+
+  useEffect(() => {
+    getPermissionList();
+  }, []);
 
   return (
     <Box
@@ -77,36 +91,35 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
       <Box sx={{ py: 2, px: 1.25 }}>
         <Input
           placeholder="Search"
-          // value={searchTerm}
-          // onChange={(e) => setSearchTerm(e.target.value)}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           startAdornment={<SearchIcon sx={{ ml: 1, fontSize: '16px', color: '#818181' }} />}
         />
       </Box>
 
       <Box sx={addPermissionStyle.totalGroupSx}>
-        {/* {Array.isArray(filteredMessageGroup) && filteredMessageGroup?.length > 0 ? (
-          filteredMessageGroup?.map((x: any, index: any) => { */}
-        {data.map((x, index) => {
-          return (
-            <Box key={index} sx={{ pb: 0.75 }}>
-              <MessageCard
-                index={index}
-                title={x.title}
-                isActive={x.isStatus}
-                onMessaageClick={() => handleMessage(x, index)}
-                select={selected}
-                // onDelete={() => deleteMessageGroups({ id: x.id })}
-                // onEdit={() => onEdit(x?.id)}
-                onEdit={() => onEdit()}
-              />
-            </Box>
-          );
-        })}
-
-        {/* }) */}
-        {/* ) : (
-          <Box> */}
-        {/* {!fetching && (
+        {Array.isArray(filteredMessageGroup) && filteredMessageGroup?.length > 0 ? (
+          filteredMessageGroup?.map((x: any, index: any) => {
+            // {data.map((x, index) => {
+            return (
+              <Box key={index} sx={{ pb: 0.75 }}>
+                <MessageCard
+                  index={index}
+                  title={x.title}
+                  isActive={x.status}
+                  onMessaageClick={(x: any) => handleMessage(x, index)}
+                  select={selected}
+                  // onDelete={() => deleteMessageGroups({ id: x.id })}
+                  // onEdit={() => onEdit(x?.id)}
+                  onEdit={() => onEdit()}
+                />
+              </Box>
+            );
+            // }))}
+          })
+        ) : (
+          <Box>
+            {/* {!fetching && (
               <Typography variant="body2" color="textSecondary" sx={{ padding: '16px' }}>
                 You are yet to add a message group.
               </Typography>
@@ -118,23 +131,31 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
                 ))}
               </Stack>
             )} */}
-        {/* </Box>
-        )} */}
+          </Box>
+        )}
       </Box>
       {/* add message */}
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={open}
         title={addTitle}
-        Bodycomponent={<ModalAddPermission title={'Permission Name'} description="Description" modalForm={true} />}
+        Bodycomponent={
+          <ModalAddPermission
+            title={'Permission Name'}
+            description="Description"
+            modalForm={true}
+            groupState={addPermissionList}
+            handleChange={handleChange}
+          />
+        }
         handleCloseDialog={handleClose}
         Footercomponent={
           <FooterComponent
             check
-            checked={false}
-            // checked={addMessage.is_status}
-            // SwitchChange={(e: any) => handleChange('is_status', e.target.checked)}
-            // onSave={handleAddMsg}
+            // checked={false}
+            checked={addPermissionList.status}
+            SwitchChange={(e: any) => handleChange('status', e.target.checked)}
+            onSave={handleAddMsg}
             onCancel={handleClose}
             // loading={addMessageLoading}
           />

@@ -45,6 +45,7 @@
   },
   "packageManager": "npm@8.11.0",
   "devDependencies": {
+    "@types/react-json-editor-ajrm": "^2.5.3",
     "eslint-config-custom": "*",
     "husky": "^8.0.0",
     "lint-staged": "^13.0.3",
@@ -58,6 +59,7 @@
   "dependencies": {
     "@material-ui/core": "^4.12.4",
     "@mui/icons-material": "^5.11.11",
+    "jsoneditor-react": "^3.1.2",
     "react-json-editor-ajrm": "^2.5.14",
     "react-select": "^5.7.2",
     "react-select-async-paginate": "^0.7.2"

@@ -2,7 +2,7 @@ import { DeleteIcon, EditIcon } from '@atoms/icons';
 
 export const Header = [
   {
-    id: 'roles_name',
+    id: 'title',
     align: 'left',
     disablePadding: false,
     label: 'Roles Name',
@@ -35,8 +35,8 @@ export const Header = [
   },
 ];
 
-export const tableData = (editHandel: (id: string) => void, deleteHandel: (id: string) => void) => [
-  { type: ['TEXT'], name: 'roles_name' },
+export const tableData = (editHandel: (id: string, data: any, e: any) => void, deleteHandel: (id: string) => void) => [
+  { type: ['TEXT'], name: 'title' },
   { type: ['TEXT'], name: 'description' },
   { type: ['LABEL'], name: 'permission' },
   {
@@ -57,17 +57,18 @@ export const tableData = (editHandel: (id: string) => void, deleteHandel: (id: s
 
 export const tableJson = [
   {
-    roles_name: 'property Manager',
+    title: 'property Manager',
     description: 'description',
     permission: {
       label: `Facility`,
       color: '#305AAE',
       bgColor: '#E2EAFA',
     },
+    id: '1',
     status: true,
   },
   {
-    roles_name: 'Client Manager',
+    title: 'Client Manager',
     description: 'client description',
     permission: {
       label: `Client Management`,
@@ -75,9 +76,10 @@ export const tableJson = [
       bgColor: '#E2EAFA',
     },
     status: true,
+    id: '2',
   },
   {
-    roles_name: 'property Manager',
+    title: 'property Manager',
     description: 'Management',
     permission: {
       label: `Facility`,
@@ -85,9 +87,10 @@ export const tableJson = [
       bgColor: '#E2EAFA',
     },
     status: true,
+    id: '3',
   },
   {
-    roles_name: 'Client Manager',
+    title: 'Client Manager',
     description: 'client description',
     permission: {
       label: `Client Management`,
@@ -95,9 +98,10 @@ export const tableJson = [
       bgColor: '#E2EAFA',
     },
     status: true,
+    id: '4',
   },
   {
-    roles_name: 'property Manager',
+    title: 'property Manager',
     description: 'Management',
     permission: {
       label: `Facility`,
@@ -105,9 +109,10 @@ export const tableJson = [
       bgColor: '#E2EAFA',
     },
     status: true,
+    id: '5',
   },
   {
-    roles_name: 'property Manager',
+    title: 'property Manager',
     description: 'Management',
     permission: {
       label: `Facility`,
@@ -115,5 +120,6 @@ export const tableJson = [
       bgColor: '#E2EAFA',
     },
     status: true,
+    id: '6',
   },
 ];

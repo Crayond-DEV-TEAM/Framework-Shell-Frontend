@@ -5,7 +5,8 @@ import { facilityCloneStyle } from './style';
 import { TreeComponent } from '@atoms/treeComponent';
 import { RepoJson, books } from '@components/repositoryComponent/utils';
 import { Button } from '@atoms/button';
-
+import { usePermission } from '@core/store';
+import { useEffect } from 'react';
 export interface FacilityCloneProps {
   className?: string;
   sx?: SxProps<Theme>;
@@ -13,6 +14,10 @@ export interface FacilityCloneProps {
 
 export const FacilityClone = (props: FacilityCloneProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
+  const { getFaciltyRepository, RepositoryList } = usePermission();
+  useEffect(() => {
+    getFaciltyRepository();
+  }, []);
 
   return (
     <Box
@@ -38,7 +43,7 @@ export const FacilityClone = (props: FacilityCloneProps): JSX.Element => {
       </Box>
       <Box sx={facilityCloneStyle.borderLine} />
       <Box sx={{ height: 'calc(100vh - 323px)', overflow: 'scroll' }}>
-        <TreeComponent data={RepoJson} checkboxsection={true} />
+        <TreeComponent data={RepositoryList} checkboxsection={true} />
       </Box>
       {/* sx={{ height: '50vh', overflow: 'scroll' }} */}
       <Box sx={facilityCloneStyle.borderLine} />

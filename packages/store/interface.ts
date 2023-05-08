@@ -497,6 +497,7 @@ export interface PermissionInterface {
   getPermissionList: () => void;
   addPermission: () => void;
   getFaciltyRepository: () => void;
+  updateEditData: (data: any) => void;
   clearAll: () => void;
 }
 
@@ -526,6 +527,7 @@ export interface RolesInterface {
   editRoleList: () => void;
   deleteRoleList: () => void;
   clearAll: () => void;
+  updateEditData: (data: any) => void;
 }
 
 export interface RolesMappingInterface {

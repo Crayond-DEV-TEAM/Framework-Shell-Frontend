@@ -5,12 +5,14 @@ import { modalAddPermissionStyle } from './style';
 import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
 import { CustomDropdown } from '@atoms/customDropdown';
+import { useState } from 'react';
 
 export interface ModalAddPermissionProps {
   className?: string;
   sx?: SxProps<Theme>;
   handleChange?: (key: string, value: string) => void;
   groupState?: any;
+  formErrors?: any;
   modalForm?: boolean;
   dropdown?: boolean;
   title?: string;
@@ -27,6 +29,7 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
     title = '',
     description = '',
     groupState,
+    formErrors,
     ...rest
   } = props;
 
@@ -60,8 +63,10 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
                   handleChange('title', e?.target?.value)
                 }
                 textFieldStyle={modalAddPermissionStyle.inputSx}
-                // isError={groupState?.error?.addTitle ? true : false}
-                // errorMessage={groupState?.error?.addTitle ?? ''}
+                // error={Boolean(errors.title)}
+                // helperText={errors.title}
+                isError={Boolean(formErrors.title)}
+                errorMessage={formErrors.title}
               />
             </Box>
             <Box sx={modalAddPermissionStyle.inputGroupSx}>
@@ -81,8 +86,10 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
                   handleChange('description', e.target.value)
                 }
-                // isError={groupState?.error?.addDescription ? true : false}
-                // errorMessage={groupState?.error?.addDescription ?? ''}
+                // error={Boolean(errors.description)}
+                // helperText={errors.description}
+                isError={Boolean(formErrors.description)}
+                errorMessage={formErrors.description}
               />
             </Box>
           </>
@@ -94,10 +101,12 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
             </Label>
             <CustomDropdown
               placeholder="Select Role"
-              label={groupState.permission}
+              label={groupState?.permission}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
                 handleChange('permission', e.target.value)
               }
+              isError={Boolean(formErrors.permission)}
+              errorMessage={formErrors.permission}
             />
           </Box>
         )}

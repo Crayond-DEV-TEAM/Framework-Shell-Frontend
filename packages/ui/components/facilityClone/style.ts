@@ -14,6 +14,7 @@ export const facilityCloneStyle: FacilityCloneStyleProps = {
     padding: '16px',
     fontSize: '16px',
     fontWeight: 600,
+    textTransform: 'capitalize',
   },
   borderLine: {
     border: '1px solid #EAEAEA',

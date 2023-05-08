@@ -11,6 +11,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useState, useEffect } from 'react';
 import { Input } from '@atoms/input';
 import { usePermission } from '@core/store';
+import { enqueueSnackbar } from 'notistack';
 
 export interface AddPermissionProps {
   className?: string;
@@ -18,20 +19,36 @@ export interface AddPermissionProps {
   title?: string;
   addTitle?: string;
   editTitle?: string;
+  handleMessage?: (key: any, value: any) => void;
+  select?: any;
 }
 
 export const AddPermission = (props: AddPermissionProps): JSX.Element => {
-  const { className = '', sx = {}, title = '', addTitle = '', editTitle = '', ...rest } = props;
+  const {
+    className = '',
+    sx = {},
+    title = '',
+    addTitle = '',
+    editTitle = '',
+    handleMessage = (key, value) => false,
+    select = {},
+    ...rest
+  } = props;
   const [open, setOpen] = useState(false);
 
-  const { getPermissionList, PermissionList, addPermissionList, setaddPermission, addPermission, clearAll } =
-    usePermission();
+  const {
+    getPermissionList,
+    PermissionList,
+    addPermissionList,
+    setaddPermission,
+    addPermission,
+    updateEditData,
+    clearAll,
+  } = usePermission();
 
-  const [values, setValues] = useState(false);
+  const [editRole, setEditRole] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState('');
-
-  const [selected, setSelected] = useState(0);
 
   const handleOpen = () => setOpen(true);
 
@@ -40,34 +57,77 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
     clearAll();
   };
 
-  const handleEditClose = () => setValues(false);
+  const [formErrors, setFormErrors] = useState({
+    title: '',
+    description: '',
+    permission: '',
+  });
+
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (!addPermissionList.title) {
+      errors.title = 'Title is required';
+    }
+
+    if (!addPermissionList.description) {
+      errors.description = 'Description is required';
+    }
+    setFormErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
 
   const handleAddMsg = () => {
-    addPermission();
-    handleClose();
-  };
-  const onEdit = async () => {
-    setValues(true);
-  };
+    const isFormValid = validateForm();
 
-  const handleMessage = (key: string, value: any) => {
-    // setselctedMessage({ key, value });
-    setSelected(value);
-    // onMessageTable(key, value);
+    if (isFormValid) {
+      addPermission();
+      handleClose();
+      enqueueSnackbar('Permission added Successfully', { variant: 'success' });
+    } else {
+      // enqueueSnackbar('Please fill all the fields', { variant: 'error' });
+    }
+  };
+  const onEdit = (x: any, index: any) => {
+    setOpen(true);
+    setEditRole(true);
+
+    const editData = {
+      // id: id,
+      title: x.title,
+      description: x.description,
+      status: x.status,
+    };
+
+    updateEditData(editData);
   };
 
   const filteredMessageGroup = PermissionList.filter((x: any) =>
     x.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  console.log(filteredMessageGroup, 'filteredMessageGroupfilteredMessageGroupfilteredMessageGroup');
-
   const handleChange = (key: string, value: string) => {
     setaddPermission({ key, value });
   };
+  const getPermission = async () => {
+    const myPromise = () => {
+      return new Promise((resolve, reject) => {
+        try {
+          const value = getPermissionList();
+          resolve(value);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    };
+
+    const regret = await myPromise();
+    console.log(regret, 'valuevaluevalue');
+  };
 
   useEffect(() => {
-    getPermissionList();
+    getPermission();
   }, []);
 
   return (
@@ -107,11 +167,11 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
                   index={index}
                   title={x.title}
                   isActive={x.status}
-                  onMessaageClick={(x: any) => handleMessage(x, index)}
-                  select={selected}
+                  onMessaageClick={() => handleMessage(x, index)}
+                  select={select}
                   // onDelete={() => deleteMessageGroups({ id: x.id })}
                   // onEdit={() => onEdit(x?.id)}
-                  onEdit={() => onEdit()}
+                  onEdit={() => onEdit(x, index)}
                 />
               </Box>
             );
@@ -138,13 +198,14 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={open}
-        title={addTitle}
+        title={editRole ? 'Edit Permission' : 'Add Permission'}
         Bodycomponent={
           <ModalAddPermission
             title={'Permission Name'}
             description="Description"
             modalForm={true}
             groupState={addPermissionList}
+            formErrors={formErrors}
             handleChange={handleChange}
           />
         }
@@ -164,7 +225,7 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
       />
 
       {/* Edit message */}
-      <DialogDrawer
+      {/* <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={values}
         title={editTitle}
@@ -182,7 +243,7 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
           />
         }
         dialogRootStyle={addPermissionStyle.dialogSx}
-      />
+      /> */}
     </Box>
   );
 };

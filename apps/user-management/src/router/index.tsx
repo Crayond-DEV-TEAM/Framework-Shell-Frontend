@@ -11,7 +11,10 @@ const router = createBrowserRouter([
     // path: userManageRoutes,
     element: (
       <PrivateRouter>
-        <RootLayout />
+        <AppLayout title="IDM" paddingElement={{ padding: '7px 0px 0px 50px' }}>
+          <UserManagementPage />
+        </AppLayout>
+        {/* <RootLayout /> */}
       </PrivateRouter>
     ),
     errorElement: <ErrorBoundary />,

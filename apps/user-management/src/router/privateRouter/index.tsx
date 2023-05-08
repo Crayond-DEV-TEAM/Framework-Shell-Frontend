@@ -15,7 +15,6 @@ function PrivateRouter(props: { children: JSX.Element }) {
 
   useEffect(() => {
     const authToken = localStorage.getItem(localStorageKeys?.authToken);
-
     //Not logged in
     if (authToken) {
       setShowComponent(true);

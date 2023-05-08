@@ -46,12 +46,23 @@ export const useRoles = create<RolesInterface>((set, get) => ({
         set({ fetching: false });
       });
   },
+  updateEditData: (data: any) => {
+    set((state) => ({ addRole: { ...data } }));
+  },
   addRolesList: () => {
     const { RolesList, addRole } = get();
-    RolesList.push({
-      ...addRole,
-    });
+
+    const update = {
+      id: `${RolesList.length + 1}`,
+      permission: addRole.permission,
+      title: addRole.title,
+      description: addRole.description,
+      status: addRole.status,
+    };
+
+    RolesList.push(update);
     set({ RolesList: RolesList });
+
     // set({ fetching: true, errorOnFetching: false, RolesList: tableJson });
 
     httpRequest('post', `${envConfig.api_url}/api`, {}, true)

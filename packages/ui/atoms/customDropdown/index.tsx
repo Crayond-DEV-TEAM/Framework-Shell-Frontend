@@ -63,6 +63,8 @@ export interface CustomDropdownProps {
   selectHeight?: string;
   padding?: string;
   isDeletedValue?: boolean;
+  errorMessage?: any;
+  isError?: boolean;
   deletedValue?: (value: any, updateValue: any) => void | undefined;
 }
 
@@ -94,6 +96,8 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
     padding,
     isDeletedValue,
     deletedValue,
+    errorMessage,
+    isError = false,
     sx = {},
     ...rest
   } = props;
@@ -112,6 +116,7 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
       {...rest}
     >
       <Autocomplete
+        // errorMessage={formErrors.permission}
         multiple
         limitTags={2}
         popupIcon={<KeyboardArrowDownIcon />}
@@ -133,6 +138,7 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
               borderRadius: '8px',
               '& .MuiOutlinedInput-root': { height: '40px', borderRadius: '8px' },
             }}
+            helperText={isError ? errorMessage : null}
           />
         )}
         renderTags={(value: readonly string[], getTagProps) =>

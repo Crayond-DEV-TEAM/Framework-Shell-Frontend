@@ -4,6 +4,7 @@ import { create } from 'zustand';
 import { PermissionInterface } from '../interface';
 import { permission } from '../../ui/components/addpermission/utils';
 import { RepoJson } from '@components/repositoryComponent/utils';
+import { enqueueSnackbar } from 'notistack';
 
 export const usePermission = create<PermissionInterface>((set, get) => ({
   RepositoryList: [],
@@ -54,11 +55,23 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
         set({ fetching: false });
       });
   },
+  updateEditData: (data: any) => {
+    set((state) => ({ addPermissionList: { ...data } }));
+  },
   addPermission: () => {
     const { PermissionList, addPermissionList } = get();
-    PermissionList.push({
-      ...addPermissionList,
-    });
+    const update = {
+      id: `${PermissionList.length + 1}`,
+      title: addPermissionList.title,
+      description: addPermissionList.description,
+      status: addPermissionList.status,
+    };
+
+    // PermissionList.push({
+    //   ...addPermissionList,
+    // });
+    PermissionList.push(update);
+    set({ PermissionList: PermissionList });
 
     set({ fetching: true, errorOnFetching: false });
 

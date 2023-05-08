@@ -11,6 +11,7 @@ import { DeleteDailog } from '@atoms/deletedailog';
 import { Button } from '@atoms/button';
 import { dummyTableData } from '@core/store/utils';
 import { useRoles } from '@core/store';
+import { enqueueSnackbar } from 'notistack';
 
 export interface RolesProps {
   className?: string;
@@ -20,13 +21,40 @@ export interface RolesProps {
 export const Roles = (props: RolesProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
   const [searchTerm, setSearchTerm] = useState('');
+  const [isEdit, setIsEdit] = useState(false);
   const [values, setValues] = useState(false);
   const [switchList, setSwitchList] = useState<any>([]);
-  const { RolesList, getRolesList, setaddMessage, addRole, addRolesList, clearAll } = useRoles();
+  const { RolesList, getRolesList, setaddMessage, addRole, addRolesList, clearAll, updateEditData } = useRoles();
   const handleClose = () => {
     setValues(false);
     clearAll();
   };
+  const [formErrors, setFormErrors] = useState({
+    title: '',
+    description: '',
+    permission: '',
+  });
+
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (!addRole.title) {
+      errors.title = 'Title is required';
+    }
+
+    if (!addRole.description) {
+      errors.description = 'Description is required';
+    }
+
+    if (!addRole.permission) {
+      errors.permission = 'Permission is required';
+    }
+
+    setFormErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
+
   const handleOpen = () => {
     setValues(true);
   };
@@ -34,8 +62,17 @@ export const Roles = (props: RolesProps): JSX.Element => {
     // debugger;
     setValues(true);
     setaddMessage(data);
-    // setIsEdit(true);
+    setIsEdit(id.length > 0 ? true : false);
     // onEditClicked(id);
+    const editData = {
+      id: id,
+      permission: data.permission,
+      title: data.title,
+      description: data.description,
+      status: data.status,
+    };
+
+    updateEditData(editData);
   };
   console.log(addRole, 'setaddMessage');
   const [selected, setSelected] = useState(false);
@@ -55,8 +92,15 @@ export const Roles = (props: RolesProps): JSX.Element => {
     setaddMessage({ key, value });
   };
   const save = () => {
-    addRolesList();
-    handleClose();
+    const isFormValid = validateForm();
+
+    if (isFormValid) {
+      addRolesList();
+      handleClose();
+      enqueueSnackbar('Roles added Successfully', { variant: 'success' });
+    } else {
+      // enqueueSnackbar('Please fill all the fields', { variant: 'error' });
+    }
   };
   // debugger;
   const filteredMessageGroup = RolesList.filter((x: any) => x.title?.toLowerCase()?.includes(searchTerm.toLowerCase()));
@@ -117,7 +161,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
             rowEvenBgColor: '#F7F7F7',
           }}
           tableMinWidth={'80px'}
-          tableMinHeight={'210px'}
+          tableMinHeight={'calc(100vh - 308px)'}
           paddingAll={'0px'}
           marginAll={'0px 0px 0px'}
           dense={'small'}
@@ -140,7 +184,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={values}
-        title={'Add Role'}
+        title={`${isEdit ? 'Edit Role' : 'Add Role'}`}
         Bodycomponent={
           <ModalAddPermission
             title={'Permission Name'}
@@ -149,6 +193,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
             dropdown={true}
             handleChange={handleAddChange}
             groupState={addRole}
+            formErrors={formErrors}
           />
         }
         handleCloseDialog={handleClose}

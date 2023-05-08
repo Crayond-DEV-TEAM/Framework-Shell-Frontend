@@ -10,10 +10,11 @@ import { useEffect } from 'react';
 export interface FacilityCloneProps {
   className?: string;
   sx?: SxProps<Theme>;
+  tableName?: string;
 }
 
 export const FacilityClone = (props: FacilityCloneProps): JSX.Element => {
-  const { className = '', sx = {}, ...rest } = props;
+  const { className = '', sx = {}, tableName = '', ...rest } = props;
   const { getFaciltyRepository, RepositoryList } = usePermission();
   useEffect(() => {
     getFaciltyRepository();
@@ -30,7 +31,7 @@ export const FacilityClone = (props: FacilityCloneProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
-      <Typography sx={facilityCloneStyle.header}>Facility Clone</Typography>
+      <Typography sx={facilityCloneStyle.header}>{tableName}</Typography>
       <Box sx={facilityCloneStyle.borderLine} />
       <Box sx={facilityCloneStyle.repository}>
         <Typography sx={facilityCloneStyle.repositoryText}>Repository</Typography>

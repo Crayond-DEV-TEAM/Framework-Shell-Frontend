@@ -120,7 +120,7 @@ const renderTree = (nodes: any, test: string, checkBox: any) => (
 
 export const TreeComponent = (props: TreeComponentProps): JSX.Element => {
   const { className = '', sx = {}, data = [], checkboxsection = false, ...rest } = props;
-
+  console.log(data);
   return (
     <Box
       sx={[
@@ -138,9 +138,10 @@ export const TreeComponent = (props: TreeComponentProps): JSX.Element => {
         defaultParentIcon={<SettingIcon />}
         sx={{ height: 220, flexGrow: 1, m: 2 }}
       >
-        {data.map((val: any, index: number) => {
-          return renderTree(val, 'parent', checkboxsection && true);
-        })}
+        {Array.isArray(data) &&
+          data.map((val: any, index: number) => {
+            return renderTree(val, 'parent', checkboxsection && true);
+          })}
       </TreeView>
     </Box>
   );

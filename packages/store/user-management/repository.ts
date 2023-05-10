@@ -2,19 +2,12 @@ import { envConfig } from '@core/envconfig';
 import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { UserManagementInterface } from '../interface';
-import { RepoJson } from '@components/repositoryComponent/utils';
+import { enqueueSnackbar } from 'notistack';
+// import { RepoJson } from '@components/repositoryComponent/utils';
 
 export const useRepository = create<UserManagementInterface>((set, get) => ({
   RepositoryList: [],
-  editRepositoryList: {
-    mainTitle: '',
-    title: '',
-    titlesecond: '',
-    contentone: '',
-    contentTwo: '',
-    contentThree: '',
-    contentfour: '',
-  },
+  editRepositoryList: {},
 
   fetching: false,
   errorOnFetching: false,
@@ -24,11 +17,13 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
   },
 
   getAllRepository: () => {
-    set({ fetching: true, errorOnFetching: false, RepositoryList: RepoJson });
+    set({ fetching: true, errorOnFetching: false });
 
-    httpRequest('post', `${envConfig.api_url}/api`, {}, true)
+    httpRequest('get', `${envConfig.api_url}/repository`, {}, true)
       .then((response) => {
-        set({ RepositoryList: RepoJson });
+        const lastObject = response.data.data[response.data.data.length - 1];
+        set({ RepositoryList: lastObject.data.editRepositoryList });
+        console.log(lastObject.data.editRepositoryList, '//////////////');
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -39,19 +34,19 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
   },
   editRepository: () => {
     const { RepositoryList, editRepositoryList } = get();
-    RepositoryList.push({
-      ...editRepositoryList,
-    });
-
-    set({ RepositoryList: RepositoryList });
-    // set({ fetching: true, errorOnFetching: false, RolesList: tableJson });
-
-    httpRequest('post', `${envConfig.api_url}/api`, {}, true)
+    // RepositoryList.push({
+    //   ...editRepositoryList,
+    // });
+    // const payload = {
+    //   data: editRepositoryList,
+    // };
+    httpRequest('post', `${envConfig.api_url}/repository/create`, { data: { editRepositoryList } }, true)
       .then((response) => {
-        // set({ RepositoryList: tableData });
+        enqueueSnackbar('Json Updated Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
         set({ fetching: false });

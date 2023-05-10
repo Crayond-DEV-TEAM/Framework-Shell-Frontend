@@ -436,26 +436,20 @@ export interface APIConfig {
 
 export interface RolesInterfaceField {
   id: string;
-  title: string;
+  name: string;
   description: string;
-  status: boolean;
+  is_active: boolean;
   permission: string;
 }
 
 export interface Repository {
-  mainTitle: string;
-  title: string;
-  titlesecond: string;
-  contentone: string;
-  contentTwo: string;
-  contentThree: string;
-  contentfour: string;
+  name: string;
 }
 
 export interface AddPermissionInterface {
-  title: string;
+  name: string;
   description: string;
-  status: boolean;
+  is_active: boolean;
 }
 
 export interface RoleMap {
@@ -474,7 +468,7 @@ export interface RoleMap {
 }
 export interface UserManagementInterface {
   RepositoryList: Repository[];
-  editRepositoryList: Repository;
+  editRepositoryList: any;
 
   fetching: boolean;
   errorOnFetching: boolean;
@@ -486,7 +480,7 @@ export interface UserManagementInterface {
 }
 
 export interface PermissionInterface {
-  RepositoryList: AddPermissionInterface[];
+  // RepositoryList: AddPermissionInterface[];
   PermissionList: AddPermissionInterface[];
   addPermissionList: AddPermissionInterface;
   setaddPermission: (payload: { key: string; value: string }) => void;
@@ -495,7 +489,9 @@ export interface PermissionInterface {
   errorOnFetching: boolean;
 
   getPermissionList: () => void;
-  addPermission: () => void;
+  addPermission: (data: any) => void;
+  deletePermission: (x: any) => void;
+  // editPermision: (data: any) => void;
   getFaciltyRepository: () => void;
   updateEditData: (data: any) => void;
   clearAll: () => void;
@@ -522,10 +518,10 @@ export interface RolesInterface {
   errorOndelete: boolean;
 
   getRolesList: () => void;
-  getStatusList: () => void;
+  getStatusList: (id: any, status: any) => void;
   addRolesList: () => void;
   editRoleList: () => void;
-  deleteRoleList: () => void;
+  deleteRoleList: (id: string) => void;
   clearAll: () => void;
   updateEditData: (data: any) => void;
 }

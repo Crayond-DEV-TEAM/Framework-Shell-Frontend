@@ -5,7 +5,7 @@ import { modalAddPermissionStyle } from './style';
 import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
 import { CustomDropdown } from '@atoms/customDropdown';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export interface ModalAddPermissionProps {
   className?: string;
@@ -17,6 +17,7 @@ export interface ModalAddPermissionProps {
   dropdown?: boolean;
   title?: string;
   description?: string;
+  permissionList?: any;
 }
 
 export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element => {
@@ -30,12 +31,14 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
     description = '',
     groupState,
     formErrors,
+    permissionList,
     ...rest
   } = props;
 
   // const handle = (key, value) => {
   //   debugger;
   // };
+  console.log(groupState, ';;;;;;;;');
   return (
     <Box
       sx={[
@@ -57,16 +60,16 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
               <Input
                 size="small"
                 placeholder=" Add Title"
-                value={groupState?.title}
+                value={groupState?.name}
                 id="title"
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                  handleChange('title', e?.target?.value)
+                  handleChange('name', e?.target?.value)
                 }
                 textFieldStyle={modalAddPermissionStyle.inputSx}
                 // error={Boolean(errors.title)}
                 // helperText={errors.title}
-                isError={Boolean(formErrors.title)}
-                errorMessage={formErrors.title}
+                isError={Boolean(formErrors.name)}
+                errorMessage={formErrors.name}
               />
             </Box>
             <Box sx={modalAddPermissionStyle.inputGroupSx}>
@@ -101,10 +104,13 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
             </Label>
             <CustomDropdown
               placeholder="Select Role"
-              label={groupState?.permission}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                handleChange('permission', e.target.value)
-              }
+              options={groupState.permission.label}
+              permissionList={permissionList}
+              onChange={(value) => {
+                debugger;
+                handleChange('permission', value);
+              }}
+              value={[{ name: groupState.permission }]}
               isError={Boolean(formErrors.permission)}
               errorMessage={formErrors.permission}
             />

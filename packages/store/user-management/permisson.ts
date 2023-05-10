@@ -3,21 +3,22 @@ import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { PermissionInterface } from '../interface';
 import { permission } from '../../ui/components/addpermission/utils';
-import { RepoJson } from '@components/repositoryComponent/utils';
+// import { RepoJson } from '@components/repositoryComponent/utils';
 import { enqueueSnackbar } from 'notistack';
+import { useRepository } from './repository';
 
 export const usePermission = create<PermissionInterface>((set, get) => ({
-  RepositoryList: [],
+  // RepositoryList: [],
   PermissionList: [],
   addPermissionList: {
-    title: '',
+    name: '',
     description: '',
-    status: false,
+    is_active: false,
   },
   editPermissionList: {
-    title: '',
+    name: '',
     description: '',
-    status: false,
+    is_active: false,
   },
 
   fetching: false,
@@ -28,9 +29,9 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   },
 
   getFaciltyRepository: () => {
-    set({ fetching: true, errorOnFetching: false, RepositoryList: RepoJson });
+    set({ fetching: true, errorOnFetching: false });
 
-    httpRequest('post', `${envConfig.api_url}/api`, {}, true)
+    httpRequest('post', `${envConfig.api_url}`, {}, true)
       .then((response) => {
         // set({ RepositoryList: RepoJson });
       })
@@ -42,11 +43,12 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       });
   },
   getPermissionList: () => {
-    set({ fetching: true, errorOnFetching: false, PermissionList: permission });
+    set({ fetching: true, errorOnFetching: false });
 
-    httpRequest('post', `${envConfig.api_url}/api`, {}, true)
+    httpRequest('get', `${envConfig.api_url}/permissions`, {}, true)
       .then((response) => {
-        // set({ RepositoryList: RepoJson });
+        set({ PermissionList: response.data.data });
+        console.log(response.data.data, 'ajahdkasjhdkjashdkasjdh');
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -58,61 +60,83 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   updateEditData: (data: any) => {
     set((state) => ({ addPermissionList: { ...data } }));
   },
-  addPermission: () => {
-    const { PermissionList, addPermissionList } = get();
-    const update = {
-      id: `${PermissionList.length + 1}`,
-      title: addPermissionList.title,
-      description: addPermissionList.description,
-      status: addPermissionList.status,
-    };
-
-    // PermissionList.push({
-    //   ...addPermissionList,
-    // });
-    PermissionList.push(update);
-    set({ PermissionList: PermissionList });
+  addPermission: (data: any) => {
+    const { PermissionList, addPermissionList, getPermissionList } = get();
 
     set({ fetching: true, errorOnFetching: false });
+    // const { RepositoryList } = useRepository();
+    const payload = {
+      data: { data },
+      name: addPermissionList.name,
+      description: addPermissionList.description,
+      is_active: addPermissionList.is_active,
+    };
 
-    httpRequest('post', `${envConfig.api_url}/api`, {}, true)
+    httpRequest('post', `${envConfig.api_url}/permissions/create`, payload, true)
       .then((response) => {
-        // set({ RepositoryList: RepoJson });
+        enqueueSnackbar('Permission added Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
       })
       .finally(() => {
         set({ fetching: false });
+        getPermissionList();
       });
   },
 
-  editPermission: () => {
-    const { PermissionList, editPermissionList } = get();
-    PermissionList.push({
-      ...editPermissionList,
-    });
-
+  editPermission: (data: any) => {
+    const { PermissionList, addPermissionList, getPermissionList } = get();
     set({ fetching: true, errorOnFetching: false });
-
-    httpRequest('post', `${envConfig.api_url}/api`, {}, true)
+    // const { RepositoryList } = useRepository();
+    const payload = {
+      permission_id: addPermissionList.id,
+      // data: { data },
+      name: addPermissionList.name,
+      description: addPermissionList.description,
+      is_active: addPermissionList.is_active,
+    };
+    set({ fetching: true, errorOnFetching: false });
+    httpRequest('put', `${envConfig.api_url}/permissions`, payload, true)
       .then((response) => {
-        // set({ RepositoryList: RepoJson });
+        enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
       })
       .finally(() => {
         set({ fetching: false });
+        getPermissionList();
+      });
+  },
+
+  deletePermission: (x: any) => {
+    const { addPermissionList, getPermissionList } = get();
+    set({ fetching: true, errorOnFetching: false });
+    // const { RepositoryList } = useRepository();
+    const payload = {
+      permission_id: x.id,
+    };
+    set({ fetching: true, errorOnFetching: false });
+    httpRequest('delete', `${envConfig.api_url}/permissions`, payload, true)
+      .then((response) => {
+        enqueueSnackbar('Permission deleted Succesfully!', { variant: 'success' });
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+      })
+      .finally(() => {
+        set({ fetching: false });
+        getPermissionList();
       });
   },
 
   clearAll: () => {
     set({
       addPermissionList: {
-        title: '',
+        name: '',
         description: '',
-        status: false,
+        is_active: false,
       },
     });
   },

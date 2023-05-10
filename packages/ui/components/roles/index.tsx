@@ -10,8 +10,7 @@ import { FooterComponent } from '@atoms/footerComponent';
 import { DeleteDailog } from '@atoms/deletedailog';
 import { Button } from '@atoms/button';
 import { dummyTableData } from '@core/store/utils';
-import { useRoles } from '@core/store';
-import { enqueueSnackbar } from 'notistack';
+import { usePermission, useRoles } from '@core/store';
 
 export interface RolesProps {
   className?: string;
@@ -24,7 +23,20 @@ export const Roles = (props: RolesProps): JSX.Element => {
   const [isEdit, setIsEdit] = useState(false);
   const [values, setValues] = useState(false);
   const [switchList, setSwitchList] = useState<any>([]);
-  const { RolesList, getRolesList, setaddMessage, addRole, addRolesList, clearAll, updateEditData } = useRoles();
+  const {
+    RolesList,
+    getRolesList,
+    setaddMessage,
+    addRole,
+    addRolesList,
+    clearAll,
+    updateEditData,
+    deleteRoleList,
+    getStatusList,
+    editRoleList,
+  } = useRoles();
+  const { getPermissionList, PermissionList } = usePermission();
+
   const handleClose = () => {
     setValues(false);
     clearAll();
@@ -38,7 +50,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
   const validateForm = () => {
     const errors: Record<string, string> = {};
 
-    if (!addRole.title) {
+    if (!addRole.name) {
       errors.title = 'Title is required';
     }
 
@@ -57,24 +69,30 @@ export const Roles = (props: RolesProps): JSX.Element => {
 
   const handleOpen = () => {
     setValues(true);
+    getPermissionList();
   };
   const handleTableEdit = (id: string, data: any, e: any) => {
-    // debugger;
+    debugger;
     setValues(true);
     setaddMessage(data);
     setIsEdit(id.length > 0 ? true : false);
     // onEditClicked(id);
     const editData = {
       id: id,
-      permission: data.permission,
-      title: data.title,
+      permission: data.permission.label,
+      name: data.name,
       description: data.description,
-      status: data.status,
+      is_active: data.is_active,
     };
 
     updateEditData(editData);
   };
-  console.log(addRole, 'setaddMessage');
+
+  const handleEdit = () => {
+    editRoleList();
+  };
+
+  const [idrole, setidRole] = useState('');
   const [selected, setSelected] = useState(false);
 
   const handlemodalOpen = () => {
@@ -86,6 +104,11 @@ export const Roles = (props: RolesProps): JSX.Element => {
 
   const handleTableDelete = (id: string) => {
     setSelected(true);
+    setidRole(id);
+  };
+  const onDelete = () => {
+    deleteRoleList(idrole);
+    handlemodalClose();
   };
 
   const handleAddChange = (key: string, value: string) => {
@@ -97,15 +120,11 @@ export const Roles = (props: RolesProps): JSX.Element => {
     if (isFormValid) {
       addRolesList();
       handleClose();
-      enqueueSnackbar('Roles added Successfully', { variant: 'success' });
-    } else {
-      // enqueueSnackbar('Please fill all the fields', { variant: 'error' });
     }
   };
-  // debugger;
-  const filteredMessageGroup = RolesList.filter((x: any) => x.title?.toLowerCase()?.includes(searchTerm.toLowerCase()));
-
-  const handleSwitch = (id: any) => {
+  const filteredMessageGroup = RolesList.filter((x: any) => x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()));
+  const handleSwitch = (id: any, data: any, e: any) => {
+    debugger;
     if (!switchList.includes(id)) {
       setSwitchList([...switchList, id]);
     } else {
@@ -115,11 +134,28 @@ export const Roles = (props: RolesProps): JSX.Element => {
         setSwitchList([...switchList]);
       }
     }
+    if (e.target.checked === true) {
+      console.log(id);
+      getStatusList(id, true);
+    } else {
+      console.log(id);
+      getStatusList(id, false);
+    }
+  };
+  const handleStatus = () => {
+    if (RolesList?.length > 0) {
+      const status = RolesList?.filter((val) => val?.is_active === true)?.map((val) => val?.id);
+      setSwitchList(status);
+      // console.log(status, 'dfsdaaa===========');
+    }
   };
 
   useEffect(() => {
     getRolesList();
   }, []);
+  useEffect(() => {
+    handleStatus();
+  }, [RolesList]);
 
   return (
     <Box
@@ -161,7 +197,10 @@ export const Roles = (props: RolesProps): JSX.Element => {
             rowEvenBgColor: '#F7F7F7',
           }}
           tableMinWidth={'80px'}
-          tableMinHeight={'calc(100vh - 308px)'}
+          // tableMinHeight={'calc(100vh - 308px)'}
+          // tableMaxHeight={'calc(100vh - 308px)'}
+          tableMinHeight={'108px'}
+          tableMaxHeight={'108px'}
           paddingAll={'0px'}
           marginAll={'0px 0px 0px'}
           dense={'small'}
@@ -194,15 +233,16 @@ export const Roles = (props: RolesProps): JSX.Element => {
             handleChange={handleAddChange}
             groupState={addRole}
             formErrors={formErrors}
+            permissionList={PermissionList}
           />
         }
         handleCloseDialog={handleClose}
         Footercomponent={
           <FooterComponent
             check
-            checked={addRole?.status}
-            SwitchChange={(e: any) => handleAddChange('status', e.target.checked)}
-            onSave={save}
+            checked={addRole?.is_active}
+            SwitchChange={(e: any) => handleAddChange('is_active', e.target.checked)}
+            onSave={isEdit ? handleEdit : save}
             onCancel={handleClose}
             // loading={addMessageLoading}
           />
@@ -222,7 +262,9 @@ export const Roles = (props: RolesProps): JSX.Element => {
                   </Button>
                 </Box>
                 <Box sx={rolesStyle.savebtnBg}>
-                  <Button buttonStyle={rolesStyle.savebtnText}>Delete</Button>
+                  <Button buttonStyle={rolesStyle.savebtnText} onClick={onDelete}>
+                    Delete
+                  </Button>
                 </Box>
               </Box>
             </Box>

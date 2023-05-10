@@ -17,7 +17,7 @@ export const Permission = (props: PermissionProps): JSX.Element => {
   const handleMessage = (key: any, value: any) => {
     // setselctedMessage({ key, value });
     setSelected(value);
-    setTableName(key.title);
+    setTableName(key.name);
     // onMessageTable(key, value);
   };
   // useEffect(() => {

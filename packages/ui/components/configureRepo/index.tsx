@@ -13,6 +13,13 @@ export interface ConfigureRepoProps {
 
 export const ConfigureRepo = (props: ConfigureRepoProps): JSX.Element => {
   const { className = '', sx = {}, data = [], onChange = {}, ...rest } = props;
+  const exportData = () => {
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(JSON.stringify(data))}`;
+    const link = document.createElement('a');
+    link.href = jsonString;
+    link.download = 'data.json';
+    link.click();
+  };
 
   return (
     <Box
@@ -27,7 +34,9 @@ export const ConfigureRepo = (props: ConfigureRepoProps): JSX.Element => {
     >
       <Box sx={configureRepoStyle.titlebar}>
         <Typography sx={configureRepoStyle.json}>JSON</Typography>
-        <Typography sx={configureRepoStyle.download}>Download Sample Json</Typography>
+        <Typography sx={configureRepoStyle.download} onClick={exportData}>
+          Download Sample Json
+        </Typography>
       </Box>
       <Box sx={{ padding: '8px' }} />
       <Box sx={{ height: '30%' }}>

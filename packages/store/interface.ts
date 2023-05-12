@@ -436,26 +436,25 @@ export interface APIConfig {
 
 export interface RolesInterfaceField {
   id: string;
-  title: string;
+  name: string;
   description: string;
-  status: boolean;
-  permission: string;
+  is_active: boolean;
+  permission: any;
 }
 
 export interface Repository {
-  mainTitle: string;
-  title: string;
-  titlesecond: string;
-  contentone: string;
-  contentTwo: string;
-  contentThree: string;
-  contentfour: string;
+  name: string;
 }
 
 export interface AddPermissionInterface {
-  title: string;
+  name: string;
   description: string;
-  status: boolean;
+  is_active: boolean;
+  id?: any;
+}
+
+export interface Repolist {
+  data: object;
 }
 
 export interface RoleMap {
@@ -473,35 +472,52 @@ export interface RoleMap {
   status: boolean;
 }
 export interface UserManagementInterface {
-  RepositoryList: Repository[];
-  editRepositoryList: Repository;
+  RepositoryList: any;
+  editRepositoryList: any;
+  RepositoryId: any;
 
   fetching: boolean;
   errorOnFetching: boolean;
+
+  onEditLoading: boolean;
+  erroronEdit: boolean;
 
   seteditRepository: (value: any) => void;
 
   getAllRepository: () => void;
   editRepository: () => void;
+  createRepository: () => void;
 }
 
 export interface PermissionInterface {
   RepositoryList: AddPermissionInterface[];
-  PermissionList: AddPermissionInterface[];
+  PermissionList: Repolist[];
   addPermissionList: AddPermissionInterface;
+  indexUpdateList: any;
+  permissionId: string;
   setaddPermission: (payload: { key: string; value: string }) => void;
+  setRepository: (type: string, value: string, data: any) => void;
+  setRepositoryList: (data: any, id: any, key: any) => void;
   editPermissionList: AddPermissionInterface;
+
   fetching: boolean;
   errorOnFetching: boolean;
 
+  fetchingPermission: boolean;
+  errorOnPermission: boolean;
+
   getPermissionList: () => void;
-  addPermission: () => void;
-  getFaciltyRepository: () => void;
+  addPermission: (data: any) => void;
+  deletePermission: (x: any) => void;
+  updateRopsitory: () => void;
+  // editPermision: (data: any) => void;
+  // getFaciltyRepository: () => void;
+  updateEditData: (data: any) => void;
   clearAll: () => void;
 }
 
 export interface RolesInterface {
-  RolesList: RolesInterfaceField[];
+  RolesList: any;
   setaddMessage: (payload: { key: string; value: string }) => void;
   StatusList: RolesInterfaceField[];
   addRole: RolesInterfaceField;
@@ -521,11 +537,12 @@ export interface RolesInterface {
   errorOndelete: boolean;
 
   getRolesList: () => void;
-  getStatusList: () => void;
+  getStatusList: (id: any, status: any) => void;
   addRolesList: () => void;
   editRoleList: () => void;
-  deleteRoleList: () => void;
+  deleteRoleList: (id: string) => void;
   clearAll: () => void;
+  updateEditData: (data: any) => void;
 }
 
 export interface RolesMappingInterface {

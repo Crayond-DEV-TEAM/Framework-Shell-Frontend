@@ -2,33 +2,32 @@ import { envConfig } from '@core/envconfig';
 import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { UserManagementInterface } from '../interface';
-import { RepoJson } from '@components/repositoryComponent/utils';
+import { enqueueSnackbar } from 'notistack';
+// import { RepoJson } from '@components/repositoryComponent/utils';
 
 export const useRepository = create<UserManagementInterface>((set, get) => ({
   RepositoryList: [],
-  editRepositoryList: {
-    mainTitle: '',
-    title: '',
-    titlesecond: '',
-    contentone: '',
-    contentTwo: '',
-    contentThree: '',
-    contentfour: '',
-  },
+  editRepositoryList: {},
+  RepositoryId: '',
 
   fetching: false,
   errorOnFetching: false,
+
+  onEditLoading: false,
+  erroronEdit: false,
 
   seteditRepository: (value: any) => {
     set({ editRepositoryList: value });
   },
 
   getAllRepository: () => {
-    set({ fetching: true, errorOnFetching: false, RepositoryList: RepoJson });
+    set({ fetching: true, errorOnFetching: false });
 
-    httpRequest('post', `${envConfig.api_url}/api`, {}, true)
+    httpRequest('get', `${envConfig.api_url}/repository`, {}, true)
       .then((response) => {
-        set({ RepositoryList: RepoJson });
+        const lastObject = response.data.data[response.data.data.length - 1];
+        set({ RepositoryList: lastObject.data.editRepositoryList, RepositoryId: lastObject.id });
+        console.log(lastObject.id, '//////////////');
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -37,24 +36,42 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
         set({ fetching: false });
       });
   },
-  editRepository: () => {
-    const { RepositoryList, editRepositoryList } = get();
-    RepositoryList.push({
-      ...editRepositoryList,
-    });
+  createRepository: () => {
+    const { RepositoryList, editRepositoryList, getAllRepository } = get();
+    set({ onEditLoading: true, erroronEdit: false });
 
-    set({ RepositoryList: RepositoryList });
-    // set({ fetching: true, errorOnFetching: false, RolesList: tableJson });
-
-    httpRequest('post', `${envConfig.api_url}/api`, {}, true)
+    httpRequest('post', `${envConfig.api_url}/repository/upsert`, { data: { editRepositoryList } }, true)
       .then((response) => {
-        // set({ RepositoryList: tableData });
+        enqueueSnackbar('Json Updated Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
-        set({ errorOnFetching: true });
+        set({ erroronEdit: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
-        set({ fetching: false });
+        set({ onEditLoading: false });
+        getAllRepository();
+      });
+  },
+  editRepository: () => {
+    const { RepositoryId, editRepositoryList, getAllRepository } = get();
+    set({ onEditLoading: true, erroronEdit: false });
+    const payload = {
+      id: RepositoryId,
+      data: { editRepositoryList },
+    };
+
+    httpRequest('post', `${envConfig.api_url}/repository/upsert`, payload, true)
+      .then((response) => {
+        enqueueSnackbar('Json Updated Succesfully!', { variant: 'success' });
+      })
+      .catch((err) => {
+        set({ erroronEdit: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ onEditLoading: false });
+        getAllRepository();
       });
   },
 }));

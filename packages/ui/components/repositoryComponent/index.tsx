@@ -9,6 +9,8 @@ import { DialogDrawer } from '@atoms/dialogDrawer';
 import { FooterComponent } from '@atoms/footerComponent';
 import { useEffect, useState } from 'react';
 import { useRepository } from '@core/store';
+import { RepoJson } from './utils';
+import { Repositorysimmer } from './simmer';
 
 export interface RepositoryComponentProps {
   className?: string;
@@ -17,17 +19,28 @@ export interface RepositoryComponentProps {
 
 export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
-  const { getAllRepository, fetching, errorOnFetching, RepositoryList, seteditRepository, editRepository } =
-    useRepository();
+  const {
+    getAllRepository,
+    fetching,
+    errorOnFetching,
+    RepositoryList,
+    seteditRepository,
+    editRepository,
+    createRepository,
+    editRepositoryList,
+    onEditLoading,
+  } = useRepository();
   const [values, setValues] = useState(false);
   const handleClose = () => {
     setValues(false);
   };
   const handleOpen = () => {
     setValues(true);
+    seteditRepository(RepoJson);
   };
-  const handleEdit = () => {
+  const handleSave = () => {
     editRepository();
+    handleClose();
   };
 
   useEffect(() => {
@@ -53,22 +66,25 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
           handleOpen={handleOpen}
         />
       </Box>
+
       <Box sx={{ height: 'calc( 100vh - 237px )', overflow: 'scroll' }}>
-        <TreeComponent data={RepositoryList} />
+        {fetching ? <Repositorysimmer /> : <TreeComponent data={RepositoryList} />}
       </Box>
+
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={values}
         title={'Configure Repo'}
-        Bodycomponent={<ConfigureRepo data={RepositoryList} onChange={seteditRepository} />}
+        Bodycomponent={<ConfigureRepo data={editRepositoryList} />}
         handleCloseDialog={handleClose}
         Footercomponent={
           <FooterComponent
             // check={true}
             // checked={editMessageList.is_status}
             // SwitchChange={(e: any) => handleeditChange('is_status', e.target.checked)}
-            onSave={handleEdit}
+            onSave={handleSave}
             onCancel={handleClose}
+            loading={onEditLoading}
             // loading={addMessageLoading}
           />
         }

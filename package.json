@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "dev": "turbo run dev --parallel",
+    "dev:user-management": "turbo run dev --filter=user-management --filter=framwork-shell",
     "build": "turbo run build",
     "dev:production": "turbo run dev:production --parallel",
     "dev:staging": "turbo run dev:staging --parallel",
@@ -60,7 +61,10 @@
     "@material-ui/core": "^4.12.4",
     "@mui/icons-material": "^5.11.11",
     "jsoneditor-react": "^3.1.2",
+    "react-input-json": "^0.1.11",
+    "react-json-editor": "^0.3.0",
     "react-json-editor-ajrm": "^2.5.14",
+    "react-jsondata-editor": "^2.0.2",
     "react-select": "^5.7.2",
     "react-select-async-paginate": "^0.7.2"
   }

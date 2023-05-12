@@ -28,13 +28,22 @@ export const RepoJson = [
         child: [
           {
             name: 'basic info',
-            create: true,
+            create: false,
             read: false,
             update: false,
             delete: false,
           },
           {
             name: 'Proffesional details',
+            child: [
+              {
+                name: 'company',
+                create: false,
+                read: false,
+                update: false,
+                delete: false,
+              },
+            ],
           },
         ],
       },
@@ -43,7 +52,7 @@ export const RepoJson = [
         child: [
           {
             name: 'Sign in with mobile number',
-            create: true,
+            create: false,
             read: false,
             update: false,
             delete: false,
@@ -66,7 +75,7 @@ export const RepoJson = [
         child: [
           {
             name: 'basic information',
-            create: true,
+            create: false,
             read: false,
             update: false,
             delete: false,
@@ -81,7 +90,7 @@ export const RepoJson = [
         child: [
           {
             name: 'Changed successfull',
-            create: true,
+            create: false,
             read: false,
             update: false,
             delete: false,

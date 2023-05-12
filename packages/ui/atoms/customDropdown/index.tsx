@@ -40,7 +40,7 @@ export interface CustomDropdownProps {
   className?: string;
   sx?: SxProps<Theme>;
   key?: string;
-  // value: any;
+  value: any;
   placeholder: string;
   loadOptions?: () => Promise<any[]>;
   onChange?: (value: any) => void;
@@ -63,6 +63,9 @@ export interface CustomDropdownProps {
   selectHeight?: string;
   padding?: string;
   isDeletedValue?: boolean;
+  errorMessage?: any;
+  permissionList?: any;
+  isError?: boolean;
   deletedValue?: (value: any, updateValue: any) => void | undefined;
 }
 
@@ -70,9 +73,10 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
   const {
     className = '',
     key,
-    // value,
+    value,
     placeholder,
     loadOptions,
+    permissionList,
     onChange,
     options,
     loading,
@@ -94,11 +98,11 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
     padding,
     isDeletedValue,
     deletedValue,
+    errorMessage,
+    isError = false,
     sx = {},
     ...rest
   } = props;
-  // const [currentValue, setCurrentValue] = useState([]);
-  const name = [{ values: 'Facility' }, { values: 'Manager' }, { values: 'Management' }];
 
   return (
     <Box
@@ -112,16 +116,18 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
       {...rest}
     >
       <Autocomplete
+        defaultValue={value}
+        // errorMessage={formErrors.permission}
         multiple
         limitTags={2}
         popupIcon={<KeyboardArrowDownIcon />}
-        options={name.map((option) => option.values)}
+        options={permissionList}
         // options={name}
         disableCloseOnSelect
-        getOptionLabel={(option) => option}
+        getOptionLabel={(options: any) => options?.name}
         renderOption={(props, option, { selected }) => (
           <li {...props} style={{ justifyContent: 'space-between', display: 'flex' }}>
-            {option}
+            {option?.name}
             <CheckBox style={{ marginRight: 8 }} checked={selected} />
           </li>
         )}
@@ -133,12 +139,16 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
               borderRadius: '8px',
               '& .MuiOutlinedInput-root': { height: '40px', borderRadius: '8px' },
             }}
+            helperText={isError ? errorMessage : null}
+            error={isError}
           />
         )}
         renderTags={(value: readonly string[], getTagProps) =>
-          value.map((option: string, index: number) => <Chip key={option} label={option} />)
+          value.map((option: any, index: number) => <Chip key={option?.id} label={option?.name} />)
         }
-        onChange={onChange}
+        onChange={(option, value) => {
+          onChange && onChange(value);
+        }}
         sx={{
           '& .MuiChip-root': { height: '28px', borderRadius: '8px', marginLeft: '4px', marginTop: '-7px' },
           '& .MuiAutocomplete-input': {

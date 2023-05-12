@@ -10,7 +10,7 @@ import { FooterComponent } from '@atoms/footerComponent';
 import { DeleteDailog } from '@atoms/deletedailog';
 import { Button } from '@atoms/button';
 import { dummyTableData } from '@core/store/utils';
-import { useRoles } from '@core/store';
+import { usePermission, useRoles } from '@core/store';
 
 export interface RolesProps {
   className?: string;
@@ -20,48 +20,108 @@ export interface RolesProps {
 export const Roles = (props: RolesProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
   const [searchTerm, setSearchTerm] = useState('');
+  const [isEdit, setIsEdit] = useState(false);
   const [values, setValues] = useState(false);
   const [switchList, setSwitchList] = useState<any>([]);
-  const { RolesList, getRolesList, setaddMessage, addRole, addRolesList, clearAll } = useRoles();
+  const {
+    RolesList,
+    getRolesList,
+    setaddMessage,
+    addRole,
+    addRolesList,
+    clearAll,
+    updateEditData,
+    deleteRoleList,
+    getStatusList,
+    editRoleList,
+  } = useRoles();
+
+  const { getPermissionList, PermissionList } = usePermission();
+
   const handleClose = () => {
     setValues(false);
+    setFormErrors({});
     clearAll();
   };
+  const [formErrors, setFormErrors] = useState({});
+
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (addRole.name.length === 0) {
+      errors.title = 'Title is required';
+    }
+
+    if (addRole.description.length === 0) {
+      errors.description = 'Description is required';
+    }
+
+    if (addRole.permission.length === 0) {
+      errors.permission = 'Permission is required';
+    }
+
+    setFormErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
+
   const handleOpen = () => {
     setValues(true);
   };
   const handleTableEdit = (id: string, data: any, e: any) => {
-    // debugger;
     setValues(true);
     setaddMessage(data);
-    // setIsEdit(true);
+    // setIsEdit(id.length > 0 ? true : false);
     // onEditClicked(id);
+    const editData = {
+      id: id,
+      permission: data.permission,
+      name: data.name,
+      description: data.description,
+      is_active: data.is_active,
+    };
+
+    updateEditData(editData);
   };
-  console.log(addRole, 'setaddMessage');
+
+  const handleEdit = () => {
+    editRoleList();
+    handleClose();
+  };
+
+  const [idrole, setidRole] = useState('');
   const [selected, setSelected] = useState(false);
 
   const handlemodalOpen = () => {
     setSelected(true);
   };
   const handlemodalClose = () => {
+    // clearAll()
     setSelected(false);
   };
 
   const handleTableDelete = (id: string) => {
     setSelected(true);
+    setidRole(id);
+  };
+  const onDelete = () => {
+    deleteRoleList(idrole);
+    handlemodalClose();
   };
 
   const handleAddChange = (key: string, value: string) => {
     setaddMessage({ key, value });
   };
   const save = () => {
-    addRolesList();
-    handleClose();
-  };
-  // debugger;
-  const filteredMessageGroup = RolesList.filter((x: any) => x.title?.toLowerCase()?.includes(searchTerm.toLowerCase()));
+    const isFormValid = validateForm();
 
-  const handleSwitch = (id: any) => {
+    if (isFormValid) {
+      addRolesList();
+      handleClose();
+    }
+  };
+  const filteredMessageGroup = RolesList.filter((x: any) => x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()));
+  const handleSwitch = (id: any, data: any, e: any) => {
     if (!switchList.includes(id)) {
       setSwitchList([...switchList, id]);
     } else {
@@ -71,12 +131,30 @@ export const Roles = (props: RolesProps): JSX.Element => {
         setSwitchList([...switchList]);
       }
     }
+    if (e.target.checked === true) {
+      console.log(id);
+      getStatusList(id, true);
+    } else {
+      console.log(id);
+      getStatusList(id, false);
+    }
+  };
+  const handleStatus = () => {
+    if (RolesList?.length > 0) {
+      const status = RolesList?.filter((val: any) => val?.is_active === true)?.map((val: any) => val?.id);
+      setSwitchList(status);
+    }
   };
 
   useEffect(() => {
     getRolesList();
+    getPermissionList();
   }, []);
+  useEffect(() => {
+    handleStatus();
+  }, [RolesList]);
 
+  console.log(filteredMessageGroup, 'filteredMessageGroup');
   return (
     <Box
       sx={[
@@ -117,7 +195,13 @@ export const Roles = (props: RolesProps): JSX.Element => {
             rowEvenBgColor: '#F7F7F7',
           }}
           tableMinWidth={'80px'}
-          tableMinHeight={'210px'}
+          stickyOptions={{
+            stickyHeader: true,
+            stickyLeft: [],
+            stickyRight: [],
+          }}
+          tableMinHeight={'calc(100vh - 308px)'}
+          tableMaxHeight={'calc(100vh - 308px)'}
           paddingAll={'0px'}
           marginAll={'0px 0px 0px'}
           dense={'small'}
@@ -140,7 +224,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={values}
-        title={'Add Role'}
+        title={`${addRole.id ? 'Edit Role' : 'Add Role'}`}
         Bodycomponent={
           <ModalAddPermission
             title={'Permission Name'}
@@ -149,15 +233,17 @@ export const Roles = (props: RolesProps): JSX.Element => {
             dropdown={true}
             handleChange={handleAddChange}
             groupState={addRole}
+            formErrors={formErrors}
+            permissionList={PermissionList}
           />
         }
         handleCloseDialog={handleClose}
         Footercomponent={
           <FooterComponent
             check
-            checked={addRole?.status}
-            SwitchChange={(e: any) => handleAddChange('status', e.target.checked)}
-            onSave={save}
+            checked={addRole?.is_active}
+            SwitchChange={(e: any) => handleAddChange('is_active', e.target.checked)}
+            onSave={addRole.id ? handleEdit : save}
             onCancel={handleClose}
             // loading={addMessageLoading}
           />
@@ -177,7 +263,9 @@ export const Roles = (props: RolesProps): JSX.Element => {
                   </Button>
                 </Box>
                 <Box sx={rolesStyle.savebtnBg}>
-                  <Button buttonStyle={rolesStyle.savebtnText}>Delete</Button>
+                  <Button buttonStyle={rolesStyle.savebtnText} onClick={onDelete}>
+                    Delete
+                  </Button>
                 </Box>
               </Box>
             </Box>

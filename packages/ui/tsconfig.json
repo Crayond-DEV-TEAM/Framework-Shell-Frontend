@@ -21,6 +21,8 @@
       "@assets/*": [
         "assets/*"
       ],
+      
+      "types": ["react", "react-dom", "react-json-editor-ajrm"],
     },
   }
 }

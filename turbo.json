@@ -42,7 +42,7 @@
     "dev": {
       "cache": false
     },
-    "dev:staging": {
+    "dev:user-management": {
       "cache": false
     },
     "dev:production": {

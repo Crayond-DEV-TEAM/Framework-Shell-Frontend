@@ -20,6 +20,7 @@ export interface MessageCardProps {
   select?: any;
   onEdit?: () => void;
   open?: boolean;
+  handleDelete?: any;
 }
 
 export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => {
@@ -30,6 +31,7 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
     onMessaageClick = () => false,
     onDelete = () => false,
     onEdit = () => false,
+    handleDelete = () => false,
     select,
     index,
     title,
@@ -62,7 +64,7 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
   };
 
   const deleteFunc = () => {
-    onDelete();
+    handleDelete();
     handlemodalClose();
   };
 

@@ -8,9 +8,9 @@ import React from 'react';
 export default function Home() {
   const navigate = useNavigate();
 
-  // React.useEffect(() => {
-  //   navigate(userManageRoutes.userManagement);
-  // });
+  React.useEffect(() => {
+    navigate(userManageRoutes.userManagement);
+  });
 
   return (
     <Box sx={homeStyle.rootSx}>

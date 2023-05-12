@@ -21,16 +21,30 @@ export const RoleMapping = (props: RoleMappingProps): JSX.Element => {
 
   const { getRolesMappingList, RolesMappingList } = useRoleMapping();
 
+  const [formErrors, setFormErrors] = useState({
+    permission: '',
+  });
+
   const handleClose = () => {
     setValues(false);
   };
   const handleOpen = () => {
     setValues(true);
   };
-  // debugger;
   const filteredMessageGroup = RolesMappingList.filter((x: any) =>
     x.username.label.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (!RolesMappingList) {
+      errors.permission = 'Permission is required';
+    }
+
+    setFormErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
 
   // const handleSwitch = (id: string, data: any, e: any) => {
   //   if (!switchList.includes(id)) {
@@ -61,6 +75,13 @@ export const RoleMapping = (props: RoleMappingProps): JSX.Element => {
         setSwitchList([...switchList]);
       }
     }
+  };
+
+  const handleTableEdit = (id: string) => {
+    // setOpen(true);
+    // setIsEdit(true);
+    // onEditClicked(id);
+    handleOpen();
   };
 
   useEffect(() => {
@@ -128,12 +149,11 @@ export const RoleMapping = (props: RoleMappingProps): JSX.Element => {
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={values}
-        title={'Add Role'}
-        Bodycomponent={<ModalAddPermission dropdown={true} />}
+        title={'Edit Role'}
+        Bodycomponent={<ModalAddPermission dropdown={true} formErrors={formErrors} />}
         handleCloseDialog={handleClose}
         Footercomponent={
           <FooterComponent
-            check={true}
             // checked={editMessageList.is_status}
             // SwitchChange={(e: any) => handleeditChange('is_status', e.target.checked)}
             // onSave={Edit}

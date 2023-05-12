@@ -10,7 +10,8 @@ import { AddIcon } from '@atoms/icons';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState, useEffect } from 'react';
 import { Input } from '@atoms/input';
-import { usePermission } from '@core/store';
+import { usePermission, useRepository } from '@core/store';
+import { enqueueSnackbar } from 'notistack';
 
 export interface AddPermissionProps {
   className?: string;
@@ -18,56 +19,134 @@ export interface AddPermissionProps {
   title?: string;
   addTitle?: string;
   editTitle?: string;
+  handleMessage?: (key: any, value: any) => void;
+  select?: any;
 }
 
 export const AddPermission = (props: AddPermissionProps): JSX.Element => {
-  const { className = '', sx = {}, title = '', addTitle = '', editTitle = '', ...rest } = props;
+  const {
+    className = '',
+    sx = {},
+    title = '',
+    addTitle = '',
+    editTitle = '',
+    handleMessage = (key, value) => false,
+    select = {},
+    ...rest
+  } = props;
   const [open, setOpen] = useState(false);
 
-  const { getPermissionList, PermissionList, addPermissionList, setaddPermission, addPermission, clearAll } =
-    usePermission();
+  const {
+    getPermissionList,
+    PermissionList,
+    addPermissionList,
+    setaddPermission,
+    addPermission,
+    updateEditData,
+    editPermission,
+    deletePermission,
+    fetchingPermission,
+    clearAll,
+  } = usePermission();
+  const { RepositoryList } = useRepository();
 
-  const [values, setValues] = useState(false);
+  const [editRole, setEditRole] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState('');
-
-  const [selected, setSelected] = useState(0);
 
   const handleOpen = () => setOpen(true);
 
   const handleClose = () => {
     setOpen(false);
-    clearAll();
+    // clearAll();
+    setFormErrors({});
   };
 
-  const handleEditClose = () => setValues(false);
+  const [formErrors, setFormErrors] = useState({});
+
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (addPermissionList.name.length === 0) {
+      errors.title = 'Title is required';
+    }
+
+    if (addPermissionList.description.length === 0) {
+      errors.description = 'Description is required';
+    }
+    setFormErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
 
   const handleAddMsg = () => {
-    addPermission();
-    handleClose();
-  };
-  const onEdit = async () => {
-    setValues(true);
+    const isFormValid = validateForm();
+
+    if (isFormValid) {
+      addPermission(RepositoryList);
+      handleClose();
+    }
   };
 
-  const handleMessage = (key: string, value: any) => {
-    // setselctedMessage({ key, value });
-    setSelected(value);
-    // onMessageTable(key, value);
+  const handleEdit = () => {
+    const isFormValid = validateForm();
+
+    if (isFormValid) {
+      editPermission(RepositoryList);
+      handleClose();
+    }
   };
 
-  const filteredMessageGroup = PermissionList.filter((x: any) =>
-    x.title.toLowerCase().includes(searchTerm.toLowerCase()),
+  const handleDelete = (x: any) => {
+    deletePermission(x);
+  };
+  const onEdit = (x: any, index: any) => {
+    setOpen(true);
+    setEditRole(true);
+    const editData = {
+      id: x.id,
+      name: x.name,
+      description: x.description,
+      is_active: x.is_active,
+    };
+
+    updateEditData(editData);
+  };
+
+  const onDelete = (x: any, index: any) => {
+    // setOpen(true);
+    const editData = {
+      id: x.id,
+    };
+
+    updateEditData(editData);
+  };
+
+  const filteredMessageGroup = PermissionList?.filter((x: any) =>
+    x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()),
   );
-
-  console.log(filteredMessageGroup, 'filteredMessageGroupfilteredMessageGroupfilteredMessageGroup');
 
   const handleChange = (key: string, value: string) => {
     setaddPermission({ key, value });
   };
+  const getPermission = async () => {
+    const myPromise = () => {
+      return new Promise((resolve, reject) => {
+        try {
+          const value = getPermissionList();
+          resolve(value);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    };
+
+    const regret = await myPromise();
+    console.log(regret, 'valuevaluevalue');
+  };
 
   useEffect(() => {
-    getPermissionList();
+    getPermission();
   }, []);
 
   return (
@@ -105,13 +184,14 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
               <Box key={index} sx={{ pb: 0.75 }}>
                 <MessageCard
                   index={index}
-                  title={x.title}
-                  isActive={x.status}
-                  onMessaageClick={(x: any) => handleMessage(x, index)}
-                  select={selected}
-                  // onDelete={() => deleteMessageGroups({ id: x.id })}
+                  title={x.name}
+                  isActive={x.is_active}
+                  onMessaageClick={() => handleMessage(x, index)}
+                  select={select}
+                  onDelete={() => onDelete(x, index)}
                   // onEdit={() => onEdit(x?.id)}
-                  onEdit={() => onEdit()}
+                  onEdit={() => onEdit(x, index)}
+                  handleDelete={() => handleDelete(x)}
                 />
               </Box>
             );
@@ -119,18 +199,18 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
           })
         ) : (
           <Box>
-            {/* {!fetching && (
+            {!fetchingPermission && (
               <Typography variant="body2" color="textSecondary" sx={{ padding: '16px' }}>
                 You are yet to add a message group.
               </Typography>
             )}
-            {fetching && (
+            {fetchingPermission && (
               <Stack spacing={0.25} px={2}>
                 {Array.from(Array(10).keys()).map((_) => (
                   <Skeleton height={40} width={'100%'} key={_} />
                 ))}
               </Stack>
-            )} */}
+            )}
           </Box>
         )}
       </Box>
@@ -138,13 +218,14 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={open}
-        title={addTitle}
+        title={editRole ? 'Edit Permission' : 'Add Permission'}
         Bodycomponent={
           <ModalAddPermission
             title={'Permission Name'}
             description="Description"
             modalForm={true}
             groupState={addPermissionList}
+            formErrors={formErrors}
             handleChange={handleChange}
           />
         }
@@ -153,31 +234,10 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
           <FooterComponent
             check
             // checked={false}
-            checked={addPermissionList.status}
-            SwitchChange={(e: any) => handleChange('status', e.target.checked)}
-            onSave={handleAddMsg}
+            checked={addPermissionList.is_active}
+            SwitchChange={(e: any) => handleChange('is_active', e.target.checked)}
+            onSave={editRole ? handleEdit : handleAddMsg}
             onCancel={handleClose}
-            // loading={addMessageLoading}
-          />
-        }
-        dialogRootStyle={addPermissionStyle.dialogSx}
-      />
-
-      {/* Edit message */}
-      <DialogDrawer
-        maxModalWidth="xl"
-        isDialogOpened={values}
-        title={editTitle}
-        Bodycomponent={<ModalAddPermission title={'Permission Name'} description="Description" modalForm={true} />}
-        handleCloseDialog={handleEditClose}
-        Footercomponent={
-          <FooterComponent
-            check
-            checked={false}
-            // checked={editMessageList.is_status}
-            // SwitchChange={(e: any) => handleeditChange('is_status', e.target.checked)}
-            // onSave={Edit}
-            onCancel={handleEditClose}
             // loading={addMessageLoading}
           />
         }

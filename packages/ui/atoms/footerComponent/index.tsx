@@ -62,7 +62,11 @@ export const FooterComponent = forwardRef((props: FooterComponentProps, ref: Rea
             </Button>
           </Box>
           <Box sx={footerComponentStyle.savebtnBg}>
-            <Button buttonStyle={{ ...footerComponentStyle.savebtnText, saveButtonStyle }} onClick={onSave}>
+            <Button
+              buttonStyle={{ ...footerComponentStyle.savebtnText, saveButtonStyle }}
+              onClick={onSave}
+              loading={loading}
+            >
               Save
             </Button>
           </Box>

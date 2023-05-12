@@ -1,3 +1,4 @@
+import { EditIcon } from '@atoms/icons';
 
 export const Header = [
   {
@@ -39,15 +40,15 @@ export const Header = [
     disablePadding: false,
     label: 'Status',
   },
-  //   {
-  //     id: 'action',
-  //     align: 'left',
-  //     disablePadding: false,
-  //     label: 'Action',
-  //   },
+  // {
+  //   id: 'action',
+  //   align: 'left',
+  //   disablePadding: false,
+  //   label: 'Action',
+  // },
 ];
 
-export const tableData = [
+export const tableData = (editHandel: (id: string, data: any, e: any) => void) => [
   { type: ['IMAGE_WITH_LABEL'], name: 'username' },
   { type: ['TEXT'], name: 'contactnumber' },
   { type: ['TEXT'], name: 'email' },
@@ -58,15 +59,16 @@ export const tableData = [
     name: 'status',
     switchText: [{ label_1: 'In Active', label_2: 'Active' }],
   },
-  //   {
-  //     type: ['ACTION'],
-  //     name: 'action',
-  //     variant: 'EDIT_WITH_DELETE',
-  //     // editHandel,
-  //     // deleteHandel,
-  //     editIcon: <EditIcon />,
-  //     deleteIcon: <DeleteIcon />,
-  //   },
+  // {
+  //   type: ['ACTION'],
+  //   name: 'action',
+  //   variant: [
+  //     {
+  //       icon: <EditIcon />,
+  //       method: editHandel,
+  //     },
+  //   ],
+  // },
 ];
 
 export const tableJson = [
@@ -80,20 +82,7 @@ export const tableJson = [
       color: 'primary.contrastText',
       bgColor: '#357968',
     },
-    id:'1',
-    status: true ,
-  },
-  {
-    username: { label: 'property Manager' },
-    contactnumber: '+91 8972984838',
-    email: 'dsp123@gmail.com',
-    lastlogin: '23rd Jan, 03:00 PM IST',
-    rolename: {
-      label: `Role Facility`,
-      color: 'primary.contrastText',
-      bgColor: '#357968',
-    },
-    id:'2',
+    id: '1',
     status: true,
   },
   {
@@ -106,7 +95,7 @@ export const tableJson = [
       color: 'primary.contrastText',
       bgColor: '#357968',
     },
-    id:'3',
+    id: '2',
     status: true,
   },
   {
@@ -119,7 +108,7 @@ export const tableJson = [
       color: 'primary.contrastText',
       bgColor: '#357968',
     },
-    id:'4',
+    id: '3',
     status: true,
   },
   {
@@ -132,7 +121,20 @@ export const tableJson = [
       color: 'primary.contrastText',
       bgColor: '#357968',
     },
-    id:'5',
+    id: '4',
+    status: true,
+  },
+  {
+    username: { label: 'property Manager' },
+    contactnumber: '+91 8972984838',
+    email: 'dsp123@gmail.com',
+    lastlogin: '23rd Jan, 03:00 PM IST',
+    rolename: {
+      label: `Role Facility`,
+      color: 'primary.contrastText',
+      bgColor: '#357968',
+    },
+    id: '5',
     status: true,
   },
 ];

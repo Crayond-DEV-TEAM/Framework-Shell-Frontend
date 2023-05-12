@@ -2,7 +2,7 @@ import { DeleteIcon, EditIcon } from '@atoms/icons';
 
 export const Header = [
   {
-    id: 'title',
+    id: 'name',
     align: 'left',
     disablePadding: false,
     label: 'Roles Name',
@@ -22,7 +22,7 @@ export const Header = [
     label: 'Permission',
   },
   {
-    id: 'status',
+    id: 'is_active',
     align: 'left',
     disablePadding: false,
     label: 'Status',
@@ -36,22 +36,27 @@ export const Header = [
 ];
 
 export const tableData = (editHandel: (id: string, data: any, e: any) => void, deleteHandel: (id: string) => void) => [
-  { type: ['TEXT'], name: 'title' },
+  { type: ['TEXT'], name: 'name' },
   { type: ['TEXT'], name: 'description' },
   { type: ['LABEL'], name: 'permission' },
   {
     type: ['SWITCH'],
-    name: 'status',
+    name: 'is_active',
     switchText: [{ label_1: 'In Active', label_2: 'Active' }],
   },
   {
     type: ['ACTION'],
     name: 'action',
-    variant: 'EDIT_WITH_DELETE',
-    editHandel,
-    deleteHandel,
-    editIcon: <EditIcon />,
-    deleteIcon: <DeleteIcon />,
+    variant: [
+      {
+        icon: <EditIcon />,
+        method: editHandel,
+      },
+      {
+        icon: <DeleteIcon />,
+        method: deleteHandel,
+      },
+    ],
   },
 ];
 

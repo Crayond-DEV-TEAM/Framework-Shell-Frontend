@@ -35,10 +35,6 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
     ...rest
   } = props;
 
-  // const handle = (key, value) => {
-  //   debugger;
-  // };
-  console.log(groupState, ';;;;;;;;');
   return (
     <Box
       sx={[
@@ -68,8 +64,8 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
                 textFieldStyle={modalAddPermissionStyle.inputSx}
                 // error={Boolean(errors.title)}
                 // helperText={errors.title}
-                isError={Boolean(formErrors.name)}
-                errorMessage={formErrors.name}
+                isError={Boolean(formErrors.title)}
+                errorMessage={formErrors.title}
               />
             </Box>
             <Box sx={modalAddPermissionStyle.inputGroupSx}>
@@ -104,13 +100,12 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
             </Label>
             <CustomDropdown
               placeholder="Select Role"
-              options={groupState.permission.label}
+              options={groupState.permission}
               permissionList={permissionList}
               onChange={(value) => {
-                debugger;
                 handleChange('permission', value);
               }}
-              value={[{ name: groupState.permission }]}
+              value={groupState.permission.length > 0 ? groupState.permission : []}
               isError={Boolean(formErrors.permission)}
               errorMessage={formErrors.permission}
             />

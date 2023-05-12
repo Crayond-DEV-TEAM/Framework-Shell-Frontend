@@ -31,7 +31,6 @@ export const RoleMapping = (props: RoleMappingProps): JSX.Element => {
   const handleOpen = () => {
     setValues(true);
   };
-  // debugger;
   const filteredMessageGroup = RolesMappingList.filter((x: any) =>
     x.username.label.toLowerCase().includes(searchTerm.toLowerCase()),
   );
@@ -104,7 +103,7 @@ export const RoleMapping = (props: RoleMappingProps): JSX.Element => {
         <CommonTable
           Header={Header}
           dataList={filteredMessageGroup}
-          tableData={tableData(handleTableEdit)}
+          tableData={tableData}
           switchList={switchList}
           handleSwitch={handleSwitch}
           headerOptions={{

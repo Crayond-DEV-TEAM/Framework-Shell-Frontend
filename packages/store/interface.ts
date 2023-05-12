@@ -439,7 +439,7 @@ export interface RolesInterfaceField {
   name: string;
   description: string;
   is_active: boolean;
-  permission: string;
+  permission: any;
 }
 
 export interface Repository {
@@ -450,6 +450,11 @@ export interface AddPermissionInterface {
   name: string;
   description: string;
   is_active: boolean;
+  id?: any;
+}
+
+export interface Repolist {
+  data: object;
 }
 
 export interface RoleMap {
@@ -467,38 +472,52 @@ export interface RoleMap {
   status: boolean;
 }
 export interface UserManagementInterface {
-  RepositoryList: Repository[];
+  RepositoryList: any;
   editRepositoryList: any;
+  RepositoryId: any;
 
   fetching: boolean;
   errorOnFetching: boolean;
+
+  onEditLoading: boolean;
+  erroronEdit: boolean;
 
   seteditRepository: (value: any) => void;
 
   getAllRepository: () => void;
   editRepository: () => void;
+  createRepository: () => void;
 }
 
 export interface PermissionInterface {
-  // RepositoryList: AddPermissionInterface[];
-  PermissionList: AddPermissionInterface[];
+  RepositoryList: AddPermissionInterface[];
+  PermissionList: Repolist[];
   addPermissionList: AddPermissionInterface;
+  indexUpdateList: any;
+  permissionId: string;
   setaddPermission: (payload: { key: string; value: string }) => void;
+  setRepository: (type: string, value: string, data: any) => void;
+  setRepositoryList: (data: any, id: any, key: any) => void;
   editPermissionList: AddPermissionInterface;
+
   fetching: boolean;
   errorOnFetching: boolean;
+
+  fetchingPermission: boolean;
+  errorOnPermission: boolean;
 
   getPermissionList: () => void;
   addPermission: (data: any) => void;
   deletePermission: (x: any) => void;
+  updateRopsitory: () => void;
   // editPermision: (data: any) => void;
-  getFaciltyRepository: () => void;
+  // getFaciltyRepository: () => void;
   updateEditData: (data: any) => void;
   clearAll: () => void;
 }
 
 export interface RolesInterface {
-  RolesList: RolesInterfaceField[];
+  RolesList: any;
   setaddMessage: (payload: { key: string; value: string }) => void;
   StatusList: RolesInterfaceField[];
   addRole: RolesInterfaceField;

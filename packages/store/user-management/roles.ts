@@ -4,12 +4,13 @@ import { create } from 'zustand';
 import { RolesInterface } from '../interface';
 import { tableJson } from '../../ui/components/roles/utils';
 import { enqueueSnackbar } from 'notistack';
+import { ClearAll } from '@mui/icons-material';
 export const useRoles = create<RolesInterface>((set, get) => ({
   RolesList: [],
   StatusList: [],
   addRole: {
     id: '',
-    permission: '',
+    permission: [],
     name: '',
     description: '',
     is_active: false,
@@ -37,37 +38,51 @@ export const useRoles = create<RolesInterface>((set, get) => ({
     set({ fetching: true, errorOnFetching: false });
     const payload = {
       offset: 0,
-      limit: 10,
+      limit: 10000,
     };
     httpRequest('post', `${envConfig.api_url}/roles`, payload, true)
       .then((response) => {
+        const permssionJsonConstruct = (tableData: any) => {
+          return tableData.role_permission_mappings.map((value: any) => {
+            return {
+              label: value.permission.name,
+              name: value.permission.name,
+              color: '#305AAE',
+              bgColor: '#E2EAFA',
+              id: value.permission.id,
+            };
+          });
+        };
         const dataTable: any = [];
-        // const dataTableStatus: any = [];
-        if (Array.isArray(response.data.data) && response.data.data.length > 0) {
-          // response.data.data
-          //   ?.filter((x: any) => Boolean(x.role.is_active))
-          //   .map(({ id }: any) => dataTableStatus.push(id));
-          response.data.data.map(
+        if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
+          debugger;
+          response.data.data.rows.map(
             (tableData: any, i: any) =>
               dataTable.push({
-                name: tableData.role.name,
-                description: tableData.role.description,
-                is_active: tableData.role.is_active,
-                permission: {
-                  label: tableData.permission.name,
-                  color: '#305AAE',
-                  bgColor: '#E2EAFA',
-                },
-                id: tableData.role.id,
+                name: tableData.name,
+                description: tableData.description,
+                is_active: tableData.is_active,
+                id: tableData.id,
+                permission: Array.isArray(tableData.role_permission_mappings)
+                  ? permssionJsonConstruct(tableData)
+                  : {
+                      label: tableData.permission.name,
+                      name: tableData.permission.name,
+                      color: '#305AAE',
+                      bgColor: '#E2EAFA',
+                      id: tableData.permission.id,
+                    },
               }),
             set({ RolesList: dataTable }),
-            // set({ StatusList: dataTableStatus }),
           );
+        } else {
+          set({ RoleList: ['no'] });
         }
       })
 
       .catch((err) => {
         set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
         set({ fetching: false });
@@ -76,39 +91,14 @@ export const useRoles = create<RolesInterface>((set, get) => ({
   updateEditData: (data: any) => {
     set((state) => ({ addRole: { ...data } }));
   },
-  // addRolesList: () => {
-  //   const { RolesList, addRole } = get();
 
-  //   const update = {
-  //     id: `${RolesList.length + 1}`,
-  //     permission: addRole.permission,
-  //     name: addRole.name,
-  //     description: addRole.description,
-  //     is_active: addRole.is_active,
-  //   };
-
-  //   RolesList.push(update);
-  //   set({ RolesList: RolesList });
-
-  //   // set({ fetching: true, errorOnFetching: false, RolesList: tableJson });
-
-  //   httpRequest('post', `${envConfig.api_url}/api`, {}, true)
-  //     .then((response) => {
-  //       // set({ RepositoryList: tableData });
-  //     })
-  //     .catch((err) => {
-  //       set({ errorOnFetching: true });
-  //     })
-  //     .finally(() => {
-  //       set({ fetching: false });
-  //     });
-  // },
   addRolesList: () => {
-    const { addRole, getRolesList } = get();
+    const { addRole, getRolesList, clearAll } = get();
     debugger;
+    const permissionid = addRole.permission.map((value: any) => value.id);
     const payload = {
       name: addRole.name,
-      permissions: addRole.permission?.[0].id,
+      permissions: permissionid,
       description: addRole.description,
       is_active: addRole.is_active,
     };
@@ -117,11 +107,13 @@ export const useRoles = create<RolesInterface>((set, get) => ({
         enqueueSnackbar('Roles created succesfully!', { variant: 'success' });
       })
       .catch((err) => {
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
         set({ errorOnFetching: true });
       })
       .finally(() => {
         set({ fetching: false });
         getRolesList();
+        clearAll();
       });
   },
   getStatusList: (id: any, status: any) => {
@@ -136,6 +128,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
         enqueueSnackbar('Status changed succesfully!', { variant: 'success' });
       })
       .catch((err) => {
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
         set({ errorOnFetching: true });
       })
       .finally(() => {
@@ -144,27 +137,31 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       });
   },
   editRoleList: () => {
-    const { addRole } = get();
+    const { addRole, getRolesList, clearAll } = get();
+    const permissionid = addRole.permission.map((value: any) => value.id);
     debugger;
     const payload = {
-      id: addRole.id,
+      role_id: addRole.id,
       name: addRole.name,
-      permissions: [addRole.permission.id],
+      permissions: permissionid,
       description: addRole.description,
       is_active: addRole.is_active,
     };
 
     set({ fetching: true, errorOnFetching: false });
 
-    httpRequest('post', `${envConfig.api_url}/roles/update`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/roles/update`, payload, true)
       .then((response) => {
         enqueueSnackbar('Roles edited succesfully!', { variant: 'success' });
       })
       .catch((err) => {
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
         set({ errorOnFetching: true });
       })
       .finally(() => {
         set({ fetching: false });
+        getRolesList();
+        clearAll();
       });
   },
 
@@ -181,6 +178,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       })
       .catch((err) => {
         set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
         set({ fetching: false });

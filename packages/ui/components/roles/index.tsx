@@ -35,30 +35,28 @@ export const Roles = (props: RolesProps): JSX.Element => {
     getStatusList,
     editRoleList,
   } = useRoles();
+
   const { getPermissionList, PermissionList } = usePermission();
 
   const handleClose = () => {
     setValues(false);
+    setFormErrors({});
     clearAll();
   };
-  const [formErrors, setFormErrors] = useState({
-    title: '',
-    description: '',
-    permission: '',
-  });
+  const [formErrors, setFormErrors] = useState({});
 
   const validateForm = () => {
     const errors: Record<string, string> = {};
 
-    if (!addRole.name) {
+    if (addRole.name.length === 0) {
       errors.title = 'Title is required';
     }
 
-    if (!addRole.description) {
+    if (addRole.description.length === 0) {
       errors.description = 'Description is required';
     }
 
-    if (!addRole.permission) {
+    if (addRole.permission.length === 0) {
       errors.permission = 'Permission is required';
     }
 
@@ -69,17 +67,15 @@ export const Roles = (props: RolesProps): JSX.Element => {
 
   const handleOpen = () => {
     setValues(true);
-    getPermissionList();
   };
   const handleTableEdit = (id: string, data: any, e: any) => {
-    debugger;
     setValues(true);
     setaddMessage(data);
-    setIsEdit(id.length > 0 ? true : false);
+    // setIsEdit(id.length > 0 ? true : false);
     // onEditClicked(id);
     const editData = {
       id: id,
-      permission: data.permission.label,
+      permission: data.permission,
       name: data.name,
       description: data.description,
       is_active: data.is_active,
@@ -90,6 +86,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
 
   const handleEdit = () => {
     editRoleList();
+    handleClose();
   };
 
   const [idrole, setidRole] = useState('');
@@ -99,6 +96,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
     setSelected(true);
   };
   const handlemodalClose = () => {
+    // clearAll()
     setSelected(false);
   };
 
@@ -124,7 +122,6 @@ export const Roles = (props: RolesProps): JSX.Element => {
   };
   const filteredMessageGroup = RolesList.filter((x: any) => x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()));
   const handleSwitch = (id: any, data: any, e: any) => {
-    debugger;
     if (!switchList.includes(id)) {
       setSwitchList([...switchList, id]);
     } else {
@@ -144,19 +141,20 @@ export const Roles = (props: RolesProps): JSX.Element => {
   };
   const handleStatus = () => {
     if (RolesList?.length > 0) {
-      const status = RolesList?.filter((val) => val?.is_active === true)?.map((val) => val?.id);
+      const status = RolesList?.filter((val: any) => val?.is_active === true)?.map((val: any) => val?.id);
       setSwitchList(status);
-      // console.log(status, 'dfsdaaa===========');
     }
   };
 
   useEffect(() => {
     getRolesList();
+    getPermissionList();
   }, []);
   useEffect(() => {
     handleStatus();
   }, [RolesList]);
 
+  console.log(filteredMessageGroup, 'filteredMessageGroup');
   return (
     <Box
       sx={[
@@ -197,10 +195,13 @@ export const Roles = (props: RolesProps): JSX.Element => {
             rowEvenBgColor: '#F7F7F7',
           }}
           tableMinWidth={'80px'}
-          // tableMinHeight={'calc(100vh - 308px)'}
-          // tableMaxHeight={'calc(100vh - 308px)'}
-          tableMinHeight={'108px'}
-          tableMaxHeight={'108px'}
+          stickyOptions={{
+            stickyHeader: true,
+            stickyLeft: [],
+            stickyRight: [],
+          }}
+          tableMinHeight={'calc(100vh - 308px)'}
+          tableMaxHeight={'calc(100vh - 308px)'}
           paddingAll={'0px'}
           marginAll={'0px 0px 0px'}
           dense={'small'}
@@ -223,7 +224,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={values}
-        title={`${isEdit ? 'Edit Role' : 'Add Role'}`}
+        title={`${addRole.id ? 'Edit Role' : 'Add Role'}`}
         Bodycomponent={
           <ModalAddPermission
             title={'Permission Name'}
@@ -242,7 +243,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
             check
             checked={addRole?.is_active}
             SwitchChange={(e: any) => handleAddChange('is_active', e.target.checked)}
-            onSave={isEdit ? handleEdit : save}
+            onSave={addRole.id ? handleEdit : save}
             onCancel={handleClose}
             // loading={addMessageLoading}
           />

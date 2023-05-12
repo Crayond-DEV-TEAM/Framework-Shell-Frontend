@@ -3,13 +3,14 @@ import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { PermissionInterface } from '../interface';
 import { permission } from '../../ui/components/addpermission/utils';
-// import { RepoJson } from '@components/repositoryComponent/utils';
 import { enqueueSnackbar } from 'notistack';
 import { useRepository } from './repository';
-
+import { findObjectByIndex, modifyObjectByIndexWithKey } from './commonFunction';
 export const usePermission = create<PermissionInterface>((set, get) => ({
-  // RepositoryList: [],
+  RepositoryList: [],
+  indexUpdateList: [],
   PermissionList: [],
+  permissionId: '',
   addPermissionList: {
     name: '',
     description: '',
@@ -24,37 +25,44 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   fetching: false,
   errorOnFetching: false,
 
+  fetchingPermission: false,
+  errorOnPermission: false,
+
   setaddPermission: (payload: { key: string; value: string }) => {
     set((state) => ({ addPermissionList: { ...state.addPermissionList, [payload.key]: payload.value } }));
   },
 
-  getFaciltyRepository: () => {
-    set({ fetching: true, errorOnFetching: false });
-
-    httpRequest('post', `${envConfig.api_url}`, {}, true)
-      .then((response) => {
-        // set({ RepositoryList: RepoJson });
-      })
-      .catch((err) => {
-        set({ errorOnFetching: true });
-      })
-      .finally(() => {
-        set({ fetching: false });
-      });
+  setRepositoryList: (data: any, id: any, key: any) => {
+    set({ indexUpdateList: data, permissionId: id, RepositoryList: key });
   },
+  setRepository: (type: string, value: string, data: any) => {
+    const { indexUpdateList } = get();
+    const indexArray = value.replaceAll('-', '-child-').split('-');
+    const jsonObject = indexUpdateList.data;
+    const foundObject = findObjectByIndex(jsonObject, indexArray);
+    debugger;
+    if (foundObject) {
+      modifyObjectByIndexWithKey(foundObject, [], !data, type);
+      console.log(jsonObject);
+    } else {
+      console.log('Object not found');
+    }
+    set({ indexUpdateList: { data: jsonObject } });
+  },
+
   getPermissionList: () => {
-    set({ fetching: true, errorOnFetching: false });
+    set({ fetchingPermission: true, errorOnPermission: false });
 
     httpRequest('get', `${envConfig.api_url}/permissions`, {}, true)
       .then((response) => {
         set({ PermissionList: response.data.data });
-        console.log(response.data.data, 'ajahdkasjhdkjashdkasjdh');
       })
       .catch((err) => {
-        set({ errorOnFetching: true });
+        set({ errorOnPermission: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
-        set({ fetching: false });
+        set({ fetchingPermission: false });
       });
   },
   updateEditData: (data: any) => {
@@ -77,6 +85,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
         enqueueSnackbar('Permission added Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
         set({ errorOnFetching: true });
       })
       .finally(() => {
@@ -102,6 +111,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
         enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
         set({ errorOnFetching: true });
       })
       .finally(() => {
@@ -111,7 +121,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   },
 
   deletePermission: (x: any) => {
-    const { addPermissionList, getPermissionList } = get();
+    const { getPermissionList } = get();
     set({ fetching: true, errorOnFetching: false });
     // const { RepositoryList } = useRepository();
     const payload = {
@@ -123,6 +133,31 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
         enqueueSnackbar('Permission deleted Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+        set({ errorOnFetching: true });
+      })
+      .finally(() => {
+        set({ fetching: false });
+        getPermissionList();
+      });
+  },
+
+  updateRopsitory: () => {
+    const { indexUpdateList, permissionId, getPermissionList } = get();
+    set({ fetching: true, errorOnFetching: false });
+    // const { RepositoryList } = useRepository();
+    const payload = {
+      data: { ...indexUpdateList },
+      permission_id: permissionId,
+      is_active: true,
+    };
+    set({ fetching: true, errorOnFetching: false });
+    httpRequest('put', `${envConfig.api_url}/permissions/update`, payload, true)
+      .then((response) => {
+        enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
+      })
+      .catch((err) => {
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
         set({ errorOnFetching: true });
       })
       .finally(() => {

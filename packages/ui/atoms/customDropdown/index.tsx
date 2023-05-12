@@ -140,6 +140,7 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
               '& .MuiOutlinedInput-root': { height: '40px', borderRadius: '8px' },
             }}
             helperText={isError ? errorMessage : null}
+            error={isError}
           />
         )}
         renderTags={(value: readonly string[], getTagProps) =>

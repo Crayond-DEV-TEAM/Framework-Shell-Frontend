@@ -40,12 +40,12 @@ export const Header = [
     disablePadding: false,
     label: 'Status',
   },
-  {
-    id: 'action',
-    align: 'left',
-    disablePadding: false,
-    label: 'Action',
-  },
+  // {
+  //   id: 'action',
+  //   align: 'left',
+  //   disablePadding: false,
+  //   label: 'Action',
+  // },
 ];
 
 export const tableData = (editHandel: (id: string, data: any, e: any) => void) => [
@@ -59,15 +59,16 @@ export const tableData = (editHandel: (id: string, data: any, e: any) => void) =
     name: 'status',
     switchText: [{ label_1: 'In Active', label_2: 'Active' }],
   },
-  {
-    type: ['ACTION'],
-    name: 'action',
-    variant: 'EDIT',
-    editHandel,
-    // deleteHandel,
-    editIcon: <EditIcon />,
-    // deleteIcon: <DeleteIcon />,
-  },
+  // {
+  //   type: ['ACTION'],
+  //   name: 'action',
+  //   variant: [
+  //     {
+  //       icon: <EditIcon />,
+  //       method: editHandel,
+  //     },
+  //   ],
+  // },
 ];
 
 export const tableJson = [

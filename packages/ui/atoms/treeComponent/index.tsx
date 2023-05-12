@@ -12,6 +12,8 @@ export interface TreeComponentProps {
   sx?: SxProps<Theme>;
   data?: any;
   checkboxsection?: boolean;
+  setEdit?: any;
+  onChange?: () => void;
 }
 
 export interface StyledTreeItemProps {
@@ -22,10 +24,23 @@ export interface CustomLabelProps {
   labelText?: string;
   fontsize?: any;
   checkBox?: boolean;
+  disable?: boolean;
+  onChange?: () => void | undefined;
+  nodes?: any;
+  index?: number;
 }
 
 export const CustomLabel = (props: CustomLabelProps): JSX.Element => {
-  const { iconProp = null, labelText = '', checkBox = false, fontsize } = props;
+  const {
+    iconProp = null,
+    labelText = '',
+    checkBox = false,
+    fontsize,
+    disable,
+    onChange = () => false,
+    nodes,
+    index,
+  } = props;
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -34,10 +49,30 @@ export const CustomLabel = (props: CustomLabelProps): JSX.Element => {
       </Box>
       {checkBox && (
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-          <Checkbox style={{ marginRight: '17px' }} />
-          <Checkbox style={{ marginRight: '17px' }} />
-          <Checkbox style={{ marginRight: '17px' }} />
-          <Checkbox style={{ marginRight: '17px' }} />
+          <Checkbox
+            style={{ marginRight: '17px' }}
+            disabled={disable}
+            onChange={(e) => onChange(e, 'create', nodes, index)}
+            checked={nodes?.create ?? false}
+          />
+          <Checkbox
+            style={{ marginRight: '17px' }}
+            disabled={disable}
+            onChange={(e) => onChange(e, 'read', nodes, index)}
+            checked={nodes?.read ?? false}
+          />
+          <Checkbox
+            style={{ marginRight: '17px' }}
+            disabled={disable}
+            onChange={(e) => onChange(e, 'update', nodes, index)}
+            checked={nodes?.update ?? false}
+          />
+          <Checkbox
+            style={{ marginRight: '17px' }}
+            disabled={disable}
+            onChange={(e) => onChange(e, 'delete', nodes, index)}
+            checked={nodes?.delete ?? false}
+          />
         </Box>
       )}
     </Box>
@@ -93,7 +128,7 @@ const styles = (id: string, checks: boolean) => {
       break;
   }
 };
-const renderTree = (nodes: any, test: string, checkBox: any) => (
+const renderTree = (nodes: any, test: string, checkBox: any, setEdit: any, onChange: () => void, index: any) => (
   <StyledTreeItem
     rootNode={test === 'parent' ? true : false}
     key={nodes?.name}
@@ -101,6 +136,10 @@ const renderTree = (nodes: any, test: string, checkBox: any) => (
     label={
       <CustomLabel
         labelText={nodes?.name}
+        disable={setEdit}
+        onChange={onChange}
+        nodes={nodes}
+        index={index}
         // iconProp={<SettingIcon />}
         // fontsize={{ fontSize: '14px', fontWeight: 600 }}
         {...styles(test, checkBox)}
@@ -114,13 +153,25 @@ const renderTree = (nodes: any, test: string, checkBox: any) => (
     // update={nodes?.update}
     // delete={nodes?.delete}
   >
-    {Array.isArray(nodes?.child) ? nodes?.child.map((node: any) => renderTree(node, test + 'child', checkBox)) : null}
+    {Array.isArray(nodes?.child)
+      ? nodes?.child.map((node: any, indexchild: number) =>
+          renderTree(node, test + 'child', checkBox, setEdit, onChange, index + '-' + indexchild),
+        )
+      : null}
   </StyledTreeItem>
 );
 
 export const TreeComponent = (props: TreeComponentProps): JSX.Element => {
-  const { className = '', sx = {}, data = [], checkboxsection = false, ...rest } = props;
-  console.log(data);
+  const {
+    className = '',
+    sx = {},
+    data = [],
+    checkboxsection = false,
+    setEdit,
+    onChange = () => false,
+    ...rest
+  } = props;
+  console.log(setEdit, 'pppppppppppppppppppppp');
   return (
     <Box
       sx={[
@@ -132,17 +183,21 @@ export const TreeComponent = (props: TreeComponentProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
-      <TreeView
-        defaultCollapseIcon={<ExpandIcon />}
-        defaultExpandIcon={<CollapseIcon />}
-        defaultParentIcon={<SettingIcon />}
-        sx={{ height: 220, flexGrow: 1, m: 2 }}
-      >
-        {Array.isArray(data) &&
-          data.map((val: any, index: number) => {
-            return renderTree(val, 'parent', checkboxsection && true);
-          })}
-      </TreeView>
+      {data.length > 0 ? (
+        <TreeView
+          defaultCollapseIcon={<ExpandIcon />}
+          defaultExpandIcon={<CollapseIcon />}
+          defaultParentIcon={<SettingIcon />}
+          sx={{ height: 220, flexGrow: 1, m: 2 }}
+        >
+          {Array.isArray(data) &&
+            data.map((val: any, index: number) => {
+              return renderTree(val, 'parent', checkboxsection && true, setEdit, onChange, index);
+            })}
+        </TreeView>
+      ) : (
+        <Typography sx={{ display: 'flex', justifyContent: 'center', marginTop: '20%' }}>No data found</Typography>
+      )}
     </Box>
   );
 };

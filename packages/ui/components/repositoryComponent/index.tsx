@@ -10,6 +10,7 @@ import { FooterComponent } from '@atoms/footerComponent';
 import { useEffect, useState } from 'react';
 import { useRepository } from '@core/store';
 import { RepoJson } from './utils';
+import { Repositorysimmer } from './simmer';
 
 export interface RepositoryComponentProps {
   className?: string;
@@ -25,7 +26,9 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
     RepositoryList,
     seteditRepository,
     editRepository,
+    createRepository,
     editRepositoryList,
+    onEditLoading,
   } = useRepository();
   const [values, setValues] = useState(false);
   const handleClose = () => {
@@ -37,6 +40,7 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
   };
   const handleSave = () => {
     editRepository();
+    handleClose();
   };
 
   useEffect(() => {
@@ -62,9 +66,11 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
           handleOpen={handleOpen}
         />
       </Box>
+
       <Box sx={{ height: 'calc( 100vh - 237px )', overflow: 'scroll' }}>
-        <TreeComponent data={RepositoryList} />
+        {fetching ? <Repositorysimmer /> : <TreeComponent data={RepositoryList} />}
       </Box>
+
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={values}
@@ -78,6 +84,7 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
             // SwitchChange={(e: any) => handleeditChange('is_status', e.target.checked)}
             onSave={handleSave}
             onCancel={handleClose}
+            loading={onEditLoading}
             // loading={addMessageLoading}
           />
         }

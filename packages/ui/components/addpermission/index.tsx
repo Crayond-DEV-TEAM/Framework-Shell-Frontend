@@ -45,6 +45,7 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
     updateEditData,
     editPermission,
     deletePermission,
+    fetchingPermission,
     clearAll,
   } = usePermission();
   const { RepositoryList } = useRepository();
@@ -57,22 +58,20 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
 
   const handleClose = () => {
     setOpen(false);
-    clearAll();
+    // clearAll();
+    setFormErrors({});
   };
 
-  const [formErrors, setFormErrors] = useState({
-    name: '',
-    description: '',
-  });
+  const [formErrors, setFormErrors] = useState({});
 
   const validateForm = () => {
     const errors: Record<string, string> = {};
 
-    if (!addPermissionList.name) {
-      errors.name = 'Name is required';
+    if (addPermissionList.name.length === 0) {
+      errors.title = 'Title is required';
     }
 
-    if (!addPermissionList.description) {
+    if (addPermissionList.description.length === 0) {
       errors.description = 'Description is required';
     }
     setFormErrors(errors);
@@ -200,18 +199,18 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
           })
         ) : (
           <Box>
-            {/* {!fetching && (
+            {!fetchingPermission && (
               <Typography variant="body2" color="textSecondary" sx={{ padding: '16px' }}>
                 You are yet to add a message group.
               </Typography>
             )}
-            {fetching && (
+            {fetchingPermission && (
               <Stack spacing={0.25} px={2}>
                 {Array.from(Array(10).keys()).map((_) => (
                   <Skeleton height={40} width={'100%'} key={_} />
                 ))}
               </Stack>
-            )} */}
+            )}
           </Box>
         )}
       </Box>

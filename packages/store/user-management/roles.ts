@@ -55,7 +55,6 @@ export const useRoles = create<RolesInterface>((set, get) => ({
         };
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
-          debugger;
           response.data.data.rows.map(
             (tableData: any, i: any) =>
               dataTable.push({
@@ -94,7 +93,6 @@ export const useRoles = create<RolesInterface>((set, get) => ({
 
   addRolesList: () => {
     const { addRole, getRolesList, clearAll } = get();
-    debugger;
     const permissionid = addRole.permission.map((value: any) => value.id);
     const payload = {
       name: addRole.name,
@@ -139,7 +137,6 @@ export const useRoles = create<RolesInterface>((set, get) => ({
   editRoleList: () => {
     const { addRole, getRolesList, clearAll } = get();
     const permissionid = addRole.permission.map((value: any) => value.id);
-    debugger;
     const payload = {
       role_id: addRole.id,
       name: addRole.name,

@@ -154,7 +154,6 @@ export const Roles = (props: RolesProps): JSX.Element => {
     handleStatus();
   }, [RolesList]);
 
-  console.log(filteredMessageGroup, 'filteredMessageGroup');
   return (
     <Box
       sx={[

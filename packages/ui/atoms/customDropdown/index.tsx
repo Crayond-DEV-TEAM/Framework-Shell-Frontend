@@ -103,6 +103,7 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
     sx = {},
     ...rest
   } = props;
+  console.log(permissionList, ';;;;;;;');
 
   return (
     <Box
@@ -128,7 +129,17 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
         renderOption={(props, option, { selected }) => (
           <li {...props} style={{ justifyContent: 'space-between', display: 'flex' }}>
             {option?.name}
-            <CheckBox style={{ marginRight: 8 }} checked={selected} />
+            <CheckBox
+              style={{ marginRight: 8 }}
+              checked={selected}
+              value={option?.name}
+              onChange={(e) => {
+                const newValue = e.target.checked
+                  ? [...value, option]
+                  : value.filter((item: any) => item.id !== option.id);
+                onChange && onChange(newValue);
+              }}
+            />
           </li>
         )}
         renderInput={(params) => (

@@ -43,3 +43,11 @@ export { UserManagement } from './userManagement';
 
 export { ConfigureRepo } from './configureRepo';
 export { ModalAddPermission } from './modalAddPermission';
+export { Customer } from './customer';
+export { SidebarLayout } from './sidebarLayout';
+export { CreateCustomer } from './createCustomer';
+export { CreateForm } from './createForm';
+export { AddressForm } from './addressForm';
+export { CustomerDetails } from './customerDetails';
+export { AdminTable } from './adminTable';
+export { MapSubscription } from './mapSubscription';

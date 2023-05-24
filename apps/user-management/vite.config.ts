@@ -35,7 +35,7 @@ export default defineConfig(() => {
       visualizer({}) as PluginOption,
     ],
     server: {
-      port: 3002,
+      port: 3003,
     },
     preview: {
       port: 4000,

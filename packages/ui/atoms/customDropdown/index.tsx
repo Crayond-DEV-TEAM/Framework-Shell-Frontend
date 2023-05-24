@@ -40,7 +40,7 @@ export interface CustomDropdownProps {
   className?: string;
   sx?: SxProps<Theme>;
   key?: string;
-  value: any;
+  value?: any;
   placeholder: string;
   loadOptions?: () => Promise<any[]>;
   onChange?: (value: any) => void;

@@ -8,13 +8,14 @@ export interface CustomerCardComponentProps {
   className?: string;
   sx?: SxProps<Theme>;
   btns?: boolean;
-  adminName?: boolean;
+  adminName?: any;
   isEdit?: boolean;
-  noBtns?: boolean;
+  noBtns?: any;
   title?: string;
   body?: any;
   onSave?: any;
   onEdit?: any;
+  adminOnclick?: any;
 }
 
 export const CustomerCardComponent = (props: CustomerCardComponentProps): JSX.Element => {
@@ -29,6 +30,7 @@ export const CustomerCardComponent = (props: CustomerCardComponentProps): JSX.El
     body,
     onSave,
     onEdit,
+    adminOnclick,
     ...rest
   } = props;
 
@@ -76,7 +78,11 @@ export const CustomerCardComponent = (props: CustomerCardComponentProps): JSX.El
                   </Button>
                 </Box>
               )}
-              {adminName && <Typography sx={customerCardComponentStyle.addAdmin}>+ Add New Admin</Typography>}
+              {adminName && (
+                <Typography sx={customerCardComponentStyle.addAdmin} onClick={adminOnclick}>
+                  + Add New Admin
+                </Typography>
+              )}
             </Box>
           )}
         </Box>

@@ -7,10 +7,11 @@ export interface SubscriptionPlanCardProps {
   className?: string;
   sx?: SxProps<Theme>;
   content?: any;
+  onClick?: any;
 }
 
 export const SubscriptionPlanCard = (props: SubscriptionPlanCardProps): JSX.Element => {
-  const { className = '', sx = {}, content, ...rest } = props;
+  const { className = '', sx = {}, content, onClick, ...rest } = props;
 
   return (
     <Box
@@ -22,6 +23,7 @@ export const SubscriptionPlanCard = (props: SubscriptionPlanCardProps): JSX.Elem
       ]}
       className={`${className}`}
       {...rest}
+      onClick={onClick}
     >
       {content}
     </Box>

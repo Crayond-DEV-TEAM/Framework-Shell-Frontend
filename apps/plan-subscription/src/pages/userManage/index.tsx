@@ -1,9 +1,17 @@
-import { CreateCustomer, UserManagement, CustomerDetails } from '@core/ui/components';
+import {
+  CreateCustomer,
+  UserManagement,
+  SubscriptionPlanContent,
+  CustomerDetails,
+  Subscription,
+  SubscriptionDetails,
+} from '@core/ui/components';
+import { SubscriptionPlanCard } from '@core/ui/atoms';
 import { Box } from '@mui/material';
 export default function UserManagementPage() {
   return (
     <Box>
-      <CustomerDetails />
+      <SubscriptionDetails />
     </Box>
   );
 }

@@ -34,4 +34,20 @@ export const customerDetailsStyle: CustomerDetailsStyleProps = {
     display: 'flex',
     alignItems: 'center',
   },
+  dialogSx: {
+    width: '823px',
+    height: '551px',
+  },
+  admindialogSx: {
+    width: '400px',
+    height: '390px',
+  },
+  subscription: {
+    display: 'flex',
+    justifyContent: 'center',
+    color: 'primary.main',
+    fontSize: '14px',
+    fontWeight: 600,
+    cursor: 'pointer',
+  },
 };

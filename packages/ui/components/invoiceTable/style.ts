@@ -1,13 +1,11 @@
 import type { SxProps } from '@mui/material';
 
-interface CustomerStyleProps {
+interface InvoiceTableStyleProps {
   [key: string]: SxProps;
 }
 
-export const customerStyle: CustomerStyleProps = {
-  rootSx: {
-    padding: '24px',
-  },
+export const invoiceTableStyle: InvoiceTableStyleProps = {
+  rootSx: {},
   commonTable: {
     bgcolor: '#fff',
     // margin: {
@@ -46,7 +44,7 @@ export const customerStyle: CustomerStyleProps = {
       marginRight: '0px',
     },
     '& .MuiTableCell-root': {
-      padding: '0px 9px 0px 7px',
+      padding: '10px 9px 10px 7px',
     },
     '& .MuiTableSortLabel-root': {
       width: '136px',

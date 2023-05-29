@@ -1,12 +1,13 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography, Grid } from '@mui/material';
-
+import { DialogDrawer } from '@atoms/dialogDrawer';
 import { createCustomerStyle } from './style';
 import { CustomerHeader } from '@atoms/customerHeader';
 import { CustomerCardComponent } from '@atoms/customerCardComponent';
-import { AddressForm, CreateForm } from '..';
+import { AddressForm, CreateForm, MapSubscription } from '..';
 import { Label } from '@atoms/label';
 import { Input } from '@atoms/input';
+import { useState } from 'react';
 
 export interface CreateCustomerProps {
   className?: string;
@@ -15,8 +16,15 @@ export interface CreateCustomerProps {
 
 export const CreateCustomer = (props: CreateCustomerProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
+  const [values, setValues] = useState(false);
   const handleChange = (x: any, y: any) => {
     console.log('///');
+  };
+  const handleMapopen = () => {
+    setValues(true);
+  };
+  const handleMapclose = () => {
+    setValues(false);
   };
   return (
     <Box
@@ -95,6 +103,14 @@ export const CreateCustomer = (props: CreateCustomerProps): JSX.Element => {
           }
         />
       </Box>
+      <DialogDrawer
+        maxModalWidth="xl"
+        isDialogOpened={values}
+        title={'Map Subscription'}
+        Bodycomponent={<MapSubscription />}
+        handleCloseDialog={handleMapclose}
+        dialogRootStyle={createCustomerStyle.dialogSx}
+      />
     </Box>
   );
 };

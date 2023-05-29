@@ -10,11 +10,11 @@ export interface CustomerHeaderProps {
   sx?: SxProps<Theme>;
   isback?: boolean;
   title?: string;
+  btns?: boolean;
 }
 
 export const CustomerHeader = (props: CustomerHeaderProps): JSX.Element => {
-  const { className = '', sx = {}, isback = true, title = 'title', ...rest } = props;
-
+  const { className = '', sx = {}, isback = true, title = 'title', btns = true, ...rest } = props;
   return (
     <Box>
       <Box sx={customerHeaderStyle.rootSx}>
@@ -29,13 +29,14 @@ export const CustomerHeader = (props: CustomerHeaderProps): JSX.Element => {
 
           <Typography sx={{ ml: 1, fontWeight: 600 }}>{title}</Typography>
         </Box>
-
-        <Box sx={customerHeaderStyle.btn}>
-          <Button sx={{ width: '72px', height: '28px', textTransform: 'capitalize' }}>Save</Button>
-          <Button sx={{ width: '72px', height: '28px', textTransform: 'capitalize', ml: 1 }} variant="outlined">
-            Cancel
-          </Button>
-        </Box>
+        {btns && (
+          <Box sx={customerHeaderStyle.btn}>
+            <Button sx={{ width: '72px', height: '28px', textTransform: 'capitalize' }}>Save</Button>
+            <Button sx={{ width: '72px', height: '28px', textTransform: 'capitalize', ml: 1 }} variant="outlined">
+              Cancel
+            </Button>
+          </Box>
+        )}
       </Box>
     </Box>
   );

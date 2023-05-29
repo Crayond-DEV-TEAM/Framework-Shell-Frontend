@@ -26,4 +26,8 @@ export const createCustomerStyle: CreateCustomerStyleProps = {
       fontSize: '14px',
     },
   },
+  dialogSx: {
+    width: '500px',
+    height: '450px',
+  },
 };

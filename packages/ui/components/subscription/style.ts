@@ -1,10 +1,10 @@
 import type { SxProps } from '@mui/material';
 
-interface CustomerStyleProps {
+interface SubscriptionStyleProps {
   [key: string]: SxProps;
 }
 
-export const customerStyle: CustomerStyleProps = {
+export const subscriptionStyle: SubscriptionStyleProps = {
   rootSx: {
     padding: '24px',
   },

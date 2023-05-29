@@ -24,7 +24,7 @@ export interface FilterProps {
   onChange?: () => void;
   onApply?: () => void;
   handleChipDelete?: (chip: string, i: any, parentIndex: any) => void;
-  filterContentState?: any;
+  filterContent?: any;
   sx?: SxProps<Theme>;
 }
 
@@ -35,13 +35,13 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
     title = 'Filter',
     footer = false,
     SubTitle = 'severity',
-    onChange = () => null,
+    onChange = (x: any, y: any) => null,
     onApply = () => false,
     handleChipDelete = () => null,
-    filterContentState,
+    filterContent,
     ...rest
   } = props;
-  console.log(filterContentState, 'filterContentStatefilterContentState');
+  console.log(filterContent, 'filterContentfilterContent');
   const { clearfilter } = useMessageGroupDetails();
   // General Hooks
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -118,7 +118,7 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
         <Box sx={filterStyle.contentBoxSideSx}>
           <CheckBox
             checkStyle={filterStyle.checkBoxSx}
-            checked={filterContentState?.value}
+            checked={filterContent?.value}
             onChange={(e) => onChange('high', e.target.checked)}
             checkSecondStyle={filterStyle.checkSecondBoxSx}
           />
@@ -127,7 +127,7 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
               ...filterStyle.quesSx,
             }}
           >
-            {filterContentState?.label}
+            {filterContent?.label}
           </Typography>
         </Box>
       );
@@ -143,8 +143,8 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
           </Typography>
           <CheckBox
             checkStyle={{ ...filterStyle.checkBoxSx, borderRadius: '50px' }}
-            checked={option?.filterContentState}
-            onChange={(e) => onChange(status, e.target.checked)}
+            checked={option?.filterContent}
+            onChange={(e) => onChange('status', e.target.checked)}
             checkSecondStyle={filterStyle.checkSecondBoxSx}
           />
         </Box>
@@ -161,13 +161,13 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
                   pb: 0.75,
                 }}
               >
-                dtae
+                date
               </Typography>
               <Input
                 size="small"
                 type="date"
                 textFieldStyle={filterStyle.dateInputSx}
-                value={option?.filterContentState ?? ''}
+                value={option?.filterContent ?? ''}
                 id="username"
                 onChange={(e) => onChange('clickedOnStartdate', e.target.value)}
               />

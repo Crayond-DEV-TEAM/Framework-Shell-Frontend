@@ -28,6 +28,7 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
   errorOnEditData: false,
 
   handleAddEditStateChange: (key: string, value: string | number | boolean) => {
+    debugger;
     set((state) => ({ addEditMessageState: { ...state.addEditMessageState, [key]: value } }));
   },
 
@@ -56,6 +57,7 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
         response?.data?.data?.message_details?.forEach((_: any) => {
           messages[_.configuration_id] = { ..._ };
         });
+        debugger;
         set({
           addEditMessageState: {
             ...response?.data?.data?.language_info,

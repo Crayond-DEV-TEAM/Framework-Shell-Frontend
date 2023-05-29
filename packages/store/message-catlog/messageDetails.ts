@@ -60,26 +60,24 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
         const dataTable: any = [];
         const dataTableStatus: any = [];
         // const { Language } = get();
-        if (
-          Array.isArray(response.data.data.all_msg_by_grp.msg_grp_msgs_infos) &&
-          response.data.data.all_msg_by_grp.msg_grp_msgs_infos?.length > 0
-        ) {
-          response.data.data.all_msg_by_grp.msg_grp_msgs_infos
-            ?.filter((x: any) => Boolean(x.is_status))
-            .map(({ id }: any) => dataTableStatus.push(id));
+        debugger;
+        if (Array.isArray(response.data.data) && response.data.data?.length > 0) {
+          response.data.data?.filter((x: any) => Boolean(x.is_status)).map(({ id }: any) => dataTableStatus.push(id));
 
-          response.data.data.all_msg_by_grp.msg_grp_msgs_infos?.map(
+          response.data.data?.map(
             (tableData: any, i: any) =>
               dataTable.push({
                 id: tableData?.id ?? i,
                 msg_grp_id: tableData?.msg_grp_id ?? '',
                 updated_at: tableData?.updated_at ?? '',
                 created_at: tableData?.created_at ?? '',
-                severity: {
-                  label: `${tableData?.severity?.severity_name ?? ''}`,
-                  color: '#6F6F6F',
-                  bgColor: '#EAEAEA',
-                },
+                severity: [
+                  {
+                    label: `${tableData?.severity?.severity_name ?? ''}`,
+                    color: '#6F6F6F',
+                    bgColor: '#EAEAEA',
+                  },
+                ],
                 msg_grp_msgs: tableData?.msg_grp_msgs?.length + ' / ' + response.data.data.total_config_language,
                 msg_grp_msgs_Total: tableData?.msg_grp_msgs,
                 status: tableData?.is_status ?? '',
@@ -325,6 +323,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     set({
       addMessageList: giveMestatusGroupState(),
       editMessageList: giveMestatusGroupState(),
+      SevorityList: [],
     });
   },
 

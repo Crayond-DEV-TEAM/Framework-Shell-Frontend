@@ -261,7 +261,7 @@ export interface filtertech {
 }
 
 export interface MessageGroupsDetails {
-  idList: messageListbox[];
+  idList: any;
   setList: (id: { key: string; value: string }) => void;
 
   FilterList: FilterDetails[];

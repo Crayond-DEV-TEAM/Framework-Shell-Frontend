@@ -58,7 +58,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
 
   const { filterContentState } = useMessageGroupDetails();
 
-  // const filterContent: any[] = [];
+  const filterContent = filterContentState;
 
   const { languages, getSavedLanguage } = useLanguageConfiguration();
   const [isEdit, setIsEdit] = useState(false);
@@ -69,6 +69,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const filteredMessageGroup = MessagesList.filter((x: any) =>
     x.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+  console.log(MessagesList, 'filteredMessageGroupfilteredMessageGroupfilteredMessageGroup');
 
   const [switchList, setSwitchList] = useState<any>([]);
 
@@ -130,6 +131,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
 
   const handleClose = () => {
     setOpen(false);
+    clearAll();
   };
 
   const [selected, setSelected] = useState(false);
@@ -220,7 +222,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                 variant: 'CUSTOM',
                 component: (
                   <TableHeader
-                    filterContentState={filterContentState}
+                    filterContent={filterContent}
                     filterChange={handleFilterChange}
                     onChange={isEdit ? handleeditChange : handleAddChange}
                     options={SevorityList}

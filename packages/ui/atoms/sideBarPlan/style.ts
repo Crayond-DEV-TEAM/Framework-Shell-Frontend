@@ -49,10 +49,11 @@ export const sideBarPlanStyle: SideBarPlanStyleProps = {
     alignItems: 'center',
     justifyContent: 'space-between',
     position: 'absolute',
-    left: '-8px',
+    // left: '-8px',
     // top: '8px',
     bottom: '24px',
-    width: '100%',
+    width: '92%',
+    right: '28px',
   },
   topCard: {
     padding: '16px',
@@ -81,6 +82,7 @@ export const sideBarPlanStyle: SideBarPlanStyleProps = {
     backgroundColor: '#E2FAF3',
     color: '#14372E',
     borderRadius: '8px',
+    fontWeight: 600,
   },
   linkBtn: {
     fontSize: '12px',
@@ -89,5 +91,6 @@ export const sideBarPlanStyle: SideBarPlanStyleProps = {
   ColobBtn: {
     fontSize: '14px',
     color: 'primary.contrastText',
+    fontWeight: 600,
   },
 };

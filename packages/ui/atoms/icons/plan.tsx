@@ -514,3 +514,20 @@ export function DownloadPlanIcon(props: any) {
     </SvgIcon>
   );
 }
+export function RightArrowBtn(props: any) {
+  const { rootStyle, ...rest } = props;
+
+  const rootSx = {
+    ...rootStyle,
+  };
+  return (
+    <SvgIcon xmlns="http://www.w3.org/2000/svg" width="11.029" height="9.499" {...rest} sx={rootSx}>
+      <path
+        id="icons8-down-50"
+        d="M13.738,5.978a.459.459,0,0,0-.452.466v8.995l-3.5-3.5a.459.459,0,1,0-.649.649l4.286,4.286a.459.459,0,0,0,.649,0l4.286-4.286a.459.459,0,1,0-.649-.649l-3.5,3.5V6.444a.459.459,0,0,0-.466-.466Z"
+        transform="translate(-5.978 18.498) rotate(-90)"
+        fill="#fff"
+      />
+    </SvgIcon>
+  );
+}

@@ -11,6 +11,8 @@ import { DialogDrawer } from '@atoms/dialogDrawer';
 import { FooterComponent } from '@atoms/footerComponent';
 import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
+import { planSubscriptionRoutes } from '@core/routes';
+import { useNavigate } from 'react-router-dom';
 
 export interface CustomerDetailsProps {
   className?: string;
@@ -21,9 +23,11 @@ export const CustomerDetails = (props: CustomerDetailsProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
 
   const [create, setCreate] = useState(false);
+  const [adminedit, setAdminedit] = useState(false);
   const [values, setValues] = useState(false);
   const [admin, setAdmin] = useState(false);
   const [subs, setSubs] = useState(false);
+  const navigate = useNavigate();
   const handleMapopen = () => {
     setValues(true);
   };
@@ -50,6 +54,18 @@ export const CustomerDetails = (props: CustomerDetailsProps): JSX.Element => {
     setSubs(true);
     handleMapclose();
   };
+  const onhandleEditadminTable = () => {
+    setAdminedit(true);
+    addAdminOpen();
+  };
+
+  const onhandleadminTable = () => {
+    setAdminedit(false);
+    addAdminOpen();
+  };
+  const customerdetailSave = () => {
+    navigate(planSubscriptionRoutes.customer);
+  };
 
   return (
     <Box
@@ -62,7 +78,7 @@ export const CustomerDetails = (props: CustomerDetailsProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
-      <CustomerHeader title={' Create New Customer'} />
+      <CustomerHeader title={'Customer Details'} onSave={customerdetailSave} onBack={customerdetailSave} />
       <Box sx={{ margin: '45px' }} />
       <Box sx={customerDetailsStyle.content}>
         <Box>
@@ -141,10 +157,10 @@ export const CustomerDetails = (props: CustomerDetailsProps): JSX.Element => {
         <Box sx={{ margin: '16px' }} />
         <CustomerCardComponent
           title={' Admin  Details'}
-          body={<AdminTable />}
+          body={<AdminTable onEditChange={onhandleEditadminTable} />}
           adminName={true}
           noBtns={true}
-          adminOnclick={addAdminOpen}
+          adminOnclick={onhandleadminTable}
         />
       </Box>
       <DialogDrawer
@@ -159,7 +175,7 @@ export const CustomerDetails = (props: CustomerDetailsProps): JSX.Element => {
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={admin}
-        title={'Add admin'}
+        title={adminedit === true ? 'Edit admin' : 'Add admin'}
         Bodycomponent={
           <Box sx={{ padding: '17px 24px' }}>
             <Box sx={customerDetailsStyle.inputGroupSx}>
@@ -217,7 +233,7 @@ export const CustomerDetails = (props: CustomerDetailsProps): JSX.Element => {
         }
         handleCloseDialog={addAdminClose}
         dialogRootStyle={customerDetailsStyle.admindialogSx}
-        Footercomponent={<FooterComponent check={true} />}
+        Footercomponent={<FooterComponent check={true} onSave={addAdminClose} onCancel={addAdminClose} />}
       />
     </Box>
   );

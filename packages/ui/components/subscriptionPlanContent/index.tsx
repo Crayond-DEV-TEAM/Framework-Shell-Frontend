@@ -18,6 +18,7 @@ export interface SubscriptionPlanContentProps {
   nextbillOn?: string;
   activeSince?: string;
   users?: string;
+  onClick?: any;
 }
 
 export const SubscriptionPlanContent = (props: SubscriptionPlanContentProps): JSX.Element => {
@@ -34,6 +35,7 @@ export const SubscriptionPlanContent = (props: SubscriptionPlanContentProps): JS
     nextbillOn = '',
     activeSince = '',
     users = '',
+    onClick,
     ...rest
   } = props;
 
@@ -106,7 +108,9 @@ export const SubscriptionPlanContent = (props: SubscriptionPlanContentProps): JS
           <Typography sx={subscriptionPlanContentStyle.upgradePlan}>
             Click to upgrade / download subscription plan
           </Typography>
-          <Button sx={subscriptionPlanContentStyle.btn}>View activity log</Button>
+          <Button sx={subscriptionPlanContentStyle.btn} onClick={onClick}>
+            View activity log
+          </Button>
         </Box>
       )}
     </Box>

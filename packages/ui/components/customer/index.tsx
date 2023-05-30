@@ -6,6 +6,8 @@ import { TableHeader } from '..';
 import { useEffect, useState } from 'react';
 import { Header, tableData, tableJson } from './utils';
 import { useCustomer } from '@core/store';
+import { planSubscriptionRoutes } from '@core/routes';
+import { useNavigate } from 'react-router-dom';
 
 export interface CustomerProps {
   className?: string;
@@ -17,7 +19,7 @@ export const Customer = (props: CustomerProps): JSX.Element => {
   const { CustomerList } = useCustomer();
   const [searchTerm, setSearchTerm] = useState('');
   const [switchList, setSwitchList] = useState<any>([]);
-
+  const navigate = useNavigate();
   const filteredMessageGroup = tableJson.filter((x: any) =>
     x.companyName?.toLowerCase()?.includes(searchTerm.toLowerCase()),
   );
@@ -27,6 +29,7 @@ export const Customer = (props: CustomerProps): JSX.Element => {
     // setidRole(id);
   };
   const handleTableEdit = (id: string, data: any, e: any) => {
+    navigate(planSubscriptionRoutes.customerDetail);
     // debugger;
     // setSelected(true);
     // setidRole(id);
@@ -49,8 +52,9 @@ export const Customer = (props: CustomerProps): JSX.Element => {
     //   getStatusList(id, false);
     // }
   };
-
-  console.log(tableData, ' //////////////////////');
+  const handleOpen = () => {
+    navigate(planSubscriptionRoutes.createCustomer);
+  };
 
   return (
     <Box
@@ -64,12 +68,12 @@ export const Customer = (props: CustomerProps): JSX.Element => {
       {...rest}
     >
       <TableHeader
-        // isFilterRequired={false}
+        isFilterRequired={false}
         buttonName={'Create'}
         tableHeader={'Customers'}
         setSearchTerm={setSearchTerm}
         searchTerm={searchTerm}
-        // handleOpen={handleOpen}
+        handleOpen={handleOpen}
         // editTableMessage={addRole}
       />
       <Box sx={{ margin: '17px' }} />

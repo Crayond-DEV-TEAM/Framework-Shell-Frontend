@@ -11,16 +11,29 @@ export interface CustomerHeaderProps {
   isback?: boolean;
   title?: string;
   btns?: boolean;
+  onSave?: any;
+  onCancel?: any;
+  onBack?: any;
 }
 
 export const CustomerHeader = (props: CustomerHeaderProps): JSX.Element => {
-  const { className = '', sx = {}, isback = true, title = 'title', btns = true, ...rest } = props;
+  const {
+    className = '',
+    sx = {},
+    isback = true,
+    title = 'title',
+    btns = true,
+    onSave,
+    onCancel,
+    onBack,
+    ...rest
+  } = props;
   return (
     <Box>
       <Box sx={customerHeaderStyle.rootSx}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           {isback && (
-            <IconButton>
+            <IconButton onClick={onBack}>
               <Box sx={customerHeaderStyle.imageBorder}>
                 <BackButton />
               </Box>
@@ -31,8 +44,14 @@ export const CustomerHeader = (props: CustomerHeaderProps): JSX.Element => {
         </Box>
         {btns && (
           <Box sx={customerHeaderStyle.btn}>
-            <Button sx={{ width: '72px', height: '28px', textTransform: 'capitalize' }}>Save</Button>
-            <Button sx={{ width: '72px', height: '28px', textTransform: 'capitalize', ml: 1 }} variant="outlined">
+            <Button sx={{ width: '72px', height: '28px', textTransform: 'capitalize' }} onClick={onSave}>
+              Save
+            </Button>
+            <Button
+              sx={{ width: '72px', height: '28px', textTransform: 'capitalize', ml: 1 }}
+              variant="outlined"
+              onClick={onCancel}
+            >
               Cancel
             </Button>
           </Box>

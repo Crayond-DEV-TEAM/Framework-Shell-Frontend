@@ -8,12 +8,13 @@ import { tableData, Header, tableJson } from './utils';
 export interface AdminTableProps {
   className?: string;
   sx?: SxProps<Theme>;
+  onEditChange?: any;
 }
 
 export const AdminTable = (props: AdminTableProps): JSX.Element => {
-  const { className = '', sx = {}, ...rest } = props;
+  const { className = '', sx = {}, onEditChange, ...rest } = props;
   const handleTableEdit = () => {
-    console.log('_');
+    onEditChange;
   };
   const handleTableDelete = () => {
     console.log('_');
@@ -37,7 +38,7 @@ export const AdminTable = (props: AdminTableProps): JSX.Element => {
         <CommonTable
           Header={Header}
           dataList={tableJson}
-          tableData={tableData(handleTableEdit, handleTableDelete, handleTablemore)}
+          tableData={tableData(onEditChange, handleTableDelete, handleTablemore)}
           // switchList={switchList}
           // handleSwitch={handleSwitch}
           headerOptions={{

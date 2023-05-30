@@ -1,18 +1,26 @@
-import { messageRoutes, userManageRoutes } from '@core/routes';
-import { AppLayout, PageNotFound, RootLayout, SidebarLayout } from '@core/ui/components';
+import { planSubscriptionRoutes } from '@core/routes';
+import { AppLayout, Customer, PageNotFound, RootLayout, SidebarLayout } from '@core/ui/components';
 import ErrorBoundary from '@pages/errorBoundary';
 import Home from '@pages/home';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { PrivateRouter } from './privateRouter';
 import UserManagementPage from '@pages/userManage';
-
+import AddOnsPage from '@pages/addOns';
+import CustomerPage from '@pages/customer';
+import CreateCustomerPage from '@pages/createCustomer';
+import CustomerDetailPage from '@pages/customerDetails';
+import SubscriptionPage from '@pages/subscription';
+import PlanPage from '@pages/plans';
+import ChargesPage from '@pages/charges';
+import FeatureGroupsPage from '@pages/featureGroups';
+import SubscriptionDetailPage from '@pages/subscriptionDetail';
 const router = createBrowserRouter([
   {
     // path: userManageRoutes,
     element: (
       <PrivateRouter>
         <SidebarLayout>
-          <UserManagementPage />
+          <CustomerPage />
         </SidebarLayout>
         {/* <RootLayout /> */}
       </PrivateRouter>
@@ -26,11 +34,113 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: userManageRoutes.userManagement,
+    path: planSubscriptionRoutes.customer,
     element: (
-      <AppLayout title="IDM" paddingElement={{ padding: '7px 0px 0px 50px' }}>
-        <UserManagementPage />
-      </AppLayout>
+      <PrivateRouter>
+        <SidebarLayout>
+          <CustomerPage />
+        </SidebarLayout>
+        {/* <RootLayout /> */}
+      </PrivateRouter>
+    ),
+  },
+  {
+    path: planSubscriptionRoutes.addOns,
+    element: (
+      <PrivateRouter>
+        <SidebarLayout>
+          <AddOnsPage />
+        </SidebarLayout>
+        {/* <RootLayout /> */}
+      </PrivateRouter>
+    ),
+  },
+  {
+    path: planSubscriptionRoutes.createCustomer,
+    element: (
+      <PrivateRouter>
+        <SidebarLayout>
+          <CreateCustomerPage />
+        </SidebarLayout>
+        {/* <RootLayout /> */}
+      </PrivateRouter>
+    ),
+  },
+  {
+    path: planSubscriptionRoutes.customerDetail,
+    element: (
+      <PrivateRouter>
+        <SidebarLayout>
+          <CustomerDetailPage />
+        </SidebarLayout>
+        {/* <RootLayout /> */}
+      </PrivateRouter>
+    ),
+  },
+  {
+    path: planSubscriptionRoutes.subscription,
+    element: (
+      <PrivateRouter>
+        <SidebarLayout>
+          <SubscriptionPage />
+        </SidebarLayout>
+        {/* <RootLayout /> */}
+      </PrivateRouter>
+    ),
+  },
+  {
+    path: planSubscriptionRoutes.subscriptiondetails,
+    element: (
+      <PrivateRouter>
+        <SidebarLayout>
+          <SubscriptionDetailPage />
+        </SidebarLayout>
+        {/* <RootLayout /> */}
+      </PrivateRouter>
+    ),
+  },
+  {
+    path: planSubscriptionRoutes.plan,
+    element: (
+      <PrivateRouter>
+        <SidebarLayout>
+          <PlanPage />
+        </SidebarLayout>
+        {/* <RootLayout /> */}
+      </PrivateRouter>
+    ),
+  },
+  {
+    path: planSubscriptionRoutes.createplan,
+    element: (
+      <PrivateRouter>
+        <SidebarLayout>
+          <PlanPage />
+        </SidebarLayout>
+        {/* <RootLayout /> */}
+      </PrivateRouter>
+    ),
+  },
+  {
+    path: planSubscriptionRoutes.charges,
+    element: (
+      <PrivateRouter>
+        <SidebarLayout>
+          <ChargesPage />
+        </SidebarLayout>
+        {/* <RootLayout /> */}
+      </PrivateRouter>
+    ),
+  },
+  {
+    path: planSubscriptionRoutes.featureGroups,
+    element: (
+      <PrivateRouter>
+        <SidebarLayout>
+          <FeatureGroupsPage />
+        </SidebarLayout>
+        {/* <RootLayout /> */}
+      </PrivateRouter>
     ),
   },
   {

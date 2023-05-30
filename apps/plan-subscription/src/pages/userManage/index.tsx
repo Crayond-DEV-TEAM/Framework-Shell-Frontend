@@ -5,13 +5,17 @@ import {
   CustomerDetails,
   Subscription,
   SubscriptionDetails,
+  Plans,
+  AddOne,
+  Charges,
+  FeatureGroups,
 } from '@core/ui/components';
 import { SubscriptionPlanCard } from '@core/ui/atoms';
 import { Box } from '@mui/material';
 export default function UserManagementPage() {
   return (
     <Box>
-      <SubscriptionDetails />
+      <FeatureGroups />
     </Box>
   );
 }

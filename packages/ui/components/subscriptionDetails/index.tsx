@@ -1,6 +1,7 @@
-import { Avatar, SxProps, Theme } from '@mui/material';
+import { Avatar, SxProps, Theme, Checkbox } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { subscriptionDetailsStyle } from './style';
 import { Filter, InvoiceTable, SubscriptionPlanContent } from '..';
 import { SubscriptionPlanCard } from '@atoms/subscriptionPlanCard';
@@ -10,6 +11,9 @@ import { CustomerHeader } from '@atoms/customerHeader';
 import { DialogDrawer } from '@atoms/dialogDrawer';
 import { useState } from 'react';
 import { FooterComponent } from '@atoms/footerComponent';
+import { Drawer } from '@atoms/drawer';
+import { planSubscriptionRoutes } from '@core/routes';
+import { useNavigate } from 'react-router-dom';
 
 export interface SubscriptionDetailsProps {
   className?: string;
@@ -19,11 +23,22 @@ export interface SubscriptionDetailsProps {
 export const SubscriptionDetails = (props: SubscriptionDetailsProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
   const [values, setValues] = useState(false);
+  const [draweropen, setDrawerOpen] = useState(false);
+  const navigate = useNavigate();
   const handleMapopen = () => {
     setValues(true);
   };
   const handleMapclose = () => {
     setValues(false);
+  };
+  const handleDrawerOpen = () => {
+    setDrawerOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+  };
+  const handleOnBack = () => {
+    navigate(planSubscriptionRoutes.subscription);
   };
 
   return (
@@ -37,7 +52,7 @@ export const SubscriptionDetails = (props: SubscriptionDetailsProps): JSX.Elemen
       className={`${className}`}
       {...rest}
     >
-      <CustomerHeader title={' ID-4985'} btns={false} />
+      <CustomerHeader title={' ID-4985'} btns={false} onBack={handleOnBack} />
       <Box sx={{ margin: '45px' }} />
       <Box sx={subscriptionDetailsStyle.content}>
         <Box sx={subscriptionDetailsStyle.card}>
@@ -67,6 +82,7 @@ export const SubscriptionDetails = (props: SubscriptionDetailsProps): JSX.Elemen
                 activeSince={'22/10/2021'}
                 users={'6'}
                 withUpgrade={true}
+                onClick={handleDrawerOpen}
               />
             }
           />
@@ -87,7 +103,6 @@ export const SubscriptionDetails = (props: SubscriptionDetailsProps): JSX.Elemen
                     }
                   />
                 </Box>
-                <Filter />
               </Box>
             </Box>
             <Box sx={subscriptionDetailsStyle.body}>
@@ -107,9 +122,43 @@ export const SubscriptionDetails = (props: SubscriptionDetailsProps): JSX.Elemen
           <FooterComponent
             saveText={'Download'}
             saveButtonStyle={{ minWidth: '90px', height: '28px', backgroundColor: 'red' }}
+            onCancel={handleMapclose}
           />
         }
       />
+      <Drawer
+        show={draweropen}
+        onCloseDrawer={handleDrawerClose}
+        anchor="right"
+        drawerStyleSX={subscriptionDetailsStyle.drawerBody}
+        drawerRightClose
+        header={'Activity Log'}
+        headerStyle={{
+          fontSize: '16px',
+          fontWeight: 600,
+          color: '#101010',
+          textTransform: 'capitalize',
+        }}
+      >
+        <Box sx={subscriptionDetailsStyle.align}>
+          <Checkbox icon={<RadioButtonUncheckedIcon />} checkedIcon={<RadioButtonCheckedIcon />} checked disabled />
+          <Typography sx={subscriptionDetailsStyle.drawerTxt}>15 Mar,2023 05:03 PM</Typography>
+        </Box>
+        <Box sx={subscriptionDetailsStyle.dashedLine} />
+        <Box sx={subscriptionDetailsStyle.cardDrawer}>
+          <Typography sx={subscriptionDetailsStyle.title}>Invoice auto-generated</Typography>
+          <Typography sx={subscriptionDetailsStyle.drawerTxt}>by system</Typography>
+        </Box>
+        <Box sx={{ margin: '18px' }} />
+        <Box sx={subscriptionDetailsStyle.align}>
+          <Checkbox icon={<RadioButtonUncheckedIcon />} checkedIcon={<RadioButtonCheckedIcon />} checked disabled />
+          <Typography sx={subscriptionDetailsStyle.drawerTxt}>15 Mar,2023 05:03 PM</Typography>
+        </Box>
+        <Box sx={subscriptionDetailsStyle.cardDrawer}>
+          <Typography sx={subscriptionDetailsStyle.title}>Invoice auto-generated</Typography>
+          <Typography sx={subscriptionDetailsStyle.drawerTxt}>by system</Typography>
+        </Box>
+      </Drawer>
     </Box>
   );
 };

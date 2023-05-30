@@ -56,4 +56,29 @@ export const subscriptionDetailsStyle: SubscriptionDetailsStyleProps = {
     width: '430px',
     height: '531px',
   },
+  drawerBody: {
+    pt: 0,
+    pb: 2,
+    px: 2,
+  },
+  drawerTxt: {
+    color: '#818181',
+    fontSize: '12px',
+    ml: '12px',
+  },
+  cardDrawer: {
+    border: '1px solid #EAEAEA',
+    borderRadius: '8px',
+    padding: '12px',
+    ml: '50px',
+  },
+  dashedLine: {
+    borderLeft: '2px dashed #EAEAEA',
+    position: 'absolute',
+    left: '36px',
+    right: '50px',
+    top: '90px',
+    bottom: '50px',
+    height: '100px',
+  },
 };

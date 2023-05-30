@@ -7,6 +7,7 @@ import { Input } from '@atoms/input';
 import { CustomDropdown } from '@atoms/customDropdown';
 import { BottomTicket, TopTicket } from '@atoms/icons';
 import { Button } from '@atoms/button';
+import { CutstomizedAutocomplete } from '@atoms/cutstomizedAutocomplete';
 
 export interface MapSubscriptionProps {
   className?: string;
@@ -58,13 +59,13 @@ export const MapSubscription = (props: MapSubscriptionProps): JSX.Element => {
             <Label sx={mapSubscriptionStyle.labelSx} htmlFor="addTitle" isRequired>
               Choose Plan
             </Label>
-            <CustomDropdown placeholder={'Silver'} permissionList={options} />
+            <CutstomizedAutocomplete placeholder={'Silver'} permissionList={options} />
           </Box>
           <Box sx={{ mb: '16px' }}>
             <Label sx={mapSubscriptionStyle.labelSx} htmlFor="addTitle" isRequired>
               Choose Billing type
             </Label>
-            <CustomDropdown placeholder={'Monthly'} permissionList={options} />
+            <CutstomizedAutocomplete placeholder={'Monthly'} permissionList={options} />
           </Box>
           <Box sx={{ margin: '10px' }} />
           <Box sx={mapSubscriptionStyle.align}>

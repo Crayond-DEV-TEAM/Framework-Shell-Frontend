@@ -5,9 +5,14 @@ import { CommonTable } from 'crayond-components-library-1';
 import { subscriptionStyle } from './style';
 import { Header, tableData, tableJson } from './utils';
 import { useState } from 'react';
-import { TableHeader } from '..';
+import { MapSubscriptionPlanTransfer, TableHeader } from '..';
 import { DialogDrawer } from '@atoms/dialogDrawer';
 import { FooterComponent } from '@atoms/footerComponent';
+import { SearchIcon } from '@atoms/icons';
+import { Input } from '@atoms/input';
+import { CustomerModalCard } from '@atoms/customerModalCard';
+import { planSubscriptionRoutes } from '@core/routes';
+import { useNavigate } from 'react-router-dom';
 
 export interface SubscriptionProps {
   className?: string;
@@ -19,6 +24,8 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
   const [switchList, setSwitchList] = useState<any>([]);
   const [cardOpen, setCardOpen] = useState(false);
+  const [planControl, setPlanControl] = useState(false);
+  const navigate = useNavigate();
   const filteredMessageGroup = tableJson.filter((x: any) =>
     x.companyName?.toLowerCase()?.includes(searchTerm.toLowerCase()),
   );
@@ -57,6 +64,16 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
     setCardOpen(true);
   };
 
+  const handlePlanOpen = () => {
+    setPlanControl(true);
+  };
+  const handlePlanClose = () => {
+    setPlanControl(false);
+  };
+  const onSaveSubscription = () => {
+    navigate(planSubscriptionRoutes.subscriptiondetails);
+  };
+
   return (
     <Box
       sx={[
@@ -69,7 +86,7 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
       {...rest}
     >
       <TableHeader
-        // isFilterRequired={false}
+        isFilterRequired={false}
         buttonName={'Create'}
         tableHeader={'Subscriptions'}
         setSearchTerm={setSearchTerm}
@@ -123,13 +140,44 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
         maxModalWidth="xl"
         isDialogOpened={cardOpen}
         title={'IN-957690'}
-        Bodycomponent={''}
+        Bodycomponent={
+          <Box sx={{ p: '24px' }}>
+            <Input
+              placeholder={'Search'}
+              // value={''}
+              // onChange={(e) => setSearchTerm(e.target.value)}
+              startAdornment={<SearchIcon rootStyle={{ width: '12px', height: '12px', color: '#818181', ml: 1 }} />}
+            />
+            <Box sx={{ m: '16px' }} />
+            <Box>
+              <CustomerModalCard />
+            </Box>
+          </Box>
+        }
         handleCloseDialog={handleMapclose}
-        dialogRootStyle={subscriptionDetailsStyle.dialogSx}
+        dialogRootStyle={subscriptionStyle.dialogSx}
         Footercomponent={
           <FooterComponent
             saveText={'Next'}
             saveButtonStyle={{ minWidth: '90px', height: '28px', backgroundColor: 'red' }}
+            onCancel={handleMapclose}
+            onSave={handlePlanOpen}
+          />
+        }
+      />
+      <DialogDrawer
+        maxModalWidth="xl"
+        isDialogOpened={planControl}
+        title={'Map Subscription'}
+        Bodycomponent={<MapSubscriptionPlanTransfer />}
+        handleCloseDialog={handlePlanClose}
+        dialogRootStyle={subscriptionStyle.dialogMapSx}
+        Footercomponent={
+          <FooterComponent
+            saveText={'Next'}
+            saveButtonStyle={{ minWidth: '90px', height: '28px' }}
+            onCancel={handlePlanClose}
+            onSave={onSaveSubscription}
           />
         }
       />

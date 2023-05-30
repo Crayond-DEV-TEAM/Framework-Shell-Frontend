@@ -8,6 +8,8 @@ import { AddressForm, CreateForm, MapSubscription } from '..';
 import { Label } from '@atoms/label';
 import { Input } from '@atoms/input';
 import { useState } from 'react';
+import { planSubscriptionRoutes } from '@core/routes';
+import { useNavigate } from 'react-router-dom';
 
 export interface CreateCustomerProps {
   className?: string;
@@ -17,6 +19,7 @@ export interface CreateCustomerProps {
 export const CreateCustomer = (props: CreateCustomerProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
   const [values, setValues] = useState(false);
+  const navigate = useNavigate();
   const handleChange = (x: any, y: any) => {
     console.log('///');
   };
@@ -25,6 +28,9 @@ export const CreateCustomer = (props: CreateCustomerProps): JSX.Element => {
   };
   const handleMapclose = () => {
     setValues(false);
+  };
+  const onchangeRoute = () => {
+    navigate(planSubscriptionRoutes.customer);
   };
   return (
     <Box
@@ -37,7 +43,7 @@ export const CreateCustomer = (props: CreateCustomerProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
-      <CustomerHeader isback={false} title={' Create New Customer'} />
+      <CustomerHeader isback={false} title={' Create New Customer'} onSave={onchangeRoute} onCancel={onchangeRoute} />
       <Box sx={{ margin: '45px' }} />
       <Box sx={createCustomerStyle.content}>
         <CustomerCardComponent title={' Company  Details'} body={<CreateForm />} />

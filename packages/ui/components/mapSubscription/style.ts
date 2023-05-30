@@ -64,8 +64,9 @@ export const mapSubscriptionStyle: MapSubscriptionStyleProps = {
     borderRadius: '6px',
     fontSize: '10px',
     color: '#5A5A5A',
-    padding: '4px 8px',
+    padding: '3px 8px',
     ml: '8px',
+    mb: '2px',
   },
   titleTwoLeft: {
     fontSize: '14px',

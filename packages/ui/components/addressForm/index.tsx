@@ -6,6 +6,7 @@ import { Label } from '@atoms/label';
 import { Input } from '@atoms/input';
 import { ImageUpload } from '@atoms/imageUpload';
 import { CustomDropdown } from '@atoms/customDropdown';
+import { CutstomizedAutocomplete } from '@atoms/cutstomizedAutocomplete'
 
 export interface AddressFormProps {
   className?: string;
@@ -96,7 +97,7 @@ export const AddressForm = (props: AddressFormProps): JSX.Element => {
             <Label sx={addressFormStyle.labelSx} htmlFor="addTitle" isRequired>
               Country
             </Label>
-            <CustomDropdown placeholder={'Select Country'} permissionList={options} />
+            <CutstomizedAutocomplete placeholder={'Select Country'} permissionList={options} />
           </Box>
         </Grid>
         <Grid item xs={3} sm={3} md={3} lg={3} xl={3}>

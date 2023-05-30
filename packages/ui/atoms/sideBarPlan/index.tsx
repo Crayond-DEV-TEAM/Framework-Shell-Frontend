@@ -16,9 +16,10 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { sideBarPlanStyle } from './style';
 import { sideBarData } from './utils';
-import { KeyBoardDown, Test } from '@atoms/icons';
+import { KeyBoardDown, RightArrowBtn, Test } from '@atoms/icons';
 import Avatar from '@mui/material/Avatar';
 import { localStorageKeys, parseJwt } from '@core/utils';
+import { matchPath, useNavigate } from 'react-router-dom';
 
 export interface SideBarPlanProps {
   className?: string;
@@ -29,7 +30,7 @@ export const SideBarPlan = (props: SideBarPlanProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
   const token = localStorage.getItem(localStorageKeys.authToken);
   const user = parseJwt(token);
-
+  const navigate = useNavigate();
   return (
     <Box
       sx={[
@@ -50,15 +51,27 @@ export const SideBarPlan = (props: SideBarPlanProps): JSX.Element => {
           </Box>
           <Typography sx={sideBarPlanStyle.linkBtn}>dev.colobo.gtm.com</Typography>
           <Box sx={sideBarPlanStyle.btnAlignment}>
-            <Typography sx={{ mr: 1, fontSize: '12px' }}>Switch to Production</Typography>
-            <Test />
+            <Typography sx={{ mr: 1, fontSize: '12px', lineHeight: '0.5px' }}>Switch to Production</Typography>
+            <Box>
+              <RightArrowBtn rootStyle={{ mb: '-15px', ml: '2px' }} />
+            </Box>
           </Box>
         </Box>
         <Box sx={{ overflow: 'auto' }}>
           <List>
             {sideBarData.map((text, index) => {
               return (
-                <ListItem key={index} disablePadding>
+                <ListItem
+                  key={index}
+                  disablePadding
+                  onClick={() => {
+                    navigate(text.route);
+                  }}
+                  sx={{
+                    '& .MuiListItemButton-root:hover': { backgroundColor: 'primary.main', borderRadius: '8px' },
+                    '& .MuiListItemButton-root:focus': { backgroundColor: 'primary.main', borderRadius: '8px' },
+                  }}
+                >
                   <ListItemButton>
                     <ListItemIcon sx={sideBarPlanStyle.listItem}>{text.icon}</ListItemIcon>
                     <ListItemText sx={sideBarPlanStyle.listtext}>{text.name}</ListItemText>

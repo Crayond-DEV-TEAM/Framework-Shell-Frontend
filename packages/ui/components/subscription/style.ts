@@ -52,4 +52,12 @@ export const subscriptionStyle: SubscriptionStyleProps = {
       width: '136px',
     },
   },
+  dialogSx: {
+    width: '400px',
+    height: '531px',
+  },
+  dialogMapSx: {
+    width: '823px',
+    height: '588px',
+  },
 };

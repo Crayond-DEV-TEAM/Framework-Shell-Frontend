@@ -56,10 +56,10 @@ export const FeatureGroups = (props: FeatureGroupsProps): JSX.Element => {
     setValues(false);
   };
 
-  const addhandle =() => {
+  const addhandle = () => {
     handleOpen();
     setEditData(false);
-  }
+  };
 
   return (
     <Box

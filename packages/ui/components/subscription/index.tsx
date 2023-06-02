@@ -164,7 +164,7 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
             onSave={handlePlanOpen}
           />
         }
-      />
+      /> v
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={planControl}

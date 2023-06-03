@@ -38,6 +38,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     MessagesListStatus,
     addMessageLoading,
     editMessageLoading,
+    filterContent,
     clearfilter,
     setfilter,
     onApply,
@@ -56,10 +57,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     clearAll,
   } = useMessage();
 
-  const { filterContentState } = useMessageGroupDetails();
-
-  const filterContent = filterContentState;
-
+  // const filterContent: any[] = [];
   const { languages, getSavedLanguage } = useLanguageConfiguration();
   const [isEdit, setIsEdit] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -93,7 +91,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   };
 
   const handleChange = (key: any, value: string) => {
-    setList({ key, value });
+    setList(key.id);
     setTableName(key.title);
     setGroupId(key.id);
     getMessageList();
@@ -163,7 +161,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     getServerity();
     getMessageList();
   }, []);
-
   return (
     <Box
       sx={[{ ...messageTableStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]}
@@ -181,6 +178,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
               title="Message Group"
               addTitle="Add New Message Group"
               editTitle="Edit Message Group"
+              setTableName={setTableName}
             />
           </Box>
         </Grid>

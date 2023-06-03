@@ -25,8 +25,8 @@ export const Permission = (props: PermissionProps): JSX.Element => {
   };
 
   useEffect(() => {
-    if (PermissionList.length > 0) {
-      const init = PermissionList?.[0];
+    if (PermissionList && PermissionList.length > 0) {
+      const init = PermissionList[0];
       setRepositoryList(init?.data, init?.id, '');
       setSelected(0);
       setTableName(init?.name);

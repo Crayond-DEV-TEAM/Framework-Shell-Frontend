@@ -14,7 +14,8 @@ export interface AddMessageProps {
   className?: string;
   sx?: SxProps<Theme>;
   onMessageTable?: (key: any, value: string) => void;
-  setList?: (key: any, value: string) => void;
+  setList?: any;
+  setTableName?: any;
   open?: boolean;
   payload?: any;
   title?: string;
@@ -26,12 +27,13 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
   const {
     className = '',
     sx = {},
-    setList = {},
+    setList,
     onMessageTable = () => false,
     payload = {},
     title = '',
     addTitle = '',
     editTitle = '',
+    setTableName,
     ...rest
   } = props;
 
@@ -100,12 +102,23 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     setselctedMessage({ key, value });
     setSelected(value);
     onMessageTable(key, value);
+    setList(key.id);
   };
+  console.log(messageGroup, 'messageGroup');
 
   useEffect(() => {
     getMessageGroups();
+    // setSelected(0);
     // eslint-disable-next-line
   }, []);
+  useEffect(() => {
+    if (messageGroup && messageGroup.length > 0) {
+      const init = messageGroup[0];
+      setList(init.id);
+      setSelected(0);
+      setTableName(init?.title);
+    }
+  }, [messageGroup]);
 
   return (
     <Box

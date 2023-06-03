@@ -26,11 +26,11 @@ export const tabs = [
     label: 'Roles',
     children: <Roles />,
   },
-  {
-    id: 3,
-    label: 'Role Mapping',
-    children: <RoleMapping />,
-  },
+  // {
+  //   id: 3,
+  //   label: 'Role Mapping',
+  //   children: <RoleMapping />,
+  // },
 ];
 function TabPanel(props: any) {
   const { children, value, index, ...other } = props;

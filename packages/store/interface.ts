@@ -261,10 +261,10 @@ export interface filtertech {
 }
 
 export interface MessageGroupsDetails {
-  idList: any;
-  setList: (id: { key: string; value: string }) => void;
+  idList: string;
+  setList: (value: string) => void;
 
-  FilterList: FilterDetails[];
+  FilterList: any;
   setfilter: (payload: { key: string; value: string }) => void;
 
   MessagesList: messageListbox[];
@@ -279,8 +279,8 @@ export interface MessageGroupsDetails {
   StatusList: MessageDetails;
   SevorityList: MessageDetails[];
   MessageArray: MessageDetails[];
-  filterContentState: filtertech[];
-  // filterContent: filtertech[];
+  // filterContentState: FilterSetContent[];
+  filterContent: any;
 
   filterLoading: boolean;
   errorOnFilter: boolean;

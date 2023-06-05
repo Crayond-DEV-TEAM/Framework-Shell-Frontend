@@ -13,7 +13,6 @@ export interface AddMessageGroupProps {
 }
 
 export const AddMessageGroup = (props: AddMessageGroupProps): JSX.Element => {
-
   const { addEditMessageState, handleAddEditStateChange, handleAddEditMessageChange } = useMessage();
 
   return (
@@ -86,7 +85,7 @@ export const AddMessageGroup = (props: AddMessageGroupProps): JSX.Element => {
                       <Box key={i}>
                         <LanguageCard
                           title={val?.language_name}
-                          value={addEditMessageState.messages?.[val?.configuration_id]?.message ?? ""}
+                          value={addEditMessageState.messages?.[val?.configuration_id]?.message ?? ''}
                           onChange={(message: string) => handleAddEditMessageChange(val?.configuration_id, message)}
                           placeholder={val?.language_name}
                         />

@@ -30,7 +30,7 @@ export const FacilityClone = (props: FacilityCloneProps): JSX.Element => {
   const handleCheckChange = (e: any, type: string, data: any, index: any) => {
     const value = data[type];
     setRepository(type, index, value);
-    console.log(data);
+    // console.log(data);
   };
 
   const { fetchingPermission } = usePermission();

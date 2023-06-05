@@ -171,7 +171,6 @@ export const TreeComponent = (props: TreeComponentProps): JSX.Element => {
     onChange = () => false,
     ...rest
   } = props;
-  console.log(setEdit, 'pppppppppppppppppppppp');
   return (
     <Box
       sx={[

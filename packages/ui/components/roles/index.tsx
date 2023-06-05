@@ -132,10 +132,10 @@ export const Roles = (props: RolesProps): JSX.Element => {
       }
     }
     if (e.target.checked === true) {
-      console.log(id);
+      // console.log(id);
       getStatusList(id, true);
     } else {
-      console.log(id);
+      // console.log(id);
       getStatusList(id, false);
     }
   };
@@ -154,7 +154,6 @@ export const Roles = (props: RolesProps): JSX.Element => {
     handleStatus();
   }, [RolesList]);
 
-  console.log(filteredMessageGroup, 'filteredMessageGroup');
   return (
     <Box
       sx={[

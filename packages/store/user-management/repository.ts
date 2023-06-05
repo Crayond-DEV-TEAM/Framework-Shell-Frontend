@@ -27,7 +27,6 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
       .then((response) => {
         const lastObject = response.data.data[response.data.data.length - 1];
         set({ RepositoryList: lastObject.data.editRepositoryList, RepositoryId: lastObject.id });
-        console.log(lastObject.id, '//////////////');
       })
       .catch((err) => {
         set({ errorOnFetching: true });

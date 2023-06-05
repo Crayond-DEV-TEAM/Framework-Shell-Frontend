@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { plansStyle } from './style';
 import { TableHeader } from '..';
 import { Header, tableData, tableJson } from './utills';
+import { planSubscriptionRoutes } from '@core/routes';
+import { useNavigate } from 'react-router-dom';
 
 export interface PlansProps {
   className?: string;
@@ -15,6 +17,7 @@ export const Plans = (props: PlansProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
   const [searchTerm, setSearchTerm] = useState('');
   const [switchList, setSwitchList] = useState<any>([]);
+  const navigate = useNavigate();
   const filteredMessageGroup = tableJson.filter((x: any) => x.plan?.toLowerCase()?.includes(searchTerm.toLowerCase()));
   const handleTableEdit = () => {
     console.log('///');
@@ -40,6 +43,9 @@ export const Plans = (props: PlansProps): JSX.Element => {
     //   getStatusList(id, false);
     // }
   };
+  const handleMapopen = () => {
+    navigate(planSubscriptionRoutes.createplan);
+  };
 
   return (
     <Box
@@ -58,7 +64,7 @@ export const Plans = (props: PlansProps): JSX.Element => {
         tableHeader={'Plans'}
         setSearchTerm={setSearchTerm}
         searchTerm={searchTerm}
-        // handleOpen={handleMapopen}
+        handleOpen={handleMapopen}
         // editTableMessage={addRole}
       />
       <Box sx={{ margin: '17px' }} />

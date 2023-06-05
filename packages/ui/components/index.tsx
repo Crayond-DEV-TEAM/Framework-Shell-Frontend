@@ -63,3 +63,4 @@ export { TabsValueCard } from './tabsValueCard';
 export { UserManagement } from './userManagement';
 
 export { CreatePlan } from './createPlan';
+export { ButtonGroupDropdown } from './buttonGroupDropdown';

@@ -1,5 +1,5 @@
 import { planSubscriptionRoutes } from '@core/routes';
-import { AppLayout, Customer, PageNotFound, RootLayout, SidebarLayout } from '@core/ui/components';
+import { AppLayout, CreatePlan, Customer, PageNotFound, RootLayout, SidebarLayout } from '@core/ui/components';
 import ErrorBoundary from '@pages/errorBoundary';
 import Home from '@pages/home';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -115,7 +115,7 @@ const router = createBrowserRouter([
     element: (
       <PrivateRouter>
         <SidebarLayout>
-          <PlanPage />
+          <CreatePlan />
         </SidebarLayout>
         {/* <RootLayout /> */}
       </PrivateRouter>

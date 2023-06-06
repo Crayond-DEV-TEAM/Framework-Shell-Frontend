@@ -71,7 +71,6 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
     sx = {},
     ...rest
   } = props;
-  console.log(permissionList, ';;;;;;;');
 
   return (
     <Box

@@ -1,10 +1,19 @@
 import type { SxProps, Theme } from '@mui/material';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Grid } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import { createPlanStyle } from './style';
 import TextField from '@mui/material/TextField';
 import { CustomToggle } from '@atoms/customToggle';
-import { ButtonGroupDropdown } from '..';
+import { BackgroundPaper, ButtonGroupDropdown, CreatePlanCard } from '..';
+import { CustomCheckboxWithLabels } from '@atoms/customCheckboxWithLabels';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import { CustomerHeader } from '@atoms/customerHeader';
+import { planSubscriptionRoutes } from '@core/routes';
+import { useNavigate } from 'react-router-dom';
+import { CustomerCardComponent } from '@atoms/customerCardComponent';
+import { Label } from '@atoms/label';
+import { Input } from '@atoms/input';
+import { CloseRedIcon } from '@atoms/icons';
 
 export interface CreatePlanProps {
   className?: string;
@@ -13,25 +22,17 @@ export interface CreatePlanProps {
 
 export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
+  const navigate = useNavigate();
 
-  const top100Films = [
-    { title: 'The Shawshank Redemption', year: 19 },
-    { title: 'The Godfather', year: 19 },
-    { title: 'The Godfather: Part II', year: 19 },
-    { title: 'The Dark Knight', year: 20 },
-    { title: '12 Angry Men', year: 19 },
-    { title: "Schindler's List", year: 20 },
-    { title: 'Pulp Fiction', year: 20 },
-    { title: 'The Lord of the Rings: The Return of the King', year: 20 },
-    { title: 'The Good, the Bad and the Ugly', year: 19 },
-    { title: 'Fight Club', year: 20 },
-    { title: 'The Lord of the Rings: The Fellowship of the Ring', year: 20 },
-    { title: 'Star Wars: Episode V - The Empire Strikes Back', year: 19 },
-    { title: 'Forrest Gump', year: 19 },
-    { title: 'Inception', year: 20 },
-    { title: 'The Lord of the Rings: The Two Towers', year: 20 },
-    { title: "One Flew Over the Cuckoo's Nest", year: 19 },
-    { title: 'Goodfellas', year: 19 },
+  const onchangeRoute = () => {
+    navigate(planSubscriptionRoutes.plan);
+  };
+  const Money = [{ label: '10' }, { label: '19' }];
+  const SqureText = [
+    { text: 'List this plan in the public portal' },
+    { text: 'Make this a recommended plan' },
+    { text: 'Enable metered billing' },
+    { text: 'Active this paln' },
   ];
 
   return (
@@ -45,15 +46,130 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
-      {/* <Autocomplete
-        id="grouped-demo"
-        options={top100Films.map((option) => option.title)}
-        groupBy={(option) => option.year}
-        getOptionLabel={(option) => option.title}
-        style={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} label="With categories" variant="outlined" />}
-      /> */}
-      <ButtonGroupDropdown permissionList={top100Films} />
+      <CustomerHeader isback={false} title={' Create New Customer'} onSave={onchangeRoute} onCancel={onchangeRoute} />
+      <Box sx={{ margin: '45px' }} />
+      {/* <CreatePlanCard title="General" subTitle="Users" /> */}
+      <Box sx={createPlanStyle.content}>
+        <CustomerCardComponent
+          title={'Basic Details'}
+          body={
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                <Label sx={createPlanStyle.labelSx} htmlFor="addTitle" isRequired>
+                  Plan Name
+                </Label>
+                <Input
+                  size="small"
+                  placeholder="Plan Name"
+                  // value={groupState?.title}
+                  id="title"
+                  // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                  //   handleChange('title', e?.target?.value)
+                  // }
+                  textFieldStyle={createPlanStyle.inputSx}
+                  // isError={groupState?.error?.addTitle ? true : false}
+                  // errorMessage={groupState?.error?.addTitle ?? ''}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                <Label sx={createPlanStyle.labelSx} rootStyle={{ mb: '1' }} htmlFor="addTitle" isRequired>
+                  Description
+                </Label>
+                <Input
+                  size="small"
+                  // placeholder="Description"
+                  // value={groupState?.title}
+                  // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                  //   handleChange('title', e?.target?.value)
+                  // }
+                  rows={3}
+                  rowsMax={6}
+                  isMulti={true}
+                  textFieldStyle={createPlanStyle.inputSx}
+                  required
+                  id="description"
+                  // isError={groupState?.error?.addTitle ? true : false}
+                  // errorMessage={groupState?.error?.addTitle ?? ''}
+                />
+              </Grid>
+              {SqureText.map((x, index) => {
+                return (
+                  <Grid item key={index}>
+                    <CustomCheckboxWithLabels squareCheckbox={true} squareText={x.text} />
+                  </Grid>
+                );
+              })}
+            </Grid>
+          }
+        />
+        <BackgroundPaper
+          title="Pricing"
+          content={
+            <>
+              <Grid container spacing={2}>
+                <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+                  <Label sx={createPlanStyle.labelSx} htmlFor="addTitle" isRequired>
+                    Billing Period
+                  </Label>
+                  <CustomToggle tabOne={'Monthly'} tabTwo={'Yearly'} />
+                </Grid>
+                <Grid item xs={7.5} sm={7.5} md={7.5} lg={7.5} xl={7.5}>
+                  <Label sx={createPlanStyle.labelSx} htmlFor="addTitle" isRequired>
+                    Set Price
+                  </Label>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <ButtonGroupDropdown permissionList={Money} BtnName={'Monthly'} />
+                    <ButtonGroupDropdown permissionList={Money} BtnName={'Yearly'} />
+                    <CustomCheckboxWithLabels circleCheckbox={true} circleText={'Per user'} />
+                    <CustomCheckboxWithLabels circleCheckbox={true} circleText={'Flat fee'} />
+                  </Box>
+                </Grid>
+                <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+                  <Label sx={createPlanStyle.labelSx} htmlFor="addTitle" isRequired>
+                    Billing cycles
+                  </Label>
+                  <CustomToggle tabOne={'Fixed'} tabTwo={'Forever'} />
+                </Grid>
+              </Grid>
+            </>
+          }
+        />
+        <BackgroundPaper
+          title="Feature set and controls"
+          content={<CreatePlanCard title="General" subTitle="Users" />}
+        />
+        <BackgroundPaper title="Add-ons" content={<CreatePlanCard subTitle="Users" anAddOns={true} />} />
+        <BackgroundPaper
+          title="Charges"
+          content={
+            <Box>
+              <Box sx={createPlanStyle.align}>
+                <Typography sx={createPlanStyle.firstTextdark}>{'Implementation Charge'}</Typography>
+                <CloseRedIcon rootStyle={{ width: '17px', height: '17px' }} />
+              </Box>
+              <Label sx={createPlanStyle.labelSx} htmlFor="addTitle" isRequired>
+                Set price
+              </Label>
+
+              <Input
+                value={'10'}
+                textFieldStyle={{ width: '160px', height: '40px', margin: '0px 12px' }}
+                endAdornment={
+                  <AttachMoneyIcon
+                    sx={{
+                      '& .MuiSvgIcon-root': {
+                        width: '25px',
+                        height: '20px',
+                        color: '#000000',
+                      },
+                    }}
+                  />
+                }
+              />
+            </Box>
+          }
+        />
+      </Box>
     </Box>
   );
 };

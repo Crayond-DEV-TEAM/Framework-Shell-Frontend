@@ -68,11 +68,12 @@ export const subscriptionPlanContentStyle: SubscriptionPlanContentStyleProps = {
     color: 'primary.main',
   },
   btn: {
-    width: '126px',
+    padding: '6px 16px',
     height: '28px',
     borderRadius: '4px',
     textTransform: 'capitalize',
     fontSize: '12px',
+    width: 'auto',
   },
   sectionTwo: {
     display: 'flex',

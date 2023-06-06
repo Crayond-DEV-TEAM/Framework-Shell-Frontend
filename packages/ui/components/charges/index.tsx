@@ -74,7 +74,7 @@ export const Charges = (props: ChargesProps): JSX.Element => {
       {...rest}
     >
       <TableHeader
-        // isFilterRequired={false}
+        isFilterRequired={false}
         buttonName={'Create'}
         tableHeader={'Charges'}
         setSearchTerm={setSearchTerm}
@@ -131,11 +131,11 @@ export const Charges = (props: ChargesProps): JSX.Element => {
         Bodycomponent={
           <Box sx={chargesStyle.padd}>
             <Label sx={chargesStyle.labelSx} htmlFor="addTitle" isRequired>
-              Add-on name
+              Charges Name
             </Label>
             <Input
               size="small"
-              placeholder=" Add-on name"
+              placeholder="Charge name"
               required
               // value={addOnContentStyle?.title}
               textFieldStyle={chargesStyle.inputSx}
@@ -152,11 +152,14 @@ export const Charges = (props: ChargesProps): JSX.Element => {
             </Label>
             <Input
               size="small"
-              placeholder=""
+              // placeholder="Description"
               required
+              rows={3}
+              rowsMax={6}
+              isMulti={true}
               // value={addOnContentStyle?.title}
               textFieldStyle={chargesStyle.inputBigSx}
-              id="title"
+              id="description"
               // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               //   handleAddEditStateChange('title', e.target.value)
               // }
@@ -168,7 +171,12 @@ export const Charges = (props: ChargesProps): JSX.Element => {
         handleCloseDialog={handleClose}
         dialogRootStyle={chargesStyle.dialogSx}
         Footercomponent={
-          <FooterComponent check saveButtonStyle={{ minWidth: '90px', height: '28px' }} onCancel={handleClose} />
+          <FooterComponent
+            check
+            saveButtonStyle={{ minWidth: '90px', height: '28px' }}
+            onCancel={handleClose}
+            onSave={handleClose}
+          />
         }
       />
     </Box>

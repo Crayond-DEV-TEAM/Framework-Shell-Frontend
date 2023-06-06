@@ -13,7 +13,7 @@ import { planSubscriptionRoutes } from '@core/routes';
 export const sideBarData = [
   {
     name: 'Home',
-    route: planSubscriptionRoutes.customer,
+    // route: planSubscriptionRoutes.customer,
     icon: <HomePlan rootStyle={{ width: '17px', height: '18px' }} />,
   },
   {
@@ -47,8 +47,13 @@ export const sideBarData = [
     icon: <FeaturePlan rootStyle={{ width: '17px', height: '18px' }} />,
   },
   {
+    name: 'Features',
+    route: planSubscriptionRoutes.features,
+    icon: <CustomPlan rootStyle={{ width: '17px', height: '18px' }} />,
+  },
+  {
     name: 'Settings',
-    route: planSubscriptionRoutes.featureGroups,
+    // route: planSubscriptionRoutes.featureGroups,
     icon: <SettingPlan rootStyle={{ width: '17px', height: '18px' }} />,
   },
 ];

@@ -1,29 +1,32 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { CommonTable } from 'crayond-components-library-1';
-
-import { addOneStyle } from './style';
-import { AddOnContent, TableHeader } from '..';
 import { useState } from 'react';
-import { Header, tableData, tableJson } from './utills';
+import { featureStyle } from './style';
+import { TableHeader } from '..';
+import { Header, tableData, tableJson } from './utils';
 import { FooterComponent } from '@atoms/footerComponent';
 import { DialogDrawer } from '@atoms/dialogDrawer';
+import { Label } from '@atoms/label';
+import { Input } from '@atoms/input';
 
-export interface AddOneProps {
+export interface FeatureProps {
   className?: string;
   sx?: SxProps<Theme>;
 }
 
-export const AddOne = (props: AddOneProps): JSX.Element => {
+export const Feature = (props: FeatureProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
   const [values, setValues] = useState(false);
-  const [editname, setEditname] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [switchList, setSwitchList] = useState<any>([]);
-  const filteredMessageGroup = tableJson.filter((x: any) => x.addon?.toLowerCase()?.includes(searchTerm.toLowerCase()));
+  const [savedes, setSavedes] = useState(false);
+  const filteredMessageGroup = tableJson.filter((x: any) =>
+    x.featurename?.toLowerCase()?.includes(searchTerm.toLowerCase()),
+  );
   const handleTableEdit = () => {
     handleOpen();
-    setEditname(true);
+    setSavedes(true);
   };
   const handleTableDelete = () => {
     console.log('///');
@@ -46,9 +49,9 @@ export const AddOne = (props: AddOneProps): JSX.Element => {
     //   getStatusList(id, false);
     // }
   };
-  const addHandle = () => {
+  const handleSave = () => {
     handleOpen();
-    setEditname(false);
+    setSavedes(false);
   };
 
   const handleOpen = () => {
@@ -62,7 +65,7 @@ export const AddOne = (props: AddOneProps): JSX.Element => {
     <Box
       sx={[
         {
-          ...addOneStyle.rootSx,
+          ...featureStyle.rootSx,
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
@@ -72,14 +75,14 @@ export const AddOne = (props: AddOneProps): JSX.Element => {
       <TableHeader
         isFilterRequired={false}
         buttonName={'Create'}
-        tableHeader={'Add-Ons'}
+        tableHeader={'Features'}
         setSearchTerm={setSearchTerm}
         searchTerm={searchTerm}
-        handleOpen={addHandle}
+        handleOpen={handleSave}
         // editTableMessage={addRole}
       />
       <Box sx={{ margin: '17px' }} />
-      <Box sx={addOneStyle.commonTable}>
+      <Box sx={featureStyle.commonTable}>
         <CommonTable
           Header={Header}
           dataList={filteredMessageGroup}
@@ -123,16 +126,35 @@ export const AddOne = (props: AddOneProps): JSX.Element => {
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={values}
-        title={editname === true ? 'Edit add-on' : 'Create new add-on'}
-        Bodycomponent={<AddOnContent />}
+        title={savedes === true ? 'Edit Feature' : 'Create new Feature'}
+        Bodycomponent={
+          <Box sx={featureStyle.padd}>
+            <Label sx={featureStyle.labelSx} htmlFor="addTitle" isRequired>
+              Add New Feature
+            </Label>
+            <Input
+              size="small"
+              placeholder="Feature name"
+              required
+              // value={addOnContentStyle?.title}
+              textFieldStyle={featureStyle.inputSx}
+              id="title"
+              // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+              //   handleAddEditStateChange('title', e.target.value)
+              // }
+              // isError={addEditMessageState?.error?.title ? true : false}
+              // errorMessage={addEditMessageState?.error?.title ?? ''}
+            />
+          </Box>
+        }
         handleCloseDialog={handleClose}
-        dialogRootStyle={addOneStyle.dialogSx}
+        dialogRootStyle={featureStyle.dialogSx}
         Footercomponent={
           <FooterComponent
             check
             saveButtonStyle={{ minWidth: '90px', height: '28px' }}
-            onSave={handleClose}
             onCancel={handleClose}
+            onSave={handleClose}
           />
         }
       />

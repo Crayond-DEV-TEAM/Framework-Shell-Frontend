@@ -28,3 +28,4 @@ export { TreeComponent } from './treeComponent';
 
 export { CutstomizedAutocomplete } from './cutstomizedAutocomplete';
 export { CustomToggle } from './customToggle';
+export { CustomCheckboxWithLabels } from './customCheckboxWithLabels';

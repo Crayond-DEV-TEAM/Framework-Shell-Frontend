@@ -9,4 +9,5 @@ export const planSubscriptionRoutes = {
   addOns: '/addons',
   charges: '/charges',
   featureGroups: '/featureGroups',
+  features: '/features',
 };

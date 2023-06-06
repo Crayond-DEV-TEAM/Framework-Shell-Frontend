@@ -5,6 +5,7 @@ interface ButtonGroupDropdownStyleProps {
 }
 
 export const buttonGroupDropdownStyle: ButtonGroupDropdownStyleProps = {
-  rootSx: {},
+  rootSx: {
+    mr: '10px',
+  },
 };
-

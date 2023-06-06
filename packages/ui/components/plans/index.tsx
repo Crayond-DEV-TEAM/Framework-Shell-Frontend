@@ -20,7 +20,7 @@ export const Plans = (props: PlansProps): JSX.Element => {
   const navigate = useNavigate();
   const filteredMessageGroup = tableJson.filter((x: any) => x.plan?.toLowerCase()?.includes(searchTerm.toLowerCase()));
   const handleTableEdit = () => {
-    console.log('///');
+    navigate(planSubscriptionRoutes.createplan);
   };
   const handleTableDelete = () => {
     console.log('///');

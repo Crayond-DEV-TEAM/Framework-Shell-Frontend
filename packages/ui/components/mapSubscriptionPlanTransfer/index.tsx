@@ -53,7 +53,7 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
             <Label sx={mapSubscriptionPlanTransferStyle.labelSx} htmlFor="addTitle" isRequired>
               Choose Plan
             </Label>
-            <CustomDropdown placeholder={'Silver'} permissionList={options} />
+            <CutstomizedAutocomplete placeholder={'Monthly'} permissionList={options} />
           </Box>
           <Box sx={{ mb: '16px' }}>
             <Label sx={mapSubscriptionPlanTransferStyle.labelSx} htmlFor="addTitle" isRequired>

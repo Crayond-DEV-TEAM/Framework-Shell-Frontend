@@ -131,7 +131,12 @@ export const FeatureGroups = (props: FeatureGroupsProps): JSX.Element => {
         handleCloseDialog={handleClose}
         dialogRootStyle={featureGroupsStyle.dialogSx}
         Footercomponent={
-          <FooterComponent check saveButtonStyle={{ minWidth: '90px', height: '28px' }} onCancel={handleClose} />
+          <FooterComponent
+            check
+            saveButtonStyle={{ minWidth: '90px', height: '28px' }}
+            onCancel={handleClose}
+            onSave={handleClose}
+          />
         }
       />
     </Box>

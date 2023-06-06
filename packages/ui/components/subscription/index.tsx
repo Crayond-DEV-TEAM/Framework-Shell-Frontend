@@ -35,6 +35,7 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
     // setidRole(id);
   };
   const handleTableEdit = (id: string, data: any, e: any) => {
+    navigate(planSubscriptionRoutes.subscriptiondetails);
     // debugger;
     // setSelected(true);
     // setidRole(id);
@@ -164,7 +165,7 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
             onSave={handlePlanOpen}
           />
         }
-      /> v
+      />
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={planControl}

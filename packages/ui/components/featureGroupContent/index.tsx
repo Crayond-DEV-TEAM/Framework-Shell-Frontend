@@ -7,6 +7,8 @@ import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
 import { useHover } from 'ahooks';
 import { DeleteIcon, EditIcon } from '@atoms/icons';
+import CutstomizedAutocompleteStories from '@atoms/cutstomizedAutocomplete/cutstomizedAutocomplete.stories';
+import { CutstomizedAutocomplete } from '@atoms/cutstomizedAutocomplete';
 
 export interface FeatureGroupContentProps {
   className?: string;
@@ -32,11 +34,11 @@ export const FeatureGroupContent = (props: FeatureGroupContentProps): JSX.Elemen
       <Grid container>
         <Grid
           xs={12}
-          sm={6}
-          md={6}
-          lg={6}
-          xl={6}
-          sx={{ borderRight: '1px solid #E0E0E0', padding: '24px', height: '415px' }}
+          sm={12}
+          md={12}
+          lg={12}
+          xl={12}
+          // sx={{ borderRight: '1px solid #E0E0E0', padding: '24px', height: '415px' }}
         >
           <Label sx={featureGroupContentStyle.labelSx} htmlFor="addTitle" isRequired>
             Feature group name
@@ -59,20 +61,27 @@ export const FeatureGroupContent = (props: FeatureGroupContentProps): JSX.Elemen
             Description
           </Label>
           <Input
-            size="small"
             placeholder=""
             required
             // value={addOnContentStyle?.title}
-            textFieldStyle={featureGroupContentStyle.inputBigSx}
-            id="title"
+            textFieldStyle={featureGroupContentStyle.inputSx}
+            id="description"
+            rows={3}
+            rowsMax={6}
+            isMulti={true}
             // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
             //   handleAddEditStateChange('title', e.target.value)
             // }
             // isError={addEditMessageState?.error?.title ? true : false}
             // errorMessage={addEditMessageState?.error?.title ?? ''}
           />
+          <Box sx={{ m: '16px' }} />
+          <Label sx={featureGroupContentStyle.labelSx} htmlFor="addTitle" isRequired>
+            Add Features
+          </Label>
+          <CutstomizedAutocomplete placeholder="options" />
         </Grid>
-        <Grid xs={12} sm={6} md={6} lg={6} xl={6} sx={{ padding: '24px', position: 'sticky' }}>
+        {/* <Grid xs={12} sm={6} md={6} lg={6} xl={6} sx={{ padding: '24px', position: 'sticky' }}>
           <Label sx={featureGroupContentStyle.labeltwoSx} htmlFor="addTitle" isRequired>
             Add new Feature
           </Label>
@@ -127,7 +136,7 @@ export const FeatureGroupContent = (props: FeatureGroupContentProps): JSX.Elemen
               </Box>
             )}
           </Box>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Box>
   );

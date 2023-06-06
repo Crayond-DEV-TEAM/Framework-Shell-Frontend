@@ -8,14 +8,15 @@ export const customToggleStyle: CustomToggleStyleProps = {
   rootSx: {},
   buttonGrp: {
     '&.MuiToggleButtonGroup-root': {
-      gap: '16px',
+      gap: '8px',
       // backgroundColor: 'primary.contrastText',
     },
   },
   btnEft: {
     '&.MuiToggleButtonGroup-grouped': {
       color: '#000000',
-      width: '51px',
+      // width: '51px',
+      padding: '8px',
       height: '30px',
       borderRadius: '6px !important',
       backgroundColor: '#e0e0e0',

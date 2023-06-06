@@ -7,4 +7,3 @@ interface CustomDropdownStyleProps {
 export const customDropdownStyle: CustomDropdownStyleProps = {
   rootSx: {},
 };
-

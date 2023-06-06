@@ -51,12 +51,14 @@ export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
           Description
         </Label>
         <Input
-          size="small"
-          placeholder="Description"
           required
           // value={addOnContentStyle?.title}
-          textFieldStyle={addOnContentStyle.inputBigSx}
-          id="title"
+          textFieldStyle={addOnContentStyle.inputSx}
+          id="description"
+          rows={3}
+          rowsMax={6}
+          isMulti={true}
+          placeholder="Description"
           // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
           //   handleAddEditStateChange('title', e.target.value)
           // }

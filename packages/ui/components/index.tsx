@@ -67,3 +67,4 @@ export { ButtonGroupDropdown } from './buttonGroupDropdown';
 export { CreatePlanCard } from './createPlanCard';
 export { BackgroundPaper } from './backgroundPaper';
 export { Feature } from './feature';
+export { AddOnsCard } from './addOnsCard';

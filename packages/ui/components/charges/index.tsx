@@ -130,42 +130,46 @@ export const Charges = (props: ChargesProps): JSX.Element => {
         title={savedes === true ? 'Edit charge' : 'Create new charge'}
         Bodycomponent={
           <Box sx={chargesStyle.padd}>
-            <Label sx={chargesStyle.labelSx} htmlFor="addTitle" isRequired>
-              Charges Name
-            </Label>
-            <Input
-              size="small"
-              placeholder="Charge name"
-              required
-              // value={addOnContentStyle?.title}
-              textFieldStyle={chargesStyle.inputSx}
-              id="title"
-              // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-              //   handleAddEditStateChange('title', e.target.value)
-              // }
-              // isError={addEditMessageState?.error?.title ? true : false}
-              // errorMessage={addEditMessageState?.error?.title ?? ''}
-            />
+            <Box sx={chargesStyle.inputGroupSx}>
+              <Label sx={chargesStyle.labelSx} htmlFor="addTitle" isRequired>
+                Charges Name
+              </Label>
+              <Input
+                size="small"
+                placeholder="Charge name"
+                required
+                // value={addOnContentStyle?.title}
+                textFieldStyle={chargesStyle.inputSx}
+                id="title"
+                // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                //   handleAddEditStateChange('title', e.target.value)
+                // }
+                // isError={addEditMessageState?.error?.title ? true : false}
+                // errorMessage={addEditMessageState?.error?.title ?? ''}
+              />
+            </Box>
             <Box sx={{ m: '16px' }} />
-            <Label sx={chargesStyle.labelSx} htmlFor="addTitle" isRequired>
-              Description
-            </Label>
-            <Input
-              size="small"
-              // placeholder="Description"
-              required
-              rows={3}
-              rowsMax={6}
-              isMulti={true}
-              // value={addOnContentStyle?.title}
-              textFieldStyle={chargesStyle.inputBigSx}
-              id="description"
-              // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-              //   handleAddEditStateChange('title', e.target.value)
-              // }
-              // isError={addEditMessageState?.error?.title ? true : false}
-              // errorMessage={addEditMessageState?.error?.title ?? ''}
-            />
+            <Box sx={chargesStyle.inputGroupSx}>
+              <Label sx={chargesStyle.labelSx} htmlFor="addTitle" isRequired>
+                Description
+              </Label>
+              <Input
+                size="small"
+                // placeholder="Description"
+                required
+                rows={3}
+                rowsMax={6}
+                isMulti={true}
+                // value={addOnContentStyle?.title}
+                textFieldStyle={chargesStyle.inputBigSx}
+                id="description"
+                // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                //   handleAddEditStateChange('title', e.target.value)
+                // }
+                // isError={addEditMessageState?.error?.title ? true : false}
+                // errorMessage={addEditMessageState?.error?.title ?? ''}
+              />
+            </Box>
           </Box>
         }
         handleCloseDialog={handleClose}

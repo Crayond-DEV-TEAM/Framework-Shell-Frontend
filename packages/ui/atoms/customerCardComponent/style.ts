@@ -28,7 +28,7 @@ export const customerCardComponentStyle: CustomerCardComponentStyleProps = {
     cursor: 'pointer',
   },
   body: {
-    padding: '20px 16px',
+    padding: '24px',
     height: 'auto',
   },
 };

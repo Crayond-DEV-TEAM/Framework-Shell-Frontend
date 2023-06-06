@@ -51,7 +51,7 @@ export const ImageUpload = (props: ImageUploadProps): JSX.Element => {
           />
           {selectedFile === 'initial' ? (
             <label htmlFor="upload-input">
-              <IconButton component="span" sx={{ '& .MuiButtonBase-root-MuiIconButton-root': { p: 0 } }}>
+              <IconButton component="span" sx={{ '&.MuiButtonBase-root.MuiIconButton-root': { p: 0 } }}>
                 <Box sx={imageUploadStyle.border}>
                   <UploadButton />
                 </Box>

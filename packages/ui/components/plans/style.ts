@@ -54,6 +54,9 @@ export const plansStyle: PlansStyleProps = {
     '& .MuiTableCell-sizeSmall TEXT  activesubscription': {
       width: '136px',
     },
+    '& .MuiPaper-root': {
+      borderRadius: '8px',
+    },
   },
   dialogSx: {
     width: '400px',

@@ -90,7 +90,7 @@ export const CutstomizedAutocomplete = (props: CutstomizedAutocompleteProps): JS
         popupIcon={<KeyboardArrowDownIcon />}
         options={permissionList}
         // options={name}
-        disableCloseOnSelect
+        // disableCloseOnSelect
         getOptionLabel={(options: any) => options?.label}
         renderInput={(params) => (
           <TextField

@@ -51,9 +51,9 @@ export const addOneStyle: AddOneStyleProps = {
     '& .MuiTableSortLabel-root': {
       width: '186px',
     },
-    // '& .MuiTableCell-sizeSmall TEXT  activesubscription': {
-    //   width: '136px',
-    // },
+    '& .MuiPaper-root': {
+      borderRadius: '8px',
+    },
   },
   dialogSx: {
     width: '400px',

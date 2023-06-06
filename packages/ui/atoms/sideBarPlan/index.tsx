@@ -73,9 +73,15 @@ export const SideBarPlan = (props: SideBarPlanProps): JSX.Element => {
                     navigate(text.route);
                   }}
                   sx={{
-                    '& .MuiListItemButton-root:hover': { backgroundColor: 'primary.main', borderRadius: '8px' },
+                    '& .MuiListItemButton-root:hover': {
+                      backgroundColor: 'primary.main',
+                      borderRadius: '8px',
+                      // m: '5px 0px',
+                    },
                     '& .MuiListItemButton-root':
-                      routeNAme === text.route ? { backgroundColor: 'primary.main', borderRadius: '8px' } : '',
+                      routeNAme === text.route
+                        ? { backgroundColor: 'primary.main', borderRadius: '8px', m: '5px 0px' }
+                        : '',
                   }}
                 >
                   <ListItemButton>

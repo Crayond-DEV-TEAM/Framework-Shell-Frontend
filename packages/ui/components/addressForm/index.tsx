@@ -6,7 +6,7 @@ import { Label } from '@atoms/label';
 import { Input } from '@atoms/input';
 import { ImageUpload } from '@atoms/imageUpload';
 import { CustomDropdown } from '@atoms/customDropdown';
-import { CutstomizedAutocomplete } from '@atoms/cutstomizedAutocomplete'
+import { CutstomizedAutocomplete } from '@atoms/cutstomizedAutocomplete';
 
 export interface AddressFormProps {
   className?: string;
@@ -15,7 +15,9 @@ export interface AddressFormProps {
 
 export const AddressForm = (props: AddressFormProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
-  const handleChange = (x: any, y: any) => {};
+  const handleChange = (x: any, y: any) => {
+    console.log('_');
+  };
   const options = [
     { label: 'The Godfather', id: 1 },
     { label: 'Pulp Fiction', id: 2 },
@@ -91,6 +93,7 @@ export const AddressForm = (props: AddressFormProps): JSX.Element => {
           </Box>
         </Grid>
       </Grid>
+      <Box sx={{ margin: '16px' }} />
       <Grid container spacing={2}>
         <Grid item xs={3} sm={3} md={3} lg={3} xl={3}>
           <Box sx={addressFormStyle.inputGroupSx}>

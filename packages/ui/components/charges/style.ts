@@ -51,6 +51,9 @@ export const chargesStyle: ChargesStyleProps = {
     '& .MuiTableSortLabel-root': {
       width: '186px',
     },
+    '& .MuiPaper-root': {
+      borderRadius: '8px',
+    },
     // '& .MuiTableCell-sizeSmall TEXT  activesubscription': {
     //   width: '136px',
     // },
@@ -66,11 +69,12 @@ export const chargesStyle: ChargesStyleProps = {
     fontSize: '12px',
     color: '#262C33',
     fontWeight: '500',
+    pb: 1,
   },
 
   inputGroupSx: {
     display: 'grid',
-    pb: 2,
+    // pb: 2,
     // mt: '9px',
   },
   inputSx: {
@@ -79,5 +83,4 @@ export const chargesStyle: ChargesStyleProps = {
       fontSize: '14px',
     },
   },
-
 };

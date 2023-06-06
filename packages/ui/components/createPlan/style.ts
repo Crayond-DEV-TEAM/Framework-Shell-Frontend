@@ -12,14 +12,14 @@ export const createPlanStyle: CreatePlanStyleProps = {
   labelSx: {
     fontSize: '12px',
     color: '#262C33',
-    // pb: 2,
+    pb: 1,
     fontWeight: '500',
     // mb: '6px',
   },
 
   inputGroupSx: {
     display: 'grid',
-    pb: 2,
+    // pb: 2,
   },
   inputSx: {
     '& .MuiOutlinedInput-input': {

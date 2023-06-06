@@ -100,10 +100,11 @@ export const CustomerDetails = (props: CustomerDetailsProps): JSX.Element => {
                 title={' Company  Details'}
                 noBtns={true}
                 onEdit={onEditAddress}
+                sx={{ borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}
                 body={
                   <Box sx={customerDetailsStyle.align}>
-                    <Box sx={{ p: 1, marginRight: '48px' }}>
-                      <Avatar alt="image" sx={{ width: 76, height: 76, border: '1px solid #EAEAEA' }} />
+                    <Box sx={{ marginRight: '48px' }}>
+                      <Avatar alt="image" sx={{ width: '75px', height: '75px', border: '1px solid #EAEAEA' }} />
                     </Box>
                     <Box sx={{ marginRight: '80px' }}>
                       <Typography sx={customerDetailsStyle.labelSx}>Company Name</Typography>
@@ -127,6 +128,7 @@ export const CustomerDetails = (props: CustomerDetailsProps): JSX.Element => {
                     </Typography>
                   </Box>
                 }
+                sx={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
               />
             </>
           )}

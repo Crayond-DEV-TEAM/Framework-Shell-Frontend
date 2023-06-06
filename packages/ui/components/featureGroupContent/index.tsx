@@ -19,6 +19,10 @@ export const FeatureGroupContent = (props: FeatureGroupContentProps): JSX.Elemen
   const { className = '', sx = {}, ...rest } = props;
   const ref = useRef(null);
   const isHovering = useHover(ref);
+  const options = [
+    { label: 'The Godfather', id: 1 },
+    { label: 'Pulp Fiction', id: 2 },
+  ];
 
   return (
     <Box
@@ -40,46 +44,52 @@ export const FeatureGroupContent = (props: FeatureGroupContentProps): JSX.Elemen
           xl={12}
           // sx={{ borderRight: '1px solid #E0E0E0', padding: '24px', height: '415px' }}
         >
-          <Label sx={featureGroupContentStyle.labelSx} htmlFor="addTitle" isRequired>
-            Feature group name
-          </Label>
-          <Input
-            size="small"
-            placeholder=" Enter name"
-            required
-            // value={addOnContentStyle?.title}
-            textFieldStyle={featureGroupContentStyle.inputSx}
-            id="title"
-            // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-            //   handleAddEditStateChange('title', e.target.value)
-            // }
-            // isError={addEditMessageState?.error?.title ? true : false}
-            // errorMessage={addEditMessageState?.error?.title ?? ''}
-          />
+          <Box sx={featureGroupContentStyle.inputGroupSx}>
+            <Label sx={featureGroupContentStyle.labelSx} htmlFor="addTitle" isRequired>
+              Feature group name
+            </Label>
+            <Input
+              size="small"
+              placeholder=" Enter name"
+              required
+              // value={addOnContentStyle?.title}
+              textFieldStyle={featureGroupContentStyle.inputSx}
+              id="title"
+              // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+              //   handleAddEditStateChange('title', e.target.value)
+              // }
+              // isError={addEditMessageState?.error?.title ? true : false}
+              // errorMessage={addEditMessageState?.error?.title ?? ''}
+            />
+          </Box>
           <Box sx={{ m: '16px' }} />
-          <Label sx={featureGroupContentStyle.labelSx} htmlFor="addTitle" isRequired>
-            Description
-          </Label>
-          <Input
-            placeholder=""
-            required
-            // value={addOnContentStyle?.title}
-            textFieldStyle={featureGroupContentStyle.inputSx}
-            id="description"
-            rows={3}
-            rowsMax={6}
-            isMulti={true}
-            // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-            //   handleAddEditStateChange('title', e.target.value)
-            // }
-            // isError={addEditMessageState?.error?.title ? true : false}
-            // errorMessage={addEditMessageState?.error?.title ?? ''}
-          />
+          <Box sx={featureGroupContentStyle.inputGroupSx}>
+            <Label sx={featureGroupContentStyle.labelSx} htmlFor="addTitle" isRequired>
+              Description
+            </Label>
+            <Input
+              placeholder="Description"
+              required
+              // value={addOnContentStyle?.title}
+              textFieldStyle={featureGroupContentStyle.inputSx}
+              id="description"
+              rows={3}
+              rowsMax={6}
+              isMulti={true}
+              // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+              //   handleAddEditStateChange('title', e.target.value)
+              // }
+              // isError={addEditMessageState?.error?.title ? true : false}
+              // errorMessage={addEditMessageState?.error?.title ?? ''}
+            />
+          </Box>
           <Box sx={{ m: '16px' }} />
-          <Label sx={featureGroupContentStyle.labelSx} htmlFor="addTitle" isRequired>
-            Add Features
-          </Label>
-          <CutstomizedAutocomplete placeholder="options" />
+          <Box sx={featureGroupContentStyle.inputGroupSx}>
+            <Label sx={featureGroupContentStyle.labelSx} htmlFor="addTitle" isRequired>
+              Add Features
+            </Label>
+            <CutstomizedAutocomplete placeholder="options" permissionList={options} />
+          </Box>
         </Grid>
         {/* <Grid xs={12} sm={6} md={6} lg={6} xl={6} sx={{ padding: '24px', position: 'sticky' }}>
           <Label sx={featureGroupContentStyle.labeltwoSx} htmlFor="addTitle" isRequired>

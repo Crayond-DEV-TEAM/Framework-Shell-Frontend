@@ -67,7 +67,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const filteredMessageGroup = MessagesList.filter((x: any) =>
     x.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
-  console.log(MessagesList, 'filteredMessageGroupfilteredMessageGroupfilteredMessageGroup');
+  // console.log(MessagesList, 'filteredMessageGroupfilteredMessageGroupfilteredMessageGroup');
 
   const [switchList, setSwitchList] = useState<any>([]);
 
@@ -220,6 +220,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                 variant: 'CUSTOM',
                 component: (
                   <TableHeader
+                    isFilterRequired={false}
                     filterContent={filterContent}
                     filterChange={handleFilterChange}
                     onChange={isEdit ? handleeditChange : handleAddChange}

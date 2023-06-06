@@ -35,6 +35,7 @@ export interface ButtonGroupDropdownProps {
   permissionList?: any;
   isError?: boolean;
   deletedValue?: (value: any, updateValue: any) => void | undefined;
+  BtnName?: string;
 }
 
 export const ButtonGroupDropdown = (props: ButtonGroupDropdownProps): JSX.Element => {
@@ -69,6 +70,7 @@ export const ButtonGroupDropdown = (props: ButtonGroupDropdownProps): JSX.Elemen
     errorMessage,
     isError = false,
     sx = {},
+    BtnName = 'Monthly',
     ...rest
   } = props;
 
@@ -86,7 +88,7 @@ export const ButtonGroupDropdown = (props: ButtonGroupDropdownProps): JSX.Elemen
       <ButtonGroup aria-label="device">
         <Button
           buttonStyle={{
-            width: '70px',
+            // width: '70px',
             height: '40px',
             textTransform: 'capitalize',
             display: 'flex',
@@ -95,16 +97,18 @@ export const ButtonGroupDropdown = (props: ButtonGroupDropdownProps): JSX.Elemen
             borderBottomRightRadius: '0px',
             backgroundColor: 'transparent',
             color: '#000000',
-            border: '1px solid #d2c1c1',
+            border: '1px solid #c2c2c2',
             boxShadow: 'none !important',
-            '&.MuiButtonGroup-root.MuiButtonGroup-grouped:hover': {
+            '&.MuiButtonBase-root.MuiButton-root.MuiLoadingButton-root:hover': {
               backgroundColor: 'transparent',
             },
+            fontSize: '14px',
+            fontWeight: 600,
           }}
           // onclick={saveLanguage}
           // loading={saving}
         >
-          Save
+          {BtnName}
         </Button>
         <Autocomplete
           defaultValue={value}
@@ -129,6 +133,11 @@ export const ButtonGroupDropdown = (props: ButtonGroupDropdownProps): JSX.Elemen
                   borderTopLeftRadius: '0px',
                   borderBottomLeftRadius: '0px',
                   ml: '-1px',
+                },
+                '& .MuiSvgIcon-root': {
+                  width: '25px',
+                  height: '20px',
+                  color: '#000000',
                 },
               }}
             />

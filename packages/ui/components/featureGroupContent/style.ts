@@ -5,7 +5,9 @@ interface FeatureGroupContentStyleProps {
 }
 
 export const featureGroupContentStyle: FeatureGroupContentStyleProps = {
-  rootSx: {},
+  rootSx: {
+    padding: '24px',
+  },
   labelSx: {
     fontSize: '12px',
     color: '#262C33',

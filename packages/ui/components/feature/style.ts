@@ -1,10 +1,10 @@
 import type { SxProps } from '@mui/material';
 
-interface ChargesStyleProps {
+interface FeatureStyleProps {
   [key: string]: SxProps;
 }
 
-export const chargesStyle: ChargesStyleProps = {
+export const featureStyle: FeatureStyleProps = {
   rootSx: {
     padding: '24px',
   },
@@ -57,7 +57,7 @@ export const chargesStyle: ChargesStyleProps = {
   },
   dialogSx: {
     width: '400px',
-    height: '358px',
+    height: '208px',
   },
   padd: {
     p: '24px',
@@ -79,5 +79,4 @@ export const chargesStyle: ChargesStyleProps = {
       fontSize: '14px',
     },
   },
-
 };

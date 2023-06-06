@@ -56,8 +56,8 @@ export const featureGroupsStyle: FeatureGroupsStyleProps = {
     // },
   },
   dialogSx: {
-    width: '852px',
-    height: '531px',
+    width: '400px',
+    height: '500px',
   },
   padd: {
     p: '24px',

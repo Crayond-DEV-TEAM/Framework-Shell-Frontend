@@ -19,7 +19,8 @@ import { sideBarData } from './utils';
 import { KeyBoardDown, RightArrowBtn, Test } from '@atoms/icons';
 import Avatar from '@mui/material/Avatar';
 import { localStorageKeys, parseJwt } from '@core/utils';
-import { matchPath, useNavigate } from 'react-router-dom';
+import { matchPath, useNavigate, useLocation, useNavigation } from 'react-router-dom';
+import { Button } from '..';
 
 export interface SideBarPlanProps {
   className?: string;
@@ -31,6 +32,10 @@ export const SideBarPlan = (props: SideBarPlanProps): JSX.Element => {
   const token = localStorage.getItem(localStorageKeys.authToken);
   const user = parseJwt(token);
   const navigate = useNavigate();
+  const route = useLocation();
+  const routeNAme = route.pathname;
+  console.log('navigate', routeNAme);
+
   return (
     <Box
       sx={[
@@ -50,15 +55,15 @@ export const SideBarPlan = (props: SideBarPlanProps): JSX.Element => {
             <Typography sx={sideBarPlanStyle.devBtn}>Dev</Typography>
           </Box>
           <Typography sx={sideBarPlanStyle.linkBtn}>dev.colobo.gtm.com</Typography>
-          <Box sx={sideBarPlanStyle.btnAlignment}>
-            <Typography sx={{ mr: 1, fontSize: '12px', lineHeight: '0.5px' }}>Switch to Production</Typography>
-            <Box>
-              <RightArrowBtn rootStyle={{ mb: '-15px', ml: '2px' }} />
-            </Box>
-          </Box>
+          <Button
+            buttonStyle={sideBarPlanStyle.btnAlignment}
+            endIcon={<RightArrowBtn rootStyle={{ mb: '-15px', ml: '2px' }} />}
+          >
+            Switch to Production
+          </Button>
         </Box>
         <Box sx={{ overflow: 'auto' }}>
-          <List>
+          <List sx={{ mb: 6 }}>
             {sideBarData.map((text, index) => {
               return (
                 <ListItem
@@ -69,7 +74,8 @@ export const SideBarPlan = (props: SideBarPlanProps): JSX.Element => {
                   }}
                   sx={{
                     '& .MuiListItemButton-root:hover': { backgroundColor: 'primary.main', borderRadius: '8px' },
-                    '& .MuiListItemButton-root:focus': { backgroundColor: 'primary.main', borderRadius: '8px' },
+                    '& .MuiListItemButton-root':
+                      routeNAme === text.route ? { backgroundColor: 'primary.main', borderRadius: '8px' } : '',
                   }}
                 >
                   <ListItemButton>
@@ -82,7 +88,7 @@ export const SideBarPlan = (props: SideBarPlanProps): JSX.Element => {
           </List>
         </Box>
         <Box sx={sideBarPlanStyle.profileSec}>
-          <Box sx={{ pl: 3, pr: 1, display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ pr: 1, display: 'flex', alignItems: 'center' }}>
             <Avatar
               src="https://expertphotography.b-cdn.net/wp-content/uploads/2020/08/social-media-profile-photos-3.jpg"
               variant="rounded"

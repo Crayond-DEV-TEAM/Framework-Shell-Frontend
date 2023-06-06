@@ -14,6 +14,7 @@ import PlanPage from '@pages/plans';
 import ChargesPage from '@pages/charges';
 import FeatureGroupsPage from '@pages/featureGroups';
 import SubscriptionDetailPage from '@pages/subscriptionDetail';
+import FeaturePage from '@pages/feature';
 const router = createBrowserRouter([
   {
     // path: userManageRoutes,
@@ -138,6 +139,17 @@ const router = createBrowserRouter([
       <PrivateRouter>
         <SidebarLayout>
           <FeatureGroupsPage />
+        </SidebarLayout>
+        {/* <RootLayout /> */}
+      </PrivateRouter>
+    ),
+  },
+  {
+    path: planSubscriptionRoutes.features,
+    element: (
+      <PrivateRouter>
+        <SidebarLayout>
+          <FeaturePage />
         </SidebarLayout>
         {/* <RootLayout /> */}
       </PrivateRouter>

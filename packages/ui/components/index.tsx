@@ -64,3 +64,6 @@ export { UserManagement } from './userManagement';
 
 export { CreatePlan } from './createPlan';
 export { ButtonGroupDropdown } from './buttonGroupDropdown';
+export { CreatePlanCard } from './createPlanCard';
+export { BackgroundPaper } from './backgroundPaper';
+export { Feature } from './feature';

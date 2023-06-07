@@ -42,7 +42,7 @@ export const CreatePlanCard = (props: CreatePlanCardProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
-      <Box sx={createPlanCardStyle.mainSx}>
+      <Box>
         {anAddOns ? (
           <Box>
             <Typography sx={createPlanCardStyle.firstTextdark}>{subTitle}</Typography>
@@ -62,7 +62,15 @@ export const CreatePlanCard = (props: CreatePlanCardProps): JSX.Element => {
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <CustomCheckboxWithLabels circleCheckbox={true} circleText={'Unlimited'} sx={{ ml: '10px' }} />
               <CustomCheckboxWithLabels circleCheckbox={true} circleText={'Limited'} />
-              <Input value={value} textFieldStyle={{ width: '75px', height: '40px', margin: '0px 12px' }} />
+              <Input
+                value={value}
+                textFieldStyle={{
+                  width: '75px',
+                  height: '40px',
+                  margin: '0px 12px',
+                  backgroundColor: 'primary.contrastText',
+                }}
+              />
               <Typography sx={createPlanCardStyle.secondText}>{subTitle}</Typography>
               <Box sx={{ ml: '80px' }}>
                 <CloseRedIcon rootStyle={{ width: '17px', height: '17px' }} />
@@ -75,7 +83,15 @@ export const CreatePlanCard = (props: CreatePlanCardProps): JSX.Element => {
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <CustomCheckboxWithLabels circleCheckbox={true} circleText={'Unlimited'} />
               <CustomCheckboxWithLabels circleCheckbox={true} circleText={'Limited'} />
-              <Input value={value} textFieldStyle={{ width: '75px', height: '40px', margin: '0px 12px' }} />
+              <Input
+                value={value}
+                textFieldStyle={{
+                  width: '75px',
+                  height: '40px',
+                  margin: '0px 12px',
+                  backgroundColor: 'primary.contrastText',
+                }}
+              />
               <Typography sx={createPlanCardStyle.secondText}>{subTitle}</Typography>
               <Box sx={{ ml: '80px' }}>
                 <CloseRedIcon rootStyle={{ width: '17px', height: '17px' }} />

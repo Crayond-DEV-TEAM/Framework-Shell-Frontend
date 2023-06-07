@@ -89,7 +89,7 @@ export const ButtonGroupDropdown = (props: ButtonGroupDropdownProps): JSX.Elemen
         <Button
           buttonStyle={{
             // width: '70px',
-            height: '40px',
+            height: '35px',
             textTransform: 'capitalize',
             display: 'flex',
             justifyContent: 'flex-end',
@@ -115,6 +115,7 @@ export const ButtonGroupDropdown = (props: ButtonGroupDropdownProps): JSX.Elemen
           // errorMessage={formErrors.permission}
           popupIcon={<AttachMoneyIcon />}
           options={permissionList}
+          clearIcon={''}
           // options={name}
           // disableCloseOnSelect
           getOptionLabel={(options: any) => options?.label}
@@ -123,16 +124,18 @@ export const ButtonGroupDropdown = (props: ButtonGroupDropdownProps): JSX.Elemen
               {...params}
               sx={{
                 width: '75px',
-                height: '40px',
+                height: '30px',
                 borderRadius: '8px',
                 '& .MuiOutlinedInput-root': {
-                  height: '40px',
+                  height: '35px',
                   borderRadius: '8px',
-                  fontSize: '12px',
-                  fontWeight: 600,
+                  fontSize: '14px',
+                  // fontWeight: 600,
                   borderTopLeftRadius: '0px',
                   borderBottomLeftRadius: '0px',
                   ml: '-1px',
+                  mb: '10px',
+                  p: '3.5px 4px 4.5px 6px',
                 },
                 '& .MuiSvgIcon-root': {
                   width: '25px',

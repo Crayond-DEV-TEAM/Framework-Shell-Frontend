@@ -44,7 +44,7 @@ export const adminTableStyle: AdminTableStyleProps = {
       marginRight: '0px',
     },
     '& .MuiTableCell-root': {
-      padding: '6px 9px 6px 7px',
+      // padding: '10px 9px 10px 7px',
     },
     '& .MuiTableSortLabel-root': {
       width: '136px',

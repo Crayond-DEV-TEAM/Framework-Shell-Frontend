@@ -18,7 +18,7 @@ export const createCustomerStyle: CreateCustomerStyleProps = {
 
   inputGroupSx: {
     display: 'grid',
-    pb: 2,
+    // pb: 2,
   },
   inputSx: {
     '& .MuiOutlinedInput-input': {

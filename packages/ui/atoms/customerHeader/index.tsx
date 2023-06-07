@@ -44,15 +44,37 @@ export const CustomerHeader = (props: CustomerHeaderProps): JSX.Element => {
         </Box>
         {btns && (
           <Box sx={customerHeaderStyle.btn}>
-            <Button sx={{ width: '72px', height: '28px', textTransform: 'capitalize' }} onClick={onSave}>
-              Save
-            </Button>
             <Button
-              sx={{ width: '72px', height: '28px', textTransform: 'capitalize', ml: 1 }}
-              variant="outlined"
+              sx={{
+                width: 'auto',
+                borderRadius: '8px',
+                backgroundColor: '#EAEAEA',
+                textTransform: 'capitalize',
+                mr: 1,
+                padding: '4px 12px',
+                color: '#000000',
+                fontSize: '12px',
+                '&.MuiButtonBase-root.MuiButton-root.MuiLoadingButton-root:hover': {
+                  backgroundColor: 'transparent',
+                },
+              }}
+              // variant="outlined"
               onClick={onCancel}
             >
               Cancel
+            </Button>
+            <Button
+              sx={{
+                width: 'auto',
+                borderRadius: '8px',
+                backgroundColor: 'primary.main',
+                textTransform: 'capitalize',
+                padding: '4px 12px',
+                fontSize: '12px',
+              }}
+              onClick={onSave}
+            >
+              Save
             </Button>
           </Box>
         )}

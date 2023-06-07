@@ -12,11 +12,12 @@ export const addOnContentStyle: AddOnContentStyleProps = {
     fontSize: '12px',
     color: '#262C33',
     fontWeight: '500',
+    pb: 1,
   },
 
   inputGroupSx: {
     display: 'grid',
-    pb: 2,
+    // pb: 2,
     // mt: '9px',
   },
   inputSx: {

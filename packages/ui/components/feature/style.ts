@@ -51,13 +51,16 @@ export const featureStyle: FeatureStyleProps = {
     '& .MuiTableSortLabel-root': {
       width: '186px',
     },
+    '& .MuiPaper-root': {
+      borderRadius: '8px',
+    },
     // '& .MuiTableCell-sizeSmall TEXT  activesubscription': {
     //   width: '136px',
     // },
   },
   dialogSx: {
     width: '400px',
-    height: '208px',
+    height: '258px',
   },
   padd: {
     p: '24px',
@@ -66,11 +69,12 @@ export const featureStyle: FeatureStyleProps = {
     fontSize: '12px',
     color: '#262C33',
     fontWeight: '500',
+    pb: 1,
   },
 
   inputGroupSx: {
     display: 'grid',
-    pb: 2,
+    // pb: 2,
     // mt: '9px',
   },
   inputSx: {

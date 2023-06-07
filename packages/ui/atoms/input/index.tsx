@@ -56,14 +56,14 @@ export function Input(props: InputProps): JSX.Element {
         size={size}
         sx={{ ...inputStyle.textFieldSx, ...textFieldStyle }}
         variant={variant}
-        value={value}
+        // value={value}
         placeholder={placeholder}
         fullWidth={fullWidth}
         disabled={isReadOnly}
         multiline={isMulti}
         maxRows={rowsMax}
         minRows={rowMin}
-        onChange={onChange}
+        // onChange={onChange}
         helperText={errorMessage}
         error={isError}
         rows={rows}

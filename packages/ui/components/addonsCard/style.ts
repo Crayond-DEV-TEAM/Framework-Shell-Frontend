@@ -1,25 +1,10 @@
 import type { SxProps } from '@mui/material';
 
-interface CreatePlanCardStyleProps {
+interface AddOnsCardStyleProps {
   [key: string]: SxProps;
 }
 
-export const createPlanCardStyle: CreatePlanCardStyleProps = {
-  rootSx: {
-    backgroundColor: '#FCFCFC',
-    borderRadius: '8px',
-    padding: '16px',
-    border: '1px solid #EAEAEA',
-  },
-  mainSx: {
-    backgroundColor: '#FCFCFC',
-    bordeRadius: '8px',
-    padding: '16px',
-  },
-  title: {
-    fontSize: '12px',
-    fontWeight: 600,
-  },
+export const addOnsCardStyle: AddOnsCardStyleProps = {
   firstText: {
     fontSize: '12px',
   },
@@ -34,6 +19,7 @@ export const createPlanCardStyle: CreatePlanCardStyleProps = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    mt: '8px',
   },
   labelSx: {
     fontSize: '12px',
@@ -41,5 +27,18 @@ export const createPlanCardStyle: CreatePlanCardStyleProps = {
     pb: 2,
     fontWeight: '500',
     // mb: '6px',
+  },
+  title: {
+    fontSize: '12px',
+    fontWeight: 600,
+  },
+  rootSx: {
+    // padding: '16px',
+    // // borderBottom: '1px solid #EAEAEA',
+    // mt: '-20px',
+  },
+  borderLine: {
+    border: '1px solid #EAEAEA',
+    margin: '16px 0px',
   },
 };

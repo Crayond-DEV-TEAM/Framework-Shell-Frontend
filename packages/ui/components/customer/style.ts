@@ -30,7 +30,7 @@ export const customerStyle: CustomerStyleProps = {
       borderRadius: '7px 7px 0px 0px',
       border: '1px solid #EAEAEA',
     },
-    '& .css-qx9vaq-MuiTablePagination-root:last-child': {
+    '& .MuiTablePagination-root:last-child': {
       borderRadius: '0px 0px 7px 7px',
       border: '1px solid #EAEAEA',
       width: '100%',
@@ -50,6 +50,9 @@ export const customerStyle: CustomerStyleProps = {
     },
     '& .MuiTableSortLabel-root': {
       width: '136px',
+    },
+    '& .MuiPaper-root': {
+      borderRadius: '8px',
     },
   },
 };

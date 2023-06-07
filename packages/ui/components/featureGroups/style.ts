@@ -51,6 +51,9 @@ export const featureGroupsStyle: FeatureGroupsStyleProps = {
     '& .MuiTableSortLabel-root': {
       width: '186px',
     },
+    '& .MuiPaper-root': {
+      borderRadius: '8px',
+    },
     // '& .MuiTableCell-sizeSmall TEXT  activesubscription': {
     //   width: '136px',
     // },
@@ -70,7 +73,7 @@ export const featureGroupsStyle: FeatureGroupsStyleProps = {
 
   inputGroupSx: {
     display: 'grid',
-    pb: 2,
+    // pb: 2,
     // mt: '9px',
   },
   inputSx: {

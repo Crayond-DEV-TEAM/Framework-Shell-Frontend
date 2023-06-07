@@ -4,7 +4,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { createPlanStyle } from './style';
 import TextField from '@mui/material/TextField';
 import { CustomToggle } from '@atoms/customToggle';
-import { BackgroundPaper, ButtonGroupDropdown, CreatePlanCard } from '..';
+import { AddOnsCard, BackgroundPaper, ButtonGroupDropdown, CreatePlanCard } from '..';
 import { CustomCheckboxWithLabels } from '@atoms/customCheckboxWithLabels';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { CustomerHeader } from '@atoms/customerHeader';
@@ -34,6 +34,7 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
     { text: 'Enable metered billing' },
     { text: 'Active this paln' },
   ];
+  const ListAddons = [{ subTitle: 'Users' }, { subTitle: 'Customized metrics' }];
 
   return (
     <Box
@@ -52,45 +53,50 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
       <Box sx={createPlanStyle.content}>
         <CustomerCardComponent
           title={'Basic Details'}
+          sx={{ borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}
           body={
             <Grid container spacing={2}>
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                <Label sx={createPlanStyle.labelSx} htmlFor="addTitle" isRequired>
-                  Plan Name
-                </Label>
-                <Input
-                  size="small"
-                  placeholder="Plan Name"
-                  // value={groupState?.title}
-                  id="title"
-                  // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                  //   handleChange('title', e?.target?.value)
-                  // }
-                  textFieldStyle={createPlanStyle.inputSx}
-                  // isError={groupState?.error?.addTitle ? true : false}
-                  // errorMessage={groupState?.error?.addTitle ?? ''}
-                />
+                <Box sx={createPlanStyle.inputGroupSx}>
+                  <Label sx={createPlanStyle.labelSx} htmlFor="addTitle" isRequired>
+                    Plan Name
+                  </Label>
+                  <Input
+                    size="small"
+                    placeholder="Plan Name"
+                    // value={groupState?.title}
+                    id="title"
+                    // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                    //   handleChange('title', e?.target?.value)
+                    // }
+                    textFieldStyle={createPlanStyle.inputSx}
+                    // isError={groupState?.error?.addTitle ? true : false}
+                    // errorMessage={groupState?.error?.addTitle ?? ''}
+                  />
+                </Box>
               </Grid>
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                <Label sx={createPlanStyle.labelSx} rootStyle={{ mb: '1' }} htmlFor="addTitle" isRequired>
-                  Description
-                </Label>
-                <Input
-                  size="small"
-                  // placeholder="Description"
-                  // value={groupState?.title}
-                  // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                  //   handleChange('title', e?.target?.value)
-                  // }
-                  rows={3}
-                  rowsMax={6}
-                  isMulti={true}
-                  textFieldStyle={createPlanStyle.inputSx}
-                  required
-                  id="description"
-                  // isError={groupState?.error?.addTitle ? true : false}
-                  // errorMessage={groupState?.error?.addTitle ?? ''}
-                />
+                <Box sx={createPlanStyle.inputGroupSx}>
+                  <Label sx={createPlanStyle.labelSx} rootStyle={{ mb: '1' }} htmlFor="addTitle" isRequired>
+                    Description
+                  </Label>
+                  <Input
+                    size="small"
+                    // placeholder="Description"
+                    // value={groupState?.title}
+                    // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                    //   handleChange('title', e?.target?.value)
+                    // }
+                    rows={3}
+                    rowsMax={6}
+                    isMulti={true}
+                    textFieldStyle={createPlanStyle.inputSx}
+                    required
+                    id="description"
+                    // isError={groupState?.error?.addTitle ? true : false}
+                    // errorMessage={groupState?.error?.addTitle ?? ''}
+                  />
+                </Box>
               </Grid>
               {SqureText.map((x, index) => {
                 return (
@@ -108,27 +114,33 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
             <>
               <Grid container spacing={2}>
                 <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-                  <Label sx={createPlanStyle.labelSx} htmlFor="addTitle" isRequired>
-                    Billing Period
-                  </Label>
-                  <CustomToggle tabOne={'Monthly'} tabTwo={'Yearly'} />
+                  <Box sx={createPlanStyle.inputGroupSx}>
+                    <Label sx={createPlanStyle.labelSx} htmlFor="addTitle" isRequired>
+                      Billing Period
+                    </Label>
+                    <CustomToggle tabOne={'Monthly'} tabTwo={'Yearly'} />
+                  </Box>
                 </Grid>
                 <Grid item xs={7.5} sm={7.5} md={7.5} lg={7.5} xl={7.5}>
-                  <Label sx={createPlanStyle.labelSx} htmlFor="addTitle" isRequired>
-                    Set Price
-                  </Label>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <ButtonGroupDropdown permissionList={Money} BtnName={'Monthly'} />
-                    <ButtonGroupDropdown permissionList={Money} BtnName={'Yearly'} />
-                    <CustomCheckboxWithLabels circleCheckbox={true} circleText={'Per user'} />
-                    <CustomCheckboxWithLabels circleCheckbox={true} circleText={'Flat fee'} />
+                  <Box sx={createPlanStyle.inputGroupSx}>
+                    <Label sx={createPlanStyle.labelSx} htmlFor="addTitle" isRequired>
+                      Set Price
+                    </Label>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <ButtonGroupDropdown permissionList={Money} BtnName={'Monthly'} />
+                      <ButtonGroupDropdown permissionList={Money} BtnName={'Yearly'} />
+                      <CustomCheckboxWithLabels circleCheckbox={true} circleText={'Per user'} />
+                      <CustomCheckboxWithLabels circleCheckbox={true} circleText={'Flat fee'} />
+                    </Box>
                   </Box>
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-                  <Label sx={createPlanStyle.labelSx} htmlFor="addTitle" isRequired>
-                    Billing cycles
-                  </Label>
-                  <CustomToggle tabOne={'Fixed'} tabTwo={'Forever'} />
+                  <Box sx={createPlanStyle.inputGroupSx}>
+                    <Label sx={createPlanStyle.labelSx} htmlFor="addTitle" isRequired>
+                      Billing cycles
+                    </Label>
+                    <CustomToggle tabOne={'Fixed'} tabTwo={'Forever'} />
+                  </Box>
                 </Grid>
               </Grid>
             </>
@@ -138,7 +150,7 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
           title="Feature set and controls"
           content={<CreatePlanCard title="General" subTitle="Users" />}
         />
-        <BackgroundPaper title="Add-ons" content={<CreatePlanCard subTitle="Users" anAddOns={true} />} />
+        <BackgroundPaper title="Add-ons" content={<AddOnsCard ListAddons={ListAddons} />} />
         <BackgroundPaper
           title="Charges"
           content={
@@ -147,25 +159,26 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
                 <Typography sx={createPlanStyle.firstTextdark}>{'Implementation Charge'}</Typography>
                 <CloseRedIcon rootStyle={{ width: '17px', height: '17px' }} />
               </Box>
-              <Label sx={createPlanStyle.labelSx} htmlFor="addTitle" isRequired>
-                Set price
-              </Label>
-
-              <Input
-                value={'10'}
-                textFieldStyle={{ width: '160px', height: '40px', margin: '0px 12px' }}
-                endAdornment={
-                  <AttachMoneyIcon
-                    sx={{
-                      '& .MuiSvgIcon-root': {
-                        width: '25px',
-                        height: '20px',
-                        color: '#000000',
-                      },
-                    }}
-                  />
-                }
-              />
+              <Box sx={createPlanStyle.inputGroupSx}>
+                <Label sx={createPlanStyle.labelSx} htmlFor="addTitle" isRequired>
+                  Set price
+                </Label>
+                <Input
+                  value={'10'}
+                  textFieldStyle={{ width: '160px', height: '40px' }}
+                  endAdornment={
+                    <AttachMoneyIcon
+                      sx={{
+                        '& .MuiSvgIcon-root': {
+                          width: '25px',
+                          height: '20px',
+                          color: '#000000',
+                        },
+                      }}
+                    />
+                  }
+                />
+              </Box>
             </Box>
           }
         />

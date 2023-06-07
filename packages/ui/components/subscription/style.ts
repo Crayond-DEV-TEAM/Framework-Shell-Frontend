@@ -51,6 +51,9 @@ export const subscriptionStyle: SubscriptionStyleProps = {
     '& .MuiTableSortLabel-root': {
       width: '136px',
     },
+    '& .MuiPaper-root': {
+      borderRadius: '8px',
+    },
   },
   dialogSx: {
     width: '400px',

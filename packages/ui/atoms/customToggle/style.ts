@@ -19,7 +19,7 @@ export const customToggleStyle: CustomToggleStyleProps = {
       padding: '8px',
       height: '30px',
       borderRadius: '6px !important',
-      backgroundColor: '#e0e0e0',
+      backgroundColor: '#EFEFEF',
       fontSize: '12px',
       border: '0px solid',
       textTransform: 'capitalize',

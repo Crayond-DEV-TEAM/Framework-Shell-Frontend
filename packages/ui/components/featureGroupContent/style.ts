@@ -23,7 +23,7 @@ export const featureGroupContentStyle: FeatureGroupContentStyleProps = {
 
   inputGroupSx: {
     display: 'grid',
-    pb: 2,
+    // pb: 2,
     // mt: '9px',
   },
   inputSx: {

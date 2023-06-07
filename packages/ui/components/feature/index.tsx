@@ -129,22 +129,24 @@ export const Feature = (props: FeatureProps): JSX.Element => {
         title={savedes === true ? 'Edit Feature' : 'Create new Feature'}
         Bodycomponent={
           <Box sx={featureStyle.padd}>
-            <Label sx={featureStyle.labelSx} htmlFor="addTitle" isRequired>
-              Add New Feature
-            </Label>
-            <Input
-              size="small"
-              placeholder="Feature name"
-              required
-              // value={addOnContentStyle?.title}
-              textFieldStyle={featureStyle.inputSx}
-              id="title"
-              // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-              //   handleAddEditStateChange('title', e.target.value)
-              // }
-              // isError={addEditMessageState?.error?.title ? true : false}
-              // errorMessage={addEditMessageState?.error?.title ?? ''}
-            />
+            <Box sx={featureStyle.inputGroupSx}>
+              <Label sx={featureStyle.labelSx} htmlFor="addTitle" isRequired>
+                Add New Feature
+              </Label>
+              <Input
+                size="small"
+                placeholder="Feature name"
+                required
+                // value={addOnContentStyle?.title}
+                textFieldStyle={featureStyle.inputSx}
+                id="title"
+                // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                //   handleAddEditStateChange('title', e.target.value)
+                // }
+                // isError={addEditMessageState?.error?.title ? true : false}
+                // errorMessage={addEditMessageState?.error?.title ?? ''}
+              />
+            </Box>
           </Box>
         }
         handleCloseDialog={handleClose}

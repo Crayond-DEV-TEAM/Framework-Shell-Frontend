@@ -4,7 +4,7 @@ interface AddOnsCardStyleProps {
   [key: string]: SxProps;
 }
 
-export const addOnsCardStyles: AddOnsCardStyleProps = {
+export const addOnsCardStyle: AddOnsCardStyleProps = {
   firstText: {
     fontSize: '12px',
   },

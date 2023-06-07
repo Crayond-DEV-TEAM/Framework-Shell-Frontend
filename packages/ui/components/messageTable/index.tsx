@@ -57,7 +57,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     setOpen,
     clearAll,
   } = useMessage();
-
+  console.log(addEditMessageState, 'addEditMessageStateaddEditMessageStateaddEditMessageStateaddEditMessageState');
   // const filterContent: any[] = [];
   const { languages, getSavedLanguage } = useLanguageConfiguration();
   const [isEdit, setIsEdit] = useState(false);
@@ -69,12 +69,11 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     x.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
   // console.log(MessagesList, 'filteredMessageGroupfilteredMessageGroupfilteredMessageGroup');
-
   const [switchList, setSwitchList] = useState<any>([]);
-
   const handleTableEdit = (id: string) => {
     setOpen(true);
     setIsEdit(true);
+    // setIsEdit(true);
     onEditClicked(id);
   };
 
@@ -88,7 +87,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   };
 
   const handleDelFunc = () => {
-    debugger;
     deleteMessage(deleteId, groupId);
     handlemodalClose();
     getMessageList(groupId);
@@ -134,6 +132,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const handleClose = () => {
     setOpen(false);
     clearAll();
+    // setIsEdit(false);
   };
 
   const [selected, setSelected] = useState(false);
@@ -229,7 +228,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                     isFilterRequired={false}
                     filterContent={filterContent}
                     filterChange={handleFilterChange}
-                    onChange={isEdit ? handleeditChange : handleAddChange}
+                    onChange={addEditMessageState.id ? handleeditChange : handleAddChange}
                     options={SevorityList}
                     status={StatusList}
                     tableHeader={tableName}
@@ -241,7 +240,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                     setOpen={setOpen}
                     onApply={onApply}
                     language={languages}
-                    editTableMessage={isEdit ? editMessageList : addMessageList}
+                    editTableMessage={addEditMessageState.id ? editMessageList : addMessageList}
                   />
                 ),
               }}
@@ -279,9 +278,9 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
         }}
         contentStyleSx={messageTableStyle.contentSx}
         isDialogOpened={open}
-        title={`${isEdit ? 'Edit' : 'Add New'} Message`}
+        title={`${addEditMessageState.id ? 'Edit' : 'Add New'} Message`}
         Bodycomponent={
-          <AddMessageGroup status={StatusList} isEdit={isEdit} options={SevorityList} language={languages} />
+          <AddMessageGroup status={StatusList} options={SevorityList} language={languages} isEdit={isEdit} />
         }
         Footercomponent={
           <FooterComponent
@@ -290,7 +289,13 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
             SwitchChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               handleAddEditStateChange('status', e.target.checked)
             }
-            onSave={() => (isEdit ? handleEdit(groupId) : handleSave(groupId))}
+            onSave={() => {
+              if (addEditMessageState.id) {
+                handleEdit(groupId);
+              } else {
+                handleSave(groupId);
+              }
+            }}
             onCancel={handleClose}
             loading={isEdit ? editing : adding}
           />

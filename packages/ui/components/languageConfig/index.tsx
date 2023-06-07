@@ -64,7 +64,9 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
   };
   const OnsaveLangugae = () => {
     saveLanguage();
-    navigate(messageRoutes.messagegroup);
+    setTimeout(() => {
+      navigate(messageRoutes.messagegroup);
+    }, 5000);
   };
 
   return (

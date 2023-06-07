@@ -88,7 +88,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   };
 
   const handleDelFunc = () => {
-    debugger;
     deleteMessage(deleteId, groupId);
     handlemodalClose();
     getMessageList(groupId);
@@ -134,6 +133,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const handleClose = () => {
     setOpen(false);
     clearAll();
+    setIsEdit(false);
   };
 
   const [selected, setSelected] = useState(false);

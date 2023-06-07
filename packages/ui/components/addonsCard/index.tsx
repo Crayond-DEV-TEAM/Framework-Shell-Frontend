@@ -1,7 +1,7 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 
-import { addOnsCardStyles } from './style';
+import { addOnsCardStyle } from './style';
 import { Label } from '@atoms/label';
 import { ButtonGroupDropdown } from '..';
 import { CustomCheckboxWithLabels } from '@atoms/customCheckboxWithLabels';
@@ -35,7 +35,7 @@ export const AddOnsCard = (props: AddOnsCardProps): JSX.Element => {
     <Box
       // sx={[
       //   {
-      //     ...addOnsCardStyles.rootSx,
+      //     ...addOnsCardStyle.rootSx,
       //   },
       //   ...(Array.isArray(sx) ? sx : [sx]),
       // ]}
@@ -46,15 +46,15 @@ export const AddOnsCard = (props: AddOnsCardProps): JSX.Element => {
         {ListAddons.map((x: any, index: any) => {
           return (
             <>
-              <Box key={index} sx={addOnsCardStyles.rootSx}>
+              <Box key={index} sx={addOnsCardStyle.rootSx}>
                 <Box>
-                  <Typography sx={addOnsCardStyles.firstTextdark}>{x.subTitle}</Typography>
-                  <Label sx={addOnsCardStyles.labelSx} htmlFor="addTitle" isRequired>
+                  <Typography sx={addOnsCardStyle.firstTextdark}>{x.subTitle}</Typography>
+                  <Label sx={addOnsCardStyle.labelSx} htmlFor="addTitle" isRequired>
                     Set price
                   </Label>
                 </Box>
 
-                <Box sx={addOnsCardStyles.align}>
+                <Box sx={addOnsCardStyle.align}>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <ButtonGroupDropdown permissionList={Money} BtnName={'Monthly'} />
                     <ButtonGroupDropdown permissionList={Money} BtnName={'Yearly'} />
@@ -71,14 +71,14 @@ export const AddOnsCard = (props: AddOnsCardProps): JSX.Element => {
                         backgroundColor: 'primary.contrastText',
                       }}
                     />
-                    <Typography sx={addOnsCardStyles.secondText}>{x.subTitle}</Typography>
+                    <Typography sx={addOnsCardStyle.secondText}>{x.subTitle}</Typography>
                     <Box sx={{ ml: '80px' }}>
                       <CloseRedIcon rootStyle={{ width: '17px', height: '17px' }} />
                     </Box>
                   </Box>
                 </Box>
               </Box>
-              <Box sx={addOnsCardStyles.borderLine} />
+              <Box sx={addOnsCardStyle.borderLine} />
             </>
           );
         })}

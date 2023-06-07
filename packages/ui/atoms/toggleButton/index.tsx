@@ -9,7 +9,7 @@ import { Button } from '..';
 
 export interface ToggleButtonProps {
   className?: string;
-  onChange?: (key: string, value: any) => void;
+  onChange?: (key: any, value: any) => void;
   value?: any;
   options?: any;
   isError?: any;
@@ -27,7 +27,7 @@ export const ToggleButtons = (props: ToggleButtonProps): JSX.Element => {
     errorMessage = '',
     ...rest
   } = props;
-  const [active, setActive] = useState(value);
+  const [active, setActive] = useState();
   useEffect(() => {
     if (value !== active) {
       onChange(active, value);

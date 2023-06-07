@@ -11,6 +11,8 @@ import { useLanguageConfiguration } from '@core/store';
 // import { enqueueSnackbar } from 'notistack';
 import { SelectBoxInterface } from '@core/store/interface';
 import { DeleteDailog } from '@atoms/deletedailog';
+import { useNavigate } from 'react-router-dom';
+import { messageRoutes } from '@core/routes';
 
 export interface LanguageConfigProps {
   className?: string;
@@ -48,7 +50,7 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     // eslint-disable-nextline
   }, []);
   const [selected, setSelected] = useState(false);
-
+  const navigate = useNavigate();
   const handleOpen = () => {
     setSelected(true);
     // setIsEdit(false);
@@ -59,6 +61,10 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
   const handleDelete = () => {
     deleteLanguage();
     setSelected(false);
+  };
+  const OnsaveLangugae = () => {
+    saveLanguage();
+    navigate(messageRoutes.messagegroup);
   };
 
   return (
@@ -170,7 +176,7 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
               justifyContent: 'flex-end',
               mr: 2.5,
             }}
-            onclick={saveLanguage}
+            onclick={OnsaveLangugae}
             loading={saving}
           >
             Save

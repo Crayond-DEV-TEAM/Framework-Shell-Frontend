@@ -28,10 +28,75 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   addMessageLoading: false,
   editMessageLoading: false,
   filterMessageLoading: false,
-  FilterList: [],
   filterLoading: false,
   errorOnFilter: false,
-  filterContentState: [],
+  filterContent: [
+    {
+      name: 'Severity',
+      children: [
+        {
+          component: 'checkbox',
+          label: 'High',
+          id: 1,
+          value: false,
+        },
+        {
+          component: 'checkbox',
+          label: 'Low',
+          id: 2,
+          value: false,
+        },
+        {
+          component: 'checkbox',
+          label: 'Medium',
+          id: 3,
+          value: false,
+        },
+      ],
+    },
+    {
+      name: 'Status',
+      children: [
+        {
+          component: 'checkbox',
+          label: 'Active',
+          id: 1,
+          value: true,
+        },
+        {
+          component: 'checkbox',
+          label: 'Inactive',
+          id: 2,
+          value: true,
+        },
+      ],
+    },
+    {
+      name: 'Date',
+      children: [
+        {
+          component: 'dateCheckbox',
+          label: 'Created On',
+          value: false,
+        },
+        {
+          component: 'dateCheckbox',
+          label: 'Modified On',
+          value: false,
+        },
+        {
+          component: 'dateInput',
+          label: 'Select Date From',
+          value: '23rd Jan, 22',
+        },
+        {
+          component: 'dateInput',
+          label: 'Select Date To',
+          value: '25th Jan, 22',
+        },
+      ],
+    },
+  ],
 
   setaddMessage: (payload: { key: string; value: string }) => {
     set((state) => {
@@ -41,17 +106,15 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   seteditMessage: (payload: { key: string; value: string }) => {
     set((state) => ({ editMessageList: { ...state.editMessageList, [payload.key]: payload.value } }));
   },
-  setList: (id: { key: string; value: string }) => {
-    set((state) => ({ idList: id.key.id }));
+  setList: (value: string) => {
+    set((state) => ({ idList: value }));
   },
   setfilter: (payload: { key: string; value: string }) => {
-    set((state) => ({ filterContentState: { ...state.filterContentState, [payload.key]: payload.value } }));
+    set((state) => ({ filterContent: { ...state.filterContent, [payload.key]: payload.value } }));
   },
 
-  getMessageList: () => {
-    const { idList } = get();
-
-    const payload = { id: idList };
+  getMessageList: (group_id: string) => {
+    const payload = { id: group_id };
 
     set({ fetching: true, errorOnFetching: false });
     httpRequest('post', `${envConfig.api_url}/message_groups/display_all_msg_in_grp`, payload, true)
@@ -60,27 +123,23 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
         const dataTable: any = [];
         const dataTableStatus: any = [];
         // const { Language } = get();
-        if (
-          Array.isArray(response.data.data.all_msg_by_grp.msg_grp_msgs_infos) &&
-          response.data.data.all_msg_by_grp.msg_grp_msgs_infos?.length > 0
-        ) {
-          response.data.data.all_msg_by_grp.msg_grp_msgs_infos
-            ?.filter((x: any) => Boolean(x.is_status))
-            .map(({ id }: any) => dataTableStatus.push(id));
-
-          response.data.data.all_msg_by_grp.msg_grp_msgs_infos?.map(
+        if (Array.isArray(response.data.data) && response.data.data?.length > 0) {
+          response.data.data?.filter((x: any) => Boolean(x.is_status)).map(({ id }: any) => dataTableStatus.push(id));
+          response.data.data?.map(
             (tableData: any, i: any) =>
               dataTable.push({
                 id: tableData?.id ?? i,
                 msg_grp_id: tableData?.msg_grp_id ?? '',
                 updated_at: tableData?.updated_at ?? '',
                 created_at: tableData?.created_at ?? '',
-                severity: {
-                  label: `${tableData?.severity?.severity_name ?? ''}`,
-                  color: '#6F6F6F',
-                  bgColor: '#EAEAEA',
-                },
-                msg_grp_msgs: tableData?.msg_grp_msgs?.length + ' / ' + response.data.data.total_config_language,
+                severity: [
+                  {
+                    label: `${tableData?.severity?.severity_name ?? ''}`,
+                    color: '#6F6F6F',
+                    bgColor: '#EAEAEA',
+                  },
+                ],
+                msg_grp_msgs: tableData?.configured_language,
                 msg_grp_msgs_Total: tableData?.msg_grp_msgs,
                 status: tableData?.is_status ?? '',
                 title: tableData?.title ?? '',
@@ -173,7 +232,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   },
 
   addMessageTable: () => {
-    const { addMessageList, idList } = get();
+    const { addMessageList, idList, getMessageList } = get();
     console.log(addMessageList, 'addMessageList');
     const payload = {
       title: addMessageList.title,
@@ -199,6 +258,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
       })
       .finally(() => {
         set({ addMessageLoading: false });
+        getMessageList();
       });
     return false;
   },
@@ -283,40 +343,40 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   },
 
   onApply: () => {
-    // const { filterContent, filterMessage } = get();
-    // const FilterArray: any = [];
-    // if (Array.isArray(filterContent?.[0]?.children) && filterContent?.[0]?.children?.length > 0) {
-    //   filterContent?.[0]?.children?.filter((val: any) => val?.value === true && FilterArray.push(val?.id));
-    // }
-    // let created = {
-    //   from_date: '',
-    //   end_date: '',
-    // };
-    // let updated = {
-    //   from_date: '',
-    //   end_date: '',
-    // };
-    // if (Array.isArray(filterContent?.[2]?.children) && filterContent?.[2]?.children?.length > 0) {
-    //   if (
-    //     filterContent?.[2]?.children?.filter((val: any) => val?.label === 'Created On' && val?.value === true)?.length >
-    //     0
-    //   ) {
-    //     created = {
-    //       from_date: filterContent?.[2]?.children?.[2]?.value ?? '',
-    //       end_date: filterContent?.[2]?.children?.[3]?.value ?? '',
-    //     };
-    //   }
-    //   if (
-    //     filterContent?.[2]?.children?.filter((val: any) => val?.label === 'Modified On' && val?.value === true)
-    //       ?.length > 0
-    //   ) {
-    //     updated = {
-    //       from_date: filterContent?.[2]?.children?.[2]?.value ?? '',
-    //       end_date: filterContent?.[2]?.children?.[3]?.value ?? '',
-    //     };
-    //   }
-    // }
-    // filterMessage(FilterArray, created, updated);
+    const { filterContent, filterMessage } = get();
+    const FilterArray: any = [];
+    if (Array.isArray(filterContent?.[0]?.children) && filterContent?.[0]?.children?.length > 0) {
+      filterContent?.[0]?.children?.filter((val: any) => val?.value === true && FilterArray.push(val?.id));
+    }
+    let created = {
+      from_date: '',
+      end_date: '',
+    };
+    let updated = {
+      from_date: '',
+      end_date: '',
+    };
+    if (Array.isArray(filterContent?.[2]?.children) && filterContent?.[2]?.children?.length > 0) {
+      if (
+        filterContent?.[2]?.children?.filter((val: any) => val?.label === 'Created On' && val?.value === true)?.length >
+        0
+      ) {
+        created = {
+          from_date: filterContent?.[2]?.children?.[2]?.value ?? '',
+          end_date: filterContent?.[2]?.children?.[3]?.value ?? '',
+        };
+      }
+      if (
+        filterContent?.[2]?.children?.filter((val: any) => val?.label === 'Modified On' && val?.value === true)
+          ?.length > 0
+      ) {
+        updated = {
+          from_date: filterContent?.[2]?.children?.[2]?.value ?? '',
+          end_date: filterContent?.[2]?.children?.[3]?.value ?? '',
+        };
+      }
+    }
+    filterMessage(FilterArray, created, updated);
     // clearfilter();
   },
 
@@ -325,6 +385,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     set({
       addMessageList: giveMestatusGroupState(),
       editMessageList: giveMestatusGroupState(),
+      SevorityList: [],
     });
   },
 

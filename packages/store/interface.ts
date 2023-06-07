@@ -261,10 +261,10 @@ export interface filtertech {
 }
 
 export interface MessageGroupsDetails {
-  idList: messageListbox[];
-  setList: (id: { key: string; value: string }) => void;
+  idList: string;
+  setList: (value: string) => void;
 
-  FilterList: FilterDetails[];
+  FilterList: any;
   setfilter: (payload: { key: string; value: string }) => void;
 
   MessagesList: messageListbox[];
@@ -279,8 +279,8 @@ export interface MessageGroupsDetails {
   StatusList: MessageDetails;
   SevorityList: MessageDetails[];
   MessageArray: MessageDetails[];
-  filterContentState: filtertech[];
-  // filterContent: filtertech[];
+  // filterContentState: FilterSetContent[];
+  filterContent: any;
 
   filterLoading: boolean;
   errorOnFilter: boolean;
@@ -306,7 +306,7 @@ export interface MessageGroupsDetails {
   errorOnFilterMesage: boolean;
   filterMessageLoading: boolean;
 
-  getMessageList: () => boolean;
+  getMessageList: (group_id: string) => boolean;
   getServerity: () => boolean;
   deleteMessage: () => boolean;
   addMessageTable: () => boolean;
@@ -361,7 +361,7 @@ export interface MessageStoreInterface {
   editing: boolean;
   errorOnEditing: boolean;
 
-  deleteMessage: (id: string) => void;
+  deleteMessage: (deleteId: string, groupId: string) => void;
   deleting: boolean;
   errorOnDeleting: boolean;
 

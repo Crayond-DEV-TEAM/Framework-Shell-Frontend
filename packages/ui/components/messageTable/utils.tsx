@@ -75,11 +75,16 @@ export const tableData = (editHandel: (id: string) => void, deleteHandel: (id: s
   {
     type: ['ACTION'],
     name: 'action',
-    variant: 'EDIT_WITH_DELETE',
-    editHandel,
-    deleteHandel,
-    editIcon: <EditIcon />,
-    deleteIcon: <DeleteIcon />,
+    variant: [
+      {
+        icon: <EditIcon />,
+        method: editHandel,
+      },
+      {
+        icon: <DeleteIcon />,
+        method: deleteHandel,
+      },
+    ],
   },
 ];
 

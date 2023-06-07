@@ -25,14 +25,14 @@ const router = createBrowserRouter([
       },
     ],
   },
-  {
-    path: userManageRoutes.userManagement,
-    element: (
-      <AppLayout title="IDM" paddingElement={{ padding: '7px 0px 0px 50px' }}>
-        <UserManagementPage />
-      </AppLayout>
-    ),
-  },
+  // {
+  //   path: userManageRoutes.userManagement,
+  //   element: (
+  //     <AppLayout title="IDM" paddingElement={{ padding: '7px 0px 0px 50px' }}>
+  //       <UserManagementPage />
+  //     </AppLayout>
+  //   ),
+  // },
   {
     path: '*',
     errorElement: <ErrorBoundary />,

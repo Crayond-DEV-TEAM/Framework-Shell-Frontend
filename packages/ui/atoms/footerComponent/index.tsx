@@ -17,6 +17,8 @@ export interface FooterComponentProps {
   sx?: SxProps<Theme>;
   saveButtonStyle?: any;
   cancelButtonStyle?: any;
+  saveText?: string;
+  cancelText?: string;
 }
 
 export const FooterComponent = forwardRef((props: FooterComponentProps, ref: React.Ref<HTMLElement>): JSX.Element => {
@@ -29,8 +31,10 @@ export const FooterComponent = forwardRef((props: FooterComponentProps, ref: Rea
     SwitchChange = () => false,
     onSave = () => false,
     onCancel = () => false,
-    saveButtonStyle = {},
+    saveButtonStyle = { width: '100px' },
     cancelButtonStyle = {},
+    saveText = 'Save',
+    cancelText = 'Cancel',
     ...rest
   } = props;
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
@@ -58,7 +62,7 @@ export const FooterComponent = forwardRef((props: FooterComponentProps, ref: Rea
         <Box sx={check ? footerComponentStyle.btnSx : footerComponentStyle.btnSxTwo}>
           <Box sx={footerComponentStyle.btnBg}>
             <Button buttonStyle={{ ...footerComponentStyle.cancelbtnText, cancelButtonStyle }} onClick={onCancel}>
-              Cancel
+              {cancelText}
             </Button>
           </Box>
           <Box sx={footerComponentStyle.savebtnBg}>
@@ -67,7 +71,7 @@ export const FooterComponent = forwardRef((props: FooterComponentProps, ref: Rea
               onClick={onSave}
               loading={loading}
             >
-              Save
+              {saveText}
             </Button>
           </Box>
         </Box>

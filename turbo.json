@@ -45,6 +45,9 @@
     "dev:user-management": {
       "cache": false
     },
+    "dev:plan-subscription": {
+      "cache": false
+    },
     "dev:production": {
       "cache": false
     },

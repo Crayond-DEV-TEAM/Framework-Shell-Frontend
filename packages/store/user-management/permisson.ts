@@ -40,7 +40,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     const indexArray = value.replaceAll('-', '-child-').split('-');
     const jsonObject = indexUpdateList.data;
     const foundObject = findObjectByIndex(jsonObject, indexArray);
-    debugger;
+
     if (foundObject) {
       modifyObjectByIndexWithKey(foundObject, [], !data, type);
       console.log(jsonObject);

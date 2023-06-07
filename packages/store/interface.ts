@@ -555,3 +555,11 @@ export interface RolesMappingInterface {
   getRolesMappingList: () => void;
   getStatusList: () => void;
 }
+
+export interface CustomerInterface {
+  CustomerList: any;
+  fetching: boolean;
+  errorOnFetching: boolean;
+
+  getCustomerList: () => void;
+}

@@ -137,7 +137,6 @@ export const useRoles = create<RolesInterface>((set, get) => ({
   editRoleList: () => {
     const { addRole, getRolesList, clearAll } = get();
     const permissionid = addRole.permission.map((value: any) => value.id);
-    debugger;
     const payload = {
       role_id: addRole.id,
       name: addRole.name,

@@ -142,7 +142,6 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
     };
 
     const regret = await myPromise();
-    console.log(regret, 'valuevaluevalue');
   };
 
   useEffect(() => {

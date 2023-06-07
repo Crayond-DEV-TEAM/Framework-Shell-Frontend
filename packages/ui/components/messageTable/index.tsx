@@ -26,7 +26,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     StatusList,
     getServerity,
     SevorityList,
-    deleteMessage,
+    // deleteMessage,
     setaddMessage,
     seteditMessage,
     setList,
@@ -53,6 +53,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     editMessage,
     onEditClicked,
     open,
+    deleteMessage,
     setOpen,
     clearAll,
   } = useMessage();
@@ -63,7 +64,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const [searchTerm, setSearchTerm] = useState('');
   const [tableName, setTableName] = useState('');
   const [groupId, setGroupId] = useState<string>('');
-
+  const [deleteId, setDeleteId] = useState('');
   const filteredMessageGroup = MessagesList.filter((x: any) =>
     x.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
@@ -78,6 +79,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   };
 
   const handleTableDelete = (id: string) => {
+    setDeleteId(id);
     handlemodalOpen();
   };
 
@@ -86,15 +88,17 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   };
 
   const handleDelFunc = () => {
-    deleteMessage();
+    debugger;
+    deleteMessage(deleteId, groupId);
     handlemodalClose();
+    getMessageList(groupId);
   };
 
   const handleChange = (key: any, value: string) => {
     setList(key.id);
     setTableName(key.title);
     setGroupId(key.id);
-    getMessageList();
+    getMessageList(groupId);
   };
 
   const handleAddChange = (key: string, value: string) => setaddMessage({ key, value });
@@ -141,15 +145,17 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     setSelected(false);
   };
 
-  const handleSave = () => {
-    addMessageTable();
+  const handleSave = (groupId: any) => {
+    addMessage(groupId);
     handleClose();
+    getMessageList(groupId);
     clearAll();
   };
 
-  const handleEdit = () => {
-    editMessageTable();
+  const handleEdit = (groupId: any) => {
+    editMessage(groupId);
     handleClose();
+    getMessageList(groupId);
     clearAll();
   };
 
@@ -159,7 +165,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
 
   useEffect(() => {
     getServerity();
-    getMessageList();
+    getMessageList(groupId);
   }, []);
   return (
     <Box
@@ -284,7 +290,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
             SwitchChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               handleAddEditStateChange('status', e.target.checked)
             }
-            onSave={() => (isEdit ? editMessage(groupId) : addMessage(groupId))}
+            onSave={() => (isEdit ? handleEdit(groupId) : handleSave(groupId))}
             onCancel={handleClose}
             loading={isEdit ? editing : adding}
           />

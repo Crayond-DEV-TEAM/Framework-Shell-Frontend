@@ -4,6 +4,7 @@ import { enqueueSnackbar } from 'notistack';
 import { create } from 'zustand';
 import { AddEditMessageState, MessageStoreInterface } from '../interface';
 import { giveMeAddEditMessageInitialState } from '../utils';
+import { useMessageGroupDetails } from './messageDetails';
 
 export const useMessage = create<MessageStoreInterface>((set, get) => ({
   open: false,
@@ -57,7 +58,6 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
         response?.data?.data?.message_details?.forEach((_: any) => {
           messages[_.configuration_id] = { ..._ };
         });
-        debugger;
         set({
           addEditMessageState: {
             ...response?.data?.data?.language_info,
@@ -77,7 +77,9 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
   },
 
   addMessage: (group_id: string) => {
-    const { addEditMessageState } = get();
+    const { addEditMessageState, clearAll, getAllMessages } = get();
+    const { getMessageList } = useMessageGroupDetails();
+    debugger;
     const payload = {
       title: addEditMessageState.title,
       description: addEditMessageState.description,
@@ -99,11 +101,15 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
       })
       .finally(() => {
         set({ adding: false });
+        getMessageList(group_id);
+        clearAll();
       });
   },
 
   editMessage: (group_id: string) => {
-    const { addEditMessageState } = get();
+    const { addEditMessageState, clearAll, getAllMessages } = get();
+    const { getMessageList } = useMessageGroupDetails();
+
     const payload = {
       title: addEditMessageState.title,
       description: addEditMessageState.description,
@@ -126,10 +132,31 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
       })
       .finally(() => {
         set({ editing: false });
+        getMessageList(group_id);
+        clearAll();
       });
   },
 
-  deleteMessage: (id: string) => {},
+  deleteMessage: (deleteId: string, groupId: string) => {
+    const payload = {
+      msg_grp_msg_info_id: groupId,
+      msg_grp_msg_data: [{ id: deleteId }],
+    };
+    set({ deleting: true, errorOnDeleting: false });
+    httpRequest('put', `${envConfig.api_url}/messages/delete_message`, payload, true)
+      .then((response) => {
+        enqueueSnackbar(`Deleted message Successfully !`, { variant: 'success' });
+      })
+      .catch((err) => {
+        set({ errorOnDeleting: true });
+        enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
+      })
+      .finally(() => {
+        set({ deleting: false });
+        // const { getMessageList } = useMessageGroupDetails();
+        // getMessageList(groupId);
+      });
+  },
 
   getAllMessages: (id: string) => {
     const payload = { id };
@@ -147,8 +174,10 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
       });
   },
   clearAll: () => {
+    debugger;
     set({
       addEditMessageState: giveMeAddEditMessageInitialState(),
+      messages: [],
     });
   },
 }));

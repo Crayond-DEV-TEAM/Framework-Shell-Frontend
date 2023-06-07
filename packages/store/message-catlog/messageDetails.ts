@@ -113,10 +113,8 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     set((state) => ({ filterContent: { ...state.filterContent, [payload.key]: payload.value } }));
   },
 
-  getMessageList: () => {
-    const { idList } = get();
-
-    const payload = { id: idList };
+  getMessageList: (group_id: string) => {
+    const payload = { id: group_id };
 
     set({ fetching: true, errorOnFetching: false });
     httpRequest('post', `${envConfig.api_url}/message_groups/display_all_msg_in_grp`, payload, true)

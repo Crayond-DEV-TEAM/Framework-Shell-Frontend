@@ -306,7 +306,7 @@ export interface MessageGroupsDetails {
   errorOnFilterMesage: boolean;
   filterMessageLoading: boolean;
 
-  getMessageList: () => boolean;
+  getMessageList: (group_id: string) => boolean;
   getServerity: () => boolean;
   deleteMessage: () => boolean;
   addMessageTable: () => boolean;
@@ -361,7 +361,7 @@ export interface MessageStoreInterface {
   editing: boolean;
   errorOnEditing: boolean;
 
-  deleteMessage: (id: string) => void;
+  deleteMessage: (deleteId: string, groupId: string) => void;
   deleting: boolean;
   errorOnDeleting: boolean;
 

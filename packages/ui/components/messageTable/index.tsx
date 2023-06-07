@@ -280,9 +280,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
         contentStyleSx={messageTableStyle.contentSx}
         isDialogOpened={open}
         title={`${isEdit ? 'Edit' : 'Add New'} Message`}
-        Bodycomponent={
-          <AddMessageGroup status={StatusList} isEdit={isEdit} options={SevorityList} language={languages} />
-        }
+        Bodycomponent={<AddMessageGroup status={StatusList} options={SevorityList} language={languages} />}
         Footercomponent={
           <FooterComponent
             check

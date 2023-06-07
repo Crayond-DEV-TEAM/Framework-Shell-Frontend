@@ -1,14 +1,14 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 
-import { addOnsCardStyle } from './style';
+import { addOnBackgroundCardStyle } from './style';
 import { Label } from '@atoms/label';
 import { ButtonGroupDropdown } from '..';
 import { CustomCheckboxWithLabels } from '@atoms/customCheckboxWithLabels';
 import { Input } from '@atoms/input';
 import { CloseRedIcon } from '@atoms/icons';
 
-export interface AddOnsCardProps {
+export interface AddOnBackgroundCardProps {
   className?: string;
   sx?: SxProps<Theme>;
   title?: string;
@@ -18,7 +18,7 @@ export interface AddOnsCardProps {
   ListAddons?: any;
 }
 
-export const AddOnsCard = (props: AddOnsCardProps): JSX.Element => {
+export const AddOnBackgroundCard = (props: AddOnBackgroundCardProps): JSX.Element => {
   const {
     className = '',
     sx = {},
@@ -29,13 +29,14 @@ export const AddOnsCard = (props: AddOnsCardProps): JSX.Element => {
     ListAddons,
     ...rest
   } = props;
+
   const Money = [{ label: '10' }, { label: '19' }];
 
   return (
     <Box
       // sx={[
       //   {
-      //     ...addOnsCardStyle.rootSx,
+      //     ...addOnBackgroundCardStyle.rootSx,
       //   },
       //   ...(Array.isArray(sx) ? sx : [sx]),
       // ]}
@@ -46,15 +47,15 @@ export const AddOnsCard = (props: AddOnsCardProps): JSX.Element => {
         {ListAddons.map((x: any, index: any) => {
           return (
             <>
-              <Box key={index} sx={addOnsCardStyle.rootSx}>
+              <Box key={index} sx={addOnBackgroundCardStyle.rootSx}>
                 <Box>
-                  <Typography sx={addOnsCardStyle.firstTextdark}>{x.subTitle}</Typography>
-                  <Label sx={addOnsCardStyle.labelSx} htmlFor="addTitle" isRequired>
+                  <Typography sx={addOnBackgroundCardStyle.firstTextdark}>{x.subTitle}</Typography>
+                  <Label sx={addOnBackgroundCardStyle.labelSx} htmlFor="addTitle" isRequired>
                     Set price
                   </Label>
                 </Box>
 
-                <Box sx={addOnsCardStyle.align}>
+                <Box sx={addOnBackgroundCardStyle.align}>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <ButtonGroupDropdown permissionList={Money} BtnName={'Monthly'} />
                     <ButtonGroupDropdown permissionList={Money} BtnName={'Yearly'} />
@@ -71,14 +72,14 @@ export const AddOnsCard = (props: AddOnsCardProps): JSX.Element => {
                         backgroundColor: 'primary.contrastText',
                       }}
                     />
-                    <Typography sx={addOnsCardStyle.secondText}>{x.subTitle}</Typography>
+                    <Typography sx={addOnBackgroundCardStyle.secondText}>{x.subTitle}</Typography>
                     <Box sx={{ ml: '80px' }}>
                       <CloseRedIcon rootStyle={{ width: '17px', height: '17px' }} />
                     </Box>
                   </Box>
                 </Box>
               </Box>
-              <Box sx={addOnsCardStyle.borderLine} />
+              <Box sx={addOnBackgroundCardStyle.borderLine} />
             </>
           );
         })}

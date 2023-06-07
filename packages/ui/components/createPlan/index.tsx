@@ -4,7 +4,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { createPlanStyle } from './style';
 import TextField from '@mui/material/TextField';
 import { CustomToggle } from '@atoms/customToggle';
-import { AddOnsCard, BackgroundPaper, ButtonGroupDropdown, CreatePlanCard } from '..';
+import { AddOnBackgroundCard, BackgroundPaper, ButtonGroupDropdown, CreatePlanCard } from '..';
 import { CustomCheckboxWithLabels } from '@atoms/customCheckboxWithLabels';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { CustomerHeader } from '@atoms/customerHeader';
@@ -150,7 +150,7 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
           title="Feature set and controls"
           content={<CreatePlanCard title="General" subTitle="Users" />}
         />
-        <BackgroundPaper title="Add-ons" content={<AddOnsCard ListAddons={ListAddons} />} />
+        <BackgroundPaper title="Add-ons" content={<AddOnBackgroundCard ListAddons={ListAddons} />} />
         <BackgroundPaper
           title="Charges"
           content={

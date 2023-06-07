@@ -1,8 +1,8 @@
 export { AddMessage } from './addMessage';
 export { AddMessageGroup } from './addMessageGroup';
+export { AddOnBackgroundCard } from './addOnBackgroundCard';
 export { AddOnContent } from './addOnContent';
 export { AddOne } from './addOne';
-export { AddOnsCard } from './addOnsCard';
 export { AddPermission } from './addpermission';
 export { AddressForm } from './addressForm';
 export { AdminTable } from './adminTable';

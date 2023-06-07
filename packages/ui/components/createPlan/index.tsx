@@ -47,7 +47,7 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
-      <CustomerHeader isback={false} title={' Create New Customer'} onSave={onchangeRoute} onCancel={onchangeRoute} />
+      <CustomerHeader isback={false} title={' Create New Plan'} onSave={onchangeRoute} onCancel={onchangeRoute} />
       <Box sx={{ margin: '45px' }} />
       {/* <CreatePlanCard title="General" subTitle="Users" /> */}
       <Box sx={createPlanStyle.content}>
@@ -169,7 +169,7 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
                   endAdornment={
                     <AttachMoneyIcon
                       sx={{
-                        '& .MuiSvgIcon-root': {
+                        '&.MuiSvgIcon-root': {
                           width: '25px',
                           height: '20px',
                           color: '#000000',

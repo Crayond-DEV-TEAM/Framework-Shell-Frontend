@@ -29,7 +29,6 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
   errorOnEditData: false,
 
   handleAddEditStateChange: (key: string, value: string | number | boolean) => {
-    debugger;
     set((state) => ({ addEditMessageState: { ...state.addEditMessageState, [key]: value } }));
   },
 
@@ -78,8 +77,6 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
 
   addMessage: (group_id: string) => {
     const { addEditMessageState, clearAll, getAllMessages } = get();
-    const { getMessageList } = useMessageGroupDetails();
-    debugger;
     const payload = {
       title: addEditMessageState.title,
       description: addEditMessageState.description,
@@ -101,6 +98,7 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
       })
       .finally(() => {
         set({ adding: false });
+        const { getMessageList } = useMessageGroupDetails();
         getMessageList(group_id);
         clearAll();
       });
@@ -108,8 +106,6 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
 
   editMessage: (group_id: string) => {
     const { addEditMessageState, clearAll, getAllMessages } = get();
-    const { getMessageList } = useMessageGroupDetails();
-
     const payload = {
       title: addEditMessageState.title,
       description: addEditMessageState.description,
@@ -132,6 +128,7 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
       })
       .finally(() => {
         set({ editing: false });
+        const { getMessageList } = useMessageGroupDetails();
         getMessageList(group_id);
         clearAll();
       });
@@ -139,8 +136,7 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
 
   deleteMessage: (deleteId: string, groupId: string) => {
     const payload = {
-      msg_grp_msg_info_id: groupId,
-      msg_grp_msg_data: [{ id: deleteId }],
+      msg_grp_msg_info_id: deleteId,
     };
     set({ deleting: true, errorOnDeleting: false });
     httpRequest('put', `${envConfig.api_url}/messages/delete_message`, payload, true)
@@ -153,8 +149,8 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
       })
       .finally(() => {
         set({ deleting: false });
-        // const { getMessageList } = useMessageGroupDetails();
-        // getMessageList(groupId);
+        const { getMessageList } = useMessageGroupDetails();
+        getMessageList(groupId);
       });
   },
 
@@ -174,7 +170,6 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
       });
   },
   clearAll: () => {
-    debugger;
     set({
       addEditMessageState: giveMeAddEditMessageInitialState(),
       messages: [],

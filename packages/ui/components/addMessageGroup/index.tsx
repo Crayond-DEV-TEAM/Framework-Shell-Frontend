@@ -15,6 +15,7 @@ export interface AddMessageGroupProps {
 export const AddMessageGroup = (props: AddMessageGroupProps): JSX.Element => {
   const { addEditMessageState, handleAddEditStateChange, handleAddEditMessageChange } = useMessage();
   console.log(addEditMessageState, 'addEditMessageState');
+  console.log(props.isEdit, 'props.isEditprops.isEditprops.isEditprops.isEdit');
   return (
     <Box sx={addMessageGroupStyle.rootSx}>
       <Grid container sx={addMessageGroupStyle.totalGrid}>
@@ -52,9 +53,9 @@ export const AddMessageGroup = (props: AddMessageGroupProps): JSX.Element => {
                 rows={5}
                 rowsMax={10}
                 isMulti={true}
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                  handleAddEditStateChange('description', e.target.value)
-                }
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+                  handleAddEditStateChange('description', e.target.value);
+                }}
                 textFieldStyle={addMessageGroupStyle.inputSx}
                 isError={addEditMessageState?.error?.description ? true : false}
                 errorMessage={addEditMessageState?.error?.description ?? ''}
@@ -62,9 +63,12 @@ export const AddMessageGroup = (props: AddMessageGroupProps): JSX.Element => {
             </Box>
             <Box sx={addMessageGroupStyle.inputGroupSx}>
               <Label sx={addMessageGroupStyle.labelSx}>Severity</Label>
+              {/* <p>{props.isEdit}</p> */}
               <ToggleButtons
-                onChange={(e: any) => handleAddEditStateChange('severity', e)}
                 value={addEditMessageState.severity}
+                onChange={(e: any, id: any) => {
+                  props.isEdit ? handleAddEditStateChange('severity', id) : handleAddEditStateChange('severity', e);
+                }}
                 options={props.options}
               />
             </Box>

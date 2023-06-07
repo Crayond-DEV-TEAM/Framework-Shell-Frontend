@@ -1,10 +1,10 @@
 import type { SxProps } from '@mui/material';
 
-interface AddOnsCardStyleProps {
+interface AddOnBackgroundCardStyleProps {
   [key: string]: SxProps;
 }
 
-export const addOnsCardStyle: AddOnsCardStyleProps = {
+export const addOnBackgroundCardStyle: AddOnBackgroundCardStyleProps = {
   firstText: {
     fontSize: '12px',
   },

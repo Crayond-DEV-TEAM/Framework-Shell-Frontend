@@ -97,7 +97,9 @@ export const MessageCard = forwardRef((props: MessageCardProps): JSX.Element => 
             )}
           </Grid>
           <Grid item xs={10} sm={10} md={10} lg={10}>
-            <Typography sx={messageCardStyle.messageTitle}>{title}</Typography>
+            <Typography sx={messageCardStyle.messageTitle} noWrap>
+              {title}
+            </Typography>
           </Grid>
           <Grid item xs={1} sm={1} md={1} lg={1}>
             <IconButton

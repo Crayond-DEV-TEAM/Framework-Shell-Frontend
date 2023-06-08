@@ -9,7 +9,9 @@ import { useMessageGroupDetails } from './messageDetails';
 export const useMessage = create<MessageStoreInterface>((set, get) => ({
   open: false,
   setOpen: (open: boolean) => set({ open }),
-
+  MessagesList: [],
+  MessagesListStatus: [],
+  MessageArray: [],
   messages: [],
   addEditMessageState: giveMeAddEditMessageInitialState(),
 
@@ -98,8 +100,7 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
       })
       .finally(() => {
         set({ adding: false });
-        const { getMessageList } = useMessageGroupDetails();
-        getMessageList(group_id);
+        getAllMessages(group_id);
         clearAll();
       });
   },
@@ -128,13 +129,13 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
       })
       .finally(() => {
         set({ editing: false });
-        const { getMessageList } = useMessageGroupDetails();
-        getMessageList(group_id);
+        getAllMessages(group_id);
         clearAll();
       });
   },
 
   deleteMessage: (deleteId: string, groupId: string) => {
+    const { getAllMessages } = get();
     const payload = {
       msg_grp_msg_info_id: deleteId,
     };
@@ -149,30 +150,65 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
       })
       .finally(() => {
         set({ deleting: false });
-        const { getMessageList } = useMessageGroupDetails();
-        getMessageList(groupId);
+        getAllMessages(groupId);
       });
   },
 
-  getAllMessages: (id: string) => {
-    const payload = { id };
+  getAllMessages: (group_id: string) => {
+    const payload = { id: group_id };
 
     set({ fetching: true, errorOnFetching: false });
     httpRequest('post', `${envConfig.api_url}/message_groups/display_all_msg_in_grp`, payload, true)
       .then((response) => {
-        set({ messages: response.data });
+        set({ MessageArray: response.data });
+        const dataTable: any = [];
+        const dataTableStatus: any = [];
+        // const { Language } = get();
+        if (Array.isArray(response.data.data) && response.data.data?.length > 0) {
+          response.data.data?.filter((x: any) => Boolean(x.is_status)).map(({ id }: any) => dataTableStatus.push(id));
+          response.data.data?.map(
+            (tableData: any, i: any) =>
+              dataTable.push({
+                id: tableData?.id ?? i,
+                msg_grp_id: tableData?.msg_grp_id ?? '',
+                updated_at: tableData?.updated_at ?? '',
+                created_at: tableData?.created_at ?? '',
+                severity: [
+                  {
+                    label: `${tableData?.severity?.severity_name ?? ''}`,
+                    color: '#6F6F6F',
+                    bgColor: '#EAEAEA',
+                  },
+                ],
+                msg_grp_msgs: tableData?.configured_language,
+                msg_grp_msgs_Total: tableData?.msg_grp_msgs,
+                status: tableData?.is_status ?? '',
+                title: tableData?.title ?? '',
+                description: tableData?.description ?? '',
+              }),
+            set({ MessagesList: dataTable }),
+            set({ MessagesListStatus: dataTableStatus }),
+          );
+        }
       })
       .catch((err) => {
         set({ errorOnFetching: true });
+        // enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
       })
       .finally(() => {
         set({ fetching: false });
       });
+    return false;
   },
   clearAll: () => {
     set({
       addEditMessageState: giveMeAddEditMessageInitialState(),
       messages: [],
+    });
+  },
+  clearAllMessage: () => {
+    set({
+      MessagesList: [],
     });
   },
 }));

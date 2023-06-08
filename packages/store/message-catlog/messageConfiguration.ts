@@ -60,7 +60,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
 
   addMessageGroups: () => {
     set({ addMessageLoading: true, deleteMessageError: false });
-    const { addMessage } = get();
+    const { addMessage, getMessageGroups } = get();
     const payload = {
       title: addMessage.title,
       description: addMessage.description,
@@ -78,11 +78,12 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
       })
       .finally(() => {
         set({ addMessageLoading: false });
+        getMessageGroups();
       });
     return false;
   },
   editMessageGroups: () => {
-    const { editMessage, editMessageList } = get();
+    const { editMessage, editMessageList, getMessageGroups } = get();
     const payload = {
       id: editMessageList.id,
       title: editMessageList.title,
@@ -101,6 +102,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
       })
       .finally(() => {
         set({ fetching: false });
+        getMessageGroups();
       });
     return false;
   },
@@ -123,7 +125,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
     return false;
   },
   deleteMessageGroups: (payload: any) => {
-    const { deleteMessage } = get();
+    const { deleteMessage, getMessageGroups } = get();
 
     set({ deleteMessageLoading: true, deleteMessageError: false });
     httpRequest('put', `${envConfig.api_url}/message_groups/delete_message_group`, payload, true)
@@ -136,6 +138,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
       })
       .finally(() => {
         set({ deleteMessageLoading: false });
+        getMessageGroups();
       });
     return false;
   },

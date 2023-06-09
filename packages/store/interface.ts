@@ -341,6 +341,10 @@ export interface MessageStoreInterface {
   open: boolean;
   setOpen: (open: boolean) => void;
 
+  MessagesList: messageListbox[];
+  MessagesListStatus: messageListbox[];
+  MessageArray: MessageDetails[];
+
   messages: MessageDetails[];
   fetching: boolean;
   errorOnFetching: boolean;
@@ -367,6 +371,7 @@ export interface MessageStoreInterface {
 
   getAllMessages: (id: string) => void;
   clearAll: () => void;
+  clearAllMessage: () => void;
 }
 export interface AddAlertRule {
   id?: number | string;

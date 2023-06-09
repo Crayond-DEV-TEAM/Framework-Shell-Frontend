@@ -3,7 +3,7 @@ import { FooterComponent } from '@atoms/footerComponent';
 import { AddIcon } from '@atoms/icons';
 import { Input } from '@atoms/input';
 import { MessageCard } from '@atoms/messageCard';
-import { useMessageConfiguration } from '@core/store';
+import { useMessage, useMessageConfiguration } from '@core/store';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, IconButton, Skeleton, Stack, SxProps, Theme, Typography } from '@mui/material';
 import { forwardRef, useEffect, useState } from 'react';
@@ -55,6 +55,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     editMessageList,
     clearAll,
   } = useMessageConfiguration();
+  const { getAllMessages } = useMessage();
 
   const [open, setOpen] = useState(false);
 
@@ -117,6 +118,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
       setList(init.id);
       setSelected(0);
       setTableName(init?.title);
+      getAllMessages(init.id);
     }
   }, [messageGroup]);
 
@@ -154,7 +156,9 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
                   isActive={x.is_status}
                   onMessaageClick={() => handleMessage(x, index)}
                   select={selected}
-                  onDelete={() => deleteMessageGroups({ id: x.id })}
+                  handleDelete={() => {
+                    deleteMessageGroups({ id: x.id });
+                  }}
                   onEdit={() => onEdit(x?.id)}
                 />
               </Box>

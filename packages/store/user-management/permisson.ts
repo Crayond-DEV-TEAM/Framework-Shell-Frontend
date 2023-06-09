@@ -42,7 +42,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     const foundObject = findObjectByIndex(jsonObject, indexArray);
 
     if (foundObject) {
-      modifyObjectByIndexWithKey(foundObject, [], !data, type);
+      modifyObjectByIndexWithKey(foundObject, [], data, type);
       console.log(jsonObject);
     } else {
       console.log('Object not found');

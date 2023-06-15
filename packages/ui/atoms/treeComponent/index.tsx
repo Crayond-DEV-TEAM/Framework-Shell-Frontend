@@ -41,6 +41,8 @@ export const CustomLabel = (props: CustomLabelProps): JSX.Element => {
     nodes,
     index,
   } = props;
+  const dem = nodes.allowed?.every((item: any) => typeof item === 'string');
+  console.log(dem, 'dem');
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -52,26 +54,56 @@ export const CustomLabel = (props: CustomLabelProps): JSX.Element => {
           <Checkbox
             style={{ marginRight: '17px' }}
             disabled={disable}
-            onChange={(e) => onChange(e, 'create', nodes, index)}
-            checked={nodes?.create ?? false}
+            onChange={(e) => {
+              // debugger;
+              const updatedAllowed = nodes?.allowed?.includes('create')
+                ? [...nodes?.allowed].filter((item: any) => item !== 'create')
+                : [...(nodes?.allowed ?? []), 'create'];
+
+              onChange(e, 'create', updatedAllowed, index);
+            }}
+            checked={nodes.allowed?.includes('create') ? true : false}
+          />
+          <p>{nodes.allowed?.includes('create') ? true : false}</p>
+          <Checkbox
+            style={{ marginRight: '17px' }}
+            disabled={disable}
+            onChange={(e) => {
+              // debugger;
+              const updatedAllowed = nodes?.allowed?.includes('read')
+                ? [...nodes?.allowed].filter((item: any) => item !== 'read')
+                : [...(nodes?.allowed ?? []), 'read'];
+
+              onChange(e, 'read', updatedAllowed, index);
+            }}
+            checked={nodes?.allowed?.includes('read') ? true : false}
           />
           <Checkbox
             style={{ marginRight: '17px' }}
             disabled={disable}
-            onChange={(e) => onChange(e, 'read', nodes, index)}
-            checked={nodes?.read ?? false}
+            onChange={(e) => {
+              // debugger;
+              const updatedAllowed = nodes?.allowed?.includes('update')
+                ? [...nodes?.allowed].filter((item: any) => item !== 'update')
+                : [...(nodes?.allowed ?? []), 'update'];
+
+              onChange(e, 'create', updatedAllowed, index);
+            }}
+            checked={nodes?.allowed?.includes('update') ? true : false}
           />
+          {/* <p>{JSON.stringify(nodes?.allowed)}</p> */}
           <Checkbox
             style={{ marginRight: '17px' }}
             disabled={disable}
-            onChange={(e) => onChange(e, 'update', nodes, index)}
-            checked={nodes?.update ?? false}
-          />
-          <Checkbox
-            style={{ marginRight: '17px' }}
-            disabled={disable}
-            onChange={(e) => onChange(e, 'delete', nodes, index)}
-            checked={nodes?.delete ?? false}
+            onChange={(e) => {
+              // debugger;
+              const updatedAllowed = nodes?.allowed?.includes('delete')
+                ? [...nodes?.allowed].filter((item: any) => item !== 'delete')
+                : [...(nodes?.allowed ?? []), 'delete'];
+
+              onChange(e, 'delete', updatedAllowed, index);
+            }}
+            checked={nodes?.allowed?.includes('delete') ?? false}
           />
         </Box>
       )}

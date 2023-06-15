@@ -14,8 +14,8 @@ export function findObjectByIndex(json: any, indices: any) {
 }
 export function modifyObjectByIndexWithKey(json: any, indices: any, newValue: any, key: any) {
   if (indices.length === 0) {
-    // Update the value of the found object
-    json[key] = newValue;
+    json.allowed = []; // Clear the array
+    json.allowed.push(...newValue); // Push the new value as a single string
     return json;
   }
 }

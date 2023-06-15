@@ -1,14 +1,15 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { CommonTable } from 'crayond-components-library-1';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { featureStyle } from './style';
-import { TableHeader } from '..';
+import { DeleteComponent, TableHeader } from '..';
 import { Header, tableData, tableJson } from './utils';
 import { FooterComponent } from '@atoms/footerComponent';
 import { DialogDrawer } from '@atoms/dialogDrawer';
 import { Label } from '@atoms/label';
 import { Input } from '@atoms/input';
+import { useFeature } from '@core/store';
 
 export interface FeatureProps {
   className?: string;
@@ -18,18 +19,58 @@ export interface FeatureProps {
 export const Feature = (props: FeatureProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
   const [values, setValues] = useState(false);
+  const [del, setDel] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [switchList, setSwitchList] = useState<any>([]);
   const [savedes, setSavedes] = useState(false);
-  const filteredMessageGroup = tableJson.filter((x: any) =>
-    x.featurename?.toLowerCase()?.includes(searchTerm.toLowerCase()),
+  const [delid, setDelId] = useState('');
+  const [formErrors, setFormErrors] = useState({});
+
+  const {
+    FeatureList,
+    getFeatureList,
+    errorOnFetching,
+    fetching,
+    createEditFeature,
+    editFeature,
+    createFeature,
+    deleteFeature,
+    setFeatureList,
+    updateEditData,
+    clearAll,
+    getStatusList,
+  } = useFeature();
+  const filteredMessageGroup = FeatureList.filter((x: any) =>
+    x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()),
   );
-  const handleTableEdit = () => {
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (createEditFeature.name.length === 0) {
+      errors.name = 'Feature name is required';
+    }
+
+    setFormErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
+
+  const handladdEditchange = (key: string, value: string | boolean) => {
+    setFeatureList(key, value);
+  };
+  const handleTableEdit = (id: string, data: any, e: any) => {
     handleOpen();
     setSavedes(true);
+    const editData = {
+      id: id,
+      name: data.name,
+      is_active: data.is_active,
+    };
+    updateEditData(editData);
   };
-  const handleTableDelete = () => {
-    console.log('///');
+  const handleTableDelete = (id: string) => {
+    setDel(true);
+    setDelId(id);
   };
   const handleSwitch = (id: any, data: any, e: any) => {
     if (!switchList.includes(id)) {
@@ -41,17 +82,50 @@ export const Feature = (props: FeatureProps): JSX.Element => {
         setSwitchList([...switchList]);
       }
     }
-    // if (e.target.checked === true) {
-    //   console.log(id);
-    //   getStatusList(id, true);
-    // } else {
-    //   console.log(id);
-    //   getStatusList(id, false);
-    // }
+    if (e.target.checked === true) {
+      // console.log(id);
+      getStatusList(id, true);
+    } else {
+      // console.log(id);
+      getStatusList(id, false);
+    }
+  };
+  const handleStatus = () => {
+    if (FeatureList?.length > 0) {
+      const status = FeatureList?.filter((val: any) => val?.is_active === true)?.map((val: any) => val?.id);
+      setSwitchList(status);
+    }
+  };
+
+  const onClose = () => {
+    setDel(false);
+  };
+  const onDelete = () => {
+    deleteFeature(delid);
+    setDel(false);
   };
   const handleSave = () => {
     handleOpen();
     setSavedes(false);
+  };
+
+  const handleCreate = () => {
+    const isFormValid = validateForm();
+
+    if (isFormValid) {
+      createFeature();
+      setValues(false);
+      clearAll();
+    }
+  };
+  const handleEditFeature = () => {
+    const isFormValid = validateForm();
+
+    if (isFormValid) {
+      editFeature();
+      setValues(false);
+      clearAll();
+    }
   };
 
   const handleOpen = () => {
@@ -59,7 +133,18 @@ export const Feature = (props: FeatureProps): JSX.Element => {
   };
   const handleClose = () => {
     setValues(false);
+    setFormErrors({});
+    clearAll();
   };
+  useEffect(() => {
+    getFeatureList();
+  }, []);
+
+  useEffect(() => {
+    handleStatus();
+  }, [FeatureList]);
+
+  console.log(filteredMessageGroup, '/////');
 
   return (
     <Box
@@ -137,14 +222,14 @@ export const Feature = (props: FeatureProps): JSX.Element => {
                 size="small"
                 placeholder="Feature name"
                 required
-                // value={addOnContentStyle?.title}
+                value={createEditFeature.name}
                 textFieldStyle={featureStyle.inputSx}
                 id="title"
-                // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                //   handleAddEditStateChange('title', e.target.value)
-                // }
-                // isError={addEditMessageState?.error?.title ? true : false}
-                // errorMessage={addEditMessageState?.error?.title ?? ''}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                  handladdEditchange('name', e.target.value)
+                }
+                isError={Boolean(formErrors.name)}
+                errorMessage={formErrors.name}
               />
             </Box>
           </Box>
@@ -153,13 +238,19 @@ export const Feature = (props: FeatureProps): JSX.Element => {
         dialogRootStyle={featureStyle.dialogSx}
         Footercomponent={
           <FooterComponent
+            SwitchChange={(e) => {
+              handladdEditchange('is_active', e.target.checked);
+            }}
+            checked={createEditFeature.is_active}
             check
             saveButtonStyle={{ minWidth: '90px', height: '28px' }}
             onCancel={handleClose}
-            onSave={handleClose}
+            onSave={savedes === true ? handleEditFeature : handleCreate}
+            // handleEditFeature
           />
         }
       />
+      <DeleteComponent openCommand={del} onCancel={onClose} onDelete={onDelete} />
     </Box>
   );
 };

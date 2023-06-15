@@ -6,17 +6,21 @@ import { CustomDropdown } from '@atoms/customDropdown';
 import { Label } from '@atoms/label';
 import { Input } from '@atoms/input';
 import { CutstomizedAutocomplete } from '@atoms/cutstomizedAutocomplete';
+import { useState } from 'react';
+import { AnyCnameRecord } from 'dns';
 export interface AddOnContentProps {
   className?: string;
   sx?: SxProps<Theme>;
+  options?: any;
+  handleAddEditStateChange?: any;
+  createEditAddOns?: any;
+  formErrors?: any;
 }
 
 export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
-  const { className = '', sx = {}, ...rest } = props;
-  const options = [
-    { label: 'The Godfather', id: 1 },
-    { label: 'Pulp Fiction', id: 2 },
-  ];
+  const { className = '', sx = {}, options, createEditAddOns, formErrors, handleAddEditStateChange, ...rest } = props;
+  const [featuesList, setFeatureList] = useState([]);
+  console.log(createEditAddOns, '////');
 
   return (
     <Box
@@ -38,14 +42,14 @@ export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
             size="small"
             placeholder=" Add-on name"
             required
-            // value={addOnContentStyle?.title}
+            value={createEditAddOns?.name}
             textFieldStyle={addOnContentStyle.inputSx}
-            id="title"
-            // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-            //   handleAddEditStateChange('title', e.target.value)
-            // }
-            // isError={addEditMessageState?.error?.title ? true : false}
-            // errorMessage={addEditMessageState?.error?.title ?? ''}
+            id="name"
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+              handleAddEditStateChange('name', e.target.value)
+            }
+            isError={Boolean(formErrors.name)}
+            errorMessage={formErrors.name}
           />
         </Box>
         <Box sx={{ m: '16px' }} />
@@ -55,18 +59,18 @@ export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
           </Label>
           <Input
             required
-            // value={addOnContentStyle?.title}
+            value={createEditAddOns?.description}
             textFieldStyle={addOnContentStyle.inputSx}
             id="description"
             rows={3}
             rowsMax={6}
             isMulti={true}
             placeholder="Description"
-            // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-            //   handleAddEditStateChange('title', e.target.value)
-            // }
-            // isError={addEditMessageState?.error?.title ? true : false}
-            // errorMessage={addEditMessageState?.error?.title ?? ''}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+              handleAddEditStateChange('description', e.target.value)
+            }
+            isError={Boolean(formErrors.description)}
+            errorMessage={formErrors.description}
           />
         </Box>
         <Box sx={{ m: '16px' }} />
@@ -75,7 +79,17 @@ export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
             Choose feature group
           </Label>
 
-          <CutstomizedAutocomplete placeholder={'Silver'} permissionList={options} />
+          <CutstomizedAutocomplete
+            placeholder={'Silver'}
+            permissionList={options}
+            onChange={(value) => {
+              handleAddEditStateChange('featuregroup', value);
+              setFeatureList(value.featureDetails);
+            }}
+            value={createEditAddOns.features || []}
+            isError={Boolean(formErrors.featuregroup)}
+            errorMessage={formErrors.featuregroup}
+          />
         </Box>
         <Box sx={{ m: '16px' }} />
         <Box sx={addOnContentStyle.inputGroupSx}>
@@ -83,7 +97,16 @@ export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
             Choose feature
           </Label>
 
-          <CutstomizedAutocomplete placeholder={'Silver'} permissionList={options} />
+          <CutstomizedAutocomplete
+            placeholder={'Silver'}
+            permissionList={featuesList}
+            onChange={(value) => {
+              handleAddEditStateChange('features', value);
+            }}
+            value={createEditAddOns.features?.length > 0 ? createEditAddOns.features : []}
+            isError={Boolean(formErrors.features)}
+            errorMessage={formErrors.features}
+          />
         </Box>
       </Box>
     </Box>

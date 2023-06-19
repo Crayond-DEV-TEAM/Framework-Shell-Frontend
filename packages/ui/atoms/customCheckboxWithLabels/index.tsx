@@ -12,6 +12,7 @@ export interface CustomCheckboxWithLabelsProps {
   circleCheckbox?: boolean;
   squareText?: string;
   circleText?: string;
+  handleChanges?: (value: any) => void;
 }
 
 export const CustomCheckboxWithLabels = (props: CustomCheckboxWithLabelsProps): JSX.Element => {
@@ -22,6 +23,7 @@ export const CustomCheckboxWithLabels = (props: CustomCheckboxWithLabelsProps): 
     circleText = 'Make this a recommended plan',
     squareCheckbox = false,
     circleCheckbox = false,
+    handleChanges = () => false,
     ...rest
   } = props;
 
@@ -38,7 +40,11 @@ export const CustomCheckboxWithLabels = (props: CustomCheckboxWithLabelsProps): 
     >
       {squareCheckbox && (
         <Box sx={customCheckboxWithLabelsStyle.rootSx}>
-          <Checkbox defaultChecked sx={{ '& .MuiSvgIcon-root': { width: '17px', height: '17px' } }} />
+          <Checkbox
+            onChange={(e) => handleChanges(e.target.checked)}
+            defaultChecked
+            sx={{ '& .MuiSvgIcon-root': { width: '17px', height: '17px' } }}
+          />
           <Typography sx={customCheckboxWithLabelsStyle.typographyTxt}>{squareText}</Typography>
         </Box>
       )}
@@ -46,6 +52,7 @@ export const CustomCheckboxWithLabels = (props: CustomCheckboxWithLabelsProps): 
         <Box sx={customCheckboxWithLabelsStyle.rootSx}>
           <Checkbox
             defaultChecked
+            onChange={(e) => handleChanges(e.target.checked)}
             sx={{ '& .MuiSvgIcon-root': { width: '17px', height: '17px' } }}
             icon={<RadioButtonUncheckedIcon />}
             checkedIcon={<CheckCircleIcon />}

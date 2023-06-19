@@ -42,4 +42,7 @@ export const createPlanCardStyle: CreatePlanCardStyleProps = {
     fontWeight: '500',
     // mb: '6px',
   },
+  typographyTxt: {
+    fontSize: '12px',
+  },
 };

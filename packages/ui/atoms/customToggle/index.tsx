@@ -11,16 +11,17 @@ export interface CustomToggleProps {
   sx?: SxProps<Theme>;
   tabOne?: string;
   tabTwo?: string;
+  handleChange?: (value: any) => void;
 }
 
 export const CustomToggle = (props: CustomToggleProps): JSX.Element => {
-  const { className = '', sx = {}, tabOne = 'one', tabTwo = 'two', ...rest } = props;
-  const [value, setValue] = useState(0);
+  const { className = '', sx = {}, tabOne = 'one', tabTwo = 'two', handleChange = () => false, ...rest } = props;
+  const [value, setValue] = useState('');
 
-  const handleDevices = (event: React.MouseEvent<HTMLElement>, newDevices: number) => {
-    // if (newDevices.length) {
+  const handleDevices = (event: React.MouseEvent<HTMLElement>, newDevices: string) => {
+    // // if (newDevices.length) {
     setValue(newDevices);
-    // }
+    handleChange(newDevices);
   };
 
   return (
@@ -35,10 +36,10 @@ export const CustomToggle = (props: CustomToggleProps): JSX.Element => {
       {...rest}
     >
       <ToggleButtonGroup sx={customToggleStyle.buttonGrp} aria-label="device" value={value} onChange={handleDevices}>
-        <ToggleButton sx={customToggleStyle.btnEft} value="2" aria-label="laptop">
+        <ToggleButton sx={customToggleStyle.btnEft} value={tabOne} aria-label="laptop">
           {tabOne}
         </ToggleButton>
-        <ToggleButton sx={customToggleStyle.btnEft} value="1" aria-label="phone">
+        <ToggleButton sx={customToggleStyle.btnEft} value={tabTwo} aria-label="phone">
           {tabTwo}
         </ToggleButton>
       </ToggleButtonGroup>

@@ -568,3 +568,61 @@ export interface CustomerInterface {
 
   getCustomerList: () => void;
 }
+
+export interface Plans {
+  name: string;
+  billing: string;
+  is_public: boolean;
+  is_active: boolean;
+}
+
+export interface AddEditPlans {
+  name: string;
+  description: string;
+  is_plan_public: boolean;
+  is_recomended: boolean;
+  is_metered_billing: boolean;
+  is_active: boolean;
+  billing_period: [string];
+  price: {
+    monthly: number;
+    yearly: number;
+  };
+  is_per_user: boolean;
+  is_flat_fee: boolean;
+  billing_cycles: string;
+  feature: [
+    {
+      id: string;
+      limit_count: string;
+    },
+  ];
+  add_on: [
+    {
+      id: string;
+      price: {
+        monthly: number;
+        yearly: number;
+      };
+      limit_count: number;
+    },
+  ];
+  charge: [
+    {
+      id: string;
+      price: number;
+    },
+  ];
+}
+
+export interface PlansInterface {
+  PlanList: Plans[];
+  addEditPlan: AddEditPlans;
+  fetching: boolean;
+  errorOnFetch: boolean;
+
+  getPlansList: (x: any) => void;
+  addPlan: (data: any) => void;
+  editPlan: (data: any) => void;
+  deletePlan: (x: any) => void;
+}

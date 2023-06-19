@@ -1,12 +1,13 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { CommonTable } from 'crayond-components-library-1';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { plansStyle } from './style';
 import { TableHeader } from '..';
 import { Header, tableData, tableJson } from './utills';
 import { planSubscriptionRoutes } from '@core/routes';
 import { useNavigate } from 'react-router-dom';
+import { usePlans } from '@core/store';
 
 export interface PlansProps {
   className?: string;
@@ -18,12 +19,15 @@ export const Plans = (props: PlansProps): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
   const [switchList, setSwitchList] = useState<any>([]);
   const navigate = useNavigate();
+
+  const { PlanList, getPlansList, deletePlan } = usePlans();
+
   const filteredMessageGroup = tableJson.filter((x: any) => x.plan?.toLowerCase()?.includes(searchTerm.toLowerCase()));
   const handleTableEdit = () => {
     navigate(planSubscriptionRoutes.createplan);
   };
-  const handleTableDelete = () => {
-    console.log('///');
+  const handleTableDelete = (id: any) => {
+    deletePlan(id);
   };
   const handleSwitch = (id: any, data: any, e: any) => {
     if (!switchList.includes(id)) {
@@ -46,6 +50,10 @@ export const Plans = (props: PlansProps): JSX.Element => {
   const handleMapopen = () => {
     navigate(planSubscriptionRoutes.createplan);
   };
+
+  useEffect(() => {
+    getPlansList({ offset: 0, limit: 0 });
+  }, []);
 
   return (
     <Box

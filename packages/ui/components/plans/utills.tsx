@@ -12,7 +12,7 @@ export const Header = [
     id: 'plan',
     align: 'left',
     disablePadding: false,
-    label: 'Billing',
+    label: 'Plan',
     isSortable: true,
   },
   {
@@ -101,7 +101,7 @@ export const tableJson = [
     public: 'No',
     activesubscription: '-',
     lastmodified: '7/07/2023',
-    id: '1',
+    id: '2',
     status: true,
   },
   {
@@ -110,7 +110,7 @@ export const tableJson = [
     public: 'Yes',
     activesubscription: '8',
     lastmodified: '17/05/20233',
-    id: '1',
+    id: '3',
     status: true,
   },
   {
@@ -119,7 +119,7 @@ export const tableJson = [
     public: 'Yes',
     activesubscription: '48',
     lastmodified: '07/05/2023',
-    id: '1',
+    id: '4',
     status: true,
   },
   {
@@ -128,7 +128,7 @@ export const tableJson = [
     public: 'Yes',
     activesubscription: '88',
     lastmodified: '27/05/2023',
-    id: '1',
+    id: '5',
     status: true,
   },
 ];

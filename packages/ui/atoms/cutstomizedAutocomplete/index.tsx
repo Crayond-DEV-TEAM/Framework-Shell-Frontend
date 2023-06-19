@@ -91,7 +91,7 @@ export const CutstomizedAutocomplete = (props: CutstomizedAutocompleteProps): JS
         options={permissionList}
         // options={name}
         // disableCloseOnSelect
-        getOptionLabel={(options: any) => options?.label}
+        getOptionLabel={(options: any) => options?.name}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -104,6 +104,7 @@ export const CutstomizedAutocomplete = (props: CutstomizedAutocompleteProps): JS
         )}
         onChange={(option, value) => {
           onChange && onChange(value);
+          debugger;
         }}
         sx={{
           // '& .MuiChip-root': { height: '28px', borderRadius: '8px', marginLeft: '4px', marginTop: '-7px' },

@@ -9,20 +9,33 @@ import { useHover } from 'ahooks';
 import { DeleteIcon, EditIcon } from '@atoms/icons';
 import CutstomizedAutocompleteStories from '@atoms/cutstomizedAutocomplete/cutstomizedAutocomplete.stories';
 import { CutstomizedAutocomplete } from '@atoms/cutstomizedAutocomplete';
+import { CustomDropdown } from '@atoms/customDropdown';
 
 export interface FeatureGroupContentProps {
   className?: string;
   sx?: SxProps<Theme>;
+  options?: any;
+  handleAddEditStateChange?: any;
+  createEditFeatureGroup?: any;
+  formErrors?: any;
 }
 
 export const FeatureGroupContent = (props: FeatureGroupContentProps): JSX.Element => {
-  const { className = '', sx = {}, ...rest } = props;
+  const {
+    className = '',
+    sx = {},
+    options,
+    handleAddEditStateChange,
+    createEditFeatureGroup,
+    formErrors,
+    ...rest
+  } = props;
   const ref = useRef(null);
   const isHovering = useHover(ref);
-  const options = [
-    { label: 'The Godfather', id: 1 },
-    { label: 'Pulp Fiction', id: 2 },
-  ];
+  // const options = [
+  //   { label: 'The Godfather', id: 1 },
+  //   { label: 'Pulp Fiction', id: 2 },
+  // ];
 
   return (
     <Box
@@ -52,14 +65,14 @@ export const FeatureGroupContent = (props: FeatureGroupContentProps): JSX.Elemen
               size="small"
               placeholder=" Enter name"
               required
-              // value={addOnContentStyle?.title}
+              value={createEditFeatureGroup?.name}
               textFieldStyle={featureGroupContentStyle.inputSx}
               id="title"
-              // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-              //   handleAddEditStateChange('title', e.target.value)
-              // }
-              // isError={addEditMessageState?.error?.title ? true : false}
-              // errorMessage={addEditMessageState?.error?.title ?? ''}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                handleAddEditStateChange('name', e.target.value)
+              }
+              isError={Boolean(formErrors.name)}
+              errorMessage={formErrors.name}
             />
           </Box>
           <Box sx={{ m: '16px' }} />
@@ -70,17 +83,17 @@ export const FeatureGroupContent = (props: FeatureGroupContentProps): JSX.Elemen
             <Input
               placeholder="Description"
               required
-              // value={addOnContentStyle?.title}
+              value={createEditFeatureGroup?.description}
               textFieldStyle={featureGroupContentStyle.inputSx}
               id="description"
               rows={3}
               rowsMax={6}
               isMulti={true}
-              // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-              //   handleAddEditStateChange('title', e.target.value)
-              // }
-              // isError={addEditMessageState?.error?.title ? true : false}
-              // errorMessage={addEditMessageState?.error?.title ?? ''}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                handleAddEditStateChange('description', e.target.value)
+              }
+              isError={Boolean(formErrors.description)}
+              errorMessage={formErrors.description}
             />
           </Box>
           <Box sx={{ m: '16px' }} />
@@ -88,7 +101,16 @@ export const FeatureGroupContent = (props: FeatureGroupContentProps): JSX.Elemen
             <Label sx={featureGroupContentStyle.labelSx} htmlFor="addTitle" isRequired>
               Add Features
             </Label>
-            <CutstomizedAutocomplete placeholder="options" permissionList={options} />
+            <CustomDropdown
+              placeholder="options"
+              permissionList={options}
+              onChange={(value) => {
+                handleAddEditStateChange('features', value);
+              }}
+              value={createEditFeatureGroup.features?.length > 0 ? createEditFeatureGroup.features : []}
+              isError={Boolean(formErrors.features)}
+              errorMessage={formErrors.features}
+            />
           </Box>
         </Grid>
         {/* <Grid xs={12} sm={6} md={6} lg={6} xl={6} sx={{ padding: '24px', position: 'sticky' }}>

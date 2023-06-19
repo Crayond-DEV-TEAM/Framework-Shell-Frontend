@@ -28,4 +28,19 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
         set({ fetching: false });
       });
   },
+    getCustomerList: () => {
+    set({ fetching: true, errorOnFetching: false, CustomerList: tableJson });
+
+    httpRequest('get', `${envConfig.api_url}`, {}, true)
+      .then((response) => {
+        // set({ CustomerList: response.data.data });
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ fetching: false });
+      });
+  },
 }));

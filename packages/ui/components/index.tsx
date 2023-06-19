@@ -67,3 +67,5 @@ export { ReportTabs } from './tabs';
 export { TabsCard } from './tabsCard';
 export { TabsValueCard } from './tabsValueCard';
 export { UserManagement } from './userManagement';
+
+export { DeleteComponent } from './deleteComponent';

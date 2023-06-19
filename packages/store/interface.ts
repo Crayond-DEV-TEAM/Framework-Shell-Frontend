@@ -626,3 +626,108 @@ export interface PlansInterface {
   editPlan: (data: any) => void;
   deletePlan: (x: any) => void;
 }
+export interface FeatureKey {
+  name: string;
+  is_active: boolean;
+  id?: string | undefined;
+}
+
+export interface FeatureInterface {
+  FeatureList: FeatureKey[];
+  fetching: boolean;
+  errorOnFetching: boolean;
+
+  createEditFeature: FeatureKey;
+
+  setFeatureList: (key: string, value: boolean | string) => void;
+
+  updateEditData: (data: any) => void;
+
+  getFeatureList: () => void;
+  createFeature: () => void;
+  editFeature: () => void;
+  getStatusList: (id: any, status: any) => void;
+  deleteFeature: (id: string) => void;
+  clearAll: () => void;
+}
+
+export interface FeatureGroupKey {
+  name: string;
+  is_active: boolean;
+  id?: string | undefined;
+  features: string[];
+  description?: string;
+}
+
+export interface FeatureGroupInterface {
+  FeatureGroupList: FeatureGroupKey[];
+  fetching: boolean;
+  errorOnFetching: boolean;
+
+  createEditFeatureGroup: FeatureGroupKey;
+
+  setFeatureGroupList: (key: string, value: boolean | string) => void;
+
+  updateEditData: (data: any) => void;
+
+  getFeatureGroupList: () => void;
+  createFeatureGroup: () => void;
+  editFeatureGroup: () => void;
+  getStatusList: (id: any, status: any) => void;
+  deleteFeatureGroup: (id: string) => void;
+  clearAll: () => void;
+}
+
+export interface AddOnsKey {
+  name: string;
+  is_active: boolean;
+  id?: string | undefined;
+  features: string;
+  description?: string;
+  featuregroup: string;
+}
+
+export interface AddOnsInterface {
+  AddOnsList: AddOnsKey[];
+  fetching: boolean;
+  errorOnFetching: boolean;
+
+  createEditAddOns: AddOnsKey;
+
+  setAddOnsList: (key: string, value: boolean | string) => void;
+
+  updateEditData: (data: any) => void;
+
+  getAddOnsList: () => void;
+  createAddOns: () => void;
+  editAddOns: () => void;
+  getStatusList: (id: any, status: any) => void;
+  deleteAddOns: (id: string) => void;
+  clearAll: () => void;
+}
+
+export interface ChargesKey {
+  name: string;
+  is_active: boolean;
+  id?: string | undefined;
+  description?: string;
+}
+
+export interface ChargesInterface {
+  ChargesList: ChargesKey[];
+  fetching: boolean;
+  errorOnFetching: boolean;
+
+  createEditCharges: ChargesKey;
+
+  setChargesList: (key: string, value: boolean | string) => void;
+
+  updateEditData: (data: any) => void;
+
+  getChargesList: () => void;
+  createCharges: () => void;
+  editCharges: () => void;
+  getStatusList: (id: any, status: any) => void;
+  deleteCharges: (id: string) => void;
+  clearAll: () => void;
+}

@@ -1,13 +1,14 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { CommonTable } from 'crayond-components-library-1';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { featureGroupsStyle } from './style';
 import { DialogDrawer } from '@atoms/dialogDrawer';
 import { Header, tableData, tableJson } from './utills';
-import { FeatureGroupContent, TableHeader } from '..';
+import { DeleteComponent, FeatureGroupContent, TableHeader } from '..';
 import { FooterComponent } from '@atoms/footerComponent';
+import { useFeature, useFeatureGroup } from '@core/store';
 
 export interface FeatureGroupsProps {
   className?: string;
@@ -16,19 +17,67 @@ export interface FeatureGroupsProps {
 
 export const FeatureGroups = (props: FeatureGroupsProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
+  const {
+    getFeatureGroupList,
+    FeatureGroupList,
+    editFeatureGroup,
+    createFeatureGroup,
+    deleteFeatureGroup,
+    getStatusList,
+    clearAll,
+    setFeatureGroupList,
+    createEditFeatureGroup,
+    updateEditData,
+  } = useFeatureGroup();
+  const { FeatureList, getFeatureList } = useFeature();
   const [values, setValues] = useState(false);
   const [editData, setEditData] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [switchList, setSwitchList] = useState<any>([]);
-  const filteredMessageGroup = tableJson.filter((x: any) =>
-    x.featuregroup?.toLowerCase()?.includes(searchTerm.toLowerCase()),
+  const [del, setDel] = useState(false);
+  const [delId, setDelId] = useState('');
+  const [formErrors, setFormErrors] = useState({});
+  const filteredMessageGroup = FeatureGroupList.filter((x: any) =>
+    x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()),
   );
-  const handleTableEdit = () => {
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (createEditFeatureGroup.name.trim().length === 0) {
+      errors.name = 'FeatureGroup name is required';
+    }
+
+    // if (createEditFeatureGroup.description.trim().length === 0) {
+    //   errors.description = 'Description is required';
+    // }
+    if (createEditFeatureGroup.features.length === 0) {
+      errors.features = 'Feature is required';
+    }
+
+    setFormErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleAddEditStateChange = (key: string, value: string | boolean) => {
+    setFeatureGroupList(key, value);
+  };
+  const handleTableEdit = (id: string, data: any, e: any) => {
     handleOpen();
     setEditData(true);
+    const editData = {
+      id: id,
+      name: data.name,
+      is_active: data.is_active,
+      description: data.description,
+      features: data.featureDetails,
+    };
+    updateEditData(editData);
   };
-  const handleTableDelete = () => {
-    console.log('///');
+
+  const handleTableDelete = (id: string) => {
+    setDelId(id);
+    setDel(true);
   };
   const handleSwitch = (id: any, data: any, e: any) => {
     if (!switchList.includes(id)) {
@@ -40,13 +89,13 @@ export const FeatureGroups = (props: FeatureGroupsProps): JSX.Element => {
         setSwitchList([...switchList]);
       }
     }
-    // if (e.target.checked === true) {
-    //   console.log(id);
-    //   getStatusList(id, true);
-    // } else {
-    //   console.log(id);
-    //   getStatusList(id, false);
-    // }
+    if (e.target.checked === true) {
+      // console.log(id);
+      getStatusList(id, true);
+    } else {
+      // console.log(id);
+      getStatusList(id, false);
+    }
   };
 
   const handleOpen = () => {
@@ -54,13 +103,53 @@ export const FeatureGroups = (props: FeatureGroupsProps): JSX.Element => {
   };
   const handleClose = () => {
     setValues(false);
+    setFormErrors({});
+    clearAll();
+  };
+  const handleDeleteClose = () => {
+    setDel(false);
+  };
+
+  const handleCreateFeatureGroup = () => {
+    const isFormValid = validateForm();
+
+    if (isFormValid) {
+      createFeatureGroup();
+      setValues(false);
+    }
+  };
+  const handleEditFeatureGroup = () => {
+    const isFormValid = validateForm();
+
+    if (isFormValid) {
+      editFeatureGroup();
+      setValues(false);
+    }
+  };
+  const handleDeleteFeatureGroup = () => {
+    deleteFeatureGroup(delId);
+    setDel(false);
   };
 
   const addhandle = () => {
     handleOpen();
     setEditData(false);
   };
+  const handleStatus = () => {
+    if (FeatureGroupList?.length > 0) {
+      const status = FeatureGroupList?.filter((val: any) => val?.is_active === true)?.map((val: any) => val?.id);
+      setSwitchList(status);
+    }
+  };
 
+  useEffect(() => {
+    getFeatureGroupList();
+    getFeatureList();
+  }, []);
+  useEffect(() => {
+    handleStatus();
+  }, [FeatureGroupList]);
+  console.log(createEditFeatureGroup, ';;;;');
   return (
     <Box
       sx={[
@@ -127,18 +216,30 @@ export const FeatureGroups = (props: FeatureGroupsProps): JSX.Element => {
         maxModalWidth="xl"
         isDialogOpened={values}
         title={editData === true ? 'Edit Feature group' : 'Create new Feature group'}
-        Bodycomponent={<FeatureGroupContent />}
+        Bodycomponent={
+          <FeatureGroupContent
+            options={FeatureList}
+            handleAddEditStateChange={handleAddEditStateChange}
+            createEditFeatureGroup={createEditFeatureGroup}
+            formErrors={formErrors}
+          />
+        }
         handleCloseDialog={handleClose}
         dialogRootStyle={featureGroupsStyle.dialogSx}
         Footercomponent={
           <FooterComponent
             check
+            SwitchChange={(e) => {
+              handleAddEditStateChange('is_active', e.target.checked);
+            }}
+            checked={createEditFeatureGroup.is_active}
             saveButtonStyle={{ minWidth: '90px', height: '28px' }}
             onCancel={handleClose}
-            onSave={handleClose}
+            onSave={editData === true ? handleEditFeatureGroup : handleCreateFeatureGroup}
           />
         }
       />
+      <DeleteComponent openCommand={del} onCancel={handleDeleteClose} onDelete={handleDeleteFeatureGroup} />
     </Box>
   );
 };

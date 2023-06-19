@@ -9,14 +9,14 @@ export const Header = [
     isSortable: false,
   },
   {
-    id: 'fetaureid',
+    id: 'id',
     align: 'left',
     disablePadding: false,
     label: 'Feature Id',
     isSortable: true,
   },
   {
-    id: 'featurename',
+    id: 'name',
     align: 'left',
     disablePadding: false,
     label: 'Feature Name',
@@ -38,8 +38,8 @@ export const Header = [
 
 export const tableData = (editHandel: (id: string, data: any, e: any) => void, deleteHandel: (id: string) => void) => [
   { type: ['CHECKBOX'], name: 'checkbox' },
-  { type: ['TEXT'], name: 'fetaureid' },
-  { type: ['TEXT'], name: 'featurename' },
+  { type: ['TEXT'], name: 'id' },
+  { type: ['TEXT'], name: 'name' },
   {
     type: ['SWITCH'],
     name: 'is_active',

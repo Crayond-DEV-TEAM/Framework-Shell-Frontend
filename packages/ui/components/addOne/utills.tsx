@@ -9,7 +9,7 @@ export const Header = [
     isSortable: false,
   },
   {
-    id: 'addon',
+    id: 'name',
     align: 'left',
     disablePadding: false,
     label: 'Add-on',
@@ -45,7 +45,7 @@ export const Header = [
 
 export const tableData = (editHandel: (id: string, data: any, e: any) => void, deleteHandel: (id: string) => void) => [
   { type: ['CHECKBOX'], name: 'checkbox' },
-  { type: ['TEXT'], name: 'addon' },
+  { type: ['TEXT'], name: 'name' },
   { type: ['TEXT'], name: 'attachedin' },
   { type: ['TEXT'], name: 'createdon' },
   {

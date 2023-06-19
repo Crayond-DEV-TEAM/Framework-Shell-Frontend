@@ -9,7 +9,7 @@ export const Header = [
     isSortable: false,
   },
   {
-    id: 'featuregroup',
+    id: 'name',
     align: 'left',
     disablePadding: false,
     label: 'Feature group',
@@ -23,7 +23,7 @@ export const Header = [
     isSortable: true,
   },
   {
-    id: 'modifiedon',
+    id: 'modified',
     align: 'left',
     disablePadding: false,
     label: 'Modified On',
@@ -45,9 +45,9 @@ export const Header = [
 
 export const tableData = (editHandel: (id: string, data: any, e: any) => void, deleteHandel: (id: string) => void) => [
   { type: ['CHECKBOX'], name: 'checkbox' },
-  { type: ['TEXT'], name: 'featuregroup' },
+  { type: ['TEXT'], name: 'name' },
   { type: ['TEXT'], name: 'features' },
-  { type: ['TEXT'], name: 'modifiedon' },
+  { type: ['TEXT'], name: 'modified' },
   {
     type: ['SWITCH'],
     name: 'is_active',
@@ -71,44 +71,44 @@ export const tableData = (editHandel: (id: string, data: any, e: any) => void, d
 
 export const tableJson = [
   {
-    featuregroup: 'General',
+    name: 'General',
     features: '3 features',
-    modifiedon: '27/05/2023',
+    modified: '27/05/2023',
     id: '1',
     status: true,
   },
   {
-    featuregroup: 'Actions',
+    name: 'Actions',
     features: '6 features',
-    modifiedon: '08/05/2023',
+    modified: '08/05/2023',
     id: '2',
     status: false,
   },
   {
-    featuregroup: 'Goals',
+    name: 'Goals',
     features: '12 features',
-    modifiedon: '27/05/2023',
+    modified: '27/05/2023',
     id: '3',
     status: true,
   },
   {
-    featuregroup: 'Automation',
+    name: 'Automation',
     features: '26 features',
-    modifiedon: '08/05/2023',
+    modified: '08/05/2023',
     id: '4',
     status: false,
   },
   {
-    featuregroup: 'Collaboration',
+    name: 'Collaboration',
     features: '32 features',
-    modifiedon: '27/05/2023',
+    modified: '27/05/2023',
     id: '5',
     status: true,
   },
   {
-    featuregroup: 'Productivity',
+    name: 'Productivity',
     features: '-',
-    modifiedon: '08/05/2023',
+    modified: '08/05/2023',
     id: '6',
     status: false,
   },

@@ -1,15 +1,16 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CommonTable } from 'crayond-components-library-1';
 
 import { chargesStyle } from './style';
 import { DialogDrawer } from '@atoms/dialogDrawer';
-import { TableHeader } from '..';
+import { DeleteComponent, TableHeader } from '..';
 import { Header, tableData, tableJson } from './utills';
 import { FooterComponent } from '@atoms/footerComponent';
 import { Label } from '@atoms/label';
 import { Input } from '@atoms/input';
+import { useCharges } from '@core/store';
 
 export interface ChargesProps {
   className?: string;
@@ -18,19 +19,86 @@ export interface ChargesProps {
 
 export const Charges = (props: ChargesProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
+  const {
+    getChargesList,
+    getStatusList,
+    createCharges,
+    createEditCharges,
+    updateEditData,
+    ChargesList,
+    setChargesList,
+    deleteCharges,
+    editCharges,
+  } = useCharges();
   const [values, setValues] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [switchList, setSwitchList] = useState<any>([]);
   const [savedes, setSavedes] = useState(false);
-  const filteredMessageGroup = tableJson.filter((x: any) =>
-    x.charges?.toLowerCase()?.includes(searchTerm.toLowerCase()),
+  const [del, setDel] = useState(false);
+  const [delId, setDelId] = useState('');
+  const [formErrors, setFormErrors] = useState({});
+
+  const filteredMessageGroup = ChargesList.filter((x: any) =>
+    x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()),
   );
-  const handleTableEdit = () => {
+
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (createEditCharges.name.trim().length === 0) {
+      errors.name = 'Charge name is required';
+    }
+
+    if (createEditCharges.description.trim().length === 0) {
+      errors.description = 'Description is required';
+    }
+
+    setFormErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleAddEditStateChange = (key: any, value: any) => {
+    setChargesList(key, value);
+  };
+  const handleTableEdit = (id: string, data: any, e: any) => {
     handleOpen();
     setSavedes(true);
+    const editData = {
+      id: id,
+      name: data.name,
+      description: data.description,
+      is_active: data.is_active,
+    };
+    updateEditData(editData);
   };
-  const handleTableDelete = () => {
-    console.log('///');
+  const handleTableDelete = (id: string) => {
+    setDel(true);
+    setDelId(id);
+  };
+
+  const handleChargecreate = () => {
+    const isFormValid = validateForm();
+
+    if (isFormValid) {
+      createCharges();
+      setValues(false);
+    }
+  };
+  const handleChargeedit = () => {
+    const isFormValid = validateForm();
+
+    if (isFormValid) {
+      editCharges();
+      setValues(false);
+    }
+  };
+  const handleChargedelete = () => {
+    deleteCharges(delId);
+    setDel(false);
+  };
+  const onCancel = () => {
+    setDel(false);
   };
   const handleSwitch = (id: any, data: any, e: any) => {
     if (!switchList.includes(id)) {
@@ -42,14 +110,21 @@ export const Charges = (props: ChargesProps): JSX.Element => {
         setSwitchList([...switchList]);
       }
     }
-    // if (e.target.checked === true) {
-    //   console.log(id);
-    //   getStatusList(id, true);
-    // } else {
-    //   console.log(id);
-    //   getStatusList(id, false);
-    // }
+    if (e.target.checked === true) {
+      // console.log(id);
+      getStatusList(id, true);
+    } else {
+      // console.log(id);
+      getStatusList(id, false);
+    }
   };
+  const handleStatus = () => {
+    if (ChargesList?.length > 0) {
+      const status = ChargesList?.filter((val: any) => val?.is_active === true)?.map((val: any) => val?.id);
+      setSwitchList(status);
+    }
+  };
+
   const handleSave = () => {
     handleOpen();
     setSavedes(false);
@@ -60,7 +135,14 @@ export const Charges = (props: ChargesProps): JSX.Element => {
   };
   const handleClose = () => {
     setValues(false);
+    setFormErrors({});
   };
+  useEffect(() => {
+    getChargesList();
+  }, []);
+  useEffect(() => {
+    handleStatus();
+  }, [ChargesList]);
 
   return (
     <Box
@@ -80,7 +162,7 @@ export const Charges = (props: ChargesProps): JSX.Element => {
         setSearchTerm={setSearchTerm}
         searchTerm={searchTerm}
         handleOpen={handleSave}
-        // editTableMessage={addRole}
+        // editTableMessage={createEditCharges}
       />
       <Box sx={{ margin: '17px' }} />
       <Box sx={chargesStyle.commonTable}>
@@ -138,14 +220,14 @@ export const Charges = (props: ChargesProps): JSX.Element => {
                 size="small"
                 placeholder="Charge name"
                 required
-                // value={addOnContentStyle?.title}
+                value={createEditCharges?.name}
                 textFieldStyle={chargesStyle.inputSx}
                 id="title"
-                // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                //   handleAddEditStateChange('title', e.target.value)
-                // }
-                // isError={addEditMessageState?.error?.title ? true : false}
-                // errorMessage={addEditMessageState?.error?.title ?? ''}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                  handleAddEditStateChange('name', e.target.value)
+                }
+                isError={Boolean(formErrors.name)}
+                errorMessage={formErrors.name}
               />
             </Box>
             <Box sx={{ m: '16px' }} />
@@ -160,14 +242,14 @@ export const Charges = (props: ChargesProps): JSX.Element => {
                 rows={3}
                 rowsMax={6}
                 isMulti={true}
-                // value={addOnContentStyle?.title}
+                value={createEditCharges?.description}
                 textFieldStyle={chargesStyle.inputBigSx}
                 id="description"
-                // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                //   handleAddEditStateChange('title', e.target.value)
-                // }
-                // isError={addEditMessageState?.error?.title ? true : false}
-                // errorMessage={addEditMessageState?.error?.title ?? ''}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                  handleAddEditStateChange('description', e.target.value)
+                }
+                isError={Boolean(formErrors.description)}
+                errorMessage={formErrors.description}
               />
             </Box>
           </Box>
@@ -177,12 +259,17 @@ export const Charges = (props: ChargesProps): JSX.Element => {
         Footercomponent={
           <FooterComponent
             check
+            SwitchChange={(e) => {
+              handleAddEditStateChange('is_active', e.target.checked);
+            }}
+            checked={createEditCharges.is_active}
             saveButtonStyle={{ minWidth: '90px', height: '28px' }}
             onCancel={handleClose}
-            onSave={handleClose}
+            onSave={savedes === true ? handleChargeedit : handleChargecreate}
           />
         }
       />
+      <DeleteComponent openCommand={del} onCancel={onCancel} onDelete={handleChargedelete} />
     </Box>
   );
 };

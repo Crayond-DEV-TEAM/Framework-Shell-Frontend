@@ -3,11 +3,12 @@ import { Box, Typography } from '@mui/material';
 import { CommonTable } from 'crayond-components-library-1';
 
 import { addOneStyle } from './style';
-import { AddOnContent, TableHeader } from '..';
-import { useState } from 'react';
+import { AddOnContent, DeleteComponent, TableHeader } from '..';
+import { useState, useEffect } from 'react';
 import { Header, tableData, tableJson } from './utills';
 import { FooterComponent } from '@atoms/footerComponent';
 import { DialogDrawer } from '@atoms/dialogDrawer';
+import { useAddOns, useFeatureGroup } from '@core/store';
 
 export interface AddOneProps {
   className?: string;
@@ -16,18 +17,88 @@ export interface AddOneProps {
 
 export const AddOne = (props: AddOneProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
+  const {
+    getAddOnsList,
+    AddOnsList,
+    createAddOns,
+    createEditAddOns,
+    setAddOnsList,
+    editAddOns,
+    deleteAddOns,
+    getStatusList,
+    clearAll,
+  } = useAddOns();
+  const { FeatureGroupList, getFeatureGroupList } = useFeatureGroup();
   const [values, setValues] = useState(false);
   const [editname, setEditname] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [switchList, setSwitchList] = useState<any>([]);
-  const filteredMessageGroup = tableJson.filter((x: any) => x.addon?.toLowerCase()?.includes(searchTerm.toLowerCase()));
-  const handleTableEdit = () => {
+  const [delid, setDelId] = useState('');
+  const [del, setDel] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
+
+  const filteredMessageGroup = AddOnsList.filter((x: any) => x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()));
+
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (createEditAddOns.name.trim().length === 0) {
+      errors.name = 'FeatureGroup name is required';
+    }
+
+    if (createEditAddOns.description.trim().length === 0) {
+      errors.description = 'Description is required';
+    }
+    if (createEditAddOns.features.length === 0) {
+      errors.features = 'Feature is required';
+    }
+    if (createEditAddOns.featuregroup.length === 0) {
+      errors.featuregroup = 'Feature Group is required';
+    }
+
+    setFormErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleCreateAddedit = (key: any, value: any) => {
+    setAddOnsList(key, value);
+  };
+  const handleTableEdit = (id: string, data: any, e: any) => {
     handleOpen();
     setEditname(true);
   };
-  const handleTableDelete = () => {
-    console.log('///');
+  const handleTableDelete = (id: string) => {
+    setDel(true);
+    setDelId(id);
   };
+
+  const handleCreateAddon = () => {
+    const isFormValid = validateForm();
+
+    if (isFormValid) {
+      createAddOns();
+      setValues(false);
+    }
+  };
+  const handleEditAddon = () => {
+    const isFormValid = validateForm();
+
+    if (isFormValid) {
+      editAddOns();
+      setValues(false);
+    }
+  };
+
+  const handleDeleteAddon = () => {
+    deleteAddOns(delid);
+    setDel(false);
+  };
+
+  const onClose = () => {
+    setDel(false);
+  };
+
   const handleSwitch = (id: any, data: any, e: any) => {
     if (!switchList.includes(id)) {
       setSwitchList([...switchList, id]);
@@ -38,13 +109,13 @@ export const AddOne = (props: AddOneProps): JSX.Element => {
         setSwitchList([...switchList]);
       }
     }
-    // if (e.target.checked === true) {
-    //   console.log(id);
-    //   getStatusList(id, true);
-    // } else {
-    //   console.log(id);
-    //   getStatusList(id, false);
-    // }
+    if (e.target.checked === true) {
+      console.log(id);
+      getStatusList(id, true);
+    } else {
+      console.log(id);
+      getStatusList(id, false);
+    }
   };
   const addHandle = () => {
     handleOpen();
@@ -55,8 +126,24 @@ export const AddOne = (props: AddOneProps): JSX.Element => {
     setValues(true);
   };
   const handleClose = () => {
+    clearAll();
+    setFormErrors({});
     setValues(false);
   };
+  const handleStatus = () => {
+    if (AddOnsList?.length > 0) {
+      const status = AddOnsList?.filter((val: any) => val?.is_active === true)?.map((val: any) => val?.id);
+      setSwitchList(status);
+    }
+  };
+
+  useEffect(() => {
+    getAddOnsList();
+    getFeatureGroupList();
+  }, []);
+  useEffect(() => {
+    handleStatus();
+  }, [AddOnsList]);
 
   return (
     <Box
@@ -124,18 +211,30 @@ export const AddOne = (props: AddOneProps): JSX.Element => {
         maxModalWidth="xl"
         isDialogOpened={values}
         title={editname === true ? 'Edit add-on' : 'Create new add-on'}
-        Bodycomponent={<AddOnContent />}
+        Bodycomponent={
+          <AddOnContent
+            options={FeatureGroupList}
+            handleAddEditStateChange={handleCreateAddedit}
+            createEditAddOns={createEditAddOns}
+            formErrors={formErrors}
+          />
+        }
         handleCloseDialog={handleClose}
         dialogRootStyle={addOneStyle.dialogSx}
         Footercomponent={
           <FooterComponent
             check
+            SwitchChange={(e) => {
+              handleCreateAddedit('is_active', e.target.checked);
+            }}
+            checked={createEditAddOns.is_active}
             saveButtonStyle={{ minWidth: '90px', height: '28px' }}
-            onSave={handleClose}
+            onSave={editname === true ? handleEditAddon : handleCreateAddon}
             onCancel={handleClose}
           />
         }
       />
+      <DeleteComponent openCommand={del} onCancel={onClose} onDelete={handleDeleteAddon} />
     </Box>
   );
 };

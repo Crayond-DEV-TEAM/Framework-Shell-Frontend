@@ -1,0 +1,151 @@
+import { envConfig } from '@core/envconfig';
+import { httpRequest } from '@core/utils';
+import { create } from 'zustand';
+import { FeatureInterface } from '../interface';
+import { permission } from '../../ui/components/addpermission/utils';
+import { enqueueSnackbar } from 'notistack';
+// import { tableJson } from '@components/feature/utils'
+export const useFeature = create<FeatureInterface>((set, get) => ({
+  FeatureList: [],
+
+  fetching: false,
+  errorOnFetching: false,
+
+  createEditFeature: {
+    name: '',
+    id: '',
+    is_active: true,
+  },
+
+  setFeatureList: (key: string, value: boolean | string) => {
+    set((state) => ({ createEditFeature: { ...state.createEditFeature, [key]: value } }));
+  },
+
+  getFeatureList: () => {
+    set({ fetching: true, errorOnFetching: false });
+    const payload = {
+      offset: 0,
+      limit: 0,
+    };
+    httpRequest('post', `${envConfig.api_url}/features`, payload, true)
+      .then((response) => {
+        const dataTable: any = [];
+        if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
+          response.data.data.rows.map(
+            (tableData: any, i: any) =>
+              dataTable.push({
+                name: tableData.name,
+                is_active: tableData.is_active,
+                id: tableData.id,
+              }),
+            set({ FeatureList: dataTable }),
+          );
+        } else {
+          set({ FeatureList: ['no'] });
+        }
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ fetching: false });
+      });
+  },
+  createFeature: () => {
+    set({ fetching: true, errorOnFetching: false });
+    const { createEditFeature, getFeatureList } = get();
+    const payload = {
+      name: createEditFeature.name,
+      is_active: createEditFeature.is_active,
+    };
+
+    httpRequest('post', `${envConfig.api_url}/features/create`, payload, true)
+      .then((response) => {
+        enqueueSnackbar('Feature Created Succesfully!', { variant: 'success' });
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ fetching: false });
+        getFeatureList();
+      });
+  },
+  updateEditData: (data: any) => {
+    set((state) => ({ createEditFeature: { ...data } }));
+  },
+  editFeature: () => {
+    set({ fetching: true, errorOnFetching: false });
+    const { createEditFeature, getFeatureList } = get();
+    const payload = {
+      feature_id: createEditFeature.id,
+      name: createEditFeature.name,
+      is_active: createEditFeature.is_active,
+    };
+
+    httpRequest('put', `${envConfig.api_url}/features`, payload, true)
+      .then((response) => {
+        enqueueSnackbar('Feature Edited Succesfully!', { variant: 'success' });
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ fetching: false });
+        getFeatureList();
+      });
+  },
+  deleteFeature: (id: string) => {
+    set({ fetching: true, errorOnFetching: false });
+    const { getFeatureList } = get();
+    const payload = {
+      feature_id: id,
+    };
+    httpRequest('delete', `${envConfig.api_url}/features`, payload, true)
+      .then((response) => {
+        enqueueSnackbar('Feature Deleted Succesfully!', { variant: 'success' });
+        // set({ FeatureList: response.data.data });
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ fetching: false });
+        getFeatureList();
+      });
+  },
+  getStatusList: (id: any, status: any) => {
+    set({ fetching: true, errorOnFetching: false });
+    const { getFeatureList } = get();
+    const payload = {
+      feature_id: id,
+      is_active: status,
+    };
+
+    httpRequest('put', `${envConfig.api_url}/features`, payload, true)
+      .then((response) => {
+        enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ fetching: false });
+        getFeatureList();
+      });
+  },
+  clearAll: () => {
+    set({
+      createEditFeature: {
+        name: '',
+        id: '',
+        is_active: false,
+      },
+    });
+  },
+}));

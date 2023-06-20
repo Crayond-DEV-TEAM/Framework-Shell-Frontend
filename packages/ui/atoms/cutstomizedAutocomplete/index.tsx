@@ -72,7 +72,6 @@ export const CutstomizedAutocomplete = (props: CutstomizedAutocompleteProps): JS
     sx = {},
     ...rest
   } = props;
-
   return (
     <Box
       sx={[
@@ -99,12 +98,14 @@ export const CutstomizedAutocomplete = (props: CutstomizedAutocompleteProps): JS
               height: '40px',
               borderRadius: '8px',
               '& .MuiOutlinedInput-root': { height: '40px', borderRadius: '8px', fontSize: '12px', fontWeight: 600 },
+              '& .MuiFormHelperText-root': { ml: '0px', mb: '10px' },
             }}
+            helperText={isError ? errorMessage : null}
+            error={isError}
           />
         )}
         onChange={(option, value) => {
           onChange && onChange(value);
-          debugger;
         }}
         sx={{
           // '& .MuiChip-root': { height: '28px', borderRadius: '8px', marginLeft: '4px', marginTop: '-7px' },

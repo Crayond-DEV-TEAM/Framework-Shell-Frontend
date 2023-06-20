@@ -26,6 +26,7 @@ export const AddOne = (props: AddOneProps): JSX.Element => {
     editAddOns,
     deleteAddOns,
     getStatusList,
+    updateEditData,
     clearAll,
   } = useAddOns();
   const { FeatureGroupList, getFeatureGroupList } = useFeatureGroup();
@@ -66,7 +67,17 @@ export const AddOne = (props: AddOneProps): JSX.Element => {
   };
   const handleTableEdit = (id: string, data: any, e: any) => {
     handleOpen();
+    debugger;
     setEditname(true);
+    const editData = {
+      id: id,
+      name: data.name,
+      is_active: data.is_active,
+      features: data.feature,
+      description: data.description,
+      featuregroup: data.featuregroup,
+    };
+    updateEditData(editData);
   };
   const handleTableDelete = (id: string) => {
     setDel(true);

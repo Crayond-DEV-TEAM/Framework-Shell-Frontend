@@ -70,7 +70,7 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
 
     httpRequest('post', `${envConfig.api_url}/featureGroup/create`, payload, true)
       .then((response) => {
-        enqueueSnackbar('Feature Created Succesfully!', { variant: 'success' });
+        enqueueSnackbar('FeatureGroup Created Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -98,7 +98,7 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
 
     httpRequest('put', `${envConfig.api_url}/featureGroup`, payload, true)
       .then((response) => {
-        enqueueSnackbar('Feature Edited Succesfully!', { variant: 'success' });
+        enqueueSnackbar('FeatureGroup Edited Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -118,7 +118,7 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
     };
     httpRequest('delete', `${envConfig.api_url}/featureGroup`, payload, true)
       .then((response) => {
-        enqueueSnackbar('Feature Deleted Succesfully!', { variant: 'success' });
+        enqueueSnackbar('FeatureGroup Deleted Succesfully!', { variant: 'success' });
         // set({ FeatureGroupList: response.data.data });
       })
       .catch((err) => {

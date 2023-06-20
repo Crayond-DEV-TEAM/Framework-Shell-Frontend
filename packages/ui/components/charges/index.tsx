@@ -48,8 +48,7 @@ export const Charges = (props: ChargesProps): JSX.Element => {
     if (createEditCharges.name.trim().length === 0) {
       errors.name = 'Charge name is required';
     }
-
-    if (createEditCharges.description.trim().length === 0) {
+    if ((createEditCharges.description ?? '').trim().length === 0) {
       errors.description = 'Description is required';
     }
 

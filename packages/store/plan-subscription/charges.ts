@@ -65,7 +65,7 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
 
     httpRequest('post', `${envConfig.api_url}/charges/create`, payload, true)
       .then((response) => {
-        enqueueSnackbar('Feature Created Succesfully!', { variant: 'success' });
+        enqueueSnackbar('Charges Created Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -92,7 +92,7 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
 
     httpRequest('put', `${envConfig.api_url}/charges`, payload, true)
       .then((response) => {
-        enqueueSnackbar('Feature Edited Succesfully!', { variant: 'success' });
+        enqueueSnackbar('Charges Edited Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -112,7 +112,7 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
     };
     httpRequest('delete', `${envConfig.api_url}/charges`, payload, true)
       .then((response) => {
-        enqueueSnackbar('Feature Deleted Succesfully!', { variant: 'success' });
+        enqueueSnackbar('Charges Deleted Succesfully!', { variant: 'success' });
         // set({ ChargesList: response.data.data });
       })
       .catch((err) => {

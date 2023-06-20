@@ -10,6 +10,7 @@ interface Props extends Omit<CheckboxProps, 'icon' | 'checkedIcon'> {
   checkStyle?: any;
   checkSecondStyle?: any;
   header?: string;
+  defaultChecked?: any;
 }
 
 const BpIcon = styled('span')<{ checkStyle?: any }>(({ checkStyle }) => ({
@@ -60,10 +61,16 @@ export const CheckBox: React.FC<Props> = ({
   className = '',
   header = '',
   onChange = () => false,
+  defaultChecked,
   ...rest
 }) => {
+  // console.log(
+  //   defaultChecked?.map((x: any) => x.name),
+  //   'defaultChecked',
+  // );
   return (
     <Checkbox
+      defaultChecked={defaultChecked}
       disabled={disabled}
       checked={checked}
       disableRipple={disableRipple}

@@ -20,8 +20,7 @@ export interface AddOnContentProps {
 export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
   const { className = '', sx = {}, options, createEditAddOns, formErrors, handleAddEditStateChange, ...rest } = props;
   const [featuesList, setFeatureList] = useState([]);
-  console.log(createEditAddOns, '////');
-
+  console.log(createEditAddOns.features, '////');
   return (
     <Box
       sx={[
@@ -78,15 +77,18 @@ export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
           <Label sx={addOnContentStyle.labelSx} htmlFor="addTitle" isRequired>
             Choose feature group
           </Label>
-
           <CutstomizedAutocomplete
-            placeholder={'Silver'}
+            placeholder="Silver"
             permissionList={options}
             onChange={(value) => {
               handleAddEditStateChange('featuregroup', value);
               setFeatureList(value.featureDetails);
             }}
-            value={createEditAddOns.features || []}
+            value={
+              createEditAddOns.featuregroup && Object.keys(createEditAddOns.featuregroup).length > 0
+                ? createEditAddOns.featuregroup
+                : null
+            }
             isError={Boolean(formErrors.featuregroup)}
             errorMessage={formErrors.featuregroup}
           />
@@ -103,7 +105,11 @@ export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
             onChange={(value) => {
               handleAddEditStateChange('features', value);
             }}
-            value={createEditAddOns.features?.length > 0 ? createEditAddOns.features : []}
+            value={
+              createEditAddOns.features && Object.keys(createEditAddOns.features).length > 0
+                ? createEditAddOns.features
+                : null
+            }
             isError={Boolean(formErrors.features)}
             errorMessage={formErrors.features}
           />

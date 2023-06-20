@@ -40,9 +40,9 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
                 id: tableData.id,
                 name: tableData.name,
                 is_active: tableData.is_active,
-                featuregroup: tableData.feature_group_id,
+                featuregroup: tableData.feature_group,
                 attachedin: tableData.plan_add_on_mappings.length + ' ' + 'plans',
-                feature: tableData.feature_id,
+                feature: tableData.feature,
                 description: tableData.description,
                 createdon: tableData.created_at,
               }),
@@ -73,7 +73,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
 
     httpRequest('post', `${envConfig.api_url}/addons/create`, payload, true)
       .then((response) => {
-        enqueueSnackbar('Feature Created Succesfully!', { variant: 'success' });
+        enqueueSnackbar('Add-On Created Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -92,16 +92,17 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
     set({ fetching: true, errorOnFetching: false });
     const { createEditAddOns, getAddOnsList, clearAll } = get();
     const payload = {
-      //   features: createEditAddOns.features?.map((x: any) => x.id),
+      features: createEditAddOns.features.id,
       name: createEditAddOns.name,
       is_active: createEditAddOns.is_active,
       description: createEditAddOns.description,
-      feature_group_id: createEditAddOns.id,
+      feature_group_id: createEditAddOns.featuregroup.id,
+      addon_id: createEditAddOns.id,
     };
 
-    httpRequest('put', `${envConfig.api_url}/featureGroup`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/addons`, payload, true)
       .then((response) => {
-        enqueueSnackbar('Feature Edited Succesfully!', { variant: 'success' });
+        enqueueSnackbar('Add-On Edited Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -121,7 +122,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
     };
     httpRequest('delete', `${envConfig.api_url}/addons`, payload, true)
       .then((response) => {
-        enqueueSnackbar('Feature Deleted Succesfully!', { variant: 'success' });
+        enqueueSnackbar('Add-On Deleted Succesfully!', { variant: 'success' });
         // set({ AddOnsList: response.data.data });
       })
       .catch((err) => {

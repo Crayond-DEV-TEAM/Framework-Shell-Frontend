@@ -1,6 +1,5 @@
 import { Autocomplete, Box, Checkbox, ListItemText, SxProps, TextField, Typography, Chip } from '@mui/material';
 import { customDropdownStyle } from './style';
-import { Done } from '@mui/icons-material';
 import { Theme } from '@emotion/react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { CheckBox } from '@atoms/checkBox';
@@ -83,7 +82,9 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
+      {/* {console.log(value, 'valuevalue')} */}
       <Autocomplete
+        value={value}
         defaultValue={value}
         // errorMessage={formErrors.permission}
         multiple
@@ -97,8 +98,9 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
           <li {...props} style={{ justifyContent: 'space-between', display: 'flex' }}>
             {option?.name}
             <CheckBox
+              // defaultChecked={true}
               style={{ marginRight: 8 }}
-              checked={selected}
+              checked={value?.map((val) => val?.id)?.includes(option.id)}
               value={option?.name}
               onChange={(e) => {
                 const newValue = e.target.checked

@@ -29,9 +29,12 @@ interface LimitValues {
   [key: string]: string;
 }
 interface ListObject {
-  title: string;
+  id: string;
+  // title: string;
   value: string;
   subTitle: string;
+  price: any;
+  limit_count: any;
 }
 export interface AddOnBackgroundCardProps {
   className?: string;
@@ -41,7 +44,7 @@ export interface AddOnBackgroundCardProps {
   subTitle?: string;
   countTitle?: string;
   ListAddons?: ListObject[] | any;
-  onChange: (x: any) => void;
+  onChange: (key: any, value: any, innerkey: any) => void;
 }
 
 interface StyledFormControlLabelProps extends FormControlLabelProps {
@@ -62,75 +65,53 @@ export const AddOnBackgroundCard = (props: AddOnBackgroundCardProps): JSX.Elemen
     value = '5',
     subTitle = '',
     countTitle = '',
-    ListAddons,
-    onChange = (x: any) => false,
+    ListAddons = {},
+    onChange = (key: any, value: any, innerkey: any) => false,
     ...rest
   } = props;
-  const Money = [{ label: '10' }, { label: '19' }];
+  const Money = [{ label: 10 }, { label: 19 }];
 
   const [limits, setLimits] = useState<Limits>({});
   const [limitValues, setLimitValues] = useState<LimitValues>({});
   const [results, setResults] = useState<any>([]);
 
-  useEffect(() => {
-    const temp_obj: any = {};
-    const temp_limits: any = {};
-    let temp_ans: any = {};
-    const temp_res: any = [];
-    ListAddons.map((x: ListObject) => {
-      temp_obj[x.title] = x.value;
-      temp_limits[x.title] = 0;
-      temp_ans = {
-        name: x.title,
-        price: {
-          monthly: 0,
-          yearly: 0,
-        },
-        limit_count: 0,
-      };
-      temp_res.push(temp_ans);
-    });
-    setLimits(temp_obj);
-    setLimitValues(temp_limits);
+  console.log(ListAddons);
 
-    setResults(temp_res);
-    onChange(temp_res);
+  useEffect(() => {
+    const temp_limits: any = {};
+    const temp_limit_values: any = {};
+    // ListAddons.map((x: ListObject) => {
+    //   temp_limits[x.id] = x.limit_count > 0 ? 'limited' : 'unlimited';
+    //   temp_limit_values[x.id] = x.limit_count || 0;
+    // });
+    // setLimits(temp_limits);
+    // setLimitValues(temp_limit_values);
   }, []);
 
   const handleChange = (event: string, x: string) => {
-    const data: any = limits;
-    data[x] = event;
-    results.map((result: { name: string; price: any; limit_count: number }) => {
-      if (result.name === x) {
-        result.limit_count = 0;
-      }
-    });
-    setResults(results);
-    onChange(results);
-    setLimits({ ...limits, [x]: event });
+    // console.log(event, x);
+    // const temp_limits = limits;
+    // temp_limits[x] = event;
+    // setLimits({ ...temp_limits });
+    // onChange(x, event === 'unlimited' ? 0 : 5, 'limit_count', '');
+
+    console.log(event, x);
+    onChange(x, event, '');
   };
 
   const handleLimitChange = (event: string, x: string) => {
-    const data: any = limitValues;
-    data[x] = event;
-    results.map((result: { name: string; price: any; limit_count: number }) => {
-      if (result.name === x) {
-        result.limit_count = parseInt(event);
-      }
-    });
-    setResults(results);
-    onChange(results);
-    setLimitValues({ ...limitValues, [x]: event });
+    console.log(event, x);
+    onChange(x, event, '');
+    // console.log(event, x);
+    // const temp_limit_values = limitValues;
+    // temp_limit_values[x] = event;
+    // setLimitValues({ ...temp_limit_values });
+    // onChange(x, event, 'limit_count', '');
   };
 
-  const handleMoneyChange = (name: string, value: any, key: string) => {
-    results.map((result: { name: string; price: any; limit_count: number }) => {
-      if (result.name === key) {
-        result.price[name] = parseInt(value);
-      }
-    });
-    setResults(results);
-    onChange(results);
+  const handleMoneyChange = (title: string, value: any, key: string) => {
+    console.log(title, value, key);
+    onChange(key, value, title);
   };
 
   return (
@@ -144,9 +125,10 @@ export const AddOnBackgroundCard = (props: AddOnBackgroundCardProps): JSX.Elemen
       className={`${className}`}
       {...rest}
     >
-      <>
+      {/* <>
         {ListAddons.map((x: any, index: any) => {
-          const index_key: string = x.title;
+          console.log(x.subTitle, x.price);
+          const index_key: string = x.id;
           return (
             <>
               <Box key={index} sx={addOnBackgroundCardStyle.rootSx}>
@@ -161,39 +143,29 @@ export const AddOnBackgroundCard = (props: AddOnBackgroundCardProps): JSX.Elemen
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <ButtonGroupDropdown
                       onChange={(value) => {
-                        handleMoneyChange('monthly', value.label, index_key);
+                        handleMoneyChange('monthly', value.label, x.id);
                       }}
+                      value={x.price.monthly}
                       permissionList={Money}
                       BtnName={'Monthly'}
                     />
                     <ButtonGroupDropdown
                       onChange={(value) => {
-                        handleMoneyChange('yearly', value.label, index_key);
+                        handleMoneyChange('yearly', value.label, x.id);
                       }}
+                      value={x.price.yearly}
                       permissionList={Money}
                       BtnName={'Yearly'}
                     />
                   </Box>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    {/* <CustomCheckboxWithLabels circleCheckbox={true} circleText={'Unlimited'} sx={{ ml: '10px' }} />
-                    <CustomCheckboxWithLabels circleCheckbox={true} circleText={'Limited'} />
-                    <Input
-                      value={value}
-                      textFieldStyle={{
-                        width: '75px',
-                        height: '40px',
-                        margin: '0px 12px',
-                        backgroundColor: 'primary.contrastText',
-                      }}
-                    />
-                    <Typography sx={addOnBackgroundCardStyle.secondText}>{x.subTitle}</Typography> */}
                     <FormControl>
                       <RadioGroup
                         row
                         defaultValue="unlimited"
-                        value={limits[index_key]}
+                        value={x.value}
                         name="radio-buttons-group"
-                        onChange={(e) => handleChange(e.target.value, x.title)}
+                        onChange={(e) => handleChange(e.target.value, x.id)}
                       >
                         <StyledFormControlLabel
                           // sx={createPlanCardStyle.typographyTxt}
@@ -216,14 +188,14 @@ export const AddOnBackgroundCard = (props: AddOnBackgroundCardProps): JSX.Elemen
                     {limits[index_key] === 'limited' ? (
                       <>
                         <Input
-                          value={limitValues[index_key]}
+                          value={x.limit_count.toString()}
                           textFieldStyle={{
                             width: '75px',
                             height: '40px',
                             margin: '0px 12px',
                             backgroundColor: 'primary.contrastText',
                           }}
-                          onChange={(e) => handleLimitChange(e.target.value, x.title)}
+                          onChange={(e) => handleLimitChange(e.target.value, x.id)}
                         />
                         <Typography sx={createPlanCardStyle.secondText}>{x.subTitle}</Typography>
                       </>
@@ -240,7 +212,82 @@ export const AddOnBackgroundCard = (props: AddOnBackgroundCardProps): JSX.Elemen
             </>
           );
         })}
-      </>
+      </> */}
+
+      <Box sx={addOnBackgroundCardStyle.rootSx}>
+        <Box>
+          <Typography sx={addOnBackgroundCardStyle.firstTextdark}>{ListAddons.name}</Typography>
+          <Label sx={addOnBackgroundCardStyle.labelSx} htmlFor="addTitle" isRequired>
+            Set price
+          </Label>
+        </Box>
+
+        <Box sx={addOnBackgroundCardStyle.align}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <ButtonGroupDropdown
+              onChange={(value) => {
+                handleMoneyChange('monthly', value.label, ListAddons.id);
+              }}
+              value={ListAddons.price.monthly}
+              permissionList={Money}
+              BtnName={'Monthly'}
+            />
+            <ButtonGroupDropdown
+              onChange={(value) => {
+                handleMoneyChange('yearly', value.label, ListAddons.id);
+              }}
+              value={ListAddons.price.yearly}
+              permissionList={Money}
+              BtnName={'Yearly'}
+            />
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <FormControl>
+              <RadioGroup
+                row
+                defaultValue="unlimited"
+                value={ListAddons.value}
+                name="radio-buttons-group"
+                onChange={(e) => handleChange(e.target.value, ListAddons.id)}
+              >
+                <StyledFormControlLabel
+                  // sx={createPlanCardStyle.typographyTxt}
+                  value="unlimited"
+                  control={<Radio icon={<RadioButtonUncheckedIcon />} checkedIcon={<CheckCircleIcon />} size="small" />}
+                  label="Unlimited"
+                />
+                <StyledFormControlLabel
+                  // sx={createPlanCardStyle.typographyTxt}
+                  value="limited"
+                  control={<Radio icon={<RadioButtonUncheckedIcon />} checkedIcon={<CheckCircleIcon />} size="small" />}
+                  label="Limited"
+                />
+              </RadioGroup>
+            </FormControl>
+            {ListAddons.value === 'limited' ? (
+              <>
+                <Input
+                  value={ListAddons.limit_count.toString()}
+                  textFieldStyle={{
+                    width: '75px',
+                    height: '40px',
+                    margin: '0px 12px',
+                    backgroundColor: 'primary.contrastText',
+                  }}
+                  onChange={(e) => handleLimitChange(e.target.value, ListAddons.id)}
+                />
+                <Typography sx={createPlanCardStyle.secondText}>{ListAddons.name}</Typography>
+              </>
+            ) : (
+              <></>
+            )}
+            <Box sx={{ ml: '80px' }}>
+              <CloseRedIcon rootStyle={{ width: '17px', height: '17px' }} />
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+      <Box sx={addOnBackgroundCardStyle.borderLine} />
     </Box>
   );
 };

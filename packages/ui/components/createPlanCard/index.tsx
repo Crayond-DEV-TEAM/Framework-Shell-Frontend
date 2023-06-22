@@ -9,17 +9,18 @@ import { CustomCheckboxWithLabels } from '@atoms/customCheckboxWithLabels';
 import { Input } from '@atoms/input';
 import { ButtonGroupDropdown } from '..';
 import { Label } from '@atoms/label';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export interface CreatePlanCardProps {
   className?: string;
   sx?: SxProps<Theme>;
   title?: string;
   value?: any;
-  subTitle?: string;
+  subTitle?: any;
   countTitle?: string;
   anAddOns?: boolean;
-  onChange: (value: any) => void;
+  onChange: (inner_id: string, value: any) => void;
+  onDelete: (feature_id: string) => void;
 }
 
 interface StyledFormControlLabelProps extends FormControlLabelProps {
@@ -40,27 +41,41 @@ export const CreatePlanCard = (props: CreatePlanCardProps): JSX.Element => {
     sx = {},
     title = '',
     value = 0,
-    subTitle = '',
+    subTitle = [],
     countTitle = '',
     anAddOns = false,
-    onChange = () => false,
+    onChange = (inner_id: string, value: any) => false,
+    onDelete = (feature_id: string) => false,
     ...rest
   } = props;
   const Money = [{ label: '10' }, { label: '19' }];
 
-  const [users, setUsers] = useState('unlimited');
-  const [limitedValue, setLimitedValue] = useState(value);
+  const [users, setUsers] = useState<any>([]);
 
-  const handleChange = (event: any, isUser = false) => {
-    // console.log(event.target.value, isUser);
-    isUser ? setLimitedValue(event.target.value) : setUsers(event.target.value);
+  useEffect(() => {
+    const user_data: any = [];
+    subTitle.map((x: any) => {
+      user_data.push({
+        id: x.id,
+        name: x.name,
+        limit_count: x.limit_count || 0,
+      });
+    });
+    setUsers(user_data);
+  }, []);
+
+  const handleChange = (event: any, id: string, isUser = false) => {
+    const user_data: any = users;
+    user_data.map((user: any) => {
+      if (user.id === id) {
+        user.limit_count = 5;
+      }
+    });
+    setUsers(user_data);
+    onChange(id, event.target.value);
+    // isUser ? setLimitedValue(event.target.value) : setUsers(event.target.value);
     // console.log(isUser, event.target.value, limitedValue);
-    onChange([
-      {
-        id: isUser ? 'limited' : 'unlimited',
-        limit_count: isUser ? event.target.value : 0,
-      },
-    ]);
+    // onChange(id, event.target.value === 'limited' || event.target.value === 'unlimited' ? 0 : event.target.value);
   };
 
   return (
@@ -75,88 +90,23 @@ export const CreatePlanCard = (props: CreatePlanCardProps): JSX.Element => {
       {...rest}
     >
       <Box>
-        {anAddOns ? (
-          <Box>
-            <Typography sx={createPlanCardStyle.firstTextdark}>{subTitle}</Typography>
-            <Label sx={createPlanCardStyle.labelSx} htmlFor="addTitle" isRequired>
-              Set price
-            </Label>
-          </Box>
-        ) : (
-          <Typography sx={createPlanCardStyle.title}>{title}</Typography>
-        )}
-        {anAddOns ? (
-          <Box sx={createPlanCardStyle.align}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <ButtonGroupDropdown permissionList={Money} BtnName={'Monthly'} />
-              <ButtonGroupDropdown permissionList={Money} BtnName={'Yearly'} />
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <CustomCheckboxWithLabels circleCheckbox={true} circleText={'Unlimited'} sx={{ ml: '10px' }} />
-              <CustomCheckboxWithLabels circleCheckbox={true} circleText={'Limited'} />
-              <Input
-                value={value}
-                textFieldStyle={{
-                  width: '75px',
-                  height: '40px',
-                  margin: '0px 12px',
-                  backgroundColor: 'primary.contrastText',
-                }}
-              />
-              <Typography sx={createPlanCardStyle.secondText}>{subTitle}</Typography>
-              <Box sx={{ ml: '80px' }}>
-                <CloseRedIcon rootStyle={{ width: '17px', height: '17px' }} />
-              </Box>
-            </Box>
-          </Box>
-        ) : (
-          <Box sx={createPlanCardStyle.align}>
-            <Typography sx={createPlanCardStyle.firstText}>{subTitle}</Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              {/* <CustomCheckboxWithLabels
-                label={'Unlimited'}
-                value={value.length > 0 ? false : true}
-                circleCheckbox={true}
-                circleText={'Unlimited'}
-              />
-              <CustomCheckboxWithLabels
-                label={'Limited'}
-                value={value.length > 0 ? true : false}
-                circleCheckbox={true}
-                circleText={'Limited'}
-              /> */}
-
-              <FormControl>
-                <RadioGroup
-                  row
-                  defaultValue="female"
-                  value={users}
-                  name="radio-buttons-group"
-                  onChange={(e) => handleChange(e, false)}
-                >
-                  <StyledFormControlLabel
-                    // sx={createPlanCardStyle.typographyTxt}
-                    value="unlimited"
-                    control={
-                      <Radio icon={<RadioButtonUncheckedIcon />} checkedIcon={<CheckCircleIcon />} size="small" />
-                    }
-                    label="Unlimited"
-                  />
-                  <StyledFormControlLabel
-                    // sx={createPlanCardStyle.typographyTxt}
-                    value="limited"
-                    control={
-                      <Radio icon={<RadioButtonUncheckedIcon />} checkedIcon={<CheckCircleIcon />} size="small" />
-                    }
-                    label="Limited"
-                  />
-                </RadioGroup>
-              </FormControl>
-              {users === 'limited' ? (
-                <>
+        <Typography sx={createPlanCardStyle.title}>{title}</Typography>
+      </Box>
+      {subTitle.map((x: any, index: any) => {
+        const count = subTitle?.filter((user: any) => user.id === x.id)?.[0]?.limit_count;
+        return (
+          <div key={index}>
+            {anAddOns ? (
+              <Box sx={createPlanCardStyle.align}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <ButtonGroupDropdown permissionList={Money} BtnName={'Monthly'} />
+                  <ButtonGroupDropdown permissionList={Money} BtnName={'Yearly'} />
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <CustomCheckboxWithLabels circleCheckbox={true} circleText={'Unlimited'} sx={{ ml: '10px' }} />
+                  <CustomCheckboxWithLabels circleCheckbox={true} circleText={'Limited'} />
                   <Input
-                    value={limitedValue}
-                    onChange={(e) => handleChange(e, true)}
+                    value={value}
                     textFieldStyle={{
                       width: '75px',
                       height: '40px',
@@ -164,18 +114,74 @@ export const CreatePlanCard = (props: CreatePlanCardProps): JSX.Element => {
                       backgroundColor: 'primary.contrastText',
                     }}
                   />
-                  <Typography sx={createPlanCardStyle.secondText}>{subTitle}</Typography>
-                </>
-              ) : (
-                <></>
-              )}
-              <Box sx={{ ml: '80px' }}>
-                <CloseRedIcon rootStyle={{ width: '17px', height: '17px' }} />
+                  <Typography sx={createPlanCardStyle.secondText}>{x.name}</Typography>
+                  <Box sx={{ ml: '80px' }}>
+                    <CloseRedIcon rootStyle={{ width: '17px', height: '17px' }} />
+                  </Box>
+                </Box>
               </Box>
-            </Box>
-          </Box>
-        )}
-      </Box>
+            ) : (
+              <Box sx={createPlanCardStyle.align}>
+                <Typography sx={createPlanCardStyle.firstText}>{x.name}</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <FormControl>
+                    <RadioGroup
+                      row
+                      defaultValue="female"
+                      value={count > 0 ? 'limited' : 'unlimited'}
+                      name="radio-buttons-group"
+                      onChange={(e) => handleChange(e, x.id, false)}
+                    >
+                      <StyledFormControlLabel
+                        // sx={createPlanCardStyle.typographyTxt}
+                        value="unlimited"
+                        control={
+                          <Radio icon={<RadioButtonUncheckedIcon />} checkedIcon={<CheckCircleIcon />} size="small" />
+                        }
+                        label="Unlimited"
+                      />
+                      <StyledFormControlLabel
+                        // sx={createPlanCardStyle.typographyTxt}
+                        value="limited"
+                        control={
+                          <Radio icon={<RadioButtonUncheckedIcon />} checkedIcon={<CheckCircleIcon />} size="small" />
+                        }
+                        label="Limited"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                  {count > 0 ? (
+                    <>
+                      <Input
+                        value={count}
+                        onChange={(e) => handleChange(e, x.id, true)}
+                        textFieldStyle={{
+                          width: '75px',
+                          height: '40px',
+                          margin: '0px 12px',
+                          backgroundColor: 'primary.contrastText',
+                        }}
+                      />
+                      <Typography sx={createPlanCardStyle.secondText}>{x.name}</Typography>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  <Box sx={{ ml: '80px' }}>
+                    <CloseRedIcon
+                      rootStyle={{ width: '17px', height: '17px' }}
+                      onClick={() => {
+                        onDelete(x.id);
+                      }}
+                    />
+                  </Box>
+                </Box>
+              </Box>
+            )}
+            <Box sx={createPlanCardStyle.borderLine} />
+          </div>
+        );
+      })}
     </Box>
   );
 };

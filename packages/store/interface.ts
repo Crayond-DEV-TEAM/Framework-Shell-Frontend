@@ -570,10 +570,42 @@ export interface CustomerInterface {
 }
 
 export interface Plans {
-  name: string;
+  plan: string;
   billing: string;
-  is_public: boolean;
-  is_active: boolean;
+  public: string;
+  activesubscriptions: number;
+  lastmodified: string;
+  status: boolean;
+  id: string;
+  plan_data: any;
+}
+
+interface Charge {
+  id: string;
+  price: number;
+}
+
+export interface Feature {
+  id: string;
+  name?: string;
+  user_value?: string;
+  limit_count: number | string;
+}
+
+export interface GroupFeature {
+  id: string;
+  name?: string;
+  feature: Feature[];
+}
+
+export interface AddOns {
+  id: string;
+  name?: string;
+  price: {
+    monthly: number;
+    yearly: number;
+  };
+  limit_count: number;
 }
 
 export interface AddEditPlans {
@@ -591,12 +623,7 @@ export interface AddEditPlans {
   is_per_user: boolean;
   is_flat_fee: boolean;
   billing_cycles: string;
-  feature: [
-    {
-      id: string;
-      limit_count: string;
-    },
-  ];
+  feature: [Feature];
   add_on: [
     {
       id: string;
@@ -607,20 +634,21 @@ export interface AddEditPlans {
       limit_count: number;
     },
   ];
-  charge: [
-    {
-      id: string;
-      price: number;
-    },
-  ];
+  charge: [Charge];
 }
 
 export interface PlansInterface {
   PlanList: Plans[];
   addEditPlan: AddEditPlans;
+  planFeature: GroupFeature[];
+  planAddOn: AddOns[];
   fetching: boolean;
   errorOnFetch: boolean;
 
+  setPlanList: (key: any, value: any, array_key?: string) => void;
+  setPlanFeature: (group: any, value: any) => void;
+  setAddOn: (value: any) => void;
+  setExplicitPlanFeature: (group: any) => void;
   getPlansList: (x: any) => void;
   addPlan: (data: any) => void;
   editPlan: (data: any) => void;
@@ -657,6 +685,7 @@ export interface FeatureGroupKey {
   id?: string | undefined;
   features: string[];
   description?: string;
+  featureDetails?: any;
 }
 
 export interface FeatureGroupInterface {
@@ -683,7 +712,7 @@ export interface AddOnsKey {
   is_active: boolean;
   id?: string | undefined;
   features: string;
-  description?: string;
+  description: string;
   featuregroup: string;
 }
 

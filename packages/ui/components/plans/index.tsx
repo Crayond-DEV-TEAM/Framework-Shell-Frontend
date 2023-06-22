@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/material';
 import { CommonTable } from 'crayond-components-library-1';
 import { useEffect, useState } from 'react';
 import { plansStyle } from './style';
-import { TableHeader } from '..';
+import { TableHeader, DeleteComponent } from '..';
 import { Header, tableData, tableJson } from './utills';
 import { planSubscriptionRoutes } from '@core/routes';
 import { useNavigate } from 'react-router-dom';
@@ -20,14 +20,20 @@ export const Plans = (props: PlansProps): JSX.Element => {
   const [switchList, setSwitchList] = useState<any>([]);
   const navigate = useNavigate();
 
-  const { PlanList, getPlansList, deletePlan } = usePlans();
+  const { PlanList, getPlansList, deletePlan, fetching } = usePlans();
+  const [del, setDel] = useState(false);
+  const [delid, setDelId] = useState('');
 
-  const filteredMessageGroup = tableJson.filter((x: any) => x.plan?.toLowerCase()?.includes(searchTerm.toLowerCase()));
+  const [filterPlans, setFilterPlans] = useState<any>([]);
+
+  const filteredMessageGroup = tableJson.filter((x: any) => x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()));
+
   const handleTableEdit = () => {
     navigate(planSubscriptionRoutes.createplan);
   };
   const handleTableDelete = (id: any) => {
-    deletePlan(id);
+    setDel(true);
+    setDelId(id);
   };
   const handleSwitch = (id: any, data: any, e: any) => {
     if (!switchList.includes(id)) {
@@ -52,8 +58,23 @@ export const Plans = (props: PlansProps): JSX.Element => {
   };
 
   useEffect(() => {
-    getPlansList({ offset: 0, limit: 0 });
+    getPlansList({ offset: 0, limit: 10 });
+    console.log(PlanList);
+    setFilterPlans(PlanList.filter((x: any) => x.name?.toLowerCase()?.includes(searchTerm.toLowerCase())));
   }, []);
+
+  // useEffect(() => {
+  //   filteredMessageGroup = PlanList.filter((x: any) => x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()));
+  // }, [PlanList]);
+
+  const onClose = () => {
+    setDel(false);
+  };
+
+  const handleDeleteAddon = () => {
+    deletePlan(delid);
+    setDel(false);
+  };
 
   return (
     <Box
@@ -76,47 +97,50 @@ export const Plans = (props: PlansProps): JSX.Element => {
         // editTableMessage={addRole}
       />
       <Box sx={{ margin: '17px' }} />
-      <Box sx={plansStyle.commonTable}>
-        <CommonTable
-          Header={Header}
-          dataList={filteredMessageGroup}
-          tableData={tableData(handleTableEdit, handleTableDelete)}
-          switchList={switchList}
-          handleSwitch={handleSwitch}
-          headerOptions={{
-            fontSize: '14px',
-            fontWeight: '500',
-            color: '#818181',
-            bgColor: '#EAEAEA',
-            borderBottom: '0px',
-            width: '100%',
-            padding: '6px 16px 6px 7px',
-          }}
-          cellOptions={{
-            fontSize: '14px',
-            fontWeight: '500',
-            color: '#5A5A5A',
-            borderBottom: '0px',
-            // padding: '8px',
-            padding: '3px 0px 3px 7px',
-          }}
-          rowOptions={{
-            rowOddBgColor: '#fff',
-            rowEvenBgColor: '#F7F7F7',
-          }}
-          tableMinWidth={'80px'}
-          stickyOptions={{
-            stickyHeader: true,
-            stickyLeft: ['checkbox'],
-            stickyRight: ['is_active', 'action'],
-          }}
-          tableMinHeight={'calc(100vh - 167px)'}
-          tableMaxHeight={'calc(100vh - 167px)'}
-          paddingAll={'0px'}
-          marginAll={'0px 0px 0px'}
-          dense={'small'}
-        />
-      </Box>
+      {PlanList && (
+        <Box sx={plansStyle.commonTable}>
+          <CommonTable
+            Header={Header}
+            dataList={PlanList}
+            tableData={tableData(handleTableEdit, handleTableDelete)}
+            switchList={switchList}
+            handleSwitch={handleSwitch}
+            headerOptions={{
+              fontSize: '14px',
+              fontWeight: '500',
+              color: '#818181',
+              bgColor: '#EAEAEA',
+              borderBottom: '0px',
+              width: '100%',
+              padding: '6px 16px 6px 7px',
+            }}
+            cellOptions={{
+              fontSize: '14px',
+              fontWeight: '500',
+              color: '#5A5A5A',
+              borderBottom: '0px',
+              // padding: '8px',
+              padding: '3px 0px 3px 7px',
+            }}
+            rowOptions={{
+              rowOddBgColor: '#fff',
+              rowEvenBgColor: '#F7F7F7',
+            }}
+            tableMinWidth={'80px'}
+            stickyOptions={{
+              stickyHeader: true,
+              stickyLeft: ['checkbox'],
+              stickyRight: ['is_active', 'action'],
+            }}
+            tableMinHeight={'calc(100vh - 167px)'}
+            tableMaxHeight={'calc(100vh - 167px)'}
+            paddingAll={'0px'}
+            marginAll={'0px 0px 0px'}
+            dense={'small'}
+          />
+        </Box>
+      )}
+      <DeleteComponent openCommand={del} onCancel={onClose} onDelete={handleDeleteAddon} />
     </Box>
   );
 };

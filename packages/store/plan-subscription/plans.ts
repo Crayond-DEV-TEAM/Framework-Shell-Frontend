@@ -1,7 +1,7 @@
 import { envConfig } from '@core/envconfig';
 import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
-import { PlansInterface } from '../interface';
+import { PlansInterface, Feature, AddEditPlans } from '../interface';
 import { enqueueSnackbar } from 'notistack';
 
 export const usePlans = create<PlansInterface>((set, get) => ({
@@ -39,13 +39,75 @@ export const usePlans = create<PlansInterface>((set, get) => ({
     ],
     charge: [
       {
+        name: '',
+        is_active: false,
         id: '',
-        price: 0,
+        description: '',
       },
     ],
   },
+
+  planFeature: [],
+  planAddOn: [],
   fetching: false,
   errorOnFetch: false,
+
+  setPlanList: (key: string, value: boolean | string, array_key = '') => {
+    if (array_key.length > 0) {
+      set((state) => ({
+        // const temp_data = state.addEditPlan[array_key];
+        addEditPlan: { ...state.addEditPlan, [array_key]: { ...state.addEditPlan[array_key], [key]: value } },
+      }));
+    } else {
+      set((state) => ({ addEditPlan: { ...state.addEditPlan, [key]: value } }));
+    }
+  },
+
+  setPlanFeature: (groups: any, value: any) => {
+    let data: any = [];
+    const result: any = [];
+    let feature_data: any = {};
+    const { planFeature } = get();
+    groups.map((group: any) => {
+      data = [];
+      feature_data = planFeature?.find((z: any) => z.id === group.id) || {};
+      group.feature_list.map((feature: any) => {
+        const count = feature_data?.feature?.find((s: any) => s.id === feature.id)?.limit_count;
+        console.log('count - ', count);
+        data.push({
+          id: feature.id,
+          name: feature.name,
+          limit_count: count || 0,
+        });
+      });
+      return result.push({
+        id: group.id,
+        name: group.name,
+        feature: data,
+      });
+    });
+
+    // console.log(data);
+
+    set((state) => {
+      return {
+        planFeature: result,
+      };
+    });
+  },
+
+  setExplicitPlanFeature: (group: any) => {
+    set((state) => ({
+      planFeature: group,
+    }));
+  },
+
+  setAddOn: (value: any) => {
+    set((state) => ({
+      planAddOn: value,
+    }));
+  },
+
   getPlansList: (x = { offset: 0, limit: 0 }) => {
     set({ fetching: true, errorOnFetch: false });
 
@@ -54,9 +116,22 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       limit: x.limit,
     };
 
-    httpRequest('post', `${envConfig.api_url}/plans/`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/plans`, payload, true)
       .then((response) => {
-        set({ PlanList: response.data.data });
+        // console.log(response.data.data.rows)
+        const result = response.data.data.rows.map((x: any) => {
+          return {
+            plan: x.name,
+            billing: x.billing_period.join(),
+            public: x.is_plan_public ? 'Yes' : 'No',
+            activesubscriptions: x.active_subscriptions | 0,
+            lastmodified: x.updated_at,
+            status: x.is_active,
+            id: x.id,
+            plan_data: x,
+          };
+        });
+        set({ PlanList: result });
       })
       .catch((_err) => {
         set({ errorOnFetch: true });
@@ -116,7 +191,7 @@ export const usePlans = create<PlansInterface>((set, get) => ({
     set({ fetching: true, errorOnFetch: false });
     // const { RepositoryList } = useRepository();
     const payload = {
-      id: x,
+      plan_id: x,
     };
 
     httpRequest('delete', `${envConfig.api_url}/plans`, payload, true)

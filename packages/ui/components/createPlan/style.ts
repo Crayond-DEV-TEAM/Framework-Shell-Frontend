@@ -11,7 +11,7 @@ export const createPlanStyle: CreatePlanStyleProps = {
   },
   labelSx: {
     fontSize: '12px',
-    color: '#262C33',
+    // color: '#262C33',
     pb: 1,
     fontWeight: '500',
     // mb: '6px',

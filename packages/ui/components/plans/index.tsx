@@ -8,6 +8,7 @@ import { Header, tableData, tableJson } from './utills';
 import { planSubscriptionRoutes } from '@core/routes';
 import { useNavigate } from 'react-router-dom';
 import { usePlans } from '@core/store';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export interface PlansProps {
   className?: string;
@@ -20,20 +21,116 @@ export const Plans = (props: PlansProps): JSX.Element => {
   const [switchList, setSwitchList] = useState<any>([]);
   const navigate = useNavigate();
 
-  const { PlanList, getPlansList, deletePlan, fetching } = usePlans();
+  const {
+    PlanList,
+    getPlansList,
+    deletePlan,
+    fetching,
+    setPlanList,
+    setBulkPlanList,
+    setExplicitPlanFeature,
+    setUngroupedFeature,
+    setAddOn,
+    setCharge,
+    editPlanStatus,
+    clearAll,
+  } = usePlans();
   const [del, setDel] = useState(false);
   const [delid, setDelId] = useState('');
 
-  const [filterPlans, setFilterPlans] = useState<any>([]);
+  const filteredMessageGroup = PlanList.filter((x: any) => x.plan?.toLowerCase()?.includes(searchTerm.toLowerCase()));
 
-  const filteredMessageGroup = tableJson.filter((x: any) => x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()));
+  const handleTableEdit = (id: any, data: any, e: any) => {
+    const temp_group: any = [];
+    const feature_group_all = data.plan_data.plan_feature_mapings.filter(
+      (feature_group: any) => feature_group.feature_group !== null,
+    );
+    // console.log(feature_group_all);
+    feature_group_all.map((grp: any, index: any) => {
+      // console.log(temp_group);
+      if (temp_group.length <= 0) {
+        temp_group.push({
+          id: grp.feature_group.id,
+          name: grp.feature_group.name,
+          feature: [],
+        });
+      } else if (temp_group.find((temp: any) => temp?.id === grp?.feature_group?.id) === undefined) {
+        temp_group.push({
+          id: grp.feature_group.id,
+          name: grp.feature_group.name,
+          feature: [],
+        });
+      }
+    });
 
-  const handleTableEdit = () => {
+    console.log('Feature GROUP ', feature_group_all);
+    console.log('temp', temp_group);
+    feature_group_all.map((grp: any) => {
+      temp_group.map((x: any) => {
+        if (x.id === grp?.feature_group?.id) {
+          x.feature.push({
+            id: grp.feature.id,
+            name: grp.feature.name,
+            user_value: grp.limit_count > 0 ? 'limited' : 'unlimited',
+            limit_count: grp.limit_count,
+          });
+        }
+      });
+    });
+    setExplicitPlanFeature(temp_group);
+    const ungroupped_feature = data.plan_data.plan_feature_mapings
+      .filter((feature_group: any) => feature_group.feature_group === null)
+      ?.map((feature: any) => {
+        return {
+          id: feature.feature.id,
+          name: feature.feature.name,
+          user_value: feature.limit_count > 0 ? 'limited' : 'unlimited',
+          limit_count: feature.limit_count,
+        };
+      });
+
+    setUngroupedFeature(ungroupped_feature);
+
+    // console.log(feature_group_all, ungroupped_feature);
+    const add_on = data.plan_data.plan_add_on_mappings.map((plan_addon: any) => {
+      return {
+        id: plan_addon.add_on.id,
+        name: plan_addon.add_on.name,
+        price: plan_addon.price,
+        value: plan_addon.limit_count > 0 ? 'limited' : 'unlimited',
+        limit_count: plan_addon.limit_count,
+      };
+    });
+    setAddOn(add_on);
+    const charges = data.plan_data.plan_charge_mappings.map((charge: any) => {
+      return {
+        id: charge.charge.id,
+        name: charge.charge.name,
+        price: charge?.price,
+      };
+    });
+    setCharge(charges);
+    const addEditPlan = {
+      plan_id: data.plan_data.id,
+      billing_cycles: data.plan_data.billing_cycles,
+      billing_period: data.plan_data.billing_period,
+      description: data.plan_data.description,
+      id: data.plan_data.id,
+      is_active: data.plan_data.is_active,
+      is_metered_billing: data.plan_data.is_metered_billing,
+      is_per_user: data.plan_data.is_per_user,
+      is_recomended: data.plan_data.is_recomended,
+      is_flat_fee: data.plan_data.is_flat_fee,
+      is_plan_public: data.plan_data.is_plan_public,
+      name: data.plan_data.name,
+      price: data.plan_data.price,
+    };
+    setBulkPlanList(addEditPlan);
     navigate(planSubscriptionRoutes.createplan);
   };
   const handleTableDelete = (id: any) => {
-    setDel(true);
     setDelId(id);
+    setDel(true);
   };
   const handleSwitch = (id: any, data: any, e: any) => {
     if (!switchList.includes(id)) {
@@ -45,27 +142,33 @@ export const Plans = (props: PlansProps): JSX.Element => {
         setSwitchList([...switchList]);
       }
     }
-    // if (e.target.checked === true) {
-    //   console.log(id);
-    //   getStatusList(id, true);
-    // } else {
-    //   console.log(id);
-    //   getStatusList(id, false);
-    // }
+    if (e.target.checked === true) {
+      console.log(id);
+      editPlanStatus(id, true);
+    } else {
+      console.log(id);
+      editPlanStatus(id, false);
+    }
   };
   const handleMapopen = () => {
+    clearAll();
     navigate(planSubscriptionRoutes.createplan);
   };
 
+  const handleStatus = () => {
+    if (PlanList?.length > 0) {
+      const status = PlanList?.filter((val: any) => val?.status === true)?.map((val: any) => val?.id);
+      setSwitchList(status);
+    }
+  };
+
   useEffect(() => {
-    getPlansList({ offset: 0, limit: 10 });
-    console.log(PlanList);
-    setFilterPlans(PlanList.filter((x: any) => x.name?.toLowerCase()?.includes(searchTerm.toLowerCase())));
+    getPlansList({ offset: 0, limit: 100 });
   }, []);
 
-  // useEffect(() => {
-  //   filteredMessageGroup = PlanList.filter((x: any) => x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()));
-  // }, [PlanList]);
+  useEffect(() => {
+    handleStatus();
+  }, [PlanList]);
 
   const onClose = () => {
     setDel(false);
@@ -97,11 +200,16 @@ export const Plans = (props: PlansProps): JSX.Element => {
         // editTableMessage={addRole}
       />
       <Box sx={{ margin: '17px' }} />
-      {PlanList && (
+      {filteredMessageGroup.length <= 0 && fetching ? (
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          {' '}
+          <CircularProgress />{' '}
+        </Box>
+      ) : (
         <Box sx={plansStyle.commonTable}>
           <CommonTable
             Header={Header}
-            dataList={PlanList}
+            dataList={filteredMessageGroup}
             tableData={tableData(handleTableEdit, handleTableDelete)}
             switchList={switchList}
             handleSwitch={handleSwitch}

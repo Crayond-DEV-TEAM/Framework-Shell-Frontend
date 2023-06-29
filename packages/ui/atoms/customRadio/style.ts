@@ -33,6 +33,6 @@ export const customRadioStyle: CustomRadioStyleProps = {
     textTransform: 'capitalize',
   },
   noPadding: {
-    padding: '2px',
+    // padding: '2px',
   },
 };

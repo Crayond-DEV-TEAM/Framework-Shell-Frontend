@@ -5,6 +5,8 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import RadioButtonUncheckedRoundedIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 
 interface Props extends Omit<CheckboxProps, 'icon' | 'checkedIcon'> {
   checklist: any[];
@@ -18,7 +20,8 @@ interface StyledFormControlLabelProps extends FormControlLabelProps {
 
 const StyledFormControlLabel = styled((props: StyledFormControlLabelProps) => <FormControlLabel {...props} />)(
   ({ theme }) => ({
-    display: 'block',
+    display: 'flex',
+    justifyContent: 'space-between',
     width: '100%',
     marginLeft: 0,
     // borderBottom: '1px solid #EAEAEA',
@@ -31,27 +34,36 @@ const StyledFormControlLabel = styled((props: StyledFormControlLabelProps) => <F
 export const GroupCheckBox: React.FC<Props> = ({ checklist, checked, handleChange, ...rest }) => {
   const [list, setList] = React.useState<any>(checklist);
   const handleCheck = (id: string, value: any) => {
-    const data = list;
+    console.log(checked);
+    const data: any = list;
     data.map((x: any) => {
       if (x.id === id) {
         x.checked = value;
       }
+      if (checked.includes(x.id)) {
+        x.checked = true;
+      }
     });
-    setList(data);
+    // setList(data);
     handleChange(data);
   };
 
+  React.useEffect(() => {
+    setList([...checklist]);
+  }, [checklist]);
   return (
     <div>
       {list.map((x: any, index: any) => {
         return (
           <StyledFormControlLabel
-            label={x.name}
+            label={x?.name}
             key={index}
             labelPlacement="start"
             control={
               <Checkbox
-                checked={checked.find((z) => x.id === z)?.length > 0 ? true : false}
+                icon={<RadioButtonUncheckedRoundedIcon />}
+                checkedIcon={<CheckCircleRoundedIcon />}
+                checked={checked.includes(x.id)}
                 // indeterminate={checked[0] !== checked[1]}
                 onChange={(e) => handleCheck(x.id, e?.target.checked)}
               />

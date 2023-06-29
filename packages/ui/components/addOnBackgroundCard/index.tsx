@@ -37,6 +37,7 @@ interface ListObject {
   limit_count: any;
 }
 export interface AddOnBackgroundCardProps {
+  isLast?: boolean;
   className?: string;
   sx?: SxProps<Theme>;
   title?: string;
@@ -45,6 +46,7 @@ export interface AddOnBackgroundCardProps {
   countTitle?: string;
   ListAddons?: ListObject[] | any;
   onChange: (key: any, value: any, innerkey: any) => void;
+  handleDelete: () => void;
 }
 
 interface StyledFormControlLabelProps extends FormControlLabelProps {
@@ -66,16 +68,19 @@ export const AddOnBackgroundCard = (props: AddOnBackgroundCardProps): JSX.Elemen
     subTitle = '',
     countTitle = '',
     ListAddons = {},
+    isLast = false,
     onChange = (key: any, value: any, innerkey: any) => false,
+    handleDelete = () => false,
     ...rest
   } = props;
-  const Money = [{ label: 10 }, { label: 19 }];
+  const Money = [
+    { label: 10, value: 10 },
+    { label: 19, value: 19 },
+  ];
 
   const [limits, setLimits] = useState<Limits>({});
   const [limitValues, setLimitValues] = useState<LimitValues>({});
   const [results, setResults] = useState<any>([]);
-
-  console.log(ListAddons);
 
   useEffect(() => {
     const temp_limits: any = {};
@@ -125,99 +130,10 @@ export const AddOnBackgroundCard = (props: AddOnBackgroundCardProps): JSX.Elemen
       className={`${className}`}
       {...rest}
     >
-      {/* <>
-        {ListAddons.map((x: any, index: any) => {
-          console.log(x.subTitle, x.price);
-          const index_key: string = x.id;
-          return (
-            <>
-              <Box key={index} sx={addOnBackgroundCardStyle.rootSx}>
-                <Box>
-                  <Typography sx={addOnBackgroundCardStyle.firstTextdark}>{x.subTitle}</Typography>
-                  <Label sx={addOnBackgroundCardStyle.labelSx} htmlFor="addTitle" isRequired>
-                    Set price
-                  </Label>
-                </Box>
-
-                <Box sx={addOnBackgroundCardStyle.align}>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <ButtonGroupDropdown
-                      onChange={(value) => {
-                        handleMoneyChange('monthly', value.label, x.id);
-                      }}
-                      value={x.price.monthly}
-                      permissionList={Money}
-                      BtnName={'Monthly'}
-                    />
-                    <ButtonGroupDropdown
-                      onChange={(value) => {
-                        handleMoneyChange('yearly', value.label, x.id);
-                      }}
-                      value={x.price.yearly}
-                      permissionList={Money}
-                      BtnName={'Yearly'}
-                    />
-                  </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        defaultValue="unlimited"
-                        value={x.value}
-                        name="radio-buttons-group"
-                        onChange={(e) => handleChange(e.target.value, x.id)}
-                      >
-                        <StyledFormControlLabel
-                          // sx={createPlanCardStyle.typographyTxt}
-                          value="unlimited"
-                          control={
-                            <Radio icon={<RadioButtonUncheckedIcon />} checkedIcon={<CheckCircleIcon />} size="small" />
-                          }
-                          label="Unlimited"
-                        />
-                        <StyledFormControlLabel
-                          // sx={createPlanCardStyle.typographyTxt}
-                          value="limited"
-                          control={
-                            <Radio icon={<RadioButtonUncheckedIcon />} checkedIcon={<CheckCircleIcon />} size="small" />
-                          }
-                          label="Limited"
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                    {limits[index_key] === 'limited' ? (
-                      <>
-                        <Input
-                          value={x.limit_count.toString()}
-                          textFieldStyle={{
-                            width: '75px',
-                            height: '40px',
-                            margin: '0px 12px',
-                            backgroundColor: 'primary.contrastText',
-                          }}
-                          onChange={(e) => handleLimitChange(e.target.value, x.id)}
-                        />
-                        <Typography sx={createPlanCardStyle.secondText}>{x.subTitle}</Typography>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                    <Box sx={{ ml: '80px' }}>
-                      <CloseRedIcon rootStyle={{ width: '17px', height: '17px' }} />
-                    </Box>
-                  </Box>
-                </Box>
-              </Box>
-              <Box sx={addOnBackgroundCardStyle.borderLine} />
-            </>
-          );
-        })}
-      </> */}
-
       <Box sx={addOnBackgroundCardStyle.rootSx}>
         <Box>
           <Typography sx={addOnBackgroundCardStyle.firstTextdark}>{ListAddons.name}</Typography>
-          <Label sx={addOnBackgroundCardStyle.labelSx} htmlFor="addTitle" isRequired>
+          <Label sx={addOnBackgroundCardStyle.labelSx} htmlFor="addTitle">
             Set price
           </Label>
         </Box>
@@ -225,16 +141,16 @@ export const AddOnBackgroundCard = (props: AddOnBackgroundCardProps): JSX.Elemen
         <Box sx={addOnBackgroundCardStyle.align}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <ButtonGroupDropdown
-              onChange={(value) => {
-                handleMoneyChange('monthly', value.label, ListAddons.id);
+              onChange={(e) => {
+                handleMoneyChange('monthly', e.target.value, ListAddons.id);
               }}
               value={ListAddons.price.monthly}
               permissionList={Money}
               BtnName={'Monthly'}
             />
             <ButtonGroupDropdown
-              onChange={(value) => {
-                handleMoneyChange('yearly', value.label, ListAddons.id);
+              onChange={(e) => {
+                handleMoneyChange('yearly', e.target.value, ListAddons.id);
               }}
               value={ListAddons.price.yearly}
               permissionList={Money}
@@ -264,30 +180,27 @@ export const AddOnBackgroundCard = (props: AddOnBackgroundCardProps): JSX.Elemen
                 />
               </RadioGroup>
             </FormControl>
-            {ListAddons.value === 'limited' ? (
-              <>
-                <Input
-                  value={ListAddons.limit_count.toString()}
-                  textFieldStyle={{
-                    width: '75px',
-                    height: '40px',
-                    margin: '0px 12px',
-                    backgroundColor: 'primary.contrastText',
-                  }}
-                  onChange={(e) => handleLimitChange(e.target.value, ListAddons.id)}
-                />
-                <Typography sx={createPlanCardStyle.secondText}>{ListAddons.name}</Typography>
-              </>
-            ) : (
-              <></>
-            )}
+            <Box sx={{ visibility: ListAddons.value === 'limited' ? 'visible' : 'hidden', display: 'contents' }}>
+              <Input
+                value={ListAddons.limit_count}
+                type={'number'}
+                textFieldStyle={{
+                  width: '75px',
+                  height: '40px',
+                  margin: '0px 12px',
+                  backgroundColor: 'primary.contrastText',
+                }}
+                onChange={(e) => handleLimitChange(e.target.value, ListAddons.id)}
+              />
+              <Typography sx={createPlanCardStyle.secondText}>{ListAddons.name}</Typography>
+            </Box>
             <Box sx={{ ml: '80px' }}>
-              <CloseRedIcon rootStyle={{ width: '17px', height: '17px' }} />
+              <CloseRedIcon onClick={handleDelete} rootStyle={{ width: '17px', height: '17px', cursor: 'pointer' }} />
             </Box>
           </Box>
         </Box>
       </Box>
-      <Box sx={addOnBackgroundCardStyle.borderLine} />
+      {isLast && <Box sx={addOnBackgroundCardStyle.borderLine} />}
     </Box>
   );
 };

@@ -9,17 +9,17 @@ export const usePlans = create<PlansInterface>((set, get) => ({
   addEditPlan: {
     name: '',
     description: '',
-    is_plan_public: true,
-    is_recomended: true,
-    is_metered_billing: true,
-    is_active: true,
-    billing_period: [''],
+    is_plan_public: false,
+    is_recomended: false,
+    is_metered_billing: false,
+    is_active: false,
+    billing_period: [],
     price: {
       monthly: 0,
       yearly: 0,
     },
-    is_per_user: true,
-    is_flat_fee: true,
+    is_per_user: false,
+    is_flat_fee: false,
     billing_cycles: '',
     feature: [
       {
@@ -48,9 +48,95 @@ export const usePlans = create<PlansInterface>((set, get) => ({
   },
 
   planFeature: [],
+  planUngroupedFeature: [],
   planAddOn: [],
+  planCharge: [],
+
   fetching: false,
   errorOnFetch: false,
+
+  clearAll: () => {
+    set({
+      PlanList: [],
+      addEditPlan: {
+        name: '',
+        description: '',
+        is_plan_public: false,
+        is_recomended: false,
+        is_metered_billing: false,
+        is_active: false,
+        billing_period: [],
+        price: {
+          monthly: 0,
+          yearly: 0,
+        },
+        is_per_user: false,
+        is_flat_fee: false,
+        billing_cycles: '',
+        feature: [
+          {
+            id: '',
+            limit_count: '',
+          },
+        ],
+        add_on: [
+          {
+            id: '',
+            price: {
+              monthly: 0,
+              yearly: 0,
+            },
+            limit_count: 0,
+          },
+        ],
+        charge: [
+          {
+            name: '',
+            is_active: false,
+            id: '',
+            description: '',
+          },
+        ],
+      },
+      planFeature: [],
+      planUngroupedFeature: [],
+      planAddOn: [],
+      planCharge: [],
+    });
+  },
+
+  getPayload: () => {
+    const { PlanList, addEditPlan, planAddOn, planFeature, planUngroupedFeature, planCharge, getPlansList } = get();
+
+    // const { RepositoryList } = useRepository();
+    const grp_feature = planFeature.map((x: any) => {
+      return x.feature.map((ftr: any) => {
+        return {
+          feature_id: ftr.id,
+          limit_count: ftr.limit_count,
+          feature_group_id: x.id,
+        };
+      });
+    });
+
+    const ungroup = planUngroupedFeature.map((x) => {
+      return {
+        feature_id: x.id,
+        limit_count: x.limit_count || 0,
+        // feature_group_id: null,
+      };
+    });
+
+    const data = addEditPlan;
+    const temp_feature: any[] = ungroup;
+    temp_feature.push(grp_feature.flat());
+    data.feature = temp_feature.flat();
+
+    data.add_on = planAddOn;
+    data.charge = planCharge;
+
+    return data;
+  },
 
   setPlanList: (key: string, value: boolean | string, array_key = '') => {
     if (array_key.length > 0) {
@@ -63,7 +149,11 @@ export const usePlans = create<PlansInterface>((set, get) => ({
     }
   },
 
-  setPlanFeature: (groups: any, value: any) => {
+  setBulkPlanList: (obj: any) => {
+    set((state) => ({ addEditPlan: { ...state.addEditPlan, ...obj } }));
+  },
+
+  setPlanFeature: (groups: any, _value: any) => {
     let data: any = [];
     const result: any = [];
     let feature_data: any = {};
@@ -78,6 +168,7 @@ export const usePlans = create<PlansInterface>((set, get) => ({
           id: feature.id,
           name: feature.name,
           limit_count: count || 0,
+          user_value: count > 0 ? 'limited' : 'unlimited',
         });
       });
       return result.push({
@@ -89,7 +180,7 @@ export const usePlans = create<PlansInterface>((set, get) => ({
 
     // console.log(data);
 
-    set((state) => {
+    set((_state) => {
       return {
         planFeature: result,
       };
@@ -97,7 +188,7 @@ export const usePlans = create<PlansInterface>((set, get) => ({
   },
 
   setExplicitPlanFeature: (group: any) => {
-    set((state) => ({
+    set((_state) => ({
       planFeature: group,
     }));
   },
@@ -105,6 +196,18 @@ export const usePlans = create<PlansInterface>((set, get) => ({
   setAddOn: (value: any) => {
     set((state) => ({
       planAddOn: value,
+    }));
+  },
+
+  setCharge: (value: any) => {
+    set((state) => ({
+      planCharge: value,
+    }));
+  },
+
+  setUngroupedFeature: (value: any) => {
+    set((state) => ({
+      planUngroupedFeature: value,
     }));
   },
 
@@ -124,8 +227,10 @@ export const usePlans = create<PlansInterface>((set, get) => ({
             plan: x.name,
             billing: x.billing_period.join(),
             public: x.is_plan_public ? 'Yes' : 'No',
-            activesubscriptions: x.active_subscriptions | 0,
-            lastmodified: x.updated_at,
+            activesubscription: x.subscriptions.length.toString() | 0,
+            lastmodified: `${new Date(x.updated_at).getDate()} /
+              ${new Date(x.updated_at).getMonth()} /
+              ${new Date(x.updated_at).getFullYear()}`,
             status: x.is_active,
             id: x.id,
             plan_data: x,
@@ -141,48 +246,49 @@ export const usePlans = create<PlansInterface>((set, get) => ({
         set({ fetching: false });
       });
   },
-  addPlan: (data: any) => {
-    const { PlanList, addEditPlan, getPlansList } = get();
+  addPlan: () => {
+    const { getPayload, getPlansList } = get();
 
     set({ fetching: true, errorOnFetch: false });
-    // const { RepositoryList } = useRepository();
+    const data: any = getPayload();
     const payload = {
       ...data,
     };
 
     httpRequest('post', `${envConfig.api_url}/plans/create`, payload, true)
-      .then((response) => {
+      .then((_response) => {
         enqueueSnackbar('Plan added Succesfully!', { variant: 'success' });
       })
-      .catch((err) => {
+      .catch((_err) => {
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
         set({ errorOnFetch: true });
       })
       .finally(() => {
         set({ fetching: false });
-        getPlansList({ offset: 0, limit: 0 });
+        getPlansList({ offset: 0, limit: 10 });
       });
   },
-  editPlan: (data: any) => {
-    const { PlanList, addEditPlan, getPlansList } = get();
+  editPlan: () => {
+    const { PlanList, addEditPlan, getPlansList, getPayload } = get();
 
     set({ fetching: true, errorOnFetch: false });
-    // const { RepositoryList } = useRepository();
+    const data: any = getPayload();
+    console.log(data);
     const payload = {
       ...data,
     };
 
     httpRequest('put', `${envConfig.api_url}/plans`, payload, true)
-      .then((response) => {
+      .then((_response) => {
         enqueueSnackbar('Plan Edited Succesfully!', { variant: 'success' });
       })
-      .catch((err) => {
+      .catch((_err) => {
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
         set({ errorOnFetch: true });
       })
       .finally(() => {
         set({ fetching: false });
-        getPlansList({ offset: 0, limit: 0 });
+        getPlansList({ offset: 0, limit: 10 });
       });
   },
   deletePlan: (x: any) => {
@@ -195,16 +301,37 @@ export const usePlans = create<PlansInterface>((set, get) => ({
     };
 
     httpRequest('delete', `${envConfig.api_url}/plans`, payload, true)
-      .then((response) => {
+      .then((_response) => {
         enqueueSnackbar('Plan Deleted Succesfully!', { variant: 'success' });
       })
-      .catch((err) => {
+      .catch((_err) => {
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
         set({ errorOnFetch: true });
       })
       .finally(() => {
         set({ fetching: false });
-        getPlansList({ offset: 0, limit: 0 });
+        getPlansList({ offset: 0, limit: 10 });
+      });
+  },
+  editPlanStatus: (id: any, status: any) => {
+    set({ fetching: true, errorOnFetch: false });
+    const { getPlansList } = get();
+    const payload = {
+      plan_id: id,
+      is_active: status,
+    };
+
+    httpRequest('put', `${envConfig.api_url}/plans`, payload, true)
+      .then((response) => {
+        enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });
+      })
+      .catch((err) => {
+        set({ errorOnFetch: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ fetching: false });
+        getPlansList({ offset: 0, limit: 10 });
       });
   },
 }));

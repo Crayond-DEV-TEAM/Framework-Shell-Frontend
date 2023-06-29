@@ -12,12 +12,15 @@ import { Button, Box } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonUncheckedRoundedIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
 import { customRadioStyle } from './style';
+import { Label } from '@atoms/label';
 
 export interface CustomRadioProps {
   className?: string;
   sx?: SxProps<Theme>;
+  value?: any;
   options: any;
   isRadio?: boolean;
+  errorMessage?: string;
   handleChange: (value: any) => void;
 }
 
@@ -46,6 +49,7 @@ function BpRadio(props: RadioProps) {
     <Radio
       disableRipple
       color="default"
+      // sx={{ padding: 0 }}
       checkedIcon={<Typography sx={customRadioStyle.selected}>{props.name}</Typography>}
       icon={<Typography sx={customRadioStyle.unselected}>{props.name}</Typography>}
       {...props}
@@ -83,6 +87,7 @@ export const CustomizedRadios = (props: CustomRadioProps): JSX.Element => {
         sx={customRadioStyle.noPadding}
         row
         aria-labelledby="demo-customized-radios"
+        value={props.value}
         name="customized-radios"
       >
         {props.options?.map((x: any, index: any) => {
@@ -98,6 +103,7 @@ export const CustomizedRadios = (props: CustomRadioProps): JSX.Element => {
           );
         })}
       </RadioGroup>
+      {props.errorMessage?.length > 0 ? <Label sx={{ color: 'red' }}>{props?.errorMessage}</Label> : <></>}
     </FormControl>
   );
 };

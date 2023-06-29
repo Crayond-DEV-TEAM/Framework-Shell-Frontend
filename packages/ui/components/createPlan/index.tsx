@@ -27,7 +27,7 @@ import { subscriptionDetailsStyle } from '../subscriptionDetails/style';
 import { addOneStyle } from '../addOne/style';
 import { AddOnContent, DeleteComponent, TableHeader } from '..';
 
-import { useCharges, usePlans, useAddOns, useFeatureGroup } from '@core/store';
+import { useCharges, usePlans, useAddOns, useFeatureGroup, useFeature } from '@core/store';
 import { Button } from '@atoms/button';
 
 export interface CreatePlanProps {
@@ -82,48 +82,74 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
   const navigate = useNavigate();
 
-  const { getChargesList, ChargesList, createCharges, setChargesList, createEditCharges } = useCharges();
+  const { getChargesList, ChargesList } = useCharges();
 
-  const { setPlanList, addEditPlan, setPlanFeature, planFeature, setExplicitPlanFeature, planAddOn, setAddOn } =
-    usePlans();
+  const {
+    setPlanList,
+    addEditPlan,
+    setPlanFeature,
+    planFeature,
+    setExplicitPlanFeature,
+    planUngroupedFeature,
+    setUngroupedFeature,
+    planAddOn,
+    setAddOn,
+    planCharge,
+    setCharge,
+    addPlan,
+    editPlan,
+  } = usePlans();
 
   const { FeatureGroupList, getFeatureGroupList } = useFeatureGroup();
 
-  const { getAddOnsList, AddOnsList, createEditAddOns, setAddOnsList, createAddOns } = useAddOns();
+  const { FeatureList, getFeatureList } = useFeature();
+
+  const { getAddOnsList, AddOnsList } = useAddOns();
 
   const [featureList, setFeatureList] = useState<any>([]);
+  const [ungroupedFeatureList, setUnGroupedFeatureList] = useState<any>([]);
   const [addons, setAddOns] = useState<any>([]);
+  const [charges, setCharges] = useState<any>([]);
 
-  const [charges, setCharges] = useState<any>({});
+  const [optionsfeatureList, setOptionsFeatureList] = useState<any>([]);
+  const [optionsungroupedFeatureList, setOptionsUngroupedFeatureList] = useState<any>([]);
+  const [optionsaddons, setOptionsAddons] = useState<any>([]);
+  const [optionscharges, setOptionsCharges] = useState<any>([]);
+
+  const [formErrors, setFormErrors] = useState<any>({});
+
   const [draweropen, setDrawerOpen] = useState({
+    featureGroup: false,
     feature: false,
     add_ons: false,
     charges: false,
   });
-  const [formErrors, setFormErrors] = useState({});
-  const [drawerSearch, setDrawSearch] = useState('');
-
-  const [modalValue, setModalValue] = useState<any>({
-    Charges: false,
-    addons: false,
-  });
 
   useEffect(() => {
-    getChargesList();
-    getAddOnsList();
-    getFeatureGroupList();
+    getChargesList({ is_active: true });
+    getAddOnsList({ is_active: true });
+    getFeatureGroupList({ is_active: true });
+    getFeatureList({ is_active: true, is_unmapped: true });
   }, []);
 
   useEffect(() => {
-    const temp_charge_list = ChargesList.filter((x) => x.is_active === true);
-    const data: { id: any; price: any }[] = [];
-    temp_charge_list.map((x, index) => {
+    const data: any[] = [];
+    ChargesList.map((x, index) => {
       return data.push({
         id: x.id,
+        name: x.name,
+        checked: false,
         price: addEditPlan.charge.find((z) => z.id === x.id)?.price || 0,
       });
     });
-    setPlanList('charge', data);
+    setCharges(data);
+    data.map((x) => {
+      if (planCharge.find((z) => z.id === x.id) !== undefined) {
+        x.checked = true;
+      }
+    });
+
+    setOptionsCharges(data.filter((x) => x.checked === true));
   }, [ChargesList]);
 
   useEffect(() => {
@@ -138,10 +164,18 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
         },
         value: 'unlimited',
         limit_count: 0,
+        checked: false,
       });
     });
     setAddOns(data);
     // setPlanList('add_on', data);
+    data.map((x) => {
+      if (planAddOn.find((z) => z.id === x.id) !== undefined) {
+        x.checked = true;
+      }
+    });
+
+    setOptionsAddons(data.filter((x) => x.checked === true));
   }, [AddOnsList]);
 
   useEffect(() => {
@@ -159,44 +193,78 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
         limit_count: addEditPlan.feature.filter((x) => x.id === feature.id)?.[0]?.limit_count || 0,
       });
     });
-    // setPlanList('feature', data);
     setFeatureList(temp_feature_list);
+
+    temp_feature_list.map((x) => {
+      if (planFeature.find((z) => z.id === x.id) !== undefined) {
+        x.checked = true;
+      }
+    });
+
+    setOptionsFeatureList(temp_feature_list.filter((x) => x.checked === true));
   }, [FeatureGroupList]);
 
   useEffect(() => {
-    const temp_feature = FeatureGroupList.filter((x) => x.id === drawerSearch);
-    const data: { id: string | undefined; limit_count: number | string }[] = [];
-    const temp_limit_count: any = {};
-
-    // temp_feature?.featureDetails.map((x: any) => {
-    //   return data.push({
-    //     id: x.id,
-    //     name: x.name,
-    //     limit_count: 0,
-    //   });
-    // });
-    // console.log(data);
-
-    // console.log(drawerSearch)
-    temp_feature.map((feature) => {
-      feature.featureDetails.map((x: any) => {
-        temp_limit_count[x.id] = 0;
-      });
-      return data.push({
+    const temp_feature_list: any[] = [];
+    FeatureList.map((feature) => {
+      temp_feature_list.push({
+        name: feature.name,
+        user_value: 'unlimited',
         id: feature.id,
-        // [feature?.featureDetails?.map((x: any) => x.id)[0]]: 0
-        limit_count: temp_limit_count,
+        checked: false,
       });
     });
-    // console.log(data)
-    setPlanList('feature', data);
-  }, [drawerSearch]);
+    setUnGroupedFeatureList(temp_feature_list);
+
+    temp_feature_list.map((x) => {
+      if (planUngroupedFeature.find((z) => z.id === x.id) !== undefined) {
+        x.checked = true;
+      }
+      // return;
+    });
+    setOptionsUngroupedFeatureList(temp_feature_list.filter((x) => x.checked === true));
+  }, [FeatureList]);
+
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (addEditPlan.name.trim().length === 0) {
+      errors.name = 'Plan name is required';
+    }
+
+    if (addEditPlan.billing_period.length <= 0) {
+      errors.billing_period = 'Billing period is required';
+    }
+    if (addEditPlan.price.monthly <= 0) {
+      errors.monthly = 'Monthly Price is required';
+    }
+    if (addEditPlan.price.yearly <= 0) {
+      errors.yearly = 'Yearly Price is required';
+    }
+    if (addEditPlan.billing_cycles.length <= 0) {
+      errors.billing_cycles = 'Billing Cycle is required';
+    }
+    if (planFeature.length === 0 && planUngroupedFeature.length === 0) {
+      errors.features = 'Features are required to create a plan';
+    }
+
+    setFormErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
 
   const onchangeRoute = () => {
-    console.log(addEditPlan);
-    // navigate(planSubscriptionRoutes.plan);
+    const isFormValid = validateForm();
+
+    if (isFormValid) {
+      addEditPlan?.plan_id ? editPlan() : addPlan();
+      navigate(planSubscriptionRoutes.plan);
+    }
   };
-  const Money = [{ label: '10' }, { label: '19' }];
+  const Money = [
+    { label: '10', value: '10' },
+    { label: '19', value: '10' },
+  ];
   const SqureText = [
     { key: 'is_plan_public', text: 'List this plan in the public portal' },
     { key: 'is_recomended', text: 'Make this a recommended plan' },
@@ -205,29 +273,18 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
   ];
 
   const handleCharges = (key: string, value: any, array_key: any = '') => {
-    const data = addEditPlan.charge;
+    const data = planCharge;
     data?.map((charge: any) => {
       if (charge.id === array_key) {
         charge.price = value;
       }
     });
-    setPlanList('charge', data);
+    setCharge(data);
   };
 
   const handleAddons = (key: string, value: any, innerkey = '') => {
-    // const data = planAddOn;
-    // data?.map((add_on: any) => {
-    //   if (add_on.id === id) {
-    //     if (innerkey.length > 0) {
-    //       add_on[key][innerkey] = value;
-    //     } else {
-    //       add_on[key] = value;
-    //     }
-    //   }
-    // });
-    // setAddOn(data);
 
-    console.log(key, value, innerkey);
+    console.log(key, value);
     const data = planAddOn;
     data?.map((add_on: any) => {
       if (add_on.id === key) {
@@ -235,6 +292,9 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
           add_on['price'][innerkey] = value;
         } else {
           add_on[value === 'limited' || value === 'unlimited' ? 'value' : 'limit_count'] = value;
+          if (value === 'unlimited') {
+            add_on.limit_count = 0;
+          }
         }
       }
     });
@@ -242,64 +302,41 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
   };
 
   const handleSelected = (value: any) => {
-    console.log(value);
-    const data: any = [];
-
     const feature_group: any = value.filter((grp: any) => grp.checked === true);
+    setOptionsFeatureList(feature_group);
+  };
 
-    setPlanFeature(feature_group, 0);
-    // setPlanList('feature', data);
-    // setFeatureList(data);
+  const handleUnGroupFeatureSelected = (value: any) => {
+    const feature_group: any = value.filter((grp: any) => grp.checked === true);
+    setOptionsUngroupedFeatureList(feature_group);
+    // setUngroupedFeature(feature_group);
   };
 
   const handleAddOnSelected = (value: any) => {
-    console.clear();
-    console.log(value);
+    // console.log(planAddOn);
+    // console.log(value);
+    // console.log(addons);
     const feature_addon = value.filter((grp: any) => grp.checked === true);
-    setAddOn(feature_addon);
+    // feature_addon.push(planAddOn).flat();
+    setOptionsAddons(feature_addon);
   };
 
-  const handleOpen = (modalName: string) => {
-    setModalValue({ ...modalValue, [modalName]: true });
-  };
-
-  const handleClose = (modalName: string) => {
-    setModalValue({ ...modalValue, [modalName]: false });
-  };
-
-  const validateForm = () => {
-    const errors: Record<string, string> = {};
-
-    if (createEditAddOns.name.trim().length === 0) {
-      errors.name = 'FeatureGroup name is required';
-    }
-
-    if (createEditAddOns.description.trim().length === 0) {
-      errors.description = 'Description is required';
-    }
-    if (createEditAddOns.features.length === 0) {
-      errors.features = 'Feature is required';
-    }
-    if (createEditAddOns.featuregroup.length === 0) {
-      errors.featuregroup = 'Feature Group is required';
-    }
-
-    setFormErrors(errors);
-
-    return Object.keys(errors).length === 0;
+  const handleChargeSelected = (value: any) => {
+    const feature_charge = value.filter((grp: any) => grp.checked === true);
+    setOptionsCharges(feature_charge);
   };
 
   const handleFeatures = (id: string, inner_id: string, value: any) => {
-    console.log(id, inner_id, value);
-
     const feature_grps = planFeature;
-
     feature_grps.map((grp, index) => {
       const feature_list = grp.feature;
       if (grp.id === id) {
         feature_list.map((feature) => {
           if (feature.id === inner_id) {
-            feature.limit_count = value === 'unlimited' ? 0 : value === 'limited' ? 5 : parseInt(value);
+            if (value === 'unlimited' || value === 'limited') {
+              feature.user_value = value;
+            }
+            feature.limit_count = value === 'unlimited' ? 0 : value === 'limited' ? 5 : value;
           }
         });
       }
@@ -308,25 +345,81 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
     setExplicitPlanFeature(feature_grps);
   };
 
+  const handleUnGroupedFeature = (id: any, value: any) => {
+    const features = planUngroupedFeature;
+    features.map((feature) => {
+      if (feature.id === id) {
+        if (value === 'unlimited' || value === 'limited') {
+          feature.user_value = value;
+        }
+        feature.limit_count = value === 'unlimited' ? 0 : value === 'limited' ? 5 : value;
+      }
+    });
+    setUngroupedFeature(features);
+  };
+
   const handleDeleteFeature = (feature_id: string, group_id: string) => {
-    console.log(feature_id, group_id);
+    // const temp_data
     const data = planFeature;
     let removing_index: any = '';
     data.map((x: any, index: any) => {
-      x.feature = x.feature.filter((z: any) => z.id !== feature_id);
-      if (x.feature.length <= 0) {
-        removing_index = index;
+      if (x.id === group_id) {
+        x.feature = x.feature.filter((z: any) => z.id !== feature_id);
+        if (x.feature.length <= 0) {
+          removing_index = index;
+        }
       }
     });
 
     removing_index !== '' && data.splice(removing_index, 1);
-
+    console.log(featureList, data);
     setExplicitPlanFeature(data);
+    setOptionsFeatureList(data);
+    const temp_data: any = featureList;
+    temp_data.map((x: any) => {
+      data.map((z: any) => {
+        if (x.id !== z.id) {
+          x.checked = false;
+        }
+      });
+    });
+    setFeatureList(temp_data);
   };
 
-  const handleNewCharge = (key: string, value: string) => {
-    setChargesList(key, value);
-    getChargesList();
+  const handleDeleteUnGroupedFeature = (feature_id: string) => {
+    const data = planUngroupedFeature.filter((x: any) => x.id !== feature_id);
+    const feature_data = ungroupedFeatureList.map((x: any) => {
+      if (x.id === feature_id) {
+        x.checked = false;
+      }
+    });
+    setUnGroupedFeatureList(ungroupedFeatureList);
+    setUngroupedFeature(data);
+    setOptionsUngroupedFeatureList(data);
+  };
+
+  const handleAddOnDelete = (id: string) => {
+    const data = planAddOn.filter((x: any) => x.id !== id);
+    const check_data = addons.map((x: any) => {
+      if (x.id === id) {
+        x.checked = false;
+      }
+    });
+    setAddOns(addons);
+    setAddOn(data);
+    setOptionsAddons(data);
+  };
+
+  const handleChargeDelete = (id: string) => {
+    const data = planCharge.filter((x: any) => x.id !== id);
+    const check_data = charges.map((x: any) => {
+      if (x.id === id) {
+        x.checked = false;
+      }
+    });
+    setCharges(charges);
+    setCharge(data);
+    setOptionsCharges(data);
   };
 
   const handleDrawerOpen = (key: string) => {
@@ -334,6 +427,43 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
   };
   const handleDrawerClose = (key: string) => {
     setDrawerOpen({ ...draweropen, [key]: false });
+    if (key === 'feature') {
+      const data: any = ungroupedFeatureList;
+      data.map((x: any) => {
+        if (planUngroupedFeature.length > 0 && !planUngroupedFeature.includes(x)) {
+          x.checked = false;
+        }
+        setUnGroupedFeatureList(data);
+      });
+    } else if (key === 'featureGroup') {
+      const data: any = featureList;
+      data.map((x: any) => {
+        if (planFeature.length > 0) {
+          planFeature.map((z: any) => {
+            if (z.id !== x.id) {
+              x.checked = false;
+            }
+          });
+        }
+        setFeatureList(data);
+      });
+    } else if (key === 'add_ons') {
+      const data: any = addons;
+      data.map((x: any) => {
+        if (planAddOn.length > 0 && !planAddOn.includes(x)) {
+          x.checked = false;
+        }
+        setAddOns(data);
+      });
+    } else if (key === 'charges') {
+      const data: any = charges;
+      data.map((x: any) => {
+        if (planCharge.length > 0 && !planCharge.includes(x)) {
+          x.checked = false;
+        }
+        setCharges(data);
+      });
+    }
   };
 
   return (
@@ -347,7 +477,15 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
-      <CustomerHeader isback={false} title={' Create New Plan'} onSave={onchangeRoute} onCancel={onchangeRoute} />
+      <CustomerHeader
+        isback={false}
+        isEdit={addEditPlan?.plan_id ? true : false}
+        title={addEditPlan?.plan_id ? 'Edit Plan' : ' Create New Plan'}
+        onSave={onchangeRoute}
+        onCancel={() => {
+          navigate(planSubscriptionRoutes.plan);
+        }}
+      />
       <Box sx={{ margin: '45px' }} />
       {/* <CreatePlanCard title="General" subTitle="Users" /> */}
       <Box sx={createPlanStyle.content}>
@@ -366,16 +504,19 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
                     placeholder="Plan Name"
                     value={addEditPlan.name}
                     id="title"
-                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                      setPlanList('name', e?.target?.value)
-                    }
+                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+                      setFormErrors({ ...formErrors, name: '' });
+                      setPlanList('name', e?.target?.value);
+                    }}
                     textFieldStyle={createPlanStyle.inputSx}
+                    error={formErrors?.name?.length > 0 ? true : false}
+                    errorMessage={formErrors.name}
                   />
                 </Box>
               </Grid>
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                 <Box sx={createPlanStyle.inputGroupSx}>
-                  <Label sx={createPlanStyle.labelSx} rootStyle={{ mb: '1' }} htmlFor="addTitle" isRequired>
+                  <Label sx={createPlanStyle.labelSx} rootStyle={{ mb: '1' }} htmlFor="addTitle" isRequired={false}>
                     Description
                   </Label>
                   <Input
@@ -389,18 +530,19 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
                     rowsMax={6}
                     isMulti={true}
                     textFieldStyle={createPlanStyle.inputSx}
-                    required
                     id="description"
                     // isError={groupState?.error?.addTitle ? true : false}
                     // errorMessage={groupState?.error?.addTitle ?? ''}
                   />
                 </Box>
               </Grid>
-              {SqureText.map((x, index) => {
+              {SqureText.map((x: any, index) => {
+                const check_value = addEditPlan[x.key];
                 return (
                   <Grid item key={index}>
                     <CustomCheckboxWithLabels
                       handleChanges={(value: any) => setPlanList(x.key, value)}
+                      checked={check_value}
                       squareCheckbox={true}
                       squareText={x.text}
                     />
@@ -421,10 +563,19 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
                       Billing Period
                     </Label>
                     <CustomToggle
-                      handleChange={(value) => setPlanList('billing_period', value)}
+                      handleChange={(value) => {
+                        setFormErrors({ ...formErrors, billing_period: '' });
+                        setPlanList('billing_period', value);
+                      }}
+                      value={addEditPlan.billing_period}
                       tabOne={'Monthly'}
                       tabTwo={'Yearly'}
                     />
+                    {formErrors?.billing_period?.length > 0 ? (
+                      <Label sx={{ color: 'red', paddingTop: 1.2 }}>{formErrors?.billing_period}</Label>
+                    ) : (
+                      <></>
+                    )}
                   </Box>
                 </Grid>
                 <Grid item xs={7.5} sm={7.5} md={7.5} lg={7.5} xl={7.5}>
@@ -432,28 +583,38 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
                     <Label sx={createPlanStyle.labelSx} htmlFor="addTitle" isRequired>
                       Set Price
                     </Label>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'start' }}>
                       <ButtonGroupDropdown
-                        onChange={(value) => {
-                          setPlanList('monthly', value.label, 'price');
+                        onChange={(e) => {
+                          setFormErrors({ ...formErrors, monthly: '' });
+                          setPlanList('monthly', e.target.value, 'price');
                         }}
+                        value={addEditPlan.price.monthly}
                         permissionList={Money}
                         BtnName={'Monthly'}
+                        isError={formErrors?.monthly ? true : false}
+                        errorMessage={formErrors?.monthly}
                       />
                       <ButtonGroupDropdown
-                        onChange={(value) => {
-                          setPlanList('yearly', value.label, 'price');
+                        onChange={(e) => {
+                          setFormErrors({ ...formErrors, yearly: '' });
+                          setPlanList('yearly', e.target.value, 'price');
                         }}
+                        value={addEditPlan.price.yearly}
                         permissionList={Money}
                         BtnName={'Yearly'}
+                        isError={formErrors?.yearly ? true : false}
+                        errorMessage={formErrors?.yearly}
                       />
                       <CustomCheckboxWithLabels
                         handleChanges={(value) => setPlanList('is_per_user', value)}
+                        checked={addEditPlan.is_per_user}
                         circleCheckbox={true}
                         circleText={'Per user'}
                       />
                       <CustomCheckboxWithLabels
                         handleChanges={(value) => setPlanList('is_flat_fee', value)}
+                        checked={addEditPlan.is_flat_fee}
                         circleCheckbox={true}
                         circleText={'Flat fee'}
                       />
@@ -470,7 +631,12 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
                         { key: 'fixed', value: 'fixed' },
                         { key: 'forever', value: 'forever' },
                       ]}
-                      handleChange={(value) => setPlanList('billing_cycles', value)}
+                      value={addEditPlan.billing_cycles}
+                      handleChange={(value) => {
+                        setFormErrors({ ...formErrors, billing_cycles: '' });
+                        setPlanList('billing_cycles', value);
+                      }}
+                      errorMessage={formErrors.billing_cycles}
                     />
                   </Box>
                 </Grid>
@@ -480,162 +646,166 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
         />
         <BackgroundPaper
           title="Feature set and controls"
-          subTitle="Feature"
+          subTitle="Feature Group"
+          secondaryLabel="Feature"
+          showSecondaryBtn={true}
           showButton={true}
-          onClick={() => handleDrawerOpen('feature')}
-          content={planFeature.map((feature, index) => {
-            return (
-              <Box key={index}>
+          onClick={() => handleDrawerOpen('featureGroup')}
+          onSecondaryClick={() => handleDrawerOpen('feature')}
+          content={
+            <>
+              {planFeature.map((feature, index) => {
+                return (
+                  <Box key={index}>
+                    <CreatePlanCard
+                      onChange={(inner_id: string, value: any) => handleFeatures(feature.id, inner_id, value)}
+                      onDelete={(feature_id: string) => handleDeleteFeature(feature_id, feature.id)}
+                      title={feature?.name}
+                      subTitle={feature.feature}
+                    />
+                  </Box>
+                );
+              })}
+              {planUngroupedFeature.length > 0 && (
                 <CreatePlanCard
-                  onChange={(inner_id: string, value: any) => handleFeatures(feature.id, inner_id, value)}
-                  onDelete={(feature_id: string) => handleDeleteFeature(feature_id, feature.id)}
-                  title={feature?.name}
-                  subTitle={feature.feature}
+                  onChange={(inner_id: string, value: any) => handleUnGroupedFeature(inner_id, value)}
+                  onDelete={(feature_id: string) => handleDeleteUnGroupedFeature(feature_id)}
+                  title={''}
+                  subTitle={planUngroupedFeature}
                 />
-              </Box>
-            );
-          })}
+              )}
+              {formErrors.features?.length > 0 ? <Label sx={{ color: 'red' }}>{formErrors?.features}</Label> : <></>}
+            </>
+          }
         />
         <BackgroundPaper
           title="Add-ons"
           subTitle="addons"
           showButton={true}
+          showSecondaryBtn={false}
           onClick={() => handleDrawerOpen('add_ons')}
-          content={
-            planAddOn.map((add_on, index) => {
-              return (
-                <AddOnBackgroundCard
-                  key={index}
-                  ListAddons={add_on}
-                  onChange={(key, value, innerkey) => handleAddons(key, value, innerkey)}
-                />
-              );
-            })
-            // <AddOnBackgroundCard
-            //   // ListAddons={AddOnsList.filter((x) => x.is_active === true).map((z) => {
-            //   ListAddons={planAddOn.map((z) => {
-            //     return {
-            //       value: z.limit_count === 0 ? 'unlimited' : 'limited',
-            //       id: z.id,
-            //       subTitle: z?.name,
-            //       price: z.price,
-            //       limit_count: z.limit_count,
-            //     };
-            //   })}
-            //   onChange={(id, value, key, innerkey) => {
-            //     handleAddons(id, key, value, innerkey);
-            //     // setPlanList('add_on', key, value, innerkey);
-            //   }}
-            // />
-          }
+          content={planAddOn.map((add_on, index) => {
+            return (
+              <AddOnBackgroundCard
+                key={index}
+                isLast={index !== planAddOn.length - 1}
+                ListAddons={add_on}
+                onChange={(key, value, innerkey) => handleAddons(key, value, innerkey)}
+                handleDelete={() => handleAddOnDelete(add_on.id)}
+              />
+            );
+          })}
         />
-
         <BackgroundPaper
           title="Charges"
           subTitle="Charges"
           showButton={true}
-          onClick={handleOpen}
-          content={ChargesList.map((charge: any, index: any) => {
-            if (charge.is_active) {
-              return (
-                <>
-                  <Box key={index}>
-                    <Box sx={createPlanStyle.align}>
-                      <Typography sx={createPlanStyle.firstTextdark}>{charge.name}</Typography>
-                      <CloseRedIcon rootStyle={{ width: '17px', height: '17px' }} />
-                    </Box>
-                    <Box sx={createPlanStyle.inputGroupSx}>
-                      <Label sx={createPlanStyle.labelSx} htmlFor="addTitle" isRequired>
-                        Set price
-                      </Label>
-                      <Input
-                        value={parseInt(addEditPlan.charge[index]?.price) || 0}
-                        onChange={(event) => {
-                          handleCharges('charge', event?.target.value, charge.id);
-                        }}
-                        textFieldStyle={{ width: '160px', height: '40px' }}
-                        endAdornment={
-                          <AttachMoneyIcon
-                            sx={{
-                              '&.MuiSvgIcon-root': {
-                                width: '25px',
-                                height: '20px',
-                                color: '#000000',
-                              },
-                            }}
-                          />
-                        }
-                      />
-                    </Box>
+          showSecondaryBtn={false}
+          onClick={() => handleDrawerOpen('charges')}
+          content={planCharge.map((charge: any, index: any) => {
+            return (
+              <>
+                <Box key={index}>
+                  <Box sx={createPlanStyle.align}>
+                    <Typography sx={createPlanStyle.firstTextdark}>{charge.name}</Typography>
+                    <CloseRedIcon
+                      onClick={() => handleChargeDelete(charge.id)}
+                      rootStyle={{ width: '17px', height: '17px', cursor: 'pointer' }}
+                    />
                   </Box>
-                </>
-              );
-            }
+                  <Box sx={createPlanStyle.inputGroupSx}>
+                    <Label sx={createPlanStyle.labelSx} htmlFor="addTitle">
+                      Set price
+                    </Label>
+                    <Input
+                      value={charge.price}
+                      type={'number'}
+                      onChange={(event) => {
+                        handleCharges('charge', event?.target.value, charge.id);
+                      }}
+                      textFieldStyle={{ width: '160px', height: '40px' }}
+                      endAdornment={
+                        <AttachMoneyIcon
+                          sx={{
+                            '&.MuiSvgIcon-root': {
+                              width: '25px',
+                              height: '20px',
+                              color: '#000000',
+                            },
+                          }}
+                        />
+                      }
+                    />
+                  </Box>
+                </Box>
+              </>
+            );
           })}
         />
       </Box>
-      <DialogDrawer
-        maxModalWidth="xl"
-        isDialogOpened={modalValue.Charges}
-        title={'Create new charge'}
-        Bodycomponent={
-          <Box sx={chargesStyle.padd}>
-            <Box sx={chargesStyle.inputGroupSx}>
-              <Label sx={chargesStyle.labelSx} htmlFor="addTitle" isRequired>
-                Charges Name
-              </Label>
-              <Input
-                size="small"
-                placeholder="Charge name"
-                required
-                value={createEditCharges.name}
-                textFieldStyle={chargesStyle.inputSx}
-                id="title"
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                  handleNewCharge('name', e.target.value)
-                }
-              />
-            </Box>
-            <Box sx={{ m: '16px' }} />
-            <Box sx={chargesStyle.inputGroupSx}>
-              <Label sx={chargesStyle.labelSx} htmlFor="addTitle" isRequired>
-                Description
-              </Label>
-              <Input
-                size="small"
-                // placeholder="Description"
-                required
-                rows={3}
-                rowsMax={6}
-                isMulti={true}
-                value={createEditCharges.description}
-                textFieldStyle={chargesStyle.inputBigSx}
-                id="description"
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                  handleNewCharge('description', e.target.value)
-                }
-                // isError={addEditMessageState?.error?.title ? true : false}
-                // errorMessage={addEditMessageState?.error?.title ?? ''}
-              />
-            </Box>
+
+      <Drawer
+        show={draweropen['charges']}
+        onCloseDrawer={() => handleDrawerClose('charges')}
+        anchor="right"
+        drawerStyleSX={subscriptionDetailsStyle.drawerBody}
+        drawerRightClose
+        header={'Add Charges'}
+        headerStyle={{
+          fontSize: '16px',
+          fontWeight: 600,
+          color: '#101010',
+          textTransform: 'capitalize',
+        }}
+        footer={
+          <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+            <Button
+              fullWidth={false}
+              size={'small'}
+              onClick={() => {
+                setOptionsCharges(planCharge);
+                handleDrawerClose('charges');
+              }}
+              sx={createPlanStyle.cancButton}
+            >
+              Cancel
+            </Button>
+            <Button
+              fullWidth={false}
+              size={'small'}
+              onClick={() => {
+                const opt_charge = optionscharges;
+                opt_charge.map((z: any) => {
+                  planCharge.map((x: any) => {
+                    if (x.id === z.id) {
+                      z.price = x.price;
+                      z.checked = true;
+                    }
+                  });
+                });
+                // console.log(planCharge);
+                // console.log(optionscharges);
+                // console.log(opt_charge);
+                setCharge(opt_charge);
+                handleDrawerClose('charges');
+              }}
+              sx={createPlanStyle.saveButton}
+            >
+              Save
+            </Button>
           </Box>
         }
-        handleCloseDialog={() => handleClose('Charges')}
-        dialogRootStyle={chargesStyle.dialogSx}
-        Footercomponent={
-          <FooterComponent
-            check
-            checked={createEditCharges.is_active}
-            saveButtonStyle={{ minWidth: '90px', height: '28px' }}
-            SwitchChange={(e) => handleNewCharge('is_active', e.target.checked)}
-            onCancel={() => handleClose('Charges')}
-            onSave={() => {
-              createCharges();
-              handleClose('Charges');
-            }}
+      >
+        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <GroupCheckBox
+            checklist={charges}
+            checked={optionscharges.map((charge: any) => {
+              return charge.id;
+            })}
+            handleChange={(value) => handleChargeSelected(value)}
           />
-        }
-      />
+        </Box>
+      </Drawer>
 
       <Drawer
         show={draweropen['add_ons']}
@@ -655,7 +825,10 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
             <Button
               fullWidth={false}
               size={'small'}
-              onClick={() => handleDrawerClose('add_ons')}
+              onClick={() => {
+                setOptionsAddons(planAddOn);
+                handleDrawerClose('add_ons');
+              }}
               sx={createPlanStyle.cancButton}
             >
               Cancel
@@ -663,7 +836,24 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
             <Button
               fullWidth={false}
               size={'small'}
-              onClick={() => handleDrawerClose('add_ons')}
+              onClick={() => {
+                const opt_addon = optionsaddons;
+                opt_addon.map((z: any) => {
+                  planAddOn.map((x: any) => {
+                    if (x.id === z.id) {
+                      z.price = x.price;
+                      z.limit_count = x.limit_count;
+                      z.value = x.limit_count > 0 ? 'limited' : 'unlimited';
+                      // z.checked = true;
+                    }
+                  });
+                });
+                console.log(planAddOn);
+                console.log(optionsaddons);
+                console.log(opt_addon);
+                setAddOn(opt_addon);
+                handleDrawerClose('add_ons');
+              }}
               sx={createPlanStyle.saveButton}
             >
               Save
@@ -674,10 +864,73 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <GroupCheckBox
             checklist={addons}
-            checked={planAddOn.map((feature) => {
+            checked={optionsaddons.map((feature: any) => {
               return feature.id;
             })}
             handleChange={(value) => handleAddOnSelected(value)}
+          />
+        </Box>
+      </Drawer>
+
+      <Drawer
+        show={draweropen['featureGroup']}
+        onCloseDrawer={() => handleDrawerClose('featureGroup')}
+        anchor="right"
+        drawerStyleSX={subscriptionDetailsStyle.drawerBody}
+        drawerRightClose
+        header={'Add Feature Group'}
+        headerStyle={{
+          fontSize: '16px',
+          fontWeight: 600,
+          color: '#101010',
+          textTransform: 'capitalize',
+        }}
+        footer={
+          <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+            <Button
+              fullWidth={false}
+              size={'small'}
+              onClick={() => {
+                setOptionsFeatureList(planFeature);
+                handleDrawerClose('featureGroup');
+              }}
+              sx={createPlanStyle.cancButton}
+            >
+              Cancel
+            </Button>
+            <Button
+              fullWidth={false}
+              size={'small'}
+              onClick={() => {
+                const data = optionsfeatureList;
+                data.map((x: any) => {
+                  planFeature.map((z: any) => {
+                    if (x.id === z.id) {
+                      x.feature_list = z.feature;
+                    }
+                  });
+                });
+                console.clear();
+                console.log(optionsfeatureList);
+                console.log(data);
+                setPlanFeature(optionsfeatureList, 0);
+                setFormErrors({ ...formErrors, features: '' });
+                handleDrawerClose('featureGroup');
+              }}
+              sx={createPlanStyle.saveButton}
+            >
+              Save
+            </Button>
+          </Box>
+        }
+      >
+        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <GroupCheckBox
+            checklist={featureList}
+            checked={optionsfeatureList.map((feature: any) => {
+              return feature.id;
+            })}
+            handleChange={(value) => handleSelected(value)}
           />
         </Box>
       </Drawer>
@@ -700,7 +953,10 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
             <Button
               fullWidth={false}
               size={'small'}
-              onClick={() => handleDrawerClose('feature')}
+              onClick={() => {
+                handleDrawerClose('feature');
+                setOptionsUngroupedFeatureList(planUngroupedFeature);
+              }}
               sx={createPlanStyle.cancButton}
             >
               Cancel
@@ -708,7 +964,11 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
             <Button
               fullWidth={false}
               size={'small'}
-              onClick={() => handleDrawerClose('feature')}
+              onClick={() => {
+                setFormErrors({ ...formErrors, features: '' });
+                setUngroupedFeature(optionsungroupedFeatureList);
+                handleDrawerClose('feature');
+              }}
               sx={createPlanStyle.saveButton}
             >
               Save
@@ -718,11 +978,11 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <GroupCheckBox
-            checklist={featureList}
-            checked={planFeature.map((feature) => {
+            checklist={ungroupedFeatureList}
+            checked={optionsungroupedFeatureList.map((feature: any) => {
               return feature.id;
             })}
-            handleChange={(value) => handleSelected(value)}
+            handleChange={(value) => handleUnGroupFeatureSelected(value)}
           />
         </Box>
       </Drawer>

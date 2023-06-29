@@ -3,6 +3,7 @@ import { Box, Typography, ButtonGroup } from '@mui/material';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { buttonGroupDropdownStyle } from './style';
 import { Button } from '@atoms/button';
+import { Label } from '@atoms/label';
 
 export interface ButtonGroupDropdownProps {
   className?: string;
@@ -88,11 +89,11 @@ export const ButtonGroupDropdown = (props: ButtonGroupDropdownProps): JSX.Elemen
       <ButtonGroup aria-label="device">
         <Button
           buttonStyle={{
-            // width: '70px',
+            width: '70px',
             height: '35px',
             textTransform: 'capitalize',
-            display: 'flex',
-            justifyContent: 'flex-end',
+            // display: 'flex',
+            // justifyContent: 'flex-end',
             borderTopRightRadius: '0px',
             borderBottomRightRadius: '0px',
             backgroundColor: 'transparent',
@@ -110,52 +111,42 @@ export const ButtonGroupDropdown = (props: ButtonGroupDropdownProps): JSX.Elemen
         >
           {BtnName}
         </Button>
-        <Autocomplete
+
+        <TextField
+          // {...props}
           defaultValue={value}
-          // errorMessage={formErrors.permission}
-          popupIcon={<AttachMoneyIcon />}
-          options={permissionList}
-          clearIcon={''}
-          // options={name}
-          // disableCloseOnSelect
-          getOptionLabel={(options: any) => options?.label}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              sx={{
-                width: '75px',
-                height: '30px',
-                borderRadius: '8px',
-                '& .MuiOutlinedInput-root': {
-                  height: '35px',
-                  borderRadius: '8px',
-                  fontSize: '14px',
-                  // fontWeight: 600,
-                  borderTopLeftRadius: '0px',
-                  borderBottomLeftRadius: '0px',
-                  ml: '-1px',
-                  mb: '10px',
-                  p: '3.5px 4px 4.5px 6px',
-                },
-                '& .MuiSvgIcon-root': {
-                  width: '25px',
-                  height: '20px',
-                  color: '#000000',
-                },
-              }}
-            />
-          )}
-          onChange={(option, value) => {
-            onChange && onChange(value);
+          value={value}
+          InputProps={{
+            endAdornment: <AttachMoneyIcon fontSize="small" />,
           }}
+          type={'number'}
+          onChange={onChange}
+          error={isError}
           sx={{
-            // '& .MuiChip-root': { height: '28px', borderRadius: '8px', marginLeft: '4px', marginTop: '-7px' },
-            '& .MuiAutocomplete-input': {
-              marginTop: '-4px',
+            width: '75px',
+            height: '30px',
+            paddingX: '1px',
+            borderRadius: '8px',
+            '& .MuiOutlinedInput-root': {
+              height: '35px',
+              borderRadius: '8px',
+              fontSize: '14px',
+              // fontWeight: 600,
+              borderTopLeftRadius: '0px',
+              borderBottomLeftRadius: '0px',
+              ml: '-1px',
+              mb: '10px',
+              p: '3.5px 4px 4.5px 6px',
+            },
+            '& .MuiSvgIcon-root': {
+              width: '25px',
+              height: '20px',
+              color: '#000000',
             },
           }}
         />
       </ButtonGroup>
+      <Label sx={{ color: 'red', paddingTop: 1 }}>{isError ? errorMessage : ' '}</Label>
     </Box>
   );
 };

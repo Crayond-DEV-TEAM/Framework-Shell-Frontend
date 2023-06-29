@@ -9,7 +9,10 @@ export interface BackgroundPaperProps {
   title?: string;
   subTitle?: string;
   showButton?: boolean;
+  showSecondaryBtn?: boolean;
+  secondaryLabel?: string;
   onClick?: (value: string) => void;
+  onSecondaryClick?: () => void;
   content?: any;
 }
 
@@ -20,7 +23,10 @@ export const BackgroundPaper = (props: BackgroundPaperProps): JSX.Element => {
     title = '',
     subTitle = '',
     showButton = false,
+    showSecondaryBtn = false,
+    secondaryLabel = '',
     onClick = () => false,
+    onSecondaryClick = () => false,
     content,
     ...rest
   } = props;
@@ -39,13 +45,22 @@ export const BackgroundPaper = (props: BackgroundPaperProps): JSX.Element => {
       <Box sx={backgroundPaperStyle.whiteContent}>
         <Grid container direction="row" justifyContent="space-between" alignItems="flex-start">
           <Typography sx={backgroundPaperStyle.title}>{title}</Typography>
-          {showButton && (
-            <Button
-              variant="text"
-              onClick={() => onClick(subTitle)}
-              sx={{ textTransform: 'capitalize', fontWeight: 'bold' }}
-            >{`+ Add ${subTitle ? subTitle : title}`}</Button>
-          )}
+          <Box>
+            {showSecondaryBtn && (
+              <Button
+                variant="text"
+                onClick={() => onSecondaryClick()}
+                sx={{ textTransform: 'capitalize', fontWeight: 'bold' }}
+              >{`+ Add ${secondaryLabel}`}</Button>
+            )}
+            {showButton && (
+              <Button
+                variant="text"
+                onClick={() => onClick(subTitle)}
+                sx={{ textTransform: 'capitalize', fontWeight: 'bold' }}
+              >{`+ Add ${subTitle ? subTitle : title}`}</Button>
+            )}
+          </Box>
         </Grid>
         <Box sx={{ mt: '20px' }}>{content}</Box>
       </Box>

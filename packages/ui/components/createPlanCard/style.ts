@@ -30,6 +30,7 @@ export const createPlanCardStyle: CreatePlanCardStyleProps = {
   },
   secondText: {
     fontSize: '14px',
+    width: '100px',
   },
   align: {
     display: 'flex',

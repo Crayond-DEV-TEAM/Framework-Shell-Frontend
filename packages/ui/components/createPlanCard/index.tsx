@@ -128,7 +128,8 @@ export const CreatePlanCard = (props: CreatePlanCardProps): JSX.Element => {
                     <RadioGroup
                       row
                       defaultValue="female"
-                      value={count > 0 ? 'limited' : 'unlimited'}
+                      // value={count > 0 ? 'limited' : 'unlimited'}
+                      value={x.user_value}
                       name="radio-buttons-group"
                       onChange={(e) => handleChange(e, x.id, false)}
                     >
@@ -150,26 +151,23 @@ export const CreatePlanCard = (props: CreatePlanCardProps): JSX.Element => {
                       />
                     </RadioGroup>
                   </FormControl>
-                  {count > 0 ? (
-                    <>
-                      <Input
-                        value={count}
-                        onChange={(e) => handleChange(e, x.id, true)}
-                        textFieldStyle={{
-                          width: '75px',
-                          height: '40px',
-                          margin: '0px 12px',
-                          backgroundColor: 'primary.contrastText',
-                        }}
-                      />
-                      <Typography sx={createPlanCardStyle.secondText}>{x.name}</Typography>
-                    </>
-                  ) : (
-                    <></>
-                  )}
+                  <Box sx={{ visibility: x.user_value === 'limited' ? 'visible' : 'hidden', display: 'contents' }}>
+                    <Input
+                      value={count}
+                      type={'number'}
+                      onChange={(e) => handleChange(e, x.id, true)}
+                      textFieldStyle={{
+                        width: '75px',
+                        height: '40px',
+                        margin: '0px 12px',
+                        backgroundColor: 'primary.contrastText',
+                      }}
+                    />
+                    <Typography sx={createPlanCardStyle.secondText}>{x.name}</Typography>
+                  </Box>
                   <Box sx={{ ml: '80px' }}>
                     <CloseRedIcon
-                      rootStyle={{ width: '17px', height: '17px' }}
+                      rootStyle={{ width: '17px', height: '17px', cursor: 'pointer' }}
                       onClick={() => {
                         onDelete(x.id);
                       }}
@@ -178,7 +176,7 @@ export const CreatePlanCard = (props: CreatePlanCardProps): JSX.Element => {
                 </Box>
               </Box>
             )}
-            <Box sx={createPlanCardStyle.borderLine} />
+            {index !== subTitle.length - 1 && <Box sx={createPlanCardStyle.borderLine} />}
           </div>
         );
       })}

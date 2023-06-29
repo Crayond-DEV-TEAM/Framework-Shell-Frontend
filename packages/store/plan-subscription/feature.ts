@@ -21,12 +21,22 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
     set((state) => ({ createEditFeature: { ...state.createEditFeature, [key]: value } }));
   },
 
-  getFeatureList: () => {
+  getFeatureList: (data: any = { is_active: false }) => {
     set({ fetching: true, errorOnFetching: false });
-    const payload = {
+    const payload: any = {
       offset: 0,
-      limit: 0,
+      limit: 50,
     };
+
+    if (data.is_active === true) {
+      payload.is_active = true;
+    }
+    if (data.is_unmapped === true) {
+      payload.is_unmapped = true;
+    } else if (data.is_unmapped === false) {
+      payload.is_unmapped = false;
+    }
+
     httpRequest('post', `${envConfig.api_url}/features`, payload, true)
       .then((response) => {
         const dataTable: any = [];
@@ -41,7 +51,7 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
             set({ FeatureList: dataTable }),
           );
         } else {
-          set({ FeatureList: ['no'] });
+          set({ FeatureList: [] });
         }
       })
       .catch((err) => {

@@ -8,6 +8,7 @@ export interface CustomCheckboxWithLabelsProps {
   className?: string;
   sx?: SxProps<Theme>;
   label?: string;
+  checked?: boolean;
   squareCheckbox?: boolean;
   circleCheckbox?: boolean;
   squareText?: string;
@@ -19,6 +20,7 @@ export const CustomCheckboxWithLabels = (props: CustomCheckboxWithLabelsProps): 
   const {
     className = '',
     sx = {},
+    checked = false,
     squareText = 'Make this a recommended plan',
     circleText = 'Make this a recommended plan',
     squareCheckbox = false,
@@ -42,7 +44,8 @@ export const CustomCheckboxWithLabels = (props: CustomCheckboxWithLabelsProps): 
         <Box sx={customCheckboxWithLabelsStyle.rootSx}>
           <Checkbox
             onChange={(e) => handleChanges(e.target.checked)}
-            defaultChecked
+            // defaultChecked
+            checked={checked}
             sx={{ '& .MuiSvgIcon-root': { width: '17px', height: '17px' } }}
           />
           <Typography sx={customCheckboxWithLabelsStyle.typographyTxt}>{squareText}</Typography>
@@ -52,6 +55,7 @@ export const CustomCheckboxWithLabels = (props: CustomCheckboxWithLabelsProps): 
         <Box sx={customCheckboxWithLabelsStyle.rootSx}>
           <Checkbox
             defaultChecked
+            checked={checked}
             onChange={(e) => handleChanges(e.target.checked)}
             sx={{ '& .MuiSvgIcon-root': { width: '17px', height: '17px' } }}
             icon={<RadioButtonUncheckedIcon />}

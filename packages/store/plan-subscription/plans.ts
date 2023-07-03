@@ -51,9 +51,47 @@ export const usePlans = create<PlansInterface>((set, get) => ({
   planUngroupedFeature: [],
   planAddOn: [],
   planCharge: [],
+  deleteAddOn: [],
+  deleteCharge: [],
+  deleteFeature: [],
+  deleteGroupFeature: [],
+
+  featureList: [],
+  ungroupedFeatureList: [],
+  addons: [],
+  charges: [],
+  optionsfeatureList: [],
+  optionsungroupedFeatureList: [],
+  optionsaddons: [],
+  optionscharges: [],
 
   fetching: false,
   errorOnFetch: false,
+
+  setFeatureList: (x: any) => {
+    set(() => ({ featureList: x }));
+  },
+  setUnGroupedFeatureList: (x: any) => {
+    set(() => ({ ungroupedFeatureList: x }));
+  },
+  setAddOns: (x: any) => {
+    set(() => ({ addons: x }));
+  },
+  setCharges: (x: any) => {
+    set(() => ({ charges: x }));
+  },
+  setOptionsFeatureList: (x: any) => {
+    set(() => ({ optionsfeatureList: x }));
+  },
+  setOptionsUngroupedFeatureList: (x: any) => {
+    set(() => ({ optionsungroupedFeatureList: x }));
+  },
+  setOptionsAddons: (x: any) => {
+    set(() => ({ optionsaddons: x }));
+  },
+  setOptionsCharges: (x: any) => {
+    set(() => ({ optionscharges: x }));
+  },
 
   clearAll: () => {
     set({
@@ -102,6 +140,19 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       planUngroupedFeature: [],
       planAddOn: [],
       planCharge: [],
+      deleteAddOn: [],
+      deleteCharge: [],
+      deleteFeature: [],
+      deleteGroupFeature: [],
+
+      featureList: [],
+      ungroupedFeatureList: [],
+      addons: [],
+      charges: [],
+      optionsfeatureList: [],
+      optionsungroupedFeatureList: [],
+      optionsaddons: [],
+      optionscharges: [],
     });
   },
 
@@ -115,6 +166,7 @@ export const usePlans = create<PlansInterface>((set, get) => ({
           feature_id: ftr.id,
           limit_count: ftr.limit_count,
           feature_group_id: x.id,
+          plan_feature_mapping_id: x?.plan_feature_mapping_id || null,
         };
       });
     });
@@ -123,6 +175,7 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       return {
         feature_id: x.id,
         limit_count: x.limit_count || 0,
+        plan_feature_mapping_id: x?.plan_feature_mapping_id || null,
         // feature_group_id: null,
       };
     });
@@ -136,6 +189,34 @@ export const usePlans = create<PlansInterface>((set, get) => ({
     data.charge = planCharge;
 
     return data;
+  },
+
+  setDeleteAddon: (id: string) => {
+    const { deleteAddOn } = get();
+    const data: any = deleteAddOn;
+    data.push(id);
+    set(() => ({ deleteAddOn: data }));
+  },
+
+  setDeleteCharges: (id: string) => {
+    const { deleteCharge } = get();
+    const data: any = deleteCharge;
+    data.push(id);
+    set(() => ({ deleteCharge: data }));
+  },
+
+  setDeleteFeatures: (id: string) => {
+    const { deleteFeature } = get();
+    const data: any = deleteFeature;
+    data.push(id);
+    set(() => ({ deleteFeature: data }));
+  },
+
+  setDeleteGroupFeature: (id: string) => {
+    const { deleteGroupFeature } = get();
+    const data: any = deleteGroupFeature;
+    data.push(id);
+    set(() => ({ deleteGroupFeature: data }));
   },
 
   setPlanList: (key: string, value: boolean | string, array_key = '') => {
@@ -269,10 +350,22 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       });
   },
   editPlan: () => {
-    const { PlanList, addEditPlan, getPlansList, getPayload } = get();
+    const {
+      PlanList,
+      addEditPlan,
+      deleteAddOn,
+      deleteCharge,
+      deleteFeature,
+      deleteGroupFeature,
+      getPlansList,
+      getPayload,
+    } = get();
 
     set({ fetching: true, errorOnFetch: false });
     const data: any = getPayload();
+    data.deleted_charges = deleteCharge;
+    data.deleted_add_ons = deleteAddOn;
+    data.deleted_features = deleteFeature;
     console.log(data);
     const payload = {
       ...data,

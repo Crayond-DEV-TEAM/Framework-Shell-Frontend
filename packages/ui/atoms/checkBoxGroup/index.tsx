@@ -8,7 +8,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import RadioButtonUncheckedRoundedIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 
-interface Props extends Omit<CheckboxProps, 'icon' | 'checkedIcon'> {
+interface Props extends Omit<CheckboxProps, any> {
   checklist: any[];
   checked: any[];
   handleChange: (checked: any) => void;
@@ -34,14 +34,13 @@ const StyledFormControlLabel = styled((props: StyledFormControlLabelProps) => <F
 export const GroupCheckBox: React.FC<Props> = ({ checklist, checked, handleChange, ...rest }) => {
   const [list, setList] = React.useState<any>(checklist);
   const handleCheck = (id: string, value: any) => {
-    console.log(checked);
     const data: any = list;
     data.map((x: any) => {
-      if (x.id === id) {
-        x.checked = value;
-      }
       if (checked.includes(x.id)) {
         x.checked = true;
+      }
+      if (x.id === id) {
+        x.checked = value;
       }
     });
     // setList(data);

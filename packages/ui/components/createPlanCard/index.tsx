@@ -20,7 +20,7 @@ export interface CreatePlanCardProps {
   countTitle?: string;
   anAddOns?: boolean;
   onChange: (inner_id: string, value: any) => void;
-  onDelete: (feature_id: string) => void;
+  onDelete: (feature_id: string, feature_mapping_id: string) => void;
 }
 
 interface StyledFormControlLabelProps extends FormControlLabelProps {
@@ -45,7 +45,7 @@ export const CreatePlanCard = (props: CreatePlanCardProps): JSX.Element => {
     countTitle = '',
     anAddOns = false,
     onChange = (inner_id: string, value: any) => false,
-    onDelete = (feature_id: string) => false,
+    onDelete = (feature_id: string, feature_mapping_id: string) => false,
     ...rest
   } = props;
   const Money = [{ label: '10' }, { label: '19' }];
@@ -169,7 +169,7 @@ export const CreatePlanCard = (props: CreatePlanCardProps): JSX.Element => {
                     <CloseRedIcon
                       rootStyle={{ width: '17px', height: '17px', cursor: 'pointer' }}
                       onClick={() => {
-                        onDelete(x.id);
+                        onDelete(x.id, x.plan_feature_mapping_id);
                       }}
                     />
                   </Box>

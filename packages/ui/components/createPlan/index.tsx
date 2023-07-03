@@ -74,9 +74,10 @@ interface Plan {
   ];
 }
 
-/* interface Plan {
-  [key: string]: string | number | boolean | [];
-} */
+interface squareText {
+  key: string;
+  text: string;
+}
 
 export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
@@ -98,6 +99,30 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
     setCharge,
     addPlan,
     editPlan,
+    deleteAddOn,
+    setDeleteAddon,
+    deleteCharge,
+    setDeleteCharges,
+    deleteFeature,
+    setDeleteFeatures,
+
+    featureList,
+    ungroupedFeatureList,
+    addons,
+    charges,
+    optionsfeatureList,
+    optionsungroupedFeatureList,
+    optionsaddons,
+    optionscharges,
+
+    setFeatureList,
+    setUnGroupedFeatureList,
+    setAddOns,
+    setCharges,
+    setOptionsFeatureList,
+    setOptionsUngroupedFeatureList,
+    setOptionsAddons,
+    setOptionsCharges,
   } = usePlans();
 
   const { FeatureGroupList, getFeatureGroupList } = useFeatureGroup();
@@ -105,16 +130,6 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
   const { FeatureList, getFeatureList } = useFeature();
 
   const { getAddOnsList, AddOnsList } = useAddOns();
-
-  const [featureList, setFeatureList] = useState<any>([]);
-  const [ungroupedFeatureList, setUnGroupedFeatureList] = useState<any>([]);
-  const [addons, setAddOns] = useState<any>([]);
-  const [charges, setCharges] = useState<any>([]);
-
-  const [optionsfeatureList, setOptionsFeatureList] = useState<any>([]);
-  const [optionsungroupedFeatureList, setOptionsUngroupedFeatureList] = useState<any>([]);
-  const [optionsaddons, setOptionsAddons] = useState<any>([]);
-  const [optionscharges, setOptionsCharges] = useState<any>([]);
 
   const [formErrors, setFormErrors] = useState<any>({});
 
@@ -146,6 +161,7 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
     data.map((x) => {
       if (planCharge.find((z) => z.id === x.id) !== undefined) {
         x.checked = true;
+        x.plan_charge_mapping_id = planCharge.find((z) => z.id === x.id)?.plan_charge_mapping_id || null;
       }
     });
 
@@ -172,6 +188,7 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
     data.map((x) => {
       if (planAddOn.find((z) => z.id === x.id) !== undefined) {
         x.checked = true;
+        x.plan_add_on_mapping_id = planAddOn.find((z) => z.id === x.id)?.plan_add_on_mapping_id || null;
       }
     });
 
@@ -198,6 +215,7 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
     temp_feature_list.map((x) => {
       if (planFeature.find((z) => z.id === x.id) !== undefined) {
         x.checked = true;
+        x.plan_feature_mapping_id = planFeature.find((z) => z.id === x.id)?.plan_feature_mapping_id || null;
       }
     });
 
@@ -219,6 +237,7 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
     temp_feature_list.map((x) => {
       if (planUngroupedFeature.find((z) => z.id === x.id) !== undefined) {
         x.checked = true;
+        x.plan_feature_mapping_id = planUngroupedFeature.find((z) => z.id === x.id)?.plan_feature_mapping_id || null;
       }
       // return;
     });
@@ -276,22 +295,21 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
     const data = planCharge;
     data?.map((charge: any) => {
       if (charge.id === array_key) {
-        charge.price = value;
+        charge.price = parseInt(value);
       }
     });
     setCharge(data);
   };
 
   const handleAddons = (key: string, value: any, innerkey = '') => {
-
-    console.log(key, value);
     const data = planAddOn;
     data?.map((add_on: any) => {
       if (add_on.id === key) {
         if (innerkey.length > 0) {
           add_on['price'][innerkey] = value;
         } else {
-          add_on[value === 'limited' || value === 'unlimited' ? 'value' : 'limit_count'] = value;
+          add_on[value === 'limited' || value === 'unlimited' ? 'value' : 'limit_count'] =
+            value === 'limited' || value === 'unlimited' ? value : parseInt(value);
           if (value === 'unlimited') {
             add_on.limit_count = 0;
           }
@@ -313,9 +331,6 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
   };
 
   const handleAddOnSelected = (value: any) => {
-    // console.log(planAddOn);
-    // console.log(value);
-    // console.log(addons);
     const feature_addon = value.filter((grp: any) => grp.checked === true);
     // feature_addon.push(planAddOn).flat();
     setOptionsAddons(feature_addon);
@@ -336,7 +351,7 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
             if (value === 'unlimited' || value === 'limited') {
               feature.user_value = value;
             }
-            feature.limit_count = value === 'unlimited' ? 0 : value === 'limited' ? 5 : value;
+            feature.limit_count = value === 'unlimited' ? 0 : value === 'limited' ? 5 : parseInt(value);
           }
         });
       }
@@ -352,14 +367,14 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
         if (value === 'unlimited' || value === 'limited') {
           feature.user_value = value;
         }
-        feature.limit_count = value === 'unlimited' ? 0 : value === 'limited' ? 5 : value;
+        feature.limit_count = value === 'unlimited' ? 0 : value === 'limited' ? 5 : parseInt(value);
       }
     });
     setUngroupedFeature(features);
   };
 
-  const handleDeleteFeature = (feature_id: string, group_id: string) => {
-    // const temp_data
+  const handleDeleteFeature = (feature_id: string, group_id: string, feature_mapping_id: string) => {
+    feature_mapping_id && setDeleteFeatures(feature_mapping_id);
     const data = planFeature;
     let removing_index: any = '';
     data.map((x: any, index: any) => {
@@ -372,7 +387,6 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
     });
 
     removing_index !== '' && data.splice(removing_index, 1);
-    console.log(featureList, data);
     setExplicitPlanFeature(data);
     setOptionsFeatureList(data);
     const temp_data: any = featureList;
@@ -386,7 +400,8 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
     setFeatureList(temp_data);
   };
 
-  const handleDeleteUnGroupedFeature = (feature_id: string) => {
+  const handleDeleteUnGroupedFeature = (feature_id: string, feature_mapping_id: string) => {
+    feature_mapping_id && setDeleteFeatures(feature_mapping_id);
     const data = planUngroupedFeature.filter((x: any) => x.id !== feature_id);
     const feature_data = ungroupedFeatureList.map((x: any) => {
       if (x.id === feature_id) {
@@ -398,7 +413,8 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
     setOptionsUngroupedFeatureList(data);
   };
 
-  const handleAddOnDelete = (id: string) => {
+  const handleAddOnDelete = (id: string, mapping_id: string | any) => {
+    mapping_id && setDeleteAddon(mapping_id);
     const data = planAddOn.filter((x: any) => x.id !== id);
     const check_data = addons.map((x: any) => {
       if (x.id === id) {
@@ -410,7 +426,8 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
     setOptionsAddons(data);
   };
 
-  const handleChargeDelete = (id: string) => {
+  const handleChargeDelete = (id: string, mapping_id: string | any) => {
+    mapping_id && setDeleteCharges(mapping_id);
     const data = planCharge.filter((x: any) => x.id !== id);
     const check_data = charges.map((x: any) => {
       if (x.id === id) {
@@ -536,7 +553,7 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
                   />
                 </Box>
               </Grid>
-              {SqureText.map((x: any, index) => {
+              {SqureText.map((x: squareText, index) => {
                 const check_value = addEditPlan[x.key];
                 return (
                   <Grid item key={index}>
@@ -654,12 +671,14 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
           onSecondaryClick={() => handleDrawerOpen('feature')}
           content={
             <>
-              {planFeature.map((feature, index) => {
+              {planFeature.map((feature: any, index) => {
                 return (
                   <Box key={index}>
                     <CreatePlanCard
                       onChange={(inner_id: string, value: any) => handleFeatures(feature.id, inner_id, value)}
-                      onDelete={(feature_id: string) => handleDeleteFeature(feature_id, feature.id)}
+                      onDelete={(feature_id: string, feature_mapping_id: string) =>
+                        handleDeleteFeature(feature_id, feature.id, feature?.plan_feature_mapping_id)
+                      }
                       title={feature?.name}
                       subTitle={feature.feature}
                     />
@@ -669,7 +688,9 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
               {planUngroupedFeature.length > 0 && (
                 <CreatePlanCard
                   onChange={(inner_id: string, value: any) => handleUnGroupedFeature(inner_id, value)}
-                  onDelete={(feature_id: string) => handleDeleteUnGroupedFeature(feature_id)}
+                  onDelete={(feature_id: string, feature_mapping_id: string) =>
+                    handleDeleteUnGroupedFeature(feature_id, feature_mapping_id)
+                  }
                   title={''}
                   subTitle={planUngroupedFeature}
                 />
@@ -691,7 +712,7 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
                 isLast={index !== planAddOn.length - 1}
                 ListAddons={add_on}
                 onChange={(key, value, innerkey) => handleAddons(key, value, innerkey)}
-                handleDelete={() => handleAddOnDelete(add_on.id)}
+                handleDelete={() => handleAddOnDelete(add_on.id, add_on.plan_add_on_mapping_id)}
               />
             );
           })}
@@ -709,7 +730,7 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
                   <Box sx={createPlanStyle.align}>
                     <Typography sx={createPlanStyle.firstTextdark}>{charge.name}</Typography>
                     <CloseRedIcon
-                      onClick={() => handleChargeDelete(charge.id)}
+                      onClick={() => handleChargeDelete(charge.id, charge.plan_charge_mapping_id)}
                       rootStyle={{ width: '17px', height: '17px', cursor: 'pointer' }}
                     />
                   </Box>
@@ -783,9 +804,6 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
                     }
                   });
                 });
-                // console.log(planCharge);
-                // console.log(optionscharges);
-                // console.log(opt_charge);
                 setCharge(opt_charge);
                 handleDrawerClose('charges');
               }}
@@ -848,9 +866,6 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
                     }
                   });
                 });
-                console.log(planAddOn);
-                console.log(optionsaddons);
-                console.log(opt_addon);
                 setAddOn(opt_addon);
                 handleDrawerClose('add_ons');
               }}
@@ -910,9 +925,6 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
                     }
                   });
                 });
-                console.clear();
-                console.log(optionsfeatureList);
-                console.log(data);
                 setPlanFeature(optionsfeatureList, 0);
                 setFormErrors({ ...formErrors, features: '' });
                 handleDrawerClose('featureGroup');
@@ -965,8 +977,18 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
               fullWidth={false}
               size={'small'}
               onClick={() => {
+                const opt_ungroup_feature = optionsungroupedFeatureList;
+                opt_ungroup_feature.map((z: any) => {
+                  planUngroupedFeature.map((x: any) => {
+                    if (x.id === z.id) {
+                      z.limit_count = x.limit_count;
+                      z.user_value = x.limit_count > 0 ? 'limited' : 'unlimited';
+                      // z.checked = true;
+                    }
+                  });
+                });
                 setFormErrors({ ...formErrors, features: '' });
-                setUngroupedFeature(optionsungroupedFeatureList);
+                setUngroupedFeature(opt_ungroup_feature);
                 handleDrawerClose('feature');
               }}
               sx={createPlanStyle.saveButton}

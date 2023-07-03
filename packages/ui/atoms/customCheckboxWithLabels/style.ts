@@ -11,5 +11,6 @@ export const customCheckboxWithLabelsStyle: CustomCheckboxWithLabelsStyleProps =
   },
   typographyTxt: {
     fontSize: '12px',
+    lineHeight: 0.5,
   },
 };

@@ -51,12 +51,14 @@ export const Plans = (props: PlansProps): JSX.Element => {
       if (temp_group.length <= 0) {
         temp_group.push({
           id: grp.feature_group.id,
+          plan_feature_mapping_id: grp.id,
           name: grp.feature_group.name,
           feature: [],
         });
       } else if (temp_group.find((temp: any) => temp?.id === grp?.feature_group?.id) === undefined) {
         temp_group.push({
           id: grp.feature_group.id,
+          plan_feature_mapping_id: grp.id,
           name: grp.feature_group.name,
           feature: [],
         });
@@ -84,6 +86,7 @@ export const Plans = (props: PlansProps): JSX.Element => {
         return {
           id: feature.feature.id,
           name: feature.feature.name,
+          plan_feature_mapping_id: feature.id,
           user_value: feature.limit_count > 0 ? 'limited' : 'unlimited',
           limit_count: feature.limit_count,
         };
@@ -91,21 +94,24 @@ export const Plans = (props: PlansProps): JSX.Element => {
 
     setUngroupedFeature(ungroupped_feature);
 
-    // console.log(feature_group_all, ungroupped_feature);
+    console.log(data.plan_data.plan_add_on_mappings);
     const add_on = data.plan_data.plan_add_on_mappings.map((plan_addon: any) => {
       return {
         id: plan_addon.add_on.id,
+        plan_add_on_mapping_id: plan_addon.id,
         name: plan_addon.add_on.name,
         price: plan_addon.price,
         value: plan_addon.limit_count > 0 ? 'limited' : 'unlimited',
         limit_count: plan_addon.limit_count,
       };
     });
+    console.log(add_on);
     setAddOn(add_on);
     const charges = data.plan_data.plan_charge_mappings.map((charge: any) => {
       return {
         id: charge.charge.id,
         name: charge.charge.name,
+        plan_charge_mapping_id: charge.id,
         price: charge?.price,
       };
     });
@@ -239,6 +245,11 @@ export const Plans = (props: PlansProps): JSX.Element => {
               stickyHeader: true,
               stickyLeft: ['checkbox'],
               stickyRight: ['is_active', 'action'],
+            }}
+            paginationOption={{
+              isEnable: true,
+              rowPerPage: 10,
+              rowsPerPageOptions: [5, 10, 25],
             }}
             tableMinHeight={'calc(100vh - 167px)'}
             tableMaxHeight={'calc(100vh - 167px)'}

@@ -583,6 +583,7 @@ export interface Plans {
 interface Charge {
   id: string;
   name?: string;
+  plan_charge_mapping_id?: string;
   price: number;
 }
 
@@ -591,11 +592,13 @@ export interface Feature {
   name?: string;
   user_value?: string;
   limit_count: number | string;
+  plan_feature_mapping_id?: string;
 }
 
 export interface GroupFeature {
   id: string;
   name?: string;
+  plan_feature_mapping_id?: string;
   feature: Feature[];
 }
 
@@ -606,10 +609,15 @@ export interface AddOns {
     monthly: number;
     yearly: number;
   };
+  plan_add_on_mapping_id?: string;
   limit_count: number;
 }
 
-export interface AddEditPlans {
+interface IObjectKeys {
+  [key: string]: string | number | boolean | any;
+}
+
+export interface AddEditPlans extends IObjectKeys {
   plan_id?: string;
   name: string;
   description: string;
@@ -637,8 +645,21 @@ export interface PlansInterface {
   planUngroupedFeature: Feature[];
   planAddOn: AddOns[];
   planCharge: Charge[];
+  deleteAddOn: any[];
+  deleteCharge: any[];
+  deleteFeature: any[];
+  deleteGroupFeature: any[];
   fetching: boolean;
   errorOnFetch: boolean;
+
+  featureList: any[];
+  ungroupedFeatureList: any[];
+  addons: any[];
+  charges: any[];
+  optionsfeatureList: any[];
+  optionsungroupedFeatureList: any[];
+  optionsaddons: any[];
+  optionscharges: any[];
 
   getPayload: () => void;
   setPlanList: (key: any, value: any, array_key?: string) => void;
@@ -654,6 +675,19 @@ export interface PlansInterface {
   deletePlan: (x: any) => void;
   editPlanStatus: (id: any, status: any) => void;
   clearAll: () => void;
+  setDeleteAddon: (id: string) => void;
+  setDeleteCharges: (id: string) => void;
+  setDeleteFeatures: (id: string) => void;
+  setDeleteGroupFeature: (id: string) => void;
+
+  setFeatureList: (x: any) => void;
+  setUnGroupedFeatureList: (x: any) => void;
+  setAddOns: (x: any) => void;
+  setCharges: (x: any) => void;
+  setOptionsFeatureList: (x: any) => void;
+  setOptionsUngroupedFeatureList: (x: any) => void;
+  setOptionsAddons: (x: any) => void;
+  setOptionsCharges: (x: any) => void;
 }
 export interface FeatureKey {
   name: string;

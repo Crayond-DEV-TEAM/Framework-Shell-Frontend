@@ -11,13 +11,21 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
   fetching: false,
   errorOnFetching: false,
 
+  addsave: false,
+  editsave: false,
+  deletefetch: false,
+
   createEditAddOns: {
     name: '',
     id: '',
     is_active: true,
-    features: '',
+    features: {
+      id: '',
+    },
     description: '',
-    featuregroup: '',
+    featuregroup: {
+      id: '',
+    },
   },
 
   setAddOnsList: (key: string, value: boolean | string) => {
@@ -66,14 +74,14 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
       });
   },
   createAddOns: () => {
-    set({ fetching: true, errorOnFetching: false });
+    set({ addsave: true, errorOnFetching: false });
     const { createEditAddOns, getAddOnsList, clearAll } = get();
     const payload = {
       name: createEditAddOns.name,
       is_active: createEditAddOns.is_active,
-      feature_id: createEditAddOns.features.id,
+      feature_id: (createEditAddOns.features as { id: string }).id,
       description: createEditAddOns.description,
-      feature_group_id: createEditAddOns.featuregroup.id,
+      feature_group_id: (createEditAddOns.featuregroup as { id: string }).id,
     };
 
     httpRequest('post', `${envConfig.api_url}/addons/create`, payload, true)
@@ -85,7 +93,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
-        set({ fetching: false });
+        set({ addsave: false });
         clearAll();
         getAddOnsList();
       });
@@ -94,14 +102,14 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
     set((state) => ({ createEditAddOns: { ...data } }));
   },
   editAddOns: () => {
-    set({ fetching: true, errorOnFetching: false });
+    set({ editsave: true, errorOnFetching: false });
     const { createEditAddOns, getAddOnsList, clearAll } = get();
     const payload = {
-      features: createEditAddOns.features.id,
+      feature_id: (createEditAddOns.features as { id: string }).id,
       name: createEditAddOns.name,
       is_active: createEditAddOns.is_active,
       description: createEditAddOns.description,
-      feature_group_id: createEditAddOns.featuregroup.id,
+      feature_group_id: (createEditAddOns.featuregroup as { id: string }).id,
       addon_id: createEditAddOns.id,
     };
 
@@ -114,13 +122,13 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
-        set({ fetching: false });
+        set({ editsave: false });
         clearAll();
         getAddOnsList();
       });
   },
   deleteAddOns: (id: string) => {
-    set({ fetching: true, errorOnFetching: false });
+    set({ deletefetch: true, errorOnFetching: false });
     const { getAddOnsList } = get();
     const payload = {
       addon_id: id,
@@ -135,7 +143,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
-        set({ fetching: false });
+        set({ deletefetch: false });
         getAddOnsList();
       });
   },
@@ -166,9 +174,13 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
         name: '',
         id: '',
         is_active: true,
-        features: '',
+        features: {
+          id: '',
+        },
         description: '',
-        featuregroup: '',
+        featuregroup: {
+          id: '',
+        },
       },
     });
   },

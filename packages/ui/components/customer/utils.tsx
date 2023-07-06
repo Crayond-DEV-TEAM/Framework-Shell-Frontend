@@ -23,10 +23,10 @@ export const Header = [
     isSortable: true,
   },
   {
-    id: 'adminname',
+    id: 'customerName',
     align: 'left',
     disablePadding: false,
-    label: 'Admin name',
+    label: 'Customer name',
     isSortable: true,
   },
   {
@@ -34,13 +34,6 @@ export const Header = [
     align: 'left',
     disablePadding: false,
     label: 'Email',
-  },
-  {
-    id: 'currentplan',
-    align: 'left',
-    disablePadding: false,
-    label: 'Current plan',
-    isSortable: false,
   },
   {
     id: 'is_active',
@@ -60,10 +53,8 @@ export const tableData = (editHandel: (id: string, data: any, e: any) => void, d
   { type: ['CHECKBOX'], name: 'checkbox' },
   { type: ['TEXT'], name: 'customerid' },
   { type: ['TEXT'], name: 'companyName' },
-  { type: ['TEXT'], name: 'adminname' },
+  { type: ['TEXT'], name: 'customerName' },
   { type: ['TEXT'], name: 'email' },
-
-  { type: ['LABEL'], name: 'currentplan' },
   {
     type: ['SWITCH'],
     name: 'is_active',
@@ -89,16 +80,8 @@ export const tableJson = [
   {
     customerid: 'id-3409',
     companyName: '123 neque',
-    adminname: 'Brandon Sanders',
+    customerName: 'Brandon Sanders',
     email: 'george.barrett@mail.com',
-    currentplan: [
-      {
-        label: 'Basic plan',
-        color: '#305AAE',
-        bgColor: '#E2EAFA',
-      },
-    ],
-    id: '1',
     status: true,
   },
   {

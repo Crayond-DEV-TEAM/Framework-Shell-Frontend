@@ -29,6 +29,9 @@ export const Charges = (props: ChargesProps): JSX.Element => {
     setChargesList,
     deleteCharges,
     editCharges,
+    addsave,
+    editsave,
+    deletefetch,
   } = useCharges();
   const [values, setValues] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -261,6 +264,7 @@ export const Charges = (props: ChargesProps): JSX.Element => {
             SwitchChange={(e) => {
               handleAddEditStateChange('is_active', e.target.checked);
             }}
+            disabled={savedes === true ? editsave : addsave}
             checked={createEditCharges.is_active}
             saveButtonStyle={{ minWidth: '90px', height: '28px' }}
             onCancel={handleClose}
@@ -268,7 +272,7 @@ export const Charges = (props: ChargesProps): JSX.Element => {
           />
         }
       />
-      <DeleteComponent openCommand={del} onCancel={onCancel} onDelete={handleChargedelete} />
+      <DeleteComponent openCommand={del} onCancel={onCancel} disabled={deletefetch} onDelete={handleChargedelete} />
     </Box>
   );
 };

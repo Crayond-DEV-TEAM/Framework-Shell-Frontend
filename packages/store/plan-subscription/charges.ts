@@ -9,6 +9,10 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
   fetching: false,
   errorOnFetching: false,
 
+  addsave: false,
+  editsave: false,
+  deletefetch: false,
+
   createEditCharges: {
     name: '',
     id: '',
@@ -60,7 +64,7 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
       });
   },
   createCharges: () => {
-    set({ fetching: true, errorOnFetching: false });
+    set({ addsave: true, errorOnFetching: false });
     const { createEditCharges, getChargesList, clearAll } = get();
     const payload = {
       name: createEditCharges.name,
@@ -77,7 +81,7 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
-        set({ fetching: false });
+        set({ addsave: false });
         clearAll();
         getChargesList();
       });
@@ -86,7 +90,7 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
     set((state) => ({ createEditCharges: { ...data } }));
   },
   editCharges: () => {
-    set({ fetching: true, errorOnFetching: false });
+    set({ editsave: true, errorOnFetching: false });
     const { createEditCharges, getChargesList, clearAll } = get();
     const payload = {
       charge_id: createEditCharges.id,
@@ -104,13 +108,13 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
-        set({ fetching: false });
+        set({ editsave: false });
         clearAll();
         getChargesList();
       });
   },
   deleteCharges: (id: string) => {
-    set({ fetching: true, errorOnFetching: false });
+    set({ deletefetch: true, errorOnFetching: false });
     const { getChargesList } = get();
     const payload = {
       charge_id: id,
@@ -125,7 +129,7 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
-        set({ fetching: false });
+        set({ deletefetch: false });
         getChargesList();
       });
   },

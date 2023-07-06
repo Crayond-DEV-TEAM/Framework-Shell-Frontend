@@ -4,3 +4,5 @@ export { useCustomer } from './customer';
 export { useFeature } from './feature';
 export { useFeatureGroup } from './featuregroup';
 export { usePlans } from './plans';
+export { usePlan } from './planstemporary';
+export { useSubscription } from './subscription';

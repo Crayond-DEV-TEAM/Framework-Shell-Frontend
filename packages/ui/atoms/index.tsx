@@ -21,6 +21,7 @@ export { JsonViewer } from './jsonViewer';
 export { Label } from './label';
 export { LanguageCard } from './languageCard';
 export { MessageCard } from './messageCard';
+export { PlanEffective } from './planEffective';
 export { PlanModalCard } from './planModalCard';
 export { SearchBox } from './searchbox';
 export { SideBar } from './sideBar';

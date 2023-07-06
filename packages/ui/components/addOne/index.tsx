@@ -28,6 +28,9 @@ export const AddOne = (props: AddOneProps): JSX.Element => {
     getStatusList,
     updateEditData,
     clearAll,
+    addsave,
+    editsave,
+    deletefetch,
   } = useAddOns();
   const { FeatureGroupList, getFeatureGroupList } = useFeatureGroup();
   const [values, setValues] = useState(false);
@@ -238,6 +241,7 @@ export const AddOne = (props: AddOneProps): JSX.Element => {
             SwitchChange={(e) => {
               handleCreateAddedit('is_active', e.target.checked);
             }}
+            disabled={editname === true ? editsave : addsave}
             checked={createEditAddOns.is_active}
             saveButtonStyle={{ minWidth: '90px', height: '28px' }}
             onSave={editname === true ? handleEditAddon : handleCreateAddon}
@@ -245,7 +249,7 @@ export const AddOne = (props: AddOneProps): JSX.Element => {
           />
         }
       />
-      <DeleteComponent openCommand={del} onCancel={onClose} onDelete={handleDeleteAddon} />
+      <DeleteComponent openCommand={del} onCancel={onClose} disabled={deletefetch} onDelete={handleDeleteAddon} />
     </Box>
   );
 };

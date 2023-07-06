@@ -11,12 +11,18 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
   fetching: false,
   errorOnFetching: false,
 
+  addsave: false,
+  editsave: false,
+  deletefetch: false,
+
   createEditFeatureGroup: {
     name: '',
     id: '',
     is_active: true,
     features: [],
     description: '',
+    deletedFeature: [],
+    addedFeature: [],
   },
 
   setFeatureGroupList: (key: string, value: boolean | string) => {
@@ -27,7 +33,7 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
     set({ fetching: true, errorOnFetching: false });
     const payload: any = {
       offset: 0,
-      limit: 50,
+      limit: 100,
     };
 
     if (data.is_acive === true) {
@@ -64,7 +70,7 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
       });
   },
   createFeatureGroup: () => {
-    set({ fetching: true, errorOnFetching: false });
+    set({ addsave: true, errorOnFetching: false });
     const { createEditFeatureGroup, getFeatureGroupList, clearAll } = get();
     const payload = {
       name: createEditFeatureGroup.name,
@@ -82,7 +88,7 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
-        set({ fetching: false });
+        set({ addsave: false });
         clearAll();
         getFeatureGroupList();
       });
@@ -91,14 +97,16 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
     set((state) => ({ createEditFeatureGroup: { ...data } }));
   },
   editFeatureGroup: () => {
-    set({ fetching: true, errorOnFetching: false });
+    set({ editsave: true, errorOnFetching: false });
     const { createEditFeatureGroup, getFeatureGroupList, clearAll } = get();
     const payload = {
-      features: createEditFeatureGroup.features?.map((x: any) => x.id),
+      // features: createEditFeatureGroup.features?.map((x: any) => x.id),
       name: createEditFeatureGroup.name,
       is_active: createEditFeatureGroup.is_active,
       description: createEditFeatureGroup.description,
       feature_group_id: createEditFeatureGroup.id,
+      new_features: ['string'],
+      deleted_features: ['string'],
     };
 
     httpRequest('put', `${envConfig.api_url}/featureGroup`, payload, true)
@@ -110,13 +118,13 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
-        set({ fetching: false });
+        set({ editsave: false });
         clearAll();
         getFeatureGroupList();
       });
   },
   deleteFeatureGroup: (id: string) => {
-    set({ fetching: true, errorOnFetching: false });
+    set({ deletefetch: true, errorOnFetching: false });
     const { getFeatureGroupList } = get();
     const payload = {
       feature_group_id: id,
@@ -131,7 +139,7 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
-        set({ fetching: false });
+        set({ deletefetch: false });
         getFeatureGroupList();
       });
   },
@@ -163,6 +171,8 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
         id: '',
         is_active: false,
         features: [],
+        deletedFeature: [],
+        addedFeature: [],
         description: '',
       },
     });

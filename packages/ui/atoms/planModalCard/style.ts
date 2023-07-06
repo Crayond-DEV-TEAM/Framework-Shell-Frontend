@@ -8,6 +8,8 @@ export const planModalCardStyle: PlanModalCardStyleProps = {
   rootSx: {
     backgroundColor: '#F5F5F5',
     padding: '20px',
+    // backdropFilter: 'blur(10px)',
+    // filter: 'blur(4px)',
   },
   title: {
     fontSize: '12px',
@@ -28,6 +30,7 @@ export const planModalCardStyle: PlanModalCardStyleProps = {
   bottomText: {
     fontSize: '12px',
     color: '#818181',
+    textTransform: 'capitalize',
   },
   bottomAlign: {
     display: 'flex',

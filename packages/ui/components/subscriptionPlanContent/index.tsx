@@ -19,6 +19,7 @@ export interface SubscriptionPlanContentProps {
   activeSince?: string;
   users?: string;
   onClick?: any;
+  billingType?: string;
 }
 
 export const SubscriptionPlanContent = (props: SubscriptionPlanContentProps): JSX.Element => {
@@ -36,6 +37,7 @@ export const SubscriptionPlanContent = (props: SubscriptionPlanContentProps): JS
     activeSince = '',
     users = '',
     onClick,
+    billingType = '',
     ...rest
   } = props;
 
@@ -51,7 +53,7 @@ export const SubscriptionPlanContent = (props: SubscriptionPlanContentProps): JS
       {...rest}
     >
       <Grid container>
-        <Grid item xs={7} sm={7} md={7} lg={7} xl={7}>
+        <Grid item xs={12} sm={12} md={12} lg={7} xl={7}>
           <Box sx={subscriptionPlanContentStyle.align}>
             <Box>
               <Box sx={subscriptionPlanContentStyle.alignNoSpace}>
@@ -80,7 +82,7 @@ export const SubscriptionPlanContent = (props: SubscriptionPlanContentProps): JS
             </Box>
             <Box sx={subscriptionPlanContentStyle.amountBg}>
               <Typography sx={{ fontWeight: 600, fontSize: '22px' }}>${planCost}</Typography>
-              <Typography sx={{ fontWeight: 600, fontSize: '12px' }}>Per Month</Typography>
+              <Typography sx={{ fontWeight: 600, fontSize: '12px' }}>Per {billingType}</Typography>
             </Box>
           </Box>
           {withUpgrade && (
@@ -89,12 +91,12 @@ export const SubscriptionPlanContent = (props: SubscriptionPlanContentProps): JS
               <Typography sx={subscriptionPlanContentStyle.keyItem}>{users} users</Typography>
               <Box sx={subscriptionPlanContentStyle.redot} />
               <CalenderPlan rootStyle={{ width: '21px', height: '21px', mr: '5px' }} />
-              <Typography sx={subscriptionPlanContentStyle.keyItem}>yearly</Typography>
+              <Typography sx={subscriptionPlanContentStyle.keyItem}>{billingType}</Typography>
             </Box>
           )}
         </Grid>
         <Box sx={{ borderRight: '2px solid #D7E6E2', margin: '0px 24px' }} />
-        <Grid item xs={4} sm={4} md={4} lg={4} xl={4} sx={subscriptionPlanContentStyle.sectionTwo}>
+        <Grid item xs={12} sm={12} md={12} lg={4} xl={4} sx={subscriptionPlanContentStyle.sectionTwo}>
           <Typography sx={subscriptionPlanContentStyle.totalrevenue}>Total Revenue</Typography>
           <Typography sx={subscriptionPlanContentStyle.rate}>${totalRevenue}</Typography>
           <Box sx={subscriptionPlanContentStyle.alignNoSpaceCenter}>

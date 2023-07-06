@@ -9,17 +9,21 @@ export interface InvoiceTableProps {
   className?: string;
   sx?: SxProps<Theme>;
   onClick?: any;
+  TicketSubscription?: any;
 }
 
 export const InvoiceTable = (props: InvoiceTableProps): JSX.Element => {
-  const { className = '', sx = {}, onClick, ...rest } = props;
-  const handletableLink = () => {
-    console.log('////');
+  const { className = '', sx = {}, onClick, TicketSubscription, ...rest } = props;
+
+  const handletableLink = (id: string) => {
+    console.log(TicketSubscription, '////');
     onClick();
   };
-  const handletableDownload = () => {
+  const handletableDownload = (id: string) => {
     console.log('////');
   };
+
+  // const tableData = () => {};
 
   return (
     <Box
@@ -35,7 +39,7 @@ export const InvoiceTable = (props: InvoiceTableProps): JSX.Element => {
       <Box sx={invoiceTableStyle.commonTable}>
         <CommonTable
           Header={Header}
-          dataList={tableJson}
+          dataList={TicketSubscription}
           tableData={tableData(handletableLink, handletableDownload)}
           // switchList={switchList}
           // handleSwitch={handleSwitch}

@@ -28,6 +28,9 @@ export const FeatureGroups = (props: FeatureGroupsProps): JSX.Element => {
     setFeatureGroupList,
     createEditFeatureGroup,
     updateEditData,
+    addsave,
+    editsave,
+    deletefetch,
   } = useFeatureGroup();
   const { FeatureList, getFeatureList } = useFeature();
   const [values, setValues] = useState(false);
@@ -149,7 +152,6 @@ export const FeatureGroups = (props: FeatureGroupsProps): JSX.Element => {
   useEffect(() => {
     handleStatus();
   }, [FeatureGroupList]);
-  console.log(createEditFeatureGroup, ';;;;');
   return (
     <Box
       sx={[
@@ -232,6 +234,7 @@ export const FeatureGroups = (props: FeatureGroupsProps): JSX.Element => {
             SwitchChange={(e) => {
               handleAddEditStateChange('is_active', e.target.checked);
             }}
+            disabled={editData === true ? editsave : addsave}
             checked={createEditFeatureGroup.is_active}
             saveButtonStyle={{ minWidth: '90px', height: '28px' }}
             onCancel={handleClose}
@@ -239,7 +242,12 @@ export const FeatureGroups = (props: FeatureGroupsProps): JSX.Element => {
           />
         }
       />
-      <DeleteComponent openCommand={del} onCancel={handleDeleteClose} onDelete={handleDeleteFeatureGroup} />
+      <DeleteComponent
+        openCommand={del}
+        disabled={deletefetch}
+        onCancel={handleDeleteClose}
+        onDelete={handleDeleteFeatureGroup}
+      />
     </Box>
   );
 };

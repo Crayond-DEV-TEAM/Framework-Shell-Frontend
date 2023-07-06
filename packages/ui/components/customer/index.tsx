@@ -2,7 +2,7 @@ import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { CommonTable } from 'crayond-components-library-1';
 import { customerStyle } from './style';
-import { TableHeader } from '..';
+import { DeleteComponent, TableHeader } from '..';
 import { useEffect, useState } from 'react';
 import { Header, tableData, tableJson } from './utils';
 import { useCustomer } from '@core/store';
@@ -16,23 +16,55 @@ export interface CustomerProps {
 
 export const Customer = (props: CustomerProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
-  const { CustomerList } = useCustomer();
+  const {
+    CustomerList,
+    getCustomerList,
+    deleteCustomer,
+    updateEditData,
+    seteditadd,
+    getStatusList,
+    deletefetch,
+    addsave,
+    editsave,
+  } = useCustomer();
   const [searchTerm, setSearchTerm] = useState('');
   const [switchList, setSwitchList] = useState<any>([]);
+  const [del, setDel] = useState(false);
+  const [deleteid, setDeleteid] = useState('');
   const navigate = useNavigate();
-  const filteredMessageGroup = tableJson.filter((x: any) =>
-    x.companyName?.toLowerCase()?.includes(searchTerm.toLowerCase()),
+  const filteredMessageGroup = CustomerList.filter((x: any) =>
+    x.customerName?.toLowerCase()?.includes(searchTerm.toLowerCase()),
   );
   const handleTableDelete = (id: string) => {
-    // debugger;
-    // setSelected(true);
-    // setidRole(id);
+    setDeleteid(id);
+    setDel(true);
   };
+  const onDelete = () => {
+    deleteCustomer(deleteid);
+    setDel(false);
+  };
+
   const handleTableEdit = (id: string, data: any, e: any) => {
-    navigate(planSubscriptionRoutes.customerDetail);
+    // debugger;
+    const updateData = {
+      name: data.customerName,
+      email_id: data.email,
+      contact_number: data.dataList.contact_number,
+      company_name: data.companyName,
+      address_line: data.dataList.address.address_line,
+      city: data.dataList.address.city,
+      state: data.dataList.address.state,
+      country: data.dataList.address.country,
+      pincode: data.dataList.address.pincode,
+      is_active: data.dataList.is_active,
+      id: id,
+    };
+    updateEditData(updateData);
+    seteditadd(true);
     // debugger;
     // setSelected(true);
     // setidRole(id);
+    navigate(planSubscriptionRoutes.createCustomer);
   };
   const handleSwitch = (id: any, data: any, e: any) => {
     if (!switchList.includes(id)) {
@@ -44,17 +76,36 @@ export const Customer = (props: CustomerProps): JSX.Element => {
         setSwitchList([...switchList]);
       }
     }
-    // if (e.target.checked === true) {
-    //   console.log(id);
-    //   getStatusList(id, true);
-    // } else {
-    //   console.log(id);
-    //   getStatusList(id, false);
-    // }
+    if (e.target.checked === true) {
+      console.log(id);
+      getStatusList(id, true);
+    } else {
+      console.log(id);
+      getStatusList(id, false);
+    }
   };
+  const handleStatus = () => {
+    if (CustomerList?.length > 0) {
+      const status = CustomerList?.filter((val: any) => val?.is_active === true)?.map((val: any) => val?.id);
+      setSwitchList(status);
+    }
+  };
+  console.log(switchList, 'switchListswitchListswitchList');
   const handleOpen = () => {
     navigate(planSubscriptionRoutes.createCustomer);
+    seteditadd(false);
   };
+  const onClose = () => {
+    seteditadd(false);
+  };
+  useEffect(() => {
+    getCustomerList();
+  }, []);
+  useEffect(() => {
+    handleStatus();
+  }, [CustomerList]);
+
+  console.log(CustomerList, '/////');
 
   return (
     <Box
@@ -74,7 +125,6 @@ export const Customer = (props: CustomerProps): JSX.Element => {
         setSearchTerm={setSearchTerm}
         searchTerm={searchTerm}
         handleOpen={handleOpen}
-        // editTableMessage={addRole}
       />
       <Box sx={{ margin: '17px' }} />
       <Box sx={customerStyle.commonTable}>
@@ -118,6 +168,7 @@ export const Customer = (props: CustomerProps): JSX.Element => {
           dense={'small'}
         />
       </Box>
+      <DeleteComponent openCommand={del} onCancel={onClose} onDelete={onDelete} disabled={deletefetch} />
     </Box>
   );
 };

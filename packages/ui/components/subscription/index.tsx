@@ -4,8 +4,8 @@ import { CommonTable } from 'crayond-components-library-1';
 
 import { subscriptionStyle } from './style';
 import { Header, tableData, tableJson } from './utils';
-import { useState } from 'react';
-import { MapSubscriptionPlanTransfer, TableHeader } from '..';
+import { useState, useEffect } from 'react';
+import { DeleteComponent, MapSubscriptionPlanTransfer, TableHeader } from '..';
 import { DialogDrawer } from '@atoms/dialogDrawer';
 import { FooterComponent } from '@atoms/footerComponent';
 import { SearchIcon } from '@atoms/icons';
@@ -13,6 +13,8 @@ import { Input } from '@atoms/input';
 import { CustomerModalCard } from '@atoms/customerModalCard';
 import { planSubscriptionRoutes } from '@core/routes';
 import { useNavigate } from 'react-router-dom';
+import { useAddOns, useCustomer, useSubscription } from '@core/store';
+import { usePlan } from '@core/store/plan-subscription';
 
 export interface SubscriptionProps {
   className?: string;
@@ -22,23 +24,105 @@ export interface SubscriptionProps {
 export const Subscription = (props: SubscriptionProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchComp, setSearchComp] = useState('');
   const [switchList, setSwitchList] = useState<any>([]);
   const [cardOpen, setCardOpen] = useState(false);
   const [planControl, setPlanControl] = useState(false);
+  const [cardIndex, setCardIndex] = useState<number | null>(null);
+  const [del, setDel] = useState(false);
+  const [delId, setDelId] = useState('');
   const navigate = useNavigate();
-  const filteredMessageGroup = tableJson.filter((x: any) =>
+  const {
+    getSubscriptionList,
+    setSubscriptionList,
+    createEditSubscription,
+    createSubscription,
+    editSubscription,
+    deleteSubscription,
+    updateEditData,
+    SubscriptionList,
+    deletefetch,
+    getStatusList,
+    fetchSubscription,
+    setTicketSubscription,
+    clearAll,
+  } = useSubscription();
+  const { CustomerList, getCustomerList } = useCustomer();
+  const { getPlanList, PlanList } = usePlan();
+  const [formErrors, setFormErrors] = useState({});
+  const [cardformError, setFormcardError] = useState({});
+  const filteredMessageGroup = SubscriptionList.filter((x: any) =>
     x.companyName?.toLowerCase()?.includes(searchTerm.toLowerCase()),
   );
+
+  console.log(PlanList, 'PlanListPlanListPlanList');
+
+  const filteredCompanyList = CustomerList.filter((x: any) =>
+    x.email?.toLowerCase()?.includes(searchComp.toLowerCase()),
+  );
+
+  const validateCard = () => {
+    const errors: Record<string, string> = {};
+    if (createEditSubscription.customer_id.length === 0) {
+      errors.card = 'please select company';
+    }
+    setFormcardError(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  console.log(createEditSubscription, 'createEditSubscriptioncreateEditSubscription');
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (createEditSubscription.plan_id.length === 0) {
+      errors.plan_id = 'Plan is required';
+    }
+    if (createEditSubscription.billing_type.length === 0) {
+      errors.billing_type = 'Billing type is required';
+    }
+
+    setFormErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
+
   const handleTableDelete = (id: string) => {
-    // debugger;
-    // setSelected(true);
-    // setidRole(id);
+    setDelId(id);
+    setDel(true);
+    // deleteSubscription(id);
+  };
+  const handleTableDetail = (id: string, data: any, e: any) => {
+    setTicketSubscription(data);
+    navigate(planSubscriptionRoutes.subscriptiondetails);
   };
   const handleTableEdit = (id: string, data: any, e: any) => {
-    navigate(planSubscriptionRoutes.subscriptiondetails);
-    // debugger;
-    // setSelected(true);
-    // setidRole(id);
+    setTicketSubscription(data);
+    fetchSubscription(id);
+    const updateData = {
+      customer_id: data.data.customer.id,
+      plan_id: data.data.plan,
+      is_active: data.is_active,
+      // old_addon: data.data.subscription_add_on_mappings,
+      add_on: data.data.subscription_add_on_mappings,
+      billing_type: data.data.subscription_billings?.map((x: any) => x.billing_type)[0]
+        ? { name: data.data.subscription_billings?.map((x: any) => x.billing_type)[0] }
+        : '',
+      actual_price: data.data.subscription_billings?.[0]?.actual_price,
+      price_paid: data.data.subscription_billings?.price_paid,
+      is_plan_effective: data.data.is_plan_effective,
+      id: id,
+      new_addon: [],
+      old_addon: [],
+    };
+    updateEditData(updateData);
+    setPlanControl(true);
+  };
+  const handleDelete = () => {
+    deleteSubscription(delId);
+    setDel(false);
+  };
+  const OnClose = () => {
+    setDel(false);
   };
   const handleSwitch = (id: any, data: any, e: any) => {
     if (!switchList.includes(id)) {
@@ -50,30 +134,74 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
         setSwitchList([...switchList]);
       }
     }
-    // if (e.target.checked === true) {
-    //   console.log(id);
-    //   getStatusList(id, true);
-    // } else {
-    //   console.log(id);
-    //   getStatusList(id, false);
-    // }
+    if (e.target.checked === true) {
+      console.log(id);
+      getStatusList(id, true);
+    } else {
+      console.log(id);
+      getStatusList(id, false);
+    }
+  };
+
+  const handleChangeEvent = (key: string, value: any) => {
+    setSubscriptionList(key, value);
   };
   const handleMapclose = () => {
     setCardOpen(false);
+    setCardIndex(null);
+    clearAll();
   };
   const handleMapopen = () => {
     setCardOpen(true);
   };
 
   const handlePlanOpen = () => {
-    setPlanControl(true);
+    const cardIsValid = validateCard();
+    if (cardIsValid) {
+      fetchSubscription(createEditSubscription.customer_id);
+      setPlanControl(true);
+    }
   };
   const handlePlanClose = () => {
     setPlanControl(false);
+    handleMapclose();
+    clearAll();
   };
   const onSaveSubscription = () => {
-    navigate(planSubscriptionRoutes.subscriptiondetails);
+    if (
+      createEditSubscription.id !== null &&
+      createEditSubscription.id !== undefined &&
+      String(createEditSubscription.id).trim().length > 0
+    ) {
+      editSubscription();
+    } else {
+      createSubscription();
+    }
+
+    handlePlanClose();
+    handleMapclose();
+    setCardIndex(null);
   };
+
+  const handleCardClick = (index: number, data: any) => {
+    setCardIndex(index);
+    handleChangeEvent('customer_id', data.id);
+  };
+  const handleStatus = () => {
+    if (SubscriptionList?.length > 0) {
+      const status = SubscriptionList?.filter((val: any) => val?.is_active === true)?.map((val: any) => val?.id);
+      setSwitchList(status);
+    }
+  };
+
+  useEffect(() => {
+    getSubscriptionList();
+    getCustomerList();
+    getPlanList();
+  }, []);
+  useEffect(() => {
+    handleStatus();
+  }, [SubscriptionList]);
 
   return (
     <Box
@@ -100,7 +228,7 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
         <CommonTable
           Header={Header}
           dataList={filteredMessageGroup}
-          tableData={tableData(handleTableEdit, handleTableDelete)}
+          tableData={tableData(handleTableEdit, handleTableDelete, handleTableDetail)}
           switchList={switchList}
           handleSwitch={handleSwitch}
           headerOptions={{
@@ -144,15 +272,25 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
         Bodycomponent={
           <Box sx={{ p: '24px' }}>
             <Input
-              placeholder={'Search'}
-              // value={''}
-              // onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder={'Search Email'}
+              value={searchComp}
+              onChange={(e) => setSearchComp(e.target.value)}
               startAdornment={<SearchIcon rootStyle={{ width: '12px', height: '12px', color: '#818181', ml: 1 }} />}
             />
             <Box sx={{ m: '16px' }} />
-            <Box>
-              <CustomerModalCard />
-            </Box>
+            {filteredCompanyList.map((x: any, index: number) => (
+              <Box key={index} onClick={() => handleCardClick(index, x)}>
+                <CustomerModalCard
+                  companyName={x?.companyName}
+                  customerId={x?.customerid}
+                  email={x.email}
+                  customerName={x.customerName}
+                  selected={cardIndex}
+                  // filteredCompanyList={filteredCompanyList}
+                  sx={cardIndex === index ? subscriptionStyle.rootsSxSelected : subscriptionStyle.rootsSx}
+                />
+              </Box>
+            ))}
           </Box>
         }
         handleCloseDialog={handleMapclose}
@@ -170,7 +308,14 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
         maxModalWidth="xl"
         isDialogOpened={planControl}
         title={'Map Subscription'}
-        Bodycomponent={<MapSubscriptionPlanTransfer />}
+        Bodycomponent={
+          <MapSubscriptionPlanTransfer
+            AddOnsList={PlanList}
+            handleChangeEvent={handleChangeEvent}
+            createEditSubscription={createEditSubscription}
+            formErrors={formErrors}
+          />
+        }
         handleCloseDialog={handlePlanClose}
         dialogRootStyle={subscriptionStyle.dialogMapSx}
         Footercomponent={
@@ -179,9 +324,13 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
             saveButtonStyle={{ minWidth: '90px', height: '28px' }}
             onCancel={handlePlanClose}
             onSave={onSaveSubscription}
+            // onSwitching={handleChangeEvent('plan_effective_from', value)}
+            switching={true}
+            check={true}
           />
         }
       />
+      <DeleteComponent openCommand={del} onCancel={OnClose} onDelete={handleDelete} disabled={deletefetch} />
     </Box>
   );
 };

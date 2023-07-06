@@ -69,3 +69,5 @@ export { TabsValueCard } from './tabsValueCard';
 export { UserManagement } from './userManagement';
 
 export { DeleteComponent } from './deleteComponent';
+export { CreateCustomerForm } from './createCustomerForm';
+export { CreateFormDetails } from './createFormDetails';

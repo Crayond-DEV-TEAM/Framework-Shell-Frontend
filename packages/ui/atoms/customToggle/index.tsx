@@ -2,25 +2,38 @@ import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 
 import { customToggleStyle } from './style';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 export interface CustomToggleProps {
   className?: string;
   sx?: SxProps<Theme>;
+  value?: any[];
   tabOne?: string;
   tabTwo?: string;
+  handleChange?: (value: any) => void;
 }
 
 export const CustomToggle = (props: CustomToggleProps): JSX.Element => {
-  const { className = '', sx = {}, tabOne = 'one', tabTwo = 'two', ...rest } = props;
-  const [value, setValue] = useState(0);
+  const {
+    className = '',
+    sx = {},
+    value = [],
+    tabOne = 'one',
+    tabTwo = 'two',
+    handleChange = () => false,
+    ...rest
+  } = props;
+  const [toggle_value, setToggleValue] = useState<any>([]);
 
-  const handleDevices = (event: React.MouseEvent<HTMLElement>, newDevices: number) => {
-    // if (newDevices.length) {
-    setValue(newDevices);
-    // }
+  useEffect(() => {
+    setToggleValue(value);
+  }, []);
+
+  const handleDevices = (event: React.MouseEvent<HTMLElement>, newDevices: string) => {
+    setToggleValue(newDevices);
+    handleChange(newDevices);
   };
 
   return (
@@ -34,11 +47,16 @@ export const CustomToggle = (props: CustomToggleProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
-      <ToggleButtonGroup sx={customToggleStyle.buttonGrp} aria-label="device" value={value} onChange={handleDevices}>
-        <ToggleButton sx={customToggleStyle.btnEft} value="2" aria-label="laptop">
+      <ToggleButtonGroup
+        sx={customToggleStyle.buttonGrp}
+        aria-label="device"
+        value={toggle_value}
+        onChange={handleDevices}
+      >
+        <ToggleButton sx={customToggleStyle.btnEft} value={tabOne} aria-label="laptop">
           {tabOne}
         </ToggleButton>
-        <ToggleButton sx={customToggleStyle.btnEft} value="1" aria-label="phone">
+        <ToggleButton sx={customToggleStyle.btnEft} value={tabTwo} aria-label="phone">
           {tabTwo}
         </ToggleButton>
       </ToggleButtonGroup>

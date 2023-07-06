@@ -10,6 +10,7 @@ export const createPlanCardStyle: CreatePlanCardStyleProps = {
     borderRadius: '8px',
     padding: '16px',
     border: '1px solid #EAEAEA',
+    my: 1,
   },
   mainSx: {
     backgroundColor: '#FCFCFC',
@@ -29,6 +30,7 @@ export const createPlanCardStyle: CreatePlanCardStyleProps = {
   },
   secondText: {
     fontSize: '14px',
+    width: '100px',
   },
   align: {
     display: 'flex',
@@ -41,5 +43,12 @@ export const createPlanCardStyle: CreatePlanCardStyleProps = {
     pb: 2,
     fontWeight: '500',
     // mb: '6px',
+  },
+  typographyTxt: {
+    fontSize: '12px',
+  },
+  borderLine: {
+    border: '1px solid #EAEAEA',
+    margin: '16px 0px',
   },
 };

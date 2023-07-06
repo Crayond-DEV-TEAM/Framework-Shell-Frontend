@@ -568,6 +568,127 @@ export interface CustomerInterface {
 
   getCustomerList: () => void;
 }
+
+export interface Plans {
+  plan: string;
+  billing: string;
+  public: string;
+  activesubscriptions: number;
+  lastmodified: string;
+  status: boolean;
+  id: string;
+  plan_data: any;
+}
+
+interface Charge {
+  id: string;
+  name?: string;
+  plan_charge_mapping_id?: string;
+  price: number;
+}
+
+export interface Feature {
+  id: string;
+  name?: string;
+  user_value?: string;
+  limit_count: number | string;
+  plan_feature_mapping_id?: string;
+}
+
+export interface GroupFeature {
+  id: string;
+  name?: string;
+  plan_feature_mapping_id?: string;
+  feature: Feature[];
+}
+
+export interface AddOns {
+  id: string;
+  name?: string;
+  price: {
+    monthly: number;
+    yearly: number;
+  };
+  plan_add_on_mapping_id?: string;
+  limit_count: number;
+}
+
+interface IObjectKeys {
+  [key: string]: string | number | boolean | any;
+}
+
+export interface AddEditPlans extends IObjectKeys {
+  plan_id?: string;
+  name: string;
+  description: string;
+  is_plan_public: boolean;
+  is_recomended: boolean;
+  is_metered_billing: boolean;
+  is_active: boolean;
+  billing_period: string[];
+  price: {
+    monthly: number;
+    yearly: number;
+  };
+  is_per_user: boolean;
+  is_flat_fee: boolean;
+  billing_cycles: string;
+  feature: any[];
+  add_on: any[];
+  charge: any[];
+}
+
+export interface PlansInterface {
+  PlanList: Plans[];
+  addEditPlan: AddEditPlans;
+  planFeature: GroupFeature[];
+  planUngroupedFeature: Feature[];
+  planAddOn: AddOns[];
+  planCharge: Charge[];
+  deleteAddOn: any[];
+  deleteCharge: any[];
+  deleteFeature: any[];
+  deleteGroupFeature: any[];
+  fetching: boolean;
+  errorOnFetch: boolean;
+
+  featureList: any[];
+  ungroupedFeatureList: any[];
+  addons: any[];
+  charges: any[];
+  optionsfeatureList: any[];
+  optionsungroupedFeatureList: any[];
+  optionsaddons: any[];
+  optionscharges: any[];
+
+  getPayload: () => void;
+  setPlanList: (key: any, value: any, array_key?: string) => void;
+  setPlanFeature: (group: any, value: any) => void;
+  setBulkPlanList: (obj: any) => void;
+  setAddOn: (value: any) => void;
+  setCharge: (value: any) => void;
+  setExplicitPlanFeature: (group: any) => void;
+  setUngroupedFeature: (value: any) => void;
+  getPlansList: (x: any) => void;
+  addPlan: () => void;
+  editPlan: () => void;
+  deletePlan: (x: any) => void;
+  editPlanStatus: (id: any, status: any) => void;
+  clearAll: () => void;
+  setDeleteAddon: (id: string) => void;
+  setDeleteCharges: (id: string) => void;
+  setDeleteFeatures: (id: string) => void;
+  setDeleteGroupFeature: (id: string) => void;
+
+  setFeatureList: (x: any) => void;
+  setUnGroupedFeatureList: (x: any) => void;
+  setAddOns: (x: any) => void;
+  setCharges: (x: any) => void;
+  setOptionsFeatureList: (x: any) => void;
+  setOptionsUngroupedFeatureList: (x: any) => void;
+  setOptionsAddons: (x: any) => void;
+  setOptionsCharges: (x: any) => void;
+}
 export interface FeatureKey {
   name: string;
   is_active: boolean;
@@ -585,7 +706,7 @@ export interface FeatureInterface {
 
   updateEditData: (data: any) => void;
 
-  getFeatureList: () => void;
+  getFeatureList: (data?: any) => void;
   createFeature: () => void;
   editFeature: () => void;
   getStatusList: (id: any, status: any) => void;
@@ -599,6 +720,7 @@ export interface FeatureGroupKey {
   id?: string | undefined;
   features: string[];
   description?: string;
+  featureDetails?: any;
 }
 
 export interface FeatureGroupInterface {
@@ -612,7 +734,7 @@ export interface FeatureGroupInterface {
 
   updateEditData: (data: any) => void;
 
-  getFeatureGroupList: () => void;
+  getFeatureGroupList: (data?: any) => void;
   createFeatureGroup: () => void;
   editFeatureGroup: () => void;
   getStatusList: (id: any, status: any) => void;
@@ -625,7 +747,7 @@ export interface AddOnsKey {
   is_active: boolean;
   id?: string | undefined;
   features: string;
-  description?: string;
+  description: string;
   featuregroup: string;
 }
 
@@ -640,7 +762,7 @@ export interface AddOnsInterface {
 
   updateEditData: (data: any) => void;
 
-  getAddOnsList: () => void;
+  getAddOnsList: (data?: any) => void;
   createAddOns: () => void;
   editAddOns: () => void;
   getStatusList: (id: any, status: any) => void;
@@ -666,7 +788,7 @@ export interface ChargesInterface {
 
   updateEditData: (data: any) => void;
 
-  getChargesList: () => void;
+  getChargesList: (data?: any) => void;
   createCharges: () => void;
   editCharges: () => void;
   getStatusList: (id: any, status: any) => void;

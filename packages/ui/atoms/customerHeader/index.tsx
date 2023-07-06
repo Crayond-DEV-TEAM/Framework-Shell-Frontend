@@ -10,6 +10,7 @@ export interface CustomerHeaderProps {
   sx?: SxProps<Theme>;
   isback?: boolean;
   title?: string;
+  isEdit?: boolean;
   btns?: boolean;
   onSave?: any;
   onCancel?: any;
@@ -23,6 +24,7 @@ export const CustomerHeader = (props: CustomerHeaderProps): JSX.Element => {
     isback = true,
     title = 'title',
     btns = true,
+    isEdit = false,
     onSave,
     onCancel,
     onBack,
@@ -74,7 +76,7 @@ export const CustomerHeader = (props: CustomerHeaderProps): JSX.Element => {
               }}
               onClick={onSave}
             >
-              Save
+              {isEdit ? 'Update' : 'Save'}
             </Button>
           </Box>
         )}

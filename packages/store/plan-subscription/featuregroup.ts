@@ -29,12 +29,17 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
     set((state) => ({ createEditFeatureGroup: { ...state.createEditFeatureGroup, [key]: value } }));
   },
 
-  getFeatureGroupList: () => {
+  getFeatureGroupList: (data: any = { is_active: false }) => {
     set({ fetching: true, errorOnFetching: false });
-    const payload = {
+    const payload: any = {
       offset: 0,
       limit: 100,
     };
+
+    if (data.is_acive === true) {
+      payload.is_active = true;
+    }
+
     httpRequest('post', `${envConfig.api_url}/featureGroup`, payload, true)
       .then((response) => {
         const dataTable: any = [];

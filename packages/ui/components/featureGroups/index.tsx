@@ -50,9 +50,9 @@ export const FeatureGroups = (props: FeatureGroupsProps): JSX.Element => {
       errors.name = 'FeatureGroup name is required';
     }
 
-    if (createEditFeatureGroup.description.trim().length === 0) {
-      errors.description = 'Description is required';
-    }
+    // if (createEditFeatureGroup.description.trim().length === 0) {
+    //   errors.description = 'Description is required';
+    // }
     if (createEditFeatureGroup.features.length === 0) {
       errors.features = 'Feature is required';
     }

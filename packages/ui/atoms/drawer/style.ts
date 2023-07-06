@@ -11,12 +11,15 @@ export const drawerStyle: DrawerStyleProps = {
     },
   },
   headerSx: { p: 2 },
-  childrenSx: { p: 2, overflow: 'overlay' },
+  childrenSx: { p: 2, overflow: 'overlay', height: '330px' },
   footerSx: {
-    p: 3,
+    px: 2,
+    py: 1,
     bgcolor: 'common.white',
     borderTop: '1.3px dashed',
     borderColor: 'border.main',
+    // position: 'absolute',
+    // bottom: '10px',
   },
   closeSx: {
     width: '15px',

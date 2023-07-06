@@ -32,12 +32,17 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
     set((state) => ({ createEditAddOns: { ...state.createEditAddOns, [key]: value } }));
   },
 
-  getAddOnsList: () => {
+  getAddOnsList: (data: any = { is_active: false }) => {
     set({ fetching: true, errorOnFetching: false });
-    const payload = {
+    const payload: any = {
       offset: 0,
       limit: 100,
     };
+
+    if (data.is_acive === true) {
+      payload.is_active = true;
+    }
+
     httpRequest('post', `${envConfig.api_url}/addons`, payload, true)
       .then((response) => {
         const dataTable: any = [];

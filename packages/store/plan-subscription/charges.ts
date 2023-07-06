@@ -24,12 +24,17 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
     set((state) => ({ createEditCharges: { ...state.createEditCharges, [key]: value } }));
   },
 
-  getChargesList: () => {
+  getChargesList: (data: any = { is_active: false }) => {
     set({ fetching: true, errorOnFetching: false });
-    const payload = {
+    const payload: any = {
       offset: 0,
       limit: 0,
     };
+
+    if (data.is_acive === true) {
+      payload.is_active = true;
+    }
+
     httpRequest('post', `${envConfig.api_url}/charges`, payload, true)
       .then((response) => {
         const dataTable: any = [];
@@ -47,7 +52,7 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
             set({ ChargesList: dataTable }),
           );
         } else {
-          set({ ChargesList: ['no'] });
+          set({ ChargesList: [] });
         }
       })
       .catch((err) => {

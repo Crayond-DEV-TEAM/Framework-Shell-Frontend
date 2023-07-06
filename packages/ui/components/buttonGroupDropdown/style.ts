@@ -7,5 +7,7 @@ interface ButtonGroupDropdownStyleProps {
 export const buttonGroupDropdownStyle: ButtonGroupDropdownStyleProps = {
   rootSx: {
     mr: '10px',
+    display: 'flex',
+    flexDirection: 'column',
   },
 };

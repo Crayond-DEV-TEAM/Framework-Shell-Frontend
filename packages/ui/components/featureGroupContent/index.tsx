@@ -36,9 +36,7 @@ export const FeatureGroupContent = (props: FeatureGroupContentProps): JSX.Elemen
   //   { label: 'The Godfather', id: 1 },
   //   { label: 'Pulp Fiction', id: 2 },
   // ];
-  const handleChangeFeature = (value: any, e: any) => {
-    debugger;
-  };
+  console.log(createEditFeatureGroup, 'createEditFeatureGroupcreateEditFeatureGroup');
 
   return (
     <Box
@@ -108,8 +106,8 @@ export const FeatureGroupContent = (props: FeatureGroupContentProps): JSX.Elemen
               placeholder="options"
               permissionList={options}
               onChange={(value: any) => {
-                debugger;
                 handleAddEditStateChange('features', value);
+                handleAddEditStateChange('addedFeature', value);
                 // handleChangeFeature(value, e.target.checked);
               }}
               value={createEditFeatureGroup.features?.length > 0 ? createEditFeatureGroup.features : []}

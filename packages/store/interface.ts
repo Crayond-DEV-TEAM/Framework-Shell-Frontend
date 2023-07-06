@@ -860,6 +860,7 @@ export interface CustomerKey {
   pincode: number;
   id?: string;
   is_active?: boolean;
+  address_id?: string;
 }
 
 export interface CustomerInterface {

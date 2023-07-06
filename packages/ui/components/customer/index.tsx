@@ -45,7 +45,6 @@ export const Customer = (props: CustomerProps): JSX.Element => {
   };
 
   const handleTableEdit = (id: string, data: any, e: any) => {
-    // debugger;
     const updateData = {
       name: data.customerName,
       email_id: data.email,
@@ -58,6 +57,7 @@ export const Customer = (props: CustomerProps): JSX.Element => {
       pincode: data.dataList.address.pincode,
       is_active: data.dataList.is_active,
       id: id,
+      address_id: data.dataList.address.id,
     };
     updateEditData(updateData);
     seteditadd(true);

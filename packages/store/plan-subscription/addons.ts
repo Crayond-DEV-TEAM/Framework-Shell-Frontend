@@ -19,13 +19,9 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
     name: '',
     id: '',
     is_active: true,
-    features: {
-      id: '',
-    },
+    features: {},
     description: '',
-    featuregroup: {
-      id: '',
-    },
+    featuregroup: {},
   },
 
   setAddOnsList: (key: string, value: boolean | string) => {
@@ -174,13 +170,9 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
         name: '',
         id: '',
         is_active: true,
-        features: {
-          id: '',
-        },
+        features: {},
         description: '',
-        featuregroup: {
-          id: '',
-        },
+        featuregroup: {},
       },
     });
   },

@@ -16,7 +16,7 @@ export interface MapSubscriptionPlanTransferProps {
   AddOnsList?: any;
   handleChangeEvent?: (key: string, value: any) => void;
   createEditSubscription?: any;
-  formErrors?:any;
+  formErrors?: any;
 }
 
 export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferProps): JSX.Element => {
@@ -106,9 +106,11 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
   const chargeMaps = createEditSubscription.plan_id.plan_charge_mappings?.map((value: any) => value.price);
   const Chargessum = chargeMaps?.reduce((accumulator: any, currentValue: any) => accumulator + currentValue, 0);
   const oldchargesMaps = OldSubscription?.charges?.map((value: any) => value.price);
-  const oldChargessum = oldchargesMaps?.reduce((accumulator: any, currentValue: any) => accumulator + currentValue, 0);
+  const oldChargessum = oldchargesMaps?.reduce((accumulator, currentValue) => {
+    return accumulator + parseInt(currentValue, 10);
+  }, 0);
 
-  // console.log(sum, 'chargeMaps');
+  console.log(oldChargessum, 'chargeMaps');
   return (
     <Box
       sx={[
@@ -197,9 +199,9 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
                   planUser={OldSubscription?.plan.is_per_user}
                   billingType={OldSubscription?.plan.billing_cycles}
                   billingPeriod={OldSubscription?.plan.billing_period?.[0]}
-                  addOnsCount={OldSubscription?.plan.plan_add_on_mappings?.length}
+                  addOnsCount={OldSubscription?.subscription_add_on_mappings?.length}
                   planCost={OldSubscription?.plan.price?.monthly}
-                  addOnState={OldSubscription?.plan.plan_add_on_mappings}
+                  addOnState={OldSubscription?.subscription_add_on_mappings}
                   createEditSubscription={createEditSubscription}
                   charges={oldChargessum}
                   // totalCalc={}

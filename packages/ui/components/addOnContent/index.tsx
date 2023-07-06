@@ -32,6 +32,7 @@ export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
     }
     setFeatureList(featureDetails);
   };
+  console.log(createEditAddOns?.features);
 
   return (
     <Box

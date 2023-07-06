@@ -23,6 +23,7 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
     pincode: 0,
     is_active: false,
     id: '',
+    address_id: '',
   },
   setCustomerList: (key: string, value: boolean | string) => {
     set((state) => ({ createEditCustomer: { ...state.createEditCustomer, [key]: value } }));
@@ -38,7 +39,7 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
     };
     httpRequest('post', `${envConfig.api_url}/customers`, payload, true)
       .then((response) => {
-        debugger;
+        // debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
@@ -55,7 +56,7 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
             set({ CustomerList: dataTable }),
           );
         } else {
-          set({ CustomerList: ['no'] });
+          set({ CustomerList: [] });
         }
       })
       .catch((err) => {
@@ -111,6 +112,7 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
       country: 'india',
       pincode: createEditCustomer.pincode,
       customer_id: createEditCustomer.id,
+      address_id: createEditCustomer.address_id,
     };
 
     httpRequest('put', `${envConfig.api_url}/customers`, payload, true)
@@ -180,6 +182,7 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
         country: '',
         pincode: 0,
         id: '',
+        address_id: '',
       },
     });
   },

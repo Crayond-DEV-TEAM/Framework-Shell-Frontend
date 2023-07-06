@@ -168,19 +168,22 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
     clearAll();
   };
   const onSaveSubscription = () => {
-    if (
-      createEditSubscription.id !== null &&
-      createEditSubscription.id !== undefined &&
-      String(createEditSubscription.id).trim().length > 0
-    ) {
-      editSubscription();
-    } else {
-      createSubscription();
-    }
+    const isValid = validateForm();
+    if (isValid) {
+      if (
+        createEditSubscription.id !== null &&
+        createEditSubscription.id !== undefined &&
+        String(createEditSubscription.id).trim().length > 0
+      ) {
+        editSubscription();
+      } else {
+        createSubscription();
+      }
 
-    handlePlanClose();
-    handleMapclose();
-    setCardIndex(null);
+      handlePlanClose();
+      handleMapclose();
+      setCardIndex(null);
+    }
   };
 
   const handleCardClick = (index: number, data: any) => {
@@ -202,7 +205,8 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
   useEffect(() => {
     handleStatus();
   }, [SubscriptionList]);
-
+  console.log(Boolean(formErrors.card), 'ttttttttttttttttttttttttt');
+  const cardCheck = Boolean(formErrors.card);
   return (
     <Box
       sx={[
@@ -277,7 +281,22 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
               onChange={(e) => setSearchComp(e.target.value)}
               startAdornment={<SearchIcon rootStyle={{ width: '12px', height: '12px', color: '#818181', ml: 1 }} />}
             />
-            <Box sx={{ m: '16px' }} />
+            {createEditSubscription.customer_id.length === 0 && (
+              <Typography
+                sx={{
+                  color: 'primary.main',
+                  fontSize: '12px',
+                  padding: '10px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: 600,
+                }}
+              >
+                Please Select Company
+              </Typography>
+            )}
+            <Box sx={{ m: createEditSubscription.customer_id.length === 0 ? '0px' : '16px' }} />
             {filteredCompanyList.map((x: any, index: number) => (
               <Box key={index} onClick={() => handleCardClick(index, x)}>
                 <CustomerModalCard
@@ -289,6 +308,8 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
                   // filteredCompanyList={filteredCompanyList}
                   sx={cardIndex === index ? subscriptionStyle.rootsSxSelected : subscriptionStyle.rootsSx}
                 />
+
+                <span>{formErrors.billing_type}</span>
               </Box>
             ))}
           </Box>

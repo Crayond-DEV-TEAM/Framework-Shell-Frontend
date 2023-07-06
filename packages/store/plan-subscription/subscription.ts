@@ -61,7 +61,9 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
           ? createEditSubscription.plan_id?.price?.yearly
           : null;
 
-      const Total = monthlyTotal + parseInt(planCardPrice, 10) + Chargessum;
+      console.log(Chargessum, 'ChargessumChargessum');
+      debugger;
+      const Total = monthlyTotal + parseInt(planCardPrice, 10) + (Chargessum === undefined ? 0 : Chargessum);
       return Total;
     };
     if (key === 'add_on') {
@@ -212,26 +214,20 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     const { createEditSubscription, getSubscriptionList, clearAll } = get();
     const newAddOn = createEditSubscription.new_addon?.map((x) => x.add_on.id) || [];
     const oldAddOn = createEditSubscription.old_addon?.map((x) => x.add_on.id) || [];
+    debugger;
     const payload = {
       subscription_id: createEditSubscription.id,
       customer_id: createEditSubscription.customer_id,
       plan_id: createEditSubscription.plan_id.id,
       is_active: false,
-      new_add_on: createEditSubscription.new_add_on.map((x) => ({
+      new_add_on: createEditSubscription.new_addon.map((x) => ({
         id: x.add_on.id,
         price: {
           monthly: x.price.monthly,
           yearly: x.price.yearly,
         },
       })),
-      // new_add_on: newAddOn,
-      deleted_add_on: createEditSubscription.old_addon.map((x) => ({
-        id: x.add_on.id,
-        price: {
-          monthly: x.price.monthly,
-          yearly: x.price.yearly,
-        },
-      })),
+      deleted_add_on: oldAddOn,
       billing: {
         billing_type: createEditSubscription.billing_type?.name,
         actual_price: createEditSubscription.actual_price,
@@ -240,6 +236,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       is_plan_effective: createEditSubscription.is_plan_effective,
       plan_effective_from: dateFetching(createEditSubscription.plan_effective_from),
     };
+    debugger;
 
     httpRequest('put', `${envConfig.api_url}/subscriptions`, payload, true)
       .then((response) => {

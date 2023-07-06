@@ -70,7 +70,6 @@ export const AddOne = (props: AddOneProps): JSX.Element => {
   };
   const handleTableEdit = (id: string, data: any, e: any) => {
     handleOpen();
-    debugger;
     setEditname(true);
     const editData = {
       id: id,

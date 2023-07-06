@@ -99,14 +99,21 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
   editFeatureGroup: () => {
     set({ editsave: true, errorOnFetching: false });
     const { createEditFeatureGroup, getFeatureGroupList, clearAll } = get();
+
+    const newFeatures = createEditFeatureGroup.addedFeature.filter(
+      (item) => !createEditFeatureGroup.deletedFeature.includes(item),
+    );
+    const deletedFeatures = createEditFeatureGroup.deletedFeature.filter(
+      (item) => !createEditFeatureGroup.addedFeature.includes(item),
+    );
     const payload = {
       // features: createEditFeatureGroup.features?.map((x: any) => x.id),
       name: createEditFeatureGroup.name,
       is_active: createEditFeatureGroup.is_active,
       description: createEditFeatureGroup.description,
       feature_group_id: createEditFeatureGroup.id,
-      new_features: ['string'],
-      deleted_features: ['string'],
+      new_features: newFeatures.map((x) => x.id),
+      deleted_features: deletedFeatures.map((x) => x.id),
     };
 
     httpRequest('put', `${envConfig.api_url}/featureGroup`, payload, true)

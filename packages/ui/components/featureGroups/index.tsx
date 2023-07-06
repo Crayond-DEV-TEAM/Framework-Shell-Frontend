@@ -74,6 +74,7 @@ export const FeatureGroups = (props: FeatureGroupsProps): JSX.Element => {
       is_active: data.is_active,
       description: data.description,
       features: data.featureDetails,
+      deletedFeature: data.featureDetails,
     };
     updateEditData(editData);
   };

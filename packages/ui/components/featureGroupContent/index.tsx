@@ -36,6 +36,9 @@ export const FeatureGroupContent = (props: FeatureGroupContentProps): JSX.Elemen
   //   { label: 'The Godfather', id: 1 },
   //   { label: 'Pulp Fiction', id: 2 },
   // ];
+  const handleChangeFeature = (value: any, e: any) => {
+    debugger;
+  };
 
   return (
     <Box
@@ -104,8 +107,10 @@ export const FeatureGroupContent = (props: FeatureGroupContentProps): JSX.Elemen
             <CustomDropdown
               placeholder="options"
               permissionList={options}
-              onChange={(value) => {
+              onChange={(value: any) => {
+                debugger;
                 handleAddEditStateChange('features', value);
+                // handleChangeFeature(value, e.target.checked);
               }}
               value={createEditFeatureGroup.features?.length > 0 ? createEditFeatureGroup.features : []}
               isError={Boolean(formErrors.features)}

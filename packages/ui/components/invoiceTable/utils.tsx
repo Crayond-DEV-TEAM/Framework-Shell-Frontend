@@ -46,11 +46,11 @@ export const Header = [
 ];
 
 export const tableData = (linkhandel: (id: string) => void, downloadhandel: (id: string) => void) => [
-  { type: ['TEXT'], name: 'adminname' },
-  { type: ['TEXT'], name: 'contactnumber' },
-  { type: ['TEXT'], name: 'email' },
+  { type: ['TEXT'], name: 'invoicenumber' },
+  { type: ['TEXT'], name: 'invoicedate' },
+  { type: ['TEXT'], name: 'invoiceamount' },
 
-  { type: ['LABEL'], name: 'invitestatus' },
+  { type: ['LABEL'], name: 'invoicestatus' },
   {
     type: ['LINK'],
     name: 'linked',

@@ -5,6 +5,22 @@ interface SubscriptionStyleProps {
 }
 
 export const subscriptionStyle: SubscriptionStyleProps = {
+  rootsSx: {
+    borderRadius: '8px',
+    border: '1px solid #EAEAEA',
+    backgroundColor: '#FFFFFF',
+    padding: '12px',
+    mb: 1,
+    cursor: 'pointer',
+  },
+  rootsSxSelected: {
+    borderRadius: '8px',
+    border: '1px solid #357968',
+    backgroundColor: '#F0F5F4',
+    padding: '12px',
+    mb: 1,
+    cursor: 'pointer',
+  },
   rootSx: {
     padding: '24px',
   },
@@ -40,7 +56,7 @@ export const subscriptionStyle: SubscriptionStyleProps = {
     //   // backgroundColor: 'red',
     // },
     '& .MuiTableRow-root .stickyRight:nth-last-of-type(2n)': {
-      right: '70px',
+      // right: '70px',
     },
     '& .MuiFormControlLabel-root': {
       marginRight: '0px',

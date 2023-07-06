@@ -6,10 +6,24 @@ import { customerModalCardStyle } from './style';
 export interface CustomerModalCardProps {
   className?: string;
   sx?: SxProps<Theme>;
+  companyName?: string;
+  customerName?: string;
+  customerId?: string;
+  email?: string;
+  selected?: any;
 }
 
 export const CustomerModalCard = (props: CustomerModalCardProps): JSX.Element => {
-  const { className = '', sx = {}, ...rest } = props;
+  const {
+    className = '',
+    sx = {},
+    selected,
+    companyName = '',
+    customerName = '',
+    customerId = '',
+    email = '',
+    ...rest
+  } = props;
 
   return (
     <Box
@@ -23,13 +37,19 @@ export const CustomerModalCard = (props: CustomerModalCardProps): JSX.Element =>
       {...rest}
     >
       <Box sx={customerModalCardStyle.align}>
-        <Typography sx={customerModalCardStyle.title}>Design God Ash (GI94JR57)</Typography>
+        <Typography sx={customerModalCardStyle.title}>
+          {companyName} (
+          <Typography sx={customerModalCardStyle.title} component="span">
+            {customerId}
+          </Typography>
+          )
+        </Typography>
         <Typography sx={customerModalCardStyle.badge}>On Trail</Typography>
       </Box>
       <Box sx={customerModalCardStyle.bottomAlign}>
-        <Typography sx={customerModalCardStyle.bottomText}>designgodash@gmail.com</Typography>
+        <Typography sx={customerModalCardStyle.bottomText}>{email}</Typography>
         <Box sx={customerModalCardStyle.dot}></Box>
-        <Typography sx={customerModalCardStyle.bottomText}>Brandon Wells</Typography>
+        <Typography sx={customerModalCardStyle.bottomTextTwo}>{customerName}</Typography>
       </Box>
     </Box>
   );

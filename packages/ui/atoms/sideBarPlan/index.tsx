@@ -1,4 +1,4 @@
-import type { SxProps, Theme } from '@mui/material';
+import { Menu, MenuItem, type SxProps, type Theme } from '@mui/material';
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -16,11 +16,13 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { sideBarPlanStyle } from './style';
 import { sideBarData } from './utils';
-import { KeyBoardDown, RightArrowBtn, Test } from '@atoms/icons';
+import { ApiProfile, KeyBoardDown, Logout, ManIcon, RightArrowBtn, Test } from '@atoms/icons';
 import Avatar from '@mui/material/Avatar';
 import { localStorageKeys, parseJwt } from '@core/utils';
 import { matchPath, useNavigate, useLocation, useNavigation } from 'react-router-dom';
 import { Button } from '..';
+import { useAuth } from '@core/store';
+import CloseIcon from '@assets/closeIcon';
 
 export interface SideBarPlanProps {
   className?: string;
@@ -34,7 +36,17 @@ export const SideBarPlan = (props: SideBarPlanProps): JSX.Element => {
   const navigate = useNavigate();
   const route = useLocation();
   const routeNAme = route.pathname;
-  console.log('navigate', routeNAme);
+  const [open, setOpen] = React.useState<boolean>(false);
+
+  // console.log('navigate', routeNAme);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const { logOut } = useAuth();
 
   return (
     <Box
@@ -106,11 +118,49 @@ export const SideBarPlan = (props: SideBarPlanProps): JSX.Element => {
             </Box>
           </Box>
           {/* onClick={handleOpen} */}
-          <Box sx={{ pl: 1 }}>
+          <Box sx={{ pl: 1 }} onClick={handleOpen}>
             <KeyBoardDown rootStyle={{ height: '32px', width: '32px' }} />
           </Box>
         </Box>
       </Drawer>
+      <Menu
+        open={open}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        sx={{
+          bottom: '159px',
+          left: '150px',
+          // top: '493px',
+          '& .MuiPaper-root': { width: '162px', height: '109px' },
+          '& .MuiList-root': { paddingTop: '0px', paddingBottom: '0px' },
+        }}
+      >
+        <MenuItem>
+          <Box sx={sideBarPlanStyle.profileSection}>
+            <ManIcon />
+            <Typography sx={sideBarPlanStyle.menutext}>My Profile</Typography>
+          </Box>
+        </MenuItem>
+        <MenuItem>
+          <Box sx={sideBarPlanStyle.profileSection} onClick={handleClose}>
+            <CloseIcon />
+            <Typography sx={sideBarPlanStyle.menutext}>Exit</Typography>
+          </Box>
+        </MenuItem>
+        <MenuItem>
+          <Box sx={sideBarPlanStyle.profileSection} onClick={logOut}>
+            <Logout />
+            <Typography sx={sideBarPlanStyle.menutext}>Logout</Typography>
+          </Box>
+        </MenuItem>
+      </Menu>
     </Box>
   );
 };

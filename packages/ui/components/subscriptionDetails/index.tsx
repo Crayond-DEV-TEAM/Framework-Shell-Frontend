@@ -14,6 +14,8 @@ import { FooterComponent } from '@atoms/footerComponent';
 import { Drawer } from '@atoms/drawer';
 import { planSubscriptionRoutes } from '@core/routes';
 import { useNavigate } from 'react-router-dom';
+import { useSubscription } from '@core/store';
+import moment from 'moment';
 
 export interface SubscriptionDetailsProps {
   className?: string;
@@ -24,6 +26,27 @@ export const SubscriptionDetails = (props: SubscriptionDetailsProps): JSX.Elemen
   const { className = '', sx = {}, ...rest } = props;
   const [values, setValues] = useState(false);
   const [draweropen, setDrawerOpen] = useState(false);
+  const { TicketSubscription } = useSubscription();
+  const [searchComp, setSearchComp] = useState('');
+
+  const techjson = [
+    {
+      invoicenumber: TicketSubscription.customerid,
+      invoicedate: TicketSubscription?.data?.created_at,
+      invoiceamount: TicketSubscription.revenue,
+      invoicestatus: [
+        {
+          label: 'Accepted',
+          color: '#305AAE',
+          bgColor: '#E2EAFA',
+        },
+      ],
+    },
+  ];
+
+  // const filteredCompanyList = techjson.filter((x) => {
+  //   return x?.invoiceamount.toLowerCase().includes(searchComp.toLowerCase());
+  // });
   const navigate = useNavigate();
   const handleMapopen = () => {
     setValues(true);
@@ -40,6 +63,10 @@ export const SubscriptionDetails = (props: SubscriptionDetailsProps): JSX.Elemen
   const handleOnBack = () => {
     navigate(planSubscriptionRoutes.subscription);
   };
+
+  const TotalRevenue = TicketSubscription.revenue + TicketSubscription.data?.total_amount;
+
+  console.log(TicketSubscription, 'TicketSubscriptionTicketSubscriptionTicketSubscription');
 
   return (
     <Box
@@ -59,11 +86,11 @@ export const SubscriptionDetails = (props: SubscriptionDetailsProps): JSX.Elemen
           <Box sx={subscriptionDetailsStyle.align}>
             <Avatar />
             <Box sx={{ pl: '15px' }}>
-              <Typography sx={subscriptionDetailsStyle.title}>Company name</Typography>
+              <Typography sx={subscriptionDetailsStyle.title}>{TicketSubscription.companyName}</Typography>
               <Box sx={subscriptionDetailsStyle.align}>
-                <Typography sx={subscriptionDetailsStyle.text}>Martha Holmes</Typography>
+                <Typography sx={subscriptionDetailsStyle.text}>{TicketSubscription.adminname}</Typography>
                 <Box sx={subscriptionDetailsStyle.dot} />
-                <Typography sx={subscriptionDetailsStyle.text}>designgodash@gmail.com</Typography>
+                <Typography sx={subscriptionDetailsStyle.text}>{TicketSubscription.email}</Typography>
               </Box>
             </Box>
           </Box>
@@ -72,17 +99,18 @@ export const SubscriptionDetails = (props: SubscriptionDetailsProps): JSX.Elemen
             // content={'+ Map subscription'}
             content={
               <SubscriptionPlanContent
-                planName={'Sliver 101 +3 Add ons'}
-                subscriptionId={'5931364121'}
-                planId={'25478'}
-                planCost={'175'}
-                totalRevenue={'2500'}
-                lastbillOn={'22/10/2021'}
-                nextbillOn={'22/10/2021'}
-                activeSince={'22/10/2021'}
-                users={'6'}
+                planName={TicketSubscription.data?.plan?.name}
+                subscriptionId={TicketSubscription?.id}
+                planId={TicketSubscription?.data?.plan?.id}
+                planCost={TicketSubscription.revenue}
+                totalRevenue={TotalRevenue}
+                lastbillOn={moment(TicketSubscription.data?.created_at).format('DD/MM/YYYY')}
+                nextbillOn={moment(TicketSubscription.data?.created_at).add(1, 'year').format('DD/MM/YYYY')}
+                activeSince={moment(TicketSubscription.data?.created_at).add(1, 'year').format('DD/MM/YYYY')}
+                users={TicketSubscription.is_per_user ? 'Per' : 'Flat Fee'}
                 withUpgrade={true}
                 onClick={handleDrawerOpen}
+                billingType={TicketSubscription.data?.subscription_billings?.[0]?.billing_type}
               />
             }
           />
@@ -96,8 +124,8 @@ export const SubscriptionDetails = (props: SubscriptionDetailsProps): JSX.Elemen
                 <Box sx={{ pr: 1, pt: '3px' }}>
                   <Input
                     placeholder={'Search'}
-                    // value={''}
-                    // onChange={(e) => setSearchTerm(e.target.value)}
+                    value={searchComp}
+                    onChange={(e) => setSearchComp(e.target.value)}
                     startAdornment={
                       <SearchIcon rootStyle={{ width: '12px', height: '12px', color: '#818181', ml: 1 }} />
                     }
@@ -106,7 +134,7 @@ export const SubscriptionDetails = (props: SubscriptionDetailsProps): JSX.Elemen
               </Box>
             </Box>
             <Box sx={subscriptionDetailsStyle.body}>
-              <InvoiceTable onClick={handleMapopen} />
+              <InvoiceTable onClick={handleMapopen} TicketSubscription={techjson} />
             </Box>
           </Box>
         </Box>

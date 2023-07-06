@@ -39,6 +39,9 @@ export const Feature = (props: FeatureProps): JSX.Element => {
     updateEditData,
     clearAll,
     getStatusList,
+    addsave,
+    editsave,
+    deletefetch,
   } = useFeature();
   const filteredMessageGroup = FeatureList.filter((x: any) =>
     x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()),
@@ -144,8 +147,6 @@ export const Feature = (props: FeatureProps): JSX.Element => {
     handleStatus();
   }, [FeatureList]);
 
-  console.log(filteredMessageGroup, '/////');
-
   return (
     <Box
       sx={[
@@ -242,6 +243,7 @@ export const Feature = (props: FeatureProps): JSX.Element => {
               handladdEditchange('is_active', e.target.checked);
             }}
             checked={createEditFeature.is_active}
+            disabled={savedes === true ? editsave : addsave}
             check
             saveButtonStyle={{ minWidth: '90px', height: '28px' }}
             onCancel={handleClose}
@@ -250,7 +252,7 @@ export const Feature = (props: FeatureProps): JSX.Element => {
           />
         }
       />
-      <DeleteComponent openCommand={del} onCancel={onClose} onDelete={onDelete} />
+      <DeleteComponent openCommand={del} onCancel={onClose} onDelete={onDelete} disabled={deletefetch} />
     </Box>
   );
 };

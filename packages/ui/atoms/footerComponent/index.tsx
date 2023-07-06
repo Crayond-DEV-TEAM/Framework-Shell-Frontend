@@ -1,7 +1,7 @@
 import { Grid, Switch, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { forwardRef } from 'react';
-import { Button } from '..';
+import { Button, PlanEffective } from '..';
 
 import { footerComponentStyle } from './style';
 import { CustomSwitches } from '..';
@@ -19,6 +19,9 @@ export interface FooterComponentProps {
   cancelButtonStyle?: any;
   saveText?: string;
   cancelText?: string;
+  disabled?: boolean;
+  switching?: boolean;
+  onSwitching?: any;
 }
 
 export const FooterComponent = forwardRef((props: FooterComponentProps, ref: React.Ref<HTMLElement>): JSX.Element => {
@@ -35,6 +38,9 @@ export const FooterComponent = forwardRef((props: FooterComponentProps, ref: Rea
     cancelButtonStyle = {},
     saveText = 'Save',
     cancelText = 'Cancel',
+    disabled = false,
+    switching = false,
+    onSwitching,
     ...rest
   } = props;
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
@@ -53,12 +59,18 @@ export const FooterComponent = forwardRef((props: FooterComponentProps, ref: Rea
     >
       <Box sx={check ? footerComponentStyle.totalFooterSx : footerComponentStyle.totalFooterSxTwo}>
         {/* <Switch {...label} checked={checked} onChange={SwitchChange} /> */}
-        {check && (
-          <Box sx={footerComponentStyle.btnSx}>
-            <CustomSwitches label="" value={checked} onChange={SwitchChange} />
-            <Typography sx={footerComponentStyle.switch}>Make this active</Typography>
-          </Box>
-        )}
+        {check &&
+          (switching === true ? (
+            <Box sx={footerComponentStyle.btnSx}>
+              <PlanEffective onChange={onSwitching} />
+            </Box>
+          ) : (
+            <Box sx={footerComponentStyle.btnSx}>
+              <CustomSwitches label="" value={checked} onChange={SwitchChange} />
+              <Typography sx={footerComponentStyle.switch}>Make this active</Typography>
+            </Box>
+          ))}
+
         <Box sx={check ? footerComponentStyle.btnSx : footerComponentStyle.btnSxTwo}>
           <Box sx={footerComponentStyle.btnBg}>
             <Button buttonStyle={{ ...footerComponentStyle.cancelbtnText, cancelButtonStyle }} onClick={onCancel}>
@@ -70,6 +82,7 @@ export const FooterComponent = forwardRef((props: FooterComponentProps, ref: Rea
               buttonStyle={{ ...footerComponentStyle.savebtnText, saveButtonStyle }}
               onClick={onSave}
               loading={loading}
+              disabled={disabled}
             >
               {saveText}
             </Button>

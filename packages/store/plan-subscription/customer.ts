@@ -2,23 +2,61 @@ import { envConfig } from '@core/envconfig';
 import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { CustomerInterface } from '../interface';
-import { permission } from '../../ui/components/addpermission/utils';
 import { enqueueSnackbar } from 'notistack';
-import { tableJson } from '@components/customer/utils';
 export const useCustomer = create<CustomerInterface>((set, get) => ({
   CustomerList: [],
   fetching: false,
   errorOnFetching: false,
-  //   setaddPermission: (payload: { key: string; value: string }) => {
-  //     set((state) => ({ addPermissionList: { ...state.addPermissionList, [payload.key]: payload.value } }));
-  //   },
-
+  isEdit: false,
+  addsave: false,
+  editsave: false,
+  deletefetch: false,
+  createEditCustomer: {
+    name: '',
+    email_id: '',
+    contact_number: '',
+    company_name: '',
+    address_line: '',
+    city: '',
+    state: '',
+    country: '',
+    pincode: 0,
+    is_active: false,
+    id: '',
+  },
+  setCustomerList: (key: string, value: boolean | string) => {
+    set((state) => ({ createEditCustomer: { ...state.createEditCustomer, [key]: value } }));
+  },
+  seteditadd: (value: boolean) => {
+    set((state) => ({ isEdit: value }));
+  },
   getCustomerList: () => {
-    set({ fetching: true, errorOnFetching: false, CustomerList: tableJson });
-
-    httpRequest('get', `${envConfig.api_url}`, {}, true)
+    set({ fetching: true, errorOnFetching: false });
+    const payload = {
+      offset: 0,
+      limit: 10,
+    };
+    httpRequest('post', `${envConfig.api_url}/customers`, payload, true)
       .then((response) => {
-        // set({ CustomerList: response.data.data });
+        debugger;
+        const dataTable: any = [];
+        if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
+          response.data.data.rows.map(
+            (tableData: any, i: any) =>
+              dataTable.push({
+                customerid: tableData.alias_id,
+                companyName: tableData.company_name,
+                customerName: tableData.name,
+                email: tableData.email_id,
+                is_active: tableData.is_active,
+                dataList: tableData,
+                id: tableData.id,
+              }),
+            set({ CustomerList: dataTable }),
+          );
+        } else {
+          set({ CustomerList: ['no'] });
+        }
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -28,12 +66,97 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
         set({ fetching: false });
       });
   },
-    getCustomerList: () => {
-    set({ fetching: true, errorOnFetching: false, CustomerList: tableJson });
+  createCustomer: () => {
+    set({ addsave: true, errorOnFetching: false });
+    const { createEditCustomer, getCustomerList } = get();
+    const payload = {
+      name: createEditCustomer.name,
+      email_id: createEditCustomer.email_id,
+      contact_number: createEditCustomer.contact_number,
+      company_name: createEditCustomer.company_name,
+      address_line: createEditCustomer.address_line,
+      city: createEditCustomer.city,
+      state: createEditCustomer.state,
+      country: createEditCustomer.country.name,
+      pincode: createEditCustomer.pincode,
+    };
 
-    httpRequest('get', `${envConfig.api_url}`, {}, true)
+    httpRequest('post', `${envConfig.api_url}/customers/create`, payload, true)
       .then((response) => {
-        // set({ CustomerList: response.data.data });
+        enqueueSnackbar('Customer Created Succesfully!', { variant: 'success' });
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ addsave: false });
+        getCustomerList();
+      });
+  },
+  updateEditData: (data: any) => {
+    set((state) => ({ createEditCustomer: { ...data } }));
+  },
+  editCustomer: () => {
+    set({ editsave: true, errorOnFetching: false });
+    const { createEditCustomer, getCustomerList } = get();
+    const payload = {
+      name: createEditCustomer.name,
+      email_id: createEditCustomer.email_id,
+      contact_number: createEditCustomer.contact_number,
+      company_name: createEditCustomer.company_name,
+      address_line: createEditCustomer.address_line,
+      city: createEditCustomer.city,
+      state: createEditCustomer.state,
+      country: 'india',
+      pincode: createEditCustomer.pincode,
+      customer_id: createEditCustomer.id,
+    };
+
+    httpRequest('put', `${envConfig.api_url}/customers`, payload, true)
+      .then((response) => {
+        enqueueSnackbar('Customers Edited Succesfully!', { variant: 'success' });
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ editsave: false });
+        getCustomerList();
+      });
+  },
+  deleteCustomer: (id: string) => {
+    set({ deletefetch: true, errorOnFetching: false });
+    const { getCustomerList } = get();
+    const payload = {
+      customer_id: id,
+    };
+    httpRequest('delete', `${envConfig.api_url}/customers`, payload, true)
+      .then((response) => {
+        enqueueSnackbar('Customers Deleted Succesfully!', { variant: 'success' });
+        // set({ FeatureList: response.data.data });
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ deletefetch: false });
+        getCustomerList();
+      });
+  },
+  getStatusList: (id: any, status: any) => {
+    set({ fetching: true, errorOnFetching: false });
+    const { getCustomerList } = get();
+    const payload = {
+      customer_id: id,
+      is_active: status,
+    };
+
+    httpRequest('put', `${envConfig.api_url}/customers`, payload, true)
+      .then((response) => {
+        enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -41,6 +164,23 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
+        getCustomerList();
       });
+  },
+  clearAll: () => {
+    set({
+      createEditCustomer: {
+        name: '',
+        email_id: '',
+        contact_number: '',
+        company_name: '',
+        address_line: '',
+        city: '',
+        state: '',
+        country: '',
+        pincode: 0,
+        id: '',
+      },
+    });
   },
 }));

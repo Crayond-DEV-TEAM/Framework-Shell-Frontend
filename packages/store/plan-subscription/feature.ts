@@ -11,6 +11,10 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
   fetching: false,
   errorOnFetching: false,
 
+  addsave: false,
+  editsave: false,
+  deletefetch: false,
+
   createEditFeature: {
     name: '',
     id: '',
@@ -25,7 +29,7 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
     set({ fetching: true, errorOnFetching: false });
     const payload = {
       offset: 0,
-      limit: 0,
+      limit: 100,
     };
     httpRequest('post', `${envConfig.api_url}/features`, payload, true)
       .then((response) => {
@@ -41,7 +45,7 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
             set({ FeatureList: dataTable }),
           );
         } else {
-          set({ FeatureList: ['no'] });
+          set({ FeatureList: [] });
         }
       })
       .catch((err) => {
@@ -53,7 +57,7 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
       });
   },
   createFeature: () => {
-    set({ fetching: true, errorOnFetching: false });
+    set({ addsave: true, errorOnFetching: false });
     const { createEditFeature, getFeatureList } = get();
     const payload = {
       name: createEditFeature.name,
@@ -69,7 +73,7 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
-        set({ fetching: false });
+        set({ addsave: false });
         getFeatureList();
       });
   },
@@ -77,7 +81,7 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
     set((state) => ({ createEditFeature: { ...data } }));
   },
   editFeature: () => {
-    set({ fetching: true, errorOnFetching: false });
+    set({ editsave: true, errorOnFetching: false });
     const { createEditFeature, getFeatureList } = get();
     const payload = {
       feature_id: createEditFeature.id,
@@ -94,12 +98,12 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
-        set({ fetching: false });
+        set({ editsave: false });
         getFeatureList();
       });
   },
   deleteFeature: (id: string) => {
-    set({ fetching: true, errorOnFetching: false });
+    set({ deletefetch: true, errorOnFetching: false });
     const { getFeatureList } = get();
     const payload = {
       feature_id: id,
@@ -114,7 +118,7 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
-        set({ fetching: false });
+        set({ deletefetch: false });
         getFeatureList();
       });
   },

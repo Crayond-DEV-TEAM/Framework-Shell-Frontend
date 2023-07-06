@@ -97,4 +97,13 @@ export const sideBarPlanStyle: SideBarPlanStyleProps = {
     color: 'primary.contrastText',
     fontWeight: 600,
   },
+  profileSection: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  menutext: {
+    pl: 0.5,
+    fontSize: '12px',
+    color: 'typography.transparent',
+  },
 };

@@ -561,13 +561,6 @@ export interface RolesMappingInterface {
   getStatusList: () => void;
 }
 
-export interface CustomerInterface {
-  CustomerList: any;
-  fetching: boolean;
-  errorOnFetching: boolean;
-
-  getCustomerList: () => void;
-}
 export interface FeatureKey {
   name: string;
   is_active: boolean;
@@ -578,6 +571,10 @@ export interface FeatureInterface {
   FeatureList: FeatureKey[];
   fetching: boolean;
   errorOnFetching: boolean;
+
+  addsave: boolean;
+  editsave: boolean;
+  deletefetch: boolean;
 
   createEditFeature: FeatureKey;
 
@@ -599,12 +596,18 @@ export interface FeatureGroupKey {
   id?: string | undefined;
   features: string[];
   description?: string;
+  deletedFeature: [];
+  addedFeature: [];
 }
 
 export interface FeatureGroupInterface {
   FeatureGroupList: FeatureGroupKey[];
   fetching: boolean;
   errorOnFetching: boolean;
+
+  addsave: boolean;
+  editsave: boolean;
+  deletefetch: boolean;
 
   createEditFeatureGroup: FeatureGroupKey;
 
@@ -624,15 +627,19 @@ export interface AddOnsKey {
   name: string;
   is_active: boolean;
   id?: string | undefined;
-  features: string;
+  features: object;
   description?: string;
-  featuregroup: string;
+  featuregroup: object;
 }
 
 export interface AddOnsInterface {
   AddOnsList: AddOnsKey[];
   fetching: boolean;
   errorOnFetching: boolean;
+
+  addsave: boolean;
+  editsave: boolean;
+  deletefetch: boolean;
 
   createEditAddOns: AddOnsKey;
 
@@ -660,6 +667,10 @@ export interface ChargesInterface {
   fetching: boolean;
   errorOnFetching: boolean;
 
+  addsave: boolean;
+  editsave: boolean;
+  deletefetch: boolean;
+
   createEditCharges: ChargesKey;
 
   setChargesList: (key: string, value: boolean | string) => void;
@@ -672,4 +683,94 @@ export interface ChargesInterface {
   getStatusList: (id: any, status: any) => void;
   deleteCharges: (id: string) => void;
   clearAll: () => void;
+}
+
+export interface SubscriptionKey {
+  customer_id: string;
+  plan_id: string;
+  is_active: boolean;
+  add_on?: any;
+  billing_type: string;
+  actual_price: number;
+  price_paid: number;
+  id?: string;
+  old_addon?: any;
+  new_addon?: any;
+  is_plan_effective: boolean;
+}
+
+export interface SubscriptionInterface {
+  SubscriptionList: SubscriptionKey[];
+  OldSubscription: [];
+  TicketSubscription: [];
+  fetching: boolean;
+  errorOnFetching: boolean;
+
+  addsave: boolean;
+  editsave: boolean;
+  deletefetch: boolean;
+
+  createEditSubscription: SubscriptionKey;
+
+  setTicketSubscription: (data: any) => void;
+
+  setSubscriptionList: (key: string, value: boolean | string) => void;
+
+  updateEditData: (data: any) => void;
+
+  getSubscriptionList: () => void;
+  createSubscription: () => void;
+  editSubscription: () => void;
+  getStatusList: (id: any, status: any) => void;
+  deleteSubscription: (id: string) => void;
+  fetchSubscription: (id: string) => void;
+  clearAll: () => void;
+}
+
+export interface CustomerKey {
+  name: string;
+  email_id: string;
+  contact_number: string;
+  company_name: string;
+  address_line: string;
+  city: string;
+  state: string;
+  country: string;
+  pincode: number;
+  id?: string;
+  is_active?: boolean;
+}
+
+export interface CustomerInterface {
+  CustomerList: CustomerKey[];
+  isEdit: boolean;
+  fetching: boolean;
+  errorOnFetching: boolean;
+
+  addsave: boolean;
+  editsave: boolean;
+  deletefetch: boolean;
+
+  createEditCustomer: CustomerKey;
+
+  setCustomerList: (key: string, value: boolean | string) => void;
+  seteditadd: (value: boolean) => void;
+
+  updateEditData: (data: any) => void;
+
+  getCustomerList: () => void;
+  createCustomer: () => void;
+  editCustomer: () => void;
+  getStatusList: (id: any, status: any) => void;
+  deleteCustomer: (id: string) => void;
+  clearAll: () => void;
+}
+
+export interface PlanKey<T> {
+  data: T[];
+}
+
+export interface PlanInterface<T> {
+  PlanList: PlanKey<T>[];
+  getPlanList: () => void;
 }

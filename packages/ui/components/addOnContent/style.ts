@@ -14,6 +14,13 @@ export const addOnContentStyle: AddOnContentStyleProps = {
     fontWeight: '500',
     pb: 1,
   },
+  labelTwoSx: {
+    fontSize: '12px',
+    color: '#262C33',
+    fontWeight: '500',
+    pb: 1,
+    pt: 2,
+  },
 
   inputGroupSx: {
     display: 'grid',

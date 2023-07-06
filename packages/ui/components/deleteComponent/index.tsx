@@ -11,10 +11,11 @@ export interface DeleteComponentProps {
   openCommand?: any;
   onCancel?: any;
   onDelete?: any;
+  disabled?:boolean;
 }
 
 export const DeleteComponent = (props: DeleteComponentProps): JSX.Element => {
-  const { className = '', sx = {}, openCommand, onCancel, onDelete, ...rest } = props;
+  const { className = '', sx = {}, openCommand, onCancel, onDelete,disabled = false, ...rest } = props;
 
   return (
     <Box
@@ -40,7 +41,7 @@ export const DeleteComponent = (props: DeleteComponentProps): JSX.Element => {
                   </Button>
                 </Box>
                 <Box sx={deleteComponentStyle.savebtnBg}>
-                  <Button buttonStyle={deleteComponentStyle.savebtnText} onClick={onDelete}>
+                  <Button buttonStyle={deleteComponentStyle.savebtnText} onClick={onDelete} disabled={disabled}>
                     Delete
                   </Button>
                 </Box>

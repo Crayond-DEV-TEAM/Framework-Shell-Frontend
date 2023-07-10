@@ -16,13 +16,12 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { sideBarPlanStyle } from './style';
 import { sideBarData } from './utils';
-import { ApiProfile, KeyBoardDown, Logout, ManIcon, RightArrowBtn, Test } from '@atoms/icons';
+import { ApiProfile, KeyBoardDown, Logout, ManIcon, RightArrowBtn, SmallCloseIcon, Test } from '@atoms/icons';
 import Avatar from '@mui/material/Avatar';
 import { localStorageKeys, parseJwt } from '@core/utils';
 import { matchPath, useNavigate, useLocation, useNavigation } from 'react-router-dom';
 import { Button } from '..';
 import { useAuth } from '@core/store';
-import CloseIcon from '@assets/closeIcon';
 
 export interface SideBarPlanProps {
   className?: string;
@@ -150,7 +149,7 @@ export const SideBarPlan = (props: SideBarPlanProps): JSX.Element => {
         </MenuItem>
         <MenuItem>
           <Box sx={sideBarPlanStyle.profileSection} onClick={handleClose}>
-            <CloseIcon />
+            <SmallCloseIcon rootStyle={{ width: 13, height: 13, mr: 1 }} />
             <Typography sx={sideBarPlanStyle.menutext}>Exit</Typography>
           </Box>
         </MenuItem>

@@ -100,7 +100,7 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
             <CheckBox
               // defaultChecked={true}
               style={{ marginRight: 8 }}
-              checked={value?.map((val) => val?.id)?.includes(option.id)}
+              checked={value?.map((val: any) => val?.id)?.includes(option.id)}
               value={option?.name}
               onChange={(e) => {
                 const newValue = e.target.checked

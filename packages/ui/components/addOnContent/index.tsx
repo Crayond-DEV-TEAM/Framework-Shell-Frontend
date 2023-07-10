@@ -6,7 +6,7 @@ import { CustomDropdown } from '@atoms/customDropdown';
 import { Label } from '@atoms/label';
 import { Input } from '@atoms/input';
 import { CutstomizedAutocomplete } from '@atoms/cutstomizedAutocomplete';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnyCnameRecord } from 'dns';
 export interface AddOnContentProps {
   className?: string;
@@ -32,7 +32,11 @@ export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
     }
     setFeatureList(featureDetails);
   };
-  console.log(createEditAddOns?.features);
+  // console.log(createEditAddOns?.features);
+  // useEffect(() => {
+  //   const deMart = createEditAddOns?.featuregroup?.featureDetails;
+  //   setFeatureList(deMart);
+  // }, []);
 
   return (
     <Box

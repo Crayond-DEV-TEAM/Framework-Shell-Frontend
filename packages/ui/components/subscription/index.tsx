@@ -205,8 +205,8 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
   useEffect(() => {
     handleStatus();
   }, [SubscriptionList]);
-  console.log(Boolean(formErrors.card), 'ttttttttttttttttttttttttt');
-  const cardCheck = Boolean(formErrors.card);
+  // console.log(Boolean(formErrors.card), 'ttttttttttttttttttttttttt');
+  // const cardCheck = Boolean(formErrors.card);
   return (
     <Box
       sx={[
@@ -300,7 +300,7 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
             {filteredCompanyList.map((x: any, index: number) => (
               <Box key={index} onClick={() => handleCardClick(index, x)}>
                 <CustomerModalCard
-                  companyName={x?.companyName}
+                  companyName={x?.customerName}
                   customerId={x?.customerid}
                   email={x.email}
                   customerName={x.customerName}

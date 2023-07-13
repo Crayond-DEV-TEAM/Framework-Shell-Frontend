@@ -3,6 +3,8 @@ import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { ChargesInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
+import moment from 'moment';
+
 export const useCharges = create<ChargesInterface>((set, get) => ({
   ChargesList: [],
 
@@ -46,7 +48,7 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
                 name: tableData.name,
                 is_active: tableData.is_active,
                 attachedin: tableData.plan_charge_mappings.length + ' ' + 'plans',
-                createdon: tableData.created_at,
+                createdon: moment(tableData.created_at).format('DD- MMM - YYYY'),
                 description: tableData.description,
               }),
             set({ ChargesList: dataTable }),

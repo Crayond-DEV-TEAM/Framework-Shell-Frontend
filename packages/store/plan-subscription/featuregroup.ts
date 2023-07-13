@@ -4,6 +4,8 @@ import { create } from 'zustand';
 import { FeatureGroupInterface } from '../interface';
 import { permission } from '../../ui/components/addpermission/utils';
 import { enqueueSnackbar } from 'notistack';
+import moment from 'moment';
+
 // import { tableJson } from '@components/feature/utils'
 export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
   FeatureGroupList: [],
@@ -51,7 +53,7 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
                 name: tableData.name,
                 is_active: tableData.is_active,
                 features: tableData.feature_group_mapings.length + ' ' + 'features',
-                modified: tableData.updated_at,
+                modified: moment(tableData.updated_at).format('DD- MMM - YYYY'),
                 featureDetails: tableData.feature_group_mapings?.map((x: any) => x.feature),
                 description: tableData.description,
               }),

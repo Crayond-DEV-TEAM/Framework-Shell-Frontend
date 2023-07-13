@@ -7,7 +7,7 @@ import { Label } from '@atoms/label';
 import { Input } from '@atoms/input';
 import { CutstomizedAutocomplete } from '@atoms/cutstomizedAutocomplete';
 import { useEffect, useState } from 'react';
-import { AnyCnameRecord } from 'dns';
+// import { AnyCnameRecord } from 'dns';
 export interface AddOnContentProps {
   className?: string;
   sx?: SxProps<Theme>;
@@ -22,7 +22,6 @@ export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
   const [featuesList, setFeatureList] = useState([]);
 
   const handleSetupFunc = (value: any) => {
-    console.log(value, 'featureGroup');
     handleAddEditStateChange('featuregroup', value);
     const featureDetails = value.featureDetails;
     setFeatureList(featureDetails);
@@ -36,7 +35,7 @@ export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
   console.log(featuesList, 'featuesList');
 
   useEffect(() => {
-    const deMart = createEditAddOns?.featuregroup?.feature_group_mapings?.map((x) => x?.feature);
+    const deMart = createEditAddOns?.featuregroup?.feature_group_mapings?.map((x: any) => x?.feature);
     setFeatureList(deMart);
   }, [createEditAddOns.id]);
 
@@ -66,7 +65,7 @@ export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
           </Label>
           <Input
             size="small"
-            placeholder=" Add-on name"
+            placeholder="Add-on name"
             required
             value={createEditAddOns?.name}
             textFieldStyle={addOnContentStyle.inputSx}

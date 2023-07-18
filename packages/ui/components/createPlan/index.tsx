@@ -254,10 +254,10 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
     if (addEditPlan.billing_period.length <= 0) {
       errors.billing_period = 'Billing period is required';
     }
-    if (addEditPlan.price.monthly <= 0) {
+    if (addEditPlan.billing_period.includes('Monthly') && addEditPlan.price.monthly <= 0) {
       errors.monthly = 'Monthly Price is required';
     }
-    if (addEditPlan.price.yearly <= 0) {
+    if (addEditPlan.billing_period.includes('Yearly') && addEditPlan.price.yearly <= 0) {
       errors.yearly = 'Yearly Price is required';
     }
     if (addEditPlan.billing_cycles.length <= 0) {
@@ -601,28 +601,32 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
                       Set Price
                     </Label>
                     <Box sx={{ display: 'flex', alignItems: 'start' }}>
-                      <ButtonGroupDropdown
-                        onChange={(e) => {
-                          setFormErrors({ ...formErrors, monthly: '' });
-                          setPlanList('monthly', e.target.value, 'price');
-                        }}
-                        value={addEditPlan.price.monthly}
-                        permissionList={Money}
-                        BtnName={'Monthly'}
-                        isError={formErrors?.monthly ? true : false}
-                        errorMessage={formErrors?.monthly}
-                      />
-                      <ButtonGroupDropdown
-                        onChange={(e) => {
-                          setFormErrors({ ...formErrors, yearly: '' });
-                          setPlanList('yearly', e.target.value, 'price');
-                        }}
-                        value={addEditPlan.price.yearly}
-                        permissionList={Money}
-                        BtnName={'Yearly'}
-                        isError={formErrors?.yearly ? true : false}
-                        errorMessage={formErrors?.yearly}
-                      />
+                      {addEditPlan.billing_period.includes('Monthly') && (
+                        <ButtonGroupDropdown
+                          onChange={(e) => {
+                            setFormErrors({ ...formErrors, monthly: '' });
+                            setPlanList('monthly', e.target.value, 'price');
+                          }}
+                          value={addEditPlan.price.monthly}
+                          permissionList={Money}
+                          BtnName={'Monthly'}
+                          isError={formErrors?.monthly ? true : false}
+                          errorMessage={formErrors?.monthly}
+                        />
+                      )}
+                      {addEditPlan.billing_period.includes('Yearly') && (
+                        <ButtonGroupDropdown
+                          onChange={(e) => {
+                            setFormErrors({ ...formErrors, yearly: '' });
+                            setPlanList('yearly', e.target.value, 'price');
+                          }}
+                          value={addEditPlan.price.yearly}
+                          permissionList={Money}
+                          BtnName={'Yearly'}
+                          isError={formErrors?.yearly ? true : false}
+                          errorMessage={formErrors?.yearly}
+                        />
+                      )}
                       <CustomCheckboxWithLabels
                         handleChanges={(value) => setPlanList('is_per_user', value)}
                         checked={addEditPlan.is_per_user}
@@ -709,6 +713,7 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
             return (
               <AddOnBackgroundCard
                 key={index}
+                billingPeriod={addEditPlan.billing_period}
                 isLast={index !== planAddOn.length - 1}
                 ListAddons={add_on}
                 onChange={(key, value, innerkey) => handleAddons(key, value, innerkey)}

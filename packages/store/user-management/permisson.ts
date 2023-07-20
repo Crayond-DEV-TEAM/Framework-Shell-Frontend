@@ -69,7 +69,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     set((state) => ({ addPermissionList: { ...data } }));
   },
   addPermission: (data: any) => {
-    const { PermissionList, addPermissionList, getPermissionList } = get();
+    const { clearAll, addPermissionList, getPermissionList } = get();
 
     set({ fetching: true, errorOnFetching: false });
     // const { RepositoryList } = useRepository();
@@ -91,11 +91,12 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       .finally(() => {
         set({ fetching: false });
         getPermissionList();
+        clearAll();
       });
   },
 
   editPermission: (data: any) => {
-    const { PermissionList, addPermissionList, getPermissionList } = get();
+    const { clearAll, addPermissionList, getPermissionList } = get();
     set({ fetching: true, errorOnFetching: false });
     // const { RepositoryList } = useRepository();
     const payload = {
@@ -117,6 +118,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       .finally(() => {
         set({ fetching: false });
         getPermissionList();
+        clearAll();
       });
   },
 

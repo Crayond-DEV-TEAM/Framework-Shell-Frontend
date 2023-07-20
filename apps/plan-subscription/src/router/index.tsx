@@ -4,7 +4,6 @@ import ErrorBoundary from '@pages/errorBoundary';
 import Home from '@pages/home';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { PrivateRouter } from './privateRouter';
-import UserManagementPage from '@pages/userManage';
 import AddOnsPage from '@pages/addOns';
 import CustomerPage from '@pages/customer';
 import CreateCustomerPage from '@pages/createCustomer';
@@ -17,13 +16,11 @@ import SubscriptionDetailPage from '@pages/subscriptionDetail';
 import FeaturePage from '@pages/feature';
 const router = createBrowserRouter([
   {
-    // path: userManageRoutes,
     element: (
       <PrivateRouter>
         <SidebarLayout>
           <CustomerPage />
         </SidebarLayout>
-        {/* <RootLayout /> */}
       </PrivateRouter>
     ),
     errorElement: <ErrorBoundary />,

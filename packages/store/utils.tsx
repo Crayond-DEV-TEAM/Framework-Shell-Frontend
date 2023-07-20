@@ -243,6 +243,25 @@ export const AllRoutes: { [key: number]: Menu } = {
       },
     ],
   },
+  3: {
+    id: 3,
+    link: '/',
+    name: 'User Managment',
+    baseUrl: '',
+    links: ['/userManagment'],
+    icon: (isSelected: boolean) => (
+      <MessageHub sx={{ fontSize: '22px', color: isSelected ? 'primary.main' : 'action' }} />
+    ),
+    childrens: [
+      {
+        id: 1,
+        link: '/userManagment',
+        name: 'User Managment',
+        baseUrl: '',
+        icon: (isSelected: boolean) => <SubMessageLanguage sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+      },
+    ],
+  },
 };
 
 export const giveMeAlertRule = (): AddAlertRule => {

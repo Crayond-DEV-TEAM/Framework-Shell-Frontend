@@ -1,4 +1,17 @@
 export function findObjectByIndex(json: any, indices: any) {
+  // if (indices.length === 0) {
+  //   return json;
+  // }
+  // const currentIndex = indices.shift();
+  // const currentIndexInt = parseInt(currentIndex);
+  // if (Array.isArray(json) && currentIndexInt < json.length) {
+  //   return findObjectByIndex(json[currentIndexInt], indices);
+  // } else if (json.hasOwnProperty(currentIndex)) {
+  //   return findObjectByIndex(json[currentIndex], indices);
+  // } else {
+  //   return null; // Index not found in the JSON structure
+  // }
+
   if (indices.length === 0) {
     return json;
   }
@@ -6,7 +19,7 @@ export function findObjectByIndex(json: any, indices: any) {
   const currentIndexInt = parseInt(currentIndex);
   if (Array.isArray(json) && currentIndexInt < json.length) {
     return findObjectByIndex(json[currentIndexInt], indices);
-  } else if (json.hasOwnProperty(currentIndex)) {
+  } else if (Object.prototype.hasOwnProperty.call(json, currentIndex)) {
     return findObjectByIndex(json[currentIndex], indices);
   } else {
     return null; // Index not found in the JSON structure

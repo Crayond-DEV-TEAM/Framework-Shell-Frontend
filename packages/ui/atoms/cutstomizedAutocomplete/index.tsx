@@ -84,7 +84,7 @@ export const CutstomizedAutocomplete = (props: CutstomizedAutocompleteProps): JS
       {...rest}
     >
       <Autocomplete
-        defaultValue={value}
+        value={value}
         // errorMessage={formErrors.permission}
         popupIcon={<KeyboardArrowDownIcon />}
         options={permissionList}

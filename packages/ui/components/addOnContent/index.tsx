@@ -6,8 +6,8 @@ import { CustomDropdown } from '@atoms/customDropdown';
 import { Label } from '@atoms/label';
 import { Input } from '@atoms/input';
 import { CutstomizedAutocomplete } from '@atoms/cutstomizedAutocomplete';
-import { useState } from 'react';
-import { AnyCnameRecord } from 'dns';
+import { useEffect, useState } from 'react';
+// import { AnyCnameRecord } from 'dns';
 export interface AddOnContentProps {
   className?: string;
   sx?: SxProps<Theme>;
@@ -30,9 +30,22 @@ export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
       const isMatch = featureDetails?.filter((item: any) => item?.id === currentFeature?.id);
       if (!isMatch?.length) handleAddEditStateChange('features', null);
     }
-    setFeatureList(featureDetails);
+    // setFeatureList(featureDetails);
   };
-  console.log(createEditAddOns?.features);
+  console.log(featuesList, 'featuesList');
+
+  useEffect(() => {
+    const deMart = createEditAddOns?.featuregroup?.feature_group_mapings?.map((x: any) => x?.feature);
+    setFeatureList(deMart);
+  }, [createEditAddOns.id]);
+
+  const foundFeature = featuesList?.some((item) => item.name === createEditAddOns.features?.name);
+
+  // objectArray.find((item) => item.name === billtype?.name);
+
+  console.log(foundFeature, 'foundFeature');
+
+  console.log(foundFeature ? createEditAddOns.features : null, 'createEditAddOns.features');
 
   return (
     <Box
@@ -52,7 +65,7 @@ export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
           </Label>
           <Input
             size="small"
-            placeholder=" Add-on name"
+            placeholder="Add-on name"
             required
             value={createEditAddOns?.name}
             textFieldStyle={addOnContentStyle.inputSx}
@@ -116,11 +129,7 @@ export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
             onChange={(value) => {
               handleAddEditStateChange('features', value);
             }}
-            value={
-              createEditAddOns.features && Object.keys(createEditAddOns.features).length > 0
-                ? createEditAddOns.features
-                : null
-            }
+            value={foundFeature ? createEditAddOns.features : null}
             isError={Boolean(formErrors.features)}
             errorMessage={formErrors.features}
           />

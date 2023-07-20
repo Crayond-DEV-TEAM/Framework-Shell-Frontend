@@ -58,7 +58,8 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
 
   const handleClose = () => {
     setOpen(false);
-    // clearAll();
+    setEditRole(false);
+    clearAll();
     setFormErrors({});
   };
 
@@ -85,6 +86,7 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
     if (isFormValid) {
       addPermission(RepositoryList);
       handleClose();
+      setEditRole(false);
     }
   };
 
@@ -94,6 +96,7 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
     if (isFormValid) {
       editPermission(RepositoryList);
       handleClose();
+      setEditRole(false);
     }
   };
 
@@ -217,7 +220,7 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={open}
-        title={editRole ? 'Edit Permission' : 'Add Permission'}
+        title={editRole === false ? 'Add Permission' : 'Edit Permission'}
         Bodycomponent={
           <ModalAddPermission
             title={'Permission Name'}
@@ -235,7 +238,7 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
             // checked={false}
             checked={addPermissionList.is_active}
             SwitchChange={(e: any) => handleChange('is_active', e.target.checked)}
-            onSave={editRole ? handleEdit : handleAddMsg}
+            onSave={editRole === false ? handleAddMsg : handleEdit}
             onCancel={handleClose}
             // loading={addMessageLoading}
           />

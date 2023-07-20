@@ -109,8 +109,10 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
   const oldChargessum = oldchargesMaps?.reduce((accumulator, currentValue) => {
     return accumulator + parseInt(currentValue, 10);
   }, 0);
+  const billChecking = objectArray.find((item) => item.name === billtype?.name) ? billtype : null;
+  console.log(objectArray.find((item) => item.name === billtype?.name) ? billtype : null, 'chargeMaps');
+  console.log(billtype, 'billtype');
 
-  console.log(oldChargessum, 'chargeMaps');
   return (
     <Box
       sx={[
@@ -156,7 +158,7 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
               onChange={(value) => {
                 handleChangeEvent('billing_type', value);
               }}
-              value={Object.keys(billtype).length > 0 ? billtype : null}
+              value={billChecking && Object.keys(billChecking).length > 0 ? billChecking : null}
               isError={Boolean(formErrors.billing_type)}
               errorMessage={formErrors.billing_type}
             />

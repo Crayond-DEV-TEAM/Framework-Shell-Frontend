@@ -32,7 +32,7 @@ export const SubscriptionDetails = (props: SubscriptionDetailsProps): JSX.Elemen
   const techjson = [
     {
       invoicenumber: TicketSubscription.customerid,
-      invoicedate: TicketSubscription?.data?.created_at,
+      invoicedate: moment(TicketSubscription?.data?.created_at).format('DD- MMM - YYYY'),
       invoiceamount: TicketSubscription.revenue,
       invoicestatus: [
         {
@@ -100,8 +100,8 @@ export const SubscriptionDetails = (props: SubscriptionDetailsProps): JSX.Elemen
             content={
               <SubscriptionPlanContent
                 planName={TicketSubscription.data?.plan?.name}
-                subscriptionId={TicketSubscription?.id}
-                planId={TicketSubscription?.data?.plan?.id}
+                subscriptionId={TicketSubscription?.id.slice(4, 12)}
+                planId={TicketSubscription?.data?.plan?.id.slice(4, 12)}
                 planCost={TicketSubscription.revenue}
                 totalRevenue={TotalRevenue}
                 lastbillOn={moment(TicketSubscription.data?.created_at).format('DD/MM/YYYY')}

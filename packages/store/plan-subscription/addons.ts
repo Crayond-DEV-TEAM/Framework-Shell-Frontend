@@ -4,6 +4,7 @@ import { create } from 'zustand';
 import { AddOnsInterface } from '../interface';
 import { permission } from '../../ui/components/addpermission/utils';
 import { enqueueSnackbar } from 'notistack';
+import moment from 'moment';
 // import { tableJson } from '@components/feature/utils'
 export const useAddOns = create<AddOnsInterface>((set, get) => ({
   AddOnsList: [],
@@ -53,7 +54,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
                 attachedin: tableData.plan_add_on_mappings.length + ' ' + 'plans',
                 feature: tableData.feature,
                 description: tableData.description,
-                createdon: tableData.created_at,
+                createdon: moment(tableData.created_at).format('DD- MMM - YYYY'),
               }),
             set({ AddOnsList: dataTable }),
           );

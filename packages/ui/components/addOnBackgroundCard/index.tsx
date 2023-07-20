@@ -39,6 +39,7 @@ interface ListObject {
 export interface AddOnBackgroundCardProps {
   isLast?: boolean;
   className?: string;
+  billingPeriod?: any[];
   sx?: SxProps<Theme>;
   title?: string;
   value?: any;
@@ -64,6 +65,7 @@ export const AddOnBackgroundCard = (props: AddOnBackgroundCardProps): JSX.Elemen
     className = '',
     sx = {},
     title = '',
+    billingPeriod = [],
     value = '5',
     subTitle = '',
     countTitle = '',
@@ -140,22 +142,26 @@ export const AddOnBackgroundCard = (props: AddOnBackgroundCardProps): JSX.Elemen
 
         <Box sx={addOnBackgroundCardStyle.align}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <ButtonGroupDropdown
-              onChange={(e) => {
-                handleMoneyChange('monthly', e.target.value, ListAddons.id);
-              }}
-              value={ListAddons.price.monthly}
-              permissionList={Money}
-              BtnName={'Monthly'}
-            />
-            <ButtonGroupDropdown
-              onChange={(e) => {
-                handleMoneyChange('yearly', e.target.value, ListAddons.id);
-              }}
-              value={ListAddons.price.yearly}
-              permissionList={Money}
-              BtnName={'Yearly'}
-            />
+            {billingPeriod.includes('Monthly') && (
+              <ButtonGroupDropdown
+                onChange={(e) => {
+                  handleMoneyChange('monthly', e.target.value, ListAddons.id);
+                }}
+                value={ListAddons.price.monthly}
+                permissionList={Money}
+                BtnName={'Monthly'}
+              />
+            )}
+            {billingPeriod.includes('Yearly') && (
+              <ButtonGroupDropdown
+                onChange={(e) => {
+                  handleMoneyChange('yearly', e.target.value, ListAddons.id);
+                }}
+                value={ListAddons.price.yearly}
+                permissionList={Money}
+                BtnName={'Yearly'}
+              />
+            )}
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <FormControl>

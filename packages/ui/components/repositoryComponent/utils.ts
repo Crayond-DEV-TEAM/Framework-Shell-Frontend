@@ -21,94 +21,132 @@ export const books = [
 
 export const RepoJson = [
   {
-    id: '22afc36b-4f7f-42ca-9fce-1a30cc05456d',
-    name: 'Onboarding',
+    id: '22afc36b-4f7f-42ca-9fce-1a3012ccwe8905456d',
+    name: 'Dashboard Section',
     child: [
       {
-        id: '831728ec-55f1-4f56-9b94-dbd20a36a565',
-        name: 'Sign up',
+        id: '22afc36b-4f7f-42ca-9fce-1a301sds223cc05456d',
+        name: 'Dashboards',
         child: [
           {
-            id: '47d1a9fc-10fb-4d6e-90dc-93bff8277d39',
-            name: 'basic info',
+            id: '22afc36b-4f7f-42ca-9fce-1a3450das12cc05456d',
+            name: 'Dashboard',
             permissions: ['read', 'create', 'delete', 'update'],
-            allowed: ['read', 'create', 'update'],
-          },
-          {
-            id: 'e14bf7f2-c7af-4fe7-ae96-a56890e2d72b',
-            name: 'Proffesional details',
-            permissions: ['read', 'create', 'delete', 'update'],
-            allowed: ['read', 'create', 'update'],
+            allowed: ['read', 'create', 'delete', 'update'],
           },
         ],
-      },
-      {
-        id: '2ac0afc4-0621-4f2a-befa-732d307bd480',
-        name: 'Sign in',
-        child: [
-          {
-            id: '3b7d6e21-d08b-493b-9884-f1c3a000faa2',
-            name: 'Sign in with mobile number',
-            child: [
-              {
-                id: '6509fa5d-3b1d-4f62-897a-320d1c9db0db',
-                name: 'company',
-                permissions: ['read', 'create', 'delete', 'update'],
-                allowed: ['read', 'create', 'update'],
-              },
-            ],
-            permissions: ['read', 'create', 'delete', 'update'],
-            allowed: ['read', 'create', 'update'],
-          },
-          {
-            id: '9a21dde5-222f-451c-a601-4d0c3ed63bcf',
-            name: 'Sign in with email id',
-            permissions: ['read', 'create', 'delete', 'update'],
-            allowed: ['read', 'create', 'update'],
-          },
-        ],
-      },
-      {
-        id: '610cb708-9440-49ad-b46c-08cb0c5da8b9',
-        name: 'Forgot Password',
       },
     ],
   },
   {
-    id: '3a18ad99-04bf-4461-b55f-18c9384deed9',
-    name: 'Dashboard',
+    id: '22afc36b-4fuk7f-42ca-9fce-1a3012cc05456d',
+    name: 'Recognition Section',
     child: [
       {
-        id: '4cdfbee6-6012-4a5f-94b7-c37009500c52',
-        name: 'To-do',
+        id: '3a18ad99-0476bf-4461-b55f-18c9384d2eed9',
+        name: 'Recognitions',
         child: [
           {
-            id: '8a95c3a7-9d15-4584-a3a6-7e136083709b',
-            name: 'basic information',
+            id: '4cdfb1e6-676012-4a5f-94b7-c3700950012c52',
+            name: 'Recognize',
             permissions: ['read', 'create', 'delete', 'update'],
-            allowed: ['update', 'read', 'create'],
+            allowed: ['read', 'create', 'delete', 'update'],
           },
           {
-            id: '38ba5e2d-6595-4c6d-b561-f8654b4d9e01',
-            name: 'Proffesional',
+            id: '8be9607e-1293-4a12d4-b089d7-cb76f4840cbc',
+            name: 'Library',
+            permissions: ['read', 'create', 'delete', 'update'],
+            allowed: ['read', 'create', 'delete', 'update'],
+          },
+          {
+            id: '8be9607e-9191-1a5612d4-b0d7-cb76f4840cbc',
+            name: 'SocialWall',
+            permissions: ['read', 'create', 'delete', 'update'],
+            allowed: ['read', 'create', 'delete', 'update'],
           },
         ],
       },
+    ],
+  },
+  {
+    id: '22afc36b-4f7f-42ca-9fc67e-1a3012cc05456d',
+    name: 'Communication Section',
+    child: [
       {
-        id: '8be9607e-9293-4ad4-b0d7-cb76f4840cbc',
-        name: 'Rename',
+        id: '3a18ad99-04bf-4461-b58785f-18c9384d2eed9',
+        name: 'Communication',
         child: [
           {
-            id: '08a55c83-c44b-451f-a3db-1436fd6e6cac',
-            name: 'Changed successfull',
+            id: '4cdfb1e6-6012-4a5f-9490b7-c3700950012c52',
+            name: 'Survey',
             permissions: ['read', 'create', 'delete', 'update'],
-            allowed: ['update'],
+            allowed: ['read', 'create', 'delete', 'update'],
           },
           {
-            id: '722710fe-460b-422b-a2c0-7f29dcd36745',
-            name: 'Forgot number',
+            id: '8be9607e-1293-4a12d4-b0d767-cb76f4840cbc',
+            name: 'Forums',
             permissions: ['read', 'create', 'delete', 'update'],
-            allowed: ['read'],
+            allowed: ['read', 'create', 'delete', 'update'],
+          },
+          {
+            id: '8be967607e-9191-1a12d4-b0d7-cb76f4840cbc',
+            name: 'Polls',
+            permissions: ['read', 'create', 'delete', 'update'],
+            allowed: ['read', 'create', 'delete', 'update'],
+          },
+          {
+            id: '8be9607e-9191-1a12d4-b0d7-cb7687f4840cbc',
+            name: 'Idea Box',
+            permissions: ['read', 'create', 'delete', 'update'],
+            allowed: ['read', 'create', 'delete', 'update'],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: '22afc36b-4f7f-42ca-9fc90e-1a3012cc05456d',
+    name: 'Reward Section',
+    child: [
+      {
+        id: '3a18ad99-04bf-4461-b5565f-18c9384d2eed9',
+        name: 'Rewards',
+        child: [
+          {
+            id: '4cdfb1e6-6012-4a5f-9894b7-c3700950012c52',
+            name: 'Points',
+            permissions: ['read', 'create', 'delete', 'update'],
+            allowed: ['read', 'create', 'delete', 'update'],
+          },
+          {
+            id: '8be9607e-1293-4a12d4-b078d7-cb76f4840cbc',
+            name: 'Redeem',
+            permissions: ['read', 'create', 'delete', 'update'],
+            allowed: ['read', 'create', 'delete', 'update'],
+          },
+          {
+            id: '8be9607e-9191-1a12d4-b450d7-cb76f4840cbc',
+            name: 'Redemption',
+            permissions: ['read', 'create', 'delete', 'update'],
+            allowed: ['read', 'create', 'delete', 'update'],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: '22afc36b-4f7f-42ca-9fce-1a3012cc788905456d',
+    name: 'Org Charts Section',
+    child: [
+      {
+        id: '22afc36b-4f7f-42ca-9fce-45',
+        name: 'Org Charts',
+        child: [
+          {
+            id: '22afc36b-4f7f-42ca-9fce-34',
+            name: 'Org Chart',
+            permissions: ['read', 'create', 'delete', 'update'],
+            allowed: ['read', 'create', 'delete', 'update'],
           },
         ],
       },

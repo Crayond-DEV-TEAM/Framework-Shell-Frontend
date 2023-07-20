@@ -38,7 +38,7 @@ export const invoiceTableStyle: InvoiceTableStyleProps = {
     //   // backgroundColor: 'red',
     // },
     '& .MuiTableRow-root .stickyRight:nth-last-of-type(2n)': {
-      right: '70px',
+      // right: '70px',
     },
     '& .MuiFormControlLabel-root': {
       marginRight: '0px',

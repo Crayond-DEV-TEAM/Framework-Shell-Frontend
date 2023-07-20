@@ -1,4 +1,5 @@
 export const planSubscriptionRoutes = {
+  home: '/customer',
   plan: '/plan',
   createplan: '/createplan',
   customer: '/customer',

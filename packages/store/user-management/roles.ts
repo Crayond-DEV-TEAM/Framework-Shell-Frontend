@@ -31,6 +31,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
   errorOnFetching: false,
 
   setaddMessage: (payload: { key: string; value: string }) => {
+    debugger;
     set((state) => ({ addRole: { ...state.addRole, [payload.key]: payload.value } }));
   },
 

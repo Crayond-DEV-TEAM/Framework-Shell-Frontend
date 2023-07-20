@@ -69,6 +69,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
     setValues(true);
   };
   const handleTableEdit = (id: string, data: any, e: any) => {
+    debugger
     setValues(true);
     setaddMessage(data);
     // setIsEdit(id.length > 0 ? true : false);

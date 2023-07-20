@@ -38,7 +38,6 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
   setSubscriptionList: (key: string, value: any) => {
     const { createEditSubscription } = get();
     const totalCountFunc = () => {
-      debugger;
       const chargeMaps = createEditSubscription.plan_id.plan_charge_mappings?.map((value: any) => value.price);
       const Chargessum = chargeMaps?.reduce((accumulator: any, currentValue: any) => accumulator + currentValue, 0);
 
@@ -60,9 +59,6 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
           : billingType === 'Yearly'
           ? createEditSubscription.plan_id?.price?.yearly
           : null;
-
-      console.log(Chargessum, 'ChargessumChargessum');
-      debugger;
       const Total = monthlyTotal + parseInt(planCardPrice, 10) + (Chargessum === undefined ? 0 : Chargessum);
       return Total;
     };
@@ -236,7 +232,6 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       is_plan_effective: createEditSubscription.is_plan_effective,
       plan_effective_from: dateFetching(createEditSubscription.plan_effective_from),
     };
-    debugger;
 
     httpRequest('put', `${envConfig.api_url}/subscriptions`, payload, true)
       .then((response) => {
@@ -279,7 +274,6 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     };
     httpRequest('post', `${envConfig.api_url}/subscriptions/customerSubscription`, payload, true)
       .then((response) => {
-        debugger;
         set({ OldSubscription: response.data.data.rows?.slice(-1)[0] });
       })
       .catch((err) => {

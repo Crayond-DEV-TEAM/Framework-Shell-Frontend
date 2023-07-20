@@ -56,7 +56,7 @@ export const subscriptionStyle: SubscriptionStyleProps = {
     //   // backgroundColor: 'red',
     // },
     '& .MuiTableRow-root .stickyRight:nth-last-of-type(2n)': {
-      // right: '70px',
+      right: '84px',
     },
     '& .MuiFormControlLabel-root': {
       marginRight: '0px',

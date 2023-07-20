@@ -292,7 +292,7 @@ export const usePlans = create<PlansInterface>((set, get) => ({
     }));
   },
 
-  getPlansList: (x = { offset: 0, limit: 0 }) => {
+  getPlansList: (x = { offset: 0, limit: 100 }) => {
     set({ fetching: true, errorOnFetch: false });
 
     const payload = {
@@ -346,7 +346,7 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
-        getPlansList({ offset: 0, limit: 10 });
+        getPlansList({ offset: 0, limit: 100 });
       });
   },
   editPlan: () => {
@@ -381,7 +381,7 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
-        getPlansList({ offset: 0, limit: 10 });
+        getPlansList({ offset: 0, limit: 100 });
       });
   },
   deletePlan: (x: any) => {

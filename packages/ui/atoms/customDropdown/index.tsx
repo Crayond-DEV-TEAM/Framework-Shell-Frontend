@@ -85,7 +85,7 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
       {/* {console.log(value, 'valuevalue')} */}
       <Autocomplete
         value={value}
-        defaultValue={value}
+        // defaultValue={value}
         // errorMessage={formErrors.permission}
         multiple
         limitTags={2}
@@ -95,17 +95,29 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
         disableCloseOnSelect
         getOptionLabel={(options: any) => options?.name}
         renderOption={(props, option, { selected }) => (
-          <li {...props} style={{ justifyContent: 'space-between', display: 'flex' }}>
-            {option?.name}
+          <li
+            {...props}
+            style={{
+              justifyContent: 'space-between',
+              display: 'flex',
+              backgroundColor: value?.map((val: any) => val?.id)?.includes(option.id) && '#E2F0E6',
+            }}
+          >
+            <span
+              style={{
+                fontWeight: value?.map((val: any) => val?.id)?.includes(option.id) && 600,
+              }}
+            >
+              {' '}
+              {option?.name}
+            </span>
             <CheckBox
               // defaultChecked={true}
               style={{ marginRight: 8 }}
               checked={value?.map((val: any) => val?.id)?.includes(option.id)}
               value={option?.name}
               onChange={(e) => {
-                const newValue = e.target.checked
-                  ? [...value, option]
-                  : value.filter((item: any) => item.id !== option.id);
+                const newValue = e.target.checked ? [option] : value.filter((item: any) => item.id !== option.id);
                 onChange && onChange(newValue);
               }}
             />
@@ -127,7 +139,7 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
           value.map((option: any, index: number) => <Chip key={option?.id} label={option?.name} />)
         }
         onChange={(option, value) => {
-          onChange && onChange(value);
+          onChange && onChange(Object.values(value.reduce((acc, cur) => Object.assign(acc, { [cur.id]: cur }), {})));
         }}
         sx={{
           '& .MuiChip-root': { height: '28px', borderRadius: '8px', marginLeft: '4px', marginTop: '-7px' },

@@ -88,7 +88,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
       id: editMessageList.id,
       title: editMessageList.title,
       description: editMessageList.description,
-      is_status: editMessage.is_status,
+      is_status: editMessageList.is_status,
     };
 
     set({ editMessageLoading: true, errorOnFetching: false });

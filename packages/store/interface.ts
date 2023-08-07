@@ -681,6 +681,40 @@ export interface PlansInterface {
   setOptionsAddons: (x: any) => void;
   setOptionsCharges: (x: any) => void;
 }
+
+export interface JSONInterface {
+  addedjson: string;
+  setAddedjson: (value: string) => void;
+}
+
+export interface Schema {
+  id?: string;
+  title?: string;
+  isEnabled?: boolean;
+}
+
+export interface NetworkMethod {
+  name?: string;
+  value?: string;
+}
+export interface API {
+  method?: NetworkMethod;
+  url?: string;
+  header?: string;
+  body?: string;
+}
+
+export interface SchemaLoaderInterface {
+  vendorSchema?: Schema[];
+  destinatinSchema?: Schema[];
+  setVendorSchema?: (value: Schema[]) => void;
+  setDestinationSchema?: (value: Schema[]) => void;
+
+  vendorAPI?: API;
+  destinationAPI?: API;
+  setVendorAPI?: (value: API) => void;
+  setDestinationAPI?: (value: API) => void;
+}
 export interface FeatureKey {
   name: string;
   is_active: boolean;

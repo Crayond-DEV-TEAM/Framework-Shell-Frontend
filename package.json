@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "turbo run dev --parallel",
     "dev:user-management": "turbo run dev --filter=user-management --filter=framwork-shell",
+    "dev:schema-mapper": "turbo run dev --filter=schema-mapper --filter=framwork-shell",
     "dev:plan-subscription": "turbo run dev --filter=plan-subscription --filter=framwork-shell",
     "build": "turbo run build",
     "dev:production": "turbo run dev:production --parallel",

@@ -153,8 +153,8 @@ export const SideBarPlan = (props: SideBarPlanProps): JSX.Element => {
             <Typography sx={sideBarPlanStyle.menutext}>Exit</Typography>
           </Box>
         </MenuItem>
-        <MenuItem>
-          <Box sx={sideBarPlanStyle.profileSection} onClick={logOut}>
+        <MenuItem onClick={logOut}>
+          <Box sx={sideBarPlanStyle.profileSection}>
             <Logout />
             <Typography sx={sideBarPlanStyle.menutext}>Logout</Typography>
           </Box>

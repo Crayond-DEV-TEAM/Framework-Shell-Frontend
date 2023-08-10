@@ -11,6 +11,7 @@ export { AlertRules } from './alertRules';
 export { ApiDocumentation } from './apiDocumentation';
 export { AppLayout } from './appLayout';
 export { BackgroundPaper } from './backgroundPaper';
+export { BadgeDropdown } from './badgeDropdown';
 export { ButtonGroupDropdown } from './buttonGroupDropdown';
 export { Charges } from './charges';
 export { ConfigureRepo } from './configureRepo';

@@ -2,7 +2,7 @@
 import { Box, Typography } from '@mui/material';
 import { homeStyle } from './style';
 import { useNavigate } from 'react-router-dom';
-import { messageRoutes, userManageRoutes } from '@core/routes';
+import { userManageRoutes } from '@core/routes';
 import React from 'react';
 
 export default function Home() {

@@ -248,14 +248,14 @@ export const AllRoutes: { [key: number]: Menu } = {
     link: '/',
     name: 'User Managment',
     baseUrl: '',
-    links: ['/userManagment'],
+    links: ['/'],
     icon: (isSelected: boolean) => (
       <MessageHub sx={{ fontSize: '22px', color: isSelected ? 'primary.main' : 'action' }} />
     ),
     childrens: [
       {
         id: 1,
-        link: '/userManagment',
+        link: '/',
         name: 'User Managment',
         baseUrl: '',
         icon: (isSelected: boolean) => <SubMessageLanguage sx={{ color: isSelected ? 'primary.main' : 'action' }} />,

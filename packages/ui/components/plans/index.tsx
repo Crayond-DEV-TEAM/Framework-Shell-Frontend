@@ -248,7 +248,7 @@ export const Plans = (props: PlansProps): JSX.Element => {
             }}
             paginationOption={{
               isEnable: true,
-              rowPerPage: 10,
+              // rowPerPage: 10,
               rowsPerPageOptions: [5, 10, 25],
             }}
             tableMinHeight={'calc(100vh - 167px)'}

@@ -1,3 +1,3 @@
 export const userManageRoutes = {
-  userManagement: '/userManagement',
+  userManagement: '/',
 };

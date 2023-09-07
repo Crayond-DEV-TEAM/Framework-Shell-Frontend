@@ -10,7 +10,7 @@ export interface CutstomizedAutocompleteProps {
   sx?: SxProps<Theme>;
   key?: string;
   value?: any;
-  placeholder: string;
+  placeholder?: string;
   loadOptions?: () => Promise<any[]>;
   onChange?: (value: any) => void;
   options?: any[];
@@ -72,6 +72,8 @@ export const CutstomizedAutocomplete = (props: CutstomizedAutocompleteProps): JS
     sx = {},
     ...rest
   } = props;
+
+  console.log(options, 'options');
   return (
     <Box
       sx={[
@@ -97,6 +99,7 @@ export const CutstomizedAutocomplete = (props: CutstomizedAutocompleteProps): JS
             sx={{
               height: '40px',
               borderRadius: '8px',
+              border: 0,
               '& .MuiOutlinedInput-root': { height: '40px', borderRadius: '8px', fontSize: '12px', fontWeight: 600 },
               '& .MuiFormHelperText-root': { ml: '0px', mb: '10px' },
             }}

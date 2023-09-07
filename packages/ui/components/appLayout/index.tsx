@@ -15,6 +15,8 @@ export interface AppLayoutProps {
   childrenWrapperProps?: BoxProps;
   children: JSX.Element;
   paddingElement?: any;
+  sideBarSection?: boolean;
+  mainelement?: any;
 }
 
 export function AppLayout(props: AppLayoutProps): JSX.Element {
@@ -24,11 +26,14 @@ export function AppLayout(props: AppLayoutProps): JSX.Element {
     children,
     childrenWrapperProps = {},
     sx = {},
-    paddingElement = {},
+    paddingElement,
+    mainelement,
+    sideBarSection = true,
     ...rest
   } = props;
 
   const user = useUser((state) => state.user);
+  console.log(childrenWrapperProps, 'paddingElement');
 
   return (
     <Box
@@ -42,13 +47,14 @@ export function AppLayout(props: AppLayoutProps): JSX.Element {
       {...rest}
     >
       <AppBar user={user} title={title} />
-      <SideBar />
+      {sideBarSection && <SideBar />}
       {/* Children */}
       <Box
         sx={[
           {
             ...appLayoutStyle.childrenSx,
             paddingElement,
+            ...mainelement,
           },
           ...(Array.isArray(childrenWrapperProps['sx']) ? childrenWrapperProps['sx'] : [childrenWrapperProps['sx']]),
         ]}

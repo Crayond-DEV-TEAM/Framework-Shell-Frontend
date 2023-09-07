@@ -24,6 +24,18 @@ const router = createBrowserRouter([
     ],
   },
   {
+    // path: planSubscriptionRoutes.addOns,
+    element: (
+      <PrivateRouter>
+        <AppLayout title="IDM" paddingElement={{ padding: '7px 0px 0px 50px' }}>
+          <UserManagementPage />
+          {/* <AddOnsPage /> */}
+        </AppLayout>
+        {/* <RootLayout /> */}
+      </PrivateRouter>
+    ),
+  },
+  {
     path: '*',
     errorElement: <ErrorBoundary />,
     element: <PageNotFound />,

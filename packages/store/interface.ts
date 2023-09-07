@@ -896,3 +896,35 @@ export interface PlanInterface<T> {
   PlanList: PlanKey<T>[];
   getPlanList: () => void;
 }
+
+export interface AdminKey {
+  projectTitle: string;
+  description: string;
+  services: string[];
+  mappedUser: string[];
+  is_active?: boolean;
+  access?: boolean;
+  id?: string;
+}
+
+export interface AdminInterface {
+  adminList: AdminKey[];
+  fetching: boolean;
+  errorOnFetching: boolean;
+
+  addsave: boolean;
+  editsave: boolean;
+  deletefetch: boolean;
+
+  createEditAdmin: AdminKey;
+  seteditAdmin: (payload: { key: string; value: string | number }) => void;
+
+  updateEditData: (data: any) => void;
+
+  getAdminList: () => void;
+  createAdmin: () => void;
+  editAdmin: () => void;
+  getStatusList: (id: any, status: any) => void;
+  deleteAdmin: (id: string) => void;
+  clearAll: () => void;
+}

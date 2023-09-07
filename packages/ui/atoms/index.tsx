@@ -30,3 +30,9 @@ export { SnacbarClose } from './snacbarClose';
 export { SubscriptionPlanCard } from './subscriptionPlanCard';
 export { ToggleButtons } from './toggleButton';
 export { TreeComponent } from './treeComponent';
+
+export { IdmBackgroundCard } from './idmBackgroundCard';
+export { AddChipDropdown } from './addChipDropdown';
+export { MappedUserCard } from './mappedUserCard';
+export { AddChipMultipleDropdown } from './addChipMultipleDropdown';
+export { MappedAdminCard } from './mappedAdminCard';

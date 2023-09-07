@@ -207,16 +207,19 @@ export const apiDocumentation_style = {
   },
   commonTable: {
     // border: "1px solid #EAEAEA",
+    '& .MuiPaper-root': {
+      borderRadius: '7px',
+    },
+    '& .MuiTablePagination': {
+      display: 'none',
+    },
     '& .MuiTableContainer-root': {
       borderBottom: '1px solid #EAEAEA',
-      borderRadius: '7px 7px 0px 0px',
+      borderRadius: '7px',
     },
     '& .TABLE_BOX': {
       padding: '0px !important',
       gap: '0px !important',
-    },
-    '& .TEXT': {
-      maxWidth: '100px',
     },
   },
   contentSx: {},

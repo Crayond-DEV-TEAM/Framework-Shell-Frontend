@@ -121,6 +121,10 @@ export function Reports(props: ReportsProps): JSX.Element {
     setChecked(event.target.checked);
   };
 
+  const editHandel = () => {};
+
+  const deleteHandel = () => {};
+
   const Header = [
     {
       id: 'alert_rule_code',
@@ -201,152 +205,157 @@ export function Reports(props: ReportsProps): JSX.Element {
     { type: ['DATE'], name: 'sent_on', format: 'DD MMM hh:mm' },
     { type: ['DATE'], name: 'delivered_on', format: 'DD MMM hh:mm' },
     { type: ['DATE'], name: 'clicked', format: 'DD MMM hh:mm' },
-    { type: ['ICON_WITH_TEXT'], name: 'status' },
+    {
+      type: ['SWITCH'],
+      name: 'status',
+      switchText: [{ label_1: 'In Active', label_2: 'Active' }],
+    },
     {
       type: ['ACTION'],
       name: 'action',
-      variant: 'EDIT_WITH_DELETE',
-      editHandel: (id: any) => {
-        console.log(id);
-      },
-      deleteHandel: (id: any) => {
-        console.log(id);
-      },
-      editIcon: <EditIcon />,
-      deleteIcon: <DeleteIcon />,
+      variant: [
+        {
+          icon: <EditIcon />,
+          method: editHandel,
+        },
+        {
+          icon: <DeleteIcon />,
+          method: deleteHandel,
+        },
+      ],
     },
   ];
 
-  const filterContent = [
-    {
-      name: 'Hashtag',
-      children: [
-        {
-          component: 'searchField',
-          value: '',
-        },
-        {
-          component: 'checkbox',
-          label: 'hashtag1',
-          value: false,
-        },
-        {
-          component: 'checkbox',
-          label: 'hashtag2',
-          value: false,
-        },
-        {
-          component: 'checkbox',
-          label: 'hashtag3',
-          value: false,
-        },
-        {
-          component: 'checkbox',
-          label: 'hashtag4',
-          value: false,
-        },
-        {
-          component: 'checkbox',
-          label: 'hashtag5',
-          value: false,
-        },
-        {
-          component: 'checkbox',
-          label: 'hashtag6',
-          value: false,
-        },
-      ],
-    },
-    {
-      name: 'Alert Type',
-      children: [
-        {
-          component: 'checkbox',
-          label: 'hashtag1',
-          value: false,
-        },
-        {
-          component: 'checkbox',
-          label: 'hashtag2',
-          value: false,
-        },
-        {
-          component: 'checkbox',
-          label: 'hashtag3',
-          value: false,
-        },
-        {
-          component: 'checkbox',
-          label: 'hashtag4',
-          value: false,
-        },
-        {
-          component: 'checkbox',
-          label: 'hashtag5',
-          value: false,
-        },
-        {
-          component: 'checkbox',
-          label: 'hashtag6',
-          value: false,
-        },
-      ],
-    },
-    {
-      name: 'Status',
-      children: [
-        {
-          component: 'checkbox',
-          label: 'high',
-          value: false,
-        },
-        {
-          component: 'checkbox',
-          label: 'medium',
-          value: false,
-        },
-        {
-          component: 'checkbox',
-          label: 'low',
-          value: false,
-        },
-        {
-          componentName: 'switch',
-          value: false,
-        },
-      ],
-    },
-    {
-      name: 'Date',
-      children: [
-        {
-          component: 'dateCheckbox',
-          label: 'Sent on',
-          value: false,
-        },
-        {
-          component: 'dateCheckbox',
-          label: 'Delivered on',
-          value: false,
-        },
-        {
-          component: 'dateCheckbox',
-          label: 'Clicked on',
-          value: false,
-        },
-        {
-          component: 'dateInput',
-          label: 'Select Date From',
-          value: '23rd Jan, 22',
-        },
-        {
-          component: 'dateInput',
-          label: 'Select Date To',
-          value: '25th Jan, 22',
-        },
-      ],
-    },
-  ];
+  // const filterContent = [
+  //   {
+  //     name: 'Hashtag',
+  //     children: [
+  //       {
+  //         component: 'searchField',
+  //         value: '',
+  //       },
+  //       {
+  //         component: 'checkbox',
+  //         label: 'hashtag1',
+  //         value: false,
+  //       },
+  //       {
+  //         component: 'checkbox',
+  //         label: 'hashtag2',
+  //         value: false,
+  //       },
+  //       {
+  //         component: 'checkbox',
+  //         label: 'hashtag3',
+  //         value: false,
+  //       },
+  //       {
+  //         component: 'checkbox',
+  //         label: 'hashtag4',
+  //         value: false,
+  //       },
+  //       {
+  //         component: 'checkbox',
+  //         label: 'hashtag5',
+  //         value: false,
+  //       },
+  //       {
+  //         component: 'checkbox',
+  //         label: 'hashtag6',
+  //         value: false,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     name: 'Alert Type',
+  //     children: [
+  //       {
+  //         component: 'checkbox',
+  //         label: 'hashtag1',
+  //         value: false,
+  //       },
+  //       {
+  //         component: 'checkbox',
+  //         label: 'hashtag2',
+  //         value: false,
+  //       },
+  //       {
+  //         component: 'checkbox',
+  //         label: 'hashtag3',
+  //         value: false,
+  //       },
+  //       {
+  //         component: 'checkbox',
+  //         label: 'hashtag4',
+  //         value: false,
+  //       },
+  //       {
+  //         component: 'checkbox',
+  //         label: 'hashtag5',
+  //         value: false,
+  //       },
+  //       {
+  //         component: 'checkbox',
+  //         label: 'hashtag6',
+  //         value: false,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     name: 'Status',
+  //     children: [
+  //       {
+  //         component: 'checkbox',
+  //         label: 'high',
+  //         value: false,
+  //       },
+  //       {
+  //         component: 'checkbox',
+  //         label: 'medium',
+  //         value: false,
+  //       },
+  //       {
+  //         component: 'checkbox',
+  //         label: 'low',
+  //         value: false,
+  //       },
+  //       {
+  //         componentName: 'switch',
+  //         value: false,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     name: 'Date',
+  //     children: [
+  //       {
+  //         component: 'dateCheckbox',
+  //         label: 'Sent on',
+  //         value: false,
+  //       },
+  //       {
+  //         component: 'dateCheckbox',
+  //         label: 'Delivered on',
+  //         value: false,
+  //       },
+  //       {
+  //         component: 'dateCheckbox',
+  //         label: 'Clicked on',
+  //         value: false,
+  //       },
+  //       {
+  //         component: 'dateInput',
+  //         label: 'Select Date From',
+  //         value: '23rd Jan, 22',
+  //       },
+  //       {
+  //         component: 'dateInput',
+  //         label: 'Select Date To',
+  //         value: '25th Jan, 22',
+  //       },
+  //     ],
+  //   },
+  // ];
 
   return (
     <Box>
@@ -381,7 +390,7 @@ export function Reports(props: ReportsProps): JSX.Element {
                 rowEvenBgColor: '#F7F7F7',
               }}
               tableMinWidth={'1800px'}
-              tableMinHeight={'400px'}
+              // tableMinHeight={'400px'}
               paddingAll={'0px'}
               marginAll={'0px'}
               dense={'mmedium'}
@@ -392,11 +401,11 @@ export function Reports(props: ReportsProps): JSX.Element {
                     tableHeader="Total Reports (12)"
                     buttonName="Add New Config"
                     placeholder="Search by receiver info (or) description"
-                    isFilterRequired={true}
+                    // isFilterRequired={true}
                     isSearchRequired={true}
                     isDownloadRequired={true}
                     isBtnRequired={false}
-                    filterContent={filterContent}
+                    // filterContent={filterContent}
                     onChange={handleChange}
                     checked={checked}
                     openPop={openPop}

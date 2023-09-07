@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/material';
 import React from 'react';
 import Tabs from '@mui/material/Tabs';
 import { userManagementStyle } from './style';
-import { Permission, RepositoryComponent, RoleMapping, Roles } from '..';
+import { Permission, RepositoryComponent, RoleMapping, Roles, UserSection } from '..';
 
 export interface UserManagementProps {
   className?: string;
@@ -25,11 +25,12 @@ export const tabs = [
     id: 2,
     label: 'Roles',
     children: <Roles />,
+    // children: <UserSection />,
   },
   // {
   //   id: 3,
-  //   label: 'Role Mapping',
-  //   children: <RoleMapping />,
+  //   label: 'UserSection',
+  //   children: <UserSection />,
   // },
 ];
 function TabPanel(props: any) {

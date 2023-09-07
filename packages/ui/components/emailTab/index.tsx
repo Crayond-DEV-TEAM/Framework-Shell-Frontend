@@ -142,6 +142,9 @@ export function EmailTab(): JSX.Element {
       api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
     },
   ];
+  const editHandel = () => {};
+
+  const deleteHandel = () => {};
 
   const tableData = [
     // { type: ['INCREMENT'], name: 'sl_no' },
@@ -150,15 +153,16 @@ export function EmailTab(): JSX.Element {
     {
       type: ['ACTION'],
       name: 'action',
-      variant: 'EDIT_WITH_DELETE',
-      editHandel: (id: any) => {
-        console.log(id);
-      },
-      deleteHandel: (id: any) => {
-        console.log(id);
-      },
-      editIcon: <EditIcon />,
-      deleteIcon: <DeleteIcon />,
+      variant: [
+        {
+          icon: <EditIcon />,
+          method: editHandel,
+        },
+        {
+          icon: <DeleteIcon />,
+          method: deleteHandel,
+        },
+      ],
     },
   ];
 
@@ -196,6 +200,10 @@ export function EmailTab(): JSX.Element {
                 color: '#5A5A5A',
                 bgColor: '#fff',
                 borderBottom: '0px',
+              }}
+              rowOptions={{
+                rowOddBgColor: '#fff',
+                rowEvenBgColor: '#F7F7F7',
               }}
               switchList={switchList}
               tableMinWidth={'800px'}

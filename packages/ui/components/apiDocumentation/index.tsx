@@ -186,9 +186,9 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
               // bgColor: '#fff',
               borderBottom: '0px',
             }}
-            tableMinWidth={'300px'}
-            tableMaxWidth={'300px'}
-            tableMinHeight={'400px'}
+            // tableMinWidth={'300px'}
+            // tableMaxWidth={'300px'}
+            // tableMinHeight={'400px'}
             paddingAll={'0px'}
             marginAll={'0px'}
             dense={'medium'}

@@ -55,10 +55,7 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
     httpRequest(
       'post',
       `https://alertshub-api.crayond.com/api/v1/rules/get`,
-      {
-        // id using for now
-        profileId: '27ad652f-9143-4c54-a5cd-85bcd470b967',
-      },
+      { profileId: '980ce267-f881-4cbf-a0f6-3da04a20d880', offset: 0, limit: 10, searchStr: null },
       true,
     )
       .then((response) => {

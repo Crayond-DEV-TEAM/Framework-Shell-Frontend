@@ -183,8 +183,12 @@ export const smsTab_style = {
   commonTable: {
     // border: "1px solid" + theme.typography.color.tableHead,
     '& .MuiTableContainer-root': {
-      //   border: '1px solid' + theme.typography.color.tableHead,
+      border: '1px solid #efefef',
       borderRadius: '7px 7px 0px 0px',
+    },
+    '& .MuiTablePagination-root': {
+      border: '1px solid #efefef',
+      width: '100%',
     },
     '& .TABLE_BOX': {
       padding: '0px !important',

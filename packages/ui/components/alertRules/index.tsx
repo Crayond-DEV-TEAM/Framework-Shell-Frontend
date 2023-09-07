@@ -8,7 +8,7 @@ import { DialogContent } from '@core/ui/components/dialogContent';
 import { TableHeader } from '@core/ui/components/tableHeader';
 import { Box, Grid } from '@mui/material';
 import { CommonTable } from 'crayond-components-library-1';
-import React from 'react';
+import React, { useEffect } from 'react';
 // import { Popup } from "@core/ui/components/popup";
 import type { SxProps, Theme } from '@mui/material';
 import { alertRuleStyles } from './style';
@@ -24,12 +24,9 @@ export interface AlertRuleProps {
 }
 export function AlertRules(props: AlertRuleProps): JSX.Element {
   // store Data
-  const {
-    addAlertRules,
-    setaddAlertRule,
-    editAlertRule,
-    //  addAlertRule, getAlertTable
-  } = useAlertRules();
+  const { getAlertTable, setaddAlertRule, addAlertRules, alertsList } = useAlertRules();
+
+  console.log(alertsList, 'alertsList');
 
   const updateState = (key: string, value: string) => setaddAlertRule({ key, value });
 
@@ -52,6 +49,9 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
   const alertRuleData = dummyTableData?.filter(
     (x) => typeof x.alert_rule_code === 'string' && x.alert_rule_code.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+  const editHandel = () => {};
+
+  const deleteHandel = () => {};
 
   const Header = [
     // {
@@ -119,16 +119,16 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
     {
       type: ['ACTION'],
       name: 'action',
-      variant: 'EDIT_WITH_DELETE',
-      editHandel: (id: any) => {
-        editAlertRule(dummyTableData[id]);
-        setOpen(true);
-      },
-      deleteHandel: (id: any) => {
-        console.log(id);
-      },
-      editIcon: <EditIcon />,
-      deleteIcon: <DeleteIcon />,
+      variant: [
+        {
+          icon: <EditIcon />,
+          method: editHandel,
+        },
+        {
+          icon: <DeleteIcon />,
+          method: deleteHandel,
+        },
+      ],
     },
   ];
 
@@ -145,10 +145,9 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
     setOpen(false);
   };
 
-  // commenting for now
-  // React.useEffect(() => {
+  // useEffect(() => {
   //   getAlertTable();
-  // }, []);
+  // });
 
   return (
     <Box>
@@ -158,7 +157,7 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
             <CommonTable
               Header={Header}
               dataList={alertRuleData}
-              tableData={tableData}
+              // tableData={tableData}
               handleSwitch={handleSwitch}
               headerOptions={{
                 fontSize: '14px',
@@ -179,8 +178,8 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
                 borderBottom: '0px',
               }}
               switchList={switchList}
-              tableMinWidth={'1200px'}
-              tableMinHeight={'539px'}
+              // tableMinWidth={'1200px'}
+              // tableMinHeight={'539px'}
               paddingAll={'0px'}
               marginAll={'0px'}
               dense={'small'}

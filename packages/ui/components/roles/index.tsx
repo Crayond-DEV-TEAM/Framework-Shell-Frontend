@@ -69,7 +69,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
     setValues(true);
   };
   const handleTableEdit = (id: string, data: any, e: any) => {
-    debugger
+    // debugger;
     setValues(true);
     setaddMessage(data);
     // setIsEdit(id.length > 0 ? true : false);
@@ -165,6 +165,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
+      {/* <IdmBackgroundCard /> */}
       <Box sx={rolesStyle.commonTable}>
         <CommonTable
           Header={Header}
@@ -226,7 +227,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
         title={`${addRole.id ? 'Edit Role' : 'Add Role'}`}
         Bodycomponent={
           <ModalAddPermission
-            title={'Permission Name'}
+            title={'Role Name'}
             description="Description"
             modalForm={true}
             dropdown={true}

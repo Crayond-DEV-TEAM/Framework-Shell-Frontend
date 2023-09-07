@@ -14,7 +14,7 @@ export const alertRuleStyles = {
       paddingBottom: '12px !important',
       '& .MuiInputBase-root': {
         backgroundColor: '#FFFFFF',
-        width: '332px',
+        // width: '332px',
       },
       '& .MuiIconButton-root': {
         backgroundColor: '#FFFFFF',

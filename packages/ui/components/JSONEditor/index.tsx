@@ -1,12 +1,12 @@
+/* eslint-disable no-prototype-builtins */
 import { Input } from '@atoms/input';
 import { useEffect, useState } from 'react';
 import { Button, Box } from '@mui/material';
-import { useJSON } from '@core/store';
+import { useJSON, useSchemaLoader } from '@core/store';
 export const JSONEditor = (props: any): JSX.Element => {
-  const { addedjson, setAddedjson } = useJSON();
-  console.log(props.schema);
-  const { schema, setSchema, onNext } = props;
-  //   const [addedjson, setAddedjson] = useState<any>('');
+  const { addedjson, setAddedjson, createJSON } = useJSON();
+  const { vendorJSON, destinationJSON, setVendorJSON, setDestinationJSON, updateAPI } = useSchemaLoader();
+  const { activeStep, schema, setSchema, onNext } = props;
   useEffect(() => {
     if (schema.length > 0) {
       const tempSchema = schema.length > 0 ? { schema: schema } : '';
@@ -15,6 +15,45 @@ export const JSONEditor = (props: any): JSX.Element => {
       setAddedjson('');
     }
   }, [schema]);
+
+  /* const getRecursiveObject = (jsonObj: any, key: any, text: any, arr: any = []) => {
+    console.log(key, text);
+    let temp_arr: any = arr;
+    const data_keys = Object.keys(jsonObj).map((x) => {
+      // console.log('x++++', x);
+      if (typeof jsonObj[x] === 'object' && !Array.isArray(x)) {
+        // console.log('x ', x);
+        temp_arr = getRecursiveObject(jsonObj[x], x, `${key}.${x}.`, temp_arr);
+        return temp_arr;
+      } else {
+        temp_arr = `${key}.` === text ? [...temp_arr, `${key}.${x}`] : [...temp_arr, `${text}${key}.${x}`];
+        return temp_arr;
+      }
+    });
+    // console.log(temp_arr);
+    return temp_arr;
+  }; */
+
+  const getNestedKeys = (obj: any, parentKey = '') => {
+    let keys: any = [];
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        let nestedKey = parentKey
+          ? `${parentKey}${
+              typeof obj === 'object' && !Array.isArray(obj) ? `.${key}` : !isNaN(parseInt(key)) ? '->' : `.${key}`
+            }`
+          : `${key}`;
+        nestedKey = nestedKey.replaceAll('->.', '->');
+        nestedKey.slice(-2) !== '->' && keys.push(nestedKey);
+
+        if (typeof obj[key] === 'object' && obj[key] !== null) {
+          keys = keys.concat(getNestedKeys(obj[key], nestedKey));
+        }
+      }
+    }
+
+    return keys;
+  };
 
   return (
     <Box sx={{ m: 2, px: 0 }}>
@@ -36,9 +75,11 @@ export const JSONEditor = (props: any): JSX.Element => {
                     }
                   ]
                 }`}
-        value={addedjson}
+        value={activeStep === 'source' ? vendorJSON : destinationJSON}
+        // value={addedjson}
         onChange={(e: any) => {
-          setAddedjson(e.target.value);
+          // setAddedjson(e.target.value);
+          activeStep === 'source' ? setVendorJSON(e.target.value) : setDestinationJSON(e.target.value);
         }}
       />
       <Box sx={{ display: 'flex', justifyContent: 'end', mt: 1 }}>
@@ -46,16 +87,13 @@ export const JSONEditor = (props: any): JSX.Element => {
           size="small"
           // variant="outlined"
           onClick={() => {
-            // const temp = addedjson.replace(/^([A-Z,a-z,0-9])$/g, (match: any, offset: any) => {
-            //   console.log(match);
-            //   return `"${match}"`;
-            // });
-            const temp = addedjson.replace(/^(A-Z,a-z,0-9])$/g, '"\\$&"');
-            // const temp = addedjson.replace(/'/g, '"');
+            const temp =
+              activeStep === 'source'
+                ? vendorJSON.replace(/^(A-Z,a-z,0-9])$/g, '"\\$&"')
+                : destinationJSON.replace(/^(A-Z,a-z,0-9])$/g, '"\\$&"');
             const obj = JSON.parse(temp);
             const pretty = JSON.stringify(obj, undefined, 4);
-            setAddedjson(pretty);
-            // console.log(typeof pretty);
+            activeStep === 'source' ? setVendorJSON(pretty) : setDestinationJSON(pretty);
           }}
         >
           Prettify
@@ -64,47 +102,45 @@ export const JSONEditor = (props: any): JSX.Element => {
           size="small"
           variant="outlined"
           onClick={() => {
-            const temp = addedjson.replace(/&quot;/gi, '"');
+            // createJSON(activeStep, 'JSON');
+            const temp =
+              activeStep === 'source' ? vendorJSON.replace(/&quot;/gi, '"') : destinationJSON.replace(/&quot;/gi, '"');
             const obj = JSON.parse(temp);
             let keys = Object.keys(obj);
             let removeEle: any[] = [];
-            // console.log(keys)
             keys.map((key: any, index: any) => {
-              // console.log(key, typeof obj[key]);
               if (typeof obj[key] === 'object' && Array.isArray(obj[key])) {
-                // console.log(key, obj[key]);
-                let array: any[] = [];
-                obj[key].map((x: any) => {
-                  // console.log(x, key);
-                  if (typeof x === 'object') {
-                    // console.log()
-                    const inner_data_array = Object.keys(x).map((z) => `${key}->${z}`);
-                    array = [...array, ...inner_data_array];
-                    // console.log(array);
-                    removeEle = [...removeEle, key];
-                  }
-                  return;
-                });
-                // console.log(array);
-                let temp = [...new Set(array)];
-                temp = temp.length > 0 ? temp : key;
-                // console.log(keys, temp);
-                keys = [...keys, temp].flat();
+                console.log('HAI');
+                // let array: any[] = [];
+                // obj[key].map((x: any) => {
+                //   if (typeof x === 'object') {
+                const arr_elements = getNestedKeys(obj[key][0], key);
+                console.log(arr_elements);
+                //     console.log(arr_elements);
+                //     // const inner_data_array = Object.keys(x).map((z) => `${key}->${z}`);
+                //     array = [...array, ...arr_elements];
+                //     removeEle = [...removeEle, key];
+                //   }
+                //   return;
+                // });
+                // let temp = [...new Set(array)];
+                // temp = temp.length > 0 ? temp : key;
+                // keys = [...keys, temp].flat();
               } else if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
-                // console.log(obj[key]);
-                const inner_data = Object.keys(obj[key]).map((x) => `${key}.${x}`);
-                // keys.splice(keys.indexOf(key), 1);
+                const arr_elements = getNestedKeys(obj[key], key);
+                console.log(arr_elements);
+                // const inner_data = Object.keys(obj[key]).map((x) => `${key}.${x}`);
                 removeEle = [...removeEle, key];
-                keys = [...keys, ...inner_data];
+                keys = [...keys, ...arr_elements];
               }
             });
-            console.log(removeEle);
             keys = keys.filter((x) => removeEle.indexOf(x) === -1);
             keys = [...new Set(keys)];
             const schema = keys.map((x, index) => ({ id: x, title: x, isEnabled: true }));
-            // console.log(schema);
+            console.log(schema);
             setSchema(schema);
-            onNext();
+            // onNext();
+            // updateAPI(activeStep, 'JSON', onNext);
           }}
         >
           Update

@@ -22,6 +22,12 @@ export const apiStyle: APIEditorProps = {
     pt: 2,
   },
 
+  checkBtm: {
+    position: 'relative',
+    top: '40%',
+    left: '10%',
+  },
+
   inputGroupSx: {
     display: 'grid',
     // pb: 2,

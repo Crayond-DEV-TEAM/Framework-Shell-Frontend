@@ -69,13 +69,15 @@ export interface Schema {
 // ];
 
 export const SchemaMapper = (_props: SchemaMapperProps): JSX.Element => {
-  const { vendorSchema, destinatinSchema, setVendorSchema, setDestinationSchema } = useSchemaLoader();
+  const { vendorSchema, destinatinSchema, fetching, setVendorSchema, setDestinationSchema, updateMappedSchema } =
+    useSchemaLoader();
+
+  console.log(vendorSchema);
   const [custom, setCustom] = useState<any>(vendorSchema ? JSON.parse(JSON.stringify(vendorSchema)) : []);
   const [custom2, setCustom2] = useState<any>(destinatinSchema ? JSON.parse(JSON.stringify(destinatinSchema)) : []);
-  // useEffect(() => {
-  //   custom = JSON.parse(JSON.stringify(vendorSchema));
-  //   custom2 = JSON.parse(JSON.stringify(destinatinSchema));
-  // }, []);
+  useEffect(() => {
+    fetching && setCustom2(JSON.parse(JSON.stringify(destinatinSchema)));
+  }, [fetching]);
   const [loading, setLoading] = useState(false);
   const [data1, setData1] = useState<any>({});
   const [data2, setData2] = useState<any>({});
@@ -289,9 +291,12 @@ export const SchemaMapper = (_props: SchemaMapperProps): JSX.Element => {
   const back = () => {};
   const next = () => {
     console.log(selected);
-    // selected.map((x: any) => {
-    //   return x['uploaddata'] : x['dbdata']
-    // })
+    const payload: any = [];
+    selected.map((x: any) => {
+      payload.push({ uploaddata: x.uploaddata, dbdata: x.dbdata.split(' | ') });
+    });
+    console.log(payload);
+    updateMappedSchema(payload);
   };
 
   return (
@@ -380,7 +385,7 @@ export const SchemaMapper = (_props: SchemaMapperProps): JSX.Element => {
         </Grid>
         <Grid item md={4} xs={12}>
           <Box sx={schemaStyle.destinationrootsection}>
-            {!false && (
+            {!fetching && (
               <>
                 <Typography sx={schemaStyle.tittlesection}>{`Destination Schema (${custom2.length})`}</Typography>
                 <Box sx={schemaStyle.list}>

@@ -27,10 +27,12 @@ const router = createBrowserRouter([
     path: schemaMapperRoutes.schemaMapper,
     element: (
       <PrivateRouter>
-        {/* <SidebarLayout> */}
-        <SchemaMapperPage />
-        {/* </SidebarLayout> */}
-        {/* <RootLayout /> */}
+        <>
+          {/* <SidebarLayout> */}
+          <SchemaMapperPage />
+          {/* </SidebarLayout> */}
+          {/* <RootLayout /> */}
+        </>
       </PrivateRouter>
     ),
   },

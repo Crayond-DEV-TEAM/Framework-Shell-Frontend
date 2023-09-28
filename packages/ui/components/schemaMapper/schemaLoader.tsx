@@ -89,6 +89,8 @@ export const SchemaLoader = (props: SchemaLoaderProps): JSX.Element => {
   const [vendorFeedSource, setVendorFeedSource] = useState('JSON');
   const [destinationfeedSource, setDestinationFeedSource] = useState('JSON');
   const {
+    fetching,
+    errorOnFetch,
     vendorSchema,
     destinatinSchema,
     setVendorSchema,
@@ -113,6 +115,7 @@ export const SchemaLoader = (props: SchemaLoaderProps): JSX.Element => {
             </FormControl>
             {vendorFeedSource === 'JSON' && (
               <JSONEditor
+                activeStep={'source'}
                 schema={vendorSchema}
                 setSchema={setVendorSchema}
                 onNext={() => {
@@ -123,8 +126,10 @@ export const SchemaLoader = (props: SchemaLoaderProps): JSX.Element => {
             )}
             {vendorFeedSource === 'API' && (
               <APIEditor
+                activeStep={'source'}
                 api={vendorAPI}
                 setAPI={setVendorAPI}
+                setSchema={setVendorSchema}
                 onNext={() => {
                   let step = activeSteps;
                   setActiveSteps(++step);
@@ -150,6 +155,7 @@ export const SchemaLoader = (props: SchemaLoaderProps): JSX.Element => {
             </FormControl>
             {destinationfeedSource === 'JSON' && (
               <JSONEditor
+                activeStep={'destination'}
                 schema={destinatinSchema}
                 setSchema={setDestinationSchema}
                 onNext={() => {
@@ -160,8 +166,10 @@ export const SchemaLoader = (props: SchemaLoaderProps): JSX.Element => {
             )}
             {destinationfeedSource === 'API' && (
               <APIEditor
+                activeStep={'destination'}
                 api={destinationAPI}
                 setAPI={setDestinationAPI}
+                setSchema={setDestinationSchema}
                 onNext={() => {
                   let step = activeSteps;
                   setActiveSteps(++step);

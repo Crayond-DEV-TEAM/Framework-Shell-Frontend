@@ -684,7 +684,10 @@ export interface PlansInterface {
 
 export interface JSONInterface {
   addedjson: string;
+  fetching: boolean;
+  errorOnFetch: boolean;
   setAddedjson: (value: string) => void;
+  createJSON: (schema_for: string, type: string) => void;
 }
 
 export interface Schema {
@@ -694,8 +697,8 @@ export interface Schema {
 }
 
 export interface NetworkMethod {
-  name?: string;
-  value?: string;
+  name: string;
+  value: string;
 }
 export interface API {
   method?: NetworkMethod;
@@ -705,6 +708,9 @@ export interface API {
 }
 
 export interface SchemaLoaderInterface {
+  fetching: boolean;
+  errorOnFetch: boolean;
+
   vendorSchema?: Schema[];
   destinatinSchema?: Schema[];
   setVendorSchema?: (value: Schema[]) => void;
@@ -714,6 +720,19 @@ export interface SchemaLoaderInterface {
   destinationAPI?: API;
   setVendorAPI?: (value: API) => void;
   setDestinationAPI?: (value: API) => void;
+
+  vendorId: string;
+  destinationId: string;
+  setVendorId: (id: string) => void;
+  setDestinationId: (id: string) => void;
+
+  vendorJSON: string;
+  destinationJSON: string;
+  setVendorJSON: (x: string) => void;
+  setDestinationJSON: (x: string) => void;
+
+  updateAPI: (schema_for: string, type: string, callback: any) => void;
+  updateMappedSchema: (x: any) => void;
 }
 export interface FeatureKey {
   name: string;

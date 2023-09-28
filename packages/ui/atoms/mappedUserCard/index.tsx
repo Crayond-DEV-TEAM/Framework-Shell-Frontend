@@ -12,11 +12,6 @@ export interface MappedUserCardProps {
 export const MappedUserCard = (props: MappedUserCardProps): JSX.Element => {
   const { className = '', sx = {}, altText, ...rest } = props;
 
-  // const altText = [
-  //   { title: 'text', access: 'Full Access' },
-  //   { title: 'text dem', access: 'Restricted' },
-  //   { title: 're text', access: 'Restricted' },
-  // ];
   console.log(altText, 'altText');
 
   return (
@@ -33,8 +28,8 @@ export const MappedUserCard = (props: MappedUserCardProps): JSX.Element => {
       {altText.map((x: any, index: number) => (
         <Box key={index} sx={mappedUserCardStyle.main}>
           <Box sx={mappedUserCardStyle.subProfile}>
-            <Avatar sx={mappedUserCardStyle.avatar} alt={x?.option} src="/broken-image.jpg" />
-            <Typography sx={mappedUserCardStyle.title}>{x?.option}</Typography>
+            <Avatar sx={mappedUserCardStyle.avatar} alt={x?.name} src="/broken-image.jpg" />
+            <Typography sx={mappedUserCardStyle.title}>{x?.name}</Typography>
           </Box>
           <Typography sx={{ fontSize: '12px', color: '#818181' }}>{x?.access}</Typography>
         </Box>

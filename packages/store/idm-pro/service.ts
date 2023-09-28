@@ -1,12 +1,11 @@
 import { envConfig } from '@core/envconfig';
 import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
-import { AdminInterface } from '../interface';
+import { ServiceInterface } from '../interface';
 import { permission } from '../../ui/components/addpermission/utils';
 import { enqueueSnackbar } from 'notistack';
-// import { findObjectByIndex, modifyObjectByIndexWithKey } from './commonFunction';
-export const useAdmin = create<AdminInterface>((set, get) => ({
-  adminList: [],
+export const useService = create<ServiceInterface>((set, get) => ({
+  ServiceList: [],
   fetching: false,
   errorOnFetching: false,
 
@@ -14,54 +13,57 @@ export const useAdmin = create<AdminInterface>((set, get) => ({
   editsave: false,
   deletefetch: false,
 
-  createEditAdmin: {
-    projectTitle: '',
+  createEditService: {
+    serviceName: '',
     description: '',
-    services: [],
-    mappedUser: [],
-    is_active: false,
-    access: '',
-    id: '',
     gitUrl: '',
+    id: '',
+    is_active: false,
   },
   OrganisationDetails: {
     id: '',
     name: '',
   },
 
-  seteditAdmin: (payload: { key: string; value: string | number }) => {
-    set((state) => ({ createEditAdmin: { ...state.createEditAdmin, [payload.key]: payload.value } }));
+  seteditService: (payload: { key: string; value: string | number }) => {
+    set((state) => ({ createEditService: { ...state.createEditService, [payload.key]: payload.value } }));
   },
-
   seteditOrganisationDetails: (payload: { key: string; value: string | number }) => {
     set((state) => ({ OrganisationDetails: { ...state.OrganisationDetails, [payload.key]: payload.value } }));
   },
 
-  getAdminList: (id: string) => {
+  getServiceList: (id: string) => {
     set({ fetching: true, errorOnFetching: false });
     const payload = {
       organisation_id: id,
     };
-
-    httpRequest('post', `${envConfig.api_url}/projects/get`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/services/get`, payload, true)
       .then((response) => {
-        // debugger;
+        debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
             (tableData: any, i: any) =>
               dataTable.push({
-                id: tableData.project.id,
-                projectTitle: tableData.project.name,
-                is_active: tableData.project.is_active,
-                // serviceMapped: tableData.project_service_mappings.length + ' ' + 'services',
-                description: tableData.project.description,
+                id: tableData.id,
+                serviceName: tableData.name,
+                is_active: tableData.is_active,
+                description: tableData.description,
                 data: tableData,
+                organisationId: tableData.organisation_service_mappings.organisation_id,
+                organisation: [
+                  {
+                    label: tableData.organisation_service_mappings.organisation_name,
+                    color: 'primary.main',
+                    bgColor: '#bcf0eb',
+                  },
+                ],
+                giturl: tableData.git_url,
               }),
-            set({ adminList: dataTable }),
+            set({ ServiceList: dataTable }),
           );
         } else {
-          set({ adminList: [] });
+          set({ ServiceList: [] });
         }
       })
       .catch((err) => {
@@ -72,28 +74,21 @@ export const useAdmin = create<AdminInterface>((set, get) => ({
         set({ fetching: false });
       });
   },
-  updateEditData: (data: any) => {
-    set((state) => ({ createEditAdmin: { ...data } }));
-  },
-  createAdmin: () => {
-    const { clearAll, createEditAdmin, getAdminList, OrganisationDetails } = get();
+  createService: () => {
+    const { clearAll, createEditService, getServiceList, OrganisationDetails } = get();
 
     set({ fetching: true, errorOnFetching: false });
-    // const { RepositoryList } = useRepository();
     const payload = {
       organisation_id: OrganisationDetails.id,
-      name: createEditAdmin.projectTitle,
-      description: createEditAdmin.description,
-      git_group_url: createEditAdmin.gitUrl,
-      access: createEditAdmin.access,
-      services: createEditAdmin.mappedUser.map((x: any) => x?.id),
-      users: createEditAdmin.services.map((x: any) => x?.id),
-      is_active: true,
+      name: createEditService.serviceName,
+      description: createEditService.description,
+      git_group_url: createEditService.gitUrl,
+      is_active: createEditService.is_active,
     };
-    debugger;
-    httpRequest('post', `${envConfig.api_url}/projects`, payload, true)
+
+    httpRequest('post', `${envConfig.api_url}/services`, payload, true)
       .then((response) => {
-        enqueueSnackbar('Permission added Succesfully!', { variant: 'success' });
+        enqueueSnackbar('Service added Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
@@ -101,26 +96,30 @@ export const useAdmin = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
-        getAdminList(OrganisationDetails.id);
+        getServiceList(OrganisationDetails.id);
         clearAll();
       });
   },
+  updateEditData: (data: any) => {
+    set((state) => ({ createEditService: { ...data } }));
+  },
 
-  editAdmin: () => {
-    const { clearAll, getAdminList, OrganisationDetails } = get();
+  editService: () => {
+    const { clearAll, getServiceList, createEditService, OrganisationDetails } = get();
     set({ fetching: true, errorOnFetching: false });
-    // const { RepositoryList } = useRepository();
     const payload = {
-      // permission_id: getAdminList.id,
-      // // data: { data },
-      // name: getAdminList.name,
-      // description: addPermissionList.description,
-      // is_active: addPermissionList.is_active,
+      organisation_id: OrganisationDetails.id,
+      name: createEditService.serviceName,
+      description: createEditService.description,
+      git_group_url: createEditService.gitUrl,
+      is_active: createEditService.is_active,
+      service_id: createEditService.id,
     };
+
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.api_url}/projects`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/services`, payload, true)
       .then((response) => {
-        enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
+        enqueueSnackbar('Services edited Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
@@ -128,18 +127,18 @@ export const useAdmin = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
-        getAdminList(OrganisationDetails.id);
+        getServiceList(OrganisationDetails.id);
         clearAll();
       });
   },
   getStatusList: (id: any, status: any) => {
     set({ fetching: true, errorOnFetching: false });
-    const { getAdminList, OrganisationDetails } = get();
+    const { getServiceList, OrganisationDetails } = get();
     const payload = {
-      role_id: id,
+      service_id: id,
       is_active: status,
     };
-    httpRequest('put', `${envConfig.api_url}/projects`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/services`, payload, true)
       .then((response) => {
         enqueueSnackbar('Status changed succesfully!', { variant: 'success' });
       })
@@ -149,21 +148,23 @@ export const useAdmin = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
-        getAdminList(OrganisationDetails.id);
+        getServiceList(OrganisationDetails.id);
       });
   },
+  updateEditOrganisationData: (data: any) => {
+    set((state) => ({ OrganisationDetails: { ...data } }));
+  },
 
-  deleteAdmin: (x: any) => {
-    const { getAdminList, OrganisationDetails } = get();
+  deleteService: (id: string) => {
+    const { getServiceList, OrganisationDetails } = get();
     set({ fetching: true, errorOnFetching: false });
-    // const { RepositoryList } = useRepository();
     const payload = {
-      permission_id: x.id,
+      service_id: id,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('delete', `${envConfig.api_url}/permissions`, payload, true)
+    httpRequest('delete', `${envConfig.api_url}/services`, payload, true)
       .then((response) => {
-        enqueueSnackbar('Permission deleted Succesfully!', { variant: 'success' });
+        enqueueSnackbar('Services deleted Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
@@ -171,21 +172,18 @@ export const useAdmin = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
-        getAdminList(OrganisationDetails.id);
+        getServiceList(OrganisationDetails.id);
       });
   },
 
   clearAll: () => {
     set({
-      createEditAdmin: {
-        projectTitle: '',
+      createEditService: {
+        serviceName: '',
         description: '',
-        services: [],
-        mappedUser: [],
-        is_active: false,
-        access: '',
-        id: '',
         gitUrl: '',
+        id: '',
+        is_active: false,
       },
     });
   },

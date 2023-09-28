@@ -1,84 +1,84 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { adminSectionStyle } from './style';
-import { IdmBackgroundCard } from '@atoms/idmBackgroundCard';
-import { AdminSecForm, TableHeader } from '..';
-import { CommonTable } from 'crayond-components-library-1';
-import { Header, tableData, tableJson } from './utills';
-import { Drawer } from '@atoms/drawer';
-import { useAdmin, useOrganisation } from '@core/store';
-import { FooterComponent } from '@atoms/footerComponent';
 
-export interface AdminSectionProps {
+import { serviceStyle } from './style';
+import { Drawer } from '@atoms/drawer';
+import { ServiceForm, TableHeader } from '..';
+import { IdmBackgroundCard } from '@atoms/idmBackgroundCard';
+import { CommonTable } from 'crayond-components-library-1';
+import { Header, tableData } from './utills';
+import { FooterComponent } from '@atoms/footerComponent';
+import { useOrganisation, useService } from '@core/store';
+
+export interface ServiceProps {
   className?: string;
   sx?: SxProps<Theme>;
 }
 
-export const AdminSection = (props: AdminSectionProps): JSX.Element => {
+export const Service = (props: ServiceProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
-  const {
-    getAdminList,
-    adminList,
-    createEditAdmin,
-    OrganisationDetails,
-    seteditOrganisationDetails,
-    seteditAdmin,
-    editAdmin,
-    deleteAdmin,
-    createAdmin,
-    clearAll,
-  } = useAdmin();
   const { getOrganisationList, OrganisationList } = useOrganisation();
+  const {
+    getServiceList,
+    ServiceList,
+    seteditService,
+    createEditService,
+    editService,
+    deleteService,
+    createService,
+    clearAll,
+    updateEditData,
+    getStatusList,
+    seteditOrganisationDetails,
+    OrganisationDetails,
+    updateEditOrganisationData,
+  } = useService();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [open, setOpen] = useState(false);
   const [option, setOption] = useState();
-
-  const filteredMessageGroup = adminList.filter((x: any) =>
-    x.projectTitle?.toLowerCase().includes(searchTerm.toLowerCase()),
+  const [switchList, setSwitchList] = useState<any>([]);
+  const filteredMessageGroup = ServiceList.filter((x: any) =>
+    x.serviceName?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  const handleTableEdit = () => {
+  console.log(ServiceList, '');
+
+  const handleTableEdit = (id: string, data: any, e: any) => {
     setOpen(true);
+    const editData = {
+      id: id,
+      serviceName: data.serviceName,
+      description: data.description,
+      is_active: data.is_active,
+      organisationId: data.organisationId,
+      gitUrl: data.giturl,
+    };
+    const organisationIdData = {
+      id: data.organisationId,
+    };
+    updateEditOrganisationData(organisationIdData);
+    updateEditData(editData);
   };
   const handleTableDelete = (id: string) => {
-    deleteAdmin(id);
+    deleteService(id);
     console.log('');
   };
   const handleDrawerClose = () => {
     setOpen(false);
+    clearAll();
   };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-  const handleChange = (key: string, value: string | number) => {
-    seteditAdmin({ key, value });
-  };
-
   useEffect(() => {
-    getAdminList(OrganisationDetails.id);
+    getServiceList(OrganisationDetails.id);
     getOrganisationList();
   }, []);
   useEffect(() => {
-    getAdminList(OrganisationDetails.id);
+    getServiceList(OrganisationDetails.id);
   }, [OrganisationDetails]);
-  const handleChangeOrganisationkey = (key: string, value: string | number) => {
-    seteditOrganisationDetails({ key, value });
-  };
-  const handleChangeOrganisation = (value: any) => {
-    handleChangeOrganisationkey('id', value.id);
-    handleChangeOrganisationkey('name', value.name);
-  };
-  const handleSave = () => {
-    if (createEditAdmin.id) {
-      // editAdmin();
-    } else {
-      createAdmin();
-    }
-    setOpen(false);
-    clearAll();
-  };
 
   const optionList = () => {
     const dataTable: any = [];
@@ -92,6 +92,53 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
       setOption(dataTable);
     }
   };
+  const handleChange = (key: string, value: string | number) => {
+    seteditService({ key, value });
+  };
+  const handleSave = () => {
+    if (createEditService.id) {
+      editService();
+    } else {
+      createService();
+    }
+    setOpen(false);
+    clearAll();
+  };
+  const handleSwitch = (id: any, data: any, e: any) => {
+    if (!switchList.includes(id)) {
+      setSwitchList([...switchList, id]);
+    } else {
+      const index = switchList.indexOf(id);
+      if (index > -1) {
+        switchList.splice(index, 1);
+        setSwitchList([...switchList]);
+      }
+    }
+    if (e.target.checked === true) {
+      getStatusList(id, true);
+    } else {
+      getStatusList(id, false);
+    }
+  };
+  const handleStatus = () => {
+    if (ServiceList?.length > 0) {
+      const status = ServiceList?.filter((val: any) => val?.is_active === true)?.map((val: any) => val?.id);
+      setSwitchList(status);
+    }
+  };
+  const handleChangeOrganisationkey = (key: string, value: string | number) => {
+    seteditOrganisationDetails({ key, value });
+  };
+
+  const handleChangeOrganisation = (value: any) => {
+    handleChangeOrganisationkey('id', value.id);
+    handleChangeOrganisationkey('name', value.name);
+  };
+
+  useEffect(() => {
+    handleStatus();
+  }, [ServiceList]);
+
   useEffect(() => {
     optionList();
   }, [OrganisationList]);
@@ -100,7 +147,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     <Box
       sx={[
         {
-          ...adminSectionStyle.rootSx,
+          ...serviceStyle.rootSx,
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
@@ -109,16 +156,18 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     >
       <IdmBackgroundCard
         title="Organisation"
-        subTitle="Projects"
+        subTitle="Services"
         optionList={option}
         handleChangeDropDown={handleChangeOrganisation}
         createEditState={OrganisationDetails}
         content={
-          <Box sx={adminSectionStyle.commonTable}>
+          <Box sx={serviceStyle.commonTable}>
             <CommonTable
               Header={Header}
               dataList={filteredMessageGroup}
               tableData={tableData(handleTableEdit, handleTableDelete)}
+              switchList={switchList}
+              handleSwitch={handleSwitch}
               headerOptions={{
                 fontSize: '14px',
                 fontWeight: '500',
@@ -133,7 +182,6 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
                 fontWeight: '500',
                 color: '#5A5A5A',
                 borderBottom: '0px',
-                // padding: '8px',
                 padding: '3px 0px 3px 7px',
               }}
               rowOptions={{
@@ -156,13 +204,12 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
                 component: (
                   <TableHeader
                     isFilterRequired={false}
-                    buttonName={'Add Projects'}
-                    tableHeader={'Projects'}
+                    buttonName={'Add Services'}
+                    tableHeader={'Services'}
                     setSearchTerm={setSearchTerm}
                     searchTerm={searchTerm}
                     isBtnRequired={true}
                     handleOpen={handleDrawerOpen}
-                    // editTableMessage={addRole}
                   />
                 ),
               }}
@@ -174,9 +221,9 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
         show={open}
         onCloseDrawer={handleDrawerClose}
         anchor="right"
-        drawerStyleSX={{ padding: '20px 20px 70px 20px' }}
+        drawerStyleSX={{ padding: '20px' }}
         drawerRightClose
-        header={'Add New Project'}
+        header={createEditService.id ? 'Edit Service' : 'Add New Service'}
         headerStyle={{
           fontSize: '16px',
           fontWeight: 600,
@@ -198,7 +245,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
             SwitchChange={(e) => {
               handleChange('is_active', e.target.checked);
             }}
-            checked={createEditAdmin.is_active}
+            checked={createEditService.is_active}
           />
         }
         footerStyle={{
@@ -209,7 +256,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
           pr: 0,
         }}
       >
-        <AdminSecForm createEditAdmin={createEditAdmin} handlechange={handleChange} />
+        <ServiceForm createEditService={createEditService} handlechange={handleChange} />
       </Drawer>
     </Box>
   );

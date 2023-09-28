@@ -2,7 +2,7 @@ import type { SxProps, Theme } from '@mui/system'; // Import from '@mui/system' 
 import { Box, Menu, MenuItem, Typography } from '@mui/material';
 import { CheckBox } from '@atoms/checkBox';
 import { GreenCloseCircleIcon } from '@assets/iconSet';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CutstomizedAutocomplete, DropDown, MappedAdminCard, MappedUserCard } from '..';
 
 import { addChipMultipleDropdownStyle } from './style';
@@ -10,10 +10,13 @@ import { addChipMultipleDropdownStyle } from './style';
 export interface AddChipMultipleDropdownProps {
   className?: string;
   sx?: SxProps<Theme>;
+  dataList?: any;
+  optionList?: any;
+  handleChange?: (key: string, value: string | number) => void;
 }
 
 export const AddChipMultipleDropdown = (props: AddChipMultipleDropdownProps): JSX.Element => {
-  const { className = '', sx = {}, ...rest } = props;
+  const { className = '', sx = {}, dataList, handleChange = () => false, optionList, ...rest } = props;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); // Explicitly define the type of anchorEl
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]); // Explicitly define the type of selectedOptions
 
@@ -25,31 +28,23 @@ export const AddChipMultipleDropdown = (props: AddChipMultipleDropdownProps): JS
     setAnchorEl(null);
   };
 
-  const dataList = [
-    { option: 'eersd', access: 'Full Access' },
-    { option: 'edcwerd', access: 'Full Access' },
-    { option: 'oeybrsd', access: 'Full Access' },
-  ];
-
-  const optionList = [{ name: 'Full Access' }, { name: 'restricted' }];
-
-  // const handleOptionToggle = (option: { option: string }) => {
-  //   // Specify the type of the 'option' parameter
-  //   const datas = option.option;
-  //   const isSelected = selectedOptions.includes(option);
-  //   debugger;
-  //   setSelectedOptions((prevOptions) =>
-  //     isSelected ? prevOptions.filter((opt) => opt !== option) : [...prevOptions, option],
-  //   );
-  // };
   const handleOptionToggle = (option: any) => {
-    const isSelected = selectedOptions.some((selected) => selected.option === option.option);
+    const isSelected = selectedOptions.some((selected) => selected === option);
     setSelectedOptions((prevOptions) =>
-      isSelected ? prevOptions.filter((opt) => opt.option !== option.option) : [...prevOptions, option],
+      isSelected ? prevOptions.filter((opt) => opt !== option) : [...prevOptions, option],
     );
+    // handleChange('mappedUser', selectedOptions);
   };
 
+  const onSetChange = () => {
+    handleChange('mappedUser', selectedOptions);
+  };
+  useEffect(() => {
+    onSetChange();
+  }, [selectedOptions]);
+
   console.log(selectedOptions);
+  console.log(dataList, 'dataList');
 
   return (
     <Box
@@ -76,24 +71,21 @@ export const AddChipMultipleDropdown = (props: AddChipMultipleDropdownProps): JS
             },
           }}
         >
-          {dataList.map((data) => (
+          {dataList?.map((data: any) => (
             <MenuItem
               sx={{
                 py: 0,
-                backgroundColor: selectedOptions.some((opt) => opt.option === data.option) ? '#dce8e5' : '#fff',
+                backgroundColor: selectedOptions.some((opt) => opt === data) ? '#dce8e5' : '#fff',
               }}
-              key={data.option}
+              key={data}
               onClick={() => handleOptionToggle(data)}
             >
-              <CheckBox
-                style={{ marginRight: '8px' }}
-                checked={selectedOptions.some((opt) => opt.option === data.option)}
-              />
+              <CheckBox style={{ marginRight: '8px' }} checked={selectedOptions.some((opt) => opt === data)} />
               <Box
                 sx={{ px: 1, display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
               >
-                <MappedAdminCard options={data.option} />
-                <CutstomizedAutocomplete
+                <MappedAdminCard options={data} />
+                {/* <CutstomizedAutocomplete
                   sx={{
                     '& .MuiOutlinedInput-notchedOutline': {
                       border: 0,
@@ -103,7 +95,7 @@ export const AddChipMultipleDropdown = (props: AddChipMultipleDropdownProps): JS
                     },
                   }}
                   permissionList={optionList}
-                />
+                /> */}
               </Box>
             </MenuItem>
           ))}

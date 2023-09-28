@@ -1,14 +1,14 @@
 import type { SxProps } from '@mui/material';
 
-interface OrganisationStyleProps {
+interface ServiceStyleProps {
   [key: string]: SxProps;
 }
 
-export const organisationStyle: OrganisationStyleProps = {
+export const serviceStyle: ServiceStyleProps = {
   rootSx: {},
   commonTable: {
-    borderRadius: '8px',
-    // borderBottomLeftRadius: '8px',
+    borderBottomRightRadius: '8px',
+    borderBottomLeftRadius: '8px',
     bgcolor: '#fff',
     // margin: {
     //   lg: '0px 12px',

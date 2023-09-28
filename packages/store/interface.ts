@@ -900,16 +900,18 @@ export interface PlanInterface<T> {
 export interface AdminKey {
   projectTitle: string;
   description: string;
-  services: string[];
-  mappedUser: string[];
+  services: any;
+  mappedUser: any;
   is_active?: boolean;
-  access?: boolean;
+  access?: '';
   id?: string;
+  gitUrl?: string;
 }
 
 export interface AdminInterface {
   adminList: AdminKey[];
   fetching: boolean;
+  OrganisationDetails: OrganisationDetailKey;
   errorOnFetching: boolean;
 
   addsave: boolean;
@@ -918,13 +920,161 @@ export interface AdminInterface {
 
   createEditAdmin: AdminKey;
   seteditAdmin: (payload: { key: string; value: string | number }) => void;
+  seteditOrganisationDetails: (payload: { key: string; value: string | number }) => void;
 
   updateEditData: (data: any) => void;
 
-  getAdminList: () => void;
+  getAdminList: (id: string) => void;
   createAdmin: () => void;
   editAdmin: () => void;
   getStatusList: (id: any, status: any) => void;
   deleteAdmin: (id: string) => void;
+  clearAll: () => void;
+}
+
+export interface OrganisationKey {
+  organisationName: string;
+  description: string;
+  emailId?: string;
+  mobile?: number;
+  address?: string;
+  domainUrl?: string;
+  mappedAdmin?: string[];
+  mappedUser?: string[];
+  is_active?: boolean;
+  access?: boolean;
+  id?: string;
+}
+
+export interface OrganisationInterface {
+  OrganisationList: OrganisationKey[];
+  fetching: boolean;
+  errorOnFetching: boolean;
+
+  addsave: boolean;
+  editsave: boolean;
+  deletefetch: boolean;
+
+  createEditOrganisation: OrganisationKey;
+  seteditOrganisation: (payload: { key: string; value: string | number }) => void;
+
+  updateEditData: (data: any) => void;
+
+  getOrganisationList: () => void;
+  createOrganisation: () => void;
+  editOrganisation: () => void;
+  getStatusList: (id: any, status: any) => void;
+  deleteOrganisation: (id: string) => void;
+  clearAll: () => void;
+}
+
+export interface ServiceKey {
+  serviceName: string;
+  description: string;
+  gitUrl?: string;
+  organisationId?: string;
+  id?: string;
+  is_active: boolean;
+}
+
+export interface ServiceInterface {
+  ServiceList: ServiceKey[];
+  fetching: boolean;
+  errorOnFetching: boolean;
+
+  OrganisationDetails: OrganisationDetailKey;
+
+  addsave: boolean;
+  editsave: boolean;
+  deletefetch: boolean;
+
+  createEditService: ServiceKey;
+  seteditService: (payload: { key: string; value: string | number }) => void;
+  seteditOrganisationDetails: (payload: { key: string; value: string | number }) => void;
+
+  updateEditData: (data: any) => void;
+  updateEditOrganisationData: (data: any) => void;
+
+  getServiceList: (id: string) => void;
+  createService: () => void;
+  editService: () => void;
+  getStatusList: (id: any, status: any) => void;
+  deleteService: (id: string) => void;
+  clearAll: () => void;
+}
+
+export interface UserKey {
+  name: string;
+  email: string;
+  designation: string;
+  is_active: boolean;
+  organisationId: string;
+  userprofileMap_id: string;
+  userprofileMap_Rolename: string;
+  userprofileMap_Roleid: string;
+  id: string;
+}
+
+export interface OrganisationDetailKey {
+  id: string;
+  name: string;
+}
+
+export interface UserProfileInterface {
+  UserList: UserKey[];
+  fetching: boolean;
+  errorOnFetching: boolean;
+  OrganisationDetails: OrganisationDetailKey;
+
+  addsave: boolean;
+  editsave: boolean;
+  deletefetch: boolean;
+
+  createEditUser: UserKey;
+  seteditUser: (payload: { key: string; value: string | number }) => void;
+  seteditOrganisationDetails: (payload: { key: string; value: string | number }) => void;
+
+  updateEditData: (data: any) => void;
+  updateEditOrganisationData: (data: any) => void;
+
+  getUserList: (id: string) => void;
+  createUser: () => void;
+  createUserRollMap: () => void;
+  editUser: () => void;
+  editUserRollMap: () => void;
+  getStatusList: (id: any, status: any) => void;
+  deleteUser: (id: string) => void;
+  deleteUserRollMap: () => void;
+  clearAll: () => void;
+}
+
+export interface SuperAdminKey {
+  organisationName: string;
+  description: string;
+  mapAdmin: string[];
+  mapUsers: string[];
+  is_active: boolean;
+  id?: string;
+}
+
+export interface SuperAdminInterface {
+  OrganisationList: SuperAdminKey[];
+  fetching: boolean;
+  errorOnFetching: boolean;
+
+  addsave: boolean;
+  editsave: boolean;
+  deletefetch: boolean;
+
+  createEditOrganisation: SuperAdminKey;
+  seteditOrganisation: (payload: { key: string; value: string | number }) => void;
+
+  updateEditData: (data: any) => void;
+
+  getOrganisationList: () => void;
+  createOrganisation: () => void;
+  editOrganisation: () => void;
+  getStatusList: (id: any, status: any) => void;
+  deleteOrganisation: (id: string) => void;
   clearAll: () => void;
 }

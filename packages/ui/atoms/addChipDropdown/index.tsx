@@ -4,7 +4,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { CheckBox } from '@atoms/checkBox';
 import { addChipDropdownStyle } from './style';
 import { GreenCloseCircleIcon } from '@assets/iconSet';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -17,7 +17,7 @@ export interface AddChipDropdownProps {
   value?: any;
   placeholder?: string;
   loadOptions?: () => Promise<any[]>;
-  onChange?: (value: any) => void;
+  onChange?: (key: string, value: string | number) => void;
   options?: any[];
   loading?: boolean;
   isReadOnly?: boolean;
@@ -52,7 +52,7 @@ export const AddChipDropdown = (props: AddChipDropdownProps): JSX.Element => {
     placeholder,
     loadOptions,
     permissionList,
-    onChange,
+    onChange = () => false,
     options,
     loading,
     isReadOnly,
@@ -88,13 +88,21 @@ export const AddChipDropdown = (props: AddChipDropdownProps): JSX.Element => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const dataList = [{ option: 'eersd' }, { option: 'edcwerd' }, { option: 'oeybrsd' }];
+  console.log(permissionList, 'permissionListpermissionList');
   const handleOptionToggle = (option: any) => {
     const isSelected = selectedOptions.includes(option);
     setSelectedOptions((prevOptions) =>
       isSelected ? prevOptions.filter((opt) => opt !== option) : [...prevOptions, option],
     );
   };
+  const onSetChange = () => {
+    onChange('services', selectedOptions);
+  };
+
+  useEffect(() => {
+    onSetChange();
+  }, [selectedOptions]);
+
   return (
     <Box
       sx={[
@@ -119,22 +127,22 @@ export const AddChipDropdown = (props: AddChipDropdownProps): JSX.Element => {
             },
           }}
         >
-          {dataList.map((data) => (
+          {permissionList?.map((data: any) => (
             <MenuItem
-              sx={{ px: '15px', backgroundColor: selectedOptions.includes(data.option) ? '#dce8e5' : '#fff' }}
-              key={data.option}
-              onClick={() => handleOptionToggle(data.option)}
+              sx={{ px: '15px', backgroundColor: selectedOptions.includes(data) ? '#dce8e5' : '#fff' }}
+              key={data.id}
+              onClick={() => handleOptionToggle(data)}
             >
-              <CheckBox style={{ marginRight: '8px' }} checked={selectedOptions.includes(data.option)} />
+              <CheckBox style={{ marginRight: '8px' }} checked={selectedOptions.includes(data)} />
               <Box sx={{ p: 1 }} />
-              {data.option}
+              {data.name}
             </MenuItem>
           ))}
         </Menu>
-        {selectedOptions.map((option) => (
+        {selectedOptions?.map((option) => (
           <Chip
             key={option}
-            label={option}
+            label={option.name}
             sx={{ height: '28px', borderRadius: '8px', marginBottom: '15px', marginRight: '10px' }}
           />
         ))}

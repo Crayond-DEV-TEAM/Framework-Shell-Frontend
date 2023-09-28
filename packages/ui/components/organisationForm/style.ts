@@ -7,4 +7,3 @@ interface OrganisationFormStyleProps {
 export const organisationFormStyle: OrganisationFormStyleProps = {
   rootSx: {},
 };
-

@@ -7,4 +7,3 @@ interface CutstomizedAutocompleteStyleProps {
 export const cutstomizedAutocompleteStyle: CutstomizedAutocompleteStyleProps = {
   rootSx: {},
 };
-

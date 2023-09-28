@@ -8,13 +8,28 @@ import { SearchIcon } from '@atoms/icons';
 export interface IdmBackgroundCardProps {
   className?: string;
   sx?: SxProps<Theme>;
-  title: string;
-  subTitle: string;
+  title?: string;
+  subTitle?: string;
   content: any;
+  optionList?: any;
+  handleChangeDropDown?: (value: any) => void;
+  createEditState?: any;
 }
 
 export const IdmBackgroundCard = (props: IdmBackgroundCardProps): JSX.Element => {
-  const { className = '', sx = {}, title = '', subTitle = '', content, ...rest } = props;
+  const {
+    className = '',
+    sx = {},
+    title = '',
+    subTitle = '',
+    content,
+    optionList,
+    createEditState,
+    handleChangeDropDown = () => false,
+    ...rest
+  } = props;
+  console.log(createEditState);
+  console.log(optionList);
 
   return (
     <Box
@@ -29,7 +44,17 @@ export const IdmBackgroundCard = (props: IdmBackgroundCardProps): JSX.Element =>
     >
       <Box sx={idmBackgroundCardStyle.header}>
         <Typography sx={idmBackgroundCardStyle.title}>{title}</Typography>
-        <CutstomizedAutocomplete />
+        <CutstomizedAutocomplete
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              width: '150px',
+            },
+          }}
+          // value={createEditState}
+          // value={createEditState.name === '' ? createEditState.name : []}
+          permissionList={optionList}
+          onChange={(e: any) => handleChangeDropDown(e)}
+        />
       </Box>
       <Box>{content}</Box>
     </Box>

@@ -10,14 +10,65 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AddChipDropdown } from '@atoms/addChipDropdown';
 import { AddChipMultipleDropdown } from '@atoms/addChipMultipleDropdown';
+import { useAdmin, useProfileUser, useService } from '@core/store';
+import { useEffect, useState } from 'react';
 
 export interface AdminSecFormProps {
   className?: string;
   sx?: SxProps<Theme>;
+  createEditAdmin?: any;
+  handlechange?: (key: string, value: string | number) => void;
 }
 
 export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
-  const { className = '', sx = {}, ...rest } = props;
+  const { className = '', sx = {}, createEditAdmin, handlechange = () => false, ...rest } = props;
+  const [service, setService] = useState();
+  const [user, setUser] = useState();
+  const { UserList, getUserList } = useProfileUser();
+  const { ServiceList, getServiceList } = useService();
+  const { OrganisationDetails } = useAdmin();
+
+  console.log(createEditAdmin, 'createEditAdmincreateEditAdmin');
+
+  const optionList = () => {
+    // debugger;
+    const dataTable: any = [];
+    if (UserList) {
+      UserList.map((tableData: any, i: any) =>
+        dataTable.push({
+          id: tableData.id,
+          name: tableData.userName,
+        }),
+      );
+      setUser(dataTable);
+    }
+  };
+  const ServiceOptionList = () => {
+    // debugger;
+    const dataTable: any = [];
+    if (ServiceList) {
+      ServiceList.map((tableData: any, i: any) =>
+        dataTable.push({
+          id: tableData.id,
+          name: tableData.serviceName,
+        }),
+      );
+      setService(dataTable);
+    }
+  };
+
+  useEffect(() => {
+    ServiceOptionList();
+  }, [ServiceList]);
+
+  useEffect(() => {
+    optionList();
+  }, [UserList]);
+
+  useEffect(() => {
+    getUserList(OrganisationDetails.id);
+    getServiceList(OrganisationDetails.id);
+  }, []);
 
   return (
     <Box
@@ -33,18 +84,18 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
       <Box sx={adminSecFormStyle.padd}>
         <Box sx={adminSecFormStyle.inputGroupSx}>
           <Label sx={adminSecFormStyle.labelSx} htmlFor="addTitle" isRequired>
-            Charges Name
+            Project Name
           </Label>
           <Input
             size="small"
-            placeholder="Charge name"
+            placeholder="Project name"
             required
-            // value={createEditCharges?.name}
+            value={createEditAdmin.projectTitle}
             textFieldStyle={adminSecFormStyle.inputSx}
             id="title"
-            // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-            //   handleAddEditStateChange('name', e.target.value)
-            // }
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+              handlechange('projectTitle', e.target.value)
+            }
             // isError={Boolean(formErrors.name)}
             // errorMessage={formErrors.name}
           />
@@ -61,12 +112,30 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
             rows={4}
             rowsMax={6}
             isMulti={true}
-            // value={createEditCharges?.description}
+            value={createEditAdmin?.description}
             textFieldStyle={adminSecFormStyle.inputBigSx}
             id="description"
-            // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-            //   handleAddEditStateChange('description', e.target.value)
-            // }
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+              handlechange('description', e.target.value)
+            }
+            // isError={Boolean(formErrors.description)}
+            // errorMessage={formErrors.description}
+          />
+        </Box>
+        <Box sx={adminSecFormStyle.inputGroupSx}>
+          <Label sx={adminSecFormStyle.labelSx} htmlFor="addTitle" isRequired>
+            Git URL
+          </Label>
+          <Input
+            size="small"
+            placeholder="Git URL"
+            required
+            value={createEditAdmin.gitUrl}
+            textFieldStyle={adminSecFormStyle.inputSx}
+            id="title"
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+              handlechange('gitUrl', e.target.value)
+            }
             // isError={Boolean(formErrors.description)}
             // errorMessage={formErrors.description}
           />
@@ -93,8 +162,7 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
               <Typography sx={{ fontWeight: 600, fontSize: '14px', padding: 0 }}>Services</Typography>
             </AccordionSummary>
             <AccordionDetails sx={{ padding: '0px' }}>
-              {/* <Chip label="Chip Filled" sx={{ height: '28px', borderRadius: '8px' }} /> */}
-              <AddChipDropdown />
+              <AddChipDropdown permissionList={service} onChange={handlechange} />
             </AccordionDetails>
           </Accordion>
           <Accordion
@@ -112,7 +180,7 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
               <Typography sx={{ fontWeight: 600, fontSize: '14px', padding: 0 }}>Mapped Users</Typography>
             </AccordionSummary>
             <AccordionDetails sx={{ padding: '0px' }}>
-              <AddChipMultipleDropdown />
+              <AddChipMultipleDropdown dataList={user} handleChange={handlechange} />
             </AccordionDetails>
           </Accordion>
         </div>

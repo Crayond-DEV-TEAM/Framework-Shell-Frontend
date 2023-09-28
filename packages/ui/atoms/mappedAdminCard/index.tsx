@@ -32,8 +32,8 @@ export const MappedAdminCard = (props: MappedAdminCardProps): JSX.Element => {
       {/* {options.map((x: any, index: number) => ( */}
       <Box sx={mappedAdminCardStyle.main}>
         <Box sx={mappedAdminCardStyle.subProfile}>
-          <Avatar sx={mappedAdminCardStyle.avatar} alt={options} src="/broken-image.jpg" />
-          <Typography sx={mappedAdminCardStyle.title}>{options}</Typography>
+          <Avatar sx={mappedAdminCardStyle.avatar} alt={options.name} src="/broken-image.jpg" />
+          <Typography sx={mappedAdminCardStyle.title}>{options.name}</Typography>
         </Box>
         {/* <DropDown /> */}
         {/* <Typography sx={{ fontSize: '12px', color: '#818181' }}>{x?.access}</Typography> */}

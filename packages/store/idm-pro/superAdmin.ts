@@ -1,11 +1,11 @@
 import { envConfig } from '@core/envconfig';
 import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
-import { OrganisationInterface } from '../interface';
+import { SuperAdminInterface } from '../interface';
 import { permission } from '../../ui/components/addpermission/utils';
 import { enqueueSnackbar } from 'notistack';
 // import { findObjectByIndex, modifyObjectByIndexWithKey } from './commonFunction';
-export const useOrganisation = create<OrganisationInterface>((set, get) => ({
+export const useSuperAdmin = create<SuperAdminInterface>((set, get) => ({
   OrganisationList: [],
   fetching: false,
   errorOnFetching: false,
@@ -36,6 +36,7 @@ export const useOrganisation = create<OrganisationInterface>((set, get) => ({
     set({ fetching: true, errorOnFetching: false });
     httpRequest('get', `${envConfig.api_url}/organisations`, {}, true)
       .then((response) => {
+        // debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
@@ -44,7 +45,7 @@ export const useOrganisation = create<OrganisationInterface>((set, get) => ({
                 id: tableData.id,
                 organisationName: tableData.name,
                 is_active: tableData.is_active,
-                description: tableData.description,
+                description: 'tableData.description',
                 data: tableData,
                 email: tableData.email_id,
                 domain: tableData.domain_url,
@@ -76,7 +77,6 @@ export const useOrganisation = create<OrganisationInterface>((set, get) => ({
       address: createEditOrganisation.address,
       domain_url: createEditOrganisation.domainUrl,
       is_active: createEditOrganisation.is_active,
-      description: createEditOrganisation.description,
     };
 
     httpRequest('post', `${envConfig.api_url}/organisations`, payload, true)
@@ -109,7 +109,6 @@ export const useOrganisation = create<OrganisationInterface>((set, get) => ({
       domain_url: createEditOrganisation.domainUrl,
       is_active: createEditOrganisation.is_active,
       organisation_id: createEditOrganisation.id,
-      description: createEditOrganisation.description,
     };
 
     set({ fetching: true, errorOnFetching: false });

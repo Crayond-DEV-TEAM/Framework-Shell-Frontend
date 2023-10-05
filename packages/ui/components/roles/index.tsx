@@ -15,10 +15,11 @@ import { usePermission, useRoles } from '@core/store';
 export interface RolesProps {
   className?: string;
   sx?: SxProps<Theme>;
+  apiUrl?: string;
 }
 
 export const Roles = (props: RolesProps): JSX.Element => {
-  const { className = '', sx = {}, ...rest } = props;
+  const { className = '', sx = {}, apiUrl, ...rest } = props;
   const [searchTerm, setSearchTerm] = useState('');
   const [isEdit, setIsEdit] = useState(false);
   const [values, setValues] = useState(false);
@@ -34,7 +35,14 @@ export const Roles = (props: RolesProps): JSX.Element => {
     deleteRoleList,
     getStatusList,
     editRoleList,
+    setApiUrl,
   } = useRoles();
+
+  useEffect(() => {
+    // This is a hack. To get the env variables from other applications. They will be passed as props.
+    // Using this prop we will add a new variable in the store as apiUrl.
+    setApiUrl(apiUrl);
+  }, [apiUrl]);
 
   const { getPermissionList, PermissionList } = usePermission();
 
@@ -69,7 +77,6 @@ export const Roles = (props: RolesProps): JSX.Element => {
     setValues(true);
   };
   const handleTableEdit = (id: string, data: any, e: any) => {
-    debugger
     setValues(true);
     setaddMessage(data);
     // setIsEdit(id.length > 0 ? true : false);

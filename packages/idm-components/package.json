@@ -1,0 +1,30 @@
+{
+  "name": "@crayond_dev/idm-components",
+  "version": "1.0.0",
+  "description": "",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "vite build"
+  },
+  "keywords": [],
+  "author": "Sridhar",
+  "license": "ISC",
+  "dependencies": {
+    "@core/alias": "*",
+    "@core/envconfig": "*",
+    "@core/logger": "*",
+    "@core/routes": "*",
+    "@core/store": "*",
+    "@core/theme": "*",
+    "@core/ui": "*",
+    "@core/utils": "*"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^3.1.0",
+    "vite": "^4.1.3"
+  }
+}

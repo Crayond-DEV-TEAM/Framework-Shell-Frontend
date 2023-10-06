@@ -29,6 +29,7 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
     createRepository,
     editRepositoryList,
     onEditLoading,
+    RepositoryId,
   } = useRepository();
   const [values, setValues] = useState(false);
   const handleClose = () => {
@@ -39,8 +40,7 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
     seteditRepository(RepoJson);
   };
   const handleSave = () => {
-    editRepository();
-    // createRepository();
+    RepositoryId ? editRepository() : createRepository();
     handleClose();
   };
 

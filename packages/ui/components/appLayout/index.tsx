@@ -33,7 +33,7 @@ export function AppLayout(props: AppLayoutProps): JSX.Element {
   } = props;
 
   const user = useUser((state) => state.user);
-  console.log(childrenWrapperProps, 'paddingElement');
+  // console.log(childrenWrapperProps, 'paddingElement');
 
   return (
     <Box

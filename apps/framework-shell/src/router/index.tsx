@@ -1,5 +1,14 @@
 import { webRoutes } from '@core/routes';
-import { LoginLayout, PageNotFound, RootLayout } from '@core/ui/components';
+import {
+  AdminSection,
+  LanguageConfig,
+  LoginLayout,
+  MessageTable,
+  PageNotFound,
+  RootLayout,
+  SuperAdmin,
+  UserSection,
+} from '@core/ui/components';
 import ErrorBoundary from '@pages/errorBoundary';
 import ForgotPasswordPage from '@pages/forgotPassword';
 import Home from '@pages/home';
@@ -27,9 +36,11 @@ const router = createBrowserRouter([
       {
         path: webRoutes.login,
         element: (
+          // <PrivateRouter>
           <LoginLayout>
             <LoginPage />
           </LoginLayout>
+          // </PrivateRouter>
         ),
       },
       {
@@ -53,6 +64,60 @@ const router = createBrowserRouter([
         element: (
           <LoginLayout>
             <ForgotPasswordPage />
+          </LoginLayout>
+        ),
+      },
+
+      //role maps
+      {
+        path: webRoutes.admin,
+        element: (
+          <PrivateRouter>
+            {/* <LoginLayout> */}
+            <AdminSection />
+            {/* </LoginLayout> */}
+          </PrivateRouter>
+        ),
+      },
+      {
+        path: webRoutes.superAdmin,
+        element: (
+          // <LoginLayout>
+          <SuperAdmin />
+          // </LoginLayout>
+        ),
+      },
+      {
+        path: webRoutes.user,
+        element: (
+          // <LoginLayout>
+          <UserSection />
+          // </LoginLayout>
+        ),
+      },
+      //message catlogue
+      {
+        path: webRoutes.languageConfig,
+        element: (
+          <LoginLayout>
+            <MessageTable />
+          </LoginLayout>
+        ),
+      },
+      {
+        path: webRoutes.messagegroup,
+        element: (
+          <LoginLayout>
+            <LanguageConfig />
+          </LoginLayout>
+        ),
+      },
+      //IDM
+      {
+        path: webRoutes.messagegroup,
+        element: (
+          <LoginLayout>
+            <LanguageConfig />
           </LoginLayout>
         ),
       },

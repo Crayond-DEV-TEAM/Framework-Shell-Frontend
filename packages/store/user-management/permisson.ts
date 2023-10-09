@@ -53,7 +53,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   getPermissionList: () => {
     set({ fetchingPermission: true, errorOnPermission: false });
 
-    httpRequest('get', `${envConfig.api_url}/permissions`, {}, true)
+    httpRequest('get', `${envConfig.api_idm_url}/permissions`, {}, true)
       .then((response) => {
         set({ PermissionList: response.data.data });
       })
@@ -80,7 +80,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       is_active: addPermissionList.is_active,
     };
 
-    httpRequest('post', `${envConfig.api_url}/permissions/create`, payload, true)
+    httpRequest('post', `${envConfig.api_idm_url}/permissions/create`, payload, true)
       .then((response) => {
         enqueueSnackbar('Permission added Succesfully!', { variant: 'success' });
       })
@@ -107,7 +107,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       is_active: addPermissionList.is_active,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.api_url}/permissions`, payload, true)
+    httpRequest('put', `${envConfig.api_idm_url}/permissions`, payload, true)
       .then((response) => {
         enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
       })
@@ -130,7 +130,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       permission_id: x.id,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('delete', `${envConfig.api_url}/permissions`, payload, true)
+    httpRequest('delete', `${envConfig.api_idm_url}/permissions`, payload, true)
       .then((response) => {
         enqueueSnackbar('Permission deleted Succesfully!', { variant: 'success' });
       })
@@ -154,7 +154,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       is_active: true,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.api_url}/permissions/update`, payload, true)
+    httpRequest('put', `${envConfig.api_idm_url}/permissions/update`, payload, true)
       .then((response) => {
         enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
       })

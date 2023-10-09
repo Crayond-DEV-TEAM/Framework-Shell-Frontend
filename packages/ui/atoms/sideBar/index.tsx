@@ -65,6 +65,8 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
   const { sideMenus, loading, error, getMenu, onLinkClick } = useMenu();
   const { pathname } = useLocation();
 
+  console.log(sideMenus, 'sideMenus');
+
   const [drawer, setDrawer] = useState<boolean>(false);
   const [openCollapse, setopenCollapse] = useState<any>(false);
 

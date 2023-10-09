@@ -13,7 +13,7 @@ export const useRoleMapping = create<RolesMappingInterface>((set, get) => ({
   getRolesMappingList: () => {
     set({ fetching: true, errorOnFetching: false, RolesMappingList: tableJson });
 
-    httpRequest('post', `${envConfig.api_url}/api`, {}, true)
+    httpRequest('post', `${envConfig.api_idm_url}/api`, {}, true)
       .then((response) => {
         // set({ RolesMappingList: tableJson });
       })
@@ -27,7 +27,7 @@ export const useRoleMapping = create<RolesMappingInterface>((set, get) => ({
   getStatusList: () => {
     set({ fetching: true, errorOnFetching: false });
 
-    httpRequest('post', `${envConfig.api_url}/api`, {}, true)
+    httpRequest('post', `${envConfig.api_idm_url}/api`, {}, true)
       .then((response) => {
         // set({ RepositoryList: RepoJson });
       })

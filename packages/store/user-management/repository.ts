@@ -25,6 +25,11 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
     set({ fetching: true, errorOnFetching: false });
 
     httpRequest('get', `${envConfig.api_url ?? apiUrl}/repository`, {}, true)
+      // .then((response) => {
+      //   // console.log("response", response)
+      //   const lastObject = response.data.data[response.data.data.length - 1];
+      //   set({ RepositoryList: lastObject.data, RepositoryId: lastObject.id });
+      // })
       .then((response) => {
         const lastObject = response.data.data[response.data.data.length - 1];
         set({ RepositoryList: lastObject.data.editRepositoryList, RepositoryId: lastObject.id });

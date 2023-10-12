@@ -14,7 +14,13 @@
 import { UserManagement } from "@crayond_dev/idm-components";
 
 function App() {
-return <UserManagement apiUrl="https://dev-idm-api.crayond.com/api/v1" />;
+return <UserManagement 
+          apiUrl="https://dev-idm-api.crayond.com/api/v1" 
+          onStatusChangeCallback={onStatusChangeCallback}
+          onEditRoleCallback={onEditRoleCallback}
+          onDeleteRoleCallback={onDeleteRoleCallback}
+          onAddRoleCallback={onAddRoleCallback}
+/>;
 }
 
 export default App;

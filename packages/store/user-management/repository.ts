@@ -21,10 +21,9 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
   },
 
   getAllRepository: () => {
-    const { apiUrl } = get();
     set({ fetching: true, errorOnFetching: false });
 
-    httpRequest('get', `${envConfig.api_url ?? apiUrl}/repository`, {}, true)
+    httpRequest('get', `${envConfig.api_url}/repository`, {}, true)
       // .then((response) => {
       //   // console.log("response", response)
       //   const lastObject = response.data.data[response.data.data.length - 1];
@@ -42,10 +41,10 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
       });
   },
   createRepository: () => {
-    const { RepositoryList, editRepositoryList, getAllRepository, apiUrl } = get();
+    const { RepositoryList, editRepositoryList, getAllRepository } = get();
     set({ onEditLoading: true, erroronEdit: false });
 
-    httpRequest('post', `${envConfig.api_url ?? apiUrl}/repository/upsert`, { data: { editRepositoryList } }, true)
+    httpRequest('post', `${envConfig.api_url}/repository/upsert`, { data: { editRepositoryList } }, true)
       .then((response) => {
         enqueueSnackbar('Json Updated Succesfully!', { variant: 'success' });
       })
@@ -59,7 +58,7 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
       });
   },
   editRepository: () => {
-    const { RepositoryId, editRepositoryList, getAllRepository, apiUrl } = get();
+    const { RepositoryId, editRepositoryList, getAllRepository } = get();
     set({ onEditLoading: true, erroronEdit: false });
     const payload = {
       id: RepositoryId,

@@ -31,8 +31,6 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
     createRepository,
     editRepositoryList,
     onEditLoading,
-
-    setApiUrl,
   } = useRepository();
   const [values, setValues] = useState(false);
   const handleClose = () => {
@@ -46,12 +44,6 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
     editRepository();
     handleClose();
   };
-
-  useEffect(() => {
-    // This is a hack. To get the env variables from other applications. They will be passed as props.
-    // Using this prop we will add a new variable in the store as apiUrl.
-    setApiUrl(apiUrl);
-  }, [apiUrl]);
 
   useEffect(() => {
     getAllRepository();

@@ -9,14 +9,14 @@ import { usePermission } from '@core/store';
 export interface PermissionProps {
   className?: string;
   sx?: SxProps<Theme>;
-  apiUrl?: string;
+  apiToken?: string;
 }
 
 export const Permission = (props: PermissionProps): JSX.Element => {
-  const { className = '', sx = {}, apiUrl, ...rest } = props;
+  const { className = '', sx = {}, apiToken = '', ...rest } = props;
   const [selected, setSelected] = useState(0);
   const [tableName, setTableName] = useState('');
-  const { PermissionList, setRepositoryList, indexUpdateList, RepositoryList, setApiUrl } = usePermission();
+  const { PermissionList, setRepositoryList, indexUpdateList, RepositoryList, setApiToken, } = usePermission();
 
   const handleMessage = (key: any, value: any) => {
     setSelected(value);
@@ -26,11 +26,8 @@ export const Permission = (props: PermissionProps): JSX.Element => {
   };
 
   useEffect(() => {
-    // This is a hack. To get the env variables from other applications. They will be passed as props.
-    // Using this prop we will add a new variable in the store as apiUrl.
-    setApiUrl(apiUrl);
-  }, [apiUrl]);
-
+    setApiToken(apiToken);
+  }, []);
   useEffect(() => {
     if (PermissionList && PermissionList.length > 0) {
       const init = PermissionList[0];

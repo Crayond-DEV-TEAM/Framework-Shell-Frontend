@@ -21,9 +21,15 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
   },
 
   getAllRepository: () => {
+    const { apiToken } = get();
+
     set({ fetching: true, errorOnFetching: false });
 
-    httpRequest('get', `${envConfig.api_url}/repository`, {}, true)
+    httpRequest('get', `${envConfig.api_url}/repository`, {}, true, {
+      headers: {
+        'x-api-token': apiToken,
+      },
+    })
       // .then((response) => {
       //   // console.log("response", response)
       //   const lastObject = response.data.data[response.data.data.length - 1];
@@ -80,8 +86,8 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
   },
 
   // These 2 states are for, component export purposes.
-  apiUrl: '',
-  setApiUrl: (apiUrl) => {
-    set({ apiUrl: apiUrl });
+  apiToken: '',
+  setApiToken: (apiToken) => {
+    set({ apiToken: apiToken });
   },
 }));

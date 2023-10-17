@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import { localStorageKeys } from '../constants';
+import { envConfig } from '@core/envconfig';
 
 /**
  * method The HTTP method (e.g. GET, POST).
@@ -23,7 +24,10 @@ interface HttpRequestProps {
 
 export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, includeToken, config) => {
   const headers = {
-    ...(includeToken && { Authorization: `Bearer ${localStorage.getItem(localStorageKeys.authToken)}` }),
+    ...(includeToken &&
+      envConfig.client_environment !== 'external' && {
+        Authorization: `Bearer ${localStorage.getItem(localStorageKeys.authToken)}`,
+      }),
     ...(config?.headers ?? {}),
   };
 

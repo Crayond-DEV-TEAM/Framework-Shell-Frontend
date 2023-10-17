@@ -9,11 +9,11 @@ export interface UserManagementProps {
   className?: string;
   sx?: SxProps<Theme>;
   title?: string;
-  apiUrl?: string;
   onAddRoleCallback?: () => void;
   onEditRoleCallback?: () => void;
   onDeleteRoleCallback?: () => void;
   onStatusChangeCallback?: () => void;
+  apiToken?: string;
 }
 
 function TabPanel(props: any) {
@@ -37,7 +37,7 @@ export const UserManagement = (props: UserManagementProps): JSX.Element => {
     className = '',
     sx = {},
     title = 'User Management',
-    apiUrl,
+    apiToken = '',
     onAddRoleCallback = {},
     onEditRoleCallback = {},
     onDeleteRoleCallback = {},
@@ -60,19 +60,19 @@ export const UserManagement = (props: UserManagementProps): JSX.Element => {
     {
       id: 0,
       label: 'Repository',
-      children: <RepositoryComponent apiUrl={apiUrl} />,
+      children: <RepositoryComponent apiToken={apiToken} />,
     },
     {
       id: 1,
       label: 'Permissions',
-      children: <Permission apiUrl={apiUrl} />,
+      children: <Permission apiToken={apiToken} />,
     },
     {
       id: 2,
       label: 'Roles',
       children: (
         <Roles
-          apiUrl={apiUrl}
+          apiToken={apiToken}
           onStatusChangeCallback={onStatusChangeCallback}
           onEditRoleCallback={onEditRoleCallback}
           onDeleteRoleCallback={onDeleteRoleCallback}
@@ -104,7 +104,7 @@ export const UserManagement = (props: UserManagementProps): JSX.Element => {
                         pt={2}
                         pb={2}
                         sx={i === index ? userManagementStyle.alertConfigTabTxt : userManagementStyle.alertConfigTab}
-                      // sx={{ color: disabled === true ? "#B9B9B9" : "" }}
+                        // sx={{ color: disabled === true ? "#B9B9B9" : "" }}
                       >
                         {tab?.label}
                       </Typography>

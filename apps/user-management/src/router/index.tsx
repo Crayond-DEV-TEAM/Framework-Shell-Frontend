@@ -5,6 +5,8 @@ import Home from '@pages/home';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { PrivateRouter } from './privateRouter';
 import UserManagementPage from '@pages/userManage';
+import React from 'react';
+import { UserManagement } from '@crayond_dev/idm-components';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +24,14 @@ const router = createBrowserRouter([
         element: <Home />,
       },
     ],
+  },
+  {
+    element: (
+      <React.Fragment>
+        <UserManagement apiUrl="https://dev-idm-api.crayond.com/api/v1" />
+      </React.Fragment>
+    ),
+    path: '/test',
   },
   {
     path: '*',

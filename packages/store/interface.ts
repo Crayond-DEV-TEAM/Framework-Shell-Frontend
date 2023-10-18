@@ -492,6 +492,9 @@ export interface UserManagementInterface {
   getAllRepository: () => void;
   editRepository: () => void;
   createRepository: () => void;
+
+  apiUrl?: string;
+  setApiUrl: (apiUrl: string | undefined) => void;
 }
 
 export interface PermissionInterface {
@@ -519,6 +522,9 @@ export interface PermissionInterface {
   // getFaciltyRepository: () => void;
   updateEditData: (data: any) => void;
   clearAll: () => void;
+
+  apiUrl?: string;
+  setApiUrl: (apiUrl: string | undefined) => void;
 }
 
 export interface RolesInterface {
@@ -548,6 +554,9 @@ export interface RolesInterface {
   deleteRoleList: (id: string) => void;
   clearAll: () => void;
   updateEditData: (data: any) => void;
+
+  apiUrl?: string;
+  setApiUrl: (apiUrl: string | undefined) => void;
 }
 
 export interface RolesMappingInterface {

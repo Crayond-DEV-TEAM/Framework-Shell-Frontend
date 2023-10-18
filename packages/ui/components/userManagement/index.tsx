@@ -3,6 +3,7 @@ import { Box, Tabs, Typography } from '@mui/material';
 import React from 'react';
 import { Permission, RepositoryComponent, Roles } from '..';
 import { userManagementStyle } from './style';
+import { SnackbarProvider } from 'notistack';
 
 export interface UserManagementProps {
   className?: string;
@@ -66,6 +67,12 @@ export const UserManagement = (props: UserManagementProps): JSX.Element => {
 
   return (
     <Box>
+      <SnackbarProvider
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+        />
       <Box sx={userManagementStyle.rootSx}>
         <Typography sx={userManagementStyle.title}>{title}</Typography>
         <Box sx={userManagementStyle.reportTabs}>

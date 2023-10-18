@@ -1,13 +1,11 @@
 import { ApiProfile, ChatNav, KeyBoardDown, Logout, ManIcon } from '@atoms/icons';
-import React, { useState } from 'react';
-import { Avatar, SxProps, Typography, Menu, MenuItem, Theme } from '@mui/material';
-import MUIAppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import { appBarStyle } from './style';
 import { useAuth } from '@core/store';
 import { UserDataInterface } from '@core/store/interface';
-import { localStorageKeys } from '@core/utils';
-import { parseJwt } from '@core/utils';
+import { localStorageKeys, parseJwt } from '@core/utils';
+import { Avatar, AppBar as MUIAppBar, Menu, MenuItem, SxProps, Theme, Typography } from '@mui/material';
+import {Box} from '@mui/material';
+import { useState } from 'react';
+import { appBarStyle } from './style';
 export interface AppBarProps {
   className?: string;
   sx?: SxProps<Theme>;

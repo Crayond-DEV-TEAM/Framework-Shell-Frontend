@@ -1,9 +1,8 @@
 import type { SxProps, Theme } from '@mui/material';
-import { Box, Typography } from '@mui/material';
+import { Box, Tabs, Typography } from '@mui/material';
 import React from 'react';
-import Tabs from '@mui/material/Tabs';
+import { Permission, RepositoryComponent, Roles } from '..';
 import { userManagementStyle } from './style';
-import { Permission, RepositoryComponent, RoleMapping, Roles } from '..';
 
 export interface UserManagementProps {
   className?: string;

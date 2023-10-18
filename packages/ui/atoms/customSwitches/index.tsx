@@ -1,9 +1,5 @@
 import type { SxProps, Theme } from '@mui/material';
-import { Box, Typography } from '@mui/material';
-import React from 'react';
-import Switch, { SwitchProps } from '@mui/material/Switch';
-import { styled } from '@mui/material/styles';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import { Box, FormControlLabel, Switch, SwitchProps, styled } from '@mui/material';
 
 import { customSwitchesStyle } from './style';
 

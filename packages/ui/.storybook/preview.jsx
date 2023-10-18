@@ -5,7 +5,7 @@ import '@fontsource/poppins/700.css';
 
 import { lightTheme, theme } from '@core/theme';
 import { queryClient } from '@core/utils/api';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from '@mui/material';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { SnackbarProvider } from 'notistack';
 import React, { useMemo } from 'react';

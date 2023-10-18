@@ -1,18 +1,26 @@
-import { Divider, SxProps } from '@mui/material';
-import { Box, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Collapse, Skeleton } from '@mui/material';
-import { forwardRef } from 'react';
-import React, { useState } from 'react';
-import { sideBarStyle } from './style';
-import MuiDrawer from '@mui/material/Drawer';
-import { styled, Theme, CSSObject } from '@mui/material/styles';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { matchPath, useLocation, useNavigate } from 'react-router-dom';
-import { messageRoutes } from '@core/routes';
 import { useMenu } from '@core/store';
-import { localStorageKeys, parseJwt } from '@core/utils';
-import { RiArrowDownLine, RiArrowRightDownLine } from 'react-icons/ri';
 import { Menu } from '@core/store/interface';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {
+  Box,
+  CSSObject,
+  Collapse,
+  Divider,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Drawer as MuiDrawer,
+  Skeleton,
+  SxProps,
+  Theme,
+  styled,
+} from '@mui/material';
+import React, { forwardRef, useState } from 'react';
+import { matchPath, useLocation } from 'react-router-dom';
+import { sideBarStyle } from './style';
 
 export interface SideBarProps {
   className?: string;

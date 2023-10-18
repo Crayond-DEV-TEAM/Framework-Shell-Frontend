@@ -1,12 +1,8 @@
-import * as React from 'react';
-import type { FormControlLabelProps } from '@mui/material';
-import type { SxProps, Theme } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import RadioButtonUncheckedRoundedIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import RadioButtonUncheckedRoundedIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
+import type { FormControlLabelProps } from '@mui/material';
+import { Checkbox, CheckboxProps, FormControlLabel, styled } from '@mui/material';
+import * as React from 'react';
 
 interface Props extends Omit<CheckboxProps, any> {
   checklist: any[];

@@ -1,4 +1,4 @@
-import LoadingButton, { LoadingButtonProps } from '@mui/lab/LoadingButton';
+import { LoadingButton, LoadingButtonProps } from '@mui/lab';
 import type { SxProps, Theme } from '@mui/material';
 
 import { atomButton_style } from './style';

@@ -1,11 +1,7 @@
-import { IconButton, SxProps, Theme, Checkbox } from '@mui/material';
-import { Box, Typography } from '@mui/material';
-import TreeView from '@mui/lab/TreeView';
-import { styled } from '@mui/material/styles';
-import TreeItem, { treeItemClasses } from '@mui/lab/TreeItem';
-import { treeComponentStyle } from './style';
 import { CollapseIcon, ExpandIcon, InfoIcon, SettingIcon } from '@atoms/icons';
-// import { Checkbox } from '@material-ui/core';
+import { TreeItem, TreeView, treeItemClasses } from '@mui/lab';
+import { Box, Checkbox, SxProps, Theme, Typography, styled } from '@mui/material';
+import { treeComponentStyle } from './style';
 
 export interface TreeComponentProps {
   className?: string;
@@ -157,7 +153,6 @@ const styles = (id: string, checks: boolean) => {
         fontsize: { fontSize: '14px', fontWeight: 500, color: '#818181', margin: '7px' },
         checkBox: checks === true ? true : false,
       };
-      break;
   }
 };
 const renderTree = (nodes: any, test: string, checkBox: any, setEdit: any, onChange: () => void, index: any) => (

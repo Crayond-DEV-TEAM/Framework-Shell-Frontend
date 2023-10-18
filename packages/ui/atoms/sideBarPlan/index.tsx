@@ -1,27 +1,26 @@
-import { Menu, MenuItem, type SxProps, type Theme } from '@mui/material';
+import { KeyBoardDown, Logout, ManIcon, RightArrowBtn, SmallCloseIcon } from '@atoms/icons';
+import { useAuth } from '@core/store';
+import { localStorageKeys, parseJwt } from '@core/utils';
+import {
+  Avatar,
+  Box,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Typography,
+  type SxProps,
+  type Theme,
+} from '@mui/material';
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import AppBar from '@mui/material/AppBar';
-import CssBaseline from '@mui/material/CssBaseline';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Button } from '..';
 import { sideBarPlanStyle } from './style';
 import { sideBarData } from './utils';
-import { ApiProfile, KeyBoardDown, Logout, ManIcon, RightArrowBtn, SmallCloseIcon, Test } from '@atoms/icons';
-import Avatar from '@mui/material/Avatar';
-import { localStorageKeys, parseJwt } from '@core/utils';
-import { matchPath, useNavigate, useLocation, useNavigation } from 'react-router-dom';
-import { Button } from '..';
-import { useAuth } from '@core/store';
 
 export interface SideBarPlanProps {
   className?: string;

@@ -40,7 +40,19 @@ export default defineConfig({
       formats: ['es'],
     },
     rollupOptions: {
-      external: ['react', 'react-dom', '@mui/lab', '@mui/material', '@emotion/react', '@emotion/styled', 'notistack'],
+      external: [
+        'react',
+        'react-dom',
+        'zustand',
+        '@mui/lab',
+        '@mui/material',
+        '@mui/icons-material',
+        '@mui/styled-engine',
+        '@emotion/react',
+        '@emotion/styled',
+        'notistack',
+        'crayond-components-library-1',
+      ],
     },
   },
 });

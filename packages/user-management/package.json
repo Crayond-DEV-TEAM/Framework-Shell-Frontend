@@ -1,6 +1,6 @@
 {
   "name": "@crayond_dev/user-management-test",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -25,6 +25,7 @@
     "@mui/material": "^5.10.12",
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
+    "@mui/icons-material": "^5.11.11",
     "crayond-components-library-1": "^0.0.33",
     "notistack": "^3.0.0",
     "react-fast-compare": "^3.2.0",
@@ -33,18 +34,8 @@
     "react-json-editor-ajrm": "^2.5.14"
   },
   "devDependencies": {
-    "@fontsource/poppins": "^4.5.10",
-    "@storybook/addon-essentials": "^7.0.5",
-    "@storybook/addon-interactions": "^7.0.5",
-    "@storybook/addon-links": "^7.0.5",
-    "@storybook/blocks": "^7.0.5",
-    "@storybook/react": "^7.0.5",
-    "@storybook/react-vite": "^7.0.5",
-    "@storybook/testing-library": "^0.0.14-next.2",
     "@types/tinycolor2": "^1.4.3",
     "eslint-config-custom": "*",
-    "eslint-plugin-storybook": "^0.6.11",
-    "storybook": "^7.0.5",
     "terser": "^5.16.9",
     "tsconfig": "*",
     "tsup": "^6.7.0",
@@ -52,12 +43,7 @@
     "vite": "^4.1.0"
   },
   "peerDependencies": {
-    "@mui/lab": "^5.0.0-alpha.104",
-    "@mui/material": "^5.10.12",
-    "@emotion/react": "^11.5.0",
-    "@emotion/styled": "^11.3.0",
     "react": "^17.0.0 || ^18.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0",
-    "notistack": "^3.0.0"
+    "react-dom": "^17.0.0 || ^18.0.0"
   }
 }

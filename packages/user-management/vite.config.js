@@ -49,6 +49,7 @@ export default defineConfig({
         '@mui/icons-material',
         '@mui/styled-engine',
         '@emotion/react',
+        '@mui/utils',
         '@emotion/styled',
         'notistack',
         'crayond-components-library-1',

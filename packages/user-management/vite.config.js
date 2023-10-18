@@ -51,8 +51,7 @@ export default defineConfig({
         '@emotion/react',
         '@mui/utils',
         '@emotion/styled',
-        'notistack',
-        'crayond-components-library-1',
+        'notistack'
       ],
     },
   },

@@ -4,7 +4,7 @@ import { Grid, Stack, Typography, Box } from '@mui/material';
 import { SubHeader } from '@core/ui/components/subHeader';
 import { DocumentationTable } from '@core/ui/components/documentationTable';
 // import CopyLinkIcon from "../../assets/copyLinkIcon";
-import { CommonTable } from 'crayond-components-library-1';
+import { Table as CommonTable } from "@crayond_dev/ui_table";
 import CopyLinkIcon from '@core/ui/assets/copyLinkIcon';
 import { apiDocumentation_style } from './style';
 import { TextBox } from '@components/textBox';

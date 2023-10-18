@@ -2,7 +2,7 @@ import { planSubscriptionRoutes } from '@core/routes';
 import { usePlans } from '@core/store';
 import type { SxProps, Theme } from '@mui/material';
 import { Box, CircularProgress } from '@mui/material';
-import { CommonTable } from 'crayond-components-library-1';
+import { Table as CommonTable } from "@crayond_dev/ui_table";
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DeleteComponent, TableHeader } from '..';

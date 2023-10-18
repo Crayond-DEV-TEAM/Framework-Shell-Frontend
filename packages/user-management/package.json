@@ -1,6 +1,6 @@
 {
   "name": "@crayond_dev/user-management-test",
-  "version": "0.0.7",
+  "version": "0.0.14",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,25 +21,24 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@mui/lab": "^5.0.0-alpha.104",
-    "@mui/material": "^5.10.12",
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
     "@mui/icons-material": "^5.11.11",
-    "crayond-components-library-1": "^0.0.33",
+    "@mui/lab": "^5.0.0-alpha.104",
+    "@mui/material": "^5.10.12",
     "notistack": "^3.0.0",
     "react-fast-compare": "^3.2.0",
     "react-icons": "^4.4.0",
-    "zustand": "^4.1.4",
-    "react-json-editor-ajrm": "^2.5.14"
+    "react-json-editor-ajrm": "^2.5.14",
+    "zustand": "^4.1.4"
   },
   "devDependencies": {
     "@types/tinycolor2": "^1.4.3",
+    "@vitejs/plugin-react": "^3.1.0",
     "eslint-config-custom": "*",
     "terser": "^5.16.9",
     "tsconfig": "*",
     "tsup": "^6.7.0",
-    "@vitejs/plugin-react": "^3.1.0",
     "vite": "^4.1.0"
   },
   "peerDependencies": {

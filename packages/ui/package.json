@@ -10,7 +10,6 @@
   "scripts": {
     "lint": "eslint \"**/*.{ts,tsx}\" --fix",
     "clean": " rm -rf node_modules && rm -rf dist",
-    "dev": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
   "dependencies": {

@@ -19,7 +19,7 @@ export interface RolesProps {
   apiUrl?: string;
   onAddRoleCallback?: (data: editData) => void;
   onEditRoleCallback?: (data: editData) => void;
-  onDeleteRoleCallback?: (data: editData) => void;
+  onDeleteRoleCallback?: (data: string) => void;
   onStatusChangeCallback?: (id: string, is_active: boolean) => void;
 }
 export interface editData {
@@ -42,9 +42,9 @@ export const Roles = (props: RolesProps): JSX.Element => {
     className = '',
     sx = {},
     apiUrl,
-    onEditRoleCallback = {},
-    onStatusChangeCallback = {},
-    onDeleteRoleCallback = {},
+    onEditRoleCallback = () => null,
+    onStatusChangeCallback = () => null,
+    onDeleteRoleCallback = () => null,
     onAddRoleCallback = () => null,
     ...rest
   } = props;
@@ -133,7 +133,6 @@ export const Roles = (props: RolesProps): JSX.Element => {
     setSelected(true);
   };
   const handlemodalClose = () => {
-    // clearAll()
     setSelected(false);
   };
 
@@ -144,7 +143,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
   const onDelete = () => {
     deleteRoleList(idrole);
     handlemodalClose();
-    onDeleteRoleCallback(addRole);
+    onDeleteRoleCallback(idrole);
   };
 
   const handleAddChange = (key: string, value: string) => {
@@ -174,9 +173,8 @@ export const Roles = (props: RolesProps): JSX.Element => {
       getStatusList(id, true);
       onStatusChangeCallback(id, true);
     } else {
-      // console.log(id);
       getStatusList(id, false);
-      onStatusChangeCallback(id, true);
+      onStatusChangeCallback(id, false);
     }
 
   };

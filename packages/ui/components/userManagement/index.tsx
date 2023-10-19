@@ -38,10 +38,10 @@ export const UserManagement = (props: UserManagementProps): JSX.Element => {
     sx = {},
     title = 'User Management',
     apiUrl,
-    onAddRoleCallback = {},
-    onEditRoleCallback = {},
-    onDeleteRoleCallback = {},
-    onStatusChangeCallback = {},
+    onAddRoleCallback = () => {},
+    onEditRoleCallback = () => {},
+    onDeleteRoleCallback = () => {},
+    onStatusChangeCallback = () => {},
     ...rest
   } = props;
 
@@ -90,11 +90,11 @@ export const UserManagement = (props: UserManagementProps): JSX.Element => {
   return (
     <Box>
       <SnackbarProvider
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-        />
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      />
       <Box sx={userManagementStyle.rootSx}>
         <Typography sx={userManagementStyle.title}>{title}</Typography>
         <Box sx={userManagementStyle.reportTabs}>
@@ -110,7 +110,7 @@ export const UserManagement = (props: UserManagementProps): JSX.Element => {
                         pt={2}
                         pb={2}
                         sx={i === index ? userManagementStyle.alertConfigTabTxt : userManagementStyle.alertConfigTab}
-                      // sx={{ color: disabled === true ? "#B9B9B9" : "" }}
+                        // sx={{ color: disabled === true ? "#B9B9B9" : "" }}
                       >
                         {tab?.label}
                       </Typography>

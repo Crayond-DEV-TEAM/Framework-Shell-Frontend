@@ -28,7 +28,21 @@ const router = createBrowserRouter([
   {
     element: (
       <React.Fragment>
-        <UserManagement apiUrl="https://dev-idm-api.crayond.com/api/v1" />
+        <UserManagement
+          apiUrl="https://dev-idm-api.crayond.com/api/v1"
+          onStatusChangeCallback={(data: any, v2: any) => {
+            console.log('onStatusChangeCallback', data, v2);
+          }}
+          onEditRoleCallback={(data: any) => {
+            console.log('onEditRoleCallback', data);
+          }}
+          onDeleteRoleCallback={(data: any) => {
+            console.log('onDeleteRoleCallback', data);
+          }}
+          onAddRoleCallback={(data: any) => {
+            console.log('onAddRoleCallback', data);
+          }}
+        />
       </React.Fragment>
     ),
     path: '/test',

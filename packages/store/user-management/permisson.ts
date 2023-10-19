@@ -51,10 +51,14 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   },
 
   getPermissionList: () => {
-    const { apiUrl } = get();
+    const { apiToken } = get();
     set({ fetchingPermission: true, errorOnPermission: false });
 
-    httpRequest('get', `${envConfig.api_url ?? apiUrl}/permissions`, {}, true)
+    httpRequest('get', `${envConfig.api_url}/permissions`, {}, true, {
+      headers: {
+        'x-api-token': apiToken,
+      },
+    })
       .then((response) => {
         set({ PermissionList: response.data.data });
       })
@@ -70,7 +74,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     set((state) => ({ addPermissionList: { ...data } }));
   },
   addPermission: (data: any) => {
-    const { clearAll, addPermissionList, getPermissionList, apiUrl } = get();
+    const { clearAll, addPermissionList, getPermissionList } = get();
 
     set({ fetching: true, errorOnFetching: false });
     // const { RepositoryList } = useRepository();
@@ -81,7 +85,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       is_active: addPermissionList.is_active,
     };
 
-    httpRequest('post', `${envConfig.api_url ?? apiUrl}/permissions/create`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/permissions/create`, payload, true)
       .then((response) => {
         enqueueSnackbar('Permission added Succesfully!', { variant: 'success' });
       })
@@ -97,7 +101,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   },
 
   editPermission: (data: any) => {
-    const { clearAll, addPermissionList, getPermissionList, apiUrl } = get();
+    const { clearAll, addPermissionList, getPermissionList } = get();
     set({ fetching: true, errorOnFetching: false });
     // const { RepositoryList } = useRepository();
     const payload = {
@@ -108,7 +112,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       is_active: addPermissionList.is_active,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.api_url ?? apiUrl}/permissions`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/permissions`, payload, true)
       .then((response) => {
         enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
       })
@@ -124,14 +128,14 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   },
 
   deletePermission: (x: any) => {
-    const { getPermissionList, apiUrl } = get();
+    const { getPermissionList } = get();
     set({ fetching: true, errorOnFetching: false });
     // const { RepositoryList } = useRepository();
     const payload = {
       permission_id: x.id,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('delete', `${envConfig.api_url ?? apiUrl}/permissions`, payload, true)
+    httpRequest('delete', `${envConfig.api_url}/permissions`, payload, true)
       .then((response) => {
         enqueueSnackbar('Permission deleted Succesfully!', { variant: 'success' });
       })
@@ -146,7 +150,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   },
 
   updateRopsitory: () => {
-    const { indexUpdateList, permissionId, getPermissionList, apiUrl } = get();
+    const { indexUpdateList, permissionId, getPermissionList } = get();
     set({ fetching: true, errorOnFetching: false });
     // const { RepositoryList } = useRepository();
     const payload = {
@@ -155,7 +159,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       is_active: true,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.api_url ?? apiUrl}/permissions/update`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/permissions/update`, payload, true)
       .then((response) => {
         enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
       })
@@ -180,8 +184,8 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   },
 
   // These 2 states are for, component export purposes.
-  apiUrl: '',
-  setApiUrl: (apiUrl) => {
-    set({ apiUrl: apiUrl });
+  apiToken: '',
+  setApiToken: (apiToken) => {
+    set({ apiToken: apiToken });
   },
 }));

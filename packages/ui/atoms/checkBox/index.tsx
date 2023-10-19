@@ -1,7 +1,4 @@
-import { Box } from '@mui/material';
-import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
-import { styled } from '@mui/material/styles';
-import PropTypes from 'prop-types';
+import { Checkbox, CheckboxProps, styled } from '@mui/material';
 import { checkBox_style } from './style';
 
 interface Props extends Omit<CheckboxProps, 'icon' | 'checkedIcon'> {

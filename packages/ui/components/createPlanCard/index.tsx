@@ -1,15 +1,13 @@
-import type { FormControlLabelProps, SxProps, Theme } from '@mui/material';
-import { Box, Typography, Radio, RadioGroup, FormControl, FormControlLabel } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { createPlanCardStyle } from './style';
+import { CustomCheckboxWithLabels } from '@atoms/customCheckboxWithLabels';
 import { CloseRedIcon } from '@atoms/icons';
+import { Input } from '@atoms/input';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
-import { CustomCheckboxWithLabels } from '@atoms/customCheckboxWithLabels';
-import { Input } from '@atoms/input';
-import { ButtonGroupDropdown } from '..';
-import { Label } from '@atoms/label';
+import type { FormControlLabelProps, SxProps, Theme } from '@mui/material';
+import { Box, FormControl, FormControlLabel, Radio, RadioGroup, Typography, styled } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { ButtonGroupDropdown } from '..';
+import { createPlanCardStyle } from './style';
 
 export interface CreatePlanCardProps {
   className?: string;

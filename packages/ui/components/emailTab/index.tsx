@@ -4,7 +4,7 @@ import { DialogDrawer } from '@atoms/dialogDrawer';
 import { EmailDialog } from '@components/emailDialog';
 import { TableHeader } from '@core/ui/components/tableHeader';
 import { Box, Grid } from '@mui/material';
-import { CommonTable } from 'crayond-components-library-1';
+import { Table as CommonTable } from "@crayond_dev/ui_table";
 import React from 'react';
 import { emailTab_style } from './style';
 import { FooterComponent } from '@atoms/footerComponent';

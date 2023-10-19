@@ -7,7 +7,7 @@ import { DialogDrawer } from '@core/ui/atoms/dialogDrawer';
 import { DialogContent } from '@core/ui/components/dialogContent';
 import { TableHeader } from '@core/ui/components/tableHeader';
 import { Box, Grid } from '@mui/material';
-import { CommonTable } from 'crayond-components-library-1';
+import { Table as CommonTable } from "@crayond_dev/ui_table";
 import React from 'react';
 // import { Popup } from "@core/ui/components/popup";
 import type { SxProps, Theme } from '@mui/material';

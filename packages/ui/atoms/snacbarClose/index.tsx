@@ -1,7 +1,6 @@
-import type { SxProps, Theme } from '@mui/material';
-import { Box, Typography } from '@mui/material';
-import { IconButton } from '@material-ui/core';
 import CloseIcon from '@mui/icons-material/Close';
+import type { SxProps, Theme } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import { useSnackbar } from 'notistack';
 
 import { snacbarCloseStyle } from './style';

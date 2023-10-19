@@ -1,7 +1,7 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { CommonTable } from 'crayond-components-library-1';
+import { Table as CommonTable } from "@crayond_dev/ui_table";
 
 import { chargesStyle } from './style';
 import { DialogDrawer } from '@atoms/dialogDrawer';

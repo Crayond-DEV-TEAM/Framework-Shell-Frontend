@@ -1,10 +1,9 @@
 import type { SxProps, Theme } from '@mui/material';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 
-import { customToggleStyle } from './style';
+import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { useEffect, useState } from 'react';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { customToggleStyle } from './style';
 
 export interface CustomToggleProps {
   className?: string;

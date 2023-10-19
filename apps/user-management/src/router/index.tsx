@@ -6,7 +6,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { PrivateRouter } from './privateRouter';
 import UserManagementPage from '@pages/userManage';
 import React from 'react';
-import { UserManagement } from '@crayond_dev/idm-components';
+import { UserManagement } from '@crayond_dev/user-management-test';
 
 const router = createBrowserRouter([
   {

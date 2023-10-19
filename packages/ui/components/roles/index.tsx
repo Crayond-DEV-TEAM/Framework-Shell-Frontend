@@ -1,6 +1,6 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-import { CommonTable } from 'crayond-components-library-1';
+// import { Table as CommonTable } from "@crayond_dev/ui_table";
 import { rolesStyle } from './style';
 import { ModalAddMessage, ModalAddPermission, TableHeader } from '..';
 import { Header, tableData, tableJson } from './utils';
@@ -11,6 +11,7 @@ import { DeleteDailog } from '@atoms/deletedailog';
 import { Button } from '@atoms/button';
 import { dummyTableData } from '@core/store/utils';
 import { usePermission, useRoles } from '@core/store';
+import { Table } from "@crayond_dev/ui_table";
 
 export interface RolesProps {
   className?: string;
@@ -50,7 +51,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isEdit, setIsEdit] = useState(false);
   const [values, setValues] = useState(false);
-  const [switchList, setSwitchList] = useState<any>([]);
+  const [switchList, setSwitchList] = useState([]);
   const {
     RolesList,
     getRolesList,
@@ -205,7 +206,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
       {...rest}
     >
       <Box sx={rolesStyle.commonTable}>
-        <CommonTable
+        <Table
           Header={Header}
           dataList={filteredMessageGroup}
           tableData={tableData(handleTableEdit, handleTableDelete)}

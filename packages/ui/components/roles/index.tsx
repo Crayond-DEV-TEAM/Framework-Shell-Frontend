@@ -15,10 +15,38 @@ import { usePermission, useRoles } from '@core/store';
 export interface RolesProps {
   className?: string;
   sx?: SxProps<Theme>;
+  apiUrl?: string;
+  onAddRoleCallback?: (data: editData) => void;
+  onEditRoleCallback?: (data: editData) => void;
+  onDeleteRoleCallback?: (data: editData) => void;
+  onStatusChangeCallback?: (id: string, is_active: boolean) => void;
+}
+export interface editData {
+  id?: string;
+  permission: permissionData[];
+  name: any;
+  description: string;
+  is_active: boolean;
+}
+export interface permissionData {
+  label: string;
+  name: string;
+  color: string;
+  bgColor: string;
+  id: string;
 }
 
 export const Roles = (props: RolesProps): JSX.Element => {
-  const { className = '', sx = {}, ...rest } = props;
+  const {
+    className = '',
+    sx = {},
+    apiUrl,
+    onEditRoleCallback = {},
+    onStatusChangeCallback = {},
+    onDeleteRoleCallback = {},
+    onAddRoleCallback = () => null,
+    ...rest
+  } = props;
   const [searchTerm, setSearchTerm] = useState('');
   const [isEdit, setIsEdit] = useState(false);
   const [values, setValues] = useState(false);
@@ -34,7 +62,14 @@ export const Roles = (props: RolesProps): JSX.Element => {
     deleteRoleList,
     getStatusList,
     editRoleList,
+    setApiUrl,
   } = useRoles();
+
+  useEffect(() => {
+    // This is a hack. To get the env variables from other applications. They will be passed as props.
+    // Using this prop we will add a new variable in the store as apiUrl.
+    setApiUrl(apiUrl);
+  }, [apiUrl]);
 
   const { getPermissionList, PermissionList } = usePermission();
 
@@ -69,7 +104,6 @@ export const Roles = (props: RolesProps): JSX.Element => {
     setValues(true);
   };
   const handleTableEdit = (id: string, data: any, e: any) => {
-    debugger
     setValues(true);
     setaddMessage(data);
     // setIsEdit(id.length > 0 ? true : false);
@@ -88,6 +122,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
   const handleEdit = () => {
     editRoleList();
     handleClose();
+    onEditRoleCallback(addRole);
   };
 
   const [idrole, setidRole] = useState('');
@@ -108,17 +143,19 @@ export const Roles = (props: RolesProps): JSX.Element => {
   const onDelete = () => {
     deleteRoleList(idrole);
     handlemodalClose();
+    onDeleteRoleCallback(addRole);
   };
 
   const handleAddChange = (key: string, value: string) => {
+
     setaddMessage({ key, value });
   };
   const save = () => {
     const isFormValid = validateForm();
-
     if (isFormValid) {
       addRolesList();
       handleClose();
+      onAddRoleCallback(addRole);
     }
   };
   const filteredMessageGroup = RolesList.filter((x: any) => x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()));
@@ -133,12 +170,14 @@ export const Roles = (props: RolesProps): JSX.Element => {
       }
     }
     if (e.target.checked === true) {
-      // console.log(id);
       getStatusList(id, true);
+      onStatusChangeCallback(id, true);
     } else {
       // console.log(id);
       getStatusList(id, false);
+      onStatusChangeCallback(id, true);
     }
+
   };
   const handleStatus = () => {
     if (RolesList?.length > 0) {
@@ -214,7 +253,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
                 setSearchTerm={setSearchTerm}
                 searchTerm={searchTerm}
                 handleOpen={handleOpen}
-                // editTableMessage={addRole}
+              // editTableMessage={addRole}
               />
             ),
           }}
@@ -244,7 +283,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
             SwitchChange={(e: any) => handleAddChange('is_active', e.target.checked)}
             onSave={addRole.id ? handleEdit : save}
             onCancel={handleClose}
-            // loading={addMessageLoading}
+          // loading={addMessageLoading}
           />
         }
         dialogRootStyle={rolesStyle.dialogSx}

@@ -36,12 +36,13 @@ export const useRoles = create<RolesInterface>((set, get) => ({
   },
 
   getRolesList: () => {
+    const { apiUrl } = get();
     set({ fetching: true, errorOnFetching: false });
     const payload = {
       offset: 0,
       limit: 10000,
     };
-    httpRequest('post', `${envConfig.api_url}/roles`, payload, true)
+    httpRequest('post', `${envConfig.api_url ?? apiUrl}/roles`, payload, true)
       .then((response) => {
         const permssionJsonConstruct = (tableData: any) => {
           return tableData.role_permission_mappings.map((value: any) => {
@@ -93,7 +94,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
   },
 
   addRolesList: () => {
-    const { addRole, getRolesList, clearAll } = get();
+    const { addRole, getRolesList, clearAll, apiUrl } = get();
     const permissionid = addRole.permission.map((value: any) => value.id);
     const payload = {
       name: addRole.name,
@@ -101,7 +102,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       description: addRole.description,
       is_active: addRole.is_active,
     };
-    httpRequest('post', `${envConfig.api_url}/roles/create`, payload, true)
+    httpRequest('post', `${envConfig.api_url ?? apiUrl}/roles/create`, payload, true)
       .then((response) => {
         enqueueSnackbar('Roles created succesfully!', { variant: 'success' });
       })
@@ -117,12 +118,12 @@ export const useRoles = create<RolesInterface>((set, get) => ({
   },
   getStatusList: (id: any, status: any) => {
     set({ fetching: true, errorOnFetching: false });
-    const { getRolesList } = get();
+    const { getRolesList, apiUrl } = get();
     const payload = {
       role_id: id,
       is_active: status,
     };
-    httpRequest('put', `${envConfig.api_url}/roles/update`, payload, true)
+    httpRequest('put', `${envConfig.api_url ?? apiUrl}/roles/update`, payload, true)
       .then((response) => {
         enqueueSnackbar('Status changed succesfully!', { variant: 'success' });
       })
@@ -136,7 +137,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       });
   },
   editRoleList: () => {
-    const { addRole, getRolesList, clearAll } = get();
+    const { addRole, getRolesList, clearAll, apiUrl } = get();
     const permissionid = addRole.permission.map((value: any) => value.id);
     const payload = {
       role_id: addRole.id,
@@ -148,7 +149,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
 
     set({ fetching: true, errorOnFetching: false });
 
-    httpRequest('put', `${envConfig.api_url}/roles/update`, payload, true)
+    httpRequest('put', `${envConfig.api_url ?? apiUrl}/roles/update`, payload, true)
       .then((response) => {
         enqueueSnackbar('Roles edited succesfully!', { variant: 'success' });
       })
@@ -164,13 +165,13 @@ export const useRoles = create<RolesInterface>((set, get) => ({
   },
 
   deleteRoleList: (id: string) => {
-    const { getRolesList } = get();
+    const { getRolesList, apiUrl } = get();
     set({ fetching: true, errorOnFetching: false });
     const payload = {
       role_id: id,
     };
 
-    httpRequest('delete', `${envConfig.api_url}/roles`, payload, true)
+    httpRequest('delete', `${envConfig.api_url ?? apiUrl}/roles`, payload, true)
       .then((response) => {
         enqueueSnackbar('Roles deleted succesfully!', { variant: 'success' });
       })
@@ -194,5 +195,11 @@ export const useRoles = create<RolesInterface>((set, get) => ({
         is_active: false,
       },
     });
+  },
+
+  // These 2 states are for, component export purposes.
+  apiUrl: '',
+  setApiUrl: (apiUrl) => {
+    set({ apiUrl: apiUrl });
   },
 }));

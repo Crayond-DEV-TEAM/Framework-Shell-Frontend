@@ -9,29 +9,13 @@ export interface UserManagementProps {
   className?: string;
   sx?: SxProps<Theme>;
   title?: string;
+  apiUrl?: string;
+  onAddRoleCallback?: () => void;
+  onEditRoleCallback?: () => void;
+  onDeleteRoleCallback?: () => void;
+  onStatusChangeCallback?: () => void;
 }
-export const tabs = [
-  {
-    id: 0,
-    label: 'Repository',
-    children: <RepositoryComponent />,
-  },
-  {
-    id: 1,
-    label: 'Permissions',
-    children: <Permission />,
-  },
-  {
-    id: 2,
-    label: 'Roles',
-    children: <Roles />,
-  },
-  // {
-  //   id: 3,
-  //   label: 'Role Mapping',
-  //   children: <RoleMapping />,
-  // },
-];
+
 function TabPanel(props: any) {
   const { children, value, index, ...other } = props;
 
@@ -49,7 +33,17 @@ function TabPanel(props: any) {
 }
 
 export const UserManagement = (props: UserManagementProps): JSX.Element => {
-  const { className = '', sx = {}, title = 'User Management', ...rest } = props;
+  const {
+    className = '',
+    sx = {},
+    title = 'User Management',
+    apiUrl,
+    onAddRoleCallback = {},
+    onEditRoleCallback = {},
+    onDeleteRoleCallback = {},
+    onStatusChangeCallback = {},
+    ...rest
+  } = props;
 
   const [index, setIndex] = React.useState(0);
   const [value, setValue] = React.useState(0);
@@ -61,6 +55,37 @@ export const UserManagement = (props: UserManagementProps): JSX.Element => {
   const handleChange = (event: any, newValue: any) => {
     setValue(newValue);
   };
+
+  const tabs = [
+    {
+      id: 0,
+      label: 'Repository',
+      children: <RepositoryComponent apiUrl={apiUrl} />,
+    },
+    {
+      id: 1,
+      label: 'Permissions',
+      children: <Permission apiUrl={apiUrl} />,
+    },
+    {
+      id: 2,
+      label: 'Roles',
+      children: (
+        <Roles
+          apiUrl={apiUrl}
+          onStatusChangeCallback={onStatusChangeCallback}
+          onEditRoleCallback={onEditRoleCallback}
+          onDeleteRoleCallback={onDeleteRoleCallback}
+          onAddRoleCallback={onAddRoleCallback}
+        />
+      ),
+    },
+    // {
+    //   id: 3,
+    //   label: 'Role Mapping',
+    //   children: <RoleMapping />,
+    // },
+  ];
 
   return (
     <Box>
@@ -79,7 +104,7 @@ export const UserManagement = (props: UserManagementProps): JSX.Element => {
                         pt={2}
                         pb={2}
                         sx={i === index ? userManagementStyle.alertConfigTabTxt : userManagementStyle.alertConfigTab}
-                        // sx={{ color: disabled === true ? "#B9B9B9" : "" }}
+                      // sx={{ color: disabled === true ? "#B9B9B9" : "" }}
                       >
                         {tab?.label}
                       </Typography>
@@ -92,10 +117,7 @@ export const UserManagement = (props: UserManagementProps): JSX.Element => {
       </Box>
       <Box sx={{ margin: '24px 20px' }}>
         <TabPanel>
-          {index === 0 && <Box>{tabs[0]?.children}</Box>}
-          {index === 1 && <Box>{tabs[1]?.children}</Box>}
-          {index === 2 && <Box>{tabs[2]?.children}</Box>}
-          {index === 3 && <Box>{tabs[3]?.children}</Box>}
+          {tabs?.map((tab, tabIndex) => index === tabIndex && <Box key={index}>{tab?.children}</Box>)}
         </TabPanel>
       </Box>
     </Box>

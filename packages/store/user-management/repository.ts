@@ -71,7 +71,7 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
       data: { editRepositoryList },
     };
 
-    httpRequest('post', `${envConfig.api_url ?? apiUrl}/repository/upsert`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/repository/upsert`, payload, true)
       .then((response) => {
         enqueueSnackbar('Json Updated Succesfully!', { variant: 'success' });
       })

@@ -21,10 +21,15 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
   },
 
   getAllRepository: () => {
-    const { apiUrl } = get();
+    const { apiToken } = get();
+
     set({ fetching: true, errorOnFetching: false });
 
-    httpRequest('get', `${envConfig.api_url ?? apiUrl}/repository`, {}, true)
+    httpRequest('get', `${envConfig.api_url}/repository`, {}, true, {
+      headers: {
+        'x-api-token': apiToken,
+      },
+    })
       // .then((response) => {
       //   // console.log("response", response)
       //   const lastObject = response.data.data[response.data.data.length - 1];
@@ -42,10 +47,10 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
       });
   },
   createRepository: () => {
-    const { RepositoryList, editRepositoryList, getAllRepository, apiUrl } = get();
+    const { RepositoryList, editRepositoryList, getAllRepository } = get();
     set({ onEditLoading: true, erroronEdit: false });
 
-    httpRequest('post', `${envConfig.api_url ?? apiUrl}/repository/upsert`, { data: { editRepositoryList } }, true)
+    httpRequest('post', `${envConfig.api_url}/repository/upsert`, { data: { editRepositoryList } }, true)
       .then((response) => {
         enqueueSnackbar('Json Updated Succesfully!', { variant: 'success' });
       })
@@ -59,14 +64,14 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
       });
   },
   editRepository: () => {
-    const { RepositoryId, editRepositoryList, getAllRepository, apiUrl } = get();
+    const { RepositoryId, editRepositoryList, getAllRepository } = get();
     set({ onEditLoading: true, erroronEdit: false });
     const payload = {
       id: RepositoryId,
       data: { editRepositoryList },
     };
 
-    httpRequest('post', `${envConfig.api_url ?? apiUrl}/repository/upsert`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/repository/upsert`, payload, true)
       .then((response) => {
         enqueueSnackbar('Json Updated Succesfully!', { variant: 'success' });
       })
@@ -81,8 +86,8 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
   },
 
   // These 2 states are for, component export purposes.
-  apiUrl: '',
-  setApiUrl: (apiUrl) => {
-    set({ apiUrl: apiUrl });
+  apiToken: '',
+  setApiToken: (apiToken) => {
+    set({ apiToken: apiToken });
   },
 }));

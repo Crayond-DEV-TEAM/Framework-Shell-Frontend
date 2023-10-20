@@ -15,12 +15,12 @@ import { Repositorysimmer } from './simmer';
 export interface RepositoryComponentProps {
   className?: string;
   sx?: SxProps<Theme>;
-  apiUrl?: string;
+  apiToken?: string;
 }
 
 export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Element => {
-  // Note: Remove the default value for apiUrl
-  const { className = '', sx = {}, apiUrl, ...rest } = props;
+  // Note: Remove the default value for apiToken
+  const { className = '', sx = {}, apiToken = '', ...rest } = props;
   const {
     getAllRepository,
     fetching,
@@ -31,8 +31,7 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
     createRepository,
     editRepositoryList,
     onEditLoading,
-
-    setApiUrl,
+    setApiToken,
   } = useRepository();
   const [values, setValues] = useState(false);
   const handleClose = () => {
@@ -48,10 +47,8 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
   };
 
   useEffect(() => {
-    // This is a hack. To get the env variables from other applications. They will be passed as props.
-    // Using this prop we will add a new variable in the store as apiUrl.
-    setApiUrl(apiUrl);
-  }, [apiUrl]);
+    setApiToken(apiToken);
+  }, []);
 
   useEffect(() => {
     getAllRepository();
@@ -95,7 +92,7 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
             onSave={handleSave}
             onCancel={handleClose}
             loading={onEditLoading}
-            // loading={addMessageLoading}
+          // loading={addMessageLoading}
           />
         }
         dialogRootStyle={repositoryComponentStyle.dialogSx}

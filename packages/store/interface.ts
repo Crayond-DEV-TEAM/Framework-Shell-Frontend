@@ -493,8 +493,8 @@ export interface UserManagementInterface {
   editRepository: () => void;
   createRepository: () => void;
 
-  apiUrl?: string;
-  setApiUrl: (apiUrl: string | undefined) => void;
+  apiToken: string;
+  setApiToken: (apiToken: string) => void;
 }
 
 export interface PermissionInterface {
@@ -523,8 +523,8 @@ export interface PermissionInterface {
   updateEditData: (data: any) => void;
   clearAll: () => void;
 
-  apiUrl?: string;
-  setApiUrl: (apiUrl: string | undefined) => void;
+  apiToken: string;
+  setApiToken: (apiToken: string) => void;
 }
 
 export interface RolesInterface {
@@ -555,8 +555,8 @@ export interface RolesInterface {
   clearAll: () => void;
   updateEditData: (data: any) => void;
 
-  apiUrl?: string;
-  setApiUrl: (apiUrl: string | undefined) => void;
+  apiToken: string;
+  setApiToken: (apiToken: string) => void;
 }
 
 export interface RolesMappingInterface {

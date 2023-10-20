@@ -11,16 +11,16 @@ import { DeleteDailog } from '@atoms/deletedailog';
 import { Button } from '@atoms/button';
 import { dummyTableData } from '@core/store/utils';
 import { usePermission, useRoles } from '@core/store';
-import { Table } from "@crayond_dev/ui_table";
+import { Table } from '@crayond_dev/ui_table';
 
 export interface RolesProps {
   className?: string;
   sx?: SxProps<Theme>;
-  apiUrl?: string;
   onAddRoleCallback?: (data: editData) => void;
   onEditRoleCallback?: (data: editData) => void;
   onDeleteRoleCallback?: (data: string) => void;
   onStatusChangeCallback?: (id: string, is_active: boolean) => void;
+  apiToken?: string;
 }
 export interface editData {
   id?: string;
@@ -41,7 +41,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
   const {
     className = '',
     sx = {},
-    apiUrl,
+    apiToken = '',
     onEditRoleCallback = () => null,
     onStatusChangeCallback = () => null,
     onDeleteRoleCallback = () => null,
@@ -63,14 +63,8 @@ export const Roles = (props: RolesProps): JSX.Element => {
     deleteRoleList,
     getStatusList,
     editRoleList,
-    setApiUrl,
+    setApiToken,
   } = useRoles();
-
-  useEffect(() => {
-    // This is a hack. To get the env variables from other applications. They will be passed as props.
-    // Using this prop we will add a new variable in the store as apiUrl.
-    setApiUrl(apiUrl);
-  }, [apiUrl]);
 
   const { getPermissionList, PermissionList } = usePermission();
 
@@ -147,7 +141,6 @@ export const Roles = (props: RolesProps): JSX.Element => {
   };
 
   const handleAddChange = (key: string, value: string) => {
-
     setaddMessage({ key, value });
   };
   const save = () => {
@@ -176,7 +169,6 @@ export const Roles = (props: RolesProps): JSX.Element => {
       getStatusList(id, false);
       onStatusChangeCallback(id, false);
     }
-
   };
   const handleStatus = () => {
     if (RolesList?.length > 0) {
@@ -184,7 +176,9 @@ export const Roles = (props: RolesProps): JSX.Element => {
       setSwitchList(status);
     }
   };
-
+  useEffect(() => {
+    setApiToken(apiToken);
+  }, []);
   useEffect(() => {
     getRolesList();
     getPermissionList();
@@ -252,7 +246,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
                 setSearchTerm={setSearchTerm}
                 searchTerm={searchTerm}
                 handleOpen={handleOpen}
-              // editTableMessage={addRole}
+                // editTableMessage={addRole}
               />
             ),
           }}
@@ -282,7 +276,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
             SwitchChange={(e: any) => handleAddChange('is_active', e.target.checked)}
             onSave={addRole.id ? handleEdit : save}
             onCancel={handleClose}
-          // loading={addMessageLoading}
+            // loading={addMessageLoading}
           />
         }
         dialogRootStyle={rolesStyle.dialogSx}

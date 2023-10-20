@@ -54,7 +54,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     const { apiToken } = get();
     set({ fetchingPermission: true, errorOnPermission: false });
 
-    httpRequest('get', `${envConfig.api_url}/permissions`, {}, true {
+    httpRequest('get', `${envConfig.api_url}/permissions`, {}, true, {
       headers: {
         'x-api-token': apiToken,
       },
@@ -85,7 +85,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       is_active: addPermissionList.is_active,
     };
 
-    httpRequest('post', `${envConfig.api_url }/permissions/create`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/permissions/create`, payload, true)
       .then((response) => {
         enqueueSnackbar('Permission added Succesfully!', { variant: 'success' });
       })
@@ -112,7 +112,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       is_active: addPermissionList.is_active,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.api_url }/permissions`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/permissions`, payload, true)
       .then((response) => {
         enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
       })
@@ -183,7 +183,6 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     });
   },
 
-  // These 2 states are for, component export purposes.
   // These 2 states are for, component export purposes.
   apiToken: '',
   setApiToken: (apiToken) => {

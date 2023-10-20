@@ -18,18 +18,26 @@ interface HttpRequestProps {
     url: AxiosRequestConfig['url'],
     data?: AxiosRequestConfig['data'],
     includeToken?: boolean,
+    apiToken?: string,
     config?: Omit<AxiosRequestConfig, 'method' | 'url' | 'data'>,
   ): Promise<AxiosResponse<any, any>>;
 }
 
-export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, includeToken, config) => {
+export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, includeToken, apiToken, config) => {
+  
+  
   const headers = {
     ...(includeToken &&
       envConfig.client_environment !== 'external' && {
         Authorization: `Bearer ${localStorage.getItem(localStorageKeys.authToken)}`,
       }),
+    ...(Boolean(apiToken) && {
+      'x-api-token': apiToken,
+    }),
     ...(config?.headers ?? {}),
   };
+
+  console.log("THis is STEP 2:", headers);
 
   return axios({
     method,

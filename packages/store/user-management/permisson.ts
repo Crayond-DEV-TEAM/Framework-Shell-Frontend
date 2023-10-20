@@ -54,11 +54,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     const { apiToken } = get();
     set({ fetchingPermission: true, errorOnPermission: false });
 
-    httpRequest('get', `${envConfig.api_url}/permissions`, {}, true, {
-      headers: {
-        'x-api-token': apiToken,
-      },
-    })
+    httpRequest('get', `${envConfig.api_url}/permissions`, {}, true, apiToken)
       .then((response) => {
         set({ PermissionList: response.data.data });
       })
@@ -74,7 +70,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     set((state) => ({ addPermissionList: { ...data } }));
   },
   addPermission: (data: any) => {
-    const { clearAll, addPermissionList, getPermissionList } = get();
+    const { clearAll, addPermissionList, getPermissionList, apiToken } = get();
 
     set({ fetching: true, errorOnFetching: false });
     // const { RepositoryList } = useRepository();
@@ -85,7 +81,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       is_active: addPermissionList.is_active,
     };
 
-    httpRequest('post', `${envConfig.api_url}/permissions/create`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/permissions/create`, payload, true, apiToken)
       .then((response) => {
         enqueueSnackbar('Permission added Succesfully!', { variant: 'success' });
       })
@@ -101,7 +97,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   },
 
   editPermission: (data: any) => {
-    const { clearAll, addPermissionList, getPermissionList } = get();
+    const { clearAll, addPermissionList, getPermissionList, apiToken } = get();
     set({ fetching: true, errorOnFetching: false });
     // const { RepositoryList } = useRepository();
     const payload = {
@@ -112,7 +108,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       is_active: addPermissionList.is_active,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.api_url}/permissions`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/permissions`, payload, true, apiToken)
       .then((response) => {
         enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
       })
@@ -128,14 +124,14 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   },
 
   deletePermission: (x: any) => {
-    const { getPermissionList } = get();
+    const { getPermissionList, apiToken } = get();
     set({ fetching: true, errorOnFetching: false });
     // const { RepositoryList } = useRepository();
     const payload = {
       permission_id: x.id,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('delete', `${envConfig.api_url}/permissions`, payload, true)
+    httpRequest('delete', `${envConfig.api_url}/permissions`, payload, true, apiToken)
       .then((response) => {
         enqueueSnackbar('Permission deleted Succesfully!', { variant: 'success' });
       })
@@ -150,7 +146,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   },
 
   updateRopsitory: () => {
-    const { indexUpdateList, permissionId, getPermissionList } = get();
+    const { indexUpdateList, permissionId, getPermissionList, apiToken } = get();
     set({ fetching: true, errorOnFetching: false });
     // const { RepositoryList } = useRepository();
     const payload = {
@@ -159,7 +155,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       is_active: true,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.api_url}/permissions/update`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/permissions/update`, payload, true, apiToken)
       .then((response) => {
         enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
       })

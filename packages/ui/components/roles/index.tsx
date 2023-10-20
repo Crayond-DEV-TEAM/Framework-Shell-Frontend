@@ -16,8 +16,8 @@ import { Table } from '@crayond_dev/ui_table';
 export interface RolesProps {
   className?: string;
   sx?: SxProps<Theme>;
-  onAddRoleCallback?: (data: editData) => void;
-  onEditRoleCallback?: (data: editData) => void;
+  onAddRoleCallback?: (data: unknown) => void;
+  onEditRoleCallback?: (data: unknown) => void;
   onDeleteRoleCallback?: (data: string) => void;
   onStatusChangeCallback?: (id: string, is_active: boolean) => void;
   apiToken?: string;
@@ -115,9 +115,10 @@ export const Roles = (props: RolesProps): JSX.Element => {
   };
 
   const handleEdit = () => {
-    editRoleList();
-    handleClose();
-    onEditRoleCallback(addRole);
+    editRoleList().then((data) => {
+      handleClose();
+      onEditRoleCallback(data);
+    });
   };
 
   const [idrole, setidRole] = useState('');
@@ -135,9 +136,10 @@ export const Roles = (props: RolesProps): JSX.Element => {
     setidRole(id);
   };
   const onDelete = () => {
-    deleteRoleList(idrole);
-    handlemodalClose();
-    onDeleteRoleCallback(idrole);
+    deleteRoleList(idrole).then(() => {
+      handlemodalClose();
+      onDeleteRoleCallback(idrole);
+    });
   };
 
   const handleAddChange = (key: string, value: string) => {
@@ -146,9 +148,10 @@ export const Roles = (props: RolesProps): JSX.Element => {
   const save = () => {
     const isFormValid = validateForm();
     if (isFormValid) {
-      addRolesList();
-      handleClose();
-      onAddRoleCallback(addRole);
+      addRolesList().then((data) => {
+        handleClose();
+        onAddRoleCallback(data);
+      });
     }
   };
   const filteredMessageGroup = RolesList.filter((x: any) => x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()));
@@ -163,11 +166,13 @@ export const Roles = (props: RolesProps): JSX.Element => {
       }
     }
     if (e.target.checked === true) {
-      getStatusList(id, true);
-      onStatusChangeCallback(id, true);
+      getStatusList(id, true).then(() => {
+        onStatusChangeCallback(id, true);
+      });
     } else {
-      getStatusList(id, false);
-      onStatusChangeCallback(id, false);
+      getStatusList(id, false).then(() => {
+        onStatusChangeCallback(id, false);
+      });
     }
   };
   const handleStatus = () => {

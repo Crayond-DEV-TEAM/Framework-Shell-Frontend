@@ -22,5 +22,7 @@ export const webRoutes = {
   messagegroup: '/messagegroup',
   languageConfig: '/languageconfig',
   //idm
-  userManagement: '/userManagement',
+  userManagment: '/userManagment',
+  // userManagement;
+
 };

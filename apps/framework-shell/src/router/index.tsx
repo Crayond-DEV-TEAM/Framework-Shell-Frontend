@@ -1,12 +1,14 @@
 import { webRoutes } from '@core/routes';
 import {
   AdminSection,
+  AppLayout,
   LanguageConfig,
   LoginLayout,
   MessageTable,
   PageNotFound,
   RootLayout,
   SuperAdmin,
+  UserManagement,
   UserSection,
 } from '@core/ui/components';
 import ErrorBoundary from '@pages/errorBoundary';
@@ -18,6 +20,7 @@ import SignUpPage from '@pages/signUp';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { PrivateRouter } from './privateRouter';
+import { Box } from '@mui/material';
 
 const router = createBrowserRouter([
   {
@@ -97,28 +100,30 @@ const router = createBrowserRouter([
       },
       //message catlogue
       {
-        path: webRoutes.languageConfig,
+        path: webRoutes.messagegroup,
         element: (
-          <LoginLayout>
+          <AppLayout>
             <MessageTable />
-          </LoginLayout>
+          </AppLayout>
         ),
       },
       {
-        path: webRoutes.messagegroup,
+        path: webRoutes.languageConfig,
         element: (
-          <LoginLayout>
-            <LanguageConfig />
-          </LoginLayout>
+          <AppLayout>
+            <Box sx={{ width: '100%', maxWidth: '761px', margin: 'auto' }}>
+              <LanguageConfig />
+            </Box>
+          </AppLayout>
         ),
       },
       //IDM
       {
-        path: webRoutes.messagegroup,
+        path: webRoutes.userManagment,
         element: (
-          <LoginLayout>
-            <LanguageConfig />
-          </LoginLayout>
+          <AppLayout>
+            <UserManagement />
+          </AppLayout>
         ),
       },
     ],

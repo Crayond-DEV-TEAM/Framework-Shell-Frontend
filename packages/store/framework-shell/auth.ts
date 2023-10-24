@@ -83,6 +83,7 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
         useUser.setState({ user });
         localStorage.setItem(localStorageKeys.authToken, token);
         set({ signInMessage: 'Signed in Successfully', signInError: false });
+        routeTo(useRouting, webRoutes.languageConfig);
         return response?.status;
       } else {
         throw new Error('Internal Server Error');

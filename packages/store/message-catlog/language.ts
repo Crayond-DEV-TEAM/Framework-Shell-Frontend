@@ -86,7 +86,7 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
       //   queryFn: async () => {
       const { data } = await httpRequest(
         'get',
-        `${envConfig.api_url}/config_languages/display_Master_languages`,
+        `${envConfig.message_api_url}/config_languages/display_Master_languages`,
         {},
         true,
       );
@@ -120,7 +120,7 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
         queryFn: async () => {
           const { data } = await httpRequest(
             'get',
-            `${envConfig.api_url}/config_languages/display_config_languages`,
+            `${envConfig.message_api_url}/config_languages/display_config_languages`,
             {},
             true,
           );
@@ -151,7 +151,7 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
         queryFn: async () => {
           const { data } = await httpRequest(
             'post',
-            `${envConfig.api_url}/config_languages/config_language`,
+            `${envConfig.message_api_url}/config_languages/config_language`,
             {
               languages: [
                 {

@@ -40,7 +40,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       offset: 0,
       limit: 10000,
     };
-    httpRequest('post', `${envConfig.api_url}/roles`, payload, true)
+    httpRequest('post', `${envConfig.idm_api_url}/roles`, payload, true)
       .then((response) => {
         const permssionJsonConstruct = (tableData: any) => {
           return tableData.role_permission_mappings.map((value: any) => {
@@ -100,7 +100,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       description: addRole.description,
       is_active: addRole.is_active,
     };
-    httpRequest('post', `${envConfig.api_url}/roles/create`, payload, true)
+    httpRequest('post', `${envConfig.idm_api_url}/roles/create`, payload, true)
       .then((response) => {
         enqueueSnackbar('Roles created succesfully!', { variant: 'success' });
       })
@@ -121,7 +121,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       role_id: id,
       is_active: status,
     };
-    httpRequest('put', `${envConfig.api_url}/roles/update`, payload, true)
+    httpRequest('put', `${envConfig.idm_api_url}/roles/update`, payload, true)
       .then((response) => {
         enqueueSnackbar('Status changed succesfully!', { variant: 'success' });
       })
@@ -147,7 +147,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
 
     set({ fetching: true, errorOnFetching: false });
 
-    httpRequest('put', `${envConfig.api_url}/roles/update`, payload, true)
+    httpRequest('put', `${envConfig.idm_api_url}/roles/update`, payload, true)
       .then((response) => {
         enqueueSnackbar('Roles edited succesfully!', { variant: 'success' });
       })
@@ -169,7 +169,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       role_id: id,
     };
 
-    httpRequest('delete', `${envConfig.api_url}/roles`, payload, true)
+    httpRequest('delete', `${envConfig.idm_api_url}/roles`, payload, true)
       .then((response) => {
         enqueueSnackbar('Roles deleted succesfully!', { variant: 'success' });
       })

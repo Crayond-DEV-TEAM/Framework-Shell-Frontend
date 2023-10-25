@@ -1,7 +1,7 @@
 import React from 'react';
 import { IconButton, SxProps, Theme } from '@mui/material';
 import { Grid, Stack, Typography, Box } from '@mui/material';
-import { CommonTable } from 'crayond-components-library-1';
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 import CopyLinkIcon from '@core/ui/assets/copyLinkIcon';
 import { apiDocumentation_style } from './style';
 import { Button, DialogDrawer, Input, Label } from '@atoms';

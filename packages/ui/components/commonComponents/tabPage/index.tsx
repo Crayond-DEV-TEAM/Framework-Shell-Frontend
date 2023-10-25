@@ -1,9 +1,7 @@
 import type { SxProps, Theme } from '@mui/material';
-import { Box, Typography } from '@mui/material';
+import { Box, Tabs, Typography } from '@mui/material';
 import React from 'react';
 import { tabPageStyle } from './style';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import { RepositoryComponent } from '@components/userManagementComponents';
 // import { tabs } from '@components/secondaryNavbar/utils';
 export interface TabPageProps {

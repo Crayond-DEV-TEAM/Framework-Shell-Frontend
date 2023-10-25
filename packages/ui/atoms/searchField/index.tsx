@@ -1,9 +1,8 @@
-import { MenuItem, Typography } from '@material-ui/core';
-import { Popper, List, ListItem, ListItemText, InputBase, ListItemButton, Box, CircularProgress } from '@mui/material';
-import React, { useState } from 'react';
-import { searchFieldStyle } from './style';
 import { SearchIcon } from '@atoms/icons';
 import { SelectBoxInterface } from '@core/store/interface';
+import { Box, CircularProgress, InputBase, List, ListItemButton, ListItemText, Popper } from '@mui/material';
+import React, { useState } from 'react';
+import { searchFieldStyle } from './style';
 
 export interface SearchFieldProps {
   placeholder: string;

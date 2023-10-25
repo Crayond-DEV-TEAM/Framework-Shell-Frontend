@@ -1,18 +1,10 @@
-import * as React from 'react';
-import type { FormControlLabelProps } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import Radio, { RadioProps } from '@mui/material/Radio';
-import type { SxProps, Theme } from '@mui/material';
-import Typography, { TypographyProps } from '@mui/material/Typography';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import { Button, Box } from '@mui/material';
+import { Label } from '@atoms/label';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonUncheckedRoundedIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
+import type { FormControlLabelProps, SxProps, Theme } from '@mui/material';
+import { Box, FormControl, FormControlLabel, Radio, RadioGroup, RadioProps, Typography, styled } from '@mui/material';
+import * as React from 'react';
 import { customRadioStyle } from './style';
-import { Label } from '@atoms/label';
 
 export interface CustomRadioProps {
   className?: string;

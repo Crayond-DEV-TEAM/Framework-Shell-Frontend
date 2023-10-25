@@ -1,6 +1,6 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-import { CommonTable } from 'crayond-components-library-1';
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 import { rolesStyle } from './style';
 import { ModalAddPermission } from '..';
 import { Header, tableData, tableJson } from './utils';
@@ -12,18 +12,46 @@ import { Button } from '@atoms/button';
 import { dummyTableData } from '@core/store/utils';
 import { usePermission, useRoles } from '@core/store';
 import { TableHeader } from '@components/commonComponents';
-
+// import { Table } from '@crayond_dev/ui_table';
 export interface RolesProps {
   className?: string;
   sx?: SxProps<Theme>;
+  onAddRoleCallback?: (data: unknown) => void;
+  onEditRoleCallback?: (data: unknown) => void;
+  onDeleteRoleCallback?: (data: string) => void;
+  onStatusChangeCallback?: (id: string, is_active: boolean) => void;
+  apiToken?: string;
+}
+export interface editData {
+  id?: string;
+  permission: permissionData[];
+  name: any;
+  description: string;
+  is_active: boolean;
+}
+export interface permissionData {
+  label: string;
+  name: string;
+  color: string;
+  bgColor: string;
+  id: string;
 }
 
 export const Roles = (props: RolesProps): JSX.Element => {
-  const { className = '', sx = {}, ...rest } = props;
+  const {
+    className = '',
+    sx = {},
+    apiToken = '',
+    onEditRoleCallback = () => null,
+    onStatusChangeCallback = () => null,
+    onDeleteRoleCallback = () => null,
+    onAddRoleCallback = () => null,
+    ...rest
+  } = props;
   const [searchTerm, setSearchTerm] = useState('');
   const [isEdit, setIsEdit] = useState(false);
   const [values, setValues] = useState(false);
-  const [switchList, setSwitchList] = useState<any>([]);
+  const [switchList, setSwitchList] = useState([]);
   const {
     RolesList,
     getRolesList,
@@ -35,6 +63,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
     deleteRoleList,
     getStatusList,
     editRoleList,
+    setApiToken,
   } = useRoles();
 
   const { getPermissionList, PermissionList } = usePermission();
@@ -70,7 +99,6 @@ export const Roles = (props: RolesProps): JSX.Element => {
     setValues(true);
   };
   const handleTableEdit = (id: string, data: any, e: any) => {
-    // debugger;
     setValues(true);
     setaddMessage(data);
     // setIsEdit(id.length > 0 ? true : false);
@@ -87,8 +115,10 @@ export const Roles = (props: RolesProps): JSX.Element => {
   };
 
   const handleEdit = () => {
-    editRoleList();
-    handleClose();
+    editRoleList().then((data) => {
+      handleClose();
+      onEditRoleCallback(data);
+    });
   };
 
   const [idrole, setidRole] = useState('');
@@ -98,7 +128,6 @@ export const Roles = (props: RolesProps): JSX.Element => {
     setSelected(true);
   };
   const handlemodalClose = () => {
-    // clearAll()
     setSelected(false);
   };
 
@@ -107,8 +136,10 @@ export const Roles = (props: RolesProps): JSX.Element => {
     setidRole(id);
   };
   const onDelete = () => {
-    deleteRoleList(idrole);
-    handlemodalClose();
+    deleteRoleList(idrole).then(() => {
+      handlemodalClose();
+      onDeleteRoleCallback(idrole);
+    });
   };
 
   const handleAddChange = (key: string, value: string) => {
@@ -116,14 +147,15 @@ export const Roles = (props: RolesProps): JSX.Element => {
   };
   const save = () => {
     const isFormValid = validateForm();
-
     if (isFormValid) {
-      addRolesList();
-      handleClose();
+      addRolesList().then((data) => {
+        handleClose();
+        onAddRoleCallback(data);
+      });
     }
   };
   const filteredMessageGroup = RolesList.filter((x: any) => x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()));
-  const handleSwitch = (id: any, data: any, e: any) => {
+  const handleSwitch = (id: string, data: any, e: any) => {
     if (!switchList.includes(id)) {
       setSwitchList([...switchList, id]);
     } else {
@@ -134,11 +166,13 @@ export const Roles = (props: RolesProps): JSX.Element => {
       }
     }
     if (e.target.checked === true) {
-      // console.log(id);
-      getStatusList(id, true);
+      getStatusList(id, true).then(() => {
+        onStatusChangeCallback(id, true);
+      });
     } else {
-      // console.log(id);
-      getStatusList(id, false);
+      getStatusList(id, false).then(() => {
+        onStatusChangeCallback(id, false);
+      });
     }
   };
   const handleStatus = () => {
@@ -147,7 +181,9 @@ export const Roles = (props: RolesProps): JSX.Element => {
       setSwitchList(status);
     }
   };
-
+  useEffect(() => {
+    setApiToken(apiToken);
+  }, []);
   useEffect(() => {
     getRolesList();
     getPermissionList();

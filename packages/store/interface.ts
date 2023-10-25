@@ -492,6 +492,9 @@ export interface UserManagementInterface {
   getAllRepository: () => void;
   editRepository: () => void;
   createRepository: () => void;
+
+  apiToken: string;
+  setApiToken: (apiToken: string) => void;
 }
 
 export interface PermissionInterface {
@@ -519,6 +522,9 @@ export interface PermissionInterface {
   // getFaciltyRepository: () => void;
   updateEditData: (data: any) => void;
   clearAll: () => void;
+
+  apiToken: string;
+  setApiToken: (apiToken: string) => void;
 }
 
 export interface RolesInterface {
@@ -542,12 +548,15 @@ export interface RolesInterface {
   errorOndelete: boolean;
 
   getRolesList: () => void;
-  getStatusList: (id: any, status: any) => void;
-  addRolesList: () => void;
-  editRoleList: () => void;
-  deleteRoleList: (id: string) => void;
+  getStatusList: (id: any, status: any) => Promise<void>;
+  addRolesList: () => Promise<unknown>;
+  editRoleList: () => Promise<void>;
+  deleteRoleList: (id: string) => Promise<void>;
   clearAll: () => void;
   updateEditData: (data: any) => void;
+
+  apiToken: string;
+  setApiToken: (apiToken: string) => void;
 }
 
 export interface RolesMappingInterface {

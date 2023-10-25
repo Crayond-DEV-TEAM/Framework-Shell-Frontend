@@ -1,34 +1,26 @@
-import type { SxProps, Theme } from '@mui/material';
-import { Box, Typography, Grid } from '@mui/material';
-import Autocomplete from '@mui/material/Autocomplete';
-import { createPlanStyle } from './style';
-import TextField from '@mui/material/TextField';
-import { CustomToggle } from '@atoms/customToggle';
-import { Drawer } from '@atoms/drawer';
-import { AddOnBackgroundCard, BackgroundPaper, CreatePlanCard } from '..';
 import { CustomCheckboxWithLabels } from '@atoms/customCheckboxWithLabels';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import { CustomerHeader } from '@atoms/customerHeader';
-import { planSubscriptionRoutes } from '@core/routes';
-import { useNavigate } from 'react-router-dom';
-import { CustomerCardComponent } from '@atoms/customerCardComponent';
-import { Label } from '@atoms/label';
-import { Input } from '@atoms/input';
-import { CloseRedIcon } from '@atoms/icons';
-import { JSXElementConstructor, ReactElement, ReactFragment, ReactPortal, useEffect, useState } from 'react';
 import { CustomizedRadios } from '@atoms/customRadio';
-import SearchIcon from '@mui/icons-material/Search';
-
-import { chargesStyle } from '../charges/style';
-import { DialogDrawer } from '@atoms/dialogDrawer';
+import { CustomToggle } from '@atoms/customToggle';
+import { CustomerCardComponent } from '@atoms/customerCardComponent';
+import { CustomerHeader } from '@atoms/customerHeader';
+import { Drawer } from '@atoms/drawer';
+import { CloseRedIcon } from '@atoms/icons';
+import { Input } from '@atoms/input';
+import { Label } from '@atoms/label';
+import { planSubscriptionRoutes } from '@core/routes';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import type { SxProps, Theme } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AddOnBackgroundCard, BackgroundPaper, CreatePlanCard } from '..';
+import { createPlanStyle } from './style';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 import { GroupCheckBox } from '@atoms/checkBoxGroup';
-import { FooterComponent } from '@atoms/footerComponent';
 import { subscriptionDetailsStyle } from '../subscriptionDetails/style';
-import { addOneStyle } from '../addOne/style';
-import { AddOnContent } from '..';
-
-import { useCharges, usePlans, useAddOns, useFeatureGroup, useFeature } from '@core/store';
 import { Button } from '@atoms/button';
+import { useAddOns, useCharges, useFeature, useFeatureGroup, usePlans } from '@core/store';
 import { ButtonGroupDropdown } from '@components/commonComponents';
 
 export interface CreatePlanProps {

@@ -12,7 +12,7 @@ import SmallSmsIcon from '@core/ui/assets/smallSmsIcon';
 import SmsIcon from '@core/ui/assets/smsIcon';
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Grid } from '@mui/material';
-import { CommonTable } from 'crayond-components-library-1';
+import { Table as CommonTable } from "@crayond_dev/ui_table";
 import React from 'react';
 import { reports_styles } from './style';
 import { dummyTableData, tabsCard } from '@core/store/utils';

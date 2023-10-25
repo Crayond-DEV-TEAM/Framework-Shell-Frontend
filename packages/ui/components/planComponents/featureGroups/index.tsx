@@ -1,6 +1,6 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-import { CommonTable } from 'crayond-components-library-1';
+import { Table as CommonTable } from "@crayond_dev/ui_table";
 import { useState, useEffect } from 'react';
 
 import { featureGroupsStyle } from './style';

@@ -9,13 +9,14 @@ import { usePermission } from '@core/store';
 export interface PermissionProps {
   className?: string;
   sx?: SxProps<Theme>;
+  apiToken?: string;
 }
 
 export const Permission = (props: PermissionProps): JSX.Element => {
-  const { className = '', sx = {}, ...rest } = props;
+  const { className = '', sx = {}, apiToken = '', ...rest } = props;
   const [selected, setSelected] = useState(0);
   const [tableName, setTableName] = useState('');
-  const { PermissionList, setRepositoryList, indexUpdateList, RepositoryList } = usePermission();
+  const { PermissionList, setRepositoryList, indexUpdateList, RepositoryList, setApiToken, } = usePermission();
 
   const handleMessage = (key: any, value: any) => {
     setSelected(value);
@@ -24,6 +25,9 @@ export const Permission = (props: PermissionProps): JSX.Element => {
     // onMessageTable(key, value);
   };
 
+  useEffect(() => {
+    setApiToken(apiToken);
+  }, []);
   useEffect(() => {
     if (PermissionList && PermissionList.length > 0) {
       const init = PermissionList[0];

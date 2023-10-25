@@ -5,7 +5,7 @@ import SmallNotificationIcon from '@core/ui/assets/smallNotificationIcon';
 import SmallSmsIcon from '@core/ui/assets/smallSmsIcon';
 import { DialogDrawer } from '@core/ui/atoms/dialogDrawer';
 import { Box, Grid } from '@mui/material';
-import { CommonTable } from 'crayond-components-library-1';
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 import React, { useEffect } from 'react';
 // import { Popup } from "@core/ui/components/popup";
 import type { SxProps, Theme } from '@mui/material';
@@ -48,9 +48,13 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
   const alertRuleData = dummyTableData?.filter(
     (x) => typeof x.alert_rule_code === 'string' && x.alert_rule_code.toLowerCase().includes(searchTerm.toLowerCase()),
   );
-  const editHandel = () => {};
+  const editHandel = () => {
+    console.log();
+  };
 
-  const deleteHandel = () => {};
+  const deleteHandel = () => {
+    console.log();
+  };
 
   const Header = [
     // {

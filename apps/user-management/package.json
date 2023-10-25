@@ -21,6 +21,7 @@
     "@core/store": "*",
     "@core/theme": "*",
     "@core/utils": "*",
+    "@crayond_dev/user-management-test": "*",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@fontsource/poppins": "^4.5.10",

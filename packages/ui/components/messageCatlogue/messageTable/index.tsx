@@ -4,7 +4,7 @@ import { DialogDrawer } from '@atoms/dialogDrawer';
 import { FooterComponent } from '@atoms/footerComponent';
 import { useLanguageConfiguration, useMessage, useMessageGroupDetails } from '@core/store';
 import { Box, Grid, SxProps, Theme, Typography } from '@mui/material';
-import { CommonTable } from 'crayond-components-library-1';
+import { Table as CommonTable } from "@crayond_dev/ui_table";
 import { forwardRef, useEffect, useState } from 'react';
 import { AddMessage, AddMessageGroup } from '..';
 import { messageTableStyle } from './style';

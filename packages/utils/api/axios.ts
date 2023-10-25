@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import { localStorageKeys } from '../constants';
+import { envConfig } from '@core/envconfig';
 
 /**
  * method The HTTP method (e.g. GET, POST).
@@ -17,15 +18,26 @@ interface HttpRequestProps {
     url: AxiosRequestConfig['url'],
     data?: AxiosRequestConfig['data'],
     includeToken?: boolean,
+    apiToken?: string,
     config?: Omit<AxiosRequestConfig, 'method' | 'url' | 'data'>,
   ): Promise<AxiosResponse<any, any>>;
 }
 
-export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, includeToken, config) => {
+export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, includeToken, apiToken, config) => {
+  
+  
   const headers = {
-    ...(includeToken && { Authorization: `Bearer ${localStorage.getItem(localStorageKeys.authToken)}` }),
+    ...(includeToken &&
+      envConfig.client_environment !== 'external' && {
+        Authorization: `Bearer ${localStorage.getItem(localStorageKeys.authToken)}`,
+      }),
+    ...(Boolean(apiToken) && {
+      'x-api-token': apiToken,
+    }),
     ...(config?.headers ?? {}),
   };
+
+  console.log("THis is STEP 2:", headers);
 
   return axios({
     method,

@@ -1,7 +1,4 @@
-import * as React from 'react';
-import { SvgIcon, SvgIconProps, SxProps, Box } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import { SvgIcon, SvgIconProps, SxProps } from '@mui/material';
 
 interface SVGIcons extends SvgIconProps {
   rootStyle: SxProps;
@@ -23,14 +20,16 @@ const InfoIcon = (props: SVGIcons) => {
         boxShadow: '0px 10px 25px rgba(0, 0, 0, 0.04)',
         fontSize: '14px',
         fontFamily: "'OpenSans-SemiBold', 'Roboto-SemiBold', Arial, sans-serif",
-      }} title={info}>
+      }}
+      title={info}
+    >
       <SvgIcon
         sx={{
           fill: (props: any) => props?.fill ?? '#CED3DD',
           '&:hover': {
             fill: (props: any) => props?.hoverFill ?? '#4E5A6B',
           },
-          placement: "top"
+          placement: 'top',
         }}
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"

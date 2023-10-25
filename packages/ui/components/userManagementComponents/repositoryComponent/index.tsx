@@ -16,10 +16,12 @@ import { TableHeader } from '@components/commonComponents';
 export interface RepositoryComponentProps {
   className?: string;
   sx?: SxProps<Theme>;
+  apiToken?: string;
 }
 
 export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Element => {
-  const { className = '', sx = {}, ...rest } = props;
+  // Note: Remove the default value for apiToken
+  const { className = '', sx = {}, apiToken = '', ...rest } = props;
   const {
     getAllRepository,
     fetching,
@@ -31,6 +33,7 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
     editRepositoryList,
     onEditLoading,
     RepositoryId,
+    setApiToken,
   } = useRepository();
   const [values, setValues] = useState(false);
   const handleClose = () => {
@@ -44,6 +47,10 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
     RepositoryId ? editRepository() : createRepository();
     handleClose();
   };
+
+  useEffect(() => {
+    setApiToken(apiToken);
+  }, []);
 
   useEffect(() => {
     getAllRepository();
@@ -87,7 +94,7 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
             onSave={handleSave}
             onCancel={handleClose}
             loading={onEditLoading}
-            // loading={addMessageLoading}
+          // loading={addMessageLoading}
           />
         }
         dialogRootStyle={repositoryComponentStyle.dialogSx}

@@ -2,7 +2,7 @@
     "recommendations": [
         "dbaeumer.vscode-eslint",
         "shd101wyy.markdown-preview-enhanced",
-        "esbenp.prettier-vscode",
-        "rvest.vs-code-prettier-eslint"
+        "rvest.vs-code-prettier-eslint",
+        "esbenp.prettier-vscode"
     ]
 }

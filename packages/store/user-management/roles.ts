@@ -35,12 +35,13 @@ export const useRoles = create<RolesInterface>((set, get) => ({
   },
 
   getRolesList: () => {
+    const { apiToken } = get();
     set({ fetching: true, errorOnFetching: false });
     const payload = {
       offset: 0,
       limit: 10000,
     };
-    httpRequest('post', `${envConfig.idm_api_url}/roles`, payload, true)
+    httpRequest('post', `${envConfig.idm_api_url}/roles`, payload, true, apiToken)
       .then((response) => {
         const permssionJsonConstruct = (tableData: any) => {
           return tableData.role_permission_mappings.map((value: any) => {
@@ -91,8 +92,8 @@ export const useRoles = create<RolesInterface>((set, get) => ({
     set((state) => ({ addRole: { ...data } }));
   },
 
-  addRolesList: () => {
-    const { addRole, getRolesList, clearAll } = get();
+  addRolesList: async () => {
+    const { addRole, getRolesList, clearAll, apiToken } = get();
     const permissionid = addRole.permission.map((value: any) => value.id);
     const payload = {
       name: addRole.name,
@@ -100,28 +101,34 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       description: addRole.description,
       is_active: addRole.is_active,
     };
-    httpRequest('post', `${envConfig.idm_api_url}/roles/create`, payload, true)
-      .then((response) => {
-        enqueueSnackbar('Roles created succesfully!', { variant: 'success' });
-      })
-      .catch((err) => {
-        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
-        set({ errorOnFetching: true });
-      })
-      .finally(() => {
-        set({ fetching: false });
-        getRolesList();
-        clearAll();
-      });
+    return new Promise((resolve, reject) => {
+      httpRequest('post', `${envConfig.idm_api_url}/roles/create`, payload, true, apiToken)
+        .then((response) => {
+          enqueueSnackbar('Roles created succesfully!', { variant: 'success' });
+          console.log('In the promise now');
+
+          resolve(response?.data?.data);
+        })
+        .catch((err) => {
+          enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+          set({ errorOnFetching: true });
+          reject(err);
+        })
+        .finally(() => {
+          set({ fetching: false });
+          getRolesList();
+          clearAll();
+        });
+    });
   },
-  getStatusList: (id: any, status: any) => {
+  getStatusList: async (id: any, status: any) => {
     set({ fetching: true, errorOnFetching: false });
-    const { getRolesList } = get();
+    const { getRolesList, apiToken } = get();
     const payload = {
       role_id: id,
       is_active: status,
     };
-    httpRequest('put', `${envConfig.idm_api_url}/roles/update`, payload, true)
+    httpRequest('put', `${envConfig.idm_api_url}/roles/update`, payload, true, apiToken)
       .then((response) => {
         enqueueSnackbar('Status changed succesfully!', { variant: 'success' });
       })
@@ -134,8 +141,8 @@ export const useRoles = create<RolesInterface>((set, get) => ({
         getRolesList();
       });
   },
-  editRoleList: () => {
-    const { addRole, getRolesList, clearAll } = get();
+  editRoleList: async () => {
+    const { addRole, getRolesList, clearAll, apiToken } = get();
     const permissionid = addRole.permission.map((value: any) => value.id);
     const payload = {
       role_id: addRole.id,
@@ -147,29 +154,33 @@ export const useRoles = create<RolesInterface>((set, get) => ({
 
     set({ fetching: true, errorOnFetching: false });
 
-    httpRequest('put', `${envConfig.idm_api_url}/roles/update`, payload, true)
-      .then((response) => {
-        enqueueSnackbar('Roles edited succesfully!', { variant: 'success' });
-      })
-      .catch((err) => {
-        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
-        set({ errorOnFetching: true });
-      })
-      .finally(() => {
-        set({ fetching: false });
-        getRolesList();
-        clearAll();
-      });
+    return new Promise((resolve, reject) => {
+      return httpRequest('put', `${envConfig.idm_api_url}/roles/update`, payload, true, apiToken)
+        .then((response) => {
+          enqueueSnackbar('Roles edited succesfully!', { variant: 'success' });
+          resolve(response?.data?.data);
+        })
+        .catch((err) => {
+          enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+          set({ errorOnFetching: true });
+          reject(err);
+        })
+        .finally(() => {
+          set({ fetching: false });
+          getRolesList();
+          clearAll();
+        });
+    });
   },
 
-  deleteRoleList: (id: string) => {
-    const { getRolesList } = get();
+  deleteRoleList: async (id: string) => {
+    const { getRolesList, apiToken } = get();
     set({ fetching: true, errorOnFetching: false });
     const payload = {
       role_id: id,
     };
 
-    httpRequest('delete', `${envConfig.idm_api_url}/roles`, payload, true)
+    httpRequest('delete', `${envConfig.idm_api_url}/roles`, payload, true, apiToken)
       .then((response) => {
         enqueueSnackbar('Roles deleted succesfully!', { variant: 'success' });
       })
@@ -193,5 +204,11 @@ export const useRoles = create<RolesInterface>((set, get) => ({
         is_active: false,
       },
     });
+  },
+
+  // These 2 states are for, component export purposes.
+  apiToken: '',
+  setApiToken: (apiToken) => {
+    set({ apiToken: apiToken });
   },
 }));

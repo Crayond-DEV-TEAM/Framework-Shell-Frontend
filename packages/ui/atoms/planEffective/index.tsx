@@ -1,11 +1,7 @@
-import type { SxProps, Theme } from '@mui/material';
-import { Box, Typography } from '@mui/material';
-import { useState } from 'react';
-import { planEffectiveStyle } from './style';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { CustomToggle } from '..';
 import { useSubscription } from '@core/store';
+import type { SxProps, Theme } from '@mui/material';
+import { Box, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
+import { planEffectiveStyle } from './style';
 
 export interface PlanEffectiveProps {
   className?: string;

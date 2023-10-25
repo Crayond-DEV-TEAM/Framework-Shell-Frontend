@@ -7,4 +7,5 @@ export const envConfig = {
   message_catalog_root: import.meta.env.VITE_MESSAGE_CATALOGUE_URL,
   alert_hub: import.meta.env.VITE_ALERTHUB_URL,
   admin_hub: import.meta.env.VITE_IDM_URL,
+  client_environment: import.meta.env.VITE_CLIENT_ENVIRONMENT,
 };

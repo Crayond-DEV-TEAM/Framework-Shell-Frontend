@@ -1,19 +1,12 @@
-import { ArrowDown, ArrowRight, FilterIcon, SearchIcon } from '@atoms/icons';
-import { Popover, SxProps, Theme } from '@mui/material';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Box, Typography, IconButton } from '@mui/material';
-import { forwardRef, useState } from 'react';
-import React, { useRef } from 'react';
-import { filterStyle } from './style';
 import { Button } from '@atoms/button';
-import Chip from '@mui/material/Chip';
 import { CheckBox } from '@atoms/checkBox';
+import { ArrowDown, ArrowRight, FilterIcon, SearchIcon } from '@atoms/icons';
+import { Box, Chip, IconButton, SxProps, Theme, Typography } from '@mui/material';
+import { forwardRef, useState } from 'react';
+import { filterStyle } from './style';
 // import { filterContent } from '@core/utils';
-import { Input } from '@atoms/input';
-import { Label } from '@atoms/label';
-import { DropDown } from '@atoms/dropDown';
 import { Drawer } from '@atoms/drawer';
+import { Input } from '@atoms/input';
 import { useMessageGroupDetails } from '@core/store';
 
 export interface FilterProps {

@@ -90,7 +90,7 @@ export const useAdmin = create<AdminInterface>((set, get) => ({
       users: createEditAdmin.services.map((x: any) => x?.id),
       is_active: true,
     };
-    debugger;
+    // debugger;
     httpRequest('post', `${envConfig.api_url}/projects`, payload, true)
       .then((response) => {
         enqueueSnackbar('Permission added Succesfully!', { variant: 'success' });

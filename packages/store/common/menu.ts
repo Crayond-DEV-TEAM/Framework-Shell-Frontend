@@ -17,7 +17,7 @@ export const useMenu = create<MenusProps>((set, get) => ({
       set({ loading: true, error: false });
       const { data } = await httpRequest('get', `${envConfig.auth_url}/access_tools`, {}, true);
       if (data.status === 200) {
-        debugger;
+        // debugger;
         const sideMenus: Menu[] = [];
         data.data?.tools_details?.forEach(
           (tool: {
@@ -45,7 +45,7 @@ export const useMenu = create<MenusProps>((set, get) => ({
   },
 
   onLinkClick: (data: Menu) => {
-    debugger;
+    // debugger;
     if (
       data.baseUrl === window.location.protocol + '//' + window.location.host ||
       window.location.hostname === 'localhost'

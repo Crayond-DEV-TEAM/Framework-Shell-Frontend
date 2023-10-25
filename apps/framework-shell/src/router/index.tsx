@@ -15,12 +15,13 @@ import { messageCatalogueRoutes } from './messageCatalogue';
 import { idmRoutes } from './userManagement';
 
 const router = createBrowserRouter([
+  ...loginRoutes,
   {
     path: webRoutes.root,
     element: (
-      <PrivateRouter>
-        <RootLayout />
-      </PrivateRouter>
+      // <PrivateRouter>
+      <RootLayout />
+      // </PrivateRouter>
     ),
     errorElement: <ErrorBoundary />,
     children: [
@@ -28,7 +29,6 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />,
       },
-      ...loginRoutes,
       ...userRoutes,
       ...messageCatalogueRoutes,
       ...idmRoutes,

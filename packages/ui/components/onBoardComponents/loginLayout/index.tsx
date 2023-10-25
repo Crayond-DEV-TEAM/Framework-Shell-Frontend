@@ -28,7 +28,7 @@ export const LoginLayout = forwardRef((props: LoginLayoutProps): JSX.Element => 
 
     //Already logged in
     if (authToken) {
-      navigate('/');
+      navigate(webRoutes.root);
     }
   }, [location]);
 

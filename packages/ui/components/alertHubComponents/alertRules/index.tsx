@@ -13,7 +13,7 @@ import { alertRuleStyles } from './style';
 import { FooterComponent } from '@atoms/footerComponent';
 import { useAlertRules } from '@core/store';
 import { dummyTableData } from '@core/store/utils';
-import { DialogContent, TableHeader } from '@components/commonComponents'
+import { DialogContent, TableHeader } from '@components/commonComponents';
 export interface AlertRuleProps {
   data?: any;
   id?: any;

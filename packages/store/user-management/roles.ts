@@ -2,7 +2,7 @@ import { envConfig } from '@core/envconfig';
 import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { RolesInterface } from '../interface';
-import { tableJson } from '../../ui/components/roles/utils';
+// import { tableJson } from '../../ui/components/roles/utils';
 import { enqueueSnackbar } from 'notistack';
 import { ClearAll } from '@mui/icons-material';
 export const useRoles = create<RolesInterface>((set, get) => ({

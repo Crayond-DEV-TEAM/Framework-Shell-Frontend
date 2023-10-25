@@ -2,7 +2,7 @@ import { envConfig } from '@core/envconfig';
 import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { RolesMappingInterface } from '../interface';
-import { tableJson } from '../../ui/components/roleMapping/utils';
+import { tableJson } from '@core/ui/components/userManagementComponents/roleMapping/utils';
 export const useRoleMapping = create<RolesMappingInterface>((set, get) => ({
   RolesMappingList: [],
   StatusList: [],

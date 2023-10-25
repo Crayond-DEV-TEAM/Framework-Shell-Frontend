@@ -46,7 +46,7 @@ export function AppLayout(props: AppLayoutProps): JSX.Element {
       className={`${className}`}
       {...rest}
     >
-      <AppBar user={user} title={title} />
+      <AppBar user={user} title={'Tool Kit'} />
       {sideBarSection && <SideBar />}
       {/* Children */}
       <Box

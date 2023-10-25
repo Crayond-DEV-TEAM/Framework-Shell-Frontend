@@ -23,6 +23,4 @@ export const webRoutes = {
   languageConfig: '/languageconfig',
   //idm
   userManagment: '/userManagment',
-  // userManagement;
-
 };

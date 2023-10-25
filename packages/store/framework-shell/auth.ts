@@ -77,7 +77,7 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
 
       const response = await httpRequest('post', `${envConfig.auth_url}/sign_in `, payload);
       if (response?.status === 200 && response?.data?.data) {
-        debugger;
+        // debugger;
         const token = response?.data?.data;
         const user = parseJwt(token);
         useUser.setState({ user });

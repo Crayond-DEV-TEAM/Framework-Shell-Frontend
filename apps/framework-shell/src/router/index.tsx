@@ -1,16 +1,24 @@
 import { webRoutes } from '@core/routes';
+import { LoginLayout } from '@core/ui/components/onBoardComponents/loginLayout';
 import {
   AdminSection,
   AppLayout,
   LanguageConfig,
-  LoginLayout,
+  // LoginLayout,
   MessageTable,
   PageNotFound,
   RootLayout,
   SuperAdmin,
   UserManagement,
   UserSection,
+  ApiDocumentation,
+  AlertRules,
+  // AlertConfiguration,
+  Reports,
+  AlertConfig,
 } from '@core/ui/components';
+// import { ApiDocumentation } from '@core/ui/components';
+
 import ErrorBoundary from '@pages/errorBoundary';
 import ForgotPasswordPage from '@pages/forgotPassword';
 import Home from '@pages/home';
@@ -123,6 +131,39 @@ const router = createBrowserRouter([
         element: (
           <AppLayout>
             <UserManagement />
+          </AppLayout>
+        ),
+      },
+      //Alerts Hub
+      {
+        path: webRoutes.reports,
+        element: (
+          <AppLayout title="Alerts Hub">
+            <Reports />
+          </AppLayout>
+        ),
+      },
+      {
+        path: webRoutes.alertRule,
+        element: (
+          <AppLayout title="Alerts Hub">
+            <AlertRules />
+          </AppLayout>
+        ),
+      },
+      {
+        path: webRoutes.apiDocumentation,
+        element: (
+          <AppLayout title="Alerts Hub">
+            <ApiDocumentation />
+          </AppLayout>
+        ),
+      },
+      {
+        path: webRoutes.alertConfig,
+        element: (
+          <AppLayout title="Alerts Hub">
+            <AlertConfig />
           </AppLayout>
         ),
       },

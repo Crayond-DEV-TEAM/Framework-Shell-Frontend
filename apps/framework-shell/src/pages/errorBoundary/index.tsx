@@ -1,5 +1,5 @@
 import { log } from '@core/logger';
-import { PageNotFound } from '@core/ui/components/pageNotFound';
+import { PageNotFound } from '@core/ui/components';
 import { useRouteError } from 'react-router-dom';
 
 interface ErrorResponse {

@@ -2,7 +2,7 @@ import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { CommonTable } from 'crayond-components-library-1';
 import { rolesStyle } from './style';
-import { ModalAddMessage, ModalAddPermission, TableHeader } from '..';
+import { ModalAddPermission } from '..';
 import { Header, tableData, tableJson } from './utils';
 import { useEffect, useState } from 'react';
 import { DialogDrawer } from '@atoms/dialogDrawer';
@@ -11,6 +11,7 @@ import { DeleteDailog } from '@atoms/deletedailog';
 import { Button } from '@atoms/button';
 import { dummyTableData } from '@core/store/utils';
 import { usePermission, useRoles } from '@core/store';
+import { TableHeader } from '@components/commonComponents';
 
 export interface RolesProps {
   className?: string;

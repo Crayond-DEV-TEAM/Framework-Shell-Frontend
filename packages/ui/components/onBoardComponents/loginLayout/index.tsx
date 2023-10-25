@@ -4,9 +4,10 @@ import { BoxProps, SxProps, Theme, Typography } from '@mui/material';
 import { Box, Grid } from '@mui/material';
 import React, { forwardRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import crayond from '../../assets/crayond.svg';
-import login from '../../assets/login.svg';
-import toolkit from '../../assets/toolkit.svg';
+// import crayond from '../../assets/crayond.svg';
+import crayond from '@assets/crayond.svg';
+import login from '@assets/login.svg';
+import toolkit from '@assets/toolkit.svg';
 import { loginLayoutStyle } from './style';
 
 export interface LoginLayoutProps {

@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/material';
 import { IdmBackgroundCard } from '@atoms/idmBackgroundCard';
 import { Drawer } from '@atoms/drawer';
 import { AdminSecForm, SuperAdminForm } from '..';
-import { CommonTable } from 'crayond-components-library-1';
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 import { Header, tableData, tableJson } from './utills';
 import { useState } from 'react';
 import { superAdminStyle } from './style';

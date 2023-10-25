@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { userSectionStyle } from './style';
 import { IdmBackgroundCard } from '@atoms/idmBackgroundCard';
-import { CommonTable } from 'crayond-components-library-1';
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 import { Header, tableData, tableJson } from './utills';
 import { Button } from '@atoms/button';
 import { Drawer } from '@atoms/drawer';

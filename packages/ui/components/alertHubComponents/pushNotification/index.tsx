@@ -2,11 +2,11 @@ import DeleteIcon from '@assets/deleteIcon';
 import EditIcon from '@assets/editIcon';
 import { DialogDrawer } from '@atoms/dialogDrawer';
 import { Box, Grid } from '@mui/material';
-import { CommonTable } from 'crayond-components-library-1';
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 import React from 'react';
 import { pushNotification_style } from './style';
-import { TableHeader } from '@components/commonComponents'
-import { PushDialog } from '../pushDialog'
+import { TableHeader } from '@components/commonComponents';
+import { PushDialog } from '../pushDialog';
 
 export function PushNotification(): JSX.Element {
   const [open, setOpen] = React.useState(false);
@@ -173,9 +173,13 @@ export function PushNotification(): JSX.Element {
       private_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
     },
   ];
-  const editHandel = () => {};
+  const editHandel = () => {
+    console.log('o');
+  };
 
-  const deleteHandel = () => {};
+  const deleteHandel = () => {
+    console.log('o');
+  };
 
   const tableData = [
     // { type: ['INCREMENT'], name: 'sl_no' },

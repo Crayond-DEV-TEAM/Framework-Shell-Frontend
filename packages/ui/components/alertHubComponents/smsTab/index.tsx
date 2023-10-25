@@ -2,11 +2,11 @@ import DeleteIcon from '@assets/deleteIcon';
 import EditIcon from '@assets/editIcon';
 import { DialogDrawer } from '@core/ui/atoms/dialogDrawer';
 import { Box, Grid, SxProps, Theme } from '@mui/material';
-import { CommonTable } from 'crayond-components-library-1';
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 import React from 'react';
 import { smsTab_style } from './style';
-import { SmsDialog } from '../smsDialog'
-import { TableHeader } from '@components/commonComponents'
+import { SmsDialog } from '../smsDialog';
+import { TableHeader } from '@components/commonComponents';
 
 export function SmsTab(): JSX.Element {
   const [open, setOpen] = React.useState(false);
@@ -141,9 +141,13 @@ export function SmsTab(): JSX.Element {
       api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
     },
   ];
-  const editHandel = () => {};
+  const editHandel = () => {
+    console.log('');
+  };
 
-  const deleteHandel = () => {};
+  const deleteHandel = () => {
+    console.log('');
+  };
 
   const tableData = [
     // { type: ['INCREMENT'], name: 'sl_no' },

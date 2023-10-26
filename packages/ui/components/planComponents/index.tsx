@@ -23,3 +23,4 @@ export { Plans } from './plans';
 export { Subscription } from './subscription';
 export { SubscriptionDetails } from './subscriptionDetails';
 export { SubscriptionPlanContent } from './subscriptionPlanContent';
+export { SidebarLayout } from './sideBarLayout';

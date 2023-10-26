@@ -1087,3 +1087,11 @@ export interface SuperAdminInterface {
   deleteOrganisation: (id: string) => void;
   clearAll: () => void;
 }
+export interface UserLandingInterface {
+  OrganisationList: OrganisationDetailKey;
+  fetching: boolean;
+  errorOnFetching: boolean;
+  ProjectList:[];
+
+  getUserProjectList: (id: string) => void;
+}

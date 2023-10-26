@@ -36,8 +36,8 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [option, setOption] = useState();
 
-  const filteredMessageGroup = adminList.filter((x: any) =>
-    x.projectTitle?.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredMessageGroup = adminList.filter(
+    (x: any) => x.projectTitle?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const handleTableEdit = () => {

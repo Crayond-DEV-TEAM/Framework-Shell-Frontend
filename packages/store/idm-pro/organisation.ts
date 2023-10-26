@@ -2,7 +2,6 @@ import { envConfig } from '@core/envconfig';
 import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { OrganisationInterface } from '../interface';
-import { permission } from '../../ui/components/addpermission/utils';
 import { enqueueSnackbar } from 'notistack';
 // import { findObjectByIndex, modifyObjectByIndexWithKey } from './commonFunction';
 export const useOrganisation = create<OrganisationInterface>((set, get) => ({
@@ -34,7 +33,7 @@ export const useOrganisation = create<OrganisationInterface>((set, get) => ({
 
   getOrganisationList: () => {
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('get', `${envConfig.api_url}/organisations`, {}, true)
+    httpRequest('get', `${envConfig.idm_api_url}/organisations`, {}, true)
       .then((response) => {
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
@@ -79,7 +78,7 @@ export const useOrganisation = create<OrganisationInterface>((set, get) => ({
       description: createEditOrganisation.description,
     };
 
-    httpRequest('post', `${envConfig.api_url}/organisations`, payload, true)
+    httpRequest('post', `${envConfig.idm_api_url}/organisations`, payload, true)
       .then((response) => {
         enqueueSnackbar('Organisation added Succesfully!', { variant: 'success' });
       })
@@ -113,7 +112,7 @@ export const useOrganisation = create<OrganisationInterface>((set, get) => ({
     };
 
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.api_url}/organisations`, payload, true)
+    httpRequest('put', `${envConfig.idm_api_url}/organisations`, payload, true)
       .then((response) => {
         enqueueSnackbar('Organisations edited Succesfully!', { variant: 'success' });
       })
@@ -134,7 +133,7 @@ export const useOrganisation = create<OrganisationInterface>((set, get) => ({
       organisation_id: id,
       is_active: status,
     };
-    httpRequest('put', `${envConfig.api_url}/organisations`, payload, true)
+    httpRequest('put', `${envConfig.idm_api_url}/organisations`, payload, true)
       .then((response) => {
         enqueueSnackbar('Status changed succesfully!', { variant: 'success' });
       })
@@ -156,7 +155,7 @@ export const useOrganisation = create<OrganisationInterface>((set, get) => ({
       organisation_id: id,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('delete', `${envConfig.api_url}/organisations`, payload, true)
+    httpRequest('delete', `${envConfig.idm_api_url}/organisations`, payload, true)
       .then((response) => {
         enqueueSnackbar('Organisations deleted Succesfully!', { variant: 'success' });
       })

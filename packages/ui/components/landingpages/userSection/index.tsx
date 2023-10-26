@@ -15,6 +15,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { MappedUserCard } from '@atoms/mappedUserCard';
 import { TableHeader } from '@components/commonComponents';
+import { useUserLanding } from '@core/store';
 
 export interface UserSectionProps {
   className?: string;
@@ -32,6 +33,8 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
   ];
   const options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
 
+  const { getUserProjectList, ProjectList } = useUserLanding();
+
   // const filteredMessageGroup = tableJson.filter((x: any) =>
   //   // x.projectTitle?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
   // );
@@ -43,6 +46,9 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  useEffect(() => {
+    getUserProjectList();
+  }, []);
 
   return (
     <Box
@@ -62,7 +68,7 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
           <Box sx={userSectionStyle.commonTable}>
             <CommonTable
               Header={Header}
-              dataList={tableJson}
+              dataList={ProjectList}
               tableData={tableData(handleTabledetail)}
               // switchList={switchList}
               // handleSwitch={handleSwitch}

@@ -5,3 +5,4 @@ export * from './idm-pro';
 export * from './message-catlog';
 export * from './plan-subscription';
 export * from './user-management';
+export * from './landing-pages';

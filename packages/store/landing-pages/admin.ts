@@ -3,8 +3,7 @@ import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { AdminInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
-// import { findObjectByIndex, modifyObjectByIndexWithKey } from './commonFunction';
-export const useAdmin = create<AdminInterface>((set, get) => ({
+export const useAdmins = create<AdminInterface>((set, get) => ({
   adminList: [],
   fetching: false,
   errorOnFetching: false,
@@ -133,6 +132,7 @@ export const useAdmin = create<AdminInterface>((set, get) => ({
   },
   getStatusList: (id: any, status: any) => {
     set({ fetching: true, errorOnFetching: false });
+    // const {}= useUserLanding()
     const { getAdminList, OrganisationDetails } = get();
     const payload = {
       role_id: id,

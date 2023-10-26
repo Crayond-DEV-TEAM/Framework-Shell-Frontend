@@ -13,15 +13,16 @@ import { loginRoutes, userRoutes } from './frameworkShell';
 // App Routes
 import { messageCatalogueRoutes } from './messageCatalogue';
 import { idmRoutes } from './userManagement';
+import { alertsHubRoutes } from './alertsHub'
 
 const router = createBrowserRouter([
   ...loginRoutes,
   {
     path: webRoutes.root,
     element: (
-      // <PrivateRouter>
-      <RootLayout />
-      // </PrivateRouter>
+      <PrivateRouter>
+        <RootLayout />
+      </PrivateRouter>
     ),
     errorElement: <ErrorBoundary />,
     children: [
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
       ...userRoutes,
       ...messageCatalogueRoutes,
       ...idmRoutes,
+      ...alertsHubRoutes,
     ],
   },
   {

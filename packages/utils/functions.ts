@@ -19,7 +19,8 @@ export const ValidateEmail = (email: any) => {
 };
 
 export const routeTo = (store, path, routeAfter = 1000) =>
-  setTimeout(() => {
+ setTimeout(() => {
+      debugger;
     store.setState({ route: path });
   }, routeAfter);
 

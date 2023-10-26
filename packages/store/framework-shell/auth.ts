@@ -8,8 +8,9 @@ import { useRouting } from '../common';
 import { AuthStoreInterface } from '../interface';
 import { giveMeAuthInitialState, validateResetPasswordData, validateSignUpData } from '../utils';
 import { useUser } from './user';
-
+// import { useHistory } from 'react-router-dom';
 const initialState = giveMeAuthInitialState();
+        // const history = useHistory();
 
 export const useAuth = create<AuthStoreInterface>((set, get) => ({
   signInState: initialState.signInState,
@@ -75,19 +76,6 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
         return false;
       }
 
-      // TEMP START
-
-      const t = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJraCIsImVtYWlsX2lkIjoia2hAZ21haWwuY29tIiwiaWF0IjoxNjk3NTIwMTcxLCJleHAiOjE2OTc2MDY1NzF9.83HLcX8gjk9aCEbuNBFsTNm_g3wBbyVHpbaOk0GdFdY'
-      const u = parseJwt(t);
-      useUser.setState({ user: u });
-      localStorage.setItem(localStorageKeys.authToken, t);
-      set({ signInMessage: 'Signed in Successfully', signInError: false });
-      routeTo(useRouting, webRoutes.languageConfig);
-      return 200
-      // TEMP END
-
-
-
 
       const response = await httpRequest('post', `${envConfig.auth_url}/sign_in `, payload);
       if (response?.status === 200 && response?.data?.data) {
@@ -97,7 +85,10 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
         useUser.setState({ user });
         localStorage.setItem(localStorageKeys.authToken, token);
         set({ signInMessage: 'Signed in Successfully', signInError: false });
-        routeTo(useRouting, webRoutes.languageConfig);
+        debugger
+        // history.push("/languageConfig")
+        // routeTo(useRouting, webRoutes.languageConfig);
+        window.location.href = '/languageConfig'
         return response?.status;
       } else {
         throw new Error('Internal Server Error');

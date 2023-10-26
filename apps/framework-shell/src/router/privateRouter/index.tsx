@@ -14,14 +14,13 @@ function PrivateRouter(props: { children: JSX.Element }) {
     if (searchParams.get('task') === 'logout') {
       localStorage.removeItem(localStorageKeys.authToken);
     }
-
     // If auth token is not present in local storage, navigate to login.
     const authToken = localStorage.getItem(localStorageKeys?.authToken);
     if (!authToken) {
+      // debugger;
       navigate(webRoutes.login);
       return;
     }
-
     // else show the protected route component
     setShowComponent(true);
   }, [location]);

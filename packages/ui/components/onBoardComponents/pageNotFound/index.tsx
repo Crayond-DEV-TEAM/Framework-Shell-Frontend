@@ -49,7 +49,11 @@ export function PageNotFound(props: PageNotFoundProps): JSX.Element {
               </Grid>
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12} display="flex" justifyContent="center" mt={4}>
                 <Box>
-                  <Button variant="contained" sx={pageNotFoundStyle.buttonSx} onClick={() => navigate('/')}>
+                  <Button
+                    variant="contained"
+                    sx={pageNotFoundStyle.buttonSx}
+                    onClick={() => navigate('/languageConfig')}
+                  >
                     Go Home
                   </Button>
                 </Box>

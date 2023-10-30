@@ -13,3 +13,4 @@ export { ReportTabs } from './tabs';
 export { TabsCard } from './tabsCard';
 export { TabsValueCard } from './tabsValueCard';
 export { TextBox } from './textBox';
+export { Greeting } from './greeting';

@@ -3,8 +3,11 @@ import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { AdminInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
-export const useAdmins = create<AdminInterface>((set, get) => ({
+export const useAdminLanding = create<AdminInterface>((set, get) => ({
   adminList: [],
+  OrganisationListMaster: [],
+  ServiceListMaster: [],
+  UserListMaster: [],
   fetching: false,
   errorOnFetching: false,
 
@@ -15,19 +18,32 @@ export const useAdmins = create<AdminInterface>((set, get) => ({
   createEditAdmin: {
     projectTitle: '',
     description: '',
-    services: [],
-    mappedUser: [],
+    mapServices: [],
+    mapAdmin: {
+      id: '',
+      name: '',
+      access: '',
+    },
     is_active: false,
-    access: '',
     id: '',
-    gitUrl: '',
   },
   OrganisationDetails: {
-    id: '',
-    name: '',
+    id: '62e1fcec-83df-41f8-8743-75720cdd2b0a',
+    name: 'Test',
+    rolename: 'TOOLKIT-ADMIN',
   },
 
   seteditAdmin: (payload: { key: string; value: string | number }) => {
+    //     if(payload.key==='mapAdmin'){
+    //       const MappedUserState = {
+    //         id:payload.value.id,
+    //         name:payload.value.name,
+    //         access:payload.value.access
+    //       }
+    // set((state) => ({ createEditAdmin: { ...state.createEditAdmin, [payload.key]: MappedUserState } }));
+    //     }else{
+    //     set((state) => ({ createEditAdmin: { ...state.createEditAdmin, [payload.key]: payload.value } }));
+    //     }
     set((state) => ({ createEditAdmin: { ...state.createEditAdmin, [payload.key]: payload.value } }));
   },
 
@@ -35,26 +51,29 @@ export const useAdmins = create<AdminInterface>((set, get) => ({
     set((state) => ({ OrganisationDetails: { ...state.OrganisationDetails, [payload.key]: payload.value } }));
   },
 
-  getAdminList: (id: string) => {
+  getAdminList: () => {
     set({ fetching: true, errorOnFetching: false });
+    const { OrganisationDetails } = get();
     const payload = {
-      organisation_id: id,
+      organisation_id: OrganisationDetails.id,
+      limit: 20,
+      offset: 0,
     };
 
-    httpRequest('post', `${envConfig.idm_api_url}/projects/get`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/idm/projects/get`, payload, true)
       .then((response) => {
-        // debugger;
+        debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
             (tableData: any, i: any) =>
               dataTable.push({
-                id: tableData.project.id,
-                projectTitle: tableData.project.name,
-                is_active: tableData.project.is_active,
-                // serviceMapped: tableData.project_service_mappings.length + ' ' + 'services',
-                description: tableData.project.description,
-                data: tableData,
+                id: tableData.id,
+                projectTitle: tableData.name,
+                is_active: tableData.is_active,
+                serviceMapped: tableData.no_of_service,
+                description: tableData.description,
+                // data: tableData,
               }),
             set({ adminList: dataTable }),
           );
@@ -70,6 +89,7 @@ export const useAdmins = create<AdminInterface>((set, get) => ({
         set({ fetching: false });
       });
   },
+
   updateEditData: (data: any) => {
     set((state) => ({ createEditAdmin: { ...data } }));
   },
@@ -82,16 +102,17 @@ export const useAdmins = create<AdminInterface>((set, get) => ({
       organisation_id: OrganisationDetails.id,
       name: createEditAdmin.projectTitle,
       description: createEditAdmin.description,
-      git_group_url: createEditAdmin.gitUrl,
-      access: createEditAdmin.access,
-      services: createEditAdmin.mappedUser.map((x: any) => x?.id),
-      users: createEditAdmin.services.map((x: any) => x?.id),
-      is_active: true,
+      services: createEditAdmin.mapServices.map((x: any) => x?.id),
+      users: createEditAdmin.mapAdmin.map((x: any) => ({
+        user_profile_id: x?.id,
+        access: x?.access,
+      })),
+      // is_active: true,
     };
     // debugger;
-    httpRequest('post', `${envConfig.idm_api_url}/projects`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/idm/projects/create`, payload, true)
       .then((response) => {
-        enqueueSnackbar('Permission added Succesfully!', { variant: 'success' });
+        enqueueSnackbar('Project created Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
@@ -116,7 +137,7 @@ export const useAdmins = create<AdminInterface>((set, get) => ({
       // is_active: addPermissionList.is_active,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.idm_api_url}/projects`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/projects`, payload, true)
       .then((response) => {
         enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
       })
@@ -138,7 +159,7 @@ export const useAdmins = create<AdminInterface>((set, get) => ({
       role_id: id,
       is_active: status,
     };
-    httpRequest('put', `${envConfig.idm_api_url}/projects`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/projects`, payload, true)
       .then((response) => {
         enqueueSnackbar('Status changed succesfully!', { variant: 'success' });
       })
@@ -151,6 +172,105 @@ export const useAdmins = create<AdminInterface>((set, get) => ({
         getAdminList(OrganisationDetails.id);
       });
   },
+  getOrganisationMaster: () => {
+    debugger;
+    set({ fetching: true, errorOnFetching: false });
+    //  debugger;
+    httpRequest('get', `${envConfig.api_url}/idm/user-profile/list/organisation?limit=20&offset=0`, {}, true)
+      .then((response) => {
+        debugger;
+        const dataTable: any = [];
+        if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
+          response.data.data.rows.map(
+            (tableData: any, i: any) =>
+              dataTable.push({
+                id: tableData.organisation_id,
+                name: tableData.organisation_name,
+                rolename: tableData.role_name,
+              }),
+            set({ OrganisationListMaster: dataTable }),
+          );
+        } else {
+          set({ OrganisationListMaster: [] });
+        }
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ fetching: false });
+      });
+  },
+  getServiceMasterByOrganisation: () => {
+    debugger;
+    set({ fetching: true, errorOnFetching: false });
+    const { OrganisationDetails } = get();
+    const payload = {
+      organisation_id: OrganisationDetails.id,
+      limit: 10,
+      offset: 0,
+    };
+    //  debugger;
+    httpRequest('post', `${envConfig.api_url}/idm/organisation/service`, payload, true)
+      .then((response) => {
+        debugger;
+        const dataTable: any = [];
+        if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
+          response.data.data.rows.map(
+            (tableData: any, i: any) =>
+              dataTable.push({
+                id: tableData.id,
+                name: tableData.name,
+              }),
+            set({ ServiceListMaster: dataTable }),
+          );
+        } else {
+          set({ ServiceListMaster: [] });
+        }
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ fetching: false });
+      });
+  },
+  getUserMasterByOrganisation: () => {
+    debugger;
+    const { OrganisationDetails } = get();
+    set({ fetching: true, errorOnFetching: false });
+
+    const payload = {
+      organisation_id: OrganisationDetails.id,
+    };
+    //  debugger;
+    httpRequest('post', `${envConfig.api_url}/idm/organisation/users`, payload, true)
+      .then((response) => {
+        debugger;
+        const dataTable: any = [];
+        if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
+          response.data.data.rows.map(
+            (tableData: any, i: any) =>
+              dataTable.push({
+                id: tableData.id,
+                name: tableData.name,
+              }),
+            set({ UserListMaster: dataTable }),
+          );
+        } else {
+          set({ UserListMaster: [] });
+        }
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ fetching: false });
+      });
+  },
 
   deleteAdmin: (x: any) => {
     const { getAdminList, OrganisationDetails } = get();
@@ -160,7 +280,7 @@ export const useAdmins = create<AdminInterface>((set, get) => ({
       permission_id: x.id,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('delete', `${envConfig.idm_api_url}/permissions`, payload, true)
+    httpRequest('delete', `${envConfig.api_url}/permissions`, payload, true)
       .then((response) => {
         enqueueSnackbar('Permission deleted Succesfully!', { variant: 'success' });
       })
@@ -179,12 +299,10 @@ export const useAdmins = create<AdminInterface>((set, get) => ({
       createEditAdmin: {
         projectTitle: '',
         description: '',
-        services: [],
-        mappedUser: [],
+        mapServices: [],
+        mapAdmin: [],
         is_active: false,
-        access: '',
         id: '',
-        gitUrl: '',
       },
     });
   },

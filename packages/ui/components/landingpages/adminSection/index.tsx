@@ -7,10 +7,11 @@ import { AdminSecForm } from '..';
 import { Table as CommonTable } from '@crayond_dev/ui_table';
 import { Header, tableData, tableJson } from './utills';
 import { Drawer } from '@atoms/drawer';
-import { useAdmin, useOrganisation } from '@core/store';
+import { useAdmin, useAdminLanding, useMenu, useOrganisation } from '@core/store';
 import { FooterComponent } from '@atoms/footerComponent';
 import { TableHeader } from '@components/commonComponents';
-
+import { useNavigate } from 'react-router-dom';
+import { webRoutes } from '@core/routes';
 export interface AdminSectionProps {
   className?: string;
   sx?: SxProps<Theme>;
@@ -19,23 +20,38 @@ export interface AdminSectionProps {
 export const AdminSection = (props: AdminSectionProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
   const {
-    getAdminList,
-    adminList,
-    createEditAdmin,
-    OrganisationDetails,
-    seteditOrganisationDetails,
-    seteditAdmin,
+    // getAdminList,
+    // adminList,
+    // createEditAdmin,
+    // OrganisationDetails,
+    // seteditOrganisationDetails,
+    // seteditAdmin,
     editAdmin,
     deleteAdmin,
-    createAdmin,
-    clearAll,
+    // createAdmin,
+    // clearAll,
   } = useAdmin();
   const { getOrganisationList, OrganisationList } = useOrganisation();
 
+  const {
+    getOrganisationMaster,
+    OrganisationListMaster,
+    OrganisationDetails,
+    seteditOrganisationDetails,
+    createAdmin,
+    createEditAdmin,
+    seteditAdmin,
+    getServiceMasterByOrganisation,
+    getUserMasterByOrganisation,
+    clearAll,
+    getAdminList,
+    adminList,
+  } = useAdminLanding();
+  const { getSideMenusFromProject, getMenu } = useMenu();
+
   const [searchTerm, setSearchTerm] = useState('');
   const [open, setOpen] = useState(false);
-  const [option, setOption] = useState();
-
+  const navigate = useNavigate();
   const filteredMessageGroup = adminList.filter(
     (x: any) => x.projectTitle?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
@@ -46,6 +62,12 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
   const handleTableDelete = (id: string) => {
     deleteAdmin(id);
     console.log('');
+  };
+  const handleTableDetail = (id: string) => {
+    debugger;
+    // getMenu();
+    getSideMenusFromProject(id);
+    navigate(webRoutes.languageConfig);
   };
   const handleDrawerClose = () => {
     setOpen(false);
@@ -58,18 +80,23 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
   };
 
   useEffect(() => {
-    getAdminList(OrganisationDetails.id);
-    getOrganisationList();
+    // getAdminList(OrganisationDetails.id);
+    getOrganisationMaster();
+    // getOrganisationList();
   }, []);
-  useEffect(() => {
-    getAdminList(OrganisationDetails.id);
-  }, [OrganisationDetails]);
+  // useEffect(() => {
+  //   getAdminList();
+  // }, [OrganisationDetails]);
   const handleChangeOrganisationkey = (key: string, value: string | number) => {
     seteditOrganisationDetails({ key, value });
   };
   const handleChangeOrganisation = (value: any) => {
+    // console.log
+    debugger;
+    // if
     handleChangeOrganisationkey('id', value.id);
     handleChangeOrganisationkey('name', value.name);
+    handleChangeOrganisationkey('rolename', value.rolename);
   };
   const handleSave = () => {
     if (createEditAdmin.id) {
@@ -81,21 +108,11 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     clearAll();
   };
 
-  const optionList = () => {
-    const dataTable: any = [];
-    if (OrganisationList) {
-      OrganisationList.map((tableData: any, i: any) =>
-        dataTable.push({
-          id: tableData.id,
-          name: tableData.organisationName,
-        }),
-      );
-      setOption(dataTable);
-    }
-  };
   useEffect(() => {
-    optionList();
-  }, [OrganisationList]);
+    getAdminList();
+    getServiceMasterByOrganisation();
+    getUserMasterByOrganisation();
+  }, [OrganisationDetails]);
 
   return (
     <Box
@@ -111,7 +128,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
       <IdmBackgroundCard
         title="Organisation"
         subTitle="Projects"
-        optionList={option}
+        optionList={OrganisationListMaster}
         handleChangeDropDown={handleChangeOrganisation}
         createEditState={OrganisationDetails}
         content={
@@ -119,7 +136,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
             <CommonTable
               Header={Header}
               dataList={filteredMessageGroup}
-              tableData={tableData(handleTableEdit, handleTableDelete)}
+              tableData={tableData(handleTableEdit, handleTableDelete, handleTableDetail)}
               headerOptions={{
                 fontSize: '14px',
                 fontWeight: '500',
@@ -161,7 +178,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
                     tableHeader={'Projects'}
                     setSearchTerm={setSearchTerm}
                     searchTerm={searchTerm}
-                    isBtnRequired={true}
+                    isBtnRequired={OrganisationDetails.rolename === 'TOOLKIT-ADMIN' ? true : false}
                     handleOpen={handleDrawerOpen}
                     // editTableMessage={addRole}
                   />

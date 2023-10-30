@@ -96,7 +96,7 @@ export const AddChipDropdown = (props: AddChipDropdownProps): JSX.Element => {
     );
   };
   const onSetChange = () => {
-    onChange('services', selectedOptions);
+    onChange('mapServices', selectedOptions);
   };
 
   useEffect(() => {

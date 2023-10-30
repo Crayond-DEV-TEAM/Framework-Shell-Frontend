@@ -5,9 +5,11 @@ import { Drawer } from '@atoms/drawer';
 import { AdminSecForm, SuperAdminForm } from '..';
 import { Table as CommonTable } from '@crayond_dev/ui_table';
 import { Header, tableData, tableJson } from './utills';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { superAdminStyle } from './style';
 import { TableHeader } from '@components/commonComponents';
+import { useProfileUserLanding, useSuperAdminLanding } from '@core/store';
+import { FooterComponent } from '@atoms/footerComponent';
 
 export interface SuperAdminProps {
   className?: string;
@@ -18,20 +20,47 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
   const [searchTerm, setSearchTerm] = useState();
   const [open, setOpen] = useState(false);
-
+  const {
+    getOrganisationList,
+    getServiceList,
+    ServiceList,
+    createEditOrganisation,
+    seteditOrganisation,
+    clearAll,
+    createOrganisation,
+    OrganisationList,
+  } = useSuperAdminLanding();
+  const { getUserProfileList, UserProfileList } = useProfileUserLanding();
   const handleTableEdit = () => {
     console.log('');
   };
   const handleTableDelete = () => {
     console.log('');
   };
+  const handleChange = (key: string, value: any) => {
+    debugger;
+    seteditOrganisation({ key, value });
+  };
+
+  const handleSave = () => {
+    createOrganisation();
+    handleDrawerClose();
+  };
 
   const handleDrawerClose = () => {
     setOpen(false);
+    clearAll();
   };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
+  useEffect(() => {
+    getOrganisationList();
+    getServiceList();
+    getUserProfileList();
+  }, []);
+
+  console.log(createEditOrganisation, 'crdhjgfskjdfhkdsjfhsdjkfh');
 
   return (
     <Box
@@ -47,7 +76,7 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
       <Box sx={superAdminStyle.commonTable}>
         <CommonTable
           Header={Header}
-          dataList={tableJson}
+          dataList={OrganisationList}
           tableData={tableData(handleTableEdit, handleTableDelete)}
           // switchList={switchList}
           // handleSwitch={handleSwitch}
@@ -57,7 +86,7 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
             color: '#818181',
             bgColor: '#EAEAEA',
             borderBottom: '0px',
-            width: '100%',
+            // width: '100%',
             padding: '6px 16px 6px 7px',
           }}
           cellOptions={{
@@ -120,8 +149,31 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
             borderBottomLeftRadius: '8px',
           },
         }}
+        footer={
+          <FooterComponent
+            check={true}
+            onSave={handleSave}
+            onCancel={handleDrawerClose}
+            SwitchChange={(e) => {
+              handleChange('is_active', e.target.checked);
+            }}
+            checked={createEditOrganisation.is_active}
+          />
+        }
+        footerStyle={{
+          bottom: 0,
+          position: 'absolute',
+          width: '100%',
+          pl: 0,
+          pr: 0,
+        }}
       >
-        <SuperAdminForm />
+        <SuperAdminForm
+          ServiceMaster={ServiceList}
+          createEditOrganisation={createEditOrganisation}
+          handleChange={handleChange}
+          userMaster={UserProfileList}
+        />
       </Drawer>
     </Box>
   );

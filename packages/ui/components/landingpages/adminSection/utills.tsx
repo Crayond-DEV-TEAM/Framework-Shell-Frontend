@@ -1,4 +1,4 @@
-import { DeleteIcon, EditIcon } from '@atoms/icons';
+import { DeleteIcon, EditIcon, MoreIcon } from '@atoms/icons';
 
 export const Header = [
   {
@@ -35,7 +35,11 @@ export const Header = [
   },
 ];
 
-export const tableData = (editHandel: (id: string, data: any, e: any) => void, deleteHandel: (id: string) => void) => [
+export const tableData = (
+  editHandel: (id: string, data: any, e: any) => void,
+  deleteHandel: (id: string) => void,
+  detailHandel: (id: string) => void,
+) => [
   { type: ['TEXT'], name: 'projectTitle' },
   { type: ['TEXT'], name: 'description' },
   { type: ['TEXT'], name: 'serviceMapped' },
@@ -55,6 +59,10 @@ export const tableData = (editHandel: (id: string, data: any, e: any) => void, d
       {
         icon: <DeleteIcon />,
         method: deleteHandel,
+      },
+      {
+        icon: <MoreIcon />,
+        method: detailHandel,
       },
     ],
   },

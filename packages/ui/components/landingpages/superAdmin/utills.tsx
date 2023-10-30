@@ -16,18 +16,11 @@ export const Header = [
     isSortable: true,
   },
   {
-    id: 'adminMapped',
-    align: 'left',
-    disablePadding: false,
-    label: 'Service Mapped',
-  },
-  {
     id: 'serviceMapped',
     align: 'left',
     disablePadding: false,
     label: 'Service Mapped',
   },
-
   {
     id: 'is_active',
     align: 'left',
@@ -45,7 +38,6 @@ export const Header = [
 export const tableData = (editHandel: (id: string, data: any, e: any) => void, deleteHandel: (id: string) => void) => [
   { type: ['TEXT'], name: 'organisationTitle' },
   { type: ['TEXT'], name: 'description' },
-  { type: ['TEXT'], name: 'adminMapped' },
   { type: ['TEXT'], name: 'serviceMapped' },
   {
     type: ['SWITCH'],

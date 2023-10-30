@@ -1,5 +1,5 @@
 import { webRoutes } from '@core/routes';
-import { AdminSection, LoginLayout, SuperAdmin, UserSection } from '@core/ui/components';
+import { AdminSection, AppLayout, LoginLayout, SuperAdmin, UserSection } from '@core/ui/components';
 import LoginPage from '@pages/login';
 import ResetPage from '@pages/resetPassword';
 import SignUpPage from '@pages/signUp';
@@ -48,18 +48,20 @@ export const userRoutes = [
     path: webRoutes.admin,
     element: (
       <PrivateRouter>
-        {/* <LoginLayout> */}
-        <AdminSection />
-        {/* </LoginLayout> */}
+        <AppLayout sideBarSection={false} mainelement={{ padding: '75px 20px 0px 20px', height: '100vh' }}>
+          <AdminSection />
+        </AppLayout>
       </PrivateRouter>
     ),
   },
   {
     path: webRoutes.superAdmin,
     element: (
-      // <LoginLayout>
-      <SuperAdmin />
-      // </LoginLayout>
+      <PrivateRouter>
+        <AppLayout sideBarSection={false} mainelement={{ padding: '75px 20px 0px 20px', height: '100vh' }}>
+          <SuperAdmin />
+        </AppLayout>
+      </PrivateRouter>
     ),
   },
   {

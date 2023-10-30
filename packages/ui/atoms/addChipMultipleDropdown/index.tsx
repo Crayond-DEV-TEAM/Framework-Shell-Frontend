@@ -1,24 +1,46 @@
-import type { SxProps, Theme } from '@mui/system'; // Import from '@mui/system' instead of '@mui/material'
+import type { SxProps, Theme } from '@mui/system';
 import { Box, Menu, MenuItem, Typography } from '@mui/material';
 import { CheckBox } from '@atoms/checkBox';
 import { GreenCloseCircleIcon } from '@assets/iconSet';
 import React, { useEffect, useState } from 'react';
-import { CutstomizedAutocomplete, DropDown, MappedAdminCard, MappedUserCard } from '..';
+import { CutstomizedAutocomplete, MappedAdminCard, MappedUserCard } from '..';
 
 import { addChipMultipleDropdownStyle } from './style';
+
+interface AccessOption {
+  id: string;
+  name: string;
+}
+
+interface UserData {
+  id: string;
+  name: string;
+}
 
 export interface AddChipMultipleDropdownProps {
   className?: string;
   sx?: SxProps<Theme>;
-  dataList?: any;
-  optionList?: any;
-  handleChange?: (key: string, value: string | number) => void;
+  dataList?: UserData[];
+  optionList?: AccessOption[];
+  handleChange?: (key: string, value: any) => void;
 }
 
-export const AddChipMultipleDropdown = (props: AddChipMultipleDropdownProps): JSX.Element => {
-  const { className = '', sx = {}, dataList, handleChange = () => false, optionList, ...rest } = props;
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); // Explicitly define the type of anchorEl
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]); // Explicitly define the type of selectedOptions
+export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = ({
+  className = '',
+  sx = {},
+  dataList = [],
+  handleChange = () => {},
+  optionList = [],
+  ...rest
+}: AddChipMultipleDropdownProps) => {
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [selectedOptions, setSelectedOptions] = useState<UserData[]>([]);
+  const [accessState, setAccessState] = useState<AccessOption | null>(null);
+
+  const accessMaster = [
+    { id: '1', name: 'Full Access' },
+    { id: '2', name: 'Restricted' },
+  ];
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -28,35 +50,34 @@ export const AddChipMultipleDropdown = (props: AddChipMultipleDropdownProps): JS
     setAnchorEl(null);
   };
 
-  const handleOptionToggle = (option: any) => {
-    const isSelected = selectedOptions.some((selected) => selected === option);
+  const handleOptionToggle = (option: UserData) => {
+    const isSelected = selectedOptions.some((selected) => selected.id === option.id);
     setSelectedOptions((prevOptions) =>
-      isSelected ? prevOptions.filter((opt) => opt !== option) : [...prevOptions, option],
+      isSelected ? prevOptions.filter((opt) => opt.id !== option.id) : [...prevOptions, option],
     );
-    // handleChange('mappedUser', selectedOptions);
+  };
+
+  const handleChangeAccess = (selectedAccess: AccessOption | null) => {
+    setAccessState(selectedAccess);
   };
 
   const onSetChange = () => {
-    handleChange('mappedUser', selectedOptions);
+    if (selectedOptions.length > 0 && accessState) {
+      const setItemsUsers = selectedOptions.map((user) => ({
+        id: user.id,
+        name: user.name,
+        access: accessState.name,
+      }));
+      handleChange('mapAdmin', setItemsUsers);
+    }
   };
+
   useEffect(() => {
     onSetChange();
-  }, [selectedOptions]);
-
-  console.log(selectedOptions);
-  console.log(dataList, 'dataList');
+  }, [selectedOptions, accessState]);
 
   return (
-    <Box
-      sx={[
-        {
-          ...addChipMultipleDropdownStyle.rootSx,
-        },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-      className={className}
-      {...rest}
-    >
+    <Box sx={[addChipMultipleDropdownStyle.rootSx, ...(Array.isArray(sx) ? sx : [sx])]} className={className} {...rest}>
       <div>
         <Menu
           anchorEl={anchorEl}
@@ -71,36 +92,34 @@ export const AddChipMultipleDropdown = (props: AddChipMultipleDropdownProps): JS
             },
           }}
         >
-          {dataList?.map((data: any) => (
+          {dataList.map((data) => (
             <MenuItem
               sx={{
                 py: 0,
-                backgroundColor: selectedOptions.some((opt) => opt === data) ? '#dce8e5' : '#fff',
+                backgroundColor: selectedOptions.some((opt) => opt.id === data.id) ? '#dce8e5' : '#fff',
               }}
-              key={data}
+              key={data.id}
               onClick={() => handleOptionToggle(data)}
             >
-              <CheckBox style={{ marginRight: '8px' }} checked={selectedOptions.some((opt) => opt === data)} />
+              <CheckBox style={{ marginRight: '8px' }} checked={selectedOptions.some((opt) => opt.id === data.id)} />
               <Box
                 sx={{ px: 1, display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
               >
                 <MappedAdminCard options={data} />
-                {/* <CutstomizedAutocomplete
+                <CutstomizedAutocomplete
                   sx={{
-                    '& .MuiOutlinedInput-notchedOutline': {
-                      border: 0,
-                    },
-                    '& .MuiOutlinedInput-notchedOutline:focus-visible': {
+                    '& .MuiOutlinedInput-notchedOutline, & .MuiOutlinedInput-notchedOutline:focus-visible': {
                       border: 0,
                     },
                   }}
-                  permissionList={optionList}
-                /> */}
+                  onChange={(e: AccessOption | null) => handleChangeAccess(e)}
+                  permissionList={accessMaster}
+                />
               </Box>
             </MenuItem>
           ))}
         </Menu>
-        <MappedUserCard altText={selectedOptions} />
+        <MappedUserCard  />
         <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', marginTop: '10px' }} onClick={handleClick}>
           <GreenCloseCircleIcon
             rootStyle={{

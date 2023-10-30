@@ -167,7 +167,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
         ) : (
           <Box>
             {!fetching && (
-              <Typography variant="body2" color="textSecondary">
+              <Typography variant="body2" color="textSecondary" sx={{ p: 2 }}>
                 You are yet to add a message group.
               </Typography>
             )}

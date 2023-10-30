@@ -63,6 +63,7 @@ export interface AuthStoreInterface {
 
   signIn: () => void;
   signUp: () => void;
+  getUserProfileList:() => void;
   forgotPassword: () => void;
   resetPassword: (payload: { token: string | null }) => void;
   logOut: () => void;
@@ -121,8 +122,8 @@ export interface Menu {
   id: number;
   link: string;
   name: string;
-  baseUrl: string;
-  links?: string[];
+  // baseUrl: string;
+  // links?: string[];
   icon: (isSelectd: boolean) => JSX.Element;
   childrens?: Menu[];
 }
@@ -132,6 +133,7 @@ export interface MenusProps {
   loading: boolean;
   error: boolean;
   getMenu: () => void;
+  getSideMenusFromProject:(id:string)=> void
 }
 export interface MessageCreateInterface {
   title: number | string;
@@ -909,18 +911,19 @@ export interface PlanInterface<T> {
 export interface AdminKey {
   projectTitle: string;
   description: string;
-  services: any;
-  mappedUser: any;
+  mapServices: any;
+  mapAdmin: any;
   is_active?: boolean;
-  access?: '';
   id?: string;
-  gitUrl?: string;
 }
 
 export interface AdminInterface {
   adminList: AdminKey[];
   fetching: boolean;
   OrganisationDetails: OrganisationDetailKey;
+  OrganisationListMaster:[];
+  ServiceListMaster:[];
+  UserListMaster:[];
   errorOnFetching: boolean;
 
   addsave: boolean;
@@ -933,7 +936,11 @@ export interface AdminInterface {
 
   updateEditData: (data: any) => void;
 
-  getAdminList: (id: string) => void;
+  getAdminList: () => void;
+  getOrganisationMaster: () => void;
+  getServiceMasterByOrganisation: () => void;
+  getUserMasterByOrganisation: () => void;
+
   createAdmin: () => void;
   editAdmin: () => void;
   getStatusList: (id: any, status: any) => void;
@@ -1027,6 +1034,7 @@ export interface UserKey {
 export interface OrganisationDetailKey {
   id: string;
   name: string;
+  rolename:string
 }
 
 export interface UserProfileInterface {
@@ -1094,4 +1102,65 @@ export interface UserLandingInterface {
   ProjectList:[];
 
   getUserProjectList: (id: string) => void;
+}
+
+export interface SuperAdminLandingKey {
+  organisationName: string;
+  description: string;
+  email_id:string,
+  mapAdmin: string[];
+  mapServices: string[];
+  is_active: boolean;
+  id?: string;
+}
+
+export interface SuperAdminLandingInterface {
+  OrganisationList: SuperAdminLandingKey[];
+  ServiceList:[];
+  fetching: boolean;
+  errorOnFetching: boolean;
+
+  addsave: boolean;
+  editsave: boolean;
+  deletefetch: boolean;
+
+  createEditOrganisation: SuperAdminLandingKey;
+  seteditOrganisation: (payload: { key: string; value: string | number }) => void;
+  // seteditService: (payload: { key: string; value: string | number }) => void;
+
+  updateEditData: (data: any) => void;
+
+  getOrganisationList: () => void;
+  createOrganisation: () => void;
+  editOrganisation: () => void;
+  getStatusList: (id: any, status: any) => void;
+  deleteOrganisation: (id: string) => void;
+  getServiceList: () => void;
+  clearAll: () => void;
+}
+export interface UserProfileLandingKey {
+  userProfileName: string;
+  description: string;
+  id?: string;
+}
+
+export interface UserProfileLandingInterface {
+  UserProfileList: UserProfileLandingKey[];
+  fetching: boolean;
+  errorOnFetching: boolean;
+
+  addsave: boolean;
+  editsave: boolean;
+  deletefetch: boolean;
+
+  createEditUserProfile: UserProfileLandingKey;
+  seteditUserProfile: (payload: { key: string; value: string | number }) => void;
+
+  updateEditData: (data: any) => void;
+  getUserProfileList: (id: string) => void;
+  createUserProfile: () => void;
+  editUserProfile: () => void;
+  getStatusList: (id: any, status: any) => void;
+  deleteUserProfile: (id: string) => void;
+  clearAll: () => void;
 }

@@ -10,7 +10,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AddChipDropdown } from '@atoms/addChipDropdown';
 import { AddChipMultipleDropdown } from '@atoms/addChipMultipleDropdown';
-import { useAdmin, useProfileUser, useService } from '@core/store';
+import { useAdmin, useAdminLanding, useProfileUser, useService } from '@core/store';
 import { useEffect, useState } from 'react';
 
 export interface AdminSecFormProps {
@@ -22,53 +22,15 @@ export interface AdminSecFormProps {
 
 export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
   const { className = '', sx = {}, createEditAdmin, handlechange = () => false, ...rest } = props;
-  const [service, setService] = useState();
-  const [user, setUser] = useState();
-  const { UserList, getUserList } = useProfileUser();
-  const { ServiceList, getServiceList } = useService();
-  const { OrganisationDetails } = useAdmin();
+
+  const { ServiceListMaster, UserListMaster } = useAdminLanding();
 
   console.log(createEditAdmin, 'createEditAdmincreateEditAdmin');
 
-  const optionList = () => {
-    // debugger;
-    const dataTable: any = [];
-    if (UserList) {
-      UserList.map((tableData: any, i: any) =>
-        dataTable.push({
-          id: tableData.id,
-          name: tableData.userName,
-        }),
-      );
-      setUser(dataTable);
-    }
-  };
-  const ServiceOptionList = () => {
-    // debugger;
-    const dataTable: any = [];
-    if (ServiceList) {
-      ServiceList.map((tableData: any, i: any) =>
-        dataTable.push({
-          id: tableData.id,
-          name: tableData.serviceName,
-        }),
-      );
-      setService(dataTable);
-    }
-  };
-
-  useEffect(() => {
-    ServiceOptionList();
-  }, [ServiceList]);
-
-  useEffect(() => {
-    optionList();
-  }, [UserList]);
-
-  useEffect(() => {
-    getUserList(OrganisationDetails.id);
-    getServiceList(OrganisationDetails.id);
-  }, []);
+  // useEffect(() => {
+  //   getUserList(OrganisationDetails.id);
+  //   getServiceList(OrganisationDetails.id);
+  // }, []);
 
   return (
     <Box
@@ -122,7 +84,7 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
             // errorMessage={formErrors.description}
           />
         </Box>
-        <Box sx={adminSecFormStyle.inputGroupSx}>
+        {/* <Box sx={adminSecFormStyle.inputGroupSx}>
           <Label sx={adminSecFormStyle.labelSx} htmlFor="addTitle" isRequired>
             Git URL
           </Label>
@@ -139,7 +101,7 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
             // isError={Boolean(formErrors.description)}
             // errorMessage={formErrors.description}
           />
-        </Box>
+        </Box> */}
         <Box sx={{ m: '16px' }} />
         <div>
           <Accordion
@@ -162,7 +124,7 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
               <Typography sx={{ fontWeight: 600, fontSize: '14px', padding: 0 }}>Services</Typography>
             </AccordionSummary>
             <AccordionDetails sx={{ padding: '0px' }}>
-              <AddChipDropdown permissionList={service} onChange={handlechange} />
+              <AddChipDropdown permissionList={ServiceListMaster} onChange={handlechange} />
             </AccordionDetails>
           </Accordion>
           <Accordion
@@ -180,7 +142,7 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
               <Typography sx={{ fontWeight: 600, fontSize: '14px', padding: 0 }}>Mapped Users</Typography>
             </AccordionSummary>
             <AccordionDetails sx={{ padding: '0px' }}>
-              <AddChipMultipleDropdown dataList={user} handleChange={handlechange} />
+              <AddChipMultipleDropdown dataList={UserListMaster} handleChange={handlechange} />
             </AccordionDetails>
           </Accordion>
         </div>

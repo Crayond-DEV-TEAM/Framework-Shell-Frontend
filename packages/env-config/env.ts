@@ -1,6 +1,6 @@
 export const envConfig = {
   auth_url: import.meta.env.VITE_AUTH_API_BASE_URL,
-  api_url: import.meta.env.VITE_REST_API_BASE_URL,
+  api_url: import.meta.env.VITE_API_BASE_URL,
   idm_api_url: import.meta.env.VITE_IDM_API_BASE_URL,
   message_api_url: import.meta.env.VITE_MESSAGE_API_BASE_URL,
   frame_work_shell_ui: import.meta.env.VITE_FRAMEWORK_SHELL_URL,

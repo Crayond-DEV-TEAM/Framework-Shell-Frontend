@@ -8,8 +8,10 @@ import { useRouting } from '../common';
 import { AuthStoreInterface } from '../interface';
 import { giveMeAuthInitialState, validateResetPasswordData, validateSignUpData } from '../utils';
 import { useUser } from './user';
-
+import { enqueueSnackbar } from 'notistack'
+// import { useHistory } from 'react-router-dom';
 const initialState = giveMeAuthInitialState();
+// const history = useHistory();
 
 export const useAuth = create<AuthStoreInterface>((set, get) => ({
   signInState: initialState.signInState,
@@ -65,8 +67,8 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
 
   signIn: async () => {
     set({ signInLoading: true, signInMessage: '', signInError: false });
-
     try {
+      // debugger;
       const { signInState: payload } = get();
 
       if (payload.username.trim().length === 0 || payload.password.trim().length === 0) {
@@ -74,15 +76,31 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
         return false;
       }
 
-      const response = await httpRequest('post', `${envConfig.auth_url}/sign_in `, payload);
-
+      const response = await httpRequest('post', `${envConfig.api_url}/framework_shell_auth/sign_in `, payload);
       if (response?.status === 200 && response?.data?.data) {
-        const token = response?.data?.data;
+        debugger;
+        const token = response?.data?.data?.token;
         const user = parseJwt(token);
         useUser.setState({ user });
+        console.log(user, 'uiseriser');
         localStorage.setItem(localStorageKeys.authToken, token);
         set({ signInMessage: 'Signed in Successfully', signInError: false });
-        routeTo(useRouting, webRoutes.root);
+        if (user.isSuperAdmin === true) {
+           window.location.href = '/superAdmin';
+          console.log('super admin');
+        } else {
+          window.location.href = '/admin';
+        }
+
+        // if (user.role_name === 'ADMIN') {
+        //   console.log('d');
+        // } else {
+        //   console.log('s');
+        // }
+        // debugger
+        // history.push("/languageConfig")
+        // routeTo(useRouting, webRoutes.languageConfig);
+        // window.location.href = '/languageConfig';
         return response?.status;
       } else {
         throw new Error('Internal Server Error');
@@ -95,8 +113,29 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
       set({ signInLoading: false });
     }
   },
+  // /idm/user-profile/list/organisation?limit=20&offset=0
+
+ getUserProfileList: () => {
+
+    set({ signInLoading: true, signInError: false });
+  
+    httpRequest('get', `${envConfig.api_url}/idm/user-profile/list/organisation?limit=20&offset=0`, {}, true)
+      .then((response) => {
+        debugger;
+        
+      })
+      .catch((err) => {
+        set({ signInError: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ signInLoading: false });
+      });
+  },
+
 
   signUp: async () => {
+    // debugger;
     set({ signUpLoading: true, signUpMessage: '', signUpError: false });
 
     try {
@@ -118,7 +157,7 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
         password: signUpState.password,
       };
 
-      const response = await httpRequest('post', `${envConfig.auth_url}/sign_up`, payload);
+      const response = await httpRequest('post', `${envConfig.api_url}/sign_up`, payload);
 
       if (response?.status === 200) {
         let seconds = 5;
@@ -155,7 +194,7 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
     try {
       const { forgotPasswordState } = get();
 
-      const response = await httpRequest('put', `${envConfig.auth_url}/forgot_password`, forgotPasswordState);
+      const response = await httpRequest('put', `${envConfig.api_url}/forgot_password`, forgotPasswordState);
 
       if (response?.status === 200) {
         set({ forgotPasswordMessage: 'We have sent a link to reset your password, please check your email inbox' });
@@ -188,7 +227,7 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
 
       const response = await httpRequest(
         'put',
-        `${envConfig.auth_url}/reset_password`,
+        `${envConfig.api_url}/reset_password`,
         { new_password: resetPasswordState.password },
         false,
         { headers: { Authorization: 'Bearer ' + payload.token } },

@@ -38,7 +38,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
     set({ fetching: true, errorOnFetching: false });
     httpRequest(
       'post',
-      `${envConfig.api_url}/message_groups/display_message_group`,
+      `${envConfig.message_api_url}/message_groups/display_message_group`,
       {
         offset: 0,
         limit: 50,
@@ -67,7 +67,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
       is_status: addMessage.is_status,
     };
 
-    httpRequest('post', `${envConfig.api_url}/message_groups/add_message_group`, payload, true)
+    httpRequest('post', `${envConfig.message_api_url}/message_groups/add_message_group`, payload, true)
       .then((response) => {
         enqueueSnackbar('New Message Group successfully Added!', { variant: 'success' });
         get().getMessageGroups();
@@ -92,7 +92,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
     };
 
     set({ editMessageLoading: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.api_url}/message_groups/edit_message_group`, payload, true)
+    httpRequest('put', `${envConfig.message_api_url}/message_groups/edit_message_group`, payload, true)
       .then((response) => {
         enqueueSnackbar('Edit Successfully!!', { variant: 'success' });
       })
@@ -111,7 +111,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
     const { editMessageList } = get();
 
     set({ editMessageLoading: true, errorOnFetching: false });
-    httpRequest('post', `${envConfig.api_url}/message_groups/display_all_message_from_grp_by_id `, payload, true)
+    httpRequest('post', `${envConfig.message_api_url}/message_groups/display_all_message_from_grp_by_id `, payload, true)
       .then((response) => {
         set({ editMessageList: response.data.data.message_group_data });
       })
@@ -128,7 +128,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
     const { deleteMessage, getMessageGroups } = get();
 
     set({ deleteMessageLoading: true, deleteMessageError: false });
-    httpRequest('put', `${envConfig.api_url}/message_groups/delete_message_group`, payload, true)
+    httpRequest('put', `${envConfig.message_api_url}/message_groups/delete_message_group`, payload, true)
       .then((response) => {
         enqueueSnackbar('Deleted message Group Successfully!', { variant: 'success' });
       })

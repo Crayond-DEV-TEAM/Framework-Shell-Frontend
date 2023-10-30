@@ -2,7 +2,7 @@ import { envConfig } from '@core/envconfig';
 import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { RolesInterface } from '../interface';
-import { tableJson } from '../../ui/components/roles/utils';
+// import { tableJson } from '../../ui/components/roles/utils';
 import { enqueueSnackbar } from 'notistack';
 import { ClearAll } from '@mui/icons-material';
 export const useRoles = create<RolesInterface>((set, get) => ({
@@ -41,7 +41,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       offset: 0,
       limit: 10000,
     };
-    httpRequest('post', `${envConfig.api_url}/roles`, payload, true, apiToken)
+    httpRequest('post', `${envConfig.idm_api_url}/roles`, payload, true, apiToken)
       .then((response) => {
         const permssionJsonConstruct = (tableData: any) => {
           return tableData.role_permission_mappings.map((value: any) => {
@@ -102,7 +102,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       is_active: addRole.is_active,
     };
     return new Promise((resolve, reject) => {
-      httpRequest('post', `${envConfig.api_url}/roles/create`, payload, true, apiToken)
+      httpRequest('post', `${envConfig.idm_api_url}/roles/create`, payload, true, apiToken)
         .then((response) => {
           enqueueSnackbar('Roles created succesfully!', { variant: 'success' });
           console.log('In the promise now');
@@ -128,7 +128,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       role_id: id,
       is_active: status,
     };
-    return httpRequest('put', `${envConfig.api_url}/roles/update`, payload, true, apiToken)
+    httpRequest('put', `${envConfig.idm_api_url}/roles/update`, payload, true, apiToken)
       .then((response) => {
         enqueueSnackbar('Status changed succesfully!', { variant: 'success' });
       })
@@ -155,7 +155,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
     set({ fetching: true, errorOnFetching: false });
 
     return new Promise((resolve, reject) => {
-      return httpRequest('put', `${envConfig.api_url}/roles/update`, payload, true, apiToken)
+      return httpRequest('put', `${envConfig.idm_api_url}/roles/update`, payload, true, apiToken)
         .then((response) => {
           enqueueSnackbar('Roles edited succesfully!', { variant: 'success' });
           resolve(response?.data?.data);
@@ -180,7 +180,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       role_id: id,
     };
 
-    return httpRequest('delete', `${envConfig.api_url}/roles`, payload, true, apiToken)
+    httpRequest('delete', `${envConfig.idm_api_url}/roles`, payload, true, apiToken)
       .then((response) => {
         enqueueSnackbar('Roles deleted succesfully!', { variant: 'success' });
       })

@@ -2,7 +2,7 @@ import { envConfig } from '@core/envconfig';
 import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { PermissionInterface } from '../interface';
-import { permission } from '../../ui/components/addpermission/utils';
+// import { permission } from '../../ui/components/addpermission/utils';
 import { enqueueSnackbar } from 'notistack';
 import { useRepository } from './repository';
 import { findObjectByIndex, modifyObjectByIndexWithKey } from './commonFunction';
@@ -54,7 +54,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     const { apiToken } = get();
     set({ fetchingPermission: true, errorOnPermission: false });
 
-    httpRequest('get', `${envConfig.api_url}/permissions`, {}, true, apiToken)
+    httpRequest('get', `${envConfig.idm_api_url}/permissions`, {}, true, apiToken)
       .then((response) => {
         set({ PermissionList: response.data.data });
       })
@@ -81,7 +81,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       is_active: addPermissionList.is_active,
     };
 
-    httpRequest('post', `${envConfig.api_url}/permissions/create`, payload, true, apiToken)
+    httpRequest('post', `${envConfig.idm_api_url}/permissions/create`, payload, true, apiToken)
       .then((response) => {
         enqueueSnackbar('Permission added Succesfully!', { variant: 'success' });
       })
@@ -108,7 +108,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       is_active: addPermissionList.is_active,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.api_url}/permissions`, payload, true, apiToken)
+    httpRequest('put', `${envConfig.idm_api_url}/permissions`, payload, true, apiToken)
       .then((response) => {
         enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
       })
@@ -131,7 +131,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       permission_id: x.id,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('delete', `${envConfig.api_url}/permissions`, payload, true, apiToken)
+    httpRequest('delete', `${envConfig.idm_api_url}/permissions`, payload, true, apiToken)
       .then((response) => {
         enqueueSnackbar('Permission deleted Succesfully!', { variant: 'success' });
       })
@@ -155,7 +155,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       is_active: true,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.api_url}/permissions/update`, payload, true, apiToken)
+    httpRequest('put', `${envConfig.idm_api_url}/permissions/update`, payload, true, apiToken)
       .then((response) => {
         enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
       })

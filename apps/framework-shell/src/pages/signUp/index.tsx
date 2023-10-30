@@ -1,7 +1,7 @@
-import { SignUp } from '@core/ui/components/signUp';
 import { Box } from '@mui/material';
 
 import { signUpStyle } from './style';
+import { SignUp } from '@core/ui/components';
 
 export default function SignUpPage() {
   return (

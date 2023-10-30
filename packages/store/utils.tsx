@@ -181,38 +181,38 @@ export const validateResetPasswordData = (values: ResetPasswordState) => {
 export const AllRoutes: { [key: number]: Menu } = {
   1: {
     id: 1,
-    link: '/',
+    // link: '/',
     name: 'Alert Hubs',
-    baseUrl: '',
-    links: ['/alertConfig', '/apiDocumentation', '/reports', '/alertrule'],
+    // baseUrl: '',
+    // links: ['/alertConfig', '/apiDocumentation', '/reports', '/alertrule'],
     icon: (isSelected: boolean) => <Alert sx={{ fontSize: '22px', color: isSelected ? '#357968' : 'action' }} />,
     childrens: [
       {
         id: 1,
         link: '/reports',
         name: 'Reports',
-        baseUrl: '',
+        // baseUrl: '',
         icon: (isSelected: boolean) => <ReportIcon sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 2,
         link: '/alertrule',
         name: 'Alert Rule',
-        baseUrl: '',
+        // baseUrl: '',
         icon: (isSelected: boolean) => <AlertRuleIcon sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 3,
         link: '/apidocumentation',
         name: 'API Documentation',
-        baseUrl: '',
+        // baseUrl: '',
         icon: (isSelected: boolean) => <ApiDocument sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 4,
         link: '/alertconfig',
         name: 'Alert Configuration',
-        baseUrl: '',
+        // baseUrl: '',
         icon: (isSelected: boolean) => <AlertConfigIcon sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
     ],
@@ -262,6 +262,79 @@ export const AllRoutes: { [key: number]: Menu } = {
       },
     ],
   },
+  4: {
+    id: 4,
+    link: '/',
+    name: 'Plan And Subscription',
+    baseUrl: '',
+    links: [
+      '/customer',
+      '/plan',
+      '/createplan',
+      '/createcustomer',
+      '/customerdetail',
+      '/subscriptiondetail',
+      '/subscription',
+      '/addons',
+      '/charges',
+      '/featureGroups',
+      '/features',
+    ],
+    icon: (isSelected: boolean) => (
+      <MessageHub sx={{ fontSize: '22px', color: isSelected ? 'primary.main' : 'action' }} />
+    ),
+    childrens: [
+      {
+        id: 1,
+        link: '/customer',
+        name: 'Customer',
+        baseUrl: '',
+        icon: (isSelected: boolean) => <SubMessageLanguage sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+      },
+      {
+        id: 2,
+        link: '/plan',
+        name: 'Plans',
+        baseUrl: '',
+        icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+      },
+      {
+        id: 3,
+        link: '/subscription',
+        name: 'Subscription',
+        baseUrl: '',
+        icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+      },
+      {
+        id: 4,
+        link: '/addons',
+        name: 'AddOns',
+        baseUrl: '',
+        icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+      },
+      {
+        id: 4,
+        link: '/charges',
+        name: 'Charges',
+        baseUrl: '',
+        icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+      },
+      {
+        id: 4,
+        link: '/featureGroups',
+        name: 'FeatureGroup',
+        baseUrl: '',
+        icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+      },
+      {
+        id: 4,
+        link: '/feature',
+        name: 'Feature',
+        baseUrl: '',
+        icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+      },
+    ],
+  },
 };
 
 export const giveMeAlertRule = (): AddAlertRule => {
@@ -298,11 +371,13 @@ export const dummyTableData = [
     id: 1,
     alert_rule_code: 'kdjf-jdhd-3fd',
     reference_id: 'id-3409',
-    hashtag: {
-      label: '#hashtag',
-      color: '#305AAE',
-      bgColor: '#E2EAFA',
-    },
+    hashtag: [
+      {
+        label: '#hashtag',
+        color: '#305AAE',
+        bgColor: '#E2EAFA',
+      },
+    ],
     description: 'Quam vitae velit',
     alert_type: {
       label: 'Push Notification',
@@ -316,11 +391,13 @@ export const dummyTableData = [
     id: 2,
     alert_rule_code: 'pdfi-sdff-024',
     reference_id: 'id-4985',
-    hashtag: {
-      label: '#hashtag',
-      color: '#305AAE',
-      bgColor: '#E2EAFA',
-    },
+    hashtag: [
+      {
+        label: '#hashtag',
+        color: '#305AAE',
+        bgColor: '#E2EAFA',
+      },
+    ],
     description: 'Malesuada elit',
     alert_type: {
       label: 'Email',
@@ -334,11 +411,13 @@ export const dummyTableData = [
     id: 3,
     alert_rule_code: 'gdg-fsds-dd2',
     reference_id: 'id-6832',
-    hashtag: {
-      label: '#hashtag',
-      color: '#305AAE',
-      bgColor: '#E2EAFA',
-    },
+    hashtag: [
+      {
+        label: '#hashtag',
+        color: '#305AAE',
+        bgColor: '#E2EAFA',
+      },
+    ],
     description: 'Quam dictum',
     alert_type: {
       label: 'SMS',
@@ -352,11 +431,13 @@ export const dummyTableData = [
     id: 4,
     alert_rule_code: 'jduy-sdff-2s1',
     reference_id: 'id-9231',
-    hashtag: {
-      label: '#hashtag',
-      color: '#305AAE',
-      bgColor: '#E2EAFA',
-    },
+    hashtag: [
+      {
+        label: '#hashtag',
+        color: '#305AAE',
+        bgColor: '#E2EAFA',
+      },
+    ],
     description: 'Enim nisl dapibus',
     alert_type: {
       label: 'Email',
@@ -370,11 +451,13 @@ export const dummyTableData = [
     id: 5,
     alert_rule_code: 'hdyt-hst-s5s',
     reference_id: 'id-4875',
-    hashtag: {
-      label: '#hashtag',
-      color: '#305AAE',
-      bgColor: '#E2EAFA',
-    },
+    hashtag: [
+      {
+        label: '#hashtag',
+        color: '#305AAE',
+        bgColor: '#E2EAFA',
+      },
+    ],
     description: 'Interdum est pulvinar',
     alert_type: {
       label: 'SMS',
@@ -388,11 +471,13 @@ export const dummyTableData = [
     id: 6,
     alert_rule_code: 1072,
     reference_id: 'ID-201',
-    hashtag: {
-      label: '#hashtag',
-      color: '#305AAE',
-      bgColor: '#E2EAFA',
-    },
+    hashtag: [
+      {
+        label: '#hashtag',
+        color: '#305AAE',
+        bgColor: '#E2EAFA',
+      },
+    ],
     description: 'Quam vitae velit',
     alert_type: {
       label: 'Push Notification',
@@ -406,11 +491,13 @@ export const dummyTableData = [
     id: 7,
     alert_rule_code: 1616,
     reference_id: 'ID-244',
-    hashtag: {
-      label: '#hashtag',
-      color: '#305AAE',
-      bgColor: '#E2EAFA',
-    },
+    hashtag: [
+      {
+        label: '#hashtag',
+        color: '#305AAE',
+        bgColor: '#E2EAFA',
+      },
+    ],
     description: 'Malesuada elit',
     alert_type: {
       label: 'Email',

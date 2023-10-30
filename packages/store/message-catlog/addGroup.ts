@@ -64,7 +64,7 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
         queryFn: async () => {
           const { data } = await httpRequest(
             'post',
-            `${envConfig.api_url}/message_groups/display_message_group`,
+            `${envConfig.message_api_url}/message_groups/display_message_group`,
             {
               offset: groupState?.offset,
               limit: groupState?.limit,
@@ -101,7 +101,7 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
         queryFn: async () => {
           const { data } = await httpRequest(
             'post',
-            `${envConfig.api_url}/message_groups/add_message_group`,
+            `${envConfig.message_api_url}/message_groups/add_message_group`,
             {
               title: addMessage?.addTitle,
               description: addMessage?.addDescription,
@@ -129,7 +129,7 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
       set({ loading: true });
       const response = await httpRequest(
         'put',
-        `${envConfig.api_url}/message_groups/edit_message_group`,
+        `${envConfig.message_api_url}/message_groups/edit_message_group`,
         {
           id: payload?.group_id,
           title: payload?.addTitle,
@@ -157,7 +157,7 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
       set({ loading: true });
       const response = await httpRequest(
         'put',
-        `${envConfig.api_url}/message_groups/delete_message_group`,
+        `${envConfig.message_api_url}/message_groups/delete_message_group`,
         {
           id: id,
         },
@@ -191,7 +191,7 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
         queryFn: async () => {
           const { data } = await httpRequest(
             'post',
-            `${envConfig.api_url}/message_groups/display_all_message_from_grp_by_id`,
+            `${envConfig.message_api_url}/message_groups/display_all_message_from_grp_by_id`,
             {
               id: id,
             },

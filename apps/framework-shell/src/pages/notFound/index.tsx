@@ -2,7 +2,6 @@ import { Box, Typography } from '@mui/material';
 
 function NotFound() {
   return (
-    // <ClinicalLayout>
     <Box
       sx={{
         display: 'grid',
@@ -20,7 +19,6 @@ function NotFound() {
         </Typography>
       </Box>
     </Box>
-    // </ClinicalLayout>
   );
 }
 

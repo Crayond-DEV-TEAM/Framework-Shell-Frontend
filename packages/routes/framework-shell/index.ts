@@ -1,14 +1,16 @@
 export const webRoutes = {
-  login: '/login',
   root: '/',
-  resetPassword: '/reset',
+  login: '/login',
   signup: '/signup',
   forgotpassword: '/forgotpassword',
-  //access(IDM pro)
-  admin: '/admin',
+  resetPassword: '/reset',
+
+  // Landing page
   superAdmin: '/superAdmin',
+  admin: '/admin',
   user: '/user',
-  //alertshub
+  
+  // alertshub
   smallChartCard: '/smallChartCard',
   totalVendors: '/totalVendors',
   apiDocumentation: '/apidocumentation',
@@ -18,12 +20,15 @@ export const webRoutes = {
   totalUsers: '/totalUsers',
   alertRule: '/alertrule',
   dummyPage: '/dummypage',
-  //messageCatlogue
+
+  // messageCatlogue
   messagegroup: '/messagegroup',
   languageConfig: '/languageconfig',
-  //idm
+  
+  // idm
   userManagment: '/userManagment',
-  //planAndSubscription
+  
+  // planAndSubscription
   home: '/customer',
   plan: '/plan',
   createplan: '/createplan',

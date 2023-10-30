@@ -29,7 +29,7 @@ export function Greeting(props: GreetingProps): JSX.Element {
   } = props;
 
   const user = useUser((state) => state.user);
-  
+
   return (
     <Box
       sx={[
@@ -41,10 +41,12 @@ export function Greeting(props: GreetingProps): JSX.Element {
       className={`${className}`}
       {...rest}
     >
-      <Typography sx={{ fontWeight: 600 }}>
+      <Typography sx={{ fontWeight: 600, fontSize: '22px' }}>
         Welcome, <>{user?.firstName ?? 'User'}</>!
       </Typography>
-      <Typography sx={{ fontStyle: 'italic' }}>Select any services from the sidebar to open</Typography>
+      <Typography sx={{ fontStyle: 'italic', fontSize: '18px' }}>
+        Select any services from the sidebar to open
+      </Typography>
     </Box>
   );
 }

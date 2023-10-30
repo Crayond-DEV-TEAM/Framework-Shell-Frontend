@@ -67,7 +67,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     debugger;
     // getMenu();
     getSideMenusFromProject(id);
-    navigate(webRoutes.languageConfig);
+    navigate(webRoutes.root);
   };
   const handleDrawerClose = () => {
     setOpen(false);

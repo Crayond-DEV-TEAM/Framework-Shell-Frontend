@@ -5,6 +5,9 @@ interface GreetingStyleProps {
 }
 
 export const greetingStyles: GreetingStyleProps = {
-  rootSx: {},
+  rootSx: {
+   margin:' 18% auto',
+    width: '40%',
+  },
   childrenSx: {},
 };

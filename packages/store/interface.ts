@@ -128,7 +128,7 @@ export interface Menu {
   childrens?: Menu[];
 }
 export interface MenusProps {
-  sideMenus?: Menu[];
+  sideMenus?: [];
   onLinkClick: (data: Menu) => boolean;
   loading: boolean;
   error: boolean;

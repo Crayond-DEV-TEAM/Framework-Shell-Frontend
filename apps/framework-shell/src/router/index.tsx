@@ -13,7 +13,7 @@ import { loginRoutes, userRoutes } from './frameworkShell';
 // App Routes
 import { messageCatalogueRoutes } from './messageCatalogue';
 import { idmRoutes } from './userManagement';
-import { alertsHubRoutes } from './alertsHub'
+import { alertsHubRoutes } from './alertsHub';
 
 const router = createBrowserRouter([
   ...loginRoutes,

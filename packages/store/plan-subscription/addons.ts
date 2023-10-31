@@ -1,5 +1,5 @@
 import { envConfig } from '@core/envconfig';
-import { httpRequest } from '@core/utils';
+import { convertKeysToCamelCase, convertKeysToSnakeCase, httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { AddOnsInterface } from '../interface';
 import { permission } from '../../ui/components/addpermission/utils';
@@ -40,7 +40,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
       payload.is_active = true;
     }
 
-    httpRequest('post', `${envConfig.api_url}/addons`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/pasm/addon/get`, convertKeysToCamelCase(payload), true)
       .then((response) => {
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
@@ -81,7 +81,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
       feature_group_id: (createEditAddOns.featuregroup as { id: string }).id,
     };
 
-    httpRequest('post', `${envConfig.api_url}/addons/create`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/pasm/addon/create`, convertKeysToCamelCase(payload), true)
       .then((response) => {
         enqueueSnackbar('Add-On Created Succesfully!', { variant: 'success' });
       })
@@ -110,7 +110,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
       addon_id: createEditAddOns.id,
     };
 
-    httpRequest('put', `${envConfig.api_url}/addons`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/pasm/addon/update`, convertKeysToCamelCase(payload), true)
       .then((response) => {
         enqueueSnackbar('Add-On Edited Succesfully!', { variant: 'success' });
       })
@@ -130,7 +130,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
     const payload = {
       addon_id: id,
     };
-    httpRequest('delete', `${envConfig.api_url}/addons`, payload, true)
+    httpRequest('delete', `${envConfig.api_url}/pasm/addon/delete`, convertKeysToCamelCase(payload), true)
       .then((response) => {
         enqueueSnackbar('Add-On Deleted Succesfully!', { variant: 'success' });
         // set({ AddOnsList: response.data.data });
@@ -152,7 +152,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
       is_active: status,
     };
 
-    httpRequest('put', `${envConfig.api_url}/addons`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/pasm/addon/update`, convertKeysToCamelCase(payload), true)
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });
       })

@@ -41,7 +41,7 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
       payload.is_unmapped = false;
     }
 
-    httpRequest('post', `${envConfig.api_url}/features`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/pasm/feature/get`, payload, true)
       .then((response) => {
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {

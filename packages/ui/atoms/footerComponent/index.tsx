@@ -9,7 +9,7 @@ import { CustomSwitches } from '..';
 export interface FooterComponentProps {
   className?: string;
   check?: boolean;
-  checked?: any;
+  checked?: boolean;
   loading?: boolean;
   SwitchChange?: (value: any) => void;
   onSave?: () => void;
@@ -29,7 +29,7 @@ export const FooterComponent = forwardRef((props: FooterComponentProps, ref: Rea
     className = '',
     sx = {},
     check = false,
-    checked = true,
+    checked,
     loading = false,
     SwitchChange = () => false,
     onSave = () => false,
@@ -44,6 +44,9 @@ export const FooterComponent = forwardRef((props: FooterComponentProps, ref: Rea
     ...rest
   } = props;
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
+
+  console.log('checkedcheckedchecked', checked);
+
   return (
     <Box
       sx={[

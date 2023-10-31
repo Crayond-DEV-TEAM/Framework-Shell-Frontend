@@ -1,45 +1,39 @@
-import { TabsValueCard } from "@core/ui/components/tabsValueCard";
+import { TabsValueCard } from '@core/ui/components/tabsValueCard';
 import type { SxProps, Theme } from '@mui/material';
-import { Box, Grid, Typography } from "@mui/material";
-import { forwardRef, } from 'react';
-import { tabsCardStyle } from "./style";
-
+import { Box, Grid, Typography } from '@mui/material';
+import { forwardRef } from 'react';
+import { tabsCardStyle } from './style';
 
 export interface TabsCardProps {
   data?: any;
   sx?: SxProps<Theme>;
 }
 
+// eslint-disable-next-line react/display-name
 export const TabsCard = forwardRef((props: TabsCardProps): JSX.Element => {
-  const { data } = props
+  const { data } = props;
 
   return (
-    <Grid container>
+    <Grid container sx={{ rowGap: '25px' }}>
       {data?.map((val: any, index: any) => {
         return (
           <Grid key={index} item xs={4} sx={tabsCardStyle.boxCard}>
             <Box sx={tabsCardStyle.header}>
               <span>{val?.icon}</span>
-              <Typography>
-                {val?.header}
-              </Typography>
+              <Typography sx={{ fontSize: { xs: '10px', md: '16px' } }}>{val?.header}</Typography>
             </Box>
             <Grid container spacing={1}>
-              {
-                val?.cardDetails.map((ele: any, index: any) => {
-                  return (
-                    <Grid key={index} item xs={3}>
-                      <TabsValueCard data={ele} />
-                    </Grid>
-                  )
-                })
-              }
+              {val?.cardDetails.map((ele: any, index: any) => {
+                return (
+                  <Grid key={index} item xs={12} sm={6} md={3} lg={3}>
+                    <TabsValueCard data={ele} />
+                  </Grid>
+                );
+              })}
             </Grid>
           </Grid>
-        )
+        );
       })}
     </Grid>
   );
 });
-
-

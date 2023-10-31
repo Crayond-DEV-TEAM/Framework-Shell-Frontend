@@ -49,7 +49,7 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
   const [adddOnList, setAddOnList] = useState([]);
   const [planCard, setPlanCard] = useState([{}]);
   const handleSetupFunc = (value: any) => {
-    debugger;
+    // debugger;
     handleChangeEvent('plan_id', value);
     const BillingDetails = value?.billing_period;
     const AddonOption = value?.plan_add_on_mappings;

@@ -45,7 +45,6 @@ export const useAdmin = create<AdminInterface>((set, get) => ({
 
     httpRequest('post', `${envConfig.api_url}/projects/get`, payload, true)
       .then((response) => {
-        // debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
@@ -90,7 +89,6 @@ export const useAdmin = create<AdminInterface>((set, get) => ({
       users: createEditAdmin.services.map((x: any) => x?.id),
       is_active: true,
     };
-    debugger;
     httpRequest('post', `${envConfig.api_url}/projects`, payload, true)
       .then((response) => {
         enqueueSnackbar('Permission added Succesfully!', { variant: 'success' });

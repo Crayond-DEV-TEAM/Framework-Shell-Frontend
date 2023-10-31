@@ -14,6 +14,7 @@ export interface DialogContentProps {
   tabs?: any;
   newValue?: any;
   onChange?: any;
+  newAlertRuleCode?: string;
   sx?: SxProps<Theme>;
 }
 
@@ -29,7 +30,8 @@ export function DialogContent(props: DialogContentProps): JSX.Element {
             <Input
               header="Alert Rule Code"
               placeholder="Add Alert Rule Code"
-              value={props?.data?.alert_code}
+              value={props?.data?.id ? props.data?.alert_code : props.newAlertRuleCode}
+              isReadOnly={props.newAlertRuleCode || props.data?.alert_code ? true : false}
               onChange={(value) => props?.updateState('alert_code', value.target.value)}
             />
           </Box>
@@ -113,6 +115,36 @@ export function DialogContent(props: DialogContentProps): JSX.Element {
                   />
                 }
               />
+              <FormControlLabel
+                label="WhatsApp"
+                control={
+                  <CheckBox
+                    header="Select Rule Type"
+                    checked={props?.data?.is_whatsApp}
+                    onChange={(value) => props?.updateState('is_whatsApp', value.target.checked)}
+                  />
+                }
+              />
+              <FormControlLabel
+                label="Slack"
+                control={
+                  <CheckBox
+                    header="Select Rule Type"
+                    checked={props?.data?.is_slack}
+                    onChange={(value) => props?.updateState('is_slack', value.target.checked)}
+                  />
+                }
+              />
+              <FormControlLabel
+                label="InApp"
+                control={
+                  <CheckBox
+                    header="Select Rule Type"
+                    checked={props?.data?.is_inApp}
+                    onChange={(value) => props?.updateState('is_inApp', value.target.checked)}
+                  />
+                }
+              />
             </Box>
           </Box>
           {props?.data?.is_push && (
@@ -172,6 +204,70 @@ export function DialogContent(props: DialogContentProps): JSX.Element {
                   placeholder="Add SMS Body"
                   value={props?.data?.SMS_body}
                   onChange={(value) => props?.updateState('SMS_body', value.target.value)}
+                />
+              </Box>
+            </Box>
+          )}
+
+          {/* NEW */}
+
+          {props?.data?.is_whatsApp && (
+            <Box sx={dialogContent_style.innerBox}>
+              <Typography sx={dialogContent_style.pushDetails}>WhatsApp Details</Typography>
+              <Box sx={dialogContent_style.field}>
+                <Input
+                  header="Whatsapp Template Name"
+                  placeholder="Add Whatsapp Template Name"
+                  value={props?.data?.whatsApp_template_name}
+                  onChange={(value) => props?.updateState('whatsApp_template_name', value.target.value)}
+                />
+                <Box sx={dialogContent_style.divide}>
+                  <Typography sx={dialogContent_style.divideText}>OR</Typography>
+                </Box>
+                <Input
+                  isMulti
+                  rowMax={5}
+                  header="WhatsApp Body"
+                  placeholder="Add WhatsApp Body"
+                  value={props?.data?.whatsApp_body}
+                  onChange={(value) => props?.updateState('whatsApp_body', value.target.value)}
+                />
+              </Box>
+            </Box>
+          )}
+          {props?.data?.is_slack && (
+            <Box sx={dialogContent_style.innerBox}>
+              <Typography sx={dialogContent_style.pushDetails}>Slack Details</Typography>
+              <Box sx={dialogContent_style.field}>
+                <Input
+                  isMulti
+                  rowMax={5}
+                  header="Slack Body"
+                  placeholder="Add Slack Body"
+                  value={props?.data?.slack_body}
+                  onChange={(value) => props?.updateState('slack_body', value.target.value)}
+                />
+              </Box>
+            </Box>
+          )}
+          {props?.data?.is_inApp && (
+            <Box sx={dialogContent_style.innerBox}>
+              <Typography sx={dialogContent_style.pushDetails}>InApp Details</Typography>
+              <Box sx={dialogContent_style.field}>
+                <Input
+                  textFieldStyle={dialogContent_style.textFieldBox}
+                  header="In App Title"
+                  placeholder="Add In App Title"
+                  value={props?.data?.in_app_title}
+                  onChange={(value) => props?.updateState('in_app_title', value.target.value)}
+                />
+                <Input
+                  isMulti
+                  rowMax={5}
+                  header="InApp Body"
+                  placeholder="Add InApp Body"
+                  value={props?.data?.inApp_body}
+                  onChange={(value) => props?.updateState('inApp_body', value.target.value)}
                 />
               </Box>
             </Box>

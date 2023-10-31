@@ -3,7 +3,7 @@ import { Popover, SxProps, Theme } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Box, Typography, IconButton } from '@mui/material';
-import { forwardRef, useState } from 'react';
+import { Children, forwardRef, useState } from 'react';
 import React, { useRef } from 'react';
 import { filterStyle } from './style';
 import { Button } from '@atoms/button';
@@ -21,9 +21,15 @@ export interface FilterProps {
   title?: string;
   SubTitle?: string;
   footer?: Node;
-  onChange?: () => void;
+  onChange?: (
+    filterName: 'hashtagFilter' | 'alertTypeFilter' | 'statusFilter' | 'dateFilter',
+    id: number,
+    value: any,
+  ) => void;
   onApply?: () => void;
-  handleChipDelete?: (chip: string, i: any, parentIndex: any) => void;
+  clearfilter?: () => void;
+  clearSelectedFilterByKey?: (key: string | undefined) => void;
+  handleChipDelete?: (chip: string, i: any, parentIndex: any, key: string) => void;
   filterContent?: any;
   sx?: SxProps<Theme>;
 }
@@ -37,15 +43,18 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
     SubTitle = 'severity',
     onChange = () => null,
     onApply = () => false,
+    clearfilter = () => false,
+    clearSelectedFilterByKey = () => false,
     handleChipDelete = () => null,
     filterContent,
     ...rest
   } = props;
-  console.log(filterContent, 'filterContentfilterContentfilterContent');
-  const { clearfilter } = useMessageGroupDetails();
+
+  // const { clearfilter } = useMessageGroupDetails();
   // General Hooks
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [sideContent, setSideContent] = useState<any>(null);
+  // const [sideContent, setSideContent] = useState<any>(null);
+  const [showFilterCircle, setShowFilterCircle] = useState(false);
   const [clear, setClear] = useState(false);
   const [isFilter, setIsFilter] = useState(null);
   const [state, setState] = useState<any>({
@@ -56,15 +65,16 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
   const handleClick = () => {
     setOpen(true);
   };
-  const handleClosed = () => {
+
+  const handleClose = () => {
     setOpen(false);
   };
 
   const onApplyBtn = () => {
     onApply();
-    setSideContent(null);
     setAnchorEl(null);
-    handleClosed();
+    handleClose();
+    setShowFilterCircle(true);
   };
 
   //FIlter Function
@@ -73,20 +83,19 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
       state.index = null;
       state.editData = [];
       setState({ ...state });
-      setSideContent(null);
       return;
     }
     state.index = i;
     state.editData = data?.children ?? [];
     setState({ ...state });
-    setSideContent(event.currentTarget);
     setIsFilter(event.currentTarget);
     setClear(true);
   };
 
   // HandleCLose
-  const handleClose = () => {
-    setSideContent(null);
+  const handleCancel = () => {
+    setShowFilterCircle(false);
+    clearfilter();
     setOpen(false);
   };
 
@@ -95,10 +104,21 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
     setAnchorEl(null);
   };
 
-  // on Clear
+  // Clear all the filters
   const onClear = () => {
     setClear(false);
     clearfilter();
+  };
+
+  // Clear specific section filters by key
+  const onClearByKey = (val: any) => {
+    if (val) {
+      val.children.forEach((option: any, index: number) => {
+        if (option?.component === 'checkbox' && option?.value) {
+          onChange(val?.name, index, false);
+        }
+      });
+    }
   };
 
   // RenderComponents
@@ -108,10 +128,15 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
     parentIndex: number,
     childrenIndex: number,
     option: any,
+    parentName: 'hashtagFilter' | 'alertTypeFilter' | 'statusFilter' | 'dateFilter',
     handleChange: any,
   ) => {
-    const handleChangeFunc = (label: string, value: any, isParent: any, parentIndex: any, childrenIndex: any) => {
-      handleChange(label, value, isParent, parentIndex, childrenIndex);
+    const handleChangeFunc = (
+      filterName: 'hashtagFilter' | 'alertTypeFilter' | 'statusFilter' | 'dateFilter',
+      id: number,
+      value: any,
+    ) => {
+      handleChange(filterName, id, value);
     };
     if (type === 'checkbox') {
       return (
@@ -119,7 +144,7 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
           <CheckBox
             checkStyle={filterStyle.checkBoxSx}
             checked={option?.value}
-            onChange={(e) => handleChangeFunc(option?.label, e.target.checked, isParent, parentIndex, childrenIndex)}
+            onChange={(e) => handleChangeFunc(parentName, childrenIndex, e.target.checked)}
             checkSecondStyle={filterStyle.checkSecondBoxSx}
           />
           <Typography
@@ -145,7 +170,7 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
           <CheckBox
             checkStyle={{ ...filterStyle.checkBoxSx, borderRadius: '50px' }}
             checked={option?.value}
-            onChange={(e) => handleChangeFunc(option?.label, e.target.checked, isParent, parentIndex, childrenIndex)}
+            onChange={(e) => handleChangeFunc(parentName, childrenIndex, e.target.checked)}
             checkSecondStyle={filterStyle.checkSecondBoxSx}
           />
         </Box>
@@ -170,7 +195,7 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
                 textFieldStyle={filterStyle.dateInputSx}
                 value={option?.value ?? ''}
                 id="username"
-                onChange={(e) => handleChangeFunc(option?.label, e.target.value, isParent, parentIndex, childrenIndex)}
+                onChange={(e) => handleChangeFunc(parentName, childrenIndex, e.target.value)}
               />
             </Box>
           </Box>
@@ -182,13 +207,15 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
           <Input
             placeholder="search"
             value={option?.value ?? ''}
-            onChange={(e) => handleChangeFunc(option?.label, e.target.value, isParent, parentIndex, childrenIndex)}
+            onChange={(e) => handleChangeFunc(parentName, childrenIndex, e.target.value)}
             startAdornment={<SearchIcon sx={{ fontSize: '16px', color: '#818181' }} />}
           />
         </Box>
       );
     }
   };
+
+  console.log('filterContent', filterContent);
 
   return (
     <Box
@@ -203,6 +230,7 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
     >
       <IconButton sx={filterStyle.filterSx} onClick={handleClick}>
         <FilterIcon rootStyle={{ color: '#5A5A5A' }} />
+        {showFilterCircle && <Box component="span" sx={filterStyle.filterCircleSx}></Box>}
       </IconButton>
 
       <Drawer
@@ -230,7 +258,7 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
                     </Button>
                   )}
                   <Box sx={filterStyle.subFooterSx}>
-                    <Button buttonStyle={filterStyle.footerCancelBtn} onClick={handleClose}>
+                    <Button buttonStyle={filterStyle.footerCancelBtn} onClick={handleCancel}>
                       Cancel
                     </Button>
                     <Button buttonStyle={filterStyle.footerBtn} onClick={onApplyBtn}>
@@ -249,6 +277,7 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
               return (
                 <Box key={index}>
                   <Box sx={filterStyle.totalCardSx}>
+                    {/* Footer section */}
                     <Box
                       key={index}
                       sx={filterStyle.CardSx}
@@ -256,7 +285,7 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
                         val?.children?.length > 0 ? onFilterFunc(e, index, val) : onFilterFunc(null, 0, null)
                       }
                     >
-                      <Typography>{val?.name}</Typography>
+                      <Typography>{val?.key}</Typography>
                       {index === state?.index ? (
                         <IconButton disableRipple sx={{ p: 0 }}>
                           <ArrowDown rootStyle={{ mt: '6px' }} />
@@ -268,7 +297,8 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
                       )}
                     </Box>
 
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    {/* Selected chip section */}
+                    <Box>
                       {val?.children?.length > 0 &&
                         val?.children?.map((chip: any, i: any) => {
                           if (chip.component === 'checkbox' && chip?.value) {
@@ -280,12 +310,14 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
                                   sx={{ ml: '5px', mb: 1, borderRadius: '6px' }}
                                   label={chip?.label}
                                   // onClick={handleClick}
-                                  onDelete={() => handleChipDelete(chip?.label, i, state.index)}
+                                  onDelete={() => handleChipDelete(chip?.label, i, state.index, val?.key)}
                                 />
                               </>
                             );
                           }
                         })}
+
+                      {/* Clear the selected all chips */}
                       {index === 0 && val?.children?.some((v: any) => v?.value === true) && (
                         <Box
                           sx={{
@@ -297,14 +329,15 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
                             ml: 1,
                             mb: 1,
                           }}
-                          onClick={onClear}
+                          onClick={() => onClearByKey(val)}
                         >
                           Clear All
                         </Box>
                       )}
                     </Box>
+
+                    {/* Component rendering */}
                     {index === state?.index &&
-                      state?.editData?.length > 0 &&
                       (isFilter ? (
                         <Box sx={filterStyle.totalSx}>
                           {state?.editData?.map((option: any, index: any) => (
@@ -315,6 +348,7 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
                                 state.index,
                                 index,
                                 option,
+                                val?.name,
                                 onChange,
                               )}
                             </Box>

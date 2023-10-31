@@ -20,6 +20,7 @@ export interface DropDownProps {
   header?: string;
   onClick?: any;
   onSelect?: any;
+  isrequired?: boolean;
   // IconComponent: NodeJS;
 }
 
@@ -36,6 +37,7 @@ export const DropDown = forwardRef((props: DropDownProps, ref: React.Ref<HTMLEle
     onchange = () => false,
     onClick = () => false,
     onSelect = () => false,
+    isrequired = false,
     header = '',
     ...rest
   } = props;

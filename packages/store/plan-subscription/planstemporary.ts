@@ -17,7 +17,6 @@ export const usePlan = create<PlanInterface>((set, get) => ({
     httpRequest('post', `${envConfig.api_url}/plans`, payload, true)
       .then((response) => {
         const dataTable: any = [];
-        debugger;
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
             (tableData: any, i: any) =>

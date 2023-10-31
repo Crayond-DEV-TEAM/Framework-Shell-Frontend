@@ -6,15 +6,16 @@ import SmallSmsIcon from '@core/ui/assets/smallSmsIcon';
 import { DialogDrawer } from '@core/ui/atoms/dialogDrawer';
 import { DialogContent } from '@core/ui/components/dialogContent';
 import { TableHeader } from '@core/ui/components/tableHeader';
-import { Box, Grid } from '@mui/material';
+import { Box, CircularProgress, Grid, Switch } from '@mui/material';
 import { CommonTable } from 'crayond-components-library-1';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // import { Popup } from "@core/ui/components/popup";
 import type { SxProps, Theme } from '@mui/material';
 import { alertRuleStyles } from './style';
 import { FooterComponent } from '@atoms/footerComponent';
 import { useAlertRules } from '@core/store';
 import { dummyTableData } from '@core/store/utils';
+import { styled } from '@mui/material/styles';
 export interface AlertRuleProps {
   data?: any;
   id?: any;
@@ -23,19 +24,88 @@ export interface AlertRuleProps {
   handleSubmit?: any;
 }
 export function AlertRules(props: AlertRuleProps): JSX.Element {
+  const [newAlertRuleCode, setNewAlertRuleCode] = useState<any>();
+  const [searchTerm, setSearchTerm] = React.useState('');
+
   // store Data
-  const { getAlertTable, setaddAlertRule, addAlertRules, alertsList } = useAlertRules();
+  const {
+    getAlertTable,
+    getHashtagData,
+    setaddAlertRule,
+    addAlertRules,
+    alertsList,
+    editAlertRule,
+    addAlertRule,
+    deleteAlertRule,
+    clearState,
+    editFetching,
+    hashtagFilter,
+    alertTypeFilter,
+    statusFilter,
+    dateFilter,
+    handleChipDelete,
+    onApply,
+    setfilter,
+    clearfilter,
+    clearSelectedFilterByKey,
+  } = useAlertRules();
 
-  console.log(alertsList, 'alertsList');
+  const alertRuleData = alertsList.filter((x: any) =>
+    x.alert_rule_code?.toLowerCase()?.includes(searchTerm.toLowerCase()),
+  );
 
-  const updateState = (key: string, value: string) => setaddAlertRule({ key, value });
+  const [open, setOpen] = React.useState(false);
+
+  console.log('alertRuleData', alertRuleData);
+
+  const [switchList, setSwitchList] = useState<any>([]);
+
+  const filterContent = [
+    {
+      name: 'hashtagFilter',
+      children: hashtagFilter,
+      key: 'Hashtags',
+    },
+    {
+      name: 'alertTypeFilter',
+      children: alertTypeFilter,
+      key: 'Alert Type',
+    },
+    {
+      name: 'statusFilter',
+      children: statusFilter,
+      key: 'Status',
+    },
+    {
+      name: 'dateFilter',
+      children: dateFilter,
+      key: 'Date',
+    },
+  ];
+
+  const handleFilterChange = (
+    filterName: 'hashtagFilter' | 'alertTypeFilter' | 'statusFilter' | 'dateFilter',
+    id: number,
+    value: any,
+  ) => {
+    setfilter(filterName, id, value);
+  };
+
+  // Function to generate a random 10-digit code
+  const generateRandomCode = (key: any) => {
+    if (key) {
+      const code = Math.floor(1000000000 + Math.random() * 9000000000).toString();
+      setNewAlertRuleCode(code);
+    }
+  };
+
+  const updateState = (key: string, value: string) => {
+    setaddAlertRule({ key, value });
+  };
 
   const { data } = props;
-  const [open, setOpen] = React.useState(false);
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const [switchList, setSwitchList] = React.useState([1, 4]);
 
-  const handleSwitch = (id: any) => {
+  const handleSwitch = (id: string, data: any, e: any) => {
     if (!switchList.includes(id)) {
       setSwitchList([...switchList, id]);
     } else {
@@ -46,20 +116,17 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
       }
     }
   };
-  const alertRuleData = dummyTableData?.filter(
-    (x) => typeof x.alert_rule_code === 'string' && x.alert_rule_code.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
-  const editHandel = () => {};
 
-  const deleteHandel = () => {};
+  const editHandel = (e: string, val: any) => {
+    editAlertRule(val);
+    setOpen(true);
+  };
+
+  const deleteHandel = (e: string, val: any) => {
+    deleteAlertRule(val);
+  };
 
   const Header = [
-    // {
-    //   id: 'no',
-    //   align: 'left',
-    //   disablePadding: false,
-    //   label: 'Sl no',
-    // },
     {
       id: 'alert_rule_code',
       align: 'left',
@@ -67,13 +134,13 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
       label: 'Alert Rule Code',
     },
     {
-      id: 'reference_id',
+      id: 'referenceId',
       align: 'left',
       disablePadding: false,
       label: 'Reference ID',
     },
     {
-      id: 'hashtag',
+      id: 'hashtags',
       align: 'left',
       disablePadding: false,
       label: 'Hashtag',
@@ -85,13 +152,13 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
       label: 'Description',
     },
     {
-      id: 'alert_type',
+      id: 'alertType',
       align: 'left',
       disablePadding: false,
       label: 'Alert Type',
     },
     {
-      id: 'status',
+      id: 'is_active',
       align: 'left',
       disablePadding: false,
       label: 'Status',
@@ -105,16 +172,15 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
   ];
 
   const tableData = [
-    // { type: ['INCREMENT'], name: 'sl_no' },
     { type: ['TEXT'], name: 'alert_rule_code' },
-    { type: ['TEXT'], name: 'reference_id' },
-    { type: ['LABEL'], name: 'hashtag' },
+    { type: ['TEXT'], name: 'referenceId' },
+    { type: ['LABEL'], name: 'hashtags' },
     { type: ['TEXT'], name: 'description' },
-    { type: ['ICON_WITH_LABEL'], name: 'alert_type' },
+    { type: ['ICON_WITH_LABEL'], name: 'alertType' },
     {
       type: ['SWITCH'],
-      name: 'status',
-      switchText: [{ lable_1: 'No', lable_2: 'Active' }],
+      name: 'is_active',
+      switchText: [{ label_1: 'In Active', label_2: 'Active' }],
     },
     {
       type: ['ACTION'],
@@ -134,20 +200,29 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
 
   const handleClick = () => {
     setOpen(true);
+    generateRandomCode('add');
   };
 
   const handleClose = () => {
     setOpen(false);
+    clearState();
   };
 
   const handleSubmit = () => {
-    // addAlertRule();
+    addAlertRule(newAlertRuleCode);
     setOpen(false);
+    clearState();
   };
 
-  // useEffect(() => {
-  //   getAlertTable();
-  // });
+  useEffect(() => {
+    getAlertTable();
+    getHashtagData();
+  }, []);
+
+  useEffect(() => {
+    const isActiveData = alertsList?.filter((alert) => alert?.is_active).map(({ id }) => id);
+    setSwitchList(isActiveData);
+  }, [alertsList]);
 
   return (
     <Box>
@@ -157,7 +232,8 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
             <CommonTable
               Header={Header}
               dataList={alertRuleData}
-              // tableData={tableData}
+              tableData={tableData}
+              switchList={switchList}
               handleSwitch={handleSwitch}
               headerOptions={{
                 fontSize: '14px',
@@ -177,7 +253,6 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
                 // bgColor: '#fff',
                 borderBottom: '0px',
               }}
-              switchList={switchList}
               // tableMinWidth={'1200px'}
               // tableMinHeight={'539px'}
               paddingAll={'0px'}
@@ -190,38 +265,55 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
                     tableHeader="Alert Rule"
                     buttonName="Add New Rule"
                     placeholder="Search by rule code"
-                    isFilterRequired
+                    isFilterRequired={true}
+                    filterContent={filterContent}
+                    filterChange={handleFilterChange}
+                    handleChipDelete={handleChipDelete}
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
                     isBtnRequired
                     handleOpen={handleClick}
+                    clearfilter={clearfilter}
+                    clearSelectedFilterByKey={clearSelectedFilterByKey}
+                    onApply={onApply}
                   />
                 ),
               }}
             />
           </Box>
           <Box>
-            <DialogDrawer
-              dialogRootStyle={{
-                width: '832px',
-                height: '550px',
-              }}
-              title="Add New Rule"
-              isDialogOpened={open}
-              handleCloseDialog={handleClose}
-              // handleSubmit={handleSubmit}
-              fullWidth={false}
-              fullScreen={false}
-              Bodycomponent={<DialogContent data={addAlertRules} updateState={updateState} />}
-              Footercomponent={
-                <FooterComponent
-                  check
-                  SwitchChange={(e: any) => updateState('is_status', e.target.checked)}
-                  onSave={handleSubmit}
-                  onCancel={handleClose}
-                />
-              }
-            />
+            {editFetching ? (
+              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                <CircularProgress />
+              </Box>
+            ) : (
+              <DialogDrawer
+                dialogRootStyle={{
+                  width: '1200px',
+                  height: '550px',
+                }}
+                title="Add New Rule"
+                isDialogOpened={open}
+                handleCloseDialog={handleClose}
+                // handleSubmit={handleSubmit}
+                fullWidth={false}
+                fullScreen={false}
+                Bodycomponent={
+                  <>
+                    <DialogContent data={addAlertRules} updateState={updateState} newAlertRuleCode={newAlertRuleCode} />
+                  </>
+                }
+                Footercomponent={
+                  <FooterComponent
+                    checked={addAlertRules?.is_active}
+                    check
+                    SwitchChange={(e: any) => updateState('is_active', e.target.checked)}
+                    onSave={handleSubmit}
+                    onCancel={handleClose}
+                  />
+                }
+              />
+            )}
           </Box>
         </Grid>
       </Grid>

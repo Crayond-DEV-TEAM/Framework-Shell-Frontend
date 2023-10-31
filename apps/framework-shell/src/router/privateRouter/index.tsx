@@ -26,7 +26,6 @@ function PrivateRouter(props: { children: JSX.Element }) {
     const authToken = localStorage.getItem(localStorageKeys?.authToken);
 
     if (authToken) {
-      debugger;
       // routeTo(useRouting, webRoutes.admin);
       const redirectPath = searchParams.get('redirect_url');
       window.location.replace(appendToken(redirectPath ? redirectPath : envConfig.message_catalog_root, authToken));

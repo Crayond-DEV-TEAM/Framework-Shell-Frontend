@@ -210,7 +210,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     const { createEditSubscription, getSubscriptionList, clearAll } = get();
     const newAddOn = createEditSubscription.new_addon?.map((x) => x.add_on.id) || [];
     const oldAddOn = createEditSubscription.old_addon?.map((x) => x.add_on.id) || [];
-    debugger;
+    // debugger;
     const payload = {
       subscription_id: createEditSubscription.id,
       customer_id: createEditSubscription.customer_id,

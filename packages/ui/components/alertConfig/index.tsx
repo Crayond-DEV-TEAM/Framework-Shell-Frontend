@@ -4,8 +4,11 @@ import { SmsTab } from '@core/ui/components/smsTab';
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Stack, Typography } from '@mui/material';
 import { SubHeader } from '@components/subHeader';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useAlertConfig } from '@core/store';
 import { alertConfig_style } from './style';
+import { SlackTab } from '@components/slackTab';
+import { WhatsappTab } from '@components/whatsappTab';
 
 export interface AlertConfigProps {
   data?: any;
@@ -20,11 +23,21 @@ export interface AlertConfigProps {
 export function AlertConfig(props: AlertConfigProps): JSX.Element {
   const [index, setindex] = React.useState(0);
 
-  const alertConfigTab = ['Email', 'SMS', 'Push Notification'];
+  const { getEmailConfig, getPushConfig, getSmsConfig, getSlackConfig, getWhatsappConfig } = useAlertConfig();
+
+  const alertConfigTab = ['Email', 'SMS', 'Push Notification', 'Slack', 'Whatsapp'];
 
   const handleAlertTab = (i: any) => {
     setindex(i);
   };
+
+  useEffect(() => {
+    getEmailConfig();
+    getSmsConfig();
+    getPushConfig();
+    getSlackConfig();
+    getWhatsappConfig();
+  }, []);
 
   return (
     <Box sx={alertConfig_style.root}>
@@ -50,6 +63,8 @@ export function AlertConfig(props: AlertConfigProps): JSX.Element {
             {index === 0 && <EmailTab />}
             {index === 1 && <SmsTab />}
             {index === 2 && <PushNotification />}
+            {index === 3 && <SlackTab />}
+            {index === 4 && <WhatsappTab />}
           </Box>
         </Box>
       </Box>

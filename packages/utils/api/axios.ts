@@ -23,7 +23,11 @@ interface HttpRequestProps {
 
 export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, includeToken, config) => {
   const headers = {
-    ...(includeToken && { Authorization: `Bearer ${localStorage.getItem(localStorageKeys.authToken)}` }),
+    ...(includeToken && {
+      Authorization:
+        // `Bearer ${localStorage.getItem(localStorageKeys.authToken)}`
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIyMTU2ZWNmLWFiNTgtNGY0Zi1iYjljLWJjYTk0YzhmM2U3OCIsInByb2ZpbGVJZCI6IjI3YWQ2NTJmLTkxNDMtNGM1NC1hNWNkLTg1YmNkNDcwYjk2NyIsImlhdCI6MTY5ODY0NDE2NX0.B8dDou74V9Ey8HIi0SUJre3ehWAHcWI3z_2434S1HII',
+    }),
     ...(config?.headers ?? {}),
   };
 

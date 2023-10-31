@@ -7,79 +7,46 @@ import { Box, Grid, SxProps, Theme } from '@mui/material';
 import { CommonTable } from 'crayond-components-library-1';
 import React from 'react';
 import { smsTab_style } from './style';
+import { FooterComponent } from '@atoms/footerComponent';
+import { useAlertConfig } from '@core/store';
+import { enqueueSnackbar } from 'notistack';
 
 export function SmsTab(): JSX.Element {
   const [open, setOpen] = React.useState(false);
-  const [isSelectedAll, setIsSelectedAll] = React.useState(false);
-  const [selectedCheckbox, setSelectedCheckbox] = React.useState([1, 2]);
   const [switchList, setSwitchList] = React.useState([1, 4]);
-  const [headerSelect, setHederSelect] = React.useState('status');
-  const [headerCheckbox, setHederCheckbox] = React.useState(true);
-  const checkboxHandleChange = (data: any) => {
-    if (!selectedCheckbox.includes(data)) {
-      setSelectedCheckbox([...selectedCheckbox, data]);
-    } else {
-      const index = selectedCheckbox.indexOf(data);
-      if (index > -1) {
-        selectedCheckbox.splice(index, 1);
-        setSelectedCheckbox([...selectedCheckbox]);
-      }
-    }
-  };
-  const setHederSearch = (value: any) => {
-    console.log('🚀 ~ file: App.tsx:31 ~ setHederSearch ~ value:', value);
-  };
-  const SelectAll = (data: any, isRestSet: any) => {
-    if (!isRestSet) {
-      setSelectedCheckbox([...data]);
-      setIsSelectedAll(true);
-    } else {
-      setSelectedCheckbox([]);
-      setIsSelectedAll(false);
-    }
-  };
-  const handleSwitch = (id: any) => {
-    if (!switchList.includes(id)) {
-      setSwitchList([...switchList, id]);
-    } else {
-      const index = switchList.indexOf(id);
-      if (index > -1) {
-        switchList.splice(index, 1);
-        setSwitchList([...switchList]);
-      }
-    }
-  };
-  const downloadMethod = () => {
-    console.log('Download Method working!');
-  };
-  const fillerMethod = () => {
-    console.log('Filter Method working!');
-  };
-  const primaryBtnMethod = () => {
-    console.log('primary Btn Method working!');
-  };
-  const secondaryBtnMethod = () => {
-    console.log('secondary Btn Method working!');
-  };
+
+  const { smsConfiguration, smsList, editSmsConfig, addSmsConfig, clearSmsState, deleteSmsConfig } = useAlertConfig();
 
   const Header = [
-    // {
-    //     id: 'no',
-    //     align: 'left',
-    //     disablePadding: false,
-    //     label: 'Sl no',
-    // },
     {
-      id: 'provider',
+      id: 'identifier',
       align: 'left',
       disablePadding: false,
-      label: 'Provider',
+      label: 'Identifier',
     },
     {
-      id: 'api_key',
+      id: 'provider_api_key',
       align: 'left',
       disablePadding: false,
-      label: 'API Key',
+      label: 'Provider API Key',
+    },
+    {
+      id: 'provider_name',
+      align: 'left',
+      disablePadding: false,
+      label: 'Provider Name',
+    },
+    {
+      id: 'provider_sid',
+      align: 'left',
+      disablePadding: false,
+      label: 'Provider Sid',
+    },
+    {
+      id: 'sender_id',
+      align: 'left',
+      disablePadding: false,
+      label: 'Sender Id',
     },
     {
       id: 'action',
@@ -89,66 +56,21 @@ export function SmsTab(): JSX.Element {
     },
   ];
 
-  const dataList = [
-    {
-      id: 1,
-      provider: 'Eros aliquam eros',
-      api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 2,
-      provider: 'Eros aliquam eros',
-      api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 3,
-      provider: 'Eros aliquam eros',
-      api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 4,
-      provider: 'Eros aliquam eros',
-      api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 5,
-      provider: 'Eros aliquam eros',
-      api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 6,
-      provider: 'Eros aliquam eros',
-      api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 7,
-      provider: 'Eros aliquam eros',
-      api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 8,
-      provider: 'Eros aliquam eros',
-      api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 9,
-      provider: 'Eros aliquam eros',
-      api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 10,
-      provider: 'Eros aliquam eros',
-      api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-  ];
-  const editHandel = () => {};
+  const editHandel = (e: string, val: any) => {
+    editSmsConfig(val);
+    setOpen(true);
+  };
 
-  const deleteHandel = () => {};
+  const deleteHandel = (e: string, val: any) => {
+    deleteSmsConfig(val);
+  };
 
   const tableData = [
-    // { type: ['INCREMENT'], name: 'sl_no' },
-    { type: ['TEXT'], name: 'provider' },
-    { type: ['TEXT'], name: 'api_key' },
+    { type: ['TEXT'], name: 'identifier' },
+    { type: ['TEXT'], name: 'provider_api_key' },
+    { type: ['TEXT'], name: 'provider_name' },
+    { type: ['TEXT'], name: 'provider_sid' },
+    { type: ['TEXT'], name: 'sender_id' },
     {
       type: ['ACTION'],
       name: 'action',
@@ -166,11 +88,27 @@ export function SmsTab(): JSX.Element {
   ];
 
   const handleClose = () => {
+    clearSmsState();
     setOpen(false);
   };
 
   const handleSubmit = () => {
     setOpen(false);
+  };
+
+  const handleAdd = () => {
+    if (
+      smsConfiguration.identifier &&
+      smsConfiguration.provider_name &&
+      smsConfiguration.provider_sid &&
+      smsConfiguration.provider_api_key &&
+      smsConfiguration.sender_id
+    ) {
+      addSmsConfig();
+      setOpen(false);
+    } else {
+      enqueueSnackbar('Please fill in all required fields.', { variant: 'error' });
+    }
   };
 
   const handleClick = () => {
@@ -184,7 +122,7 @@ export function SmsTab(): JSX.Element {
           <Box sx={smsTab_style.commonTable}>
             <CommonTable
               Header={Header}
-              dataList={dataList}
+              dataList={smsList}
               tableData={tableData}
               headerOptions={{
                 fontSize: '14px',
@@ -219,7 +157,7 @@ export function SmsTab(): JSX.Element {
                     isBtnRequired={true}
                     isFilterRequired={false}
                     isSearchRequired={false}
-                    onClick={handleClick}
+                    handleOpen={handleClick}
                   />
                 ),
               }}
@@ -229,14 +167,19 @@ export function SmsTab(): JSX.Element {
       </Grid>
       <Box sx={smsTab_style.emailDialog}>
         <DialogDrawer
+          dialogRootStyle={{
+            width: '400px',
+          }}
+          fullWidth={false}
           title="Add SMS Details"
+          fullScreen={false}
+          check={false}
           isDialogOpened={open}
           handleClose={handleClose}
+          handleCloseDialog={handleClose}
           handleSubmit={handleSubmit}
           content={<SmsDialog />}
-          handleCloseDialog={function (): void {
-            throw new Error('Function not implemented.');
-          }}
+          Footercomponent={<FooterComponent saveText="Add" onCancel={handleClose} onSave={handleAdd} />}
         />
       </Box>
     </Box>

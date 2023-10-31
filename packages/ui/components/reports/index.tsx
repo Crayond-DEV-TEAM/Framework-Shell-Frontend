@@ -121,9 +121,13 @@ export function Reports(props: ReportsProps): JSX.Element {
     setChecked(event.target.checked);
   };
 
-  const editHandel = () => {};
+  const editHandel = () => {
+    console.log();
+  };
 
-  const deleteHandel = () => {};
+  const deleteHandel = () => {
+    console.log();
+  };
 
   const Header = [
     {
@@ -377,6 +381,11 @@ export function Reports(props: ReportsProps): JSX.Element {
                 color: '#818181',
                 bgColor: '#EAEAEA',
                 borderBottom: '0px',
+              }}
+              stickyOptions={{
+                stickyHeader: true,
+                stickyLeft: [],
+                stickyRight: ['action', 'status'],
               }}
               cellOptions={{
                 fontSize: '14px',

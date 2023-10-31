@@ -28,7 +28,6 @@ export const FacilityClone = (props: FacilityCloneProps): JSX.Element => {
     setisCheck(true);
   };
   const handleCheckChange = (e: any, type: string, data: any, index: any) => {
-    debugger;
     const value = data;
     setRepository(type, index, value);
     // console.log(data);

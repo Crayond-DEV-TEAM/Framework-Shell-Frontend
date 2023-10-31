@@ -1,10 +1,10 @@
 import { envConfig } from '@core/envconfig';
 import { httpRequest } from '@core/utils';
+import { enqueueSnackbar } from 'notistack';
 import { create } from 'zustand';
 import { FeatureInterface } from '../interface';
-import { permission } from '../../ui/components/addpermission/utils';
-import { enqueueSnackbar } from 'notistack';
 // import { tableJson } from '@components/feature/utils'
+import { convertKeysToCamelCase, convertKeysToSnakeCase } from '../../utils/helperFuctions';
 export const useFeature = create<FeatureInterface>((set, get) => ({
   FeatureList: [],
 
@@ -26,6 +26,7 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
   },
 
   getFeatureList: (data: any = { is_active: false }) => {
+    debugger;
     set({ fetching: true, errorOnFetching: false });
     const payload: any = {
       offset: 0,
@@ -41,7 +42,15 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
       payload.is_unmapped = false;
     }
 
-    httpRequest('post', `${envConfig.api_url}/features`, payload, true)
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/pasm/feature/get`,
+      convertKeysToCamelCase(payload),
+      true,
+      '',
+      undefined,
+      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+    )
       .then((response) => {
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
@@ -49,7 +58,7 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
             (tableData: any, i: any) =>
               dataTable.push({
                 name: tableData.name,
-                is_active: tableData.is_active,
+                is_active: tableData?.is_active ?? tableData?.isActive,
                 id: tableData.id,
               }),
             set({ FeatureList: dataTable }),
@@ -75,7 +84,7 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
       is_active: createEditFeature.is_active,
     };
 
-    httpRequest('post', `${envConfig.api_url}/features/create`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/pasm/feature/create`, convertKeysToCamelCase(payload), true)
       .then((response) => {
         enqueueSnackbar('Feature Created Succesfully!', { variant: 'success' });
       })
@@ -95,12 +104,12 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
     set({ editsave: true, errorOnFetching: false });
     const { createEditFeature, getFeatureList } = get();
     const payload = {
-      feature_id: createEditFeature.id,
+      featureId: createEditFeature.id,
       name: createEditFeature.name,
       is_active: createEditFeature.is_active,
     };
 
-    httpRequest('put', `${envConfig.api_url}/features`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/pasm/feature/update`, convertKeysToCamelCase(payload), true)
       .then((response) => {
         enqueueSnackbar('Feature Edited Succesfully!', { variant: 'success' });
       })
@@ -119,7 +128,7 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
     const payload = {
       feature_id: id,
     };
-    httpRequest('delete', `${envConfig.api_url}/features`, payload, true)
+    httpRequest('delete', `${envConfig.api_url}/pasm/feature/delete`, convertKeysToCamelCase(payload), true)
       .then((response) => {
         enqueueSnackbar('Feature Deleted Succesfully!', { variant: 'success' });
         // set({ FeatureList: response.data.data });
@@ -141,7 +150,7 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
       is_active: status,
     };
 
-    httpRequest('put', `${envConfig.api_url}/features`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/pasm/feature/update`, convertKeysToCamelCase(payload), true)
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });
       })

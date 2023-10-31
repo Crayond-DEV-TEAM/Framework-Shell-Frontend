@@ -65,7 +65,7 @@ export const useMenu = create<MenusProps>((set, get) => ({
 
           const matchedRoutes = AllRoutes.filter((route) => matchedServiceIds.includes(route.service_id));
 
-          console.log(matchedRoutes, 'matchedRoutesmatchedRoutes');
+          // console.log(matchedRoutes, 'matchedRoutesmatchedRoutes');
 
           set({ sideMenus: matchedRoutes });
         } else {

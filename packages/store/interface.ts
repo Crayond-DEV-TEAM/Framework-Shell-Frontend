@@ -63,7 +63,7 @@ export interface AuthStoreInterface {
 
   signIn: () => void;
   signUp: () => void;
-  getUserProfileList:() => void;
+  getUserProfileList: () => void;
   forgotPassword: () => void;
   resetPassword: (payload: { token: string | null }) => void;
   logOut: () => void;
@@ -133,7 +133,7 @@ export interface MenusProps {
   loading: boolean;
   error: boolean;
   getMenu: () => void;
-  getSideMenusFromProject:(id:string)=> void
+  getSideMenusFromProject: (id: string) => void;
 }
 export interface MessageCreateInterface {
   title: number | string;
@@ -917,13 +917,21 @@ export interface AdminKey {
   id?: string;
 }
 
+export interface InviteUserKey {
+  userName: string;
+  email: string;
+  userNameStatus: number;
+  emailStatus: number;
+}
+
 export interface AdminInterface {
   adminList: AdminKey[];
   fetching: boolean;
   OrganisationDetails: OrganisationDetailKey;
-  OrganisationListMaster:[];
-  ServiceListMaster:[];
-  UserListMaster:[];
+  OrganisationListMaster: [];
+  ServiceListMaster: [];
+  UserListMaster: [];
+  userInviteEdit: InviteUserKey;
   errorOnFetching: boolean;
 
   addsave: boolean;
@@ -933,6 +941,7 @@ export interface AdminInterface {
   createEditAdmin: AdminKey;
   seteditAdmin: (payload: { key: string; value: string | number }) => void;
   seteditOrganisationDetails: (payload: { key: string; value: string | number }) => void;
+  seteditUserInviteDetails: (payload: { key: string; value: string | number }) => void;
 
   updateEditData: (data: any) => void;
 
@@ -945,6 +954,9 @@ export interface AdminInterface {
   editAdmin: () => void;
   getStatusList: (id: any, status: any) => void;
   deleteAdmin: (id: string) => void;
+  addUserInvite: (id:string) => void;
+  emailChecker: () => void;
+  userNameChecker: () => void;
   clearAll: () => void;
 }
 
@@ -1034,7 +1046,7 @@ export interface UserKey {
 export interface OrganisationDetailKey {
   id: string;
   name: string;
-  rolename:string
+  rolename: string;
 }
 
 export interface UserProfileInterface {
@@ -1099,7 +1111,7 @@ export interface UserLandingInterface {
   OrganisationList: OrganisationDetailKey;
   fetching: boolean;
   errorOnFetching: boolean;
-  ProjectList:[];
+  ProjectList: [];
 
   getUserProjectList: (id: string) => void;
 }
@@ -1107,7 +1119,7 @@ export interface UserLandingInterface {
 export interface SuperAdminLandingKey {
   organisationName: string;
   description: string;
-  email_id:string,
+  email_id: string;
   mapAdmin: string[];
   mapServices: string[];
   is_active: boolean;
@@ -1116,7 +1128,7 @@ export interface SuperAdminLandingKey {
 
 export interface SuperAdminLandingInterface {
   OrganisationList: SuperAdminLandingKey[];
-  ServiceList:[];
+  ServiceList: [];
   fetching: boolean;
   errorOnFetching: boolean;
 

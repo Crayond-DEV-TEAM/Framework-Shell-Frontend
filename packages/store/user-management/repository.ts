@@ -24,8 +24,7 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
     const { apiToken } = get();
 
     set({ fetching: true, errorOnFetching: false });
-
-    httpRequest('get', `${envConfig.idm_api_url}/repository`, {}, true, apiToken)
+    httpRequest('post', `${envConfig.api_url}/idm/repository/get`, {}, true, apiToken ,'3ef02e4b-b862-47b0-a48c-939b2e9d16d9')
       .then((response) => {
         const lastObject = response.data.data[response.data.data.length - 1];
         set({ RepositoryList: lastObject.data.editRepositoryList, RepositoryId: lastObject.id });
@@ -40,8 +39,9 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
   createRepository: () => {
     const { RepositoryList, editRepositoryList, getAllRepository, apiToken } = get();
     set({ onEditLoading: true, erroronEdit: false });
+    const data = editRepositoryList
 
-    httpRequest('post', `${envConfig.idm_api_url}/repository/upsert`, { data: { editRepositoryList } }, true, apiToken)
+    httpRequest('post', `${envConfig.api_url}/idm/repository/create`, {data}, true, apiToken,'3ef02e4b-b862-47b0-a48c-939b2e9d16d9')
       .then((response) => {
         enqueueSnackbar('Json Updated Succesfully!', { variant: 'success' });
       })
@@ -62,7 +62,7 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
       data: { editRepositoryList },
     };
 
-    httpRequest('post', `${envConfig.idm_api_url}/repository/upsert`, payload, true, apiToken)
+    httpRequest('post', `${envConfig.api_url}/repository/upsert`, payload, true, apiToken)
       .then((response) => {
         enqueueSnackbar('Json Updated Succesfully!', { variant: 'success' });
       })

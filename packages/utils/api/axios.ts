@@ -19,11 +19,12 @@ interface HttpRequestProps {
     data?: AxiosRequestConfig['data'],
     includeToken?: boolean,
     apiToken?: string,
+    slug?: string, 
     config?: Omit<AxiosRequestConfig, 'method' | 'url' | 'data'>,
   ): Promise<AxiosResponse<any, any>>;
 }
 
-export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, includeToken, apiToken, config) => {
+export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, includeToken, apiToken,slug, config) => {
   
   
   const headers = {
@@ -34,6 +35,7 @@ export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, 
     ...(Boolean(apiToken) && {
       'x-api-token': apiToken,
     }),
+    ...{slug},
     ...(config?.headers ?? {}),
   };
 

@@ -38,7 +38,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
     set({ fetching: true, errorOnFetching: false });
     httpRequest(
       'post',
-      `${envConfig.message_api_url}/message_catalog/display_message_group`,
+      `${envConfig.api_url}/message_catalog/display_message_group`,
       {
         offset: 0,
         limit: 50,
@@ -68,7 +68,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
       is_status: addMessage.is_status,
     };
 
-    httpRequest('post', `${envConfig.message_api_url}/message_catalog/add_message_group`, payload, true, undefined, 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
+    httpRequest('post', `${envConfig.api_url}/message_catalog/add_message_group`, payload, true, undefined, 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
         enqueueSnackbar('New Message Group successfully Added!', { variant: 'success' });
         get().getMessageGroups();
@@ -95,7 +95,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
     };
 
     set({ editMessageLoading: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.message_api_url}/message_catalog/edit_message_group`, payload, true,
+    httpRequest('put', `${envConfig.api_url}/message_catalog/edit_message_group`, payload, true,
     undefined,
     'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
@@ -116,7 +116,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
     const { editMessageList } = get();
 
     set({ editMessageLoading: true, errorOnFetching: false });
-    httpRequest('post', `${envConfig.message_api_url}/message_catalog/display_all_message_from_grp_by_id `, payload, true, undefined,
+    httpRequest('post', `${envConfig.api_url}/message_catalog/display_all_message_from_grp_by_id `, payload, true, undefined,
       'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
         set({ editMessageList: response.data.data });
@@ -134,7 +134,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
     const { deleteMessage, getMessageGroups } = get();
 
     set({ deleteMessageLoading: true, deleteMessageError: false });
-    httpRequest('put', `${envConfig.message_api_url}/message_catalog/delete_message_group`, payload, true,
+    httpRequest('put', `${envConfig.api_url}/message_catalog/delete_message_group`, payload, true,
       undefined,
       'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {

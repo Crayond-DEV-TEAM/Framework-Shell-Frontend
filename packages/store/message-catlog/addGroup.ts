@@ -70,6 +70,7 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
               limit: groupState?.limit,
             },
             true,
+            undefined, 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
           );
           return data;
         },
@@ -101,13 +102,15 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
         queryFn: async () => {
           const { data } = await httpRequest(
             'post',
-            `${envConfig.message_api_url}/message_groups/add_message_group`,
+            `${envConfig.message_api_url}/message_catalog/add_message_group`,
             {
               title: addMessage?.addTitle,
               description: addMessage?.addDescription,
               is_status: addMessage?.isAddGroup,
             },
             true,
+            undefined,
+            'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
           );
           return data;
         },
@@ -125,11 +128,12 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
 
   // Edit Message
   editMessage: async (payload, isEdit) => {
+    debugger
     try {
       set({ loading: true });
       const response = await httpRequest(
         'put',
-        `${envConfig.message_api_url}/message_groups/edit_message_group`,
+        `${envConfig.message_api_url}/message_catalog/edit_message_group`,
         {
           id: payload?.group_id,
           title: payload?.addTitle,
@@ -137,6 +141,8 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
           is_status: payload?.isAddGroup,
         },
         true,
+        undefined,
+        'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
       );
 
       if (response.data?.status === 200) {
@@ -157,11 +163,13 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
       set({ loading: true });
       const response = await httpRequest(
         'put',
-        `${envConfig.message_api_url}/message_groups/delete_message_group`,
+        `${envConfig.message_api_url}/message_catalog/delete_message_group`,
         {
           id: id,
         },
         true,
+        undefined,
+        'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
       );
 
       if (response.data?.status === 200) {
@@ -191,11 +199,13 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
         queryFn: async () => {
           const { data } = await httpRequest(
             'post',
-            `${envConfig.message_api_url}/message_groups/display_all_message_from_grp_by_id`,
+            `${envConfig.message_api_url}/message_catalog/display_all_message_from_grp_by_id`,
             {
               id: id,
             },
             true,
+            undefined,
+            'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
           );
           return data;
         },

@@ -19,12 +19,13 @@ export interface FilterProps {
     id: number,
     value: any,
   ) => void;
-  onApply?: () => void;
+  onApply?: (groupId?: string) => void;
   clearfilter?: () => void;
   clearSelectedFilterByKey?: (key: string | undefined) => void;
   handleChipDelete?: (chip: string, i: any, parentIndex: any, key: string) => void;
   filterContent?: any;
   sx?: SxProps<Theme>;
+  messageGroupId?: string;
 }
 
 export const Filter = forwardRef((props: FilterProps): JSX.Element => {
@@ -40,6 +41,7 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
     clearSelectedFilterByKey = () => false,
     handleChipDelete = () => null,
     filterContent,
+    messageGroupId,
     ...rest
   } = props;
 
@@ -64,7 +66,8 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
   };
 
   const onApplyBtn = () => {
-    onApply();
+    onApply(messageGroupId && messageGroupId);
+    setSideContent(null);
     setAnchorEl(null);
     handleClose();
     setShowFilterCircle(true);

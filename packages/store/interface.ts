@@ -313,8 +313,8 @@ export interface MessageGroupsDetails {
   deleteMessage: () => boolean;
   addMessageTable: () => boolean;
   editMessageTable: () => boolean;
-  onApply: () => void;
-  filterMessage: (serverityFilter: string | number, createdOn: any, updateOn: any) => void;
+  onApply: (messageGroupId: string) => void;
+  filterMessage: (serverityFilter: string | number, createdOn: any, updateOn: any, messageGroupId: string) => void;
   getStatus: (id: string, is_status: boolean) => void;
   editDisplayMessageTable: (id: any) => void;
   clearAll: () => void;

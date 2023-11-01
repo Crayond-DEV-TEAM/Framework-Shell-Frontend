@@ -60,6 +60,7 @@ export interface TableHeaderProps {
         value: any,
       ) => void)
     | undefined;
+  messageGroupId?: string;
   onClick?: () => boolean;
   sx?: SxProps<Theme>;
 }
@@ -104,6 +105,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     id,
     anchorEl,
     openAnchorEl,
+    messageGroupId,
     onClick = () => false,
     sx = {},
     ...rest
@@ -140,6 +142,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
               onApply={onApply}
               clearfilter={clearfilter}
               clearSelectedFilterByKey={clearSelectedFilterByKey}
+              messageGroupId={messageGroupId}
             />
           )}
           {isBtnRequired && (

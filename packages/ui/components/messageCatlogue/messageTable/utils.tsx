@@ -28,10 +28,10 @@ export const Header = [
     label: 'Severity',
   },
   {
-    id: 'Languages_Configuried',
+    id: 'Languages_Configured',
     align: 'left',
     disablePadding: false,
-    label: 'Languages Configuried',
+    label: 'Languages Configured',
   },
   {
     id: 'updated_at',

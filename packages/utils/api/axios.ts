@@ -42,7 +42,7 @@ export const httpRequest: HttpRequestProps = (
     ...(Boolean(apiToken) && {
       'x-api-token': apiToken,
     }),
-    // ...(slugId && { 'slug': slugId }),
+    ...(slugId && { 'slug': slugId }),
     ...(config?.headers ?? {}),
   };
 

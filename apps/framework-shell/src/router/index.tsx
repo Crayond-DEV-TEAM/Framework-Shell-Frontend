@@ -1,4 +1,4 @@
-import { webRoutes } from '@core/routes';
+import { planSubscriptionRoutes, webRoutes } from '@core/routes';
 import { PageNotFound, RootLayout } from '@core/ui/components';
 import ErrorBoundary from '@pages/errorBoundary';
 import Home from '@pages/home';

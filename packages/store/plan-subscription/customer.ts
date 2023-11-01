@@ -1,5 +1,5 @@
 import { envConfig } from '@core/envconfig';
-import { httpRequest } from '@core/utils';
+import { convertKeysToCamelCase, convertKeysToSnakeCase, httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { CustomerInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
@@ -37,7 +37,7 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
       offset: 0,
       limit: 10,
     };
-    httpRequest('post', `${envConfig.api_url}/customers`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/pasm/customer/get`, convertKeysToCamelCase(payload), true)
       .then((response) => {
         // debugger;
         const dataTable: any = [];
@@ -45,11 +45,11 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
           response.data.data.rows.map(
             (tableData: any, i: any) =>
               dataTable.push({
-                customerid: tableData.alias_id,
-                companyName: tableData.company_name,
+                customerid: tableData.aliasId,
+                companyName: tableData.companyName,
                 customerName: tableData.name,
-                email: tableData.email_id,
-                is_active: tableData.is_active,
+                email: tableData.emailId,
+                is_active: tableData.isActive,
                 dataList: tableData,
                 id: tableData.id,
               }),
@@ -82,7 +82,7 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
       pincode: createEditCustomer.pincode,
     };
 
-    httpRequest('post', `${envConfig.api_url}/customers/create`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/pasm/customer/create`, convertKeysToCamelCase(payload), true)
       .then((response) => {
         enqueueSnackbar('Customer Created Succesfully!', { variant: 'success' });
       })
@@ -115,7 +115,7 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
       address_id: createEditCustomer.address_id,
     };
 
-    httpRequest('put', `${envConfig.api_url}/customers`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/pasm/customer/update`, convertKeysToCamelCase(payload), true)
       .then((response) => {
         enqueueSnackbar('Customers Edited Succesfully!', { variant: 'success' });
       })
@@ -134,7 +134,7 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
     const payload = {
       customer_id: id,
     };
-    httpRequest('delete', `${envConfig.api_url}/customers`, payload, true)
+    httpRequest('delete', `${envConfig.api_url}/pasm/customer/delete`, convertKeysToCamelCase(payload), true)
       .then((response) => {
         enqueueSnackbar('Customers Deleted Succesfully!', { variant: 'success' });
         // set({ FeatureList: response.data.data });
@@ -156,7 +156,7 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
       is_active: status,
     };
 
-    httpRequest('put', `${envConfig.api_url}/customers`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/pasm/customer/update`, convertKeysToCamelCase(payload), true)
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });
       })

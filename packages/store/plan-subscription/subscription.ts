@@ -303,7 +303,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     };
     httpRequest(
       'post',
-      `${envConfig.api_url}/subscriptions/customerSubscription`,
+      `${envConfig.api_url}/pasm/customersubscription/get`,
       convertKeysToCamelCase(payload),
       true,
       undefined,

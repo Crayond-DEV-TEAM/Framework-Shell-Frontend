@@ -109,8 +109,8 @@ export const Plans = (props: PlansProps): JSX.Element => {
     const charges = data.plan_data.plan_charge_mappings.map((charge: any) => {
       return {
         id: charge.charge.id,
-        name: charge.charge.name,
-        plan_charge_mapping_id: charge.id,
+        // name: charge.charge.name,
+        // plan_charge_mapping_id: charge.id,
         price: charge?.price,
       };
     });

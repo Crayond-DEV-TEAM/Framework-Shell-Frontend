@@ -3,7 +3,7 @@ import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { PlansInterface, Feature, AddEditPlans } from '../interface';
 import { enqueueSnackbar } from 'notistack';
-import { convertKeysToCamelCase } from '@core/utils/helperFuctions';
+import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/helperFuctions';
 
 export const usePlans = create<PlansInterface>((set, get) => ({
   PlanList: [],
@@ -162,14 +162,14 @@ export const usePlans = create<PlansInterface>((set, get) => ({
 
     // const { RepositoryList } = useRepository();
     const grp_feature = planFeature.map((x: any) => {
-      return x.feature.map((ftr: any) => {
-        return {
-          feature_id: ftr.id,
-          limit_count: ftr.limit_count,
-          feature_group_id: x.id,
-          plan_feature_mapping_id: x?.plan_feature_mapping_id || null,
-        };
-      });
+        return x?.feature?.map((ftr: any) => {
+          return {
+            feature_id: ftr.id,
+            feature_group_id: x?.id,
+            limit_count: ftr.limit_count ?? x?.limit_count,
+            plan_feature_mapping_id: x?.plan_feature_mapping_id || null,
+          };
+        });
     });
 
     const ungroup = planUngroupedFeature.map((x) => {
@@ -240,10 +240,10 @@ export const usePlans = create<PlansInterface>((set, get) => ({
     const result: any = [];
     let feature_data: any = {};
     const { planFeature } = get();
-    groups.map((group: any) => {
+    groups?.map((group: any) => {
       data = [];
-      feature_data = planFeature?.find((z: any) => z.id === group.id) || {};
-      group.feature_list.map((feature: any) => {
+      feature_data = planFeature?.find((z: any) => z.id === group?.id) || {};
+      group?.feature_list?.map((feature: any) => {
         const count = feature_data?.feature?.find((s: any) => s.id === feature.id)?.limit_count;
         console.log('count - ', count);
         data.push({
@@ -311,21 +311,21 @@ export const usePlans = create<PlansInterface>((set, get) => ({
     )
       .then((response) => {
         // console.log(response.data.data.rows)
-        const result = response.data.data.rows.map((x: any) => {
+        const result = convertKeysToSnakeCase(response.data.data.rows).map((x: any) => {
           return {
             plan: x.name,
             billing: x.billing_period.join(),
             public: x.is_plan_public ? 'Yes' : 'No',
             activesubscription: x.subscriptions.length.toString() | 0,
-            lastmodified: `${new Date(x.updated_at).getDate()} /
-              ${new Date(x.updated_at).getMonth()} /
-              ${new Date(x.updated_at).getFullYear()}`,
+            lastmodified: `${new Date(x.updated_at ?? x?.updatedAt).getDate()} /
+              ${new Date(x.updated_at ?? x?.updatedAt).getMonth()} /
+              ${new Date(x.updated_at ?? x?.updatedAt).getFullYear()}`,
             status: x.is_active,
             id: x.id,
             plan_data: x,
           };
         });
-        set({ PlanList: result });
+        set({ PlanList: convertKeysToSnakeCase(result) });
       })
       .catch((_err) => {
         set({ errorOnFetch: true });
@@ -343,7 +343,8 @@ export const usePlans = create<PlansInterface>((set, get) => ({
     const payload = {
       ...data,
     };
-
+    // console.log(convertKeysToCamelCase(payload), '-----');
+    // return;
     httpRequest(
       'post',
       `${envConfig.api_url}/pasm/plans/create`,

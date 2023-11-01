@@ -5,6 +5,7 @@ import { FeatureInterface, SubscriptionInterface } from '../interface';
 import { permission } from '../../ui/components/addpermission/utils';
 import { dateFetching } from './commonFunction';
 import { enqueueSnackbar } from 'notistack';
+import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/helperFuctions';
 // import { tableJson } from '@components/feature/utils'
 export const useSubscription = create<SubscriptionInterface>((set, get) => ({
   SubscriptionList: [],
@@ -128,11 +129,18 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       offset: 0,
       limit: 100,
     };
-    httpRequest('post', `${envConfig.api_url}/subscriptions`, payload, true)
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/pasm/subscription/get`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+    )
       .then((response) => {
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
-          response.data.data.rows.map(
+          convertKeysToSnakeCase(response.data.data.rows).map(
             (tableData: any, i: any) =>
               dataTable.push({
                 customerid: tableData.customer.alias_id,
@@ -188,7 +196,14 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       plan_effective_from: dateFetching(createEditSubscription.plan_effective_from),
     };
 
-    httpRequest('post', `${envConfig.api_url}/subscriptions/create`, payload, true)
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/pasm/subscription/create`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+    )
       .then((response) => {
         enqueueSnackbar('Feature Created Succesfully!', { variant: 'success' });
       })
@@ -233,7 +248,14 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       plan_effective_from: dateFetching(createEditSubscription.plan_effective_from),
     };
 
-    httpRequest('put', `${envConfig.api_url}/subscriptions`, payload, true)
+    httpRequest(
+      'put',
+      `${envConfig.api_url}/pasm/subscription/update`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+    )
       .then((response) => {
         enqueueSnackbar('Feature Edited Succesfully!', { variant: 'success' });
       })
@@ -253,7 +275,14 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     const payload = {
       subscription_id: id,
     };
-    httpRequest('delete', `${envConfig.api_url}/subscriptions`, payload, true)
+    httpRequest(
+      'delete',
+      `${envConfig.api_url}/pasm/subscription/delete`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+    )
       .then((response) => {
         enqueueSnackbar('Feature Deleted Succesfully!', { variant: 'success' });
         // set({ SubscriptionList: response.data.data });
@@ -272,7 +301,14 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     const payload = {
       customer_id: id,
     };
-    httpRequest('post', `${envConfig.api_url}/subscriptions/customerSubscription`, payload, true)
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/subscriptions/customerSubscription`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+    )
       .then((response) => {
         set({ OldSubscription: response.data.data.rows?.slice(-1)[0] });
       })
@@ -293,7 +329,14 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       is_active: status,
     };
 
-    httpRequest('put', `${envConfig.api_url}/subscriptions`, payload, true)
+    httpRequest(
+      'put',
+      `${envConfig.api_url}/subscriptions`,
+      payload,
+      true,
+      undefined,
+      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+    )
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });
       })

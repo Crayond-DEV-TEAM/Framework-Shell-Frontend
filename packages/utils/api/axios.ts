@@ -19,8 +19,8 @@ interface HttpRequestProps {
     data?: AxiosRequestConfig['data'],
     includeToken?: boolean,
     apiToken?: string,
-    config?: Omit<AxiosRequestConfig, 'method' | 'url' | 'data'>,
     slugId?: string,
+    config?: Omit<AxiosRequestConfig, 'method' | 'url' | 'data'>,
   ): Promise<AxiosResponse<any, any>>;
 }
 
@@ -30,8 +30,8 @@ export const httpRequest: HttpRequestProps = (
   data = null,
   includeToken,
   apiToken,
-  config,
   slugId,
+  config,
 ) => {
 
   const headers = {

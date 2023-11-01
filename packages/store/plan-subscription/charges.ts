@@ -39,11 +39,17 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
       payload.is_active = true;
     }
 
-    httpRequest('post', `${envConfig.api_url}/pasm/charges/get`, convertKeysToCamelCase(payload), true)
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/pasm/charges/get`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+    )
       .then((response) => {
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
-          debugger;
           convertKeysToSnakeCase(response.data.data.rows).map(
             (tableData: any, i: any) =>
               dataTable.push({
@@ -77,7 +83,14 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
       description: createEditCharges.description,
     };
 
-    httpRequest('post', `${envConfig.api_url}/pasm/charges/create`, convertKeysToCamelCase(payload), true)
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/pasm/charges/create`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+    )
       .then((response) => {
         enqueueSnackbar('Charges Created Succesfully!', { variant: 'success' });
       })
@@ -104,7 +117,14 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
       description: createEditCharges.description,
     };
 
-    httpRequest('put', `${envConfig.api_url}/pasm/charges/update`, convertKeysToCamelCase(payload), true)
+    httpRequest(
+      'put',
+      `${envConfig.api_url}/pasm/charges/update`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+    )
       .then((response) => {
         enqueueSnackbar('Charges Edited Succesfully!', { variant: 'success' });
       })
@@ -124,7 +144,14 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
     const payload = {
       charge_id: id,
     };
-    httpRequest('delete', `${envConfig.api_url}/pasm/charges/delete`, convertKeysToCamelCase(payload), true)
+    httpRequest(
+      'delete',
+      `${envConfig.api_url}/pasm/charges/delete`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+    )
       .then((response) => {
         enqueueSnackbar('Charges Deleted Succesfully!', { variant: 'success' });
         // set({ ChargesList: response.data.data });
@@ -146,7 +173,14 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
       is_active: status,
     };
 
-    httpRequest('put', `${envConfig.api_url}/pasm/charges`, convertKeysToCamelCase(payload), true)
+    httpRequest(
+      'put',
+      `${envConfig.api_url}/pasm/charges`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+    )
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });
       })

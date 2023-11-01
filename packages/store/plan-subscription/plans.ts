@@ -3,6 +3,7 @@ import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { PlansInterface, Feature, AddEditPlans } from '../interface';
 import { enqueueSnackbar } from 'notistack';
+import { convertKeysToCamelCase } from '@core/utils/helperFuctions';
 
 export const usePlans = create<PlansInterface>((set, get) => ({
   PlanList: [],
@@ -300,7 +301,14 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       limit: x.limit,
     };
 
-    httpRequest('post', `${envConfig.api_url}/plans`, payload, true)
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/pasm/plans/get`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+    )
       .then((response) => {
         // console.log(response.data.data.rows)
         const result = response.data.data.rows.map((x: any) => {
@@ -336,7 +344,14 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       ...data,
     };
 
-    httpRequest('post', `${envConfig.api_url}/plans/create`, payload, true)
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/pasm/plans/create`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+    )
       .then((_response) => {
         enqueueSnackbar('Plan added Succesfully!', { variant: 'success' });
       })
@@ -371,7 +386,14 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       ...data,
     };
 
-    httpRequest('put', `${envConfig.api_url}/plans`, payload, true)
+    httpRequest(
+      'put',
+      `${envConfig.api_url}/pasm/plans/update`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+    )
       .then((_response) => {
         enqueueSnackbar('Plan Edited Succesfully!', { variant: 'success' });
       })
@@ -393,7 +415,14 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       plan_id: x,
     };
 
-    httpRequest('delete', `${envConfig.api_url}/plans`, payload, true)
+    httpRequest(
+      'delete',
+      `${envConfig.api_url}/pasm/plans/delete`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+    )
       .then((_response) => {
         enqueueSnackbar('Plan Deleted Succesfully!', { variant: 'success' });
       })
@@ -414,7 +443,14 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       is_active: status,
     };
 
-    httpRequest('put', `${envConfig.api_url}/plans`, payload, true)
+    httpRequest(
+      'put',
+      `${envConfig.api_url}/pasm/plans`,
+      payload,
+      true,
+      undefined,
+      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+    )
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });
       })

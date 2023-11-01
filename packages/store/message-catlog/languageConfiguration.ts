@@ -20,7 +20,7 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
   message: '',
   getAllLanguages: () => {
     set({ masterLanguageLoading: true, masterLanguageError: false });
-    httpRequest('get', `${envConfig.message_api_url}/message_catalog/display_Master_languages`, {}, true,
+    httpRequest('get', `${envConfig.api_url}/message_catalog/display_Master_languages`, {}, true,
       undefined,
       'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
@@ -37,7 +37,7 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
   },
   getSavedLanguage: () => {
     set({ fetching: false, errorOnFetching: false });
-    httpRequest('get', `${envConfig.message_api_url}/message_catalog/display_config_languages`, {}, true,
+    httpRequest('get', `${envConfig.api_url}/message_catalog/display_config_languages`, {}, true,
       undefined,
       'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
@@ -85,7 +85,7 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
   saveLanguage: () => {
     const { languages } = get();
     set({ saving: true, errorOnSaving: false });
-    httpRequest('put', `${envConfig.message_api_url}/message_catalog/edit_config_languages`, { languages },
+    httpRequest('put', `${envConfig.api_url}/message_catalog/edit_config_languages`, { languages },
       true,
       undefined,
       'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
@@ -125,7 +125,7 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
         set({ message: '' });
       }, 5000);
 
-      enqueueSnackbar('Language added successfully!', { variant: 'success' });
+      // enqueueSnackbar('Language added successfully!', { variant: 'success' });
     } else {
       enqueueSnackbar('Language already added!', { variant: 'warning' });
     }

@@ -52,7 +52,7 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
 
   onEditClicked: (id: string) => {
     set({ editDataLoading: true, errorOnEditData: false });
-    httpRequest('post', `${envConfig.message_api_url}/message_catalog/display_message_by_id`, { id }, true, undefined,
+    httpRequest('post', `${envConfig.api_url}/message_catalog/display_message_by_id`, { id }, true, undefined,
       'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
         const data = response?.data?.data?.language_info ?? {};
@@ -90,7 +90,7 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
     };
 
     set({ adding: true, errorOnAdding: false });
-    httpRequest('post', `${envConfig.message_api_url}/message_catalog/add_message`, payload, true,
+    httpRequest('post', `${envConfig.api_url}/message_catalog/add_message`, payload, true,
       undefined, 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
         set({ addEditMessageState: giveMeAddEditMessageInitialState(), open: false });
@@ -120,7 +120,7 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
     };
 
     set({ editing: true, errorOnEditing: false });
-    httpRequest('put', `${envConfig.message_api_url}/message_catalog/edit_message`, payload, true, undefined,
+    httpRequest('put', `${envConfig.api_url}/message_catalog/edit_message`, payload, true, undefined,
       'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
         set({ addEditMessageState: giveMeAddEditMessageInitialState(), open: false });
@@ -143,7 +143,7 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
       msg_grp_msg_info_id: deleteId,
     };
     set({ deleting: true, errorOnDeleting: false });
-    httpRequest('put', `${envConfig.message_api_url}/message_catalog/delete_message`, payload, true,
+    httpRequest('put', `${envConfig.api_url}/message_catalog/delete_message`, payload, true,
       undefined,
       'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
@@ -163,7 +163,7 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
     const payload = { id: group_id };
 
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('post', `${envConfig.message_api_url}/message_catalog/display_all_msg_in_grp`, payload, true, undefined,
+    httpRequest('post', `${envConfig.api_url}/message_catalog/display_all_msg_in_grp`, payload, true, undefined,
       'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
 

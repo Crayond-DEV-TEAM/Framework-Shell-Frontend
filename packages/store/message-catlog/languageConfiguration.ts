@@ -20,7 +20,9 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
   message: '',
   getAllLanguages: () => {
     set({ masterLanguageLoading: true, masterLanguageError: false });
-    httpRequest('get', `${envConfig.message_api_url}/config_languages/display_Master_languages`, {}, true)
+    httpRequest('get', `${envConfig.message_api_url}/message_catalog/display_Master_languages`, {}, true,
+      undefined,
+      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
         set({ masterLanguages: response.data.data?.sort((a: any, b: any) => b.label - a.label) });
       })
@@ -35,7 +37,9 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
   },
   getSavedLanguage: () => {
     set({ fetching: false, errorOnFetching: false });
-    httpRequest('get', `${envConfig.message_api_url}/config_languages/display_config_languages`, {}, true)
+    httpRequest('get', `${envConfig.message_api_url}/message_catalog/display_config_languages`, {}, true,
+      undefined,
+      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
         const { masterLanguages } = get();
         const newMasterLanguages = masterLanguages;
@@ -81,7 +85,10 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
   saveLanguage: () => {
     const { languages } = get();
     set({ saving: true, errorOnSaving: false });
-    httpRequest('put', `${envConfig.message_api_url}/config_languages/edit_config_languages`, { languages }, true)
+    httpRequest('put', `${envConfig.message_api_url}/message_catalog/edit_config_languages`, { languages },
+      true,
+      undefined,
+      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
         set({ isSaved: true, message: 'Changes Saved!' });
 

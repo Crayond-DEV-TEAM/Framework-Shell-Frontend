@@ -15,10 +15,11 @@ export interface FilterProps {
   SubTitle?: string;
   footer?: Node;
   onChange?: () => void;
-  onApply?: () => void;
+  onApply?: (groupId?: string) => void;
   handleChipDelete?: (chip: string, i: any, parentIndex: any) => void;
   filterContent?: any;
   sx?: SxProps<Theme>;
+  messageGroupId?: string;
 }
 
 export const Filter = forwardRef((props: FilterProps): JSX.Element => {
@@ -32,6 +33,7 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
     onApply = () => false,
     handleChipDelete = () => null,
     filterContent,
+    messageGroupId,
     ...rest
   } = props;
   console.log(filterContent, 'filterContentfilterContentfilterContent');
@@ -54,7 +56,7 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
   };
 
   const onApplyBtn = () => {
-    onApply();
+    onApply(messageGroupId && messageGroupId);
     setSideContent(null);
     setAnchorEl(null);
     handleClosed();

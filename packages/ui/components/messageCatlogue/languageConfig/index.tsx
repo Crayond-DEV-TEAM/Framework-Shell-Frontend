@@ -62,10 +62,12 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     deleteLanguage();
     setSelected(false);
   };
+  console.log(languages, 'message');
+  
   const OnsaveLangugae = () => {
     saveLanguage();
     setTimeout(() => {
-      navigate(messageRoutes.messagegroup);
+      navigate(messageRoutes.messagegroup, {state: languages});
     }, 5000);
   };
 

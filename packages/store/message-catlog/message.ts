@@ -52,7 +52,8 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
 
   onEditClicked: (id: string) => {
     set({ editDataLoading: true, errorOnEditData: false });
-    httpRequest('post', `${envConfig.message_api_url}/messages/display_message_by_id`, { id }, true)
+    httpRequest('post', `${envConfig.message_api_url}/message_catalog/display_message_by_id`, { id }, true, undefined,
+      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
         const data = response?.data?.data?.language_info ?? {};
         const messages: { [key: string]: { configuration_id: string; language_id?: number; message: string } } = {};
@@ -89,7 +90,8 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
     };
 
     set({ adding: true, errorOnAdding: false });
-    httpRequest('post', `${envConfig.message_api_url}/messages/add_message`, payload, true)
+    httpRequest('post', `${envConfig.message_api_url}/message_catalog/add_message`, payload, true,
+      undefined, 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
         set({ addEditMessageState: giveMeAddEditMessageInitialState(), open: false });
         enqueueSnackbar(`Added message Successfully !`, { variant: 'success' });
@@ -118,7 +120,8 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
     };
 
     set({ editing: true, errorOnEditing: false });
-    httpRequest('put', `${envConfig.message_api_url}/messages/edit_message`, payload, true)
+    httpRequest('put', `${envConfig.message_api_url}/message_catalog/edit_message`, payload, true, undefined,
+      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
         set({ addEditMessageState: giveMeAddEditMessageInitialState(), open: false });
         enqueueSnackbar(`Message Updated Successfully !`, { variant: 'success' });
@@ -140,7 +143,9 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
       msg_grp_msg_info_id: deleteId,
     };
     set({ deleting: true, errorOnDeleting: false });
-    httpRequest('put', `${envConfig.message_api_url}/messages/delete_message`, payload, true)
+    httpRequest('put', `${envConfig.message_api_url}/message_catalog/delete_message`, payload, true,
+      undefined,
+      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
         enqueueSnackbar(`Deleted message Successfully !`, { variant: 'success' });
       })
@@ -158,8 +163,10 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
     const payload = { id: group_id };
 
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('post', `${envConfig.message_api_url}/message_groups/display_all_msg_in_grp`, payload, true)
+    httpRequest('post', `${envConfig.message_api_url}/message_catalog/display_all_msg_in_grp`, payload, true, undefined,
+      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
+
         set({ MessageArray: response.data });
         const dataTable: any = [];
         const dataTableStatus: any = [];

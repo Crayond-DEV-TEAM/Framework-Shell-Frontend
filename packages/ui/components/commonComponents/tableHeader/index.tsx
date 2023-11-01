@@ -52,6 +52,7 @@ export interface TableHeaderProps {
   options?: any;
   onChange?: any;
   filterChange?: any;
+  messageGroupId?: string;
   onClick?: () => boolean;
   sx?: SxProps<Theme>;
 }
@@ -94,6 +95,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     id,
     anchorEl,
     openAnchorEl,
+    messageGroupId,
     onClick = () => false,
     sx = {},
     ...rest
@@ -128,6 +130,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
               handleChipDelete={handleChipDelete}
               onChange={filterChange}
               onApply={onApply}
+              messageGroupId={messageGroupId}
             />
           )}
           {isBtnRequired && (

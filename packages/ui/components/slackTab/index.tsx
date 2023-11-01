@@ -1,10 +1,9 @@
 import DeleteIcon from '@assets/deleteIcon';
 import EditIcon from '@assets/editIcon';
 import { DialogDrawer } from '@atoms/dialogDrawer';
-import { EmailDialog } from '@components/emailDialog';
-import { TableHeader } from '@core/ui/components/tableHeader';
+import { TableHeader } from '@core/ui/components';
 import { Box, Grid } from '@mui/material';
-import { CommonTable } from 'crayond-components-library-1';
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 import React from 'react';
 import { slackTab_style } from './style';
 import { FooterComponent } from '@atoms/footerComponent';

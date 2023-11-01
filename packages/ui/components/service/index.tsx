@@ -6,7 +6,7 @@ import { serviceStyle } from './style';
 import { Drawer } from '@atoms/drawer';
 import { ServiceForm, TableHeader } from '..';
 import { IdmBackgroundCard } from '@atoms/idmBackgroundCard';
-import { CommonTable } from 'crayond-components-library-1';
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 import { Header, tableData } from './utills';
 import { FooterComponent } from '@atoms/footerComponent';
 import { useOrganisation, useService } from '@core/store';

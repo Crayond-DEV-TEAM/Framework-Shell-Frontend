@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { adminSectionStyle } from './style';
 import { IdmBackgroundCard } from '@atoms/idmBackgroundCard';
 import { AdminSecForm, TableHeader } from '..';
-import { CommonTable } from 'crayond-components-library-1';
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 import { Header, tableData, tableJson } from './utills';
 import { Drawer } from '@atoms/drawer';
 import { useAdmin, useOrganisation } from '@core/store';

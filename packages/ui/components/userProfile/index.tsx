@@ -6,7 +6,7 @@ import { Drawer } from '@atoms/drawer';
 import { useEffect, useState } from 'react';
 import { useOrganisation, useProfileUser, useRoles } from '@core/store';
 import { IdmBackgroundCard } from '@atoms/idmBackgroundCard';
-import { CommonTable } from 'crayond-components-library-1';
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 import { Header, tableData } from './utills';
 import { TableHeader, UserProfileForm } from '..';
 import { FooterComponent } from '@atoms/footerComponent';

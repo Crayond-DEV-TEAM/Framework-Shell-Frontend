@@ -4,7 +4,7 @@ import { DialogDrawer } from '@core/ui/atoms';
 import { SmsDialog } from '@core/ui/components';
 import { TableHeader } from '@core/ui/components';
 import { Box, Grid, SxProps, Theme } from '@mui/material';
-import { CommonTable } from 'crayond-components-library-1';
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 import React from 'react';
 import { smsTab_style } from './style';
 import { FooterComponent } from '@atoms/footerComponent';

@@ -29,10 +29,14 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
     clearAll,
     createOrganisation,
     OrganisationList,
+    editGetDataOrganisation,
+    getAllUserList,
+    UserListMaster,
   } = useSuperAdminLanding();
-  const { getUserProfileList, UserProfileList } = useProfileUserLanding();
-  const handleTableEdit = () => {
-    console.log('');
+  const handleTableEdit = (id: string, data: any, e: any) => {
+    editGetDataOrganisation(id);
+    handleDrawerOpen();
+    // console.log('');
   };
   const handleTableDelete = () => {
     console.log('');
@@ -57,7 +61,7 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
   useEffect(() => {
     getOrganisationList();
     getServiceList();
-    getUserProfileList();
+    getAllUserList();
   }, []);
 
   console.log(createEditOrganisation, 'crdhjgfskjdfhkdsjfhsdjkfh');
@@ -172,7 +176,7 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
           ServiceMaster={ServiceList}
           createEditOrganisation={createEditOrganisation}
           handleChange={handleChange}
-          userMaster={UserProfileList}
+          userMaster={UserListMaster}
         />
       </Drawer>
     </Box>

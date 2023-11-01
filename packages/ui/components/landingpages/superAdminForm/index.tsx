@@ -150,7 +150,11 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
             </AccordionSummary>
             <AccordionDetails sx={{ padding: '0px' }}>
               {/* <AddChipMultipleDropdown dataList={ServiceMaster} handleChange={handleChange} /> */}
-              <AddChipDropdown permissionList={ServiceMaster} onChange={handleChange} />
+              <AddChipDropdown
+                createEditState={createEditOrganisation?.mapServices}
+                permissionList={ServiceMaster}
+                onChange={handleChange}
+              />
               {/* <ToggleButtons
                 // value={addEditMessageState.severity}
                 onChange={(e: any, id: any) => {

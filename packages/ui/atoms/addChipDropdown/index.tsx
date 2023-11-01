@@ -1,100 +1,51 @@
-import { Autocomplete, Box, ListItemText, SxProps, TextField, Typography, Chip } from '@mui/material';
-import { Theme } from '@emotion/react';
+import React, { useEffect, useState } from 'react';
+import { Box, Menu, MenuItem, Chip } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { CheckBox } from '@atoms/checkBox';
-import { addChipDropdownStyle } from './style';
 import { GreenCloseCircleIcon } from '@assets/iconSet';
-import React, { useEffect, useState } from 'react';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-// import Chip from '@mui/material/Chip';
+import { addChipDropdownStyle } from './style';
+import type { SxProps, Theme } from '@mui/material';
 
 export interface AddChipDropdownProps {
-  className?: string;
+  className: string;
+  value: any;
+  placeholder: string;
+  permissionList: any;
+  onChange: () => void;
+  createEditState: any;
   sx?: SxProps<Theme>;
-  key?: string;
-  value?: any;
-  placeholder?: string;
-  loadOptions?: () => Promise<any[]>;
-  onChange?: (key: string, value: string | number) => void;
-  options?: any[];
-  loading?: boolean;
-  isReadOnly?: boolean;
-  isMulti?: boolean;
-  debounceTimeout?: number;
-  reduceOptions?: any;
-  isClearable?: boolean;
-  styles?: any;
-  isPaginate?: boolean;
-  label?: string;
-  noBorder?: boolean;
-  noSearch?: boolean;
-  prefix?: boolean;
-  labelColor?: string | null;
-  labelSize?: string | null;
-  fontFamily?: string | null;
-  selectHeight?: string;
-  padding?: string;
-  isDeletedValue?: boolean;
-  errorMessage?: any;
-  permissionList?: any;
-  isError?: boolean;
-  deletedValue?: (value: any, updateValue: any) => void | undefined;
-  // newSelectedOptions: any;
 }
 
-export const AddChipDropdown = (props: AddChipDropdownProps): JSX.Element => {
+export const AddChipDropdown: React.FC<AddChipDropdownProps> = (props) => {
   const {
     className = '',
-    key,
     value,
     placeholder,
-    loadOptions,
     permissionList,
     onChange = () => false,
-    options,
-    loading,
-    isReadOnly,
-    isMulti,
-    debounceTimeout,
-    reduceOptions,
-    isClearable = false,
-    styles = {},
-    isPaginate = false,
-    label = '',
-    noBorder = false,
-    noSearch = false,
-    prefix = false,
-    labelColor = null,
-    labelSize = null,
-    fontFamily = null,
-    selectHeight = '',
-    padding,
-    isDeletedValue,
-    deletedValue,
-    errorMessage,
-    isError = false,
+    createEditState,
     sx = {},
     ...rest
   } = props;
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedOptions, setSelectedOptions] = useState([]);
 
-  const handleClick = (event: any) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
-  console.log(permissionList, 'permissionListpermissionList');
+
   const handleOptionToggle = (option: any) => {
     const isSelected = selectedOptions.includes(option);
     setSelectedOptions((prevOptions) =>
       isSelected ? prevOptions.filter((opt) => opt !== option) : [...prevOptions, option],
     );
   };
+
   const onSetChange = () => {
     onChange('mapServices', selectedOptions);
   };
@@ -105,13 +56,11 @@ export const AddChipDropdown = (props: AddChipDropdownProps): JSX.Element => {
 
   return (
     <Box
-      sx={[
-        {
-          ...addChipDropdownStyle.rootSx,
-        },
+      sx={{
+        ...addChipDropdownStyle.rootSx,
         ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-      className={`${className}`}
+      }}
+      className={className}
       {...rest}
     >
       <div>
@@ -129,9 +78,12 @@ export const AddChipDropdown = (props: AddChipDropdownProps): JSX.Element => {
         >
           {permissionList?.map((data: any) => (
             <MenuItem
-              sx={{ px: '15px', backgroundColor: selectedOptions.includes(data) ? '#dce8e5' : '#fff' }}
               key={data.id}
               onClick={() => handleOptionToggle(data)}
+              sx={{
+                px: '15px',
+                backgroundColor: selectedOptions.includes(data) ? '#dce8e5' : '#fff',
+              }}
             >
               <CheckBox style={{ marginRight: '8px' }} checked={selectedOptions.includes(data)} />
               <Box sx={{ p: 1 }} />
@@ -139,10 +91,10 @@ export const AddChipDropdown = (props: AddChipDropdownProps): JSX.Element => {
             </MenuItem>
           ))}
         </Menu>
-        {selectedOptions?.map((option) => (
+        {createEditState?.map((option: any) => (
           <Chip
-            key={option}
-            label={option.name}
+            key={option.service_name}
+            label={option.service_name}
             sx={{ height: '28px', borderRadius: '8px', marginBottom: '15px', marginRight: '10px' }}
           />
         ))}

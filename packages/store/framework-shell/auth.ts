@@ -91,16 +91,6 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
         } else {
           window.location.href = '/admin';
         }
-
-        // if (user.role_name === 'ADMIN') {
-        //   console.log('d');
-        // } else {
-        //   console.log('s');
-        // }
-        // debugger
-        // history.push("/languageConfig")
-        // routeTo(useRouting, webRoutes.languageConfig);
-        // window.location.href = '/languageConfig';
         return response?.status;
       } else {
         throw new Error('Internal Server Error');

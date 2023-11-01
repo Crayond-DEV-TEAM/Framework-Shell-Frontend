@@ -1129,6 +1129,7 @@ export interface SuperAdminLandingKey {
 export interface SuperAdminLandingInterface {
   OrganisationList: SuperAdminLandingKey[];
   ServiceList: [];
+  UserListMaster:[]
   fetching: boolean;
   errorOnFetching: boolean;
 
@@ -1143,8 +1144,14 @@ export interface SuperAdminLandingInterface {
   updateEditData: (data: any) => void;
 
   getOrganisationList: () => void;
+  getAllUserList: () => void;
   createOrganisation: () => void;
   editOrganisation: () => void;
+  editGetDataOrganisation:(id:string) => void;
+  createServicemap:() => void;
+  deleteServicemap:() => void;
+  createAdminmap:()=> void;
+  deleteAdminmap:() => void;
   getStatusList: (id: any, status: any) => void;
   deleteOrganisation: (id: string) => void;
   getServiceList: () => void;

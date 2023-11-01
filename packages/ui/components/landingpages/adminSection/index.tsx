@@ -74,6 +74,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
   }, []);
   const handleChangeOrganisationkey = (key: string, value: string | number) => {
     seteditOrganisationDetails({ key, value });
+    getAdminList();
   };
   const handleChangeOrganisation = (value: any) => {
     debugger;

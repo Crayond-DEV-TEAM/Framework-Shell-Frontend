@@ -172,6 +172,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       });
   },
   getOrganisationMaster: () => {
+    const {getAdminList} = get();
     debugger;
     set({ fetching: true, errorOnFetching: false });
     //  debugger;
@@ -208,6 +209,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
+        getAdminList();
         set({ fetching: false });
       });
   },

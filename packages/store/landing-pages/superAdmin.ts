@@ -1,11 +1,12 @@
-import { envConfig } from '@core/envconfig'
-import { httpRequest } from '@core/utils'
-import { create } from 'zustand'
-import { AdminInterface, SuperAdminLandingInterface } from '../interface'
-import { enqueueSnackbar } from 'notistack'
+import { envConfig } from '@core/envconfig';
+import { httpRequest } from '@core/utils';
+import { create } from 'zustand';
+import { AdminInterface, SuperAdminLandingInterface } from '../interface';
+import { enqueueSnackbar } from 'notistack';
 export const useSuperAdminLanding = create<SuperAdminLandingInterface>((set, get) => ({
   OrganisationList: [],
   ServiceList: [],
+  UserListMaster:[],
   fetching: false,
   errorOnFetching: false,
 
@@ -16,7 +17,7 @@ export const useSuperAdminLanding = create<SuperAdminLandingInterface>((set, get
   createEditOrganisation: {
     organisationName: '',
     description: '',
-    email_id:'',
+    email_id: '',
     mapAdmin: [],
     mapServices: [],
     is_active: false,
@@ -24,15 +25,15 @@ export const useSuperAdminLanding = create<SuperAdminLandingInterface>((set, get
   },
 
   seteditOrganisation: (payload: { key: string; value: string | number }) => {
-    set((state) => ({ createEditOrganisation: { ...state.createEditOrganisation, [payload.key]: payload.value } }))
+    set((state) => ({ createEditOrganisation: { ...state.createEditOrganisation, [payload.key]: payload.value } }));
   },
 
   getOrganisationList: () => {
-    set({ fetching: true, errorOnFetching: false })
+    set({ fetching: true, errorOnFetching: false });
     httpRequest('get', `${envConfig.api_url}/idm/organisation/list`, {}, true)
       .then((response) => {
-        debugger
-        const dataTable: any = []
+        debugger;
+        const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
             (tableData: any, i: any) =>
@@ -42,134 +43,275 @@ export const useSuperAdminLanding = create<SuperAdminLandingInterface>((set, get
                 // is_active: tableData.is_active,
                 description: tableData.description,
                 // data: tableData,
-                serviceMapped:tableData.no_of_service
+                serviceMapped: tableData.no_of_service,
               }),
             set({ OrganisationList: dataTable }),
-          )
+          );
         } else {
-          set({ OrganisationList: [] })
+          set({ OrganisationList: [] });
         }
       })
       .catch((err) => {
-        set({ errorOnFetching: true })
-        enqueueSnackbar('Something Went Wrong!', { variant: 'error' })
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
-        set({ fetching: false })
-      })
+        set({ fetching: false });
+      });
   },
   createOrganisation: () => {
-    const { clearAll, createEditOrganisation, getOrganisationList } = get()
+    const { clearAll, createEditOrganisation, getOrganisationList } = get();
 
-    set({ fetching: true, errorOnFetching: false })
+    set({ fetching: true, errorOnFetching: false });
     // const { RepositoryList } = useRepository();
-      debugger;
+    debugger;
     const payload = {
       name: createEditOrganisation.organisationName,
       emailId: createEditOrganisation.email_id,
       description: createEditOrganisation.description,
       services: createEditOrganisation.mapServices.map((x) => x?.id),
-      admin: createEditOrganisation.mapAdmin.map((x) => x?.id)
-    }
+      admin: createEditOrganisation.mapAdmin.map((x) => x?.id),
+    };
 
     httpRequest('post', `${envConfig.api_url}/idm/organisation/create`, payload, true)
       .then((response) => {
-        enqueueSnackbar('Organisation added Succesfully!', { variant: 'success' })
+        enqueueSnackbar('Organisation added Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
-        enqueueSnackbar('Something Went Wrong!', { variant: 'error' })
-        set({ errorOnFetching: true })
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+        set({ errorOnFetching: true });
       })
       .finally(() => {
-        set({ fetching: false })
-        getOrganisationList()
-        clearAll()
-      })
+        set({ fetching: false });
+        getOrganisationList();
+        clearAll();
+      });
   },
   updateEditData: (data: any) => {
-    set((state) => ({ createEditOrganisation: { ...data } }))
+    set((state) => ({ createEditOrganisation: { ...data } }));
   },
 
   editOrganisation: () => {
-    const { clearAll, getOrganisationList, createEditOrganisation } = get()
-    set({ fetching: true, errorOnFetching: false })
+    const { clearAll, getOrganisationList, createEditOrganisation } = get();
+    set({ fetching: true, errorOnFetching: false });
     // const { RepositoryList } = useRepository();
-    const payload = {
-      // name: createEditOrganisation.organisationName,
-      // email_id: createEditOrganisation.emailId,
-      // mobile_no: createEditOrganisation.mobile,
-      // address: createEditOrganisation.address,
-      // domain_url: createEditOrganisation.domainUrl,
-      // is_active: createEditOrganisation.is_active,
-      // organisation_id: createEditOrganisation.id,
-    }
+    const payload = {};
 
-    set({ fetching: true, errorOnFetching: false })
+    set({ fetching: true, errorOnFetching: false });
     httpRequest('put', `${envConfig.api_url}/organisations`, payload, true)
       .then((response) => {
-        enqueueSnackbar('Organisations edited Succesfully!', { variant: 'success' })
+        enqueueSnackbar('Organisations edited Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
-        enqueueSnackbar('Something Went Wrong!', { variant: 'error' })
-        set({ errorOnFetching: true })
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+        set({ errorOnFetching: true });
       })
       .finally(() => {
-        set({ fetching: false })
-        getOrganisationList()
-        clearAll()
+        set({ fetching: false });
+        getOrganisationList();
+        clearAll();
+      });
+  },
+
+  editGetDataOrganisation: (id: string) => {
+    const { clearAll, getOrganisationList, createEditOrganisation } = get();
+    set({ fetching: true, errorOnFetching: false });
+    const payload = {
+      organisation_id: id,
+    };
+    set({ fetching: true, errorOnFetching: false });
+    httpRequest('post', `${envConfig.api_url}/idm/organisation/get`, payload, true)
+      .then((response) => {
+        debugger;
+        const responseData = response.data.data;
+        const Datalist = {
+          organisationName: responseData.name,
+          description: responseData.description,
+          email_id: responseData.email_id,
+          mapAdmin: responseData.organisation_user_mappings,
+          mapServices: responseData.organisation_service_mappings,
+          is_active: responseData.is_active,
+          id: responseData.id,
+        };
+         set((state) => ({ createEditOrganisation: { ...Datalist } }));
       })
+      .catch((err) => {
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+        set({ errorOnFetching: true });
+      })
+      .finally(() => {
+        set({ fetching: false });
+        // getOrganisationList();
+        // clearAll();
+      });
+  },
+  createAdminmap: () => {
+    const { clearAll, getOrganisationList, createEditOrganisation } = get();
+    set({ fetching: true, errorOnFetching: false });
+    // const { RepositoryList } = useRepository();
+    const payload = {};
+
+    set({ fetching: true, errorOnFetching: false });
+    httpRequest('put', `${envConfig.api_url}/organisations`, payload, true)
+      .then((response) => {
+        enqueueSnackbar('Organisations edited Succesfully!', { variant: 'success' });
+      })
+      .catch((err) => {
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+        set({ errorOnFetching: true });
+      })
+      .finally(() => {
+        set({ fetching: false });
+        getOrganisationList();
+        clearAll();
+      });
+  },
+  deleteAdminmap: () => {
+    const { clearAll, getOrganisationList, createEditOrganisation } = get();
+    set({ fetching: true, errorOnFetching: false });
+    // const { RepositoryList } = useRepository();
+    const payload = {};
+
+    set({ fetching: true, errorOnFetching: false });
+    httpRequest('put', `${envConfig.api_url}/organisations`, payload, true)
+      .then((response) => {
+        enqueueSnackbar('Organisations edited Succesfully!', { variant: 'success' });
+      })
+      .catch((err) => {
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+        set({ errorOnFetching: true });
+      })
+      .finally(() => {
+        set({ fetching: false });
+        getOrganisationList();
+        clearAll();
+      });
+  },
+  createServicemap: () => {
+    const { clearAll, getOrganisationList, createEditOrganisation } = get();
+    set({ fetching: true, errorOnFetching: false });
+    // const { RepositoryList } = useRepository();
+    const payload = {};
+
+    set({ fetching: true, errorOnFetching: false });
+    httpRequest('put', `${envConfig.api_url}/organisations`, payload, true)
+      .then((response) => {
+        enqueueSnackbar('Organisations edited Succesfully!', { variant: 'success' });
+      })
+      .catch((err) => {
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+        set({ errorOnFetching: true });
+      })
+      .finally(() => {
+        set({ fetching: false });
+        getOrganisationList();
+        clearAll();
+      });
+  },
+  deleteServicemap: () => {
+    const { clearAll, getOrganisationList, createEditOrganisation } = get();
+    set({ fetching: true, errorOnFetching: false });
+    // const { RepositoryList } = useRepository();
+    const payload = {};
+
+    set({ fetching: true, errorOnFetching: false });
+    httpRequest('put', `${envConfig.api_url}/organisations`, payload, true)
+      .then((response) => {
+        enqueueSnackbar('Organisations edited Succesfully!', { variant: 'success' });
+      })
+      .catch((err) => {
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+        set({ errorOnFetching: true });
+      })
+      .finally(() => {
+        set({ fetching: false });
+        getOrganisationList();
+        clearAll();
+      });
   },
   getStatusList: (id: any, status: any) => {
-    set({ fetching: true, errorOnFetching: false })
-    const { getOrganisationList } = get()
+    set({ fetching: true, errorOnFetching: false });
+    const { getOrganisationList } = get();
     const payload = {
       organisation_id: id,
       is_active: status,
-    }
+    };
     httpRequest('put', `${envConfig.api_url}/organisations`, payload, true)
       .then((response) => {
-        enqueueSnackbar('Status changed succesfully!', { variant: 'success' })
+        enqueueSnackbar('Status changed succesfully!', { variant: 'success' });
       })
       .catch((err) => {
-        enqueueSnackbar('Something Went Wrong!', { variant: 'error' })
-        set({ errorOnFetching: true })
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+        set({ errorOnFetching: true });
       })
       .finally(() => {
-        set({ fetching: false })
-        getOrganisationList()
-      })
+        set({ fetching: false });
+        getOrganisationList();
+      });
   },
 
   deleteOrganisation: (id: string) => {
-    const { getOrganisationList } = get()
-    set({ fetching: true, errorOnFetching: false })
+    const { getOrganisationList } = get();
+    set({ fetching: true, errorOnFetching: false });
     // const { RepositoryList } = useRepository();
     const payload = {
       organisation_id: id,
-    }
-    set({ fetching: true, errorOnFetching: false })
-    httpRequest('delete', `${envConfig.api_url}/organisations`, payload, true)
+    };
+    set({ fetching: true, errorOnFetching: false });
+    httpRequest('delete', `${envConfig.api_url}/api/v1/idm/organisation/delete`, payload, true)
       .then((response) => {
-        enqueueSnackbar('Organisations deleted Succesfully!', { variant: 'success' })
+        enqueueSnackbar('Organisations deleted Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
-        enqueueSnackbar('Something Went Wrong!', { variant: 'error' })
-        set({ errorOnFetching: true })
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+        set({ errorOnFetching: true });
       })
       .finally(() => {
-        set({ fetching: false })
-        getOrganisationList()
+        set({ fetching: false });
+        getOrganisationList();
+      });
+  },
+    getAllUserList: () => {
+    // const { OrganisationDetails } = get();
+
+    set({ fetching: true, errorOnFetching: false });
+    const payload = {
+    //   organisation_id: OrganisationDetails.id,
+    };
+    httpRequest('get', `${envConfig.api_url}/idm/user-profile/list`, payload, true)
+      .then((response) => {
+        debugger;
+        const dataTable: any = [];
+        if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
+          response.data.data.rows.map(
+            (tableData: any, i: any) =>
+              dataTable.push({
+                id: tableData.id,
+                name: tableData.name,
+              }),
+            set({ UserListMaster: dataTable }),
+          );
+        } else {
+          set({ UserListMaster: [] });
+        }
       })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ fetching: false });
+      });
   },
 
   getServiceList: () => {
-    set({ fetching: true, errorOnFetching: false })
+    set({ fetching: true, errorOnFetching: false });
     httpRequest('post', `${envConfig.api_url}/idm/service/get`, {}, true)
       .then((response) => {
-        debugger
-        const dataTable: any = []
+        debugger;
+        const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
-          debugger
+          debugger;
           response.data.data.rows.map(
             (tableData: any, i: any) =>
               dataTable.push({
@@ -177,18 +319,18 @@ export const useSuperAdminLanding = create<SuperAdminLandingInterface>((set, get
                 name: tableData.name,
               }),
             set({ ServiceList: dataTable }),
-          )
+          );
         } else {
-          set({ ServiceList: [] })
+          set({ ServiceList: [] });
         }
       })
       .catch((err) => {
-        set({ errorOnFetching: true })
-        enqueueSnackbar('Something Went Wrong!', { variant: 'error' })
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
-        set({ fetching: false })
-      })
+        set({ fetching: false });
+      });
   },
 
   clearAll: () => {
@@ -196,12 +338,12 @@ export const useSuperAdminLanding = create<SuperAdminLandingInterface>((set, get
       createEditOrganisation: {
         organisationName: '',
         description: '',
-         email_id:'',
+        email_id: '',
         mapAdmin: [],
         mapServices: [],
         is_active: false,
         id: '',
       },
-    })
+    });
   },
-}))
+}));

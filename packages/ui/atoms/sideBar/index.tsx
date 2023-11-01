@@ -88,12 +88,13 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
   };
 
   const fetchMenu = () => {
-    getMenu();
+    // getMenu();
   };
 
   React.useEffect(() => {
     fetchMenu();
   }, []);
+  // console.log(sideMenus, 'sidem======');
 
   return (
     <Box

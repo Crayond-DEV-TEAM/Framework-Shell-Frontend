@@ -3,9 +3,28 @@ import { Box, Menu, MenuItem, Typography } from '@mui/material';
 import { CheckBox } from '@atoms/checkBox';
 import { GreenCloseCircleIcon } from '@assets/iconSet';
 import React, { useEffect, useState } from 'react';
-import { CutstomizedAutocomplete, MappedAdminCard, MappedUserCard } from '..';
+import {
+  CutstomizedAutocomplete,
+  DialogDrawer,
+  FooterComponent,
+  Input,
+  Label,
+  MappedAdminCard,
+  MappedUserCard,
+} from '..';
 
 import { addChipMultipleDropdownStyle } from './style';
+import { useAdminLanding } from '@core/store';
+
+interface AccessOption {
+  id: string;
+  name: string;
+}
+
+interface UserData {
+  id: string;
+  name: string;
+}
 
 interface AccessOption {
   id: string;
@@ -23,6 +42,8 @@ export interface AddChipMultipleDropdownProps {
   dataList?: UserData[];
   optionList?: AccessOption[];
   handleChange?: (key: string, value: any) => void;
+  createEditAdmin: any;
+  onSaveUserInvite?: () => void;
 }
 
 export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = ({
@@ -31,11 +52,16 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
   dataList = [],
   handleChange = () => {},
   optionList = [],
+  createEditAdmin,
+  onSaveUserInvite = () => false,
   ...rest
 }: AddChipMultipleDropdownProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [selectedOptions, setSelectedOptions] = useState<UserData[]>([]);
   const [accessState, setAccessState] = useState<AccessOption | null>(null);
+  const [values, setValues] = useState(false);
+
+  const { emailChecker, userNameChecker, userInviteEdit, seteditUserInviteDetails, addUserInvite } = useAdminLanding();
 
   const accessMaster = [
     { id: '1', name: 'Full Access' },
@@ -44,6 +70,20 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleChangeUserInvite = (key: string, value: string) => {
+    seteditUserInviteDetails({ key, value });
+  };
+
+  // const onSaveUserInvite = () => {
+  //   addUserInvite();
+  // };
+  const handleOpenUserInvite = () => {
+    setValues(true);
+  };
+  const handleCloseUserInvite = () => {
+    setValues(false);
   };
 
   const handleClose = () => {
@@ -71,6 +111,23 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
       handleChange('mapAdmin', setItemsUsers);
     }
   };
+
+  useEffect(() => {
+    if (userInviteEdit.userName !== '') {
+      const getuserNameCheck = setTimeout(() => {
+        userNameChecker();
+      }, 1000);
+      return () => clearTimeout(getuserNameCheck);
+    }
+  }, [userInviteEdit.userName]);
+  useEffect(() => {
+    if (userInviteEdit.email !== '') {
+      const getemailCheck = setTimeout(() => {
+        emailChecker();
+      }, 1000);
+      return () => clearTimeout(getemailCheck);
+    }
+  }, [userInviteEdit.email]);
 
   useEffect(() => {
     onSetChange();
@@ -118,8 +175,34 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
               </Box>
             </MenuItem>
           ))}
+          <MenuItem
+            sx={{
+              py: 1,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              cursor: 'pointer',
+              backgroundColor: '#f0f0f0',
+              px: 0,
+              justifyItems: 'left', // Customize the background color as needed
+            }}
+            onClick={() => {
+              handleOpenUserInvite();
+            }}
+          >
+            <GreenCloseCircleIconadmin_hub
+              rootStyle={{
+                minWidth: '22px',
+                height: '22px',
+                borderRadius: '50% !important',
+                marginRight: '10px',
+                // p:'3px'
+              }}
+            />
+            <Typography style={{ color: '#357968', fontSize: '14px', fontWeight: 600 }}>Invite User</Typography>
+          </MenuItem>
         </Menu>
-        <MappedUserCard />
+        <MappedUserCard dataMaster={createEditAdmin.mapAdmin} />
         <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', marginTop: '10px' }} onClick={handleClick}>
           <GreenCloseCircleIcon
             rootStyle={{
@@ -127,11 +210,72 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
               height: '22px',
               borderRadius: '50% !important',
               marginRight: '10px',
+              // p:'3px'
             }}
           />
           <Typography style={{ color: '#357968', fontSize: '14px', fontWeight: 600 }}>Add User</Typography>
         </Box>
       </div>
+      <DialogDrawer
+        maxModalWidth="xl"
+        isDialogOpened={values}
+        title={'Invite a user'}
+        Bodycomponent={
+          <Box sx={addChipMultipleDropdownStyle.padd}>
+            <Box sx={addChipMultipleDropdownStyle.inputGroupSx}>
+              <Label sx={addChipMultipleDropdownStyle.labelSx} htmlFor="addTitle" isRequired>
+                UserName
+              </Label>
+              <Input
+                size="small"
+                placeholder="Charge name"
+                required
+                value={userInviteEdit?.userName}
+                textFieldStyle={addChipMultipleDropdownStyle.inputSx}
+                id="title"
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                  handleChangeUserInvite('userName', e.target.value)
+                }
+                // isError={Boolean(formErrors.name)}
+                // errorMessage={formErrors.name}
+              />
+            </Box>
+            <Box sx={{ m: '16px' }} />
+            <Box sx={addChipMultipleDropdownStyle.inputGroupSx}>
+              <Label sx={addChipMultipleDropdownStyle.labelSx} htmlFor="addTitle" isRequired>
+                Email
+              </Label>
+              <Input
+                size="small"
+                placeholder="Email Id"
+                required
+                value={userInviteEdit?.email}
+                textFieldStyle={addChipMultipleDropdownStyle.inputSx}
+                id="email"
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                  handleChangeUserInvite('email', e.target.value)
+                }
+                // isError={Boolean(formErrors.description)}
+                // errorMessage={formErrors.description}
+              />
+            </Box>
+          </Box>
+        }
+        handleCloseDialog={handleCloseUserInvite}
+        dialogRootStyle={addChipMultipleDropdownStyle.dialogSx}
+        Footercomponent={
+          <FooterComponent
+            // check
+            // SwitchChange={(e) => {
+            //   handleAddEditStateChange('is_active', e.target.checked);
+            // }}
+            disabled={userInviteEdit.userNameStatus === 200 && userInviteEdit.emailStatus === 200 ? false : true}
+            saveButtonStyle={{ minWidth: '90px', height: '28px' }}
+            onCancel={handleCloseUserInvite}
+            onSave={onSaveUserInvite}
+          />
+        }
+      />
     </Box>
   );
 };

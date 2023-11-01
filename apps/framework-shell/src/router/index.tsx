@@ -14,6 +14,7 @@ import { loginRoutes, userRoutes } from './frameworkShell';
 import { messageCatalogueRoutes } from './messageCatalogue';
 import { idmRoutes } from './userManagement';
 import { alertsHubRoutes } from './alertsHub';
+import { PlanAndSubscriptionRoutes } from './planAndSubscription';
 
 const router = createBrowserRouter([
   ...loginRoutes,
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
       ...messageCatalogueRoutes,
       ...idmRoutes,
       ...alertsHubRoutes,
+      ...PlanAndSubscriptionRoutes,
     ],
   },
   {

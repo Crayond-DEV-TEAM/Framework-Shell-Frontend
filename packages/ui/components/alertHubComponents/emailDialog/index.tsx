@@ -110,7 +110,7 @@ export function EmailDialog(props: any): JSX.Element {
         </Box>
       )}
 
-      <Box sx={emailDialog_style.field}>
+      <Box sx={emailormlog_style.field}>
         <Label isRequired={true}>From mail</Label>
         <Input name="from_mail" value={emailConfiguration?.from_mail} onChange={handleChange} />
       </Box>

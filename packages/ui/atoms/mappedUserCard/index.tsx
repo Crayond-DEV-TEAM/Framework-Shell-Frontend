@@ -8,15 +8,16 @@ export interface MappedUserCardProps {
   className?: string;
   sx?: SxProps<Theme>;
   altText?: any;
+  dataMaster?: any;
 }
 
 export const MappedUserCard = (props: MappedUserCardProps): JSX.Element => {
-  const { className = '', sx = {}, altText, ...rest } = props;
+  const { className = '', sx = {}, altText, dataMaster, ...rest } = props;
 
   // console.log(altText, 'altText');
 
-  const { createEditAdmin } = useAdminLanding();
-  const dataMaster = createEditAdmin.mapAdmin;
+  // const { createEditAdmin } = useAdminLanding();
+  // const dataMaster = createEditAdmin.mapAdmin;
   return (
     <Box
       sx={[

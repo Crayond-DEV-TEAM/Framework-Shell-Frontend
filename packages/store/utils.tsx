@@ -178,47 +178,47 @@ export const validateResetPasswordData = (values: ResetPasswordState) => {
   return { isValid, message };
 };
 
-export const AllRoutes: { [key: number]: Menu } = {
-  1: {
-    id: 1,
-    // link: '/',
+export const AllRoutes = [
+  {
+    service_id: 'e42ed99b-3f07-40e3-a337-c9163230ead8',
+    link: '/',
     name: 'Alert Hubs',
     // baseUrl: '',
-    // links: ['/alertConfig', '/apiDocumentation', '/reports', '/alertrule'],
+    links: ['/alertConfig', '/apiDocumentation', '/reports', '/alertrule'],
     icon: (isSelected: boolean) => <Alert sx={{ fontSize: '22px', color: isSelected ? '#357968' : 'action' }} />,
     childrens: [
       {
         id: 1,
         link: '/reports',
         name: 'Reports',
-        // baseUrl: '',
+        baseUrl: '',
         icon: (isSelected: boolean) => <ReportIcon sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 2,
         link: '/alertrule',
         name: 'Alert Rule',
-        // baseUrl: '',
+        baseUrl: '',
         icon: (isSelected: boolean) => <AlertRuleIcon sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 3,
         link: '/apidocumentation',
         name: 'API Documentation',
-        // baseUrl: '',
+        baseUrl: '',
         icon: (isSelected: boolean) => <ApiDocument sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 4,
         link: '/alertconfig',
         name: 'Alert Configuration',
-        // baseUrl: '',
+        baseUrl: '',
         icon: (isSelected: boolean) => <AlertConfigIcon sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
     ],
   },
-  2: {
-    id: 2,
+  {
+    service_id: '3d85ad51-c2b2-4c1a-a466-16bc26d5e23c',
     link: '/',
     name: 'Message Catlog',
     baseUrl: '',
@@ -243,8 +243,8 @@ export const AllRoutes: { [key: number]: Menu } = {
       },
     ],
   },
-  3: {
-    id: 3,
+  {
+    service_id: '3ef02e4b-b862-47b0-a48c-939b2e9d16d9',
     link: '/',
     name: 'User Managment',
     baseUrl: '',
@@ -262,8 +262,8 @@ export const AllRoutes: { [key: number]: Menu } = {
       },
     ],
   },
-  4: {
-    id: 4,
+  {
+    service_id: '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
     link: '/',
     name: 'Plan And Subscription',
     baseUrl: '',
@@ -313,21 +313,21 @@ export const AllRoutes: { [key: number]: Menu } = {
         icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
-        id: 4,
+        id: 5,
         link: '/charges',
         name: 'Charges',
         baseUrl: '',
         icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
-        id: 4,
+        id: 6,
         link: '/featureGroups',
         name: 'FeatureGroup',
         baseUrl: '',
         icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
-        id: 4,
+        id: 7,
         link: '/feature',
         name: 'Feature',
         baseUrl: '',
@@ -335,7 +335,7 @@ export const AllRoutes: { [key: number]: Menu } = {
       },
     ],
   },
-};
+];
 
 export const giveMeAlertRule = (): AddAlertRule => {
   return {
@@ -348,17 +348,10 @@ export const giveMeAlertRule = (): AddAlertRule => {
     email_subject: '',
     email_body: '',
     SMS_body: '',
-    is_email: false,
-    is_push: true,
+    is_email: true,
+    is_push: false,
     is_sms: false,
-    is_whatsApp: false,
-    is_slack: false,
-    is_inApp: false,
-    whatsApp_template_name: '',
-    whatsApp_body: '',
-    slack_body: '',
-    in_app_title: '',
-    inApp_body: '',
+    is_status: false,
     alert_rule_code: '',
     hashtag: '',
     isActive: false,
@@ -605,72 +598,6 @@ export const tabsCard = {
         },
       ],
     },
-    {
-      icon: <SmsIcon />,
-      header: 'WhatsApp',
-      cardDetails: [
-        {
-          number: '250',
-          value: 'Sent',
-        },
-        {
-          number: '243',
-          value: 'Delivered',
-        },
-        {
-          number: '356',
-          value: 'Not Delivered',
-        },
-        {
-          number: '165',
-          value: 'Clicked',
-        },
-      ],
-    },
-    {
-      icon: <EmailIcon />,
-      header: 'InApp',
-      cardDetails: [
-        {
-          number: '825',
-          value: 'Sent',
-        },
-        {
-          number: '675',
-          value: 'Delivered',
-        },
-        {
-          number: '356',
-          value: 'Not Delivered',
-        },
-        {
-          number: '243',
-          value: 'Clicked',
-        },
-      ],
-    },
-    {
-      icon: <NotificationIcon />,
-      header: 'Slack',
-      cardDetails: [
-        {
-          number: '064',
-          value: 'Sent',
-        },
-        {
-          number: '056',
-          value: 'Delivered',
-        },
-        {
-          number: '012',
-          value: 'Not Delivered',
-        },
-        {
-          number: '042',
-          value: 'Clicked',
-        },
-      ],
-    },
   ],
   thisWeek: [
     {
@@ -739,72 +666,6 @@ export const tabsCard = {
         },
       ],
     },
-    {
-      icon: <EmailIcon />,
-      header: 'InApp',
-      cardDetails: [
-        {
-          number: '250',
-          value: 'Sent',
-        },
-        {
-          number: '243',
-          value: 'Delivered',
-        },
-        {
-          number: '356',
-          value: 'Not Delivered',
-        },
-        {
-          number: '165',
-          value: 'Clicked',
-        },
-      ],
-    },
-    {
-      icon: <NotificationIcon />,
-      header: 'Slack',
-      cardDetails: [
-        {
-          number: '825',
-          value: 'Sent',
-        },
-        {
-          number: '675',
-          value: 'Delivered',
-        },
-        {
-          number: '356',
-          value: 'Not Delivered',
-        },
-        {
-          number: '243',
-          value: 'Clicked',
-        },
-      ],
-    },
-    {
-      icon: <SmsIcon />,
-      header: 'WhatsApp',
-      cardDetails: [
-        {
-          number: '064',
-          value: 'Sent',
-        },
-        {
-          number: '056',
-          value: 'Delivered',
-        },
-        {
-          number: '012',
-          value: 'Not Delivered',
-        },
-        {
-          number: '042',
-          value: 'Clicked',
-        },
-      ],
-    },
   ],
   thisMonth: [
     {
@@ -854,72 +715,6 @@ export const tabsCard = {
     {
       icon: <EmailIcon />,
       header: 'Email',
-      cardDetails: [
-        {
-          number: '064',
-          value: 'Sent',
-        },
-        {
-          number: '056',
-          value: 'Delivered',
-        },
-        {
-          number: '012',
-          value: 'Not Delivered',
-        },
-        {
-          number: '042',
-          value: 'Clicked',
-        },
-      ],
-    },
-    {
-      icon: <NotificationIcon />,
-      header: 'Slack',
-      cardDetails: [
-        {
-          number: '250',
-          value: 'Sent',
-        },
-        {
-          number: '243',
-          value: 'Delivered',
-        },
-        {
-          number: '356',
-          value: 'Not Delivered',
-        },
-        {
-          number: '165',
-          value: 'Clicked',
-        },
-      ],
-    },
-    {
-      icon: <SmsIcon />,
-      header: 'WhatsApp',
-      cardDetails: [
-        {
-          number: '825',
-          value: 'Sent',
-        },
-        {
-          number: '675',
-          value: 'Delivered',
-        },
-        {
-          number: '356',
-          value: 'Not Delivered',
-        },
-        {
-          number: '243',
-          value: 'Clicked',
-        },
-      ],
-    },
-    {
-      icon: <EmailIcon />,
-      header: 'InApp',
       cardDetails: [
         {
           number: '064',

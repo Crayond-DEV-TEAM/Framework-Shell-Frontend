@@ -109,8 +109,8 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
   const oldChargessum = oldchargesMaps?.reduce((accumulator, currentValue) => {
     return accumulator + parseInt(currentValue, 10);
   }, 0);
-  const billChecking = objectArray.find((item) => item.name === billtype?.name) ? billtype : null;
-  console.log(objectArray.find((item) => item.name === billtype?.name) ? billtype : null, 'chargeMaps');
+  const billChecking = objectArray?.find((item) => item?.name === billtype?.name) ? billtype : null;
+  console.log(objectArray?.find((item) => item?.name === billtype?.name) ? billtype : null, 'chargeMaps');
   console.log(billtype, 'billtype');
 
   return (
@@ -143,7 +143,7 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
               onChange={(value) => {
                 handleSetupFunc(value);
               }}
-              value={Object.keys(createEditSubscription.plan_id).length > 0 ? createEditSubscription.plan_id : null}
+              value={Object.keys(createEditSubscription?.plan_id)?.length > 0 ? createEditSubscription?.plan_id : null}
               isError={Boolean(formErrors.plan_id)}
               errorMessage={formErrors.plan_id}
             />
@@ -158,9 +158,9 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
               onChange={(value) => {
                 handleChangeEvent('billing_type', value);
               }}
-              value={billChecking && Object.keys(billChecking).length > 0 ? billChecking : null}
-              isError={Boolean(formErrors.billing_type)}
-              errorMessage={formErrors.billing_type}
+              value={billChecking && Object.keys(billChecking)?.length > 0 ? billChecking : null}
+              isError={Boolean(formErrors?.billing_type)}
+              errorMessage={formErrors?.billing_type}
             />
           </Box>
           <Box sx={{ margin: '10px' }} />

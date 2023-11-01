@@ -145,6 +145,7 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
   };
 
   const handleChangeEvent = (key: string, value: any) => {
+    debugger;
     setSubscriptionList(key, value);
   };
   const handleMapclose = () => {

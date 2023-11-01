@@ -188,7 +188,7 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
       push_body: addAlertRules?.push_body,
       isActive: addAlertRules?.is_active,
     };
-    httpRequest('post', `${envConfig.api_url}/rules/upsert`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/alertshub/rules/upsert`, payload, true)
       .then((response) => {
         enqueueSnackbar('New Alert Rule successfully Added!', { variant: 'success' });
         getAlertTable();
@@ -284,7 +284,7 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
 
   editAlertRule: async (data: any) => {
     set({ editFetching: true, errorOnFetching: false });
-    httpRequest('post', `${envConfig.api_url}/rules/get`, { alert_rule_code: data?.alert_rule_code }, true)
+    httpRequest('post', `${envConfig.api_url}/alertshub/rules/get`, { alert_rule_code: data?.alert_rule_code }, true)
       .then((response) => {
         const updateData: any = [];
         if (Array.isArray(response?.data?.data) && response?.data?.data?.length > 0) {
@@ -334,12 +334,7 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
 
     const bgColor = getRandomColor();
 
-    httpRequest(
-      'post',
-      `${envConfig.alert_hub}/rules/get`,
-      { profileId: '27ad652f-9143-4c54-a5cd-85bcd470b967', offset: 0, limit: 10, searchStr: null },
-      true,
-    )
+    httpRequest('post', `${envConfig.api_url}/alertshub/rules/get`, { offset: 0, limit: 10, searchStr: null }, true)
       .then((response) => {
         const dataTable: any = [];
 
@@ -390,7 +385,7 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
   getHashtagData: async () => {
     set({ fetching: true, errorOnFetching: false });
 
-    httpRequest('GET', `${envConfig.api_url}/rules/hashtag`, {}, true)
+    httpRequest('GET', `${envConfig.api_url}/alertshub/rules/hashtag`, {}, true)
       .then((response) => {
         const hashtagData: any = [];
 
@@ -425,7 +420,7 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
       id: data?.id,
     };
 
-    httpRequest('DELETE', `${envConfig.api_url}/rules`, payload, true)
+    httpRequest('DELETE', `${envConfig.api_url}/alertshub/rules`, payload, true)
       .then((response) => {
         enqueueSnackbar('Data Deleted Succesfully!', { variant: 'success' });
       })

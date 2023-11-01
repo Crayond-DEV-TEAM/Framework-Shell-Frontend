@@ -598,6 +598,72 @@ export const tabsCard = {
         },
       ],
     },
+    {
+      icon: <SmsIcon />,
+      header: 'WhatsApp',
+      cardDetails: [
+        {
+          number: '250',
+          value: 'Sent',
+        },
+        {
+          number: '243',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '165',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <EmailIcon />,
+      header: 'InApp',
+      cardDetails: [
+        {
+          number: '825',
+          value: 'Sent',
+        },
+        {
+          number: '675',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '243',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <NotificationIcon />,
+      header: 'Slack',
+      cardDetails: [
+        {
+          number: '064',
+          value: 'Sent',
+        },
+        {
+          number: '056',
+          value: 'Delivered',
+        },
+        {
+          number: '012',
+          value: 'Not Delivered',
+        },
+        {
+          number: '042',
+          value: 'Clicked',
+        },
+      ],
+    },
   ],
   thisWeek: [
     {
@@ -666,6 +732,72 @@ export const tabsCard = {
         },
       ],
     },
+    {
+      icon: <EmailIcon />,
+      header: 'InApp',
+      cardDetails: [
+        {
+          number: '250',
+          value: 'Sent',
+        },
+        {
+          number: '243',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '165',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <NotificationIcon />,
+      header: 'Slack',
+      cardDetails: [
+        {
+          number: '825',
+          value: 'Sent',
+        },
+        {
+          number: '675',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '243',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <SmsIcon />,
+      header: 'WhatsApp',
+      cardDetails: [
+        {
+          number: '064',
+          value: 'Sent',
+        },
+        {
+          number: '056',
+          value: 'Delivered',
+        },
+        {
+          number: '012',
+          value: 'Not Delivered',
+        },
+        {
+          number: '042',
+          value: 'Clicked',
+        },
+      ],
+    },
   ],
   thisMonth: [
     {
@@ -715,6 +847,72 @@ export const tabsCard = {
     {
       icon: <EmailIcon />,
       header: 'Email',
+      cardDetails: [
+        {
+          number: '064',
+          value: 'Sent',
+        },
+        {
+          number: '056',
+          value: 'Delivered',
+        },
+        {
+          number: '012',
+          value: 'Not Delivered',
+        },
+        {
+          number: '042',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <NotificationIcon />,
+      header: 'Slack',
+      cardDetails: [
+        {
+          number: '250',
+          value: 'Sent',
+        },
+        {
+          number: '243',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '165',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <SmsIcon />,
+      header: 'WhatsApp',
+      cardDetails: [
+        {
+          number: '825',
+          value: 'Sent',
+        },
+        {
+          number: '675',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '243',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <EmailIcon />,
+      header: 'InApp',
       cardDetails: [
         {
           number: '064',

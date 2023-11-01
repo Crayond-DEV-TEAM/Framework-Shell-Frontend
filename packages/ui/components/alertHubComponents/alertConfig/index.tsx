@@ -1,6 +1,6 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Stack, Typography } from '@mui/material';
-import React,  { useEffect }  from 'react';
+import React, { useEffect } from 'react';
 import { alertConfig_style } from './style';
 import { SubHeader } from '@components/commonComponents';
 import { EmailTab } from '../emailTab';
@@ -34,7 +34,7 @@ export function AlertConfig(props: AlertConfigProps): JSX.Element {
   useEffect(() => {
     getEmailConfig();
     getSmsConfig();
-    getPushConfig();
+    // getPushConfig();
     getSlackConfig();
     getWhatsappConfig();
   }, []);

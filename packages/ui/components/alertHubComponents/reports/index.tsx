@@ -119,9 +119,13 @@ export function Reports(props: ReportsProps): JSX.Element {
     setChecked(event.target.checked);
   };
 
-  const editHandel = () => {};
+  const editHandel = () => {
+    console.log();
+  };
 
-  const deleteHandel = () => {};
+  const deleteHandel = () => {
+    console.log();
+  };
 
   const Header = [
     {

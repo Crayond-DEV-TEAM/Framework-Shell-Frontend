@@ -104,12 +104,12 @@ export function Login(props: LoginProps): JSX.Element {
         )}
 
         {/* For Sign Up */}
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} mt={2}>
+        {/* <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} mt={2}>
           <Typography sx={loginStyle.loginSx}>If you dont have an account already?</Typography>
           <Typography sx={{ ...loginStyle?.ForgotSx, pt: 0, ml: 0.5 }} onClick={() => navigate(webRoutes.signup)}>
             Sign Up
           </Typography>
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );

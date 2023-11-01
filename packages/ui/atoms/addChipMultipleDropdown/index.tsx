@@ -190,7 +190,7 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
               handleOpenUserInvite();
             }}
           >
-            <GreenCloseCircleIconadmin_hub
+            <GreenCloseCircleIcon
               rootStyle={{
                 minWidth: '22px',
                 height: '22px',

@@ -101,11 +101,13 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       organisation_id: OrganisationDetails.id,
       name: createEditAdmin.projectTitle,
       description: createEditAdmin.description,
-      services: createEditAdmin.mapServices.map((x: any) => x?.id),
-      users: createEditAdmin.mapAdmin.map((x: any) => ({
-        user_profile_id: x?.id,
-        access: x?.access,
-      })),
+      services: Array.isArray(createEditAdmin.mapServices) ? createEditAdmin.mapServices?.map((x: any) => x?.id) : [],
+      users: Array.isArray(createEditAdmin.mapAdmin)
+        ? createEditAdmin.mapAdmin?.map((x: any) => ({
+            user_profile_id: x?.id,
+            access: x?.access,
+          }))
+        : [],
       // is_active: true,
     };
     // debugger;
@@ -187,9 +189,9 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
                 name: tableData.organisation_name,
                 rolename: tableData.role_name,
               }),
-            set({ OrganisationListMaster: dataTable, }),
+            set({ OrganisationListMaster: dataTable }),
           );
-           if (dataTable.length > 0) {
+          if (dataTable.length > 0) {
             const zerothObject = dataTable[0];
             set({
               OrganisationDetails: {
@@ -304,7 +306,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
   },
 
   addUserInvite: () => {
-    debugger;
     set({ fetching: true, errorOnFetching: false });
     const { OrganisationDetails, userInviteEdit } = get();
     const payload = {
@@ -356,14 +357,14 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
   userNameChecker: () => {
     debugger;
     set({ fetching: true, errorOnFetching: false });
-    const { userInviteEdit , seteditUserInviteDetails } = get();
+    const { userInviteEdit, seteditUserInviteDetails } = get();
     const payload = {
       username: userInviteEdit.userName,
     };
     //  debugger;
     httpRequest('post', `${envConfig.api_url}/framework_shell_auth/check/username`, payload, false)
       .then((response) => {
-         if (response.data) {
+        if (response.data) {
           const key = 'userNameStatus';
           const value = response.status;
           seteditUserInviteDetails({ key, value });

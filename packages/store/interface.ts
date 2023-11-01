@@ -1105,7 +1105,7 @@ export interface AdminInterface {
   editAdmin: () => void;
   getStatusList: (id: any, status: any) => void;
   deleteAdmin: (id: string) => void;
-  addUserInvite: (id:string) => void;
+  addUserInvite: (id: string) => void;
   emailChecker: () => void;
   userNameChecker: () => void;
   clearAll: () => void;

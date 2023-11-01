@@ -343,8 +343,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
       .then((response) => {
         const dataTable = response?.data?.data?.rows;
 
-        if (Array.isArray(dataTable) && dataTable.length > 0) {
-          const emailConfigArray = dataTable.map((row) => ({
+        if (Array.isArray(dataTable) && dataTable?.length > 0) {
+          const emailConfigArray = dataTable?.map((row) => ({
             id: row?.id,
             identification_name: row?.identification_name || '-',
             email_provider: row?.email_provider || '-',
@@ -432,18 +432,20 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
 
         if (Array.isArray(data)) {
           set({ pushList: data });
-        } else if (typeof data === 'object') {
+        } else if (typeof data === 'object' && Object?.keys(data)?.length) {
           set({
             pushList: [
               {
-                id: data.id || '-',
-                pushServerKey: data.pushServerKey || '-',
-                projectId: data.projectId || '-',
-                clientEmail: data.clientEmail || '-',
-                privateKey: data.privateKey || '-',
+                id: data?.id || '-',
+                pushServerKey: data?.pushServerKey || '-',
+                projectId: data?.projectId || '-',
+                clientEmail: data?.clientEmail || '-',
+                privateKey: data?.privateKey || '-',
               },
             ],
           });
+        } else {
+          set({ pushList: [] });
         }
       })
       .catch((err) => {

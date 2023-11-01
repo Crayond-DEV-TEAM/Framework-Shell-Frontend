@@ -234,7 +234,7 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
       },
     };
 
-    httpRequest('post', `${envConfig.api_url}/rules/get`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/alertshub/rules/get`, payload, true)
       .then((response) => {
         const filterData: any = [];
 

@@ -34,7 +34,7 @@ export function AlertConfig(props: AlertConfigProps): JSX.Element {
   useEffect(() => {
     getEmailConfig();
     getSmsConfig();
-    // getPushConfig();
+    getPushConfig();
     getSlackConfig();
     getWhatsappConfig();
   }, []);

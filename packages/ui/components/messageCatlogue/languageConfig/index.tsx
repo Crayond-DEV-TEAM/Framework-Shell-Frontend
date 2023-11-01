@@ -1,14 +1,11 @@
 import { Button } from '@atoms/button';
 import { DropDown } from '@atoms/dropDown';
 import { DeleteChip, LanguageTop } from '@atoms/icons';
-import SearchIcon from '@mui/icons-material/Search';
 import { SearchField } from '@atoms/searchField';
-import { Chip, Grid, Skeleton, SxProps, Theme } from '@mui/material';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Chip, Grid, Skeleton, SxProps, Theme } from '@mui/material';
 import { forwardRef, useEffect, useState } from 'react';
 import { languageConfigStyle } from './style';
 import { useLanguageConfiguration } from '@core/store';
-// import { enqueueSnackbar } from 'notistack';
 import { SelectBoxInterface } from '@core/store/interface';
 import { DeleteDailog } from '@atoms/deletedailog';
 import { useNavigate } from 'react-router-dom';
@@ -30,13 +27,11 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     languages,
     saveLanguage,
     saving,
-    errorOnSaving,
     updateDefaultLang,
     isSaved,
     defaultLang,
     getSavedLanguage,
     fetching,
-    errorOnFetching,
     getAllLanguages,
     masterLanguages,
     masterLanguageError,
@@ -63,11 +58,11 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     setSelected(false);
   };
   console.log(languages, 'message');
-  
+
   const OnsaveLangugae = () => {
     saveLanguage();
     setTimeout(() => {
-      navigate(messageRoutes.messagegroup, {state: languages});
+      navigate(messageRoutes.messagegroup, { state: languages });
     }, 5000);
   };
 
@@ -78,7 +73,7 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
       ref={ref}
       {...rest}
     >
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', pb: 4 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', pb: 4, gap: 1.5 }}>
         <LanguageTop />
         <Typography sx={languageConfigStyle.topText}>Language Configuration</Typography>
       </Box>
@@ -100,10 +95,15 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
       <Box sx={languageConfigStyle.sx}>
         <Box sx={languageConfigStyle.header}>
           <Typography sx={languageConfigStyle.selectLang}>Selected Language</Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <Typography sx={languageConfigStyle.default}>Default Language</Typography>
-            <Box sx={{ width: '172px', height: '36px', pl: 1 }}>
-              <DropDown value={defaultLang?.value} selectOption={languages} onSelect={updateDefaultLang} />
+            <Box sx={{ width: '172px' }}>
+              <DropDown
+                placeholder="select"
+                value={defaultLang?.value}
+                selectOption={languages}
+                onSelect={updateDefaultLang}
+              />
             </Box>
           </Box>
         </Box>

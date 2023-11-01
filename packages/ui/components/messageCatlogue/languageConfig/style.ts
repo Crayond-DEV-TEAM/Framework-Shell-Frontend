@@ -5,7 +5,9 @@ interface LanguageConfigStyleProps {
 }
 
 export const languageConfigStyle: LanguageConfigStyleProps = {
-  rootSx: {},
+  rootSx: {
+    marginTop: 'min(84px, 10vh)',
+  },
   sx: {
     width: '100%',
     maxWidth: '761px',
@@ -28,7 +30,6 @@ export const languageConfigStyle: LanguageConfigStyleProps = {
   topText: {
     fontSize: '20px',
     fontWeight: 600,
-    pl: 1,
   },
   default: {
     fontSize: '12px',

@@ -78,6 +78,11 @@ export const DropDown = forwardRef((props: DropDownProps, ref: React.Ref<HTMLEle
         }}
         IconComponent={SelectDown}
       >
+        {placeholder && (
+          <MenuItem disabled value="">
+            {placeholder}
+          </MenuItem>
+        )}
         {selectOption?.map((option: any, index: number) => (
           <MenuItem
             onClick={() => {

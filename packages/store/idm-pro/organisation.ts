@@ -2,6 +2,10 @@ import { envConfig } from '@core/envconfig';
 import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { OrganisationInterface } from '../interface';
+<<<<<<< HEAD
+=======
+import { permission } from '../../ui/components/addpermission/utils';
+>>>>>>> 5fcbcbda15cbe3df07bdceae596b58ee5c478d16
 import { enqueueSnackbar } from 'notistack';
 // import { findObjectByIndex, modifyObjectByIndexWithKey } from './commonFunction';
 export const useOrganisation = create<OrganisationInterface>((set, get) => ({
@@ -33,7 +37,11 @@ export const useOrganisation = create<OrganisationInterface>((set, get) => ({
 
   getOrganisationList: () => {
     set({ fetching: true, errorOnFetching: false });
+<<<<<<< HEAD
     httpRequest('get', `${envConfig.idm_api_url}/organisations`, {}, true)
+=======
+    httpRequest('get', `${envConfig.api_url}/organisations`, {}, true)
+>>>>>>> 5fcbcbda15cbe3df07bdceae596b58ee5c478d16
       .then((response) => {
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
@@ -78,7 +86,11 @@ export const useOrganisation = create<OrganisationInterface>((set, get) => ({
       description: createEditOrganisation.description,
     };
 
+<<<<<<< HEAD
     httpRequest('post', `${envConfig.idm_api_url}/organisations`, payload, true)
+=======
+    httpRequest('post', `${envConfig.api_url}/organisations`, payload, true)
+>>>>>>> 5fcbcbda15cbe3df07bdceae596b58ee5c478d16
       .then((response) => {
         enqueueSnackbar('Organisation added Succesfully!', { variant: 'success' });
       })
@@ -112,7 +124,11 @@ export const useOrganisation = create<OrganisationInterface>((set, get) => ({
     };
 
     set({ fetching: true, errorOnFetching: false });
+<<<<<<< HEAD
     httpRequest('put', `${envConfig.idm_api_url}/organisations`, payload, true)
+=======
+    httpRequest('put', `${envConfig.api_url}/organisations`, payload, true)
+>>>>>>> 5fcbcbda15cbe3df07bdceae596b58ee5c478d16
       .then((response) => {
         enqueueSnackbar('Organisations edited Succesfully!', { variant: 'success' });
       })
@@ -133,7 +149,11 @@ export const useOrganisation = create<OrganisationInterface>((set, get) => ({
       organisation_id: id,
       is_active: status,
     };
+<<<<<<< HEAD
     httpRequest('put', `${envConfig.idm_api_url}/organisations`, payload, true)
+=======
+    httpRequest('put', `${envConfig.api_url}/organisations`, payload, true)
+>>>>>>> 5fcbcbda15cbe3df07bdceae596b58ee5c478d16
       .then((response) => {
         enqueueSnackbar('Status changed succesfully!', { variant: 'success' });
       })
@@ -155,7 +175,11 @@ export const useOrganisation = create<OrganisationInterface>((set, get) => ({
       organisation_id: id,
     };
     set({ fetching: true, errorOnFetching: false });
+<<<<<<< HEAD
     httpRequest('delete', `${envConfig.idm_api_url}/organisations`, payload, true)
+=======
+    httpRequest('delete', `${envConfig.api_url}/organisations`, payload, true)
+>>>>>>> 5fcbcbda15cbe3df07bdceae596b58ee5c478d16
       .then((response) => {
         enqueueSnackbar('Organisations deleted Succesfully!', { variant: 'success' });
       })

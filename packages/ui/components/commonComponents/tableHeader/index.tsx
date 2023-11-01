@@ -47,11 +47,19 @@ export interface TableHeaderProps {
   language?: any;
   addedLangState?: any;
   languageBox?: () => void;
+  clearfilter?: () => void;
+  clearSelectedFilterByKey?: ((key: string | undefined) => void) | undefined;
   handleChipDelete?: any;
   addMessage?: any;
   options?: any;
   onChange?: any;
-  filterChange?: any;
+  filterChange?:
+    | ((
+        filterName: 'hashtagFilter' | 'alertTypeFilter' | 'statusFilter' | 'dateFilter',
+        id: number,
+        value: any,
+      ) => void)
+    | undefined;
   onClick?: () => boolean;
   sx?: SxProps<Theme>;
 }
@@ -91,6 +99,8 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     onChange = () => false,
     handleClose = () => false,
     handleClick = () => false,
+    clearfilter = () => false,
+    clearSelectedFilterByKey = () => false,
     id,
     anchorEl,
     openAnchorEl,
@@ -128,6 +138,8 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
               handleChipDelete={handleChipDelete}
               onChange={filterChange}
               onApply={onApply}
+              clearfilter={clearfilter}
+              clearSelectedFilterByKey={clearSelectedFilterByKey}
             />
           )}
           {isBtnRequired && (

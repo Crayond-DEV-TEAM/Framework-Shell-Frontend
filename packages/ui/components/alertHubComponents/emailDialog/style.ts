@@ -15,7 +15,11 @@ export const emailDialog_style = {
 
   field: {
     marginBottom: '17px',
+    '& p': {
+      fontSize: '12px',
+    },
     '& .MuiInputBase-root': {
+      marginTop: '9px',
       backgroundColor: '#FFFFFF',
     },
   },

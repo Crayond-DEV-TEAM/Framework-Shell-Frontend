@@ -39,7 +39,6 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
     };
     httpRequest('post', `${envConfig.api_url}/customers`, payload, true)
       .then((response) => {
-        // debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(

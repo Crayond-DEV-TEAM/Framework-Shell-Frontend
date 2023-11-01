@@ -22,15 +22,15 @@ export const tableHeaderStyle: TableHeaderStyleProps = {
   leftSx: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'end',
   },
   btnSx: {
+    fontSize: '12px',
     borderRadius: '8px',
     textTransform: 'capitalize',
   },
   dialogSx: {
     width: '1020px',
-    // height: '520px',
   },
   contentSx: {
     '&.MuiDialogContent-root': {
@@ -44,6 +44,7 @@ export const tableHeaderStyle: TableHeaderStyleProps = {
     padding: '4px 8px',
     marginLeft: '8px',
     cursor: 'pointer',
+    textAlign: 'center',
   },
   download: {
     display: 'flex',

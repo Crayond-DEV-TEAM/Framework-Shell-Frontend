@@ -376,6 +376,11 @@ export function Reports(props: ReportsProps): JSX.Element {
                 bgColor: '#EAEAEA',
                 borderBottom: '0px',
               }}
+              stickyOptions={{
+                stickyHeader: true,
+                stickyLeft: [],
+                stickyRight: ['action', 'status'],
+              }}
               cellOptions={{
                 fontSize: '14px',
                 fontWeight: '500',

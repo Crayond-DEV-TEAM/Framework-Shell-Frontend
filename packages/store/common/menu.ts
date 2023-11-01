@@ -60,16 +60,11 @@ export const useMenu = create<MenusProps>((set, get) => ({
       if (data.status === 200) {
         debugger;
         const sideMenus: Menu[] = [];
-        data.data?.rows?.forEach(
-          (tool: {
-              id: string;
-              tool_name: string;
-          }) => {
-            sideMenus.push({ ...AllRoutes[tool.tool_id], baseUrl: tool.tool.baseUrl });
-          },
-        );
+        data.data?.rows?.forEach((tool: { id: string; tool_name: string }) => {
+          sideMenus.push({ ...AllRoutes[tool.tool_id], baseUrl: tool.tool.baseUrl });
+        });
         set({ sideMenus: sideMenus });
-        console.log(sideMenus,'sidemenus')
+        console.log(sideMenus, 'sidemenus');
       }
 
       return data;

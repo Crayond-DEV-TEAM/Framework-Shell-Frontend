@@ -45,7 +45,10 @@ export const useProfileUser = create<UserProfileInterface>((set, get) => ({
     };
     httpRequest('post', `${envConfig.api_url}/user-profiles/get`, payload, true)
       .then((response) => {
+<<<<<<< HEAD
         // debugger;
+=======
+>>>>>>> 5fcbcbda15cbe3df07bdceae596b58ee5c478d16
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(

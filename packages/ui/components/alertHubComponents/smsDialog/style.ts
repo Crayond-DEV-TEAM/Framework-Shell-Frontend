@@ -222,6 +222,7 @@ export const smsDialog_style = {
   field: {
     marginBottom: '17px',
     '& .MuiInputBase-root': {
+      marginTop: '9px',
       backgroundColor: '#FFFFFF',
     },
   },

@@ -8,79 +8,76 @@ import { emailTab_style } from './style';
 import { FooterComponent } from '@atoms/footerComponent';
 import { TableHeader } from '@components/commonComponents'
 import { EmailDialog } from '../emailDialog'
+import { useAlertConfig } from '@core/store';
+import { enqueueSnackbar } from 'notistack';
 
 export function EmailTab(): JSX.Element {
   const [open, setOpen] = React.useState(false);
-  const [isSelectedAll, setIsSelectedAll] = React.useState(false);
-  const [selectedCheckbox, setSelectedCheckbox] = React.useState([1, 2]);
   const [switchList, setSwitchList] = React.useState([1, 4]);
-  const [headerSelect, setHederSelect] = React.useState('status');
-  const [headerCheckbox, setHederCheckbox] = React.useState(true);
-  const checkboxHandleChange = (data: any) => {
-    if (!selectedCheckbox.includes(data)) {
-      setSelectedCheckbox([...selectedCheckbox, data]);
-    } else {
-      const index = selectedCheckbox.indexOf(data);
-      if (index > -1) {
-        selectedCheckbox.splice(index, 1);
-        setSelectedCheckbox([...selectedCheckbox]);
-      }
-    }
-  };
-  const setHederSearch = (value: any) => {
-    console.log('🚀 ~ file: App.tsx:31 ~ setHederSearch ~ value:', value);
-  };
-  const SelectAll = (data: any, isRestSet: any) => {
-    if (!isRestSet) {
-      setSelectedCheckbox([...data]);
-      setIsSelectedAll(true);
-    } else {
-      setSelectedCheckbox([]);
-      setIsSelectedAll(false);
-    }
-  };
-  const handleSwitch = (id: any) => {
-    if (!switchList.includes(id)) {
-      setSwitchList([...switchList, id]);
-    } else {
-      const index = switchList.indexOf(id);
-      if (index > -1) {
-        switchList.splice(index, 1);
-        setSwitchList([...switchList]);
-      }
-    }
-  };
-  const downloadMethod = () => {
-    console.log('Download Method working!');
-  };
-  const fillerMethod = () => {
-    console.log('Filter Method working!');
-  };
-  const primaryBtnMethod = () => {
-    console.log('primary Btn Method working!');
-  };
-  const secondaryBtnMethod = () => {
-    console.log('secondary Btn Method working!');
-  };
 
-  const Header = [
-    // {
-    //     id: 'no',
-    //     align: 'left',
-    //     disablePadding: false,
-    //     label: 'Sl no',
-    // },
+  const { emailConfiguration, addEmailConfig, editEmailConfig, clearEmailState, deleteEmailConfig, emailList } =
+    useAlertConfig();
+
+  const header = [
     {
-      id: 'provider',
+      id: 'identification_name',
       align: 'left',
       disablePadding: false,
-      label: 'Provider',
+      label: 'Identification Name',
+    },
+    {
+      id: 'email_provider',
+      align: 'left',
+      disablePadding: false,
+      label: 'Email Provider',
+    },
+    {
+      id: 'smtp_host',
+      align: 'left',
+      disablePadding: false,
+      label: 'SMTP Host',
+    },
+    {
+      id: 'smtp_port',
+      align: 'left',
+      disablePadding: false,
+      label: 'SMTP Port',
+    },
+    {
+      id: 'smtp_username',
+      align: 'left',
+      disablePadding: false,
+      label: 'SMTP Username',
+    },
+    {
+      id: 'aws_secret_key',
+      align: 'left',
+      disablePadding: false,
+      label: 'Aws Secret Key',
     },
     {
       id: 'api_key',
       align: 'left',
       disablePadding: false,
       label: 'API Key',
+    },
+    {
+      id: 'aws_access_id',
+      align: 'left',
+      disablePadding: false,
+      label: 'Aws Access Id',
+    },
+    {
+      id: 'mail_domain',
+      align: 'left',
+      disablePadding: false,
+      label: 'Email Domain',
+    },
+    {
+      id: 'from_mail',
+      align: 'left',
+      disablePadding: false,
+      label: 'From Mail',
     },
     {
       id: 'action',
@@ -90,66 +87,26 @@ export function EmailTab(): JSX.Element {
     },
   ];
 
-  const dataList = [
-    {
-      id: 1,
-      provider: 'Eros aliquam eros',
-      api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 2,
-      provider: 'Eros aliquam eros',
-      api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 3,
-      provider: 'Eros aliquam eros',
-      api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 4,
-      provider: 'Eros aliquam eros',
-      api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 5,
-      provider: 'Eros aliquam eros',
-      api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 6,
-      provider: 'Eros aliquam eros',
-      api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 7,
-      provider: 'Eros aliquam eros',
-      api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 8,
-      provider: 'Eros aliquam eros',
-      api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 9,
-      provider: 'Eros aliquam eros',
-      api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 10,
-      provider: 'Eros aliquam eros',
-      api_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-  ];
-  const editHandel = () => {};
+  const editHandel = (e: string, val: any) => {
+    editEmailConfig(val);
+    setOpen(true);
+  };
 
-  const deleteHandel = () => {};
+  const deleteHandel = (e: string, val: any) => {
+    deleteEmailConfig(val);
+  };
 
   const tableData = [
-    // { type: ['INCREMENT'], name: 'sl_no' },
-    { type: ['TEXT'], name: 'provider' },
+    { type: ['TEXT'], name: 'identification_name' },
+    { type: ['TEXT'], name: 'email_provider' },
+    { type: ['TEXT'], name: 'smtp_host' },
+    { type: ['TEXT'], name: 'smtp_port' },
+    { type: ['TEXT'], name: 'smtp_username' },
+    { type: ['TEXT'], name: 'aws_secret_key' },
     { type: ['TEXT'], name: 'api_key' },
+    { type: ['TEXT'], name: 'aws_access_id' },
+    { type: ['TEXT'], name: 'mail_domain' },
+    { type: ['TEXT'], name: 'from_mail' },
     {
       type: ['ACTION'],
       name: 'action',
@@ -167,11 +124,53 @@ export function EmailTab(): JSX.Element {
   ];
 
   const handleClose = () => {
+    clearEmailState();
     setOpen(false);
   };
 
   const handleSubmit = () => {
     setOpen(false);
+  };
+
+  const handleAdd = () => {
+    if (
+      emailConfiguration?.email_provider === 'MailChimp' &&
+      emailConfiguration?.identification_name &&
+      emailConfiguration?.email_provider &&
+      emailConfiguration?.smtp_host &&
+      emailConfiguration?.smtp_port &&
+      emailConfiguration?.smtp_username &&
+      emailConfiguration?.smtp_password &&
+      emailConfiguration?.mail_domain &&
+      emailConfiguration?.from_mail
+    ) {
+      addEmailConfig();
+      setOpen(false);
+    } else if (
+      emailConfiguration?.email_provider === 'SendGrid' &&
+      emailConfiguration?.identification_name &&
+      emailConfiguration?.email_provider &&
+      emailConfiguration?.api_key &&
+      emailConfiguration?.mail_domain &&
+      emailConfiguration?.from_mail
+    ) {
+      addEmailConfig();
+      setOpen(false);
+    } else if (
+      emailConfiguration.email_provider === 'Pinpoint' &&
+      emailConfiguration.identification_name &&
+      emailConfiguration.email_provider &&
+      emailConfiguration.aws_access_id &&
+      emailConfiguration.aws_secret_key &&
+      emailConfiguration.aws_region &&
+      emailConfiguration.aws_pinpoint_project_id &&
+      emailConfiguration.from_mail
+    ) {
+      addEmailConfig();
+      setOpen(false);
+    } else {
+      enqueueSnackbar('Please fill in all required fields.', { variant: 'error' });
+    }
   };
 
   const handleClick = () => {
@@ -184,8 +183,8 @@ export function EmailTab(): JSX.Element {
         <Grid item xs={12}>
           <Box sx={emailTab_style.commonTable}>
             <CommonTable
-              Header={Header}
-              dataList={dataList}
+              Header={header}
+              dataList={emailList}
               tableData={tableData}
               headerOptions={{
                 fontSize: '14px',
@@ -206,7 +205,7 @@ export function EmailTab(): JSX.Element {
                 rowEvenBgColor: '#F7F7F7',
               }}
               switchList={switchList}
-              tableMinWidth={'800px'}
+              tableMinWidth={'2000px'}
               tableMinHeight={'400px'}
               paddingAll={'0px'}
               marginAll={'0px'}
@@ -243,7 +242,7 @@ export function EmailTab(): JSX.Element {
           handleCloseDialog={handleClose}
           handleSubmit={handleSubmit}
           content={<EmailDialog />}
-          Footercomponent={<FooterComponent onCancel={handleClose} />}
+          Footercomponent={<FooterComponent saveText="Add" onCancel={handleClose} onSave={handleAdd} />}
         />
       </Box>
     </Box>

@@ -119,7 +119,7 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
             </MenuItem>
           ))}
         </Menu>
-        <MappedUserCard  />
+        <MappedUserCard />
         <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', marginTop: '10px' }} onClick={handleClick}>
           <GreenCloseCircleIcon
             rootStyle={{

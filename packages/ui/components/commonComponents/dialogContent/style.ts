@@ -90,4 +90,26 @@ export const dialogContent_style = {
     fontWeight: 600,
     marginBottom: '15px',
   },
+
+  divide: {
+    borderTop: '1px solid gray',
+    display: 'flex',
+    justifyContent: 'center',
+    position: 'relative',
+    marginTop: '30px',
+    marginBottom: '30px',
+  },
+
+  divideText: {
+    position: 'absolute',
+    fontWeight: 600,
+    top: '-13px',
+    backgroundColor: '#F7F7F7',
+    zIndex: 1,
+    padding: '0px 20px',
+  },
+
+  textFieldBox: {
+    marginBottom: '20px',
+  },
 };

@@ -37,7 +37,14 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
       offset: 0,
       limit: 10,
     };
-    httpRequest('post', `${envConfig.api_url}/pasm/customer/get`, convertKeysToCamelCase(payload), true, undefined, '665b521a-b2a0-42cf-9b04-b60c988d8bf4')
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/pasm/customer/get`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } },
+    )
       .then((response) => {
         // debugger;
         const dataTable: any = [];
@@ -82,7 +89,14 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
       pincode: createEditCustomer.pincode,
     };
 
-    httpRequest('post', `${envConfig.api_url}/pasm/customer/create`, convertKeysToCamelCase(payload), true, undefined, '665b521a-b2a0-42cf-9b04-b60c988d8bf4')
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/pasm/customer/create`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } },
+    )
       .then((response) => {
         enqueueSnackbar('Customer Created Succesfully!', { variant: 'success' });
       })
@@ -115,7 +129,9 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
       address_id: createEditCustomer.address_id,
     };
 
-    httpRequest('put', `${envConfig.api_url}/pasm/customer/update`, convertKeysToCamelCase(payload), true, undefined, '665b521a-b2a0-42cf-9b04-b60c988d8bf4')
+    httpRequest('put', `${envConfig.api_url}/pasm/customer/update`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+    })
       .then((response) => {
         enqueueSnackbar('Customers Edited Succesfully!', { variant: 'success' });
       })
@@ -134,7 +150,14 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
     const payload = {
       customer_id: id,
     };
-    httpRequest('delete', `${envConfig.api_url}/pasm/customer/delete`, convertKeysToCamelCase(payload), true, undefined, '665b521a-b2a0-42cf-9b04-b60c988d8bf4')
+    httpRequest(
+      'delete',
+      `${envConfig.api_url}/pasm/customer/delete`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } },
+    )
       .then((response) => {
         enqueueSnackbar('Customers Deleted Succesfully!', { variant: 'success' });
         // set({ FeatureList: response.data.data });
@@ -156,7 +179,14 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
       is_active: status,
     };
 
-    httpRequest('put', `${envConfig.api_url}/pasm/customer/update`, convertKeysToCamelCase(payload), true, undefined, '665b521a-b2a0-42cf-9b04-b60c988d8bf4')
+    httpRequest(
+      'put',
+      `${envConfig.api_url}/pasm/customer/update`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } },
+    )
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });
       })

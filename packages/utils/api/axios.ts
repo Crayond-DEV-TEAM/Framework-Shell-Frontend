@@ -19,7 +19,6 @@ interface HttpRequestProps {
     data?: AxiosRequestConfig['data'],
     includeToken?: boolean,
     apiToken?: string,
-    Slug?: string,
     config?: Omit<AxiosRequestConfig, 'method' | 'url' | 'data'>,
   ): Promise<AxiosResponse<any, any>>;
 }
@@ -30,7 +29,6 @@ export const httpRequest: HttpRequestProps = (
   data = null,
   includeToken,
   apiToken,
-  slug,
   config,
 ) => {
 
@@ -42,8 +40,6 @@ export const httpRequest: HttpRequestProps = (
     ...(Boolean(apiToken) && {
       'x-api-token': apiToken,
     }),
-    // ...(slugId && { 'slug': slugId }),
-    ...{slug},
     ...(config?.headers ?? {}),
   };
 

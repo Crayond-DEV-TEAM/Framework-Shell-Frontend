@@ -39,9 +39,10 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
     if (data.is_acive === true) {
       payload.is_active = true;
     }
-    
 
-    httpRequest('post', `${envConfig.api_url}/pasm/addon/get`, convertKeysToCamelCase(payload), true, undefined, '665b521a-b2a0-42cf-9b04-b60c988d8bf4')
+    httpRequest('post', `${envConfig.api_url}/pasm/addon/get`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+    })
       .then((response) => {
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
@@ -82,7 +83,9 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
       feature_group_id: (createEditAddOns.featuregroup as { id: string }).id,
     };
 
-    httpRequest('post', `${envConfig.api_url}/pasm/addon/create`, convertKeysToCamelCase(payload), true,undefined, '665b521a-b2a0-42cf-9b04-b60c988d8bf4')
+    httpRequest('post', `${envConfig.api_url}/pasm/addon/create`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+    })
       .then((response) => {
         enqueueSnackbar('Add-On Created Succesfully!', { variant: 'success' });
       })
@@ -111,7 +114,9 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
       addon_id: createEditAddOns.id,
     };
 
-    httpRequest('put', `${envConfig.api_url}/pasm/addon/update`, convertKeysToCamelCase(payload), true,undefined, '665b521a-b2a0-42cf-9b04-b60c988d8bf4')
+    httpRequest('put', `${envConfig.api_url}/pasm/addon/update`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+    })
       .then((response) => {
         enqueueSnackbar('Add-On Edited Succesfully!', { variant: 'success' });
       })
@@ -131,7 +136,14 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
     const payload = {
       addon_id: id,
     };
-    httpRequest('delete', `${envConfig.api_url}/pasm/addon/delete`, convertKeysToCamelCase(payload), true,undefined, '665b521a-b2a0-42cf-9b04-b60c988d8bf4')
+    httpRequest(
+      'delete',
+      `${envConfig.api_url}/pasm/addon/delete`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } },
+    )
       .then((response) => {
         enqueueSnackbar('Add-On Deleted Succesfully!', { variant: 'success' });
         // set({ AddOnsList: response.data.data });
@@ -153,7 +165,14 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
       is_active: status,
     };
 
-    httpRequest('put', `${envConfig.api_url}/pasm/addon/update`, convertKeysToCamelCase(payload), true,undefined, '665b521a-b2a0-42cf-9b04-b60c988d8bf4')
+    httpRequest(
+      'put',
+      `${envConfig.api_url}/pasm/addon/update`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } },
+    )
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });
       })

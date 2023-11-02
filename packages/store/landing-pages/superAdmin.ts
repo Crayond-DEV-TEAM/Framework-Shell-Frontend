@@ -120,38 +120,51 @@ export const useSuperAdminLanding = create<SuperAdminLandingInterface>((set, get
       });
   },
 
-  editGetDataOrganisation: (id: string) => {
-    const { clearAll, getOrganisationList, createEditOrganisation } = get();
-    set({ fetching: true, errorOnFetching: false });
-    const payload = {
-      organisation_id: id,
-    };
-    set({ fetching: true, errorOnFetching: false });
-    httpRequest('post', `${envConfig.api_url}/idm/organisation/get`, payload, true)
-      .then((response) => {
-        debugger;
-        const responseData = response.data.data;
-        const Datalist = {
-          organisationName: responseData.name,
-          description: responseData.description,
-          email_id: responseData.email_id,
-          mapAdmin: responseData.organisation_user_mappings,
-          mapServices: responseData.organisation_service_mappings,
-          is_active: responseData.is_active,
-          id: responseData.id,
-        };
-         set((state) => ({ createEditOrganisation: { ...Datalist } }));
-      })
-      .catch((err) => {
-        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
-        set({ errorOnFetching: true });
-      })
-      .finally(() => {
-        set({ fetching: false });
-        // getOrganisationList();
-        // clearAll();
-      });
-  },
+editGetDataOrganisation: (id: string) => {
+  const { clearAll, getOrganisationList, createEditOrganisation } = get();
+  set({ fetching: true, errorOnFetching: false });
+
+  const payload = {
+    organisation_id: id,
+  };
+
+  httpRequest('post', `${envConfig.api_url}/idm/organisation/get`, payload, true)
+    .then((response) => {
+      const responseData = response.data.data;
+      const Servicemap: any = [];
+
+      if (Array.isArray(responseData.organisation_user_mappings) && responseData.organisation_user_mappings.length > 0) {
+        responseData.organisation_user_mappings.forEach((tableData: any) => {
+          Servicemap.push({
+            id: tableData.id,
+            name: tableData.name,
+          });
+        });
+      }
+
+      const Datalist = {
+        organisationName: responseData.name,
+        description: responseData.description,
+        email_id: responseData.email_id,
+        mapAdmin: responseData.organisation_user_mappings,
+        mapServices: Servicemap,
+        is_active: responseData.is_active,
+        id: responseData.id,
+      };
+
+      set((state) => ({ createEditOrganisation: { ...Datalist } }));
+    })
+    .catch((err) => {
+      enqueueSnackbar('Something went wrong!', { variant: 'error' }); // Fixed typo in enqueueSnackbar
+      set({ errorOnFetching: true });
+    })
+    .finally(() => {
+      set({ fetching: false });
+      // getOrganisationList();
+      // clearAll();
+    });
+},
+
   createAdminmap: () => {
     const { clearAll, getOrganisationList, createEditOrganisation } = get();
     set({ fetching: true, errorOnFetching: false });

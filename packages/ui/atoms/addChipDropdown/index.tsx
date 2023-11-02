@@ -73,10 +73,11 @@ export const AddChipDropdown: React.FC<AddChipDropdownProps> = (props) => {
                 backgroundColor: selectedOptions.includes(data) ? '#dce8e5' : '#fff',
               }}
             >
-              <CheckBox style={{ marginRight: '8px' }} checked={selectedOptions.includes(data)} />
+              <CheckBox style={{ marginRight: '8px' }} checked={selectedOptions.includes(data)}  />
               <Box sx={{ p: 1 }} />
               {data.name}
             </MenuItem>
+            // JSON.stringify(selectedOptions.includes(data))
           ))}
         </Menu>
         {selectedOptions?.map((option: any) => (

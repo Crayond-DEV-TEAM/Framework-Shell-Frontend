@@ -24,7 +24,7 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
     const { apiToken } = get();
 
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('post', `${envConfig.api_url}/idm/repository/get`, {}, true, apiToken ,'3ef02e4b-b862-47b0-a48c-939b2e9d16d9')
+    httpRequest('post', `${envConfig.api_url}/idm/repository/get`, {}, true, apiToken ,'feac7135-0429-473b-8c4c-b9ead5dbbfaa')
       .then((response) => {
         const lastObject = response.data.data[response.data.data.length - 1];
         set({ RepositoryList: lastObject.data.editRepositoryList, RepositoryId: lastObject.id });
@@ -41,7 +41,7 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
     set({ onEditLoading: true, erroronEdit: false });
     const data = editRepositoryList
 
-    httpRequest('post', `${envConfig.api_url}/idm/repository/create`, {data}, true, apiToken,'3ef02e4b-b862-47b0-a48c-939b2e9d16d9')
+    httpRequest('post', `${envConfig.api_url}/idm/repository/create`, {data,is_active:true}, true, apiToken,'feac7135-0429-473b-8c4c-b9ead5dbbfaa')
       .then((response) => {
         enqueueSnackbar('Json Updated Succesfully!', { variant: 'success' });
       })

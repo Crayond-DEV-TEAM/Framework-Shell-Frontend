@@ -137,7 +137,6 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
 
   // Edit Message
   editMessage: async (payload, isEdit) => {
-    debugger
     try {
       set({ loading: true });
       const response = await httpRequest(

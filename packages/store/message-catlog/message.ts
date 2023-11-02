@@ -52,8 +52,11 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
 
   onEditClicked: (id: string) => {
     set({ editDataLoading: true, errorOnEditData: false });
-    httpRequest('post', `${envConfig.api_url}/message_catalog/display_message_by_id`, { id }, true, undefined,
-      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
+    httpRequest('post', `${envConfig.api_url}/message_catalog/display_message_by_id`, { id }, true, undefined, {
+      headers: {
+        slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3',
+      },
+    })
       .then((response) => {
         const data = response?.data?.data?.language_info ?? {};
         const messages: { [key: string]: { configuration_id: string; language_id?: number; message: string } } = {};
@@ -90,17 +93,19 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
     };
 
     set({ adding: true, errorOnAdding: false });
-    httpRequest('post', `${envConfig.api_url}/message_catalog/add_message`, payload, true,
-      undefined, 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
+    httpRequest('post', `${envConfig.api_url}/message_catalog/add_message`, payload, true, undefined, {
+      headers: { slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3' },
+    })
       .then((response) => {
         set({ addEditMessageState: giveMeAddEditMessageInitialState(), open: false });
-        enqueueSnackbar(`Added message Successfully !`, { variant: 'success' });
+        enqueueSnackbar(`Added mVerify with youressage Successfully !`, { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnAdding: true });
         enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
       })
       .finally(() => {
+        debugger;
         set({ adding: false });
         getAllMessages(group_id);
         clearAll();
@@ -120,8 +125,11 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
     };
 
     set({ editing: true, errorOnEditing: false });
-    httpRequest('put', `${envConfig.api_url}/message_catalog/edit_message`, payload, true, undefined,
-      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
+    httpRequest('put', `${envConfig.api_url}/message_catalog/edit_message`, payload, true, undefined, {
+      headers: {
+        slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3',
+      },
+    })
       .then((response) => {
         set({ addEditMessageState: giveMeAddEditMessageInitialState(), open: false });
         enqueueSnackbar(`Message Updated Successfully !`, { variant: 'success' });
@@ -143,9 +151,11 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
       msg_grp_msg_info_id: deleteId,
     };
     set({ deleting: true, errorOnDeleting: false });
-    httpRequest('put', `${envConfig.api_url}/message_catalog/delete_message`, payload, true,
-      undefined,
-      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
+    httpRequest('put', `${envConfig.api_url}/message_catalog/delete_message`, payload, true, undefined, {
+      headers: {
+        slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3',
+      },
+    })
       .then((response) => {
         enqueueSnackbar(`Deleted message Successfully !`, { variant: 'success' });
       })
@@ -161,17 +171,20 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
 
   getAllMessages: (group_id: string) => {
     const payload = { id: group_id };
-
+    const { MessagesList } = get();
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('post', `${envConfig.api_url}/message_catalog/display_all_msg_in_grp`, payload, true, undefined,
-      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
+    httpRequest('post', `${envConfig.api_url}/message_catalog/display_all_msg_in_grp`, payload, true, undefined, {
+      headers: {
+        slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3',
+      },
+    })
       .then((response) => {
-
         set({ MessageArray: response.data });
         const dataTable: any = [];
         const dataTableStatus: any = [];
         // const { Language } = get();
         if (Array.isArray(response.data.data) && response.data.data?.length > 0) {
+          debugger;
           response.data.data?.filter((x: any) => Boolean(x.is_status)).map(({ id }: any) => dataTableStatus.push(id));
           response.data.data?.map(
             (tableData: any, i: any) =>
@@ -194,6 +207,7 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
                 description: tableData?.description ?? '',
               }),
             set({ MessagesList: dataTable }),
+            console.log(MessagesList),
             set({ MessagesListStatus: dataTableStatus }),
           );
         }

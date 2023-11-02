@@ -44,7 +44,12 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
         limit: 50,
       },
       true,
-      undefined, 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+      undefined,
+      {
+        headers: {
+          slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3',
+        },
+      },
     )
       .then((response) => {
         set({ messageGroup: response.data.data?.sort((a: any, b: any) => b.label - a.label) });
@@ -68,7 +73,14 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
       is_status: addMessage.is_status,
     };
 
-    httpRequest('post', `${envConfig.api_url}/message_catalog/add_message_group`, payload, true, undefined, 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/message_catalog/add_message_group`,
+      payload,
+      true,
+      undefined,
+      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3',
+    )
       .then((response) => {
         enqueueSnackbar('New Message Group successfully Added!', { variant: 'success' });
         get().getMessageGroups();
@@ -84,7 +96,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
     return false;
   },
   editMessageGroups: () => {
-    debugger
+    debugger;
 
     const { editMessage, editMessageList, getMessageGroups } = get();
     const payload = {
@@ -95,9 +107,11 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
     };
 
     set({ editMessageLoading: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.api_url}/message_catalog/edit_message_group`, payload, true,
-    undefined,
-    'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
+    httpRequest('put', `${envConfig.api_url}/message_catalog/edit_message_group`, payload, true, undefined, {
+      headers: {
+        slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3',
+      },
+    })
       .then((response) => {
         enqueueSnackbar('Edit Successfully!!', { variant: 'success' });
       })
@@ -116,8 +130,18 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
     const { editMessageList } = get();
 
     set({ editMessageLoading: true, errorOnFetching: false });
-    httpRequest('post', `${envConfig.api_url}/message_catalog/display_all_message_from_grp_by_id `, payload, true, undefined,
-      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/message_catalog/display_all_message_from_grp_by_id `,
+      payload,
+      true,
+      undefined,
+      {
+        headers: {
+          slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3',
+        },
+      },
+    )
       .then((response) => {
         set({ editMessageList: response.data.data });
       })
@@ -134,9 +158,11 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
     const { deleteMessage, getMessageGroups } = get();
 
     set({ deleteMessageLoading: true, deleteMessageError: false });
-    httpRequest('put', `${envConfig.api_url}/message_catalog/delete_message_group`, payload, true,
-      undefined,
-      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
+    httpRequest('put', `${envConfig.api_url}/message_catalog/delete_message_group`, payload, true, undefined, {
+      headers: {
+        slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3',
+      },
+    })
       .then((response) => {
         enqueueSnackbar('Deleted message Group Successfully!', { variant: 'success' });
       })

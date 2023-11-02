@@ -21,13 +21,12 @@ interface HttpRequestProps {
     apiToken?: string,
     slug?: string, 
     config?: {
-      headers?: {}
+      headers?: string
     },
   ): Promise<AxiosResponse<any, any>>;
 }
 
 export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, includeToken, apiToken, config) => {
- debugger
   const headers = {
     ...(includeToken &&
       envConfig.client_environment !== 'external' && {

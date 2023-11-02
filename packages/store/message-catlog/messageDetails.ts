@@ -187,7 +187,11 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   getServerity: () => {
     set({ statusLoading: true, erronOnStatus: false });
 
-    httpRequest('get', `${envConfig.api_url}/message_catalog/display_severity`, {}, true, undefined, 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
+    httpRequest('get', `${envConfig.api_url}/message_catalog/display_severity`, {}, true, undefined, {
+      headers: {
+        slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+      }
+    })
       .then((response) => {
         const severtiyCopy: any = [];
 

@@ -260,7 +260,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
           </Box>
         }
       />
-      {console.log(addEditMessageState, 'addEditMessageState')}
+      {console.log(SevorityList, 'SevorityList')}
       <DialogDrawer
         dialogRootStyle={{
           width: '832px',

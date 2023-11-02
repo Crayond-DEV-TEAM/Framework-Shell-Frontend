@@ -167,6 +167,7 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
         enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
       })
       .finally(() => {
+        debugger
         set({ deleting: false });
         getAllMessages(groupId);
 

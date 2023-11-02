@@ -119,7 +119,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
-        getAdminList(OrganisationDetails.id);
+        getAdminList();
         clearAll();
       });
   },
@@ -167,7 +167,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
-        getAdminList(OrganisationDetails.id);
+        getAdminList();
       });
   },
   getOrganisationMaster: () => {
@@ -451,7 +451,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
   deleteAdmin: (id:string) => {
     const { getAdminList } = get();
     set({ fetching: true, errorOnFetching: false });
-    // const { RepositoryList } = useRepository();
     const payload = {
       project_id: id,
     };
@@ -500,7 +499,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     const payload = {
       email: userInviteEdit.email,
     };
-    //  debugger;
     httpRequest('post', `${envConfig.api_url}/framework_shell_auth/check/email`, payload, false)
       .then((response) => {
         debugger;
@@ -509,7 +507,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
           const value = response.status;
           seteditUserInviteDetails({ key, value });
         }
-        enqueueSnackbar('User Email Verified!', { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -527,7 +524,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     const payload = {
       username: userInviteEdit.userName,
     };
-    //  debugger;
     httpRequest('post', `${envConfig.api_url}/framework_shell_auth/check/username`, payload, false)
       .then((response) => {
         if (response.data) {
@@ -535,7 +531,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
           const value = response.status;
           seteditUserInviteDetails({ key, value });
         }
-        enqueueSnackbar('Username Availble', { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });

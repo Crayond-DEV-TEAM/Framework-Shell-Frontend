@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Menu, MenuItem, Chip } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { CheckBox } from '@atoms/checkBox';
@@ -8,28 +8,18 @@ import type { SxProps, Theme } from '@mui/material';
 
 export interface AddChipDropdownProps {
   className: string;
-  value: any;
   placeholder: string;
   permissionList: any;
-  onChange: () => void;
   createEditState: any;
+  onChange: () => void;
   sx?: SxProps<Theme>;
 }
 
 export const AddChipDropdown: React.FC<AddChipDropdownProps> = (props) => {
-  const {
-    className = '',
-    value,
-    placeholder,
-    permissionList,
-    onChange = () => false,
-    createEditState,
-    sx = {},
-    ...rest
-  } = props;
-
+  const { className = '', placeholder, permissionList = [], createEditState, onChange, sx = {} } = props;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
+
+  const [values, setValues] = useState([]);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -38,31 +28,29 @@ export const AddChipDropdown: React.FC<AddChipDropdownProps> = (props) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const selectedOptions = createEditState || [];
 
   const handleOptionToggle = (option: any) => {
+    debugger;
     const isSelected = selectedOptions.includes(option);
-    setSelectedOptions((prevOptions) =>
-      isSelected ? prevOptions.filter((opt) => opt !== option) : [...prevOptions, option],
-    );
+    setValues((prevOptions) => (isSelected ? prevOptions.filter((opt) => opt !== option) : [...prevOptions, option]));
+    // const dataList = [...option];
+    // setValues(dataList);
+    // debugger;
   };
 
   const onSetChange = () => {
-    onChange('mapServices', selectedOptions);
+    onChange('mapServices', values);
   };
 
   useEffect(() => {
     onSetChange();
-  }, [selectedOptions]);
+  }, [values]);
+
+  console.log('selectedOptionsselectedOptions', selectedOptions);
 
   return (
-    <Box
-      sx={{
-        ...addChipDropdownStyle.rootSx,
-        ...(Array.isArray(sx) ? sx : [sx]),
-      }}
-      className={className}
-      {...rest}
-    >
+    <Box sx={{ ...addChipDropdownStyle.rootSx, ...(Array.isArray(sx) ? sx : [sx]) }} className={className}>
       <div>
         <Menu
           anchorEl={anchorEl}
@@ -91,10 +79,10 @@ export const AddChipDropdown: React.FC<AddChipDropdownProps> = (props) => {
             </MenuItem>
           ))}
         </Menu>
-        {createEditState?.map((option: any) => (
+        {selectedOptions?.map((option: any) => (
           <Chip
-            key={option.service_name}
-            label={option.service_name}
+            key={option.name}
+            label={option.name}
             sx={{ height: '28px', borderRadius: '8px', marginBottom: '15px', marginRight: '10px' }}
           />
         ))}

@@ -9,7 +9,7 @@ import { PlanModalCard } from '@atoms/planModalCard';
 import { CutstomizedAutocomplete } from '@atoms/cutstomizedAutocomplete';
 import { useEffect, useState } from 'react';
 import { useSubscription } from '@core/store';
-import { convertKeysToSnakeCase } from '@core/utils/helperFuctions';
+import { convertKeysToSnakeCase } from '@core/utils/helperFunctions';
 
 export interface MapSubscriptionPlanTransferProps {
   className?: string;

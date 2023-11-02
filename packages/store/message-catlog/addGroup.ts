@@ -149,7 +149,7 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
           is_status: payload?.isAddGroup,
         },
         true,
-        undefined,
+        '',
         {
           headers: {
             slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'

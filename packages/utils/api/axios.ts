@@ -42,7 +42,7 @@ export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, 
     url,
     data,
     headers,
-    ...config,
+    // ...config,
   });
 };
 

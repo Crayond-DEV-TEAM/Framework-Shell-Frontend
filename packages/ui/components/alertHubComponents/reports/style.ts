@@ -18,7 +18,7 @@ export const reports_styles = {
       paddingBottom: '13px !important',
       '& .MuiInputBase-root': {
         backgroundColor: '#FFFFFF',
-        width: '332px',
+        // width: '332px',
       },
       '& .MuiIconButton-root': {
         backgroundColor: '#FFFFFF',

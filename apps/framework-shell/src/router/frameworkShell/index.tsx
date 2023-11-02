@@ -1,5 +1,5 @@
 import { webRoutes } from '@core/routes';
-import { AdminSection, AppLayout, LoginLayout, SuperAdmin, UserSection } from '@core/ui/components';
+import { AdminSection, AppLayout, LoginLayout, ResetPassword, SuperAdmin, UserSection } from '@core/ui/components';
 import LoginPage from '@pages/login';
 import ResetPage from '@pages/resetPassword';
 import SignUpPage from '@pages/signUp';
@@ -28,7 +28,7 @@ export const loginRoutes = [
     path: webRoutes.resetPassword,
     element: (
       <LoginLayout>
-        <ResetPage />
+        <ResetPassword />
       </LoginLayout>
     ),
   },

@@ -1,4 +1,4 @@
-export const smsDialog_style = {
+export const slackDialog_style = {
   root: {
     padding: '31px 24px',
   },

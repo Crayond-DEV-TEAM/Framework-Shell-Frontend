@@ -1,4 +1,4 @@
-export const smsDialog_style = {
+export const whatsappTab_style = {
   root: {
     padding: '31px 24px',
   },
@@ -183,8 +183,12 @@ export const smsDialog_style = {
   commonTable: {
     // border: "1px solid" + theme.typography.color.tableHead,
     '& .MuiTableContainer-root': {
-      //   border: '1px solid' + theme.typography.color.tableHead,
+      border: '1px solid #efefef',
       borderRadius: '7px 7px 0px 0px',
+    },
+    '& .MuiTablePagination-root': {
+      border: '1px solid #efefef',
+      width: '100%',
     },
     '& .TABLE_BOX': {
       padding: '0px !important',
@@ -222,7 +226,6 @@ export const smsDialog_style = {
   field: {
     marginBottom: '17px',
     '& .MuiInputBase-root': {
-      marginTop: '9px',
       backgroundColor: '#FFFFFF',
     },
   },

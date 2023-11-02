@@ -5,6 +5,7 @@ import { idmBackgroundCardStyle } from './style';
 import { CutstomizedAutocomplete, Input } from '..';
 import { SearchIcon } from '@atoms/icons';
 import { useEffect } from 'react';
+import { useAdminLanding } from '@core/store';
 
 export interface IdmBackgroundCardProps {
   className?: string;
@@ -29,9 +30,6 @@ export const IdmBackgroundCard = (props: IdmBackgroundCardProps): JSX.Element =>
     handleChangeDropDown = () => false,
     ...rest
   } = props;
-
-  console.log(createEditState);
-  console.log(optionList);
 
   // const testfunction = () => {
   //   const checkData =
@@ -68,17 +66,7 @@ export const IdmBackgroundCard = (props: IdmBackgroundCardProps): JSX.Element =>
               width: '150px',
             },
           }}
-          value={
-            createEditState
-            // {
-            //   id: '',
-            //   name: '',
-            //   rolename: '',
-            // }
-            //   ? createEditState
-            //   : optionList?.[0]
-          }
-          // value={createEditState.name === '' ? createEditState.name : []}
+          value={createEditState}
           permissionList={optionList}
           onChange={(e: any) => handleChangeDropDown(e)}
         />

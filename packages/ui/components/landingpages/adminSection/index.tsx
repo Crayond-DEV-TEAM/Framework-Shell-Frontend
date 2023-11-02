@@ -7,7 +7,7 @@ import { AdminSecForm } from '..';
 import { Table as CommonTable } from '@crayond_dev/ui_table';
 import { Header, tableData, tableJson } from './utills';
 import { Drawer } from '@atoms/drawer';
-import { useAdmin, useAdminLanding, useMenu, useOrganisation } from '@core/store';
+import { useAdminLanding, useMenu } from '@core/store';
 import { FooterComponent } from '@atoms/footerComponent';
 import { TableHeader } from '@components/commonComponents';
 import { useNavigate } from 'react-router-dom';
@@ -19,19 +19,6 @@ export interface AdminSectionProps {
 
 export const AdminSection = (props: AdminSectionProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
-  const {
-    // getAdminList,
-    // adminList,
-    // createEditAdmin,
-    // OrganisationDetails,
-    // seteditOrganisationDetails,
-    // seteditAdmin,
-    editAdmin,
-    deleteAdmin,
-    // createAdmin,
-    // clearAll,
-  } = useAdmin();
-  const { getOrganisationList, OrganisationList } = useOrganisation();
 
   const {
     getOrganisationMaster,
@@ -47,7 +34,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     getAdminList,
     adminList,
   } = useAdminLanding();
-  const { getSideMenusFromProject, getMenu } = useMenu();
+  const { getSideMenusFromProject } = useMenu();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [open, setOpen] = useState(false);
@@ -60,7 +47,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     setOpen(true);
   };
   const handleTableDelete = (id: string) => {
-    deleteAdmin(id);
+    // deleteAdmin(id);
     console.log('');
   };
   const handleTableDetail = (id: string) => {
@@ -73,6 +60,9 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     setOpen(false);
   };
   const handleDrawerOpen = () => {
+    getAdminList();
+    getServiceMasterByOrganisation();
+    getUserMasterByOrganisation();
     setOpen(true);
   };
   const handleChange = (key: string, value: string | number) => {
@@ -80,40 +70,26 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
   };
 
   useEffect(() => {
-    // getAdminList(OrganisationDetails.id);
     getOrganisationMaster();
-    // getOrganisationList();
   }, []);
-  // useEffect(() => {
-  //   getAdminList();
-  // }, [OrganisationDetails]);
   const handleChangeOrganisationkey = (key: string, value: string | number) => {
     seteditOrganisationDetails({ key, value });
+    getAdminList();
   };
   const handleChangeOrganisation = (value: any) => {
-    // console.log
     debugger;
-    // if
     handleChangeOrganisationkey('id', value.id);
     handleChangeOrganisationkey('name', value.name);
     handleChangeOrganisationkey('rolename', value.rolename);
   };
   const handleSave = () => {
     if (createEditAdmin.id) {
-      // editAdmin();
     } else {
       createAdmin();
     }
     setOpen(false);
     clearAll();
   };
-
-  useEffect(() => {
-    getAdminList();
-    getServiceMasterByOrganisation();
-    getUserMasterByOrganisation();
-  }, [OrganisationDetails]);
-
   return (
     <Box
       sx={[

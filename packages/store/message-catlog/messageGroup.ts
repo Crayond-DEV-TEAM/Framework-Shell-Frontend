@@ -152,7 +152,7 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
         queryFn: async () => {
           const { data } = await httpRequest(
             'post',
-            `${envConfig.message_api_url}/messages/add_message`,
+            `${envConfig.api_url}/message_catalog/add_message`,
             {
               title: editTableMessage?.title,
               description: editTableMessage?.description,
@@ -189,7 +189,7 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
           const { data } = await httpRequest(
             'get',
             // 'http://localhost:3000/api/v1/message_groups/add_message_group',
-            `${envConfig.message_api_url}/messages/display_severity`,
+            `${envConfig.api_url}/messages/display_severity`,
             {},
             true,
           );
@@ -232,7 +232,7 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
           const { data } = await httpRequest(
             'post',
             // 'http://localhost:3000/api/v1/message_groups/display_message_group',
-            `${envConfig.message_api_url}/message_groups/display_all_msg_in_grp`,
+            `${envConfig.api_url}/message_catalog/display_all_msg_in_grp`,
             {
               id: id,
             },
@@ -296,7 +296,7 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
           const { data } = await httpRequest(
             'post',
             // 'http://localhost:3000/api/v1/message_groups/add_message_group',
-            `${envConfig.message_api_url}/messages/filter_message`,
+            `${envConfig.api_url}/messages/filter_message`,
             {
               msg_grp_id: messageGroupId,
               is_status: true,
@@ -311,6 +311,8 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
               },
             },
             true,
+            undefined,
+            'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
           );
           return data;
         },
@@ -351,7 +353,7 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
       set({ loading: true });
       const response = await httpRequest(
         'post',
-        `${envConfig.message_api_url}/messages/is_status`,
+        `${envConfig.api_url}/messages/is_status`,
         {
           id: payload?.id,
           is_status: payload?.status,
@@ -384,16 +386,20 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
 
   // delete Message
   deleteTableMessage: async (payload: any) => {
+    debugger
     try {
+
       set({ loading: true });
       const response = await httpRequest(
         'put',
-        `${envConfig.message_api_url}/messages/delete_message`,
+        `${envConfig.api_url}/message_catalog/delete_message`,
         {
           msg_grp_msg_info_id: payload?.delid,
           msg_grp_msg_data: payload?.messageId,
         },
         true,
+        undefined,
+        'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
       );
 
       if (response.data?.status === 200) {
@@ -419,11 +425,13 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
         queryFn: async () => {
           const { data } = await httpRequest(
             'post',
-            `${envConfig.message_api_url}/messages/display_message_by_id`,
+            `${envConfig.api_url}/message_catalog/display_message_by_id`,
             {
               id: id,
             },
             true,
+            undefined,
+            'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
           );
           return data;
         },
@@ -464,7 +472,7 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
       set({ loading: true });
       const response = await httpRequest(
         'put',
-        `${envConfig.message_api_url}/messages/edit_message`,
+        `${envConfig.api_url}/message_catalog/edit_message`,
         {
           title: payload?.title,
           description: payload?.description,
@@ -474,8 +482,9 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
           severity_id: status,
           msg_grp_msg_data: payload?.msg_grp_msg_data,
         },
-
         true,
+        undefined,
+        'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
       );
 
       if (response.data?.status === 200) {

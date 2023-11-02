@@ -117,7 +117,9 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     const payload = { id: group_id };
 
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('post', `${envConfig.message_api_url}/message_groups/display_all_msg_in_grp`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/message_catalog/display_all_msg_in_grp`, payload, true, 
+    undefined,
+    'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
         set({ MessageArray: response.data });
         const dataTable: any = [];
@@ -165,7 +167,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
       is_status,
     };
     set({ statusLoading: true, erronOnStatus: false });
-    httpRequest('post', `${envConfig.message_api_url}/messages/is_status`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/messages/is_status`, payload, true)
       .then((response) => {
         enqueueSnackbar(`Status changed Successfully !`, { variant: 'success' });
       })
@@ -181,7 +183,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   getServerity: () => {
     set({ statusLoading: true, erronOnStatus: false });
 
-    httpRequest('get', `${envConfig.message_api_url}/messages/display_severity`, {}, true)
+    httpRequest('get', `${envConfig.api_url}/message_catalog/display_severity`, {}, true, undefined, 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
         const severtiyCopy: any = [];
 
@@ -210,14 +212,15 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     const { MessagesList } = get();
     const msgId = MessagesList?.filter(({ msg_grp_msgs_Total }: any) => msg_grp_msgs_Total).map(({ id }: any) => id);
     const messageId = msgId.map((id: any) => ({ id }));
-    console.log(messageId);
 
     const payload = {
       msg_grp_msg_info_id: idList,
       msg_grp_msg_data: messageId,
     };
     set({ deleteLoading: true, errorOnDelete: false });
-    httpRequest('put', `${envConfig.message_api_url}/messages/delete_message`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/message_catalog/delete_message`, payload, true,
+      undefined,
+      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
         enqueueSnackbar(`Deleted message Successfully !`, { variant: 'success' });
       })
@@ -233,7 +236,6 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
 
   addMessageTable: () => {
     const { addMessageList, idList, getMessageList } = get();
-    console.log(addMessageList, 'addMessageList');
     const payload = {
       title: addMessageList.title,
       description: addMessageList.description,
@@ -248,7 +250,9 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
       ],
     };
     set({ addMessageLoading: true, errorOnAddMesage: false });
-    httpRequest('post', `${envConfig.message_api_url}/messages/add_message`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/message_catalog/add_message`, payload, true,
+      undefined,
+      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
         enqueueSnackbar(`Added message Successfully !`, { variant: 'success' });
       })
@@ -266,7 +270,9 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   editDisplayMessageTable: (id: any) => {
     const payload = { id: id };
     set({ addMessageLoading: true, errorOnAddMesage: false });
-    httpRequest('post', `${envConfig.message_api_url}/messages/display_message_by_id`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/messages/display_message_by_id`, payload, true,
+      undefined,
+      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
         set({ editMessageList: response?.data?.data?.language_info });
       })
@@ -297,7 +303,9 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
       ],
     };
     set({ editMessageLoading: true, errorOnEditMesage: false });
-    httpRequest('put', `${envConfig.message_api_url}/messages/edit_message`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/message_catalog/edit_message`, payload, true,
+      undefined,
+      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
       .then((response) => {
         enqueueSnackbar(`Edited message Successfully !`, { variant: 'success' });
       })
@@ -311,11 +319,10 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     return false;
   },
 
-  filterMessage: (serverityFilter: string | number, createdOn: any, updateOn: any) => {
-    const { idList } = get();
-
+  filterMessage: (serverityFilter: string | number, createdOn: any, updateOn: any, messageGroupId:  string) => {
+    const { getMessageList } = get();
     const payload = {
-      msg_grp_id: idList,
+      msg_grp_id: messageGroupId,
       is_status: true,
       severity_id: serverityFilter ?? [],
       created: createdOn ?? {
@@ -328,8 +335,14 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
       },
     };
     set({ filterMessageLoading: true, errorOnFilterMesage: false });
-    httpRequest('post', `${envConfig.message_api_url}/messages/filter_message`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/message_catalog/filter_message`,
+     payload,
+      true,
+      undefined,
+      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+      )
       .then((response) => {
+        getMessageList(messageGroupId)
         enqueueSnackbar(`Filtered Successfully !`, { variant: 'success' });
       })
       .catch((err) => {
@@ -342,7 +355,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     return false;
   },
 
-  onApply: () => {
+  onApply: (messageGroupId:  string) => {
     const { filterContent, filterMessage } = get();
     const FilterArray: any = [];
     if (Array.isArray(filterContent?.[0]?.children) && filterContent?.[0]?.children?.length > 0) {
@@ -376,7 +389,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
         };
       }
     }
-    filterMessage(FilterArray, created, updated);
+    filterMessage(FilterArray, created, updated, messageGroupId);
     // clearfilter();
   },
 

@@ -10,7 +10,7 @@ export const inputStyle: InputStyleProps = {
     '& .MuiOutlinedInput-root': { pl: '4px' },
     '& .MuiOutlinedInput-input': {
       width: '100%',
-      fontWeight: 500,
+      fontWeight: 600,
       fontSize: '14px',
     },
     '& .MuiOutlinedInput-notchedOutline': {

@@ -135,7 +135,9 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       convertKeysToCamelCase(payload),
       true,
       undefined,
-      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+      {
+        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      },
     )
       .then((response) => {
         const dataTable: any = [];
@@ -202,7 +204,9 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       convertKeysToCamelCase(payload),
       true,
       undefined,
-      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+      {
+        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      },
     )
       .then((response) => {
         enqueueSnackbar('Feature Created Succesfully!', { variant: 'success' });
@@ -254,7 +258,9 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       convertKeysToCamelCase(payload),
       true,
       undefined,
-      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+      {
+        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      },
     )
       .then((response) => {
         enqueueSnackbar('Feature Edited Succesfully!', { variant: 'success' });
@@ -281,7 +287,9 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       convertKeysToCamelCase(payload),
       true,
       undefined,
-      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+      {
+        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      },
     )
       .then((response) => {
         enqueueSnackbar('Feature Deleted Succesfully!', { variant: 'success' });
@@ -307,7 +315,9 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       convertKeysToCamelCase(payload),
       true,
       undefined,
-      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+      {
+        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      },
     )
       .then((response) => {
         set({ OldSubscription: response.data.data.rows?.slice(-1)[0] });
@@ -335,7 +345,9 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       convertKeysToCamelCase(payload),
       true,
       undefined,
-      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+      {
+        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      },
     )
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });

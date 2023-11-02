@@ -15,14 +15,9 @@ export const usePlan = create<PlanInterface>((set, get) => ({
       offset: 0,
       limit: 20,
     };
-    httpRequest(
-      'post',
-      `${envConfig.api_url}/pasm/plans/get`,
-      convertKeysToCamelCase(payload),
-      true,
-      undefined,
-      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
-    )
+    httpRequest('post', `${envConfig.api_url}/pasm/plans/get`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+    })
       .then((response) => {
         const dataTable: any = [];
         // debugger;

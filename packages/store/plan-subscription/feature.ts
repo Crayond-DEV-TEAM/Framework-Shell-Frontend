@@ -42,14 +42,9 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
       payload.is_unmapped = false;
     }
 
-    httpRequest(
-      'post',
-      `${envConfig.api_url}/pasm/feature/get`,
-      convertKeysToCamelCase(payload),
-      true,
-      undefined,
-      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
-    )
+    httpRequest('post', `${envConfig.api_url}/pasm/feature/get`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+    })
       .then((response) => {
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
@@ -83,14 +78,9 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
       is_active: createEditFeature.is_active,
     };
 
-    httpRequest(
-      'post',
-      `${envConfig.api_url}/pasm/feature/create`,
-      convertKeysToCamelCase(payload),
-      true,
-      undefined,
-      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
-    )
+    httpRequest('post', `${envConfig.api_url}/pasm/feature/create`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+    })
       .then((response) => {
         enqueueSnackbar('Feature Created Succesfully!', { variant: 'success' });
       })
@@ -115,14 +105,9 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
       is_active: createEditFeature.is_active,
     };
 
-    httpRequest(
-      'put',
-      `${envConfig.api_url}/pasm/feature/update`,
-      convertKeysToCamelCase(payload),
-      true,
-      undefined,
-      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
-    )
+    httpRequest('put', `${envConfig.api_url}/pasm/feature/update`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+    })
       .then((response) => {
         enqueueSnackbar('Feature Edited Succesfully!', { variant: 'success' });
       })
@@ -147,7 +132,9 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
       convertKeysToCamelCase(payload),
       true,
       undefined,
-      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
+      {
+        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      },
     )
       .then((response) => {
         enqueueSnackbar('Feature Deleted Succesfully!', { variant: 'success' });
@@ -170,14 +157,9 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
       is_active: status,
     };
 
-    httpRequest(
-      'put',
-      `${envConfig.api_url}/pasm/feature/update`,
-      convertKeysToCamelCase(payload),
-      true,
-      undefined,
-      '665b521a-b2a0-42cf-9b04-b60c988d8bf4',
-    )
+    httpRequest('put', `${envConfig.api_url}/pasm/feature/update`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+    })
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });
       })

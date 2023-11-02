@@ -71,6 +71,7 @@ export const useSuperAdminLanding = create<SuperAdminLandingInterface>((set, get
       description: createEditOrganisation.description,
       services: createEditOrganisation.mapServices.map((x) => x?.id),
       admin: createEditOrganisation.mapAdmin.map((x) => x?.id),
+      is_active: createEditOrganisation.is_active,
     };
 
     httpRequest('post', `${envConfig.api_url}/idm/organisation/create`, payload, true)
@@ -95,10 +96,16 @@ export const useSuperAdminLanding = create<SuperAdminLandingInterface>((set, get
     const { clearAll, getOrganisationList, createEditOrganisation } = get();
     set({ fetching: true, errorOnFetching: false });
     // const { RepositoryList } = useRepository();
-    const payload = {};
+    const payload = {
+      name: createEditOrganisation.organisationName,
+      description: createEditOrganisation.description,
+      email_id: createEditOrganisation.email_id,
+      is_active: createEditOrganisation.is_active,
+      organisation_id: createEditOrganisation.id,
+    };
 
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.api_url}/organisations`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/idm/organisation/update`, payload, true)
       .then((response) => {
         enqueueSnackbar('Organisations edited Succesfully!', { variant: 'success' });
       })
@@ -253,12 +260,11 @@ export const useSuperAdminLanding = create<SuperAdminLandingInterface>((set, get
   deleteOrganisation: (id: string) => {
     const { getOrganisationList } = get();
     set({ fetching: true, errorOnFetching: false });
-    // const { RepositoryList } = useRepository();
     const payload = {
       organisation_id: id,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('delete', `${envConfig.api_url}/api/v1/idm/organisation/delete`, payload, true)
+    httpRequest('delete', `${envConfig.api_url}/idm/organisation/delete`, payload, true)
       .then((response) => {
         enqueueSnackbar('Organisations deleted Succesfully!', { variant: 'success' });
       })

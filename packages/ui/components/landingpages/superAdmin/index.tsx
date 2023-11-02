@@ -32,14 +32,17 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
     editGetDataOrganisation,
     getAllUserList,
     UserListMaster,
+    deleteOrganisation,
+    editOrganisation,
   } = useSuperAdminLanding();
   const handleTableEdit = (id: string, data: any, e: any) => {
     editGetDataOrganisation(id);
     handleDrawerOpen();
     // console.log('');
   };
-  const handleTableDelete = () => {
-    console.log('');
+  const handleTableDelete = (id: string) => {
+    deleteOrganisation(id);
+    // console.log('');
   };
   const handleChange = (key: string, value: any) => {
     debugger;
@@ -47,8 +50,9 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
   };
 
   const handleSave = () => {
-    createOrganisation();
+    createEditOrganisation.id ? editOrganisation() : createOrganisation();
     handleDrawerClose();
+    // clearAll
   };
 
   const handleDrawerClose = () => {
@@ -64,7 +68,6 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
     getAllUserList();
   }, []);
 
-  console.log(createEditOrganisation, 'crdhjgfskjdfhkdsjfhsdjkfh');
 
   return (
     <Box
@@ -139,7 +142,7 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
         anchor="right"
         drawerStyleSX={{ padding: '20px' }}
         drawerRightClose
-        header={'Add New Organisation'}
+        header={createEditOrganisation.id ? 'Edit Organisation' : 'Add New Organisation'}
         headerStyle={{
           fontSize: '16px',
           fontWeight: 600,

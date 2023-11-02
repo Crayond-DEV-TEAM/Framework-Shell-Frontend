@@ -33,6 +33,9 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     clearAll,
     getAdminList,
     adminList,
+    getAllProjectsEditData,
+    deleteAdmin,
+    editAdmin,
   } = useAdminLanding();
   const { getSideMenusFromProject } = useMenu();
 
@@ -43,11 +46,12 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     (x: any) => x.projectTitle?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  const handleTableEdit = () => {
+  const handleTableEdit = (id: string, data: any, e: any) => {
+    getAllProjectsEditData(id);
     setOpen(true);
   };
   const handleTableDelete = (id: string) => {
-    // deleteAdmin(id);
+    deleteAdmin(id);
     console.log('');
   };
   const handleTableDetail = (id: string) => {
@@ -84,6 +88,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
   };
   const handleSave = () => {
     if (createEditAdmin.id) {
+      editAdmin();
     } else {
       createAdmin();
     }
@@ -170,7 +175,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
         anchor="right"
         drawerStyleSX={{ padding: '20px 20px 70px 20px' }}
         drawerRightClose
-        header={'Add New Project'}
+        header={createEditAdmin.id ? 'Edit Project' : 'Add New Project'}
         headerStyle={{
           fontSize: '16px',
           fontWeight: 600,

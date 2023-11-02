@@ -154,6 +154,7 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
                 createEditState={createEditOrganisation?.mapServices}
                 permissionList={ServiceMaster}
                 onChange={handleChange}
+                selectedOptions={createEditOrganisation?.mapServices}
               />
               {/* <ToggleButtons
                 // value={addEditMessageState.severity}

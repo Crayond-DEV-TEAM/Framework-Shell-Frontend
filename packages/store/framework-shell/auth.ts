@@ -82,7 +82,6 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
         const token = response?.data?.data?.token;
         const user = parseJwt(token);
         useUser.setState({ user });
-        console.log(user, 'uiseriser');
         localStorage.setItem(localStorageKeys.authToken, token);
         set({ signInMessage: 'Signed in Successfully', signInError: false });
         if (user.isSuperAdmin === true) {

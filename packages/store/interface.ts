@@ -949,6 +949,7 @@ export interface AdminInterface {
   getOrganisationMaster: () => void;
   getServiceMasterByOrganisation: () => void;
   getUserMasterByOrganisation: () => void;
+  getAllProjectsEditData:(id:string) =>void;
 
   createAdmin: () => void;
   editAdmin: () => void;
@@ -957,6 +958,11 @@ export interface AdminInterface {
   addUserInvite: (id:string) => void;
   emailChecker: () => void;
   userNameChecker: () => void;
+  createServiceMap:() =>void
+  editServiceMap:() =>void
+  createUserMap:() =>void
+  editUserMap:() =>void
+
   clearAll: () => void;
 }
 

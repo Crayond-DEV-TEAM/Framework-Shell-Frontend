@@ -1,5 +1,5 @@
 import { envConfig } from '@core/envconfig';
-import { httpRequest } from '@core/utils';
+import { convertKeysToCamelCase, convertKeysToSnakeCase, httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { FeatureGroupInterface } from '../interface';
 import { permission } from '../../ui/components/addpermission/utils';
@@ -42,7 +42,14 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
       payload.is_active = true;
     }
 
-    httpRequest('post', `${envConfig.api_url}/featureGroup`, payload, true)
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/pasm/featureGroup/get`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } },
+    )
       .then((response) => {
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
@@ -51,10 +58,10 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
               dataTable.push({
                 id: tableData.id,
                 name: tableData.name,
-                is_active: tableData.is_active,
-                features: tableData.feature_group_mapings.length + ' ' + 'features',
+                is_active: tableData.isActive,
+                features: tableData.featureGroupMapings.length + ' ' + 'features',
                 modified: moment(tableData.updated_at).format('DD- MMM - YYYY'),
-                featureDetails: tableData.feature_group_mapings?.map((x: any) => x.feature),
+                featureDetails: tableData.featureGroupMapings?.map((x: any) => x.feature),
                 description: tableData.description,
               }),
             set({ FeatureGroupList: dataTable }),
@@ -81,7 +88,14 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
       description: createEditFeatureGroup.description,
     };
 
-    httpRequest('post', `${envConfig.api_url}/featureGroup/create`, payload, true)
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/pasm/featureGroup/create`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } },
+    )
       .then((response) => {
         enqueueSnackbar('FeatureGroup Created Succesfully!', { variant: 'success' });
       })
@@ -101,12 +115,11 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
   editFeatureGroup: () => {
     set({ editsave: true, errorOnFetching: false });
     const { createEditFeatureGroup, getFeatureGroupList, clearAll } = get();
-
-    const newFeatures = createEditFeatureGroup.addedFeature.filter(
+    const newFeatures = createEditFeatureGroup.features.filter(
       (item) => !createEditFeatureGroup.deletedFeature.includes(item),
     );
     const deletedFeatures = createEditFeatureGroup.deletedFeature.filter(
-      (item) => !createEditFeatureGroup.addedFeature.includes(item),
+      (item) => !createEditFeatureGroup.features.includes(item),
     );
     const payload = {
       // features: createEditFeatureGroup.features?.map((x: any) => x.id),
@@ -118,7 +131,14 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
       deleted_features: deletedFeatures.map((x) => x.id),
     };
 
-    httpRequest('put', `${envConfig.api_url}/featureGroup`, payload, true)
+    httpRequest(
+      'put',
+      `${envConfig.api_url}/pasm/featureGroup/update`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } },
+    )
       .then((response) => {
         enqueueSnackbar('FeatureGroup Edited Succesfully!', { variant: 'success' });
       })
@@ -138,7 +158,14 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
     const payload = {
       feature_group_id: id,
     };
-    httpRequest('delete', `${envConfig.api_url}/featureGroup`, payload, true)
+    httpRequest(
+      'delete',
+      `${envConfig.api_url}/pasm/featureGroup/delete`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } },
+    )
       .then((response) => {
         enqueueSnackbar('FeatureGroup Deleted Succesfully!', { variant: 'success' });
         // set({ FeatureGroupList: response.data.data });
@@ -160,7 +187,14 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
       is_active: status,
     };
 
-    httpRequest('put', `${envConfig.api_url}/featureGroup`, payload, true)
+    httpRequest(
+      'put',
+      `${envConfig.api_url}/pasm/featureGroup/update`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } }
+    )
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });
       })

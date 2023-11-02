@@ -29,7 +29,6 @@ type HttpRequestProps = (
  */
 
 export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, includeToken, apiToken, config) => {
-  debugger;
   const headers = {
     ...(includeToken &&
       envConfig.client_environment !== 'external' && {

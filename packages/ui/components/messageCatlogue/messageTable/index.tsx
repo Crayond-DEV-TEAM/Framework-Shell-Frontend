@@ -56,9 +56,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const [deleteId, setDeleteId] = useState('');
   const [List, setList] = useState('');
 
-  const filteredMessageGroup = MessagesList.filter((x: any) =>
-    x.title.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  const filteredMessageGroup = MessagesList
   console.log(MessagesList, 'filteredMessageGroupfilteredMessageGroupfilteredMessageGroup');
   const [switchList, setSwitchList] = useState<any>([]);
   const handleTableEdit = (id: string) => {

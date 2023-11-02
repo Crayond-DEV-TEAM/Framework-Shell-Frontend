@@ -20,13 +20,13 @@ interface HttpRequestProps {
     includeToken?: boolean,
     apiToken?: string,
     slug?: string, 
-    config?: Omit<AxiosRequestConfig, 'method' | 'url' | 'data'>,
+    config?: any,
+    // config?: Omit<AxiosRequestConfig, 'method' | 'url' | 'data'>,
   ): Promise<AxiosResponse<any, any>>;
 }
 
-export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, includeToken, apiToken,slug, config) => {
-  
-  
+export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, includeToken, apiToken, config) => {
+  debugger
   const headers = {
     ...(includeToken &&
       envConfig.client_environment !== 'external' && {
@@ -35,7 +35,6 @@ export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, 
     ...(Boolean(apiToken) && {
       'x-api-token': apiToken,
     }),
-    ...{slug},
     ...(config?.headers ?? {}),
   };
 

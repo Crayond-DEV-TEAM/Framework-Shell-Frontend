@@ -89,8 +89,12 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
         `${envConfig.api_url}/message_catalog/display_Master_languages`,
         {},
         true,
-        undefined,
-        'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+        undefined, 
+        {
+          headers: {
+            slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+          }
+        },
       );
 
       const arr = [];
@@ -126,7 +130,11 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
             {},
             true,
             undefined,
-            'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+            {
+              headers: {
+                slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+              }
+            },
           );
           return data;
         },

@@ -175,7 +175,7 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
 
     httpRequest(
       'put',
-      `${envConfig.api_url}/pasm/charges`,
+      `${envConfig.api_url}/pasm/charges/update`,
       convertKeysToCamelCase(payload),
       true,
       undefined,

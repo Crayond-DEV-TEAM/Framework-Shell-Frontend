@@ -37,15 +37,15 @@ export const Plans = (props: PlansProps): JSX.Element => {
   const [del, setDel] = useState(false);
   const [delid, setDelId] = useState('');
 
-  const filteredMessageGroup = PlanList.filter((x: any) => x.plan?.toLowerCase()?.includes(searchTerm.toLowerCase()));
+  const filteredMessageGroup = PlanList?.filter((x: any) => x?.plan?.toLowerCase()?.includes(searchTerm?.toLowerCase()));
 
   const handleTableEdit = (id: any, data: any, e: any) => {
     const temp_group: any = [];
-    const feature_group_all = data.plan_data.plan_feature_mapings.filter(
-      (feature_group: any) => feature_group.feature_group !== null,
+    const feature_group_all = data?.plan_data?.plan_feature_mapings?.filter(
+      (feature_group: any) => feature_group?.feature_group !== null,
     );
     // console.log(feature_group_all);
-    feature_group_all.map((grp: any, index: any) => {
+    feature_group_all?.map((grp: any, index: any) => {
       // console.log(temp_group);
       if (temp_group.length <= 0) {
         temp_group.push({

@@ -158,7 +158,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       return httpRequest('put', `${envConfig.idm_api_url}/roles/update`, payload, true, apiToken)
         .then((response) => {
           enqueueSnackbar('Roles edited succesfully!', { variant: 'success' });
-          resolve(response?.data?.data);
+          resolve(response?.data);
         })
         .catch((err) => {
           enqueueSnackbar('Something Went Wrong!', { variant: 'error' });

@@ -185,12 +185,13 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
       }
     })
       .then((response) => {
+console.log(response.data.data?.length > 0, 'response.data.data?.length > 0');
 
         set({ MessageArray: response.data });
         const dataTable: any = [];
         const dataTableStatus: any = [];
         // const { Language } = get();
-        if (Array.isArray(response.data.data) && response.data.data?.length > 0) {
+        if (Array.isArray(response.data.data)) {
           debugger
           response.data.data?.filter((x: any) => Boolean(x.is_status)).map(({ id }: any) => dataTableStatus.push(id));
           response.data.data?.map(

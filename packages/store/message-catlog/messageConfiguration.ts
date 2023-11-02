@@ -73,7 +73,11 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
       is_status: addMessage.is_status,
     };
 
-    httpRequest('post', `${envConfig.api_url}/message_catalog/add_message_group`, payload, true, undefined, 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
+    httpRequest('post', `${envConfig.api_url}/message_catalog/add_message_group`, payload, true, undefined, {
+      headers: {
+        slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+      }
+    })
       .then((response) => {
         enqueueSnackbar('New Message Group successfully Added!', { variant: 'success' });
         get().getMessageGroups();

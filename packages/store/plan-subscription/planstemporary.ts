@@ -4,7 +4,7 @@ import { create } from 'zustand';
 import { PlanInterface } from '../interface';
 import { permission } from '../../ui/components/addpermission/utils';
 import { enqueueSnackbar } from 'notistack';
-import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/helperFuctions';
+import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/helperFunctions';
 // import { tableJson } from '@components/feature/utils'
 export const usePlan = create<PlanInterface>((set, get) => ({
   PlanList: [],

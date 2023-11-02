@@ -4,7 +4,7 @@ import { enqueueSnackbar } from 'notistack';
 import { create } from 'zustand';
 import { FeatureInterface } from '../interface';
 // import { tableJson } from '@components/feature/utils'
-import { convertKeysToCamelCase, convertKeysToSnakeCase } from '../../utils/helperFuctions';
+import { convertKeysToCamelCase, convertKeysToSnakeCase } from '../../utils/helperFunctions';
 export const useFeature = create<FeatureInterface>((set, get) => ({
   FeatureList: [],
 

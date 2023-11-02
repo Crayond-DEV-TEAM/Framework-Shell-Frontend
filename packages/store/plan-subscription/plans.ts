@@ -3,7 +3,7 @@ import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { PlansInterface, Feature, AddEditPlans } from '../interface';
 import { enqueueSnackbar } from 'notistack';
-import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/helperFuctions';
+import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/helperFunctions';
 
 export const usePlans = create<PlansInterface>((set, get) => ({
   PlanList: [],

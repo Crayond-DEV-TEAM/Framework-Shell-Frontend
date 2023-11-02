@@ -4,7 +4,7 @@ import { create } from 'zustand';
 import { ChargesInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
 import moment from 'moment';
-import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/helperFuctions';
+import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/helperFunctions';
 
 export const useCharges = create<ChargesInterface>((set, get) => ({
   ChargesList: [],

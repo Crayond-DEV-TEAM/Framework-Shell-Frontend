@@ -5,7 +5,7 @@ import { FeatureInterface, SubscriptionInterface } from '../interface';
 import { permission } from '../../ui/components/addpermission/utils';
 import { dateFetching } from './commonFunction';
 import { enqueueSnackbar } from 'notistack';
-import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/helperFuctions';
+import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/helperFunctions';
 // import { tableJson } from '@components/feature/utils'
 export const useSubscription = create<SubscriptionInterface>((set, get) => ({
   SubscriptionList: [],

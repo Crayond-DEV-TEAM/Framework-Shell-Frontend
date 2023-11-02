@@ -149,7 +149,11 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
     set({ deleteMessageLoading: true, deleteMessageError: false });
     httpRequest('put', `${envConfig.api_url}/message_catalog/delete_message_group`, payload, true,
       undefined,
-      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
+      {
+        headers: {
+          slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+        }
+      })
       .then((response) => {
         enqueueSnackbar('Deleted message Group Successfully!', { variant: 'success' });
       })

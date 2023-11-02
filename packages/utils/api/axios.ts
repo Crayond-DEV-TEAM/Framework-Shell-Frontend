@@ -19,20 +19,12 @@ interface HttpRequestProps {
     data?: AxiosRequestConfig['data'],
     includeToken?: boolean,
     apiToken?: string,
-    config?: Omit<AxiosRequestConfig, 'method' | 'url' | 'data'>,
-    slug?: string,
+    slug?: string, 
+    config?: any,
   ): Promise<AxiosResponse<any, any>>;
 }
 
-export const httpRequest: HttpRequestProps = (
-  method = 'get',
-  url,
-  data = null,
-  includeToken,
-  apiToken,
-  config,
-  slug = '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e',
-) => {
+export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, includeToken, apiToken, config) => {
   const headers = {
     ...(includeToken &&
       envConfig.client_environment !== 'external' && {
@@ -42,17 +34,16 @@ export const httpRequest: HttpRequestProps = (
       'x-api-token': apiToken,
     }),
     ...(config?.headers ?? {}),
-    ...{ slug },
   };
 
-  console.log('THis is STEP 2:', headers);
+  console.log("THis is STEP 2:", headers);
 
   return axios({
     method,
     url,
     data,
     headers,
-    ...config,
+    // ...config,
   });
 };
 

@@ -78,7 +78,6 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
 
       const response = await httpRequest('post', `${envConfig.api_url}/framework_shell_auth/sign_in `, payload);
       if (response?.status === 200 && response?.data?.data) {
-        debugger;
         const token = response?.data?.data?.token;
         const user = parseJwt(token);
         useUser.setState({ user });

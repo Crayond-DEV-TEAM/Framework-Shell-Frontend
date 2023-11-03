@@ -28,23 +28,6 @@ type HttpRequestProps = (
  * A promise that resolves with the response data or rejects with an error.
  */
 
-<<<<<<< HEAD
-interface HttpRequestProps {
-  (
-    method: AxiosRequestConfig['method'],
-    url: AxiosRequestConfig['url'],
-    data?: AxiosRequestConfig['data'],
-    includeToken?: boolean,
-    apiToken?: string | null,
-    slug?: string, 
-    config?: {
-      headers?: {}
-    },
-  ): Promise<AxiosResponse<any, any>>;
-}
-
-=======
->>>>>>> c722427555d900b2b3f412c6c2aafb21065d328e
 export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, includeToken, apiToken, config) => {
   const headers = {
     ...(includeToken &&

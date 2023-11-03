@@ -4,6 +4,7 @@ import { enqueueSnackbar } from 'notistack';
 import { httpRequest } from '@core/utils';
 import { envConfig } from '@core/envconfig';
 import { giveMestatusGroupState, giveMeStateOfid } from '../utils';
+import { useSlug } from '../common';
 
 export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) => ({
   MessagesList: [],
@@ -114,16 +115,18 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   },
 
   getMessageList: (group_id: string) => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
+
     const payload = { id: group_id };
 
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('post', `${envConfig.api_url}/message_catalog/display_all_msg_in_grp`, payload, true, 
-    undefined,
-    {
-      headers: {
-        slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
-      }
-    })
+    httpRequest('post', `${envConfig.api_url}/message_catalog/display_all_msg_in_grp`, payload, true,
+      undefined,
+      {
+        headers: {
+          slug: slugId
+        }
+      })
       .then((response) => {
         set({ MessageArray: response.data });
         const dataTable: any = [];
@@ -166,6 +169,8 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     return false;
   },
   getStatus: (id: string, is_status: boolean) => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
+
     const payload = {
       id,
       is_status,
@@ -185,11 +190,12 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     return false;
   },
   getServerity: () => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
     set({ statusLoading: true, erronOnStatus: false });
 
-    httpRequest('get', `${envConfig.api_url}/message_catalog/display_severity`, {}, true, undefined, {
+    httpRequest('get', `${envConfig.api_url}/message_catalog/display_severity`, {}, true, undefined,{
       headers: {
-        slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+        slug: slugId
       }
     })
       .then((response) => {
@@ -216,6 +222,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   },
 
   deleteMessage: () => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
     const { idList } = get();
     const { MessagesList } = get();
     const msgId = MessagesList?.filter(({ msg_grp_msgs_Total }: any) => msg_grp_msgs_Total).map(({ id }: any) => id);
@@ -230,7 +237,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
       undefined,
       {
         headers: {
-          slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+          slug: slugId
         }
       })
       .then((response) => {
@@ -247,6 +254,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   },
 
   addMessageTable: () => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
     const { addMessageList, idList, getMessageList } = get();
     const payload = {
       title: addMessageList.title,
@@ -266,7 +274,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
       undefined,
       {
         headers: {
-          slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+          slug: slugId
         }
       })
       .then((response) => {
@@ -284,13 +292,15 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   },
   //
   editDisplayMessageTable: (id: any) => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
+
     const payload = { id: id };
     set({ addMessageLoading: true, errorOnAddMesage: false });
     httpRequest('post', `${envConfig.api_url}/messages/display_message_by_id`, payload, true,
       undefined,
       {
         headers: {
-          slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+          slug: slugId
         }
       })
       .then((response) => {
@@ -306,6 +316,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     return false;
   },
   editMessageTable: () => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
     const { editMessageList, idList } = get();
     const payload = {
       title: editMessageList.title,
@@ -327,7 +338,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
       undefined,
       {
         headers: {
-          slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+          slug: slugId
         }
       })
       .then((response) => {
@@ -343,48 +354,50 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     return false;
   },
 
-  filterMessage: (serverityFilter: string | number, createdOn: any, updateOn: any, messageGroupId:  string) => {
-    const { getMessageList } = get();
-    const payload = {
-      msg_grp_id: messageGroupId,
-      is_status: true,
-      severity_id: serverityFilter ?? [],
-      created: createdOn ?? {
-        from_date: '',
-        end_date: '',
-      },
-      updated: updateOn ?? {
-        from_date: '',
-        end_date: '',
-      },
-    };
-    set({ filterMessageLoading: true, errorOnFilterMesage: false });
-    httpRequest('post', `${envConfig.api_url}/message_catalog/filter_message`,
-     payload,
-      true,
-      undefined,
-      {
-        headers: {
-          slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
-        }
-      }
-      )
-      .then((response) => {
-        getMessageList(messageGroupId)
-        enqueueSnackbar(`Filtered Successfully !`, { variant: 'success' });
-      })
-      .catch((err) => {
-        set({ errorOnFilterMesage: true });
-        enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
-      })
-      .finally(() => {
-        set({ filterMessageLoading: false });
-      });
-    return false;
-  },
+  // filterMessage: (serverityFilter: string | number, createdOn: any, updateOn: any, messageGroupId: string) => {
+  //   const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
 
-  onApply: (messageGroupId:  string) => {
-    const { filterContent, filterMessage } = get();
+  //   const { getMessageList } = get();
+  //   const payload = {
+  //     msg_grp_id: messageGroupId,
+  //     is_status: true,
+  //     severity_id: serverityFilter ?? [],
+  //     created: createdOn ?? {
+  //       from_date: '',
+  //       end_date: '',
+  //     },
+  //     updated: updateOn ?? {
+  //       from_date: '',
+  //       end_date: '',
+  //     },
+  //   };
+  //   set({ filterMessageLoading: true, errorOnFilterMesage: false });
+  //   httpRequest('post', `${envConfig.api_url}/message_catalog/filter_message`,
+  //     payload,
+  //     true,
+  //     undefined,
+  //     {
+  //       headers: {
+  //         slug: slugId
+  //       }
+  //     }
+  //   )
+  //     .then((response) => {
+  //       getMessageList(messageGroupId)
+  //       enqueueSnackbar(`Filtered Successfully !`, { variant: 'success' });
+  //     })
+  //     .catch((err) => {
+  //       set({ errorOnFilterMesage: true });
+  //       enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
+  //     })
+  //     .finally(() => {
+  //       set({ filterMessageLoading: false });
+  //     });
+  //   return false;
+  // },
+
+  onApply: (messageGroupId: string) => {
+    const { filterContent } = get();
     const FilterArray: any = [];
     if (Array.isArray(filterContent?.[0]?.children) && filterContent?.[0]?.children?.length > 0) {
       filterContent?.[0]?.children?.filter((val: any) => val?.value === true && FilterArray.push(val?.id));
@@ -417,7 +430,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
         };
       }
     }
-    filterMessage(FilterArray, created, updated, messageGroupId);
+    // filterMessage(FilterArray, created, updated, messageGroupId);
     // clearfilter();
   },
 

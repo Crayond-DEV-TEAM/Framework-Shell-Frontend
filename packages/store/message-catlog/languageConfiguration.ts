@@ -5,6 +5,7 @@ import { httpRequest } from '@core/utils';
 import { envConfig } from '@core/envconfig';
 import { useNavigate } from 'react-router-dom';
 import { messageRoutes } from '@core/routes';
+import { useSlug } from '../common';
 
 export const useLanguageConfiguration = create<LanguageConfigInterface>((set, get) => ({
   languages: [],
@@ -19,13 +20,12 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
   errorOnFetching: false,
   message: '',
   getAllLanguages: () => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
     set({ masterLanguageLoading: true, masterLanguageError: false });
     httpRequest('get', `${envConfig.api_url}/message_catalog/display_Master_languages`, {}, true,
       undefined,
       {
-        headers: {
-          slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
-        }
+        headers: { slug: slugId },
       })
       .then((response) => {
         set({ masterLanguages: response.data.data?.sort((a: any, b: any) => b.label - a.label) });
@@ -40,14 +40,13 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
     return false;
   },
   getSavedLanguage: () => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
     set({ fetching: false, errorOnFetching: false });
     httpRequest('get', `${envConfig.api_url}/message_catalog/display_config_languages`, {}, true,
       undefined,
       {
-        headers: {
-          slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
-        }
-      },)
+        headers: { slug: slugId },
+      })
       .then((response) => {
         const { masterLanguages } = get();
         const newMasterLanguages = masterLanguages;
@@ -91,15 +90,14 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
     return false;
   },
   saveLanguage: () => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
     const { languages } = get();
     set({ saving: true, errorOnSaving: false });
     httpRequest('put', `${envConfig.api_url}/message_catalog/edit_config_languages`, { languages },
       true,
       undefined,
       {
-        headers: {
-          slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
-        }
+        headers: { slug: slugId },
       })
       .then((response) => {
         set({ isSaved: true, message: 'Changes Saved!' });

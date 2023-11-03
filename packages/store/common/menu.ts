@@ -23,7 +23,6 @@ export const useMenu = create<MenusProps>((set, get) => ({
         true,
       );
       if (data.status === 200) {
-        debugger;
         // const sideMenus: Menu[] = [];
         data.data?.tools_details?.forEach(
           (tool: {

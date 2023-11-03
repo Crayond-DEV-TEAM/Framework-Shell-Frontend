@@ -14,7 +14,7 @@ import {
 } from '..';
 
 import { addChipMultipleDropdownStyle } from './style';
-import { useAdminLanding } from '@core/store';
+import { useAdminLanding, useSuperAdminLanding } from '@core/store';
 
 interface AccessOption {
   id: string;
@@ -43,7 +43,7 @@ export interface AddChipMultipleDropdownProps {
   optionList?: AccessOption[];
   handleChange?: (key: string, value: any) => void;
   createEditAdmin: any;
-  onSaveUserInvite?: () => void;
+  // onSaveUserInvite?: () => void;
 }
 
 export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = ({
@@ -53,7 +53,7 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
   handleChange = () => {},
   optionList = [],
   createEditAdmin,
-  onSaveUserInvite = () => false,
+  // onSaveUserInvite = () => false,
   ...rest
 }: AddChipMultipleDropdownProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -61,7 +61,16 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
   const [accessState, setAccessState] = useState<AccessOption | null>(null);
   const [values, setValues] = useState(false);
 
-  const { emailChecker, userNameChecker, userInviteEdit, seteditUserInviteDetails, addUserInvite } = useAdminLanding();
+  const {
+    emailChecker,
+    userNameChecker,
+    userInviteEdit,
+    seteditUserInviteDetails,
+    addUserInvite,
+    getUserMasterByOrganisation,
+  } = useAdminLanding();
+
+  const { getAllUserList } = useSuperAdminLanding();
 
   const accessMaster = [
     { id: '1', name: 'Full Access' },
@@ -76,9 +85,13 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
     seteditUserInviteDetails({ key, value });
   };
 
-  // const onSaveUserInvite = () => {
-  //   addUserInvite();
-  // };
+  const onSaveUserInvite = () => {
+    addUserInvite();
+    handleCloseUserInvite();
+    getUserMasterByOrganisation();
+    handleClose();
+    // getAllUserList();
+  };
   const handleOpenUserInvite = () => {
     setValues(true);
   };

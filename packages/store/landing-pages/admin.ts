@@ -3,6 +3,7 @@ import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { AdminInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
+import { useSuperAdminLanding } from './superAdmin'
 export const useAdminLanding = create<AdminInterface>((set, get) => ({
   adminList: [],
   OrganisationListMaster: [],
@@ -101,14 +102,12 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       organisation_id: OrganisationDetails.id,
       name: createEditAdmin.projectTitle,
       description: createEditAdmin.description,
-      services: Array.isArray(createEditAdmin.mapServices) ? createEditAdmin.mapServices?.map((x: any) => x?.id) : [],
-      users: Array.isArray(createEditAdmin.mapAdmin)
-        ? createEditAdmin.mapAdmin?.map((x: any) => ({
-            user_profile_id: x?.id,
-            access: x?.access,
-          }))
-        : [],
-      // is_active: true,
+      services: createEditAdmin.mapServices?.map((x: any) => x?.id),
+      users: createEditAdmin.mapAdmin?.map((x: any) => ({
+        user_profile_id: x?.id,
+        access: x?.access,
+      })),
+      is_active: createEditAdmin?.is_active,
     };
     // debugger;
     httpRequest('post', `${envConfig.api_url}/idm/projects/create`, payload, true)
@@ -121,26 +120,25 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
-        getAdminList(OrganisationDetails.id);
+        getAdminList();
         clearAll();
       });
   },
 
   editAdmin: () => {
-    const { clearAll, getAdminList, OrganisationDetails } = get();
+    const { clearAll, getAdminList, OrganisationDetails ,createEditAdmin } = get();
     set({ fetching: true, errorOnFetching: false });
-    // const { RepositoryList } = useRepository();
     const payload = {
-      // permission_id: getAdminList.id,
-      // // data: { data },
-      // name: getAdminList.name,
-      // description: addPermissionList.description,
-      // is_active: addPermissionList.is_active,
+      organisation_id: OrganisationDetails.id,
+      name: createEditAdmin.projectTitle,
+      description: createEditAdmin.description,
+      is_active: createEditAdmin.is_active,
+      project_id: createEditAdmin.id,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.api_url}/projects`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/idm/projects/update`, payload, true)
       .then((response) => {
-        enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
+        enqueueSnackbar('Project edited Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
@@ -148,7 +146,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
-        getAdminList(OrganisationDetails.id);
+        getAdminList();
         clearAll();
       });
   },
@@ -157,10 +155,10 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     // const {}= useUserLanding()
     const { getAdminList, OrganisationDetails } = get();
     const payload = {
-      role_id: id,
+      project_id: id,
       is_active: status,
     };
-    httpRequest('put', `${envConfig.api_url}/projects`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/idm/projects/update`, payload, true)
       .then((response) => {
         enqueueSnackbar('Status changed succesfully!', { variant: 'success' });
       })
@@ -170,10 +168,11 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
-        getAdminList(OrganisationDetails.id);
+        getAdminList();
       });
   },
   getOrganisationMaster: () => {
+    const { getAdminList } = get();
     debugger;
     set({ fetching: true, errorOnFetching: false });
     //  debugger;
@@ -210,6 +209,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
+        getAdminList();
         set({ fetching: false });
       });
   },
@@ -282,18 +282,193 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
         set({ fetching: false });
       });
   },
-
-  deleteAdmin: (x: any) => {
-    const { getAdminList, OrganisationDetails } = get();
+  getAllProjectsEditData: (id: string) => {
+    debugger;
     set({ fetching: true, errorOnFetching: false });
-    // const { RepositoryList } = useRepository();
+
     const payload = {
-      permission_id: x.id,
+      project_id: id,
+    };
+     debugger;
+    httpRequest('post', `${envConfig.api_url}/idm/project/get/id`, payload, true)
+      .then((response) => {
+        debugger;
+        const responseData = response.data.data
+        const Servicemap: any = [];
+
+      if (Array.isArray(responseData.project_service_mappings) && responseData.project_service_mappings.length > 0) {
+        responseData.project_service_mappings.forEach((tableData: any) => {
+          Servicemap.push({
+            id: tableData.service_id,
+            name: tableData.service_name,
+          });
+        });
+      }
+        const editData = {
+          projectTitle: responseData.name,
+          description: responseData.description,
+          mapServices: Servicemap,
+          mapAdmin: responseData.project_user_mappings,
+          is_active: responseData.is_active,
+          id: responseData.id,
+        };
+        set((state) => ({ createEditAdmin: { ...editData } }));
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ fetching: false });
+      });
+  },
+  createServiceMap: () => {
+    debugger;
+    const { OrganisationDetails } = get();
+    set({ fetching: true, errorOnFetching: false });
+
+    const payload = {
+      organisation_id: OrganisationDetails.id,
+    };
+    //  debugger;
+    httpRequest('post', `${envConfig.api_url}/idm/organisation/users`, payload, true)
+      .then((response) => {
+        debugger;
+        const dataTable: any = [];
+        if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
+          response.data.data.rows.map(
+            (tableData: any, i: any) =>
+              dataTable.push({
+                id: tableData.id,
+                name: tableData.name,
+              }),
+            set({ UserListMaster: dataTable }),
+          );
+        } else {
+          set({ UserListMaster: [] });
+        }
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ fetching: false });
+      });
+  },
+  editServiceMap: () => {
+    debugger;
+    const { OrganisationDetails } = get();
+    set({ fetching: true, errorOnFetching: false });
+
+    const payload = {
+      organisation_id: OrganisationDetails.id,
+    };
+    //  debugger;
+    httpRequest('post', `${envConfig.api_url}/idm/organisation/users`, payload, true)
+      .then((response) => {
+        debugger;
+        const dataTable: any = [];
+        if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
+          response.data.data.rows.map(
+            (tableData: any, i: any) =>
+              dataTable.push({
+                id: tableData.id,
+                name: tableData.name,
+              }),
+            set({ UserListMaster: dataTable }),
+          );
+        } else {
+          set({ UserListMaster: [] });
+        }
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ fetching: false });
+      });
+  },
+  createUserMap: () => {
+    debugger;
+    const { OrganisationDetails } = get();
+    set({ fetching: true, errorOnFetching: false });
+
+    const payload = {
+      organisation_id: OrganisationDetails.id,
+    };
+    //  debugger;
+    httpRequest('post', `${envConfig.api_url}/idm/organisation/users`, payload, true)
+      .then((response) => {
+        debugger;
+        const dataTable: any = [];
+        if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
+          response.data.data.rows.map(
+            (tableData: any, i: any) =>
+              dataTable.push({
+                id: tableData.id,
+                name: tableData.name,
+              }),
+            set({ UserListMaster: dataTable }),
+          );
+        } else {
+          set({ UserListMaster: [] });
+        }
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ fetching: false });
+      });
+  },
+  editUserMap: () => {
+    debugger;
+    const { OrganisationDetails } = get();
+    set({ fetching: true, errorOnFetching: false });
+
+    const payload = {
+      organisation_id: OrganisationDetails.id,
+    };
+    //  debugger;
+    httpRequest('post', `${envConfig.api_url}/idm/organisation/users`, payload, true)
+      .then((response) => {
+        debugger;
+        const dataTable: any = [];
+        if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
+          response.data.data.rows.map(
+            (tableData: any, i: any) =>
+              dataTable.push({
+                id: tableData.id,
+                name: tableData.name,
+              }),
+            set({ UserListMaster: dataTable }),
+          );
+        } else {
+          set({ UserListMaster: [] });
+        }
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ fetching: false });
+      });
+  },
+
+  deleteAdmin: (id:string) => {
+    const { getAdminList } = get();
+    set({ fetching: true, errorOnFetching: false });
+    const payload = {
+      project_id: id,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('delete', `${envConfig.api_url}/permissions`, payload, true)
+    httpRequest('delete', `${envConfig.api_url}/idm/projects/delete`, payload, true)
       .then((response) => {
-        enqueueSnackbar('Permission deleted Succesfully!', { variant: 'success' });
+        enqueueSnackbar('Project deleted Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
@@ -301,7 +476,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
-        getAdminList(OrganisationDetails.id);
+        getAdminList();
       });
   },
 
@@ -323,6 +498,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
+        getAllUserList();
       });
   },
 
@@ -334,7 +510,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     const payload = {
       email: userInviteEdit.email,
     };
-    //  debugger;
     httpRequest('post', `${envConfig.api_url}/framework_shell_auth/check/email`, payload, false)
       .then((response) => {
         debugger;
@@ -343,7 +518,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
           const value = response.status;
           seteditUserInviteDetails({ key, value });
         }
-        enqueueSnackbar('User Email Verified!', { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -361,7 +535,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     const payload = {
       username: userInviteEdit.userName,
     };
-    //  debugger;
     httpRequest('post', `${envConfig.api_url}/framework_shell_auth/check/username`, payload, false)
       .then((response) => {
         if (response.data) {
@@ -369,7 +542,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
           const value = response.status;
           seteditUserInviteDetails({ key, value });
         }
-        enqueueSnackbar('Username Availble', { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });

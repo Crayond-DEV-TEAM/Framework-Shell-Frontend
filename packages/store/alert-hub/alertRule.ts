@@ -188,12 +188,10 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
       push_body: addAlertRules?.push_body,
       isActive: addAlertRules?.is_active,
     };
-    httpRequest('post', `${envConfig.api_url}/alertshub/rules/upsert`, payload, true,
-    undefined,
-{
+    httpRequest('post', `${envConfig.api_url}/alertshub/rules/upsert`, payload, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-      }
+        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e',
+      },
     })
       .then((response) => {
         enqueueSnackbar('New Alert Rule successfully Added!', { variant: 'success' });
@@ -240,12 +238,10 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
       },
     };
 
-    httpRequest('post', `${envConfig.api_url}/alertshub/rules/get`, payload, true,
-    undefined,
-{
+    httpRequest('post', `${envConfig.api_url}/alertshub/rules/get`, payload, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-      }
+        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e',
+      },
     })
       .then((response) => {
         const filterData: any = [];
@@ -296,13 +292,18 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
 
   editAlertRule: async (data: any) => {
     set({ editFetching: true, errorOnFetching: false });
-    httpRequest('post', `${envConfig.api_url}/alertshub/rules/get`, { alert_rule_code: data?.alert_rule_code }, true,
-    undefined,
-{
-      headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-      }
-    })
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/alertshub/rules/get`,
+      { alert_rule_code: data?.alert_rule_code },
+      true,
+      undefined,
+      {
+        headers: {
+          slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e',
+        },
+      },
+    )
       .then((response) => {
         const updateData: any = [];
         if (Array.isArray(response?.data?.data) && response?.data?.data?.length > 0) {
@@ -352,13 +353,18 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
 
     const bgColor = getRandomColor();
 
-    httpRequest('post', `${envConfig.api_url}/alertshub/rules/get`, { offset: 0, limit: 10, searchStr: null }, true,
-    undefined,
-{
-      headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-      }
-    })
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/alertshub/rules/get`,
+      { offset: 0, limit: 10, searchStr: null },
+      true,
+      undefined,
+      {
+        headers: {
+          slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e',
+        },
+      },
+    )
       .then((response) => {
         const dataTable: any = [];
 
@@ -409,12 +415,10 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
   getHashtagData: async () => {
     set({ fetching: true, errorOnFetching: false });
 
-    httpRequest('GET', `${envConfig.api_url}/alertshub/rules/hashtag`, {}, true,
-    undefined,
-{
+    httpRequest('GET', `${envConfig.api_url}/alertshub/rules/hashtag`, {}, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-      }
+        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e',
+      },
     })
       .then((response) => {
         const hashtagData: any = [];
@@ -450,12 +454,10 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
       id: data?.id,
     };
 
-    httpRequest('DELETE', `${envConfig.api_url}/alertshub/rules`, payload, true,
-    undefined,
-{
+    httpRequest('DELETE', `${envConfig.api_url}/alertshub/rules`, payload, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-      }
+        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e',
+      },
     })
       .then((response) => {
         enqueueSnackbar('Data Deleted Succesfully!', { variant: 'success' });

@@ -1,21 +1,16 @@
+import { DialogContent, TableHeader } from '@components/commonComponents';
 import DeleteIcon from '@core/ui/assets/deleteIcon';
 import EditIcon from '@core/ui/assets/editIcon';
-import SmallMailIcon from '@core/ui/assets/smallMailIcon';
-import SmallNotificationIcon from '@core/ui/assets/smallNotificationIcon';
-import SmallSmsIcon from '@core/ui/assets/smallSmsIcon';
 import { DialogDrawer } from '@core/ui/atoms/dialogDrawer';
-import { Box, CircularProgress, Grid, Switch } from '@mui/material';
 import { Table as CommonTable } from '@crayond_dev/ui_table';
+import { Box, CircularProgress, Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { DialogContent, TableHeader } from '@components/commonComponents';
 
 // import { Popup } from "@core/ui/components/popup";
-import type { SxProps, Theme } from '@mui/material';
-import { alertRuleStyles } from './style';
 import { FooterComponent } from '@atoms/footerComponent';
 import { useAlertRules } from '@core/store';
-import { dummyTableData } from '@core/store/utils';
-import { styled } from '@mui/material/styles';
+import type { SxProps, Theme } from '@mui/material';
+import { alertRuleStyles } from './style';
 export interface AlertRuleProps {
   data?: any;
   id?: any;
@@ -55,8 +50,6 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
   );
 
   const [open, setOpen] = React.useState(false);
-
-  console.log('alertRuleData', alertRuleData);
 
   const [switchList, setSwitchList] = useState<any>([]);
 
@@ -106,15 +99,16 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
   const { data } = props;
 
   const handleSwitch = (id: string, data: any, e: any) => {
-    if (!switchList.includes(id)) {
-      setSwitchList([...switchList, id]);
-    } else {
-      const index = switchList.indexOf(id);
-      if (index > -1) {
-        switchList.splice(index, 1);
-        setSwitchList([...switchList]);
-      }
-    }
+    // if (!switchList.includes(id)) {
+    //   setSwitchList([...switchList, id]);
+    // } else {
+    //   const index = switchList.indexOf(id);
+    //   if (index > -1) {
+    //     switchList.splice(index, 1);
+    //     setSwitchList([...switchList]);
+    //   }
+    // }
+    return null;
   };
 
   const editHandel = (e: string, val: any) => {
@@ -250,11 +244,8 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
                 fontSize: '14px',
                 fontWeight: '500',
                 color: '#5A5A5A',
-                // bgColor: '#fff',
                 borderBottom: '0px',
               }}
-              // tableMinWidth={'1200px'}
-              // tableMinHeight={'539px'}
               paddingAll={'0px'}
               marginAll={'0px'}
               dense={'small'}
@@ -295,7 +286,6 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
                 title="Add New Rule"
                 isDialogOpened={open}
                 handleCloseDialog={handleClose}
-                // handleSubmit={handleSubmit}
                 fullWidth={false}
                 fullScreen={false}
                 Bodycomponent={

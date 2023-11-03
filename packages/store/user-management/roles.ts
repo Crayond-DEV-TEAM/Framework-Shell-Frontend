@@ -13,7 +13,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
     permission: [],
     name: '',
     description: '',
-    is_active: false,
+    is_active: true,
   },
   editRole: [],
   deleteRole: [],
@@ -41,7 +41,9 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       offset: 0,
       limit: 10000,
     };
-    httpRequest('post', `${envConfig.idm_api_url}/roles`, payload, true, apiToken)
+    httpRequest('post', `${envConfig.api_url}/idm/roles/get`, payload, true, apiToken, {
+      headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
+    })
       .then((response) => {
         const permssionJsonConstruct = (tableData: any) => {
           return tableData.role_permission_mappings.map((value: any) => {
@@ -102,7 +104,9 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       is_active: addRole.is_active,
     };
     return new Promise((resolve, reject) => {
-      httpRequest('post', `${envConfig.idm_api_url}/roles/create`, payload, true, apiToken)
+      httpRequest('post', `${envConfig.api_url}/idm/roles/create`, payload, true, apiToken, {
+        headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
+      })
         .then((response) => {
           enqueueSnackbar('Roles created succesfully!', { variant: 'success' });
           console.log('In the promise now');
@@ -124,11 +128,17 @@ export const useRoles = create<RolesInterface>((set, get) => ({
   getStatusList: async (id: any, status: any) => {
     set({ fetching: true, errorOnFetching: false });
     const { getRolesList, apiToken } = get();
+    // const permissionid = addRole.permission.map((value: any) => value.id);
     const payload = {
       role_id: id,
+      // name: addRole.name,
+      // permissions: permissionid,
+      // description: addRole.description,
       is_active: status,
     };
-    httpRequest('put', `${envConfig.idm_api_url}/roles/update`, payload, true, apiToken)
+    httpRequest('put', `${envConfig.api_url}/idm/roles/update`, payload, true, apiToken, {
+      headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
+    })
       .then((response) => {
         enqueueSnackbar('Status changed succesfully!', { variant: 'success' });
       })
@@ -155,7 +165,9 @@ export const useRoles = create<RolesInterface>((set, get) => ({
     set({ fetching: true, errorOnFetching: false });
 
     return new Promise((resolve, reject) => {
-      return httpRequest('put', `${envConfig.idm_api_url}/roles/update`, payload, true, apiToken)
+      return httpRequest('put', `${envConfig.api_url}/idm/roles/update`, payload, true, apiToken, {
+        headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
+      })
         .then((response) => {
           enqueueSnackbar('Roles edited succesfully!', { variant: 'success' });
           resolve(response?.data?.data);
@@ -180,7 +192,9 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       role_id: id,
     };
 
-    httpRequest('delete', `${envConfig.idm_api_url}/roles`, payload, true, apiToken)
+    httpRequest('delete', `${envConfig.api_url}/idm/roles/delete`, payload, true, apiToken, {
+      headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
+    })
       .then((response) => {
         enqueueSnackbar('Roles deleted succesfully!', { variant: 'success' });
       })
@@ -201,7 +215,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
         permission: '',
         name: '',
         description: '',
-        is_active: false,
+        is_active: true,
       },
     });
   },

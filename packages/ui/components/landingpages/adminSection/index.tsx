@@ -7,11 +7,12 @@ import { AdminSecForm } from '..';
 import { Table as CommonTable } from '@crayond_dev/ui_table';
 import { Header, tableData, tableJson } from './utills';
 import { Drawer } from '@atoms/drawer';
-import { useAdmin, useAdminLanding, useMenu, useOrganisation } from '@core/store';
+import { useAdminLanding, useMenu } from '@core/store';
 import { FooterComponent } from '@atoms/footerComponent';
 import { TableHeader } from '@components/commonComponents';
 import { useNavigate } from 'react-router-dom';
 import { webRoutes } from '@core/routes';
+import { localStorageKeys } from '@core/utils';
 export interface AdminSectionProps {
   className?: string;
   sx?: SxProps<Theme>;
@@ -19,19 +20,6 @@ export interface AdminSectionProps {
 
 export const AdminSection = (props: AdminSectionProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
-  const {
-    // getAdminList,
-    // adminList,
-    // createEditAdmin,
-    // OrganisationDetails,
-    // seteditOrganisationDetails,
-    // seteditAdmin,
-    editAdmin,
-    deleteAdmin,
-    // createAdmin,
-    // clearAll,
-  } = useAdmin();
-  const { getOrganisationList, OrganisationList } = useOrganisation();
 
   const {
     getOrganisationMaster,
@@ -46,17 +34,25 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     clearAll,
     getAdminList,
     adminList,
+    getAllProjectsEditData,
+    deleteAdmin,
+    editAdmin,
+    getStatusList,
   } = useAdminLanding();
-  const { getSideMenusFromProject, getMenu } = useMenu();
+  const { getSideMenusFromProject } = useMenu();
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [switchList, setSwitchList] = useState<any>([]);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const filteredMessageGroup = adminList.filter(
     (x: any) => x.projectTitle?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  const handleTableEdit = () => {
+  const handleTableEdit = (id: string, data: any, e: any) => {
+    getAllProjectsEditData(id);
+    getServiceMasterByOrganisation();
+    getUserMasterByOrganisation();
     setOpen(true);
   };
   const handleTableDelete = (id: string) => {
@@ -67,12 +63,17 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     debugger;
     // getMenu();
     getSideMenusFromProject(id);
+    localStorage.setItem(localStorageKeys.projectId, id);
     navigate(webRoutes.root);
   };
   const handleDrawerClose = () => {
     setOpen(false);
+    clearAll();
   };
   const handleDrawerOpen = () => {
+    getAdminList();
+    getServiceMasterByOrganisation();
+    getUserMasterByOrganisation();
     setOpen(true);
   };
   const handleChange = (key: string, value: string | number) => {
@@ -80,40 +81,52 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
   };
 
   useEffect(() => {
-    // getAdminList(OrganisationDetails.id);
     getOrganisationMaster();
-    // getOrganisationList();
   }, []);
-  // useEffect(() => {
-  //   getAdminList();
-  // }, [OrganisationDetails]);
   const handleChangeOrganisationkey = (key: string, value: string | number) => {
     seteditOrganisationDetails({ key, value });
+    getAdminList();
   };
   const handleChangeOrganisation = (value: any) => {
-    // console.log
     debugger;
-    // if
     handleChangeOrganisationkey('id', value.id);
     handleChangeOrganisationkey('name', value.name);
     handleChangeOrganisationkey('rolename', value.rolename);
   };
   const handleSave = () => {
     if (createEditAdmin.id) {
-      // editAdmin();
+      editAdmin();
     } else {
       createAdmin();
     }
     setOpen(false);
     clearAll();
   };
-
+  const handleSwitch = (id: any, data: any, e: any) => {
+    if (!switchList.includes(id)) {
+      setSwitchList([...switchList, id]);
+    } else {
+      const index = switchList.indexOf(id);
+      if (index > -1) {
+        switchList.splice(index, 1);
+        setSwitchList([...switchList]);
+      }
+    }
+    if (e.target.checked === true) {
+      getStatusList(id, true);
+    } else {
+      getStatusList(id, false);
+    }
+  };
+  const handleStatus = () => {
+    if (adminList?.length > 0) {
+      const status = adminList?.filter((val: any) => val?.is_active === true)?.map((val: any) => val?.id);
+      setSwitchList(status);
+    }
+  };
   useEffect(() => {
-    getAdminList();
-    getServiceMasterByOrganisation();
-    getUserMasterByOrganisation();
-  }, [OrganisationDetails]);
-
+    handleStatus();
+  }, [adminList]);
   return (
     <Box
       sx={[
@@ -137,6 +150,8 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
               Header={Header}
               dataList={filteredMessageGroup}
               tableData={tableData(handleTableEdit, handleTableDelete, handleTableDetail)}
+              switchList={switchList}
+              handleSwitch={handleSwitch}
               headerOptions={{
                 fontSize: '14px',
                 fontWeight: '500',
@@ -194,7 +209,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
         anchor="right"
         drawerStyleSX={{ padding: '20px 20px 70px 20px' }}
         drawerRightClose
-        header={'Add New Project'}
+        header={createEditAdmin.id ? 'Edit Project' : 'Add New Project'}
         headerStyle={{
           fontSize: '16px',
           fontWeight: 600,

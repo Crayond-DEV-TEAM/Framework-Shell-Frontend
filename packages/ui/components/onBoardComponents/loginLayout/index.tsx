@@ -1,5 +1,5 @@
 import { webRoutes } from '@core/routes';
-import { localStorageKeys } from '@core/utils';
+import { localStorageKeys, parseJwt } from '@core/utils';
 import { BoxProps, SxProps, Theme, Typography } from '@mui/material';
 import { Box, Grid } from '@mui/material';
 import React, { forwardRef } from 'react';
@@ -9,6 +9,7 @@ import crayond from '@assets/crayond.svg';
 import login from '@assets/login.svg';
 import toolkit from '@assets/toolkit.svg';
 import { loginLayoutStyle } from './style';
+import { useUser } from '@core/store'
 
 export interface LoginLayoutProps {
   className?: string;
@@ -28,7 +29,17 @@ export const LoginLayout = forwardRef((props: LoginLayoutProps): JSX.Element => 
 
     //Already logged in
     if (authToken) {
-      navigate(webRoutes.root);
+      const user = parseJwt(authToken);
+        useUser.setState({ user });
+        if (user.isSuperAdmin === true) {
+          navigate(webRoutes.superAdmin)
+          //  window.location.href = '/superAdmin';
+          console.log('super admin');
+        } else {
+          navigate(webRoutes.admin)
+          // window.location.href = '/admin';
+        }
+      // navigate(webRoutes.ad);
     }
   }, [location]);
 

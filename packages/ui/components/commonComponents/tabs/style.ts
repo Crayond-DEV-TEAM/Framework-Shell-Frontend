@@ -33,7 +33,7 @@ export const tabs_style = {
     cursor: 'pointer',
     fontSize: '14px',
     fontWeight: 500,
-    paddingBottom: '18px !important',
+    paddingBottom: '5px !important',
     color: '#5A5A5A',
     '&:nth-child(even)': {
       margin: '0 24px ',

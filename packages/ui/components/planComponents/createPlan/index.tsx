@@ -496,7 +496,6 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
           navigate(planSubscriptionRoutes.plan);
         }}
       />
-      <Box sx={{ margin: '45px' }} />
       {/* <CreatePlanCard title="General" subTitle="Users" /> */}
       <Box sx={createPlanStyle.content}>
         <CustomerCardComponent

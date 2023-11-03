@@ -6,9 +6,10 @@ import { customSwitchesStyle } from './style';
 export interface CustomSwitchesProps {
   className?: string;
   sx?: SxProps<Theme>;
-  onChange: (value: any) => any;
-  value: boolean;
-  label: string;
+  onChange?: (value: any) => any;
+  value: any;
+  readOnly?: boolean;
+  label?: string;
 }
 const CustomSwitch = styled((props: SwitchProps) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -65,7 +66,7 @@ const CustomSwitch = styled((props: SwitchProps) => (
 }));
 
 export const CustomSwitches = (props: CustomSwitchesProps): JSX.Element => {
-  const { className = '', sx = {}, onChange = () => false, label = '', value = false, ...rest } = props;
+  const { className = '', sx = {}, onChange = () => false, label = '', readOnly = false, value, ...rest } = props;
 
   return (
     <Box
@@ -79,8 +80,8 @@ export const CustomSwitches = (props: CustomSwitchesProps): JSX.Element => {
       {...rest}
     >
       <FormControlLabel
-        control={<CustomSwitch sx={{ ml: 1 }} checked={props?.value} onChange={onChange} />}
-        label={props.label}
+        control={<CustomSwitch sx={{ ml: 1 }} checked={value} readOnly={readOnly} onChange={onChange} />}
+        label={label}
       />
     </Box>
   );

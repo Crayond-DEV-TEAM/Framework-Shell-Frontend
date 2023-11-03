@@ -10,6 +10,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AddChipDropdown } from '@atoms/addChipDropdown';
 import { AddChipMultipleDropdown } from '@atoms/addChipMultipleDropdown';
 import { ToggleButtons } from '@atoms/toggleButton';
+import { useAdminLanding, useUserLanding } from '@core/store';
+import { MapAdminChipDropdown } from '@atoms/mapAdminChipDropdown';
 
 export interface SuperAdminFormProps {
   className?: string;
@@ -30,6 +32,11 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
     userMaster,
     ...rest
   } = props;
+  const { addUserInvite } = useAdminLanding();
+
+  // const onSaveUserInvite = () => {
+  //   addUserInvite();
+  // };
 
   return (
     <Box
@@ -86,7 +93,7 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
         <Box sx={{ m: '16px' }} />
         <Box sx={superAdminFormStyle.inputGroupSx}>
           <Label sx={superAdminFormStyle.labelSx} htmlFor="addTitle" isRequired>
-            Organisation Name
+            Email Id
           </Label>
           <Input
             size="small"
@@ -120,7 +127,12 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
             </AccordionSummary>
             <AccordionDetails sx={{ padding: '0px' }}>
               {/* <Chip label="Chip Filled" sx={{ height: '28px', borderRadius: '8px' }} /> */}
-              <AddChipMultipleDropdown dataList={userMaster} handleChange={handleChange} />
+              <MapAdminChipDropdown
+                createEditAdmin={createEditOrganisation.mapAdmin}
+                dataList={userMaster}
+                handleChange={handleChange}
+                // onSaveUserInvite={onSaveUserInvite}
+              />
             </AccordionDetails>
           </Accordion>
           <Accordion
@@ -139,7 +151,12 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
             </AccordionSummary>
             <AccordionDetails sx={{ padding: '0px' }}>
               {/* <AddChipMultipleDropdown dataList={ServiceMaster} handleChange={handleChange} /> */}
-              <AddChipDropdown permissionList={ServiceMaster} onChange={handleChange} />
+              <AddChipDropdown
+                createEditState={createEditOrganisation?.mapServices}
+                permissionList={ServiceMaster}
+                onChange={handleChange}
+                selectedOptions={createEditOrganisation?.mapServices}
+              />
               {/* <ToggleButtons
                 // value={addEditMessageState.severity}
                 onChange={(e: any, id: any) => {

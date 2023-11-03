@@ -2,8 +2,6 @@
   "extends": "tsconfig/react-library.json",
   "include": ["src", "../../packages/ui/components/rootLayout"],
   "compilerOptions": {
-    "jsx": "react",
-    "jsx": "react",
     "types": ["vite/client"],
     "baseUrl": "./src",
     "paths": {

@@ -137,7 +137,7 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
         set({ message: '' });
       }, 5000);
 
-      enqueueSnackbar('Language added successfully!', { variant: 'success' });
+      // enqueueSnackbar('Language added successfully!', { variant: 'success' });
     } else {
       enqueueSnackbar('Language already added!', { variant: 'warning' });
     }

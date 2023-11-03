@@ -9,6 +9,7 @@ export const filterStyle: FilterStyleProps = {
   filterSx: {
     border: '1px solid #E0E0E0',
     borderRadius: '8px',
+    position: 'relative',
   },
   totalFilterSx: {
     // '&.MuiPopover-root': {
@@ -67,6 +68,7 @@ export const filterStyle: FilterStyleProps = {
     width: '100%',
     left: '0px',
     right: '0px',
+    backgroundColor: '#ffffff',
   },
   subFooterSx: {
     display: 'flex',
@@ -195,5 +197,15 @@ export const filterStyle: FilterStyleProps = {
   },
   searchSx: {
     pb: 1,
+  },
+
+  filterCircleSx: {
+    width: '10px',
+    height: '10px',
+    borderRadius: '50%',
+    backgroundColor: '#357968',
+    position: 'absolute',
+    top: '-3px',
+    right: '-3px',
   },
 };

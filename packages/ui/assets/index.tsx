@@ -17,6 +17,7 @@ export * from './lockKey';
 export * from './notificationIcon';
 export * from './orangeChart';
 export * from './purpleChart';
+export * from './reportMailIcon';
 export * from './sgTickGreen';
 export * from './smallMailIcon';
 export * from './smallNotificationIcon';

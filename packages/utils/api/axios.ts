@@ -3,6 +3,22 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { localStorageKeys } from '../constants';
 import { envConfig } from '@core/envconfig';
 
+interface ConfigOptions {
+  headers?: {
+    [headerName: string]: string;
+  };
+  [configName: string]: any;
+}
+
+type HttpRequestProps = (
+  method: AxiosRequestConfig['method'],
+  url: AxiosRequestConfig['url'],
+  data?: AxiosRequestConfig['data'],
+  includeToken?: boolean,
+  apiToken?: string,
+  config?: ConfigOptions,
+) => Promise<AxiosResponse<any, any>>;
+
 /**
  * method The HTTP method (e.g. GET, POST).
  * The URL to send the request to.
@@ -12,6 +28,7 @@ import { envConfig } from '@core/envconfig';
  * A promise that resolves with the response data or rejects with an error.
  */
 
+<<<<<<< HEAD
 interface HttpRequestProps {
   (
     method: AxiosRequestConfig['method'],
@@ -26,6 +43,8 @@ interface HttpRequestProps {
   ): Promise<AxiosResponse<any, any>>;
 }
 
+=======
+>>>>>>> c722427555d900b2b3f412c6c2aafb21065d328e
 export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, includeToken, apiToken, config) => {
   const headers = {
     ...(includeToken &&
@@ -38,8 +57,6 @@ export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, 
     ...(config?.headers ?? {}),
   };
 
-  console.log("THis is STEP 2:", headers);
-
   return axios({
     method,
     url,
@@ -48,12 +65,3 @@ export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, 
     // ...config,
   });
 };
-
-// Make a GET request to the /users endpoint with headers
-// httpRequest('GET', '/users', null, { headers: { 'X-My-Header': 'My Value' } })
-//   .then((data) => {
-//     // Handle the response data
-//   })
-//   .catch((error) => {
-//     // Handle the error
-//   });

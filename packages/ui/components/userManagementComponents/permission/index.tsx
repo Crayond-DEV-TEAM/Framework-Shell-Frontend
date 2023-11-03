@@ -16,9 +16,10 @@ export const Permission = (props: PermissionProps): JSX.Element => {
   const { className = '', sx = {}, apiToken = '', ...rest } = props;
   const [selected, setSelected] = useState(0);
   const [tableName, setTableName] = useState('');
-  const { PermissionList, setRepositoryList, indexUpdateList, RepositoryList, setApiToken, } = usePermission();
+  const { PermissionList, setRepositoryList, indexUpdateList, RepositoryList, setApiToken } = usePermission();
 
   const handleMessage = (key: any, value: any) => {
+    debugger;
     setSelected(value);
     setTableName(key.name);
     setRepositoryList(key.data, key.id, key);
@@ -36,6 +37,8 @@ export const Permission = (props: PermissionProps): JSX.Element => {
       setTableName(init?.name);
     }
   }, [PermissionList]);
+
+  console.log('indexUpdateList', indexUpdateList);
 
   return (
     <Box

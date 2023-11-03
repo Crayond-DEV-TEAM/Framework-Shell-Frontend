@@ -9,21 +9,16 @@ export const tabsCardStyle: TabsCardStyleProps = {
     display: 'flex',
     mt: '5px',
     mb: '5px',
-    // padding: '0px 7px',
     '& span': {
       marginRight: '8px',
+      display: 'flex',
     },
     '& p': {
-      fontSize: '16px',
       fontWeight: 600,
+      display: 'flex',
+      alignItems: 'center',
     },
   },
-
-  // smallCard: {
-  //     display: "flex",
-  //     justifyContent: "space-between",
-  //     padding: "0px 7px",
-  // },
 
   boxCard: {
     borderRight: '1px solid #E0E0E0',
@@ -31,7 +26,13 @@ export const tabsCardStyle: TabsCardStyleProps = {
     '&:nth-child(3)': {
       borderRight: '0px',
     },
+    '&:nth-child(6)': {
+      borderRight: '0px',
+    },
     '&:first-child': {
+      paddingLeft: '0px',
+    },
+    '&:nth-child(4)': {
       paddingLeft: '0px',
     },
   },

@@ -5,6 +5,7 @@ import { FeatureInterface, SubscriptionInterface } from '../interface';
 import { permission } from '../../ui/components/addpermission/utils';
 import { dateFetching } from './commonFunction';
 import { enqueueSnackbar } from 'notistack';
+import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/helperFunctions';
 // import { tableJson } from '@components/feature/utils'
 export const useSubscription = create<SubscriptionInterface>((set, get) => ({
   SubscriptionList: [],
@@ -38,15 +39,15 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
   setSubscriptionList: (key: string, value: any) => {
     const { createEditSubscription } = get();
     const totalCountFunc = () => {
-      const chargeMaps = createEditSubscription.plan_id.plan_charge_mappings?.map((value: any) => value.price);
+      const chargeMaps = createEditSubscription?.plan_id?.plan_charge_mappings?.map((value: any) => value?.price);
       const Chargessum = chargeMaps?.reduce((accumulator: any, currentValue: any) => accumulator + currentValue, 0);
 
-      const monthlyTotal = Array.isArray(createEditSubscription.add_on)
-        ? createEditSubscription.add_on.reduce((accumulator: number, obj: any) => {
+      const monthlyTotal = Array.isArray(createEditSubscription?.add_on)
+        ? createEditSubscription?.add_on?.reduce((accumulator: number, obj: any) => {
             const monthlyPrice =
-              createEditSubscription.billing_type.name === 'Monthly'
+              createEditSubscription?.billing_type?.name === 'Monthly'
                 ? obj?.price?.monthly
-                : createEditSubscription.billing_type.name === 'Yearly'
+                : createEditSubscription?.billing_type?.name === 'Yearly'
                 ? obj?.price?.yearly
                 : null;
             return accumulator + (monthlyPrice || 0);
@@ -55,16 +56,16 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       const billingType = createEditSubscription?.billing_type?.name;
       const planCardPrice =
         billingType === 'Monthly'
-          ? createEditSubscription.plan_id?.price?.monthly
+          ? createEditSubscription?.plan_id?.price?.monthly
           : billingType === 'Yearly'
-          ? createEditSubscription.plan_id?.price?.yearly
+          ? createEditSubscription?.plan_id?.price?.yearly
           : null;
       const Total = monthlyTotal + parseInt(planCardPrice, 10) + (Chargessum === undefined ? 0 : Chargessum);
       return Total;
     };
     if (key === 'add_on') {
       if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
-        createEditSubscription.add_on.push(value);
+        createEditSubscription?.add_on?.push(value);
         totalCountFunc();
         // debugger;
         return set((state) => ({
@@ -81,7 +82,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     }
     if (key === 'new_addon') {
       if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
-        createEditSubscription.new_addon.push(value);
+        createEditSubscription?.new_addon.push(value);
         // debugger;
         return set((state) => ({
           createEditSubscription: {
@@ -96,7 +97,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     }
     if (key === 'old_addon') {
       if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
-        createEditSubscription.old_addon.push(value);
+        createEditSubscription?.old_addon.push(value);
         // debugger;
         return set((state) => ({
           createEditSubscription: {
@@ -128,28 +129,37 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       offset: 0,
       limit: 100,
     };
-    httpRequest('post', `${envConfig.api_url}/subscriptions`, payload, true)
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/pasm/subscription/get`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      {
+        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      },
+    )
       .then((response) => {
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
-          response.data.data.rows.map(
+          convertKeysToSnakeCase(response.data.data.rows).map(
             (tableData: any, i: any) =>
               dataTable.push({
-                customerid: tableData.customer.alias_id,
-                companyName: tableData.customer.company_name,
-                adminname: tableData.customer.name,
-                email: tableData.customer.email_id,
+                customerid: tableData?.customer?.alias_id,
+                companyName: tableData?.customer?.company_name,
+                adminname: tableData?.customer?.name,
+                email: tableData?.customer?.email_id,
                 data: tableData,
                 currentplan: [
                   {
-                    label: tableData.plan.name,
+                    label: tableData?.plan?.name,
                     color: '#305AAE',
                     bgColor: '#E2EAFA',
                   },
                 ],
-                revenue: tableData.subscription_billings?.[0]?.actual_price,
-                is_active: tableData.is_active,
-                id: tableData.id,
+                revenue: tableData?.subscription_billings?.[0]?.actual_price,
+                is_active: tableData?.is_active,
+                id: tableData?.id,
               }),
             set({ SubscriptionList: dataTable }),
           );
@@ -169,8 +179,8 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     set({ fetching: true, errorOnFetching: false });
     const { createEditSubscription, getSubscriptionList, clearAll } = get();
     const payload = {
-      customer_id: createEditSubscription.customer_id,
-      plan_id: createEditSubscription.plan_id.id,
+      customer_id: createEditSubscription?.customer_id,
+      plan_id: createEditSubscription?.plan_id?.id,
       is_active: false,
       add_on: createEditSubscription.add_on.map((x) => ({
         id: x.add_on.id,
@@ -180,15 +190,24 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
         },
       })),
       billing: {
-        billing_type: createEditSubscription.billing_type.name,
-        actual_price: createEditSubscription.actual_price,
-        price_paid: createEditSubscription.price_paid,
+        billing_type: createEditSubscription?.billing_type?.name,
+        actual_price: createEditSubscription?.actual_price,
+        price_paid: createEditSubscription?.price_paid,
       },
-      is_plan_effective: createEditSubscription.is_plan_effective,
-      plan_effective_from: dateFetching(createEditSubscription.plan_effective_from),
+      is_plan_effective: createEditSubscription?.is_plan_effective,
+      plan_effective_from: dateFetching(createEditSubscription?.plan_effective_from),
     };
 
-    httpRequest('post', `${envConfig.api_url}/subscriptions/create`, payload, true)
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/pasm/subscription/create`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      {
+        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      },
+    )
       .then((response) => {
         enqueueSnackbar('Feature Created Succesfully!', { variant: 'success' });
       })
@@ -208,32 +227,41 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
   editSubscription: () => {
     set({ fetching: true, errorOnFetching: false });
     const { createEditSubscription, getSubscriptionList, clearAll } = get();
-    const newAddOn = createEditSubscription.new_addon?.map((x) => x.add_on.id) || [];
-    const oldAddOn = createEditSubscription.old_addon?.map((x) => x.add_on.id) || [];
+    const newAddOn = createEditSubscription?.new_addon?.map((x) => x?.add_on?.id) || [];
+    const oldAddOn = createEditSubscription?.old_addon?.map((x) => x?.add_on?.id) || [];
     // debugger;
     const payload = {
-      subscription_id: createEditSubscription.id,
-      customer_id: createEditSubscription.customer_id,
-      plan_id: createEditSubscription.plan_id.id,
+      subscription_id: createEditSubscription?.id,
+      customer_id: createEditSubscription?.customer_id,
+      plan_id: createEditSubscription?.plan_id?.id,
       is_active: false,
       new_add_on: createEditSubscription.new_addon.map((x) => ({
         id: x.add_on.id,
         price: {
-          monthly: x.price.monthly,
-          yearly: x.price.yearly,
+          monthly: x.price?.monthly,
+          yearly: x.price?.yearly,
         },
       })),
       deleted_add_on: oldAddOn,
       billing: {
-        billing_type: createEditSubscription.billing_type?.name,
-        actual_price: createEditSubscription.actual_price,
-        price_paid: createEditSubscription.price_paid,
+        billing_type: createEditSubscription?.billing_type?.name,
+        actual_price: createEditSubscription?.actual_price,
+        price_paid: createEditSubscription?.price_paid,
       },
-      is_plan_effective: createEditSubscription.is_plan_effective,
-      plan_effective_from: dateFetching(createEditSubscription.plan_effective_from),
+      is_plan_effective: createEditSubscription?.is_plan_effective,
+      plan_effective_from: dateFetching(createEditSubscription?.plan_effective_from),
     };
 
-    httpRequest('put', `${envConfig.api_url}/subscriptions`, payload, true)
+    httpRequest(
+      'put',
+      `${envConfig.api_url}/pasm/subscription/update`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      {
+        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      },
+    )
       .then((response) => {
         enqueueSnackbar('Feature Edited Succesfully!', { variant: 'success' });
       })
@@ -253,7 +281,16 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     const payload = {
       subscription_id: id,
     };
-    httpRequest('delete', `${envConfig.api_url}/subscriptions`, payload, true)
+    httpRequest(
+      'delete',
+      `${envConfig.api_url}/pasm/subscription/delete`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      {
+        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      },
+    )
       .then((response) => {
         enqueueSnackbar('Feature Deleted Succesfully!', { variant: 'success' });
         // set({ SubscriptionList: response.data.data });
@@ -272,7 +309,16 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     const payload = {
       customer_id: id,
     };
-    httpRequest('post', `${envConfig.api_url}/subscriptions/customerSubscription`, payload, true)
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/pasm/customersubscription/get`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      {
+        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      },
+    )
       .then((response) => {
         set({ OldSubscription: response.data.data.rows?.slice(-1)[0] });
       })
@@ -293,7 +339,16 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       is_active: status,
     };
 
-    httpRequest('put', `${envConfig.api_url}/subscriptions`, payload, true)
+    httpRequest(
+      'put',
+      `${envConfig.api_url}/pasm/subscription/update`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      {
+        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      },
+    )
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });
       })

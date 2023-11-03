@@ -82,7 +82,6 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
         const token = response?.data?.data?.token;
         const user = parseJwt(token);
         useUser.setState({ user });
-        console.log(user, 'uiseriser');
         localStorage.setItem(localStorageKeys.authToken, token);
         set({ signInMessage: 'Signed in Successfully', signInError: false });
         if (user.isSuperAdmin === true) {
@@ -91,16 +90,6 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
         } else {
           window.location.href = '/admin';
         }
-
-        // if (user.role_name === 'ADMIN') {
-        //   console.log('d');
-        // } else {
-        //   console.log('s');
-        // }
-        // debugger
-        // history.push("/languageConfig")
-        // routeTo(useRouting, webRoutes.languageConfig);
-        // window.location.href = '/languageConfig';
         return response?.status;
       } else {
         throw new Error('Internal Server Error');
@@ -288,7 +277,7 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
     });
     localStorage.removeItem(localStorageKeys.authToken);
     useUser.setState({ user: null });
-    window.location.replace(envConfig.frame_work_shell_ui + '/?task=logout');
+     window.location.href = '/login';
   },
 
   clearAll: () => {

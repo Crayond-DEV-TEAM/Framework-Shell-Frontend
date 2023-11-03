@@ -3,6 +3,7 @@ export const localStorageKeys = {
   deviceToken: 'deviceToken',
   authTempKey: 'authTempKey',
   messageTable: 'messageTable',
+  projectId:'projectId',
 };
 
 export const loginRoutes = ['/createaccount', '/login', '/forgotpassword'];

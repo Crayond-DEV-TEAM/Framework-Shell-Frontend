@@ -4,6 +4,7 @@ import { create } from 'zustand';
 import { ChargesInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
 import moment from 'moment';
+import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/helperFunctions';
 
 export const useCharges = create<ChargesInterface>((set, get) => ({
   ChargesList: [],
@@ -30,25 +31,28 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
     set({ fetching: true, errorOnFetching: false });
     const payload: any = {
       offset: 0,
-      limit: 0,
+      limit: 100,
+      // is_active: true,
     };
 
     if (data.is_acive === true) {
       payload.is_active = true;
     }
 
-    httpRequest('post', `${envConfig.api_url}/charges`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/pasm/charges/get`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+    })
       .then((response) => {
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
-          response.data.data.rows.map(
+          convertKeysToSnakeCase(response.data.data.rows).map(
             (tableData: any, i: any) =>
               dataTable.push({
                 id: tableData.id,
                 name: tableData.name,
-                is_active: tableData.is_active,
+                is_active: tableData.is_active ?? tableData.isActive,
                 attachedin: tableData.plan_charge_mappings.length + ' ' + 'plans',
-                createdon: moment(tableData.created_at).format('DD- MMM - YYYY'),
+                createdon: moment(tableData.created_at ?? tableData?.createdAt).format('DD- MMM - YYYY'),
                 description: tableData.description,
               }),
             set({ ChargesList: dataTable }),
@@ -74,7 +78,9 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
       description: createEditCharges.description,
     };
 
-    httpRequest('post', `${envConfig.api_url}/charges/create`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/pasm/charges/create`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+    })
       .then((response) => {
         enqueueSnackbar('Charges Created Succesfully!', { variant: 'success' });
       })
@@ -101,7 +107,9 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
       description: createEditCharges.description,
     };
 
-    httpRequest('put', `${envConfig.api_url}/charges`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/pasm/charges/update`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+    })
       .then((response) => {
         enqueueSnackbar('Charges Edited Succesfully!', { variant: 'success' });
       })
@@ -121,7 +129,16 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
     const payload = {
       charge_id: id,
     };
-    httpRequest('delete', `${envConfig.api_url}/charges`, payload, true)
+    httpRequest(
+      'delete',
+      `${envConfig.api_url}/pasm/charges/delete`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      {
+        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      },
+    )
       .then((response) => {
         enqueueSnackbar('Charges Deleted Succesfully!', { variant: 'success' });
         // set({ ChargesList: response.data.data });
@@ -143,7 +160,9 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
       is_active: status,
     };
 
-    httpRequest('put', `${envConfig.api_url}/charges`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/pasm/charges/update`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+    })
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });
       })

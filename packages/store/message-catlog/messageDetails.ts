@@ -119,7 +119,11 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     set({ fetching: true, errorOnFetching: false });
     httpRequest('post', `${envConfig.api_url}/message_catalog/display_all_msg_in_grp`, payload, true, 
     undefined,
-    'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
+    {
+      headers: {
+        slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+      }
+    })
       .then((response) => {
         set({ MessageArray: response.data });
         const dataTable: any = [];
@@ -220,7 +224,11 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     set({ deleteLoading: true, errorOnDelete: false });
     httpRequest('put', `${envConfig.api_url}/message_catalog/delete_message`, payload, true,
       undefined,
-      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
+      {
+        headers: {
+          slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+        }
+      })
       .then((response) => {
         enqueueSnackbar(`Deleted message Successfully !`, { variant: 'success' });
       })
@@ -252,7 +260,11 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     set({ addMessageLoading: true, errorOnAddMesage: false });
     httpRequest('post', `${envConfig.api_url}/message_catalog/add_message`, payload, true,
       undefined,
-      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
+      {
+        headers: {
+          slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+        }
+      })
       .then((response) => {
         enqueueSnackbar(`Added message Successfully !`, { variant: 'success' });
       })
@@ -272,7 +284,11 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     set({ addMessageLoading: true, errorOnAddMesage: false });
     httpRequest('post', `${envConfig.api_url}/messages/display_message_by_id`, payload, true,
       undefined,
-      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
+      {
+        headers: {
+          slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+        }
+      })
       .then((response) => {
         set({ editMessageList: response?.data?.data?.language_info });
       })
@@ -305,7 +321,11 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     set({ editMessageLoading: true, errorOnEditMesage: false });
     httpRequest('put', `${envConfig.api_url}/message_catalog/edit_message`, payload, true,
       undefined,
-      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3')
+      {
+        headers: {
+          slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+        }
+      })
       .then((response) => {
         enqueueSnackbar(`Edited message Successfully !`, { variant: 'success' });
       })
@@ -339,7 +359,11 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
      payload,
       true,
       undefined,
-      'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+      {
+        headers: {
+          slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+        }
+      }
       )
       .then((response) => {
         getMessageList(messageGroupId)

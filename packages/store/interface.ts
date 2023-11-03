@@ -136,12 +136,19 @@ export interface MenusProps {
   getSideMenusFromProject: (id: string) => void;
 }
 
+export type ServiceName = 'IDM' | 'PASM' | 'ALERTSHUB' | 'MESSAGE-CATALOG';
+
+export type SideMenuResponse = {
+  [key: string]: any;
+  service_name: ServiceName;
+};
+
 export type SlugOption = {
-  [key in 'IDM' | 'PASM' | 'MESSAGE-CATALOG']: string
-}
+  [key in ServiceName]: string;
+};
 
 export interface SlugProps {
-  getSlug: (id: 'IDM' | 'PASM' | 'MESSAGE-CATALOG') => void;
+  getSlug: (id: ServiceName) => void;
   slugs: SlugOption;
 }
 export interface MessageCreateInterface {
@@ -1109,19 +1116,19 @@ export interface AdminInterface {
   getOrganisationMaster: () => void;
   getServiceMasterByOrganisation: () => void;
   getUserMasterByOrganisation: () => void;
-  getAllProjectsEditData: (id: string) => void;
+  getAllProjectsEditData:(id:string) =>void;
 
   createAdmin: () => void;
   editAdmin: () => void;
   getStatusList: (id: any, status: any) => void;
   deleteAdmin: (id: string) => void;
-  addUserInvite: (id:string) => void;
+  addUserInvite: () => void;
   emailChecker: () => void;
   userNameChecker: () => void;
-  createServiceMap: () => void;
-  editServiceMap: () => void;
-  createUserMap: () => void;
-  editUserMap: () => void;
+  createServiceMap:() =>void
+  editServiceMap:() =>void
+  createUserMap:() =>void
+  editUserMap:() =>void
 
   clearAll: () => void;
 }
@@ -1295,7 +1302,7 @@ export interface SuperAdminLandingKey {
 export interface SuperAdminLandingInterface {
   OrganisationList: SuperAdminLandingKey[];
   ServiceList: [];
-  UserListMaster: [];
+  UserListMaster:[]
   fetching: boolean;
   errorOnFetching: boolean;
 
@@ -1310,13 +1317,14 @@ export interface SuperAdminLandingInterface {
   updateEditData: (data: any) => void;
 
   getOrganisationList: () => void;
+  getAllUserList: () => void;
   createOrganisation: () => void;
   editOrganisation: () => void;
-  editGetDataOrganisation: (id: string) => void;
-  createServicemap: () => void;
-  deleteServicemap: () => void;
-  createAdminmap: () => void;
-  deleteAdminmap: () => void;
+  editGetDataOrganisation:(id:string) => void;
+  createServicemap:() => void;
+  deleteServicemap:() => void;
+  createAdminmap:()=> void;
+  deleteAdminmap:() => void;
   getStatusList: (id: any, status: any) => void;
   deleteOrganisation: (id: string) => void;
   getServiceList: () => void;

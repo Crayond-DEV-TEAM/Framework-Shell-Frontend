@@ -65,7 +65,7 @@ export const MapSubscription = (props: MapSubscriptionProps): JSX.Element => {
             <Label sx={mapSubscriptionStyle.labelSx} htmlFor="addTitle" isRequired>
               Choose Billing type
             </Label>
-            <CutstomizedAutocomplete placeholder={'Monthly'} permissionList={options} />
+            <CutstomizedAutocomplete placeholder={'Monthly'} permissionList={options ?? []} />
           </Box>
           <Box sx={{ margin: '10px' }} />
           <Box sx={mapSubscriptionStyle.align}>

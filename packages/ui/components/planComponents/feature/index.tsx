@@ -43,6 +43,7 @@ export const Feature = (props: FeatureProps): JSX.Element => {
     editsave,
     deletefetch,
   } = useFeature();
+  console.log('FeatureList',FeatureList)
   const filteredMessageGroup = FeatureList.filter((x: any) =>
     x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()),
   );

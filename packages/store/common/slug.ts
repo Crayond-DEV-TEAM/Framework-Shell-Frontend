@@ -12,11 +12,12 @@ export const useSlug = create<SlugProps>((set, get) => ({
   slugs: {
     IDM: '',
     PASM: '',
+    ALERTSHUB: '',
     'MESSAGE-CATALOG': '',
   },
 
   getSlug: (key) => {
-    const {slugs} = get();
-    return slugs?.[key] ?? ''
+    const { slugs } = get();
+    return slugs?.[key] ?? '';
   },
 }));

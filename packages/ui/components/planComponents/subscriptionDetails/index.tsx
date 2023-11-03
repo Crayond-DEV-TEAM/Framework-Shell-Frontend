@@ -80,7 +80,6 @@ export const SubscriptionDetails = (props: SubscriptionDetailsProps): JSX.Elemen
       {...rest}
     >
       <CustomerHeader title={' ID-4985'} btns={false} onBack={handleOnBack} />
-      <Box sx={{ margin: '45px' }} />
       <Box sx={subscriptionDetailsStyle.content}>
         <Box sx={subscriptionDetailsStyle.card}>
           <Box sx={subscriptionDetailsStyle.align}>
@@ -100,9 +99,9 @@ export const SubscriptionDetails = (props: SubscriptionDetailsProps): JSX.Elemen
             content={
               <SubscriptionPlanContent
                 planName={TicketSubscription.data?.plan?.name}
-                subscriptionId={TicketSubscription?.id.slice(4, 12)}
-                planId={TicketSubscription?.data?.plan?.id.slice(4, 12)}
-                planCost={TicketSubscription.revenue}
+                subscriptionId={TicketSubscription?.id?.slice(4, 12)}
+                planId={TicketSubscription?.data?.plan?.id?.slice(4, 12)}
+                planCost={TicketSubscription?.revenue}
                 totalRevenue={TotalRevenue}
                 lastbillOn={moment(TicketSubscription.data?.created_at).format('DD/MM/YYYY')}
                 nextbillOn={moment(TicketSubscription.data?.created_at).add(1, 'year').format('DD/MM/YYYY')}

@@ -3,6 +3,7 @@ import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { PlansInterface, Feature, AddEditPlans } from '../interface';
 import { enqueueSnackbar } from 'notistack';
+import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/helperFunctions';
 
 export const usePlans = create<PlansInterface>((set, get) => ({
   PlanList: [],
@@ -161,11 +162,11 @@ export const usePlans = create<PlansInterface>((set, get) => ({
 
     // const { RepositoryList } = useRepository();
     const grp_feature = planFeature.map((x: any) => {
-      return x.feature.map((ftr: any) => {
+      return x?.feature?.map((ftr: any) => {
         return {
           feature_id: ftr.id,
-          limit_count: ftr.limit_count,
-          feature_group_id: x.id,
+          feature_group_id: x?.id,
+          limit_count: ftr.limit_count ?? x?.limit_count,
           plan_feature_mapping_id: x?.plan_feature_mapping_id || null,
         };
       });
@@ -239,10 +240,10 @@ export const usePlans = create<PlansInterface>((set, get) => ({
     const result: any = [];
     let feature_data: any = {};
     const { planFeature } = get();
-    groups.map((group: any) => {
+    groups?.map((group: any) => {
       data = [];
-      feature_data = planFeature?.find((z: any) => z.id === group.id) || {};
-      group.feature_list.map((feature: any) => {
+      feature_data = planFeature?.find((z: any) => z.id === group?.id) || {};
+      group?.feature_list?.map((feature: any) => {
         const count = feature_data?.feature?.find((s: any) => s.id === feature.id)?.limit_count;
         console.log('count - ', count);
         data.push({
@@ -300,24 +301,29 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       limit: x.limit,
     };
 
-    httpRequest('post', `${envConfig.api_url}/plans`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/pasm/plans/get`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+    })
       .then((response) => {
         // console.log(response.data.data.rows)
-        const result = response.data.data.rows.map((x: any) => {
-          return {
-            plan: x.name,
-            billing: x.billing_period.join(),
-            public: x.is_plan_public ? 'Yes' : 'No',
-            activesubscription: x.subscriptions.length.toString() | 0,
-            lastmodified: `${new Date(x.updated_at).getDate()} /
-              ${new Date(x.updated_at).getMonth()} /
-              ${new Date(x.updated_at).getFullYear()}`,
-            status: x.is_active,
-            id: x.id,
-            plan_data: x,
-          };
-        });
-        set({ PlanList: result });
+        if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
+          const result = convertKeysToSnakeCase(response.data.data.rows)?.map((x: any) => {
+            return {
+              plan: x?.name,
+              billing: x?.billing_period?.join(),
+              public: x?.is_plan_public ? 'Yes' : 'No',
+              activesubscription: x?.subscriptions?.length?.toString() | 0,
+              lastmodified: `${new Date(x?.updated_at ?? x?.updatedAt)?.getDate()} /
+              ${new Date(x?.updated_at ?? x?.updatedAt)?.getMonth()} /
+              ${new Date(x?.updated_at ?? x?.updatedAt)?.getFullYear()}`,
+              status: x?.is_active,
+              id: x?.id,
+              plan_data: x,
+            };
+          });
+          // console.log(result,'---result')
+          set({ PlanList: result });
+        }
       })
       .catch((_err) => {
         set({ errorOnFetch: true });
@@ -335,8 +341,9 @@ export const usePlans = create<PlansInterface>((set, get) => ({
     const payload = {
       ...data,
     };
-
-    httpRequest('post', `${envConfig.api_url}/plans/create`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/pasm/plans/create`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+    })
       .then((_response) => {
         enqueueSnackbar('Plan added Succesfully!', { variant: 'success' });
       })
@@ -371,7 +378,9 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       ...data,
     };
 
-    httpRequest('put', `${envConfig.api_url}/plans`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/pasm/plans/update`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+    })
       .then((_response) => {
         enqueueSnackbar('Plan Edited Succesfully!', { variant: 'success' });
       })
@@ -393,7 +402,9 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       plan_id: x,
     };
 
-    httpRequest('delete', `${envConfig.api_url}/plans`, payload, true)
+    httpRequest('delete', `${envConfig.api_url}/pasm/plans/delete`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+    })
       .then((_response) => {
         enqueueSnackbar('Plan Deleted Succesfully!', { variant: 'success' });
       })
@@ -414,7 +425,9 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       is_active: status,
     };
 
-    httpRequest('put', `${envConfig.api_url}/plans`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/pasm/plans/update`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+    })
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });
       })

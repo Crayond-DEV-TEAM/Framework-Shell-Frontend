@@ -6,6 +6,8 @@ import { PermissionInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
 import { useRepository } from './repository';
 import { findObjectByIndex, modifyObjectByIndexWithKey } from './commonFunction';
+import { useSlug } from '../common'
+export const slugId = useSlug.getState().slugs?.IDM;
 export const usePermission = create<PermissionInterface>((set, get) => ({
   RepositoryList: [],
   indexUpdateList: [],
@@ -54,7 +56,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     const { apiToken } = get();
     set({ fetchingPermission: true, errorOnPermission: false });
     httpRequest('get', `${envConfig.api_url}/idm/permission/get`, {}, true, apiToken, {
-      headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         set({ PermissionList: response.data.data });
@@ -81,11 +83,11 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       description: addPermissionList.description,
       is_active: addPermissionList.is_active,
       repo_id:'4eb4f81c-154e-471f-baf2-c124dbdc9bf8'
-      // project_service_mapping_id: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa',
+      // project_service_mapping_id: slugId,
     };
 
     httpRequest('post', `${envConfig.api_url}/idm/permission/create`, payload, true, apiToken, {
-      headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         enqueueSnackbar('Permission added Succesfully!', { variant: 'success' });
@@ -114,7 +116,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     };
     set({ fetching: true, errorOnFetching: false });
     httpRequest('put', `${envConfig.api_url}/idm/permission/edit`, payload, true, apiToken, {
-      headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
@@ -139,7 +141,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     };
     set({ fetching: true, errorOnFetching: false });
     httpRequest('delete', `${envConfig.api_url}/idm/permission/delete`, payload, true, apiToken, {
-      headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         enqueueSnackbar('Permission deleted Succesfully!', { variant: 'success' });
@@ -165,7 +167,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     };
     set({ fetching: true, errorOnFetching: false });
     httpRequest('put', `${envConfig.api_url}/idm/permission/update`, payload, true, apiToken, {
-      headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });

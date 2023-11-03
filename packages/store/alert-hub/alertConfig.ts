@@ -6,8 +6,6 @@ import { AlertConfig } from '../interface';
 import { giveMeAlertConfig } from '../utils';
 import { useSlug } from '../common';
 
-const slugId = useSlug.getState().slugs.ALERTSHUB;
-
 export const useAlertConfig = create<AlertConfig>((set, get) => ({
   addAlertConfig: giveMeAlertConfig(),
   getAlertConfigList: [],
@@ -150,6 +148,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   addEmailConfig: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true });
     const { emailConfiguration, getEmailConfig, clearEmailState } = get();
 
@@ -217,6 +217,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   addSmsConfig: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true });
     const { smsConfiguration, getSmsConfig, clearSmsState } = get();
 
@@ -257,6 +259,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   addPushConfig: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true });
     const { pushConfiguration, getPushConfig, clearPushState } = get();
     const payload = {
@@ -287,6 +291,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   addSlackConfig: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true });
     const { slackConfiguration, getSlackConfig, clearSlackState } = get();
     let payload = {
@@ -323,6 +329,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   addWhatsappConfig: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true });
     const { whatsappConfiguration, getWhatsappConfig, clearWhatsappState } = get();
     let payload = {
@@ -361,6 +369,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   getEmailConfig: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     httpRequest('get', `${envConfig.api_url}/alertshub/config/mail/getAll`, {}, true, undefined, {
       headers: {
@@ -409,6 +419,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   getSmsConfig: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     httpRequest('get', `${envConfig.api_url}/alertshub/config/sms/getAll`, {}, true, undefined, {
       headers: {
@@ -449,6 +461,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   getPushConfig: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     httpRequest(
       'post',
@@ -492,6 +506,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   getSlackConfig: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     httpRequest('post', `${envConfig.api_url}/alertshub/config/slack/get`, {}, true, undefined, {
       headers: {
@@ -529,6 +545,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   getWhatsappConfig: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     httpRequest('post', `${envConfig.api_url}/alertshub/config/whatsapp/get`, {}, true, undefined, {
       headers: {
@@ -640,6 +658,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   deleteEmailConfig: (data: any) => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     const { getEmailConfig } = get();
     const payload = {
@@ -665,6 +685,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   deleteSmsConfig: (data: any) => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     const { getSmsConfig } = get();
 
     set({ fetching: true, errorOnFetching: false });
@@ -692,6 +714,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   deletePushConfig: (data: any) => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     const { getPushConfig } = get();
     const payload = {
@@ -717,6 +741,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   deleteSlackConfig: (data: any) => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     const { getSlackConfig } = get();
     const payload = {
@@ -742,6 +768,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   deleteWhatsappConfig: (data: any) => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     const { getWhatsappConfig } = get();
     const payload = {

@@ -5,8 +5,6 @@ import { create } from 'zustand';
 import { APIConfig } from '../interface';
 import { useSlug } from '../common';
 
-const slugId = useSlug.getState().slugs.ALERTSHUB;
-
 export const useAPIConfig = create<APIConfig>((set, get) => ({
   apiCallsList: '',
   requestAPI: [],
@@ -16,6 +14,8 @@ export const useAPIConfig = create<APIConfig>((set, get) => ({
   fetching: false,
 
   getRequest: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     httpRequest(
       'post',
@@ -46,6 +46,8 @@ export const useAPIConfig = create<APIConfig>((set, get) => ({
   },
 
   getPushTableList: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     httpRequest(
       'post',
@@ -86,6 +88,8 @@ export const useAPIConfig = create<APIConfig>((set, get) => ({
   },
 
   getResquestBodyData: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     httpRequest(
       'post',

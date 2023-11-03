@@ -4,8 +4,6 @@ import { create } from 'zustand';
 import { ReportInterface } from '../interface';
 import { useSlug } from '../common';
 
-const slugId = useSlug.getState().slugs.ALERTSHUB;
-
 export const useAlertReports = create<ReportInterface>((set, get) => ({
   reportCard: [],
   getTotalReports: [],
@@ -13,6 +11,8 @@ export const useAlertReports = create<ReportInterface>((set, get) => ({
   errorOnFetching: false,
 
   getReportCard: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     httpRequest('post', ``, {}, true, undefined, {
       headers: {
@@ -36,6 +36,8 @@ export const useAlertReports = create<ReportInterface>((set, get) => ({
   },
 
   getReportTable: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     httpRequest(
       'post',

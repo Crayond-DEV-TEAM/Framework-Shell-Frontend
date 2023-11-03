@@ -5,7 +5,8 @@ import { UserManagementInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
 import { useSlug } from '../common';
 // import { RepoJson } from '@components/repositoryComponent/utils';
-const slugId = useSlug.getState().slugs.IDM;
+export const slugId = useSlug.getState().slugs?.IDM;
+console.log(slugId,']]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]')
 
 export const useRepository = create<UserManagementInterface>((set, get) => ({
   RepositoryList: [],

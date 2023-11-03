@@ -5,6 +5,8 @@ import { RolesInterface } from '../interface';
 // import { tableJson } from '../../ui/components/roles/utils';
 import { enqueueSnackbar } from 'notistack';
 import { ClearAll } from '@mui/icons-material';
+import { useSlug } from '../common'
+export const slugId = useSlug.getState().slugs?.IDM;
 export const useRoles = create<RolesInterface>((set, get) => ({
   RolesList: [],
   StatusList: [],
@@ -42,7 +44,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       limit: 10000,
     };
     httpRequest('post', `${envConfig.api_url}/idm/roles/get`, payload, true, apiToken, {
-      headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         const permssionJsonConstruct = (tableData: any) => {
@@ -105,7 +107,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
     };
     return new Promise((resolve, reject) => {
       httpRequest('post', `${envConfig.api_url}/idm/roles/create`, payload, true, apiToken, {
-        headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
+        headers: { slug: slugId },
       })
         .then((response) => {
           enqueueSnackbar('Roles created succesfully!', { variant: 'success' });
@@ -137,7 +139,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       is_active: status,
     };
     httpRequest('put', `${envConfig.api_url}/idm/roles/update`, payload, true, apiToken, {
-      headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         enqueueSnackbar('Status changed succesfully!', { variant: 'success' });
@@ -166,7 +168,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
 
     return new Promise((resolve, reject) => {
       return httpRequest('put', `${envConfig.api_url}/idm/roles/update`, payload, true, apiToken, {
-        headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
+        headers: { slug: slugId },
       })
         .then((response) => {
           enqueueSnackbar('Roles edited succesfully!', { variant: 'success' });
@@ -193,7 +195,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
     };
 
     httpRequest('delete', `${envConfig.api_url}/idm/roles/delete`, payload, true, apiToken, {
-      headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         enqueueSnackbar('Roles deleted succesfully!', { variant: 'success' });

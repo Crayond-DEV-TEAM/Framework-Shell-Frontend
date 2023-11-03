@@ -110,7 +110,6 @@ export const CreateCustomerForm = (props: CreateCustomerFormProps): JSX.Element 
         onSave={isEdit ? handleedit : handleSave}
         onCancel={onchangeRoute}
       />
-      <Box sx={{ margin: '45px' }} />
       <Box sx={createCustomerFormStyle.content}>
         <CustomerCardComponent
           title={' Company  Details'}

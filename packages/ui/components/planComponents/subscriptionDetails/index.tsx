@@ -80,7 +80,6 @@ export const SubscriptionDetails = (props: SubscriptionDetailsProps): JSX.Elemen
       {...rest}
     >
       <CustomerHeader title={' ID-4985'} btns={false} onBack={handleOnBack} />
-      <Box sx={{ margin: '45px' }} />
       <Box sx={subscriptionDetailsStyle.content}>
         <Box sx={subscriptionDetailsStyle.card}>
           <Box sx={subscriptionDetailsStyle.align}>

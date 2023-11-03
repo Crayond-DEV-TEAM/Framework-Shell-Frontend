@@ -6,7 +6,6 @@ import { RolesInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
 import { ClearAll } from '@mui/icons-material';
 import { useSlug } from '../common'
-export const slugId = useSlug.getState().slugs?.IDM;
 export const useRoles = create<RolesInterface>((set, get) => ({
   RolesList: [],
   StatusList: [],
@@ -39,6 +38,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
   getRolesList: () => {
     const { apiToken } = get();
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug.getState().slugs?.IDM;
     const payload = {
       offset: 0,
       limit: 10000,
@@ -105,6 +105,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       description: addRole.description,
       is_active: addRole.is_active,
     };
+    const slugId = useSlug.getState().slugs?.IDM;
     return new Promise((resolve, reject) => {
       httpRequest('post', `${envConfig.api_url}/idm/roles/create`, payload, true, apiToken, {
         headers: { slug: slugId },
@@ -138,6 +139,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       // description: addRole.description,
       is_active: status,
     };
+    const slugId = useSlug.getState().slugs?.IDM;
     httpRequest('put', `${envConfig.api_url}/idm/roles/update`, payload, true, apiToken, {
       headers: { slug: slugId },
     })
@@ -163,6 +165,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       description: addRole.description,
       is_active: addRole.is_active,
     };
+    const slugId = useSlug.getState().slugs?.IDM;
 
     set({ fetching: true, errorOnFetching: false });
 
@@ -193,6 +196,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
     const payload = {
       role_id: id,
     };
+    const slugId = useSlug.getState().slugs?.IDM;
 
     httpRequest('delete', `${envConfig.api_url}/idm/roles/delete`, payload, true, apiToken, {
       headers: { slug: slugId },

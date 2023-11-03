@@ -1,7 +1,7 @@
 import { envConfig } from '@core/envconfig';
 import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
-import { AdminInterface, SuperAdminLandingInterface } from '../interface';
+import {  SuperAdminLandingInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
 export const useSuperAdminLanding = create<SuperAdminLandingInterface>((set, get) => ({
   OrganisationList: [],
@@ -188,7 +188,6 @@ editGetDataOrganisation: (id: string) => {
   deleteAdminmap: () => {
     const { clearAll, getOrganisationList, createEditOrganisation } = get();
     set({ fetching: true, errorOnFetching: false });
-    // const { RepositoryList } = useRepository();
     const payload = {};
 
     set({ fetching: true, errorOnFetching: false });

@@ -7,7 +7,7 @@ import { enqueueSnackbar } from 'notistack';
 import { useRepository } from './repository';
 import { findObjectByIndex, modifyObjectByIndexWithKey } from './commonFunction';
 import { useSlug } from '../common'
-export const slugId = useSlug.getState().slugs?.IDM;
+
 export const usePermission = create<PermissionInterface>((set, get) => ({
   RepositoryList: [],
   indexUpdateList: [],
@@ -55,6 +55,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   getPermissionList: () => {
     const { apiToken } = get();
     set({ fetchingPermission: true, errorOnPermission: false });
+    const slugId = useSlug.getState().slugs?.IDM;
     httpRequest('get', `${envConfig.api_url}/idm/permission/get`, {}, true, apiToken, {
       headers: { slug: slugId },
     })
@@ -76,6 +77,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     const { clearAll, addPermissionList, getPermissionList, apiToken } = get();
 
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug.getState().slugs?.IDM;
     // const { RepositoryList } = useRepository();
     const payload = {
       data: { data },
@@ -106,6 +108,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   editPermission: (data: any) => {
     const { clearAll, addPermissionList, getPermissionList, apiToken } = get();
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug.getState().slugs?.IDM;
     // const { RepositoryList } = useRepository();
     const payload = {
       permission_id: addPermissionList.id,
@@ -135,6 +138,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   deletePermission: (x: any) => {
     const { getPermissionList, apiToken } = get();
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug.getState().slugs?.IDM;
     // const { RepositoryList } = useRepository();
     const payload = {
       permission_id: x.id,
@@ -166,6 +170,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       is_active: true,
     };
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug.getState().slugs?.IDM;
     httpRequest('put', `${envConfig.api_url}/idm/permission/update`, payload, true, apiToken, {
       headers: { slug: slugId },
     })

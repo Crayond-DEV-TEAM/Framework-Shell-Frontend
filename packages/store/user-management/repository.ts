@@ -4,9 +4,6 @@ import { create } from 'zustand';
 import { UserManagementInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
 import { useSlug } from '../common';
-// import { RepoJson } from '@components/repositoryComponent/utils';
-export const slugId = useSlug.getState().slugs?.IDM;
-console.log(slugId,']]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]')
 
 export const useRepository = create<UserManagementInterface>((set, get) => ({
   RepositoryList: [],
@@ -26,9 +23,9 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
   getAllRepository: () => {
     const { apiToken } = get();
 
-    console.log('slugId', slugId);
-
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug.getState().slugs?.IDM;
+
     httpRequest('get', `${envConfig.api_url}/idm/repository/get`, {}, true, apiToken, {
       headers: { slug: slugId },
     })
@@ -47,6 +44,7 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
     const { editRepositoryList, getAllRepository, apiToken } = get();
     set({ onEditLoading: true, erroronEdit: false });
     const data = editRepositoryList;
+    const slugId = useSlug.getState().slugs?.IDM;
 
     httpRequest('post', `${envConfig.api_url}/idm/repository/create`, { data, is_active: true }, true, apiToken, {
       headers: { slug: slugId },
@@ -66,6 +64,8 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
   editRepository: () => {
     const { RepositoryId, editRepositoryList, getAllRepository, apiToken } = get();
     set({ onEditLoading: true, erroronEdit: false });
+    const slugId = useSlug.getState().slugs?.IDM;
+
     const data = editRepositoryList;
 
     httpRequest(

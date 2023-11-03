@@ -3,7 +3,9 @@ import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { UserManagementInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
+import { useSlug } from '../common';
 // import { RepoJson } from '@components/repositoryComponent/utils';
+const slugId = useSlug.getState().slugs.IDM;
 
 export const useRepository = create<UserManagementInterface>((set, get) => ({
   RepositoryList: [],
@@ -25,7 +27,7 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
 
     set({ fetching: true, errorOnFetching: false });
     httpRequest('get', `${envConfig.api_url}/idm/repository/get`, {}, true, apiToken, {
-      headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         const lastObject = response.data.data[response.data.data.length - 1];
@@ -39,12 +41,12 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
       });
   },
   createRepository: () => {
-    const {  editRepositoryList, getAllRepository, apiToken } = get();
+    const { editRepositoryList, getAllRepository, apiToken } = get();
     set({ onEditLoading: true, erroronEdit: false });
     const data = editRepositoryList;
 
     httpRequest('post', `${envConfig.api_url}/idm/repository/create`, { data, is_active: true }, true, apiToken, {
-      headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         enqueueSnackbar('Json Updated Succesfully!', { variant: 'success' });
@@ -63,9 +65,16 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
     set({ onEditLoading: true, erroronEdit: false });
     const data = editRepositoryList;
 
-    httpRequest('post', `${envConfig.api_url}/idm/repository/create`, {id: RepositoryId, data, is_active: true }, true, apiToken, {
-      headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
-    })
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/idm/repository/create`,
+      { id: RepositoryId, data, is_active: true },
+      true,
+      apiToken,
+      {
+        headers: { slug: slugId },
+      },
+    )
       .then((response) => {
         enqueueSnackbar('Json Updated Succesfully!', { variant: 'success' });
       })

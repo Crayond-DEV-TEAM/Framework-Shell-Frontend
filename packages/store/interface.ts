@@ -135,6 +135,15 @@ export interface MenusProps {
   getMenu: () => void;
   getSideMenusFromProject: (id: string) => void;
 }
+
+export type SlugOption = {
+  [key in 'IDM' | 'PASM' | 'MESSAGE-CATALOG']: string
+}
+
+export interface SlugProps {
+  getSlug: (id: 'IDM' | 'PASM' | 'MESSAGE-CATALOG') => void;
+  slugs: SlugOption;
+}
 export interface MessageCreateInterface {
   title: number | string;
   description: number | string;
@@ -1100,6 +1109,7 @@ export interface AdminInterface {
   getOrganisationMaster: () => void;
   getServiceMasterByOrganisation: () => void;
   getUserMasterByOrganisation: () => void;
+  getAllProjectsEditData: (id: string) => void;
 
   createAdmin: () => void;
   editAdmin: () => void;
@@ -1108,6 +1118,11 @@ export interface AdminInterface {
   addUserInvite: (id:string) => void;
   emailChecker: () => void;
   userNameChecker: () => void;
+  createServiceMap: () => void;
+  editServiceMap: () => void;
+  createUserMap: () => void;
+  editUserMap: () => void;
+
   clearAll: () => void;
 }
 
@@ -1280,6 +1295,7 @@ export interface SuperAdminLandingKey {
 export interface SuperAdminLandingInterface {
   OrganisationList: SuperAdminLandingKey[];
   ServiceList: [];
+  UserListMaster: [];
   fetching: boolean;
   errorOnFetching: boolean;
 
@@ -1296,6 +1312,11 @@ export interface SuperAdminLandingInterface {
   getOrganisationList: () => void;
   createOrganisation: () => void;
   editOrganisation: () => void;
+  editGetDataOrganisation: (id: string) => void;
+  createServicemap: () => void;
+  deleteServicemap: () => void;
+  createAdminmap: () => void;
+  deleteAdminmap: () => void;
   getStatusList: (id: any, status: any) => void;
   deleteOrganisation: (id: string) => void;
   getServiceList: () => void;

@@ -2,7 +2,7 @@ import { envConfig } from '@core/envconfig';
 import { log } from '@core/logger';
 import { webRoutes, messageRoutes } from '@core/routes';
 import { httpRequest, routeTo } from '@core/utils';
-import { useRouting } from '../common';
+import { useRouting, useSlug } from '../common';
 import { create } from 'zustand';
 import { Menu, MenusProps } from '../interface';
 import { AllRoutes } from '../utils';
@@ -61,11 +61,17 @@ export const useMenu = create<MenusProps>((set, get) => ({
         // debugger;
 
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
-          const matchedServiceIds = response.data.data.rows.map((apiItem: any) => apiItem.service_id);
+          const matchedServiceIds = response.data.data.rows.map((apiItem: any) => {
+            // const {slugState}  = useSlug()
+            useSlug.setState({
+              slugs: {
+                [apiItem.service_name]: apiItem.project_service_mapping_id,
+              },
+            });
+            return apiItem.service_id;
+          });
 
           const matchedRoutes = AllRoutes.filter((route) => matchedServiceIds.includes(route.service_id));
-
-          // console.log(matchedRoutes, 'matchedRoutesmatchedRoutes');
 
           set({ sideMenus: matchedRoutes });
         } else {

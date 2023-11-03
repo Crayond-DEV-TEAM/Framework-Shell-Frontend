@@ -16,11 +16,15 @@ import {
   Skeleton,
   SxProps,
   Theme,
+  Typography,
   styled,
 } from '@mui/material';
 import React, { forwardRef, useState } from 'react';
-import { matchPath, useLocation } from 'react-router-dom';
+import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import { sideBarStyle } from './style';
+import { localStorageKeys } from '@core/utils';
+import { Alert, AlertRuleIcon } from '@atoms/icons';
+import { webRoutes } from '@core/routes';
 
 export interface SideBarProps {
   className?: string;
@@ -70,8 +74,9 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
   const { className = '', menuItems = () => false, sx = {}, ...rest } = props;
 
   //store data
-  const { sideMenus, loading, error, getMenu, onLinkClick } = useMenu();
+  const { sideMenus, loading, error, onLinkClick, getSideMenusFromProject } = useMenu();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   const [drawer, setDrawer] = useState<boolean>(false);
   const [openCollapse, setopenCollapse] = useState<any>(false);
@@ -87,12 +92,26 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
     setopenCollapse(index === openCollapse ? -1 : index);
   };
 
-  const fetchMenu = () => {
-    // getMenu();
+  const fetchMenu = (projectId: any) => {
+    if (projectId) {
+      getSideMenusFromProject(projectId);
+    }
+  };
+
+  const projectRouterfunc = () => {
+    navigate(webRoutes.admin);
+    localStorage.removeItem(localStorageKeys.projectId);
   };
 
   React.useEffect(() => {
-    fetchMenu();
+    const projectId = localStorage.getItem(localStorageKeys?.projectId);
+    fetchMenu(projectId);
+    if (!projectId) {
+      const projectIdCheck = setTimeout(() => {
+        navigate(webRoutes.admin);
+      }, 750);
+      return () => clearTimeout(projectIdCheck);
+    }
   }, []);
   // console.log(sideMenus, 'sidem======');
 
@@ -107,7 +126,7 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
         variant="permanent"
         open={drawer}
         onMouseEnter={handleDrawerOpen}
-        onMouseLeave={handleDrawerClose}
+        // onMouseLeave={handleDrawerClose}
         sx={sideBarStyle.drawerSx}
       >
         <List sx={sideBarStyle?.listing}>
@@ -211,7 +230,20 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
               })}
             </Box>
           )}
+          {/* <Collapse timeout="auto" unmountOnExit> */}
+          <List
+            component="div"
+            disablePadding
+            sx={{ display: drawer ? 'block' : 'none', bottom: 0, position: 'fixed', width: '28%' }}
+          >
+            <ListItemButton onClick={projectRouterfunc}>
+              <AlertRuleIcon />
+              <Typography sx={{ ml: 2, fontSize: '12px', fontWeight: 600 }}>Back to projects</Typography>
+            </ListItemButton>
+          </List>
+          {/* </Collapse> */}
         </List>
+        {/* <Typography >{'<-Back'}</Typography> */}
       </Drawer>
     </Box>
   );

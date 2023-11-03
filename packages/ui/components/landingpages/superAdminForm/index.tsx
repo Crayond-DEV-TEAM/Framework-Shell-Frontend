@@ -33,9 +33,9 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
   } = props;
   const { addUserInvite } = useAdminLanding();
 
-  const onSaveUserInvite = () => {
-    addUserInvite('');
-  };
+  // const onSaveUserInvite = () => {
+  //   addUserInvite();
+  // };
 
   return (
     <Box
@@ -130,7 +130,7 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
                 createEditAdmin={createEditOrganisation}
                 dataList={userMaster}
                 handleChange={handleChange}
-                onSaveUserInvite={onSaveUserInvite}
+                // onSaveUserInvite={onSaveUserInvite}
               />
             </AccordionDetails>
           </Accordion>

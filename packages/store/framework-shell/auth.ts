@@ -277,7 +277,7 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
     });
     localStorage.removeItem(localStorageKeys.authToken);
     useUser.setState({ user: null });
-    window.location.replace(envConfig.frame_work_shell_ui + '/?task=logout');
+     window.location.href = '/login';
   },
 
   clearAll: () => {

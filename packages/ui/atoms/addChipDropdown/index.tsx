@@ -17,9 +17,11 @@ export interface AddChipDropdownProps {
 
 export const AddChipDropdown: React.FC<AddChipDropdownProps> = (props) => {
   const { className = '', placeholder, permissionList = [], createEditState, onChange, sx = {} } = props;
+  console.log('createEditStatecreateEditStatecreateEditStatecreateEditState', createEditState);
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const [values, setValues] = useState([]);
+  const [values, setValues]: any = useState(createEditState);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -28,26 +30,26 @@ export const AddChipDropdown: React.FC<AddChipDropdownProps> = (props) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const selectedOptions = createEditState || [];
+  const selectedOptions = values || [];
+  console.log('valuesvaluesvaluesvalues', values);
 
   const handleOptionToggle = (option: any) => {
     debugger;
-    const isSelected = selectedOptions.includes(option);
-    setValues((prevOptions) => (isSelected ? prevOptions.filter((opt) => opt !== option) : [...prevOptions, option]));
-    // const dataList = [...option];
-    // setValues(dataList);
-    // debugger;
-  };
-
-  const onSetChange = () => {
+    const isSelected = values.find((v) => v?.id === option?.id);
+    if (isSelected?.id) {
+      const isSelected = values.filter((v) => v?.id !== option?.id);
+      setValues(isSelected);
+    } else {
+      values.push(option);
+      setValues(values);
+    }
     onChange('mapServices', values);
   };
 
   useEffect(() => {
-    onSetChange();
-  }, [values]);
+    if (createEditState?.length > 0) setValues(createEditState);
+  }, [createEditState]);
 
-  console.log('selectedOptionsselectedOptions', selectedOptions);
 
   return (
     <Box sx={{ ...addChipDropdownStyle.rootSx, ...(Array.isArray(sx) ? sx : [sx]) }} className={className}>
@@ -64,23 +66,27 @@ export const AddChipDropdown: React.FC<AddChipDropdownProps> = (props) => {
             },
           }}
         >
-          {permissionList?.map((data: any) => (
-            <MenuItem
-              key={data.id}
-              onClick={() => handleOptionToggle(data)}
-              sx={{
-                px: '15px',
-                backgroundColor: selectedOptions.includes(data) ? '#dce8e5' : '#fff',
-              }}
-            >
-              <CheckBox style={{ marginRight: '8px' }} checked={selectedOptions.includes(data)}  />
-              <Box sx={{ p: 1 }} />
-              {data.name}
-            </MenuItem>
-            // JSON.stringify(selectedOptions.includes(data))
-          ))}
+          {permissionList?.map((data: any) => {
+            console.log(data, 'data');
+            console.log(selectedOptions, 'lllll');
+            const isSelected = values?.filter((v: any) => v?.id === data?.id);
+            return (
+              <MenuItem
+                key={data.id}
+                onClick={() => handleOptionToggle(data)}
+                sx={{
+                  px: '15px',
+                  backgroundColor: isSelected?.length > 0 ? '#dce8e5' : '#fff',
+                }}
+              >
+                <CheckBox style={{ marginRight: '8px' }} checked={isSelected?.length > 0} />
+                <Box sx={{ p: 1 }} />
+                {data.name}
+              </MenuItem>
+            );
+          })}
         </Menu>
-        {selectedOptions?.map((option: any) => (
+        {values?.map((option: any) => (
           <Chip
             key={option.name}
             label={option.name}

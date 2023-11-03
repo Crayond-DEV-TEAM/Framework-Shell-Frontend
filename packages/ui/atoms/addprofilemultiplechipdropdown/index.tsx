@@ -1,142 +1,89 @@
-import type { SxProps, Theme } from '@mui/system';
+import type { SxProps, Theme } from '@mui/material';
 import { Box, Menu, MenuItem, Typography } from '@mui/material';
 import { CheckBox } from '@atoms/checkBox';
 import { GreenCloseCircleIcon } from '@assets/iconSet';
 import React, { useEffect, useState } from 'react';
-import {
-  CutstomizedAutocomplete,
-  DialogDrawer,
-  FooterComponent,
-  Input,
-  Label,
-  MappedAdminCard,
-  MappedUserCard,
-} from '..';
+import { CutstomizedAutocomplete, DialogDrawer, DropDown, MappedAdminCard, MappedUserCard } from '..';
 
-import { addChipMultipleDropdownStyle } from './style';
-import { useAdminLanding, useSuperAdminLanding } from '@core/store';
+import { addProfileMultiplechipDropdownStyle } from './style';
 
-interface AccessOption {
-  id: string;
-  name: string;
-}
-
-interface UserData {
-  id: string;
-  name: string;
-}
-
-export interface AddChipMultipleDropdownProps {
+export interface AddProfileMultiplechipDropdownProps {
   className?: string;
   sx?: SxProps<Theme>;
-  dataList?: UserData[];
-  optionList?: AccessOption[];
+  dataList?: any;
+  optionList?: any;
   handleChange?: (key: string, value: any) => void;
-  createEditAdmin: any;
-  // onSaveUserInvite?: () => void;
+  createEditAdmin?: any;
+  onSaveUserInvite: () => void;
 }
 
-export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = ({
-  className = '',
-  sx = {},
-  dataList = [],
-  handleChange = () => {},
-  optionList = [],
-  createEditAdmin,
-  // onSaveUserInvite = () => false,
-  ...rest
-}: AddChipMultipleDropdownProps) => {
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const [selectedOptions, setSelectedOptions] = useState<UserData[]>([]);
-  const [accessState, setAccessState] = useState<AccessOption | null>(null);
-  const [values, setValues] = useState(false);
-
+export const AddProfileMultiplechipDropdown = (props: AddProfileMultiplechipDropdownProps): JSX.Element => {
   const {
-    emailChecker,
-    userNameChecker,
-    userInviteEdit,
-    seteditUserInviteDetails,
-    addUserInvite,
-    getUserMasterByOrganisation,
-  } = useAdminLanding();
-
-  const { getAllUserList } = useSuperAdminLanding();
-
-  const accessMaster = [
-    { id: '1', name: 'Full Access' },
-    { id: '2', name: 'Restricted' },
-  ];
-
+    className = '',
+    sx = {},
+    dataList,
+    handleChange = () => false,
+    createEditAdmin,
+    optionList,
+    onSaveUserInvite = () => false,
+    ...rest
+  } = props;
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); // Explicitly define the type of anchorEl
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]); // Explicitly define the type of selectedOptions
+  // const [accessState, setAccessState] = useState({});
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleChangeUserInvite = (key: string, value: string) => {
-    seteditUserInviteDetails({ key, value });
-  };
-
-  const onSaveUserInvite = () => {
-    addUserInvite();
-    handleCloseUserInvite();
-    getUserMasterByOrganisation();
-    getAllUserList();
-  };
-  const handleOpenUserInvite = () => {
-    setValues(true);
-  };
-  const handleCloseUserInvite = () => {
-    setValues(false);
-  };
+  // const accessMaster = [
+  //   { id: '1', name: 'Full Access' },
+  //   { id: '2', name: 'Restricted' },
+  // ];
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const handleOptionToggle = (option: UserData) => {
-    const isSelected = selectedOptions.some((selected) => selected.id === option.id);
+  const handleOptionToggle = (option: any) => {
+    const isSelected = selectedOptions.some((selected) => selected === option);
     setSelectedOptions((prevOptions) =>
-      isSelected ? prevOptions.filter((opt) => opt.id !== option.id) : [...prevOptions, option],
+      isSelected ? prevOptions.filter((opt) => opt !== option) : [...prevOptions, option],
     );
+    // handleChange('mappedUser', selectedOptions);
   };
 
-  const handleChangeAccess = (selectedAccess: AccessOption | null) => {
-    setAccessState(selectedAccess);
-  };
+  // const handleChangeAceess = (e: any) => {
+  //   debugger;
+  //   setAccessState(e);
+  // };
 
   const onSetChange = () => {
-    if (selectedOptions.length > 0 && accessState) {
-      const setItemsUsers = selectedOptions.map((user) => ({
-        id: user.id,
-        name: user.name,
-        access: accessState.name,
-      }));
-      handleChange('mapAdmin', setItemsUsers);
-    }
+    const setItemsUsers = {
+      id: selectedOptions.id,
+      name: selectedOptions.name,
+      // access: accessState.name,
+    };
+    debugger;
+    handleChange('mapAdmin', setItemsUsers);
   };
-
-  useEffect(() => {
-    if (userInviteEdit.userName !== '') {
-      const getuserNameCheck = setTimeout(() => {
-        userNameChecker();
-      }, 1000);
-      return () => clearTimeout(getuserNameCheck);
-    }
-  }, [userInviteEdit.userName]);
-  useEffect(() => {
-    if (userInviteEdit.email !== '') {
-      const getemailCheck = setTimeout(() => {
-        emailChecker();
-      }, 1000);
-      return () => clearTimeout(getemailCheck);
-    }
-  }, [userInviteEdit.email]);
-
   useEffect(() => {
     onSetChange();
-  }, [selectedOptions, accessState]);
+  }, [selectedOptions]);
+
+  // console.log(selectedOptions);
+  // console.log(dataList, 'dataList');
 
   return (
-    <Box sx={[addChipMultipleDropdownStyle.rootSx, ...(Array.isArray(sx) ? sx : [sx])]} className={className} {...rest}>
+    <Box
+      sx={[
+        {
+          ...addProfileMultiplechipDropdownStyle.rootSx,
+        },
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+      className={`${className}`}
+      {...rest}
+    >
       <div>
         <Menu
           anchorEl={anchorEl}

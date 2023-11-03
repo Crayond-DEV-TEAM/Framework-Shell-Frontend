@@ -3,6 +3,7 @@ import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { AdminInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
+import { useSuperAdminLanding } from './superAdmin'
 export const useAdminLanding = create<AdminInterface>((set, get) => ({
   adminList: [],
   OrganisationListMaster: [],
@@ -154,10 +155,10 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     // const {}= useUserLanding()
     const { getAdminList, OrganisationDetails } = get();
     const payload = {
-      role_id: id,
+      project_id: id,
       is_active: status,
     };
-    httpRequest('put', `${envConfig.api_url}/projects`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/idm/projects/update`, payload, true)
       .then((response) => {
         enqueueSnackbar('Status changed succesfully!', { variant: 'success' });
       })
@@ -293,10 +294,20 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       .then((response) => {
         debugger;
         const responseData = response.data.data
+        const Servicemap: any = [];
+
+      if (Array.isArray(responseData.project_service_mappings) && responseData.project_service_mappings.length > 0) {
+        responseData.project_service_mappings.forEach((tableData: any) => {
+          Servicemap.push({
+            id: tableData.service_id,
+            name: tableData.service_name,
+          });
+        });
+      }
         const editData = {
           projectTitle: responseData.name,
           description: responseData.description,
-          mapServices: responseData.project_service_mappings,
+          mapServices: Servicemap,
           mapAdmin: responseData.project_user_mappings,
           is_active: responseData.is_active,
           id: responseData.id,
@@ -471,6 +482,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
 
   addUserInvite: () => {
     debugger;
+    // const {getAllUserList} =useSuperAdminLanding();
     set({ fetching: true, errorOnFetching: false });
     const { OrganisationDetails, userInviteEdit } = get();
     const payload = {
@@ -488,6 +500,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
+        getAllUserList();
       });
   },
 

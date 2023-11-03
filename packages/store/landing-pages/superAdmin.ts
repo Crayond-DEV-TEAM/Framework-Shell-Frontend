@@ -20,7 +20,7 @@ export const useSuperAdminLanding = create<SuperAdminLandingInterface>((set, get
     email_id: '',
     mapAdmin: [],
     mapServices: [],
-    is_active: false,
+    is_active: true,
     id: '',
   },
 
@@ -40,7 +40,7 @@ export const useSuperAdminLanding = create<SuperAdminLandingInterface>((set, get
               dataTable.push({
                 id: tableData.id,
                 organisationTitle: tableData.name,
-                // is_active: tableData.is_active,
+                is_active: tableData.is_active,
                 description: tableData.description,
                 // data: tableData,
                 serviceMapped: tableData.no_of_service,
@@ -63,7 +63,6 @@ export const useSuperAdminLanding = create<SuperAdminLandingInterface>((set, get
     const { clearAll, createEditOrganisation, getOrganisationList } = get();
 
     set({ fetching: true, errorOnFetching: false });
-    // const { RepositoryList } = useRepository();
     debugger;
     const payload = {
       name: createEditOrganisation.organisationName,
@@ -95,7 +94,6 @@ export const useSuperAdminLanding = create<SuperAdminLandingInterface>((set, get
   editOrganisation: () => {
     const { clearAll, getOrganisationList, createEditOrganisation } = get();
     set({ fetching: true, errorOnFetching: false });
-    // const { RepositoryList } = useRepository();
     const payload = {
       name: createEditOrganisation.organisationName,
       description: createEditOrganisation.description,
@@ -130,14 +128,15 @@ editGetDataOrganisation: (id: string) => {
 
   httpRequest('post', `${envConfig.api_url}/idm/organisation/get`, payload, true)
     .then((response) => {
+      debugger;
       const responseData = response.data.data;
       const Servicemap: any = [];
 
-      if (Array.isArray(responseData.organisation_user_mappings) && responseData.organisation_user_mappings.length > 0) {
-        responseData.organisation_user_mappings.forEach((tableData: any) => {
+      if (Array.isArray(responseData.organisation_service_mappings) && responseData.organisation_service_mappings.length > 0) {
+        responseData.organisation_service_mappings.forEach((tableData: any) => {
           Servicemap.push({
-            id: tableData.id,
-            name: tableData.name,
+            id: tableData.service_id,
+            name: tableData.service_name,
           });
         });
       }
@@ -256,7 +255,7 @@ editGetDataOrganisation: (id: string) => {
       organisation_id: id,
       is_active: status,
     };
-    httpRequest('put', `${envConfig.api_url}/organisations`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/idm/organisation/update`, payload, true)
       .then((response) => {
         enqueueSnackbar('Status changed succesfully!', { variant: 'success' });
       })
@@ -360,7 +359,7 @@ editGetDataOrganisation: (id: string) => {
         email_id: '',
         mapAdmin: [],
         mapServices: [],
-        is_active: false,
+        is_active: true,
         id: '',
       },
     });

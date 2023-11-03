@@ -25,6 +25,8 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
   getAllRepository: () => {
     const { apiToken } = get();
 
+    console.log('slugId', slugId);
+
     set({ fetching: true, errorOnFetching: false });
     httpRequest('get', `${envConfig.api_url}/idm/repository/get`, {}, true, apiToken, {
       headers: { slug: slugId },

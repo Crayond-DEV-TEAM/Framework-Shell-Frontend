@@ -136,12 +136,19 @@ export interface MenusProps {
   getSideMenusFromProject: (id: string) => void;
 }
 
+export type ServiceName = 'IDM' | 'PASM' | 'ALERTSHUB' | 'MESSAGE-CATALOG';
+
+export type SideMenuResponse = {
+  [key: string]: any;
+  service_name: ServiceName;
+};
+
 export type SlugOption = {
-  [key in 'IDM' | 'PASM' | 'MESSAGE-CATALOG']: string
-}
+  [key in ServiceName]: string;
+};
 
 export interface SlugProps {
-  getSlug: (id: 'IDM' | 'PASM' | 'MESSAGE-CATALOG') => void;
+  getSlug: (id: ServiceName) => void;
   slugs: SlugOption;
 }
 export interface MessageCreateInterface {
@@ -1115,7 +1122,7 @@ export interface AdminInterface {
   editAdmin: () => void;
   getStatusList: (id: any, status: any) => void;
   deleteAdmin: (id: string) => void;
-  addUserInvite: (id:string) => void;
+  addUserInvite: (id: string) => void;
   emailChecker: () => void;
   userNameChecker: () => void;
   createServiceMap: () => void;

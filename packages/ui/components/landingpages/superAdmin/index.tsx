@@ -18,8 +18,10 @@ export interface SuperAdminProps {
 
 export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
-  const [searchTerm, setSearchTerm] = useState();
   const [open, setOpen] = useState(false);
+  const [switchList, setSwitchList] = useState<any>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
   const {
     getOrganisationList,
     getServiceList,
@@ -29,13 +31,25 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
     clearAll,
     createOrganisation,
     OrganisationList,
+    editGetDataOrganisation,
+    getAllUserList,
+    UserListMaster,
+    deleteOrganisation,
+    editOrganisation,
+    getStatusList,
   } = useSuperAdminLanding();
-  const { getUserProfileList, UserProfileList } = useProfileUserLanding();
-  const handleTableEdit = () => {
-    console.log('');
+
+  const filteredMessageGroup = OrganisationList.filter(
+    (x: any) => x.organisationTitle?.toLowerCase()?.includes(searchTerm.toLowerCase()),
+  );
+  const handleTableEdit = (id: string, data: any, e: any) => {
+    editGetDataOrganisation(id);
+    handleDrawerOpen();
+    // console.log('');
   };
-  const handleTableDelete = () => {
-    console.log('');
+  const handleTableDelete = (id: string) => {
+    deleteOrganisation(id);
+    // console.log('');
   };
   const handleChange = (key: string, value: any) => {
     debugger;
@@ -43,8 +57,9 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
   };
 
   const handleSave = () => {
-    createOrganisation();
+    createEditOrganisation.id ? editOrganisation() : createOrganisation();
     handleDrawerClose();
+    // clearAll
   };
 
   const handleDrawerClose = () => {
@@ -57,10 +72,34 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
   useEffect(() => {
     getOrganisationList();
     getServiceList();
-    getUserProfileList();
+    getAllUserList();
   }, []);
 
-  console.log(createEditOrganisation, 'crdhjgfskjdfhkdsjfhsdjkfh');
+  const handleSwitch = (id: any, data: any, e: any) => {
+    if (!switchList.includes(id)) {
+      setSwitchList([...switchList, id]);
+    } else {
+      const index = switchList.indexOf(id);
+      if (index > -1) {
+        switchList.splice(index, 1);
+        setSwitchList([...switchList]);
+      }
+    }
+    if (e.target.checked === true) {
+      getStatusList(id, true);
+    } else {
+      getStatusList(id, false);
+    }
+  };
+  const handleStatus = () => {
+    if (OrganisationList?.length > 0) {
+      const status = OrganisationList?.filter((val: any) => val?.is_active === true)?.map((val: any) => val?.id);
+      setSwitchList(status);
+    }
+  };
+  useEffect(() => {
+    handleStatus();
+  }, [OrganisationList]);
 
   return (
     <Box
@@ -76,10 +115,10 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
       <Box sx={superAdminStyle.commonTable}>
         <CommonTable
           Header={Header}
-          dataList={OrganisationList}
+          dataList={filteredMessageGroup}
           tableData={tableData(handleTableEdit, handleTableDelete)}
-          // switchList={switchList}
-          // handleSwitch={handleSwitch}
+          switchList={switchList}
+          handleSwitch={handleSwitch}
           headerOptions={{
             fontSize: '14px',
             fontWeight: '500',
@@ -135,7 +174,7 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
         anchor="right"
         drawerStyleSX={{ padding: '20px' }}
         drawerRightClose
-        header={'Add New Organisation'}
+        header={createEditOrganisation.id ? 'Edit Organisation' : 'Add New Organisation'}
         headerStyle={{
           fontSize: '16px',
           fontWeight: 600,
@@ -172,7 +211,7 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
           ServiceMaster={ServiceList}
           createEditOrganisation={createEditOrganisation}
           handleChange={handleChange}
-          userMaster={UserProfileList}
+          userMaster={UserListMaster}
         />
       </Drawer>
     </Box>

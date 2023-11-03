@@ -108,7 +108,11 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
               <Typography sx={{ fontWeight: 600, fontSize: '14px', padding: 0 }}>Services</Typography>
             </AccordionSummary>
             <AccordionDetails sx={{ padding: '0px' }}>
-              <AddChipDropdown permissionList={ServiceListMaster} onChange={handlechange} />
+              <AddChipDropdown
+                permissionList={ServiceListMaster}
+                onChange={handlechange}
+                createEditState={createEditAdmin.mapServices}
+              />
             </AccordionDetails>
           </Accordion>
           <Accordion

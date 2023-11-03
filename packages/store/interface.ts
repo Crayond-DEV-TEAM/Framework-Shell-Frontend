@@ -1100,14 +1100,20 @@ export interface AdminInterface {
   getOrganisationMaster: () => void;
   getServiceMasterByOrganisation: () => void;
   getUserMasterByOrganisation: () => void;
+  getAllProjectsEditData:(id:string) =>void;
 
   createAdmin: () => void;
   editAdmin: () => void;
   getStatusList: (id: any, status: any) => void;
   deleteAdmin: (id: string) => void;
-  addUserInvite: (id: string) => void;
+  addUserInvite: () => void;
   emailChecker: () => void;
   userNameChecker: () => void;
+  createServiceMap:() =>void
+  editServiceMap:() =>void
+  createUserMap:() =>void
+  editUserMap:() =>void
+
   clearAll: () => void;
 }
 
@@ -1280,6 +1286,7 @@ export interface SuperAdminLandingKey {
 export interface SuperAdminLandingInterface {
   OrganisationList: SuperAdminLandingKey[];
   ServiceList: [];
+  UserListMaster:[]
   fetching: boolean;
   errorOnFetching: boolean;
 
@@ -1294,8 +1301,14 @@ export interface SuperAdminLandingInterface {
   updateEditData: (data: any) => void;
 
   getOrganisationList: () => void;
+  getAllUserList: () => void;
   createOrganisation: () => void;
   editOrganisation: () => void;
+  editGetDataOrganisation:(id:string) => void;
+  createServicemap:() => void;
+  deleteServicemap:() => void;
+  createAdminmap:()=> void;
+  deleteAdminmap:() => void;
   getStatusList: (id: any, status: any) => void;
   deleteOrganisation: (id: string) => void;
   getServiceList: () => void;

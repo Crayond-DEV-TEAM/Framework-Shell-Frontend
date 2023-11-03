@@ -30,7 +30,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
   seteditMessage: (payload: { key: string; value: string }) => {
     set((state) => ({ editMessageList: { ...state.editMessageList, [payload.key]: payload.value } }));
   },
-  setselctedMessage: (payload: { key: string; value: string }) => {
+  setselctedMessage: (payload: { key: any; value: string }) => {
     set((state) => ({ editMessageList: { ...state.editMessageList, [payload.key]: payload.value } }));
   },
 
@@ -130,11 +130,11 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
 
     set({ editMessageLoading: true, errorOnFetching: false });
     httpRequest('post', `${envConfig.api_url}/message_catalog/display_all_message_from_grp_by_id `, payload, true, undefined,
-    {
-      headers: {
-        slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
-      }
-    })
+      {
+        headers: {
+          slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+        }
+      })
       .then((response) => {
         set({ editMessageList: response.data.data });
       })
@@ -152,7 +152,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
 
     set({ deleteMessageLoading: true, deleteMessageError: false });
     httpRequest('put', `${envConfig.api_url}/message_catalog/delete_message_group`, payload, true,
-      undefined,
+      null,
       {
         headers: {
           slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'

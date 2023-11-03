@@ -144,12 +144,12 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
 
     return true;
   },
-  deleteLanguage: (lang: SelectBoxInterface, index: number) => {
+  deleteLanguage: (lang: SelectBoxInterface | null, index: number | null) => {
     set((state) => {
       const newLanguages = state.languages;
-      newLanguages.splice(index, 1);
+      newLanguages.splice(index as number, 1);
       const newMasterLanguages = state.masterLanguages;
-      newMasterLanguages.push(lang);
+      newMasterLanguages.push(lang as SelectBoxInterface);
       newMasterLanguages.sort((a: any, b: any) => b.label - a.label);
       return {
         languages: newLanguages,

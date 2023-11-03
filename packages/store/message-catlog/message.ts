@@ -167,7 +167,6 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
         enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
       })
       .finally(() => {
-        debugger
         set({ deleting: false });
         getAllMessages(groupId);
 
@@ -185,14 +184,11 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
       }
     })
       .then((response) => {
-console.log(response.data.data?.length > 0, 'response.data.data?.length > 0');
-
         set({ MessageArray: response.data });
         const dataTable: any = [];
         const dataTableStatus: any = [];
         // const { Language } = get();
         if (Array.isArray(response.data.data)) {
-          debugger
           response.data.data?.filter((x: any) => Boolean(x.is_status)).map(({ id }: any) => dataTableStatus.push(id));
           response.data.data?.map(
             (tableData: any, i: any) =>
@@ -215,7 +211,6 @@ console.log(response.data.data?.length > 0, 'response.data.data?.length > 0');
                 description: tableData?.description ?? '',
               }),
             set({ MessagesList: dataTable }),
-            console.log(MessagesList),
             set({ MessagesListStatus: dataTableStatus }),
           );
         }

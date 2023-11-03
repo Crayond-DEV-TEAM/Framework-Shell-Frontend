@@ -57,7 +57,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const [List, setList] = useState('');
 
   const filteredMessageGroup = MessagesList
-  console.log(MessagesList, 'filteredMessageGroupfilteredMessageGroupfilteredMessageGroup');
   const [switchList, setSwitchList] = useState<any>([]);
   const handleTableEdit = (id: string) => {
     setOpen(true);
@@ -90,8 +89,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     clearAllMessage();
     getAllMessages(key.id);
   };
-
-  // const handleAddChange = (key: string, value: string) => setaddMessage({ key, value });
 
   const handleSwitch = (id: string, data: any, e: any) => {
     if (!switchList.includes(id)) {
@@ -227,9 +224,8 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                     messageGroupId={groupId}
                     handleClose={handleClose}
                     setOpen={setOpen}
-                    onApply={onApply}
+                    onApply={onApply('')}
                     language={languages}
-                    // editTableMessage={addEditMessageState.id ? editMessageList : addMessageList}
                   />
                 ),
               }}

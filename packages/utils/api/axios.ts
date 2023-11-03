@@ -18,10 +18,10 @@ interface HttpRequestProps {
     url: AxiosRequestConfig['url'],
     data?: AxiosRequestConfig['data'],
     includeToken?: boolean,
-    apiToken?: string,
+    apiToken?: string | null,
     slug?: string, 
     config?: {
-      headers?: string
+      headers?: {}
     },
   ): Promise<AxiosResponse<any, any>>;
 }

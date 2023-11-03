@@ -108,7 +108,7 @@ export interface LanguageConfigInterface {
   getSavedLanguage: () => boolean;
   getAllLanguages: () => boolean;
   addLanguage: (lang: SelectBoxInterface, index: number) => boolean;
-  deleteLanguage: (lang: SelectBoxInterface, index: number) => boolean;
+  deleteLanguage: (lang: SelectBoxInterface | null, index: number | null) => boolean;
   updateDefaultLang: (lang: SelectBoxInterface, index: number) => boolean;
   saveLanguage: () => boolean;
 }
@@ -139,6 +139,7 @@ export interface MessageCreateInterface {
   title: number | string;
   description: number | string;
   is_status: boolean;
+  id?: string
 }
 
 export interface MessageConfigInterface {
@@ -153,7 +154,7 @@ export interface MessageConfigInterface {
 
   editMessageList: MessageGroup;
 
-  setselctedMessage: (payload: { key: string; value: string }) => void;
+  setselctedMessage: (payload: { key: MessageCreateInterface; value: string }) => void;
   fetching: boolean;
   errorOnFetching: boolean;
 

@@ -59,7 +59,8 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     setSelected(false);
   };
   const handleDelete = () => {
-    deleteLanguage();
+    debugger
+    deleteLanguage(null, null);
     setSelected(false);
   };
   console.log(languages, 'message');

@@ -38,7 +38,7 @@ export interface TableHeaderProps {
   handleStateChange?: (key: any, value: any) => void;
   // onChangeMessage?: (key: any, value: any, state: any) => void;
   updateStatusReport?: (e: any) => void;
-  onApply?: () => void;
+  onApply: (groupId:  string) => void;
   handleOpen?: () => void;
   handleChange?: () => void;
   handleClose?: () => void;

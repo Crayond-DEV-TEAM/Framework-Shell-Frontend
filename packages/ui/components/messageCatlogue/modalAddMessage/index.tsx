@@ -15,7 +15,6 @@ export interface ModalAddMessageProps {
 
 export const ModalAddMessage = forwardRef((props: ModalAddMessageProps, ref: React.Ref<HTMLElement>): JSX.Element => {
   const { className = '', sx = {}, handleChange = () => false, groupState, ...rest } = props;
-  console.log(groupState, 'GroupState');
   return (
     <Box
       sx={[

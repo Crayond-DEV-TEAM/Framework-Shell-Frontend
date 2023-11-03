@@ -142,13 +142,14 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
             <Label sx={mapSubscriptionPlanTransferStyle.labelSx} htmlFor="addTitle" isRequired>
               Choose Plan
             </Label>
+            
             <CutstomizedAutocomplete
               placeholder={'Monthly'}
               permissionList={AddOnsList}
               onChange={(value) => {
                 handleSetupFunc(value);
               }}
-              value={Object.keys(createEditSubscription?.plan_id)?.length > 0 ? createEditSubscription?.plan_id : null}
+              value={createEditSubscription?.plan_id ?? null}
               isError={Boolean(formErrors.plan_id)}
               errorMessage={formErrors.plan_id}
             />

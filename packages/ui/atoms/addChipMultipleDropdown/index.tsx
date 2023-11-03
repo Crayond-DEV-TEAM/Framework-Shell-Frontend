@@ -34,6 +34,7 @@ export interface AddChipMultipleDropdownProps {
   handleChange?: (key: string, value: any) => void;
   createEditAdmin: any;
   onSaveUserInvite?: () => void;
+  formError: any
 }
 
 export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = ({
@@ -44,6 +45,7 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
   optionList = [],
   createEditAdmin,
   onSaveUserInvite = () => false,
+  formError,
   ...rest
 }: AddChipMultipleDropdownProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -101,6 +103,7 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
       handleChange('mapAdmin', setItemsUsers);
     }
   };
+console.log(userInviteEdit,'userInviteEdit');
 
   useEffect(() => {
     if (userInviteEdit.userName !== '') {
@@ -226,8 +229,8 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
                   handleChangeUserInvite('userName', e.target.value)
                 }
-                // isError={Boolean(formErrors.name)}
-                // errorMessage={formErrors.name}
+                isError={Boolean(formError.username)}
+                errorMessage={formError.username}
               />
             </Box>
             <Box sx={{ m: '16px' }} />
@@ -245,8 +248,8 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
                   handleChangeUserInvite('email', e.target.value)
                 }
-                // isError={Boolean(formErrors.description)}
-                // errorMessage={formErrors.description}
+                isError={Boolean(formError.email)}
+                errorMessage={formError.email}
               />
             </Box>
           </Box>

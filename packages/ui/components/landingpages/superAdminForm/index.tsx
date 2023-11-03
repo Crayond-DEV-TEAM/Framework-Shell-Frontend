@@ -11,6 +11,7 @@ import { AddChipDropdown } from '@atoms/addChipDropdown';
 import { AddChipMultipleDropdown } from '@atoms/addChipMultipleDropdown';
 import { ToggleButtons } from '@atoms/toggleButton';
 import { useAdminLanding, useUserLanding } from '@core/store';
+import { useState } from 'react';
 
 export interface SuperAdminFormProps {
   className?: string;
@@ -33,10 +34,31 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
     formErrors,
     ...rest
   } = props;
-  const { addUserInvite } = useAdminLanding();
+  const { addUserInvite, userInviteEdit } = useAdminLanding();
+  const [formError, setFormError] = useState({});
+
+  // form validations
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (userInviteEdit.userName.trim().length === 0) {
+      errors.username = 'User Name is required';
+    } else if (userInviteEdit.userNameStatus === 200) {
+      errors.username = 'User Name already exists';
+    }
+    if (userInviteEdit.email.trim().length === 0) {
+      errors.email = 'Email is required';
+    } else if (userInviteEdit.emailStatus === 200) {
+      errors.email = 'Email Id already exists';
+    }
+    setFormError(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const onSaveUserInvite = () => {
-    addUserInvite('');
+    if (validateForm()) {
+      addUserInvite('');
+    }
   };
 
   return (
@@ -133,6 +155,7 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
                 dataList={userMaster}
                 handleChange={handleChange}
                 onSaveUserInvite={onSaveUserInvite}
+                formError={formError}
               />
             </AccordionDetails>
           </Accordion>

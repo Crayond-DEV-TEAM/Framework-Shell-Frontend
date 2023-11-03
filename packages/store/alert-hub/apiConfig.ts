@@ -1,10 +1,12 @@
+import { envConfig } from '@core/envconfig';
+import { httpRequest } from '@core/utils';
+import { enqueueSnackbar } from 'notistack';
 import { create } from 'zustand';
 import { APIConfig } from '../interface';
-import { enqueueSnackbar } from 'notistack';
-import { httpRequest } from '@core/utils';
-import { envConfig } from '@core/envconfig';
-import { giveMeAlertConfig } from '../utils';
-import { RepeatOnSharp } from '@mui/icons-material';
+import { useSlug } from '../common';
+
+const slugId = useSlug.getState().slugs.ALERTSHUB;
+
 export const useAPIConfig = create<APIConfig>((set, get) => ({
   apiCallsList: '',
   requestAPI: [],
@@ -23,11 +25,12 @@ export const useAPIConfig = create<APIConfig>((set, get) => ({
         profileId: '27ad652f-9143-4c54-a5cd-85bcd470b967',
       },
       true,
+      undefined,
       {
         headers: {
-          slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-        }
-      }
+          slug: slugId,
+        },
+      },
     )
       .then((response) => {
         return response;
@@ -51,11 +54,12 @@ export const useAPIConfig = create<APIConfig>((set, get) => ({
         // id using for now
       },
       true,
+      undefined,
       {
         headers: {
-          slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-        }
-      }
+          slug: slugId,
+        },
+      },
     )
       .then((response) => {
         const dataTable: any = [];
@@ -90,11 +94,12 @@ export const useAPIConfig = create<APIConfig>((set, get) => ({
         // id using for now
       },
       true,
+      undefined,
       {
         headers: {
-          slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-        }
-      }
+          slug: slugId,
+        },
+      },
     )
       .then((response) => {
         return response;

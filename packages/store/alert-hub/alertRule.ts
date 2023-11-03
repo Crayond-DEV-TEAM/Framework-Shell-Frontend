@@ -4,6 +4,9 @@ import { enqueueSnackbar } from 'notistack';
 import { create } from 'zustand';
 import { AlertRuleInterface } from '../interface';
 import { envConfig } from '@core/envconfig';
+import { useSlug } from '../common';
+
+const slugId = useSlug.getState().slugs.ALERTSHUB;
 
 // getRandomColor function
 function getRandomColor() {
@@ -190,7 +193,7 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
     };
     httpRequest('post', `${envConfig.api_url}/alertshub/rules/upsert`, payload, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e',
+        slug: slugId,
       },
     })
       .then((response) => {
@@ -240,7 +243,7 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
 
     httpRequest('post', `${envConfig.api_url}/alertshub/rules/get`, payload, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e',
+        slug: slugId,
       },
     })
       .then((response) => {
@@ -300,7 +303,7 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
       undefined,
       {
         headers: {
-          slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e',
+          slug: slugId,
         },
       },
     )
@@ -361,7 +364,7 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
       undefined,
       {
         headers: {
-          slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e',
+          slug: slugId,
         },
       },
     )
@@ -417,7 +420,7 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
 
     httpRequest('GET', `${envConfig.api_url}/alertshub/rules/hashtag`, {}, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e',
+        slug: slugId,
       },
     })
       .then((response) => {
@@ -456,7 +459,7 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
 
     httpRequest('DELETE', `${envConfig.api_url}/alertshub/rules`, payload, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e',
+        slug: slugId,
       },
     })
       .then((response) => {

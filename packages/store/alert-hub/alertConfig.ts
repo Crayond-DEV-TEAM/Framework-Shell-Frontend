@@ -4,6 +4,7 @@ import { enqueueSnackbar } from 'notistack';
 import { create } from 'zustand';
 import { AlertConfig } from '../interface';
 import { giveMeAlertConfig } from '../utils';
+import { useSlug } from '../common';
 
 export const useAlertConfig = create<AlertConfig>((set, get) => ({
   addAlertConfig: giveMeAlertConfig(),
@@ -147,6 +148,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   addEmailConfig: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true });
     const { emailConfiguration, getEmailConfig, clearEmailState } = get();
 
@@ -193,12 +196,10 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
       };
     }
 
-    httpRequest('post', `${envConfig.api_url}/alertshub/config/mail/upsert`, payload, true,
-    undefined,
-{
+    httpRequest('post', `${envConfig.api_url}/alertshub/config/mail/upsert`, payload, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-      }
+        slug: slugId,
+      },
     })
       .then(() => {
         enqueueSnackbar('Email Config Successfully Added!', { variant: 'success' });
@@ -216,6 +217,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   addSmsConfig: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true });
     const { smsConfiguration, getSmsConfig, clearSmsState } = get();
 
@@ -235,12 +238,10 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
       };
     }
 
-    httpRequest('post', `${envConfig.api_url}/alertshub/config/sms/upsert`, payload, true,
-    undefined,
-{
+    httpRequest('post', `${envConfig.api_url}/alertshub/config/sms/upsert`, payload, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-      }
+        slug: slugId,
+      },
     })
       .then((response) => {
         enqueueSnackbar('Sms Config Successfully Added!', { variant: 'success' });
@@ -258,6 +259,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   addPushConfig: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true });
     const { pushConfiguration, getPushConfig, clearPushState } = get();
     const payload = {
@@ -267,12 +270,10 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
       privateKey: pushConfiguration?.privateKey,
     };
 
-    httpRequest('post', `${envConfig.api_url}/alertshub/config/push/upsert`, payload, true,
-    undefined,
-{
+    httpRequest('post', `${envConfig.api_url}/alertshub/config/push/upsert`, payload, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-      }
+        slug: slugId,
+      },
     })
       .then((response) => {
         enqueueSnackbar('Push Config Successfully Added!', { variant: 'success' });
@@ -290,6 +291,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   addSlackConfig: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true });
     const { slackConfiguration, getSlackConfig, clearSlackState } = get();
     let payload = {
@@ -305,12 +308,10 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
       };
     }
 
-    httpRequest('post', `${envConfig.api_url}/alertshub/config/slack/upsert`, payload, true,
-    undefined,
-{
+    httpRequest('post', `${envConfig.api_url}/alertshub/config/slack/upsert`, payload, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-      }
+        slug: slugId,
+      },
     })
       .then((response) => {
         enqueueSnackbar('Slack Config Successfully Added!', { variant: 'success' });
@@ -328,6 +329,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   addWhatsappConfig: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true });
     const { whatsappConfiguration, getWhatsappConfig, clearWhatsappState } = get();
     let payload = {
@@ -345,12 +348,10 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
       };
     }
 
-    httpRequest('post', `${envConfig.api_url}/alertshub/config/whatsapp/upsert`, payload, true,
-    undefined,
-{
+    httpRequest('post', `${envConfig.api_url}/alertshub/config/whatsapp/upsert`, payload, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-      }
+        slug: slugId,
+      },
     })
       .then((response) => {
         enqueueSnackbar('Whatsapp Config Successfully Added!', { variant: 'success' });
@@ -368,13 +369,13 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   getEmailConfig: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('get', `${envConfig.api_url}/alertshub/config/mail/getAll`, {}, true,
-    undefined,
-{
+    httpRequest('get', `${envConfig.api_url}/alertshub/config/mail/getAll`, {}, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-      }
+        slug: slugId,
+      },
     })
       .then((response) => {
         const dataTable = response?.data?.data?.rows;
@@ -418,13 +419,13 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   getSmsConfig: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('get', `${envConfig.api_url}/alertshub/config/sms/getAll`, {}, true,
-    undefined,
-{
+    httpRequest('get', `${envConfig.api_url}/alertshub/config/sms/getAll`, {}, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-      }
+        slug: slugId,
+      },
     })
       .then((response) => {
         const dataTable = response?.data?.data;
@@ -460,6 +461,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   getPushConfig: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     httpRequest(
       'post',
@@ -468,11 +471,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
         profileId: '',
       },
       true,
-      {
-        headers: {
-          slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-        }
-      }
+      undefined,
+      { headers: { slug: slugId } },
     )
       .then((response) => {
         const data = response?.data;
@@ -506,13 +506,13 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   getSlackConfig: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('post', `${envConfig.api_url}/alertshub/config/slack/get`, {}, true,
-    undefined,
-{
+    httpRequest('post', `${envConfig.api_url}/alertshub/config/slack/get`, {}, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-      }
+        slug: slugId,
+      },
     })
       .then((response) => {
         const dataTable = response?.data;
@@ -545,13 +545,13 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   getWhatsappConfig: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('post', `${envConfig.api_url}/alertshub/config/whatsapp/get`, {}, true,
-    undefined,
-{
+    httpRequest('post', `${envConfig.api_url}/alertshub/config/whatsapp/get`, {}, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-      }
+        slug: slugId,
+      },
     })
       .then((response) => {
         const dataTable = response?.data;
@@ -658,18 +658,18 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   deleteEmailConfig: (data: any) => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     const { getEmailConfig } = get();
     const payload = {
       id: data?.id,
     };
 
-    httpRequest('DELETE', `${envConfig.api_url}/alertshub/config/mail`, payload, true,
-    undefined,
-{
+    httpRequest('DELETE', `${envConfig.api_url}/alertshub/config/mail`, payload, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-      }
+        slug: slugId,
+      },
     })
       .then((response) => {
         enqueueSnackbar('Data Deleted Succesfully!', { variant: 'success' });
@@ -685,6 +685,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   deleteSmsConfig: (data: any) => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     const { getSmsConfig } = get();
 
     set({ fetching: true, errorOnFetching: false });
@@ -692,12 +694,10 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
       id: data?.id,
     };
 
-    httpRequest('DELETE', `${envConfig.api_url}/alertshub/config/sms`, payload, true,
-    undefined,
-{
+    httpRequest('DELETE', `${envConfig.api_url}/alertshub/config/sms`, payload, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-      }
+        slug: slugId,
+      },
     })
       .then((response) => {
         enqueueSnackbar('Data Deleted Succesfully!', { variant: 'success' });
@@ -714,18 +714,18 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   deletePushConfig: (data: any) => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     const { getPushConfig } = get();
     const payload = {
       id: data?.id,
     };
 
-    httpRequest('DELETE', `${envConfig.api_url}/alertshub/config/push`, payload, true,
-    undefined,
-{
+    httpRequest('DELETE', `${envConfig.api_url}/alertshub/config/push`, payload, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-      }
+        slug: slugId,
+      },
     })
       .then((response) => {
         enqueueSnackbar('Data Deleted Succesfully!', { variant: 'success' });
@@ -741,18 +741,18 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   deleteSlackConfig: (data: any) => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     const { getSlackConfig } = get();
     const payload = {
       id: data?.id,
     };
 
-    httpRequest('DELETE', `${envConfig.api_url}/alertshub/config/slack`, payload, true,
-    undefined,
-{
+    httpRequest('DELETE', `${envConfig.api_url}/alertshub/config/slack`, payload, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-      }
+        slug: slugId,
+      },
     })
       .then((response) => {
         enqueueSnackbar('Data Deleted Succesfully!', { variant: 'success' });
@@ -768,20 +768,19 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   deleteWhatsappConfig: (data: any) => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     const { getWhatsappConfig } = get();
     const payload = {
       id: data?.id,
     };
 
-    httpRequest('DELETE', `${envConfig.api_url}/alertshub/config/whatsapp`,
-      payload,
-      true,
-      {
-        headers: {
-          slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
-        }
-      })
+    httpRequest('DELETE', `${envConfig.api_url}/alertshub/config/whatsapp`, payload, true, undefined, {
+      headers: {
+        slug: slugId,
+      },
+    })
       .then((response) => {
         enqueueSnackbar('Data Deleted Succesfully!', { variant: 'success' });
       })

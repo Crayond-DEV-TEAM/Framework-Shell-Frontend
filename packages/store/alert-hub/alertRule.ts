@@ -1,9 +1,10 @@
-import ReportmailIcon from '@assets/reportMailIcon';
 import { httpRequest } from '@core/utils';
 import { enqueueSnackbar } from 'notistack';
 import { create } from 'zustand';
 import { AlertRuleInterface } from '../interface';
 import { envConfig } from '@core/envconfig';
+import { useSlug } from '../common';
+import ReportmailIcon from '@assets/reportMailIcon';
 
 // getRandomColor function
 function getRandomColor() {
@@ -162,6 +163,8 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
   },
 
   addAlertRule: (newAlertRuleCode: string) => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ addAlertRuleLoading: true });
     const { addAlertRules, getAlertTable } = get();
     const payload = {
@@ -190,7 +193,7 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
     };
     httpRequest('post', `${envConfig.api_url}/alertshub/rules/upsert`, payload, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e',
+        slug: slugId,
       },
     })
       .then((response) => {
@@ -208,6 +211,8 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
   },
 
   onApply: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ addAlertRuleLoading: true });
 
     const bgColor = getRandomColor();
@@ -240,7 +245,7 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
 
     httpRequest('post', `${envConfig.api_url}/alertshub/rules/get`, payload, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e',
+        slug: slugId,
       },
     })
       .then((response) => {
@@ -291,6 +296,8 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
   },
 
   editAlertRule: async (data: any) => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ editFetching: true, errorOnFetching: false });
     httpRequest(
       'post',
@@ -300,7 +307,7 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
       undefined,
       {
         headers: {
-          slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e',
+          slug: slugId,
         },
       },
     )
@@ -349,6 +356,11 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
   },
 
   getAlertTable: async () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
+    console.log('useSlug.getState()', useSlug.getState());
+    // console.log('useSlug.getState().slugs-----------------', useSlug.getState().slugs);
+
     set({ fetching: true, errorOnFetching: false });
 
     const bgColor = getRandomColor();
@@ -361,7 +373,7 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
       undefined,
       {
         headers: {
-          slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e',
+          slug: slugId,
         },
       },
     )
@@ -413,11 +425,13 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
   },
 
   getHashtagData: async () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
 
     httpRequest('GET', `${envConfig.api_url}/alertshub/rules/hashtag`, {}, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e',
+        slug: slugId,
       },
     })
       .then((response) => {
@@ -448,6 +462,8 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
   },
 
   deleteAlertRule: (data: any) => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     const { getAlertTable } = get();
     const payload = {
@@ -456,7 +472,7 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
 
     httpRequest('DELETE', `${envConfig.api_url}/alertshub/rules`, payload, true, undefined, {
       headers: {
-        slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e',
+        slug: slugId,
       },
     })
       .then((response) => {

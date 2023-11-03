@@ -19,6 +19,7 @@ export interface SuperAdminFormProps {
   createEditOrganisation?: any;
   handleChange?: (key: string, value: any) => void;
   userMaster?: any;
+  formErrors?: any;
 }
 
 export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
@@ -29,6 +30,7 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
     createEditOrganisation,
     ServiceMaster,
     userMaster,
+    formErrors,
     ...rest
   } = props;
   const { addUserInvite } = useAdminLanding();
@@ -63,8 +65,8 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('organisationName', e.target.value)
             }
-            // isError={Boolean(formErrors.name)}
-            // errorMessage={formErrors.name}
+            isError={Boolean(formErrors.name)}
+            errorMessage={formErrors.name}
           />
         </Box>
         <Box sx={{ m: '16px' }} />
@@ -85,8 +87,8 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('description', e.target.value)
             }
-            // isError={Boolean(formErrors.description)}
-            // errorMessage={formErrors.description}
+            isError={Boolean(formErrors.description)}
+            errorMessage={formErrors.description}
           />
         </Box>
         <Box sx={{ m: '16px' }} />
@@ -104,8 +106,8 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('email_id', e.target.value)
             }
-            // isError={Boolean(formErrors.name)}
-            // errorMessage={formErrors.name}
+            isError={Boolean(formErrors.email_id)}
+            errorMessage={formErrors.email_id}
           />
         </Box>
         <Box sx={{ m: '16px' }} />

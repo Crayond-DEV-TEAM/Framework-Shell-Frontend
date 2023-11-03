@@ -41,6 +41,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [open, setOpen] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
   const navigate = useNavigate();
   const filteredMessageGroup = adminList.filter(
     (x: any) => x.projectTitle?.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -81,19 +82,37 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     getAdminList();
   };
   const handleChangeOrganisation = (value: any) => {
-    debugger;
+    // debugger;
     handleChangeOrganisationkey('id', value.id);
     handleChangeOrganisationkey('name', value.name);
     handleChangeOrganisationkey('rolename', value.rolename);
   };
+
+    // form validations
+    const validateForm = () => {
+      const errors: Record<string, string> = {};
+  
+      if (createEditAdmin.projectTitle.trim().length === 0) {
+        errors.name = 'Charge name is required';
+      }
+      if ((createEditAdmin.description).trim().length === 0) {
+        errors.description = 'Description is required';
+      }  
+      setFormErrors(errors);
+      return Object.keys(errors).length === 0;
+    };
+
   const handleSave = () => {
-    if (createEditAdmin.id) {
-      editAdmin();
-    } else {
-      createAdmin();
+
+    if (validateForm()) {
+      if (createEditAdmin.id) {
+        editAdmin();
+      } else {
+        createAdmin();
+      }
+      setOpen(false);
+      clearAll();
     }
-    setOpen(false);
-    clearAll();
   };
   return (
     <Box
@@ -208,7 +227,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
           pr: 0,
         }}
       >
-        <AdminSecForm createEditAdmin={createEditAdmin} handlechange={handleChange} />
+        <AdminSecForm createEditAdmin={createEditAdmin} handlechange={handleChange} formErrors={formErrors}/>
       </Drawer>
     </Box>
   );

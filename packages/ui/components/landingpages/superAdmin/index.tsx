@@ -20,6 +20,8 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
   const [searchTerm, setSearchTerm] = useState();
   const [open, setOpen] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
+
   const {
     getOrganisationList,
     getServiceList,
@@ -47,12 +49,35 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
   const handleChange = (key: string, value: any) => {
     debugger;
     seteditOrganisation({ key, value });
+    setFormErrors({ key, value })
+
   };
 
+  // form validations
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (createEditOrganisation.organisationName.trim().length === 0) {
+      errors.name = 'Organisation name is required';
+    }
+    if (createEditOrganisation.description.trim().length === 0) {
+      errors.description = 'Description is required';
+    }
+    if (createEditOrganisation.email_id.trim().length === 0) {
+      errors.email_id = 'Email-id is required';
+    }
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+  
   const handleSave = () => {
+
+    if (validateForm()) {
+
     createEditOrganisation.id ? editOrganisation() : createOrganisation();
     handleDrawerClose();
     // clearAll
+    }
   };
 
   const handleDrawerClose = () => {
@@ -67,7 +92,6 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
     getServiceList();
     getAllUserList();
   }, []);
-
 
   return (
     <Box
@@ -180,6 +204,7 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
           createEditOrganisation={createEditOrganisation}
           handleChange={handleChange}
           userMaster={UserListMaster}
+          formErrors={formErrors}
         />
       </Drawer>
     </Box>

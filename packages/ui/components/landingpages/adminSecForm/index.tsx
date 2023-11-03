@@ -16,11 +16,12 @@ export interface AdminSecFormProps {
   className?: string;
   sx?: SxProps<Theme>;
   createEditAdmin?: any;
+  formErrors?: any;
   handlechange?: (key: string, value: string | number) => void;
 }
 
 export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
-  const { className = '', sx = {}, createEditAdmin, handlechange = () => false, ...rest } = props;
+  const { className = '', sx = {}, createEditAdmin, handlechange = () => false, formErrors, ...rest } = props;
 
   const { ServiceListMaster, UserListMaster, addUserInvite, OrganisationDetails } = useAdminLanding();
 
@@ -30,6 +31,8 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
   //   getUserList(OrganisationDetails.id);
   //   getServiceList(OrganisationDetails.id);
   // }, []);
+  console.log(addUserInvite,'addUserInvite');
+  
   const onSaveUserInvite = () => {
     addUserInvite(OrganisationDetails.id);
   };
@@ -60,8 +63,8 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handlechange('projectTitle', e.target.value)
             }
-            // isError={Boolean(formErrors.name)}
-            // errorMessage={formErrors.name}
+            isError={Boolean(formErrors.name)}
+            errorMessage={formErrors.name}
           />
         </Box>
         <Box sx={{ m: '16px' }} />
@@ -82,8 +85,8 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handlechange('description', e.target.value)
             }
-            // isError={Boolean(formErrors.description)}
-            // errorMessage={formErrors.description}
+            isError={Boolean(formErrors.description)}
+            errorMessage={formErrors.description}
           />
         </Box>
         <Box sx={{ m: '16px' }} />

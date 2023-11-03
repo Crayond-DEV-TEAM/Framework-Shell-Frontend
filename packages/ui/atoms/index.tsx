@@ -36,4 +36,4 @@ export { SubscriptionPlanCard } from './subscriptionPlanCard';
 export { ToggleButtons } from './toggleButton';
 export { TreeComponent } from './treeComponent';
 
-export { AddProfileMultiplechipDropdown } from './addProfileMultiplechipDropdown';
+export { MapAdminChipDropdown } from './mapAdminChipDropdown';

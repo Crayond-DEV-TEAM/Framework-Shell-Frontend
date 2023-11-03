@@ -2,82 +2,121 @@ import type { SxProps, Theme } from '@mui/material';
 import { Box, Menu, MenuItem, Typography } from '@mui/material';
 import { CheckBox } from '@atoms/checkBox';
 import { GreenCloseCircleIcon } from '@assets/iconSet';
+
+import { mapAdminChipDropdownStyle } from './style';
+import {
+  CutstomizedAutocomplete,
+  DialogDrawer,
+  FooterComponent,
+  Input,
+  Label,
+  MappedAdminCard,
+  MappedUserCard,
+} from '..';
+import { useAdminLanding, useSuperAdminLanding } from '@core/store';
 import React, { useEffect, useState } from 'react';
-import { CutstomizedAutocomplete, DialogDrawer, DropDown, MappedAdminCard, MappedUserCard } from '..';
 
-import { addProfileMultiplechipDropdownStyle } from './style';
-
-export interface AddProfileMultiplechipDropdownProps {
+export interface MapAdminChipDropdownProps {
   className?: string;
   sx?: SxProps<Theme>;
-  dataList?: any;
-  optionList?: any;
+  dataList?: [];
+  optionList?: [];
   handleChange?: (key: string, value: any) => void;
-  createEditAdmin?: any;
-  onSaveUserInvite: () => void;
+  createEditAdmin: any;
 }
 
-export const AddProfileMultiplechipDropdown = (props: AddProfileMultiplechipDropdownProps): JSX.Element => {
+export const MapAdminChipDropdown = (props: MapAdminChipDropdownProps): JSX.Element => {
   const {
     className = '',
     sx = {},
-    dataList,
-    handleChange = () => false,
+    dataList = [],
+    handleChange = () => {},
+    optionList = [],
     createEditAdmin,
-    optionList,
-    onSaveUserInvite = () => false,
     ...rest
   } = props;
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); // Explicitly define the type of anchorEl
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]); // Explicitly define the type of selectedOptions
-  // const [accessState, setAccessState] = useState({});
+
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [selectedOptions, setSelectedOptions] = useState<UserData[]>([]);
+  const [values, setValues] = useState(false);
+
+  const {
+    emailChecker,
+    userNameChecker,
+    userInviteEdit,
+    seteditUserInviteDetails,
+    addUserInvite,
+    getUserMasterByOrganisation,
+  } = useAdminLanding();
+
+  const { getAllUserList } = useSuperAdminLanding();
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  // const accessMaster = [
-  //   { id: '1', name: 'Full Access' },
-  //   { id: '2', name: 'Restricted' },
-  // ];
+  const handleChangeUserInvite = (key: string, value: string) => {
+    seteditUserInviteDetails({ key, value });
+  };
+
+  const onSaveUserInvite = () => {
+    addUserInvite();
+    handleCloseUserInvite();
+    getAllUserList();
+    setAnchorEl(null);
+  };
+
+  const handleOpenUserInvite = () => {
+    setValues(true);
+  };
+
+  const handleCloseUserInvite = () => {
+    setValues(false);
+  };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const handleOptionToggle = (option: any) => {
-    const isSelected = selectedOptions.some((selected) => selected === option);
+  const handleOptionToggle = (option: UserData) => {
+    const isSelected = selectedOptions.some((selected) => selected.id === option.id);
     setSelectedOptions((prevOptions) =>
-      isSelected ? prevOptions.filter((opt) => opt !== option) : [...prevOptions, option],
+      isSelected ? prevOptions.filter((opt) => opt.id !== option.id) : [...prevOptions, option],
     );
-    // handleChange('mappedUser', selectedOptions);
   };
-
-  // const handleChangeAceess = (e: any) => {
-  //   debugger;
-  //   setAccessState(e);
-  // };
 
   const onSetChange = () => {
-    const setItemsUsers = {
-      id: selectedOptions.id,
-      name: selectedOptions.name,
-      // access: accessState.name,
-    };
-    debugger;
-    handleChange('mapAdmin', setItemsUsers);
+    handleChange('mapAdmin', selectedOptions);
   };
+
+  useEffect(() => {
+    if (userInviteEdit.userName !== '') {
+      const getuserNameCheck = setTimeout(() => {
+        userNameChecker();
+      }, 1000);
+      return () => clearTimeout(getuserNameCheck);
+    }
+  }, [userInviteEdit.userName]);
+
+  useEffect(() => {
+    if (userInviteEdit.email !== '') {
+      const getemailCheck = setTimeout(() => {
+        emailChecker();
+      }, 1000);
+      return () => clearTimeout(getemailCheck);
+    }
+  }, [userInviteEdit.email]);
+
   useEffect(() => {
     onSetChange();
   }, [selectedOptions]);
-
-  // console.log(selectedOptions);
-  // console.log(dataList, 'dataList');
+  console.log('createEditAdmincreateEditAdmincreateEditAdmin', createEditAdmin);
 
   return (
     <Box
       sx={[
         {
-          ...addProfileMultiplechipDropdownStyle.rootSx,
+          ...mapAdminChipDropdownStyle.rootSx,
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
@@ -112,15 +151,6 @@ export const AddProfileMultiplechipDropdown = (props: AddProfileMultiplechipDrop
                 sx={{ px: 1, display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
               >
                 <MappedAdminCard options={data} />
-                <CutstomizedAutocomplete
-                  sx={{
-                    '& .MuiOutlinedInput-notchedOutline, & .MuiOutlinedInput-notchedOutline:focus-visible': {
-                      border: 0,
-                    },
-                  }}
-                  onChange={(e: AccessOption | null) => handleChangeAccess(e)}
-                  permissionList={accessMaster}
-                />
               </Box>
             </MenuItem>
           ))}
@@ -145,13 +175,12 @@ export const AddProfileMultiplechipDropdown = (props: AddProfileMultiplechipDrop
                 height: '22px',
                 borderRadius: '50% !important',
                 marginRight: '10px',
-                // p:'3px'
               }}
             />
             <Typography style={{ color: '#357968', fontSize: '14px', fontWeight: 600 }}>Invite User</Typography>
           </MenuItem>
         </Menu>
-        <MappedUserCard dataMaster={createEditAdmin.mapAdmin} />
+        <MappedUserCard dataMaster={createEditAdmin} />
         <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', marginTop: '10px' }} onClick={handleClick}>
           <GreenCloseCircleIcon
             rootStyle={{
@@ -159,7 +188,6 @@ export const AddProfileMultiplechipDropdown = (props: AddProfileMultiplechipDrop
               height: '22px',
               borderRadius: '50% !important',
               marginRight: '10px',
-              // p:'3px'
             }}
           />
           <Typography style={{ color: '#357968', fontSize: '14px', fontWeight: 600 }}>Add User</Typography>
@@ -170,9 +198,9 @@ export const AddProfileMultiplechipDropdown = (props: AddProfileMultiplechipDrop
         isDialogOpened={values}
         title={'Invite a user'}
         Bodycomponent={
-          <Box sx={addChipMultipleDropdownStyle.padd}>
-            <Box sx={addChipMultipleDropdownStyle.inputGroupSx}>
-              <Label sx={addChipMultipleDropdownStyle.labelSx} htmlFor="addTitle" isRequired>
+          <Box sx={mapAdminChipDropdownStyle.padd}>
+            <Box sx={mapAdminChipDropdownStyle.inputGroupSx}>
+              <Label sx={mapAdminChipDropdownStyle.labelSx} htmlFor="addTitle" isRequired>
                 UserName
               </Label>
               <Input
@@ -180,18 +208,16 @@ export const AddProfileMultiplechipDropdown = (props: AddProfileMultiplechipDrop
                 placeholder="Charge name"
                 required
                 value={userInviteEdit?.userName}
-                textFieldStyle={addChipMultipleDropdownStyle.inputSx}
+                textFieldStyle={mapAdminChipDropdownStyle.inputSx}
                 id="title"
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
                   handleChangeUserInvite('userName', e.target.value)
                 }
-                // isError={Boolean(formErrors.name)}
-                // errorMessage={formErrors.name}
               />
             </Box>
             <Box sx={{ m: '16px' }} />
-            <Box sx={addChipMultipleDropdownStyle.inputGroupSx}>
-              <Label sx={addChipMultipleDropdownStyle.labelSx} htmlFor="addTitle" isRequired>
+            <Box sx={mapAdminChipDropdownStyle.inputGroupSx}>
+              <Label sx={mapAdminChipDropdownStyle.labelSx} htmlFor="addTitle" isRequired>
                 Email
               </Label>
               <Input
@@ -199,25 +225,19 @@ export const AddProfileMultiplechipDropdown = (props: AddProfileMultiplechipDrop
                 placeholder="Email Id"
                 required
                 value={userInviteEdit?.email}
-                textFieldStyle={addChipMultipleDropdownStyle.inputSx}
+                textFieldStyle={mapAdminChipDropdownStyle.inputSx}
                 id="email"
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
                   handleChangeUserInvite('email', e.target.value)
                 }
-                // isError={Boolean(formErrors.description)}
-                // errorMessage={formErrors.description}
               />
             </Box>
           </Box>
         }
         handleCloseDialog={handleCloseUserInvite}
-        dialogRootStyle={addChipMultipleDropdownStyle.dialogSx}
+        dialogRootStyle={mapAdminChipDropdownStyle.dialogSx}
         Footercomponent={
           <FooterComponent
-            // check
-            // SwitchChange={(e) => {
-            //   handleAddEditStateChange('is_active', e.target.checked);
-            // }}
             disabled={userInviteEdit.userNameStatus === 200 && userInviteEdit.emailStatus === 200 ? false : true}
             saveButtonStyle={{ minWidth: '90px', height: '28px' }}
             onCancel={handleCloseUserInvite}

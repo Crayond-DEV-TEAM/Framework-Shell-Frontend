@@ -1,11 +1,11 @@
 import type { SxProps } from '@mui/material';
 
-interface AddProfileMultiplechipDropdownStyleProps {
+interface MapAdminChipDropdownStyleProps {
   [key: string]: SxProps;
 }
 
-export const addProfileMultiplechipDropdownStyle: AddProfileMultiplechipDropdownStyleProps = {
-  rootSx: {},
+export const mapAdminChipDropdownStyle: MapAdminChipDropdownStyleProps = {
+   rootSx: {},
     dialogSx: {
     width: '400px',
     height: '358px',

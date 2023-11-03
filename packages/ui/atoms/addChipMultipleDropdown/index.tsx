@@ -79,7 +79,8 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
     addUserInvite();
     handleCloseUserInvite();
     getUserMasterByOrganisation();
-    getAllUserList();
+    handleClose();
+    // getAllUserList();
   };
   const handleOpenUserInvite = () => {
     setValues(true);

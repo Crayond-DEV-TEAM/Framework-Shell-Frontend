@@ -24,12 +24,12 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
     const { apiToken } = get();
 
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('post', `${envConfig.api_url}/idm/repository/get`, {}, true, apiToken, {
+    httpRequest('get', `${envConfig.api_url}/idm/repository/get`, {}, true, apiToken, {
       headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
     })
       .then((response) => {
         const lastObject = response.data.data[response.data.data.length - 1];
-        set({ RepositoryList: lastObject.data.editRepositoryList, RepositoryId: lastObject.id });
+        set({ RepositoryList: lastObject.data, RepositoryId: lastObject.id });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -39,7 +39,7 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
       });
   },
   createRepository: () => {
-    const { RepositoryList, editRepositoryList, getAllRepository, apiToken } = get();
+    const {  editRepositoryList, getAllRepository, apiToken } = get();
     set({ onEditLoading: true, erroronEdit: false });
     const data = editRepositoryList;
 
@@ -61,12 +61,9 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
   editRepository: () => {
     const { RepositoryId, editRepositoryList, getAllRepository, apiToken } = get();
     set({ onEditLoading: true, erroronEdit: false });
-    const payload = {
-      id: RepositoryId,
-      data: { editRepositoryList },
-    };
+    const data = editRepositoryList;
 
-    httpRequest('post', `${envConfig.api_url}/repository/upsert`, payload, true, apiToken, {
+    httpRequest('post', `${envConfig.api_url}/idm/repository/create`, {id: RepositoryId, data, is_active: true }, true, apiToken, {
       headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
     })
       .then((response) => {

@@ -125,8 +125,8 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
     updateEditData(editData);
   };
 
-  const filteredMessageGroup = PermissionList?.filter((x: any) =>
-    x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()),
+  const filteredMessageGroup = PermissionList?.filter(
+    (x: any) => x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()),
   );
 
   const handleChange = (key: string, value: string) => {

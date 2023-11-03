@@ -7,7 +7,6 @@ import moment from 'moment';
 import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/helperFunctions';
 import { useSlug } from '../common';
 
-const slugId = useSlug?.getState()?.slugs?.PASM;
 export const useCharges = create<ChargesInterface>((set, get) => ({
   ChargesList: [],
 
@@ -31,12 +30,13 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
 
   getChargesList: (data: any = { is_active: false }) => {
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const payload: any = {
       offset: 0,
       limit: 100,
       // is_active: true,
     };
-
+    console.log(useSlug?.getState()?.slugs?.PASM, '-----');
     if (data.is_acive === true) {
       payload.is_active = true;
     }
@@ -73,6 +73,7 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
   },
   createCharges: () => {
     set({ addsave: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { createEditCharges, getChargesList, clearAll } = get();
     const payload = {
       name: createEditCharges.name,
@@ -101,6 +102,7 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
   },
   editCharges: () => {
     set({ editsave: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { createEditCharges, getChargesList, clearAll } = get();
     const payload = {
       charge_id: createEditCharges.id,
@@ -127,6 +129,7 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
   },
   deleteCharges: (id: string) => {
     set({ deletefetch: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { getChargesList } = get();
     const payload = {
       charge_id: id,
@@ -156,6 +159,7 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
   },
   getStatusList: (id: any, status: any) => {
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { getChargesList } = get();
     const payload = {
       charge_id: id,

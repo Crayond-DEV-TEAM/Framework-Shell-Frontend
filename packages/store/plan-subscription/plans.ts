@@ -6,7 +6,6 @@ import { enqueueSnackbar } from 'notistack';
 import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/helperFunctions';
 import { useSlug } from '../common';
 
-const slugId = useSlug?.getState()?.slugs?.PASM;
 export const usePlans = create<PlansInterface>((set, get) => ({
   PlanList: [],
   addEditPlan: {
@@ -297,6 +296,7 @@ export const usePlans = create<PlansInterface>((set, get) => ({
 
   getPlansList: (x = { offset: 0, limit: 100 }) => {
     set({ fetching: true, errorOnFetch: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
 
     const payload = {
       offset: x.offset,
@@ -336,8 +336,9 @@ export const usePlans = create<PlansInterface>((set, get) => ({
   },
   addPlan: () => {
     const { getPayload, getPlansList } = get();
-
+    
     set({ fetching: true, errorOnFetch: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const data: any = getPayload();
     const payload = {
       ...data,
@@ -368,8 +369,9 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       getPlansList,
       getPayload,
     } = get();
-
+    
     set({ fetching: true, errorOnFetch: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const data: any = getPayload();
     data.deleted_charges = deleteCharge;
     data.deleted_add_ons = deleteAddOn;
@@ -398,6 +400,7 @@ export const usePlans = create<PlansInterface>((set, get) => ({
     const { PlanList, addEditPlan, getPlansList } = get();
     console.log(x);
     set({ fetching: true, errorOnFetch: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     // const { RepositoryList } = useRepository();
     const payload = {
       plan_id: x,
@@ -420,6 +423,7 @@ export const usePlans = create<PlansInterface>((set, get) => ({
   },
   editPlanStatus: (id: any, status: any) => {
     set({ fetching: true, errorOnFetch: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { getPlansList } = get();
     const payload = {
       plan_id: id,

@@ -5,7 +5,6 @@ import { CustomerInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
 import { useSlug } from '../common';
 
-const slugId = useSlug?.getState()?.slugs?.PASM;
 export const useCustomer = create<CustomerInterface>((set, get) => ({
   CustomerList: [],
   fetching: false,
@@ -36,18 +35,14 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
   },
   getCustomerList: () => {
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const payload = {
       offset: 0,
       limit: 10,
     };
-    httpRequest(
-      'post',
-      `${envConfig.api_url}/pasm/customer/get`,
-      convertKeysToCamelCase(payload),
-      true,
-      undefined,
-      { headers: { slug: slugId } },
-    )
+    httpRequest('post', `${envConfig.api_url}/pasm/customer/get`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: slugId },
+    })
       .then((response) => {
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
@@ -78,6 +73,7 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
   },
   createCustomer: () => {
     set({ addsave: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { createEditCustomer, getCustomerList } = get();
     const payload = {
       name: createEditCustomer.name,
@@ -91,14 +87,9 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
       pincode: createEditCustomer.pincode,
     };
 
-    httpRequest(
-      'post',
-      `${envConfig.api_url}/pasm/customer/create`,
-      convertKeysToCamelCase(payload),
-      true,
-      undefined,
-      { headers: { slug: slugId } },
-    )
+    httpRequest('post', `${envConfig.api_url}/pasm/customer/create`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: slugId },
+    })
       .then((response) => {
         enqueueSnackbar('Customer Created Succesfully!', { variant: 'success' });
       })
@@ -116,6 +107,7 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
   },
   editCustomer: () => {
     set({ editsave: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { createEditCustomer, getCustomerList } = get();
     const payload = {
       name: createEditCustomer.name,
@@ -148,6 +140,7 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
   },
   deleteCustomer: (id: string) => {
     set({ deletefetch: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { getCustomerList } = get();
     const payload = {
       customer_id: id,
@@ -175,20 +168,16 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
   },
   getStatusList: (id: any, status: any) => {
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { getCustomerList } = get();
     const payload = {
       customer_id: id,
       is_active: status,
     };
 
-    httpRequest(
-      'put',
-      `${envConfig.api_url}/pasm/customer/update`,
-      convertKeysToCamelCase(payload),
-      true,
-      undefined,
-      { headers: { slug: slugId } },
-    )
+    httpRequest('put', `${envConfig.api_url}/pasm/customer/update`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: slugId },
+    })
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });
       })

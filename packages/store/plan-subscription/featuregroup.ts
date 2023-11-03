@@ -9,7 +9,6 @@ import { useSlug } from '../common';
 
 // import { tableJson } from '@components/feature/utils'
 
-const slugId = useSlug?.getState()?.slugs?.PASM;
 export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
   FeatureGroupList: [],
 
@@ -36,6 +35,7 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
 
   getFeatureGroupList: (data: any = { is_active: false }) => {
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const payload: any = {
       offset: 0,
       limit: 100,
@@ -83,6 +83,7 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
   },
   createFeatureGroup: () => {
     set({ addsave: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { createEditFeatureGroup, getFeatureGroupList, clearAll } = get();
     const payload = {
       name: createEditFeatureGroup.name,
@@ -117,6 +118,7 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
   },
   editFeatureGroup: () => {
     set({ editsave: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { createEditFeatureGroup, getFeatureGroupList, clearAll } = get();
     const newFeatures = createEditFeatureGroup.features.filter(
       (item) => !createEditFeatureGroup.deletedFeature.includes(item),
@@ -157,6 +159,7 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
   },
   deleteFeatureGroup: (id: string) => {
     set({ deletefetch: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { getFeatureGroupList } = get();
     const payload = {
       feature_group_id: id,
@@ -184,6 +187,7 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
   },
   getStatusList: (id: any, status: any) => {
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { getFeatureGroupList } = get();
     const payload = {
       feature_group_id: id,
@@ -196,7 +200,7 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
       convertKeysToCamelCase(payload),
       true,
       undefined,
-      { headers: { slug: slugId } }
+      { headers: { slug: slugId } },
     )
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });

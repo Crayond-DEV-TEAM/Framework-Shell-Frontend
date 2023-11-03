@@ -7,7 +7,6 @@ import { FeatureInterface } from '../interface';
 import { convertKeysToCamelCase, convertKeysToSnakeCase } from '../../utils/helperFunctions';
 import { useSlug } from '../common';
 
-const slugId = useSlug?.getState()?.slugs?.PASM;
 export const useFeature = create<FeatureInterface>((set, get) => ({
   FeatureList: [],
 
@@ -31,6 +30,7 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
   getFeatureList: (data: any = { is_active: false }) => {
     // debugger;
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const payload: any = {
       offset: 0,
       limit: 100,
@@ -75,6 +75,7 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
   },
   createFeature: () => {
     set({ addsave: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { createEditFeature, getFeatureList } = get();
     const payload = {
       name: createEditFeature.name,
@@ -101,6 +102,7 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
   },
   editFeature: () => {
     set({ editsave: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { createEditFeature, getFeatureList } = get();
     const payload = {
       featureId: createEditFeature.id,
@@ -125,6 +127,7 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
   },
   deleteFeature: (id: string) => {
     set({ deletefetch: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { getFeatureList } = get();
     const payload = {
       feature_id: id,
@@ -154,6 +157,7 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
   },
   getStatusList: (id: any, status: any) => {
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { getFeatureList } = get();
     const payload = {
       feature_id: id,

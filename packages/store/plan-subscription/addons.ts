@@ -7,7 +7,7 @@ import { enqueueSnackbar } from 'notistack';
 import moment from 'moment';
 import { useSlug } from '../common';
 // import { tableJson } from '@components/feature/utils'
-const slugId = useSlug?.getState()?.slugs?.PASM;
+
 export const useAddOns = create<AddOnsInterface>((set, get) => ({
   AddOnsList: [],
 
@@ -33,6 +33,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
 
   getAddOnsList: (data: any = { is_active: false }) => {
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const payload: any = {
       offset: 0,
       limit: 100,
@@ -76,6 +77,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
   },
   createAddOns: () => {
     set({ addsave: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { createEditAddOns, getAddOnsList, clearAll } = get();
     const payload = {
       name: createEditAddOns.name,
@@ -106,6 +108,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
   },
   editAddOns: () => {
     set({ editsave: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { createEditAddOns, getAddOnsList, clearAll } = get();
     const payload = {
       feature_id: (createEditAddOns.features as { id: string }).id,
@@ -134,6 +137,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
   },
   deleteAddOns: (id: string) => {
     set({ deletefetch: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { getAddOnsList } = get();
     const payload = {
       addon_id: id,
@@ -156,6 +160,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
   },
   getStatusList: (id: any, status: any) => {
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { getAddOnsList } = get();
     const payload = {
       addon_id: id,

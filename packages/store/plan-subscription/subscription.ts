@@ -9,8 +9,6 @@ import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/help
 import { useSlug } from '../common';
 // import { tableJson } from '@components/feature/utils'
 
-
-const slugId = useSlug?.getState()?.slugs?.PASM;
 export const useSubscription = create<SubscriptionInterface>((set, get) => ({
   SubscriptionList: [],
 
@@ -129,6 +127,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
 
   getSubscriptionList: () => {
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const payload = {
       offset: 0,
       limit: 100,
@@ -181,6 +180,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
   },
   createSubscription: () => {
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { createEditSubscription, getSubscriptionList, clearAll } = get();
     const payload = {
       customer_id: createEditSubscription?.customer_id,
@@ -230,6 +230,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
   },
   editSubscription: () => {
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { createEditSubscription, getSubscriptionList, clearAll } = get();
     const newAddOn = createEditSubscription?.new_addon?.map((x) => x?.add_on?.id) || [];
     const oldAddOn = createEditSubscription?.old_addon?.map((x) => x?.add_on?.id) || [];
@@ -281,6 +282,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
   },
   deleteSubscription: (id: string) => {
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { getSubscriptionList } = get();
     const payload = {
       subscription_id: id,
@@ -310,6 +312,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
   },
   fetchSubscription: (id: string) => {
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const payload = {
       customer_id: id,
     };
@@ -337,6 +340,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
   },
   getStatusList: (id: any, status: any) => {
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { getSubscriptionList } = get();
     const payload = {
       subscription_id: id,

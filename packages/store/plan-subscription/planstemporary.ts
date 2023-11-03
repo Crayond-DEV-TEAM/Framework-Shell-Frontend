@@ -9,13 +9,13 @@ import { useSlug } from '../common';
 // import { tableJson } from '@components/feature/utils'
 
 
-const slugId = useSlug?.getState()?.slugs?.PASM;
 export const usePlan = create<PlanInterface>((set, get) => ({
   PlanList: [],
 
   getPlanList: () => {
     // set({ fetching: true, errorOnFetching: false });
-    const payload = {
+const slugId= useSlug?.getState()?.slugs?.PASM;
+const payload = {
       offset: 0,
       limit: 20,
     };

@@ -6,7 +6,11 @@ import { permission } from '../../ui/components/addpermission/utils';
 import { dateFetching } from './commonFunction';
 import { enqueueSnackbar } from 'notistack';
 import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/helperFunctions';
+import { useSlug } from '../common';
 // import { tableJson } from '@components/feature/utils'
+
+
+const slugId = useSlug?.getState()?.slugs?.PASM;
 export const useSubscription = create<SubscriptionInterface>((set, get) => ({
   SubscriptionList: [],
 
@@ -136,7 +140,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       true,
       undefined,
       {
-        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+        headers: { slug: slugId },
       },
     )
       .then((response) => {
@@ -205,7 +209,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       true,
       undefined,
       {
-        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+        headers: { slug: slugId },
       },
     )
       .then((response) => {
@@ -259,7 +263,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       true,
       undefined,
       {
-        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+        headers: { slug: slugId },
       },
     )
       .then((response) => {
@@ -288,7 +292,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       true,
       undefined,
       {
-        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+        headers: { slug: slugId },
       },
     )
       .then((response) => {
@@ -316,7 +320,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       true,
       undefined,
       {
-        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+        headers: { slug: slugId },
       },
     )
       .then((response) => {
@@ -346,7 +350,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       true,
       undefined,
       {
-        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+        headers: { slug: slugId },
       },
     )
       .then((response) => {

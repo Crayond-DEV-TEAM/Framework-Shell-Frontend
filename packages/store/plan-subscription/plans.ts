@@ -4,7 +4,9 @@ import { create } from 'zustand';
 import { PlansInterface, Feature, AddEditPlans } from '../interface';
 import { enqueueSnackbar } from 'notistack';
 import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/helperFunctions';
+import { useSlug } from '../common';
 
+const slugId = useSlug?.getState()?.slugs?.PASM;
 export const usePlans = create<PlansInterface>((set, get) => ({
   PlanList: [],
   addEditPlan: {
@@ -300,9 +302,8 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       offset: x.offset,
       limit: x.limit,
     };
-
     httpRequest('post', `${envConfig.api_url}/pasm/plans/get`, convertKeysToCamelCase(payload), true, undefined, {
-      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         // console.log(response.data.data.rows)
@@ -342,7 +343,7 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       ...data,
     };
     httpRequest('post', `${envConfig.api_url}/pasm/plans/create`, convertKeysToCamelCase(payload), true, undefined, {
-      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      headers: { slug: slugId },
     })
       .then((_response) => {
         enqueueSnackbar('Plan added Succesfully!', { variant: 'success' });
@@ -379,7 +380,7 @@ export const usePlans = create<PlansInterface>((set, get) => ({
     };
 
     httpRequest('put', `${envConfig.api_url}/pasm/plans/update`, convertKeysToCamelCase(payload), true, undefined, {
-      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      headers: { slug: slugId },
     })
       .then((_response) => {
         enqueueSnackbar('Plan Edited Succesfully!', { variant: 'success' });
@@ -403,7 +404,7 @@ export const usePlans = create<PlansInterface>((set, get) => ({
     };
 
     httpRequest('delete', `${envConfig.api_url}/pasm/plans/delete`, convertKeysToCamelCase(payload), true, undefined, {
-      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      headers: { slug: slugId },
     })
       .then((_response) => {
         enqueueSnackbar('Plan Deleted Succesfully!', { variant: 'success' });
@@ -426,7 +427,7 @@ export const usePlans = create<PlansInterface>((set, get) => ({
     };
 
     httpRequest('put', `${envConfig.api_url}/pasm/plans/update`, convertKeysToCamelCase(payload), true, undefined, {
-      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });

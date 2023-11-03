@@ -5,7 +5,9 @@ import { AddOnsInterface } from '../interface';
 import { permission } from '../../ui/components/addpermission/utils';
 import { enqueueSnackbar } from 'notistack';
 import moment from 'moment';
+import { useSlug } from '../common';
 // import { tableJson } from '@components/feature/utils'
+const slugId = useSlug?.getState()?.slugs?.PASM;
 export const useAddOns = create<AddOnsInterface>((set, get) => ({
   AddOnsList: [],
 
@@ -41,7 +43,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
     }
 
     httpRequest('post', `${envConfig.api_url}/pasm/addon/get`, convertKeysToCamelCase(payload), true, undefined, {
-      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         const dataTable: any = [];
@@ -84,7 +86,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
     };
 
     httpRequest('post', `${envConfig.api_url}/pasm/addon/create`, convertKeysToCamelCase(payload), true, undefined, {
-      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         enqueueSnackbar('Add-On Created Succesfully!', { variant: 'success' });
@@ -115,7 +117,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
     };
 
     httpRequest('put', `${envConfig.api_url}/pasm/addon/update`, convertKeysToCamelCase(payload), true, undefined, {
-      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         enqueueSnackbar('Add-On Edited Succesfully!', { variant: 'success' });
@@ -136,14 +138,9 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
     const payload = {
       addon_id: id,
     };
-    httpRequest(
-      'delete',
-      `${envConfig.api_url}/pasm/addon/delete`,
-      convertKeysToCamelCase(payload),
-      true,
-      undefined,
-      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } },
-    )
+    httpRequest('delete', `${envConfig.api_url}/pasm/addon/delete`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: slugId },
+    })
       .then((response) => {
         enqueueSnackbar('Add-On Deleted Succesfully!', { variant: 'success' });
         // set({ AddOnsList: response.data.data });
@@ -165,14 +162,9 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
       is_active: status,
     };
 
-    httpRequest(
-      'put',
-      `${envConfig.api_url}/pasm/addon/update`,
-      convertKeysToCamelCase(payload),
-      true,
-      undefined,
-      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } },
-    )
+    httpRequest('put', `${envConfig.api_url}/pasm/addon/update`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: slugId },
+    })
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });
       })

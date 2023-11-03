@@ -5,7 +5,11 @@ import { PlanInterface } from '../interface';
 import { permission } from '../../ui/components/addpermission/utils';
 import { enqueueSnackbar } from 'notistack';
 import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/helperFunctions';
+import { useSlug } from '../common';
 // import { tableJson } from '@components/feature/utils'
+
+
+const slugId = useSlug?.getState()?.slugs?.PASM;
 export const usePlan = create<PlanInterface>((set, get) => ({
   PlanList: [],
 
@@ -16,7 +20,7 @@ export const usePlan = create<PlanInterface>((set, get) => ({
       limit: 20,
     };
     httpRequest('post', `${envConfig.api_url}/pasm/plans/get`, convertKeysToCamelCase(payload), true, undefined, {
-      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         const dataTable: any = [];

@@ -3,6 +3,9 @@ import { convertKeysToCamelCase, convertKeysToSnakeCase, httpRequest } from '@co
 import { create } from 'zustand';
 import { CustomerInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
+import { useSlug } from '../common';
+
+const slugId = useSlug?.getState()?.slugs?.PASM;
 export const useCustomer = create<CustomerInterface>((set, get) => ({
   CustomerList: [],
   fetching: false,
@@ -43,7 +46,7 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
       convertKeysToCamelCase(payload),
       true,
       undefined,
-      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } },
+      { headers: { slug: slugId } },
     )
       .then((response) => {
         const dataTable: any = [];
@@ -94,7 +97,7 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
       convertKeysToCamelCase(payload),
       true,
       undefined,
-      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } },
+      { headers: { slug: slugId } },
     )
       .then((response) => {
         enqueueSnackbar('Customer Created Succesfully!', { variant: 'success' });
@@ -129,7 +132,7 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
     };
 
     httpRequest('put', `${envConfig.api_url}/pasm/customer/update`, convertKeysToCamelCase(payload), true, undefined, {
-      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         enqueueSnackbar('Customers Edited Succesfully!', { variant: 'success' });
@@ -155,7 +158,7 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
       convertKeysToCamelCase(payload),
       true,
       undefined,
-      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } },
+      { headers: { slug: slugId } },
     )
       .then((response) => {
         enqueueSnackbar('Customers Deleted Succesfully!', { variant: 'success' });
@@ -184,7 +187,7 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
       convertKeysToCamelCase(payload),
       true,
       undefined,
-      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } },
+      { headers: { slug: slugId } },
     )
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });

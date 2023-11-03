@@ -5,8 +5,11 @@ import { FeatureGroupInterface } from '../interface';
 import { permission } from '../../ui/components/addpermission/utils';
 import { enqueueSnackbar } from 'notistack';
 import moment from 'moment';
+import { useSlug } from '../common';
 
 // import { tableJson } from '@components/feature/utils'
+
+const slugId = useSlug?.getState()?.slugs?.PASM;
 export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
   FeatureGroupList: [],
 
@@ -48,7 +51,7 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
       convertKeysToCamelCase(payload),
       true,
       undefined,
-      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } },
+      { headers: { slug: slugId } },
     )
       .then((response) => {
         const dataTable: any = [];
@@ -94,7 +97,7 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
       convertKeysToCamelCase(payload),
       true,
       undefined,
-      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } },
+      { headers: { slug: slugId } },
     )
       .then((response) => {
         enqueueSnackbar('FeatureGroup Created Succesfully!', { variant: 'success' });
@@ -137,7 +140,7 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
       convertKeysToCamelCase(payload),
       true,
       undefined,
-      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } },
+      { headers: { slug: slugId } },
     )
       .then((response) => {
         enqueueSnackbar('FeatureGroup Edited Succesfully!', { variant: 'success' });
@@ -164,7 +167,7 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
       convertKeysToCamelCase(payload),
       true,
       undefined,
-      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } },
+      { headers: { slug: slugId } },
     )
       .then((response) => {
         enqueueSnackbar('FeatureGroup Deleted Succesfully!', { variant: 'success' });
@@ -193,7 +196,7 @@ export const useFeatureGroup = create<FeatureGroupInterface>((set, get) => ({
       convertKeysToCamelCase(payload),
       true,
       undefined,
-      { headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' } }
+      { headers: { slug: slugId } }
     )
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });

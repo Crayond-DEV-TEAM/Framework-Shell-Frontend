@@ -5,7 +5,9 @@ import { ChargesInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
 import moment from 'moment';
 import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/helperFunctions';
+import { useSlug } from '../common';
 
+const slugId = useSlug?.getState()?.slugs?.PASM;
 export const useCharges = create<ChargesInterface>((set, get) => ({
   ChargesList: [],
 
@@ -40,7 +42,7 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
     }
 
     httpRequest('post', `${envConfig.api_url}/pasm/charges/get`, convertKeysToCamelCase(payload), true, undefined, {
-      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         const dataTable: any = [];
@@ -79,7 +81,7 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
     };
 
     httpRequest('post', `${envConfig.api_url}/pasm/charges/create`, convertKeysToCamelCase(payload), true, undefined, {
-      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         enqueueSnackbar('Charges Created Succesfully!', { variant: 'success' });
@@ -108,7 +110,7 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
     };
 
     httpRequest('put', `${envConfig.api_url}/pasm/charges/update`, convertKeysToCamelCase(payload), true, undefined, {
-      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         enqueueSnackbar('Charges Edited Succesfully!', { variant: 'success' });
@@ -136,7 +138,7 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
       true,
       undefined,
       {
-        headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+        headers: { slug: slugId },
       },
     )
       .then((response) => {
@@ -161,7 +163,7 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
     };
 
     httpRequest('put', `${envConfig.api_url}/pasm/charges/update`, convertKeysToCamelCase(payload), true, undefined, {
-      headers: { slug: '665b521a-b2a0-42cf-9b04-b60c988d8bf4' },
+      headers: { slug: slugId },
     })
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });

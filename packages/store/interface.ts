@@ -135,6 +135,22 @@ export interface MenusProps {
   getMenu: () => void;
   getSideMenusFromProject: (id: string) => void;
 }
+
+export type ServiceName = 'IDM' | 'PASM' | 'ALERTSHUB' | 'MESSAGE-CATALOG';
+
+export type SideMenuResponse = {
+  [key: string]: any;
+  service_name: ServiceName;
+};
+
+export type SlugOption = {
+  [key in ServiceName]: string;
+};
+
+export interface SlugProps {
+  getSlug: (id: ServiceName) => void;
+  slugs: SlugOption;
+}
 export interface MessageCreateInterface {
   title: number | string;
   description: number | string;

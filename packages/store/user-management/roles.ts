@@ -13,7 +13,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
     permission: [],
     name: '',
     description: '',
-    is_active: false,
+    is_active: true,
   },
   editRole: [],
   deleteRole: [],
@@ -42,7 +42,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       limit: 10000,
     };
     httpRequest('post', `${envConfig.api_url}/idm/roles/get`, payload, true, apiToken, {
-      headers: { slug: '3ef02e4b-b862-47b0-a48c-939b2e9d16d9' },
+      headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
     })
       .then((response) => {
         const permssionJsonConstruct = (tableData: any) => {
@@ -105,7 +105,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
     };
     return new Promise((resolve, reject) => {
       httpRequest('post', `${envConfig.api_url}/idm/roles/create`, payload, true, apiToken, {
-        headers: { slug: '3ef02e4b-b862-47b0-a48c-939b2e9d16d9' },
+        headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
       })
         .then((response) => {
           enqueueSnackbar('Roles created succesfully!', { variant: 'success' });
@@ -128,12 +128,16 @@ export const useRoles = create<RolesInterface>((set, get) => ({
   getStatusList: async (id: any, status: any) => {
     set({ fetching: true, errorOnFetching: false });
     const { getRolesList, apiToken } = get();
+    // const permissionid = addRole.permission.map((value: any) => value.id);
     const payload = {
       role_id: id,
+      // name: addRole.name,
+      // permissions: permissionid,
+      // description: addRole.description,
       is_active: status,
     };
     httpRequest('put', `${envConfig.api_url}/idm/roles/update`, payload, true, apiToken, {
-      headers: { slug: '3ef02e4b-b862-47b0-a48c-939b2e9d16d9' },
+      headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
     })
       .then((response) => {
         enqueueSnackbar('Status changed succesfully!', { variant: 'success' });
@@ -162,7 +166,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
 
     return new Promise((resolve, reject) => {
       return httpRequest('put', `${envConfig.api_url}/idm/roles/update`, payload, true, apiToken, {
-        headers: { slug: '3ef02e4b-b862-47b0-a48c-939b2e9d16d9' },
+        headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
       })
         .then((response) => {
           enqueueSnackbar('Roles edited succesfully!', { variant: 'success' });
@@ -189,7 +193,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
     };
 
     httpRequest('delete', `${envConfig.api_url}/idm/roles/delete`, payload, true, apiToken, {
-      headers: { slug: '3ef02e4b-b862-47b0-a48c-939b2e9d16d9' },
+      headers: { slug: 'feac7135-0429-473b-8c4c-b9ead5dbbfaa' },
     })
       .then((response) => {
         enqueueSnackbar('Roles deleted succesfully!', { variant: 'success' });
@@ -211,7 +215,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
         permission: '',
         name: '',
         description: '',
-        is_active: false,
+        is_active: true,
       },
     });
   },

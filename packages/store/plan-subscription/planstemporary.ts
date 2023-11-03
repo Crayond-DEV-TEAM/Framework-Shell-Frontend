@@ -20,7 +20,6 @@ export const usePlan = create<PlanInterface>((set, get) => ({
     })
       .then((response) => {
         const dataTable: any = [];
-        // debugger;
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           convertKeysToSnakeCase(response.data.data.rows).map(
             (tableData: any, i: any) =>

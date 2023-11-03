@@ -9,6 +9,7 @@ import { Box, IconButton, Skeleton, Stack, SxProps, Theme, Typography } from '@m
 import { forwardRef, useEffect, useState } from 'react';
 import { ModalAddMessage } from '..';
 import { addMessageStyle } from './style';
+import { enqueueSnackbar } from 'notistack';
 
 export interface AddMessageProps {
   className?: string;
@@ -21,6 +22,7 @@ export interface AddMessageProps {
   title?: string;
   addTitle?: string;
   editTitle?: string;
+  setGroupId?: string
 }
 
 export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTMLElement>): JSX.Element => {
@@ -34,6 +36,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     addTitle = '',
     editTitle = '',
     setTableName,
+    setGroupId,
     ...rest
   } = props;
 
@@ -78,8 +81,12 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
   };
 
   const handleAddMsg = () => {
-    setOpen(false);
-    addMessageGroups();
+    if(addMessage?.title && addMessage?.description) {
+      setOpen(false);
+      addMessageGroups();
+    } else {
+      enqueueSnackbar('Message Group items required!', { variant: 'error' });
+    }
   };
 
   const filteredMessageGroup = messageGroup?.filter((x: any) =>
@@ -90,9 +97,10 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
 
   const handleeditChange = (key: string, value: string) => seteditMessage({ key, value });
 
-  const onEdit = async (id: string) => {
+  
+  const onEdit = async (x: any) => {
     setValues(true);
-    editMessageListGroups({ id: id });
+    editMessageListGroups({ id: x?.id });
   };
 
   const Edit = () => {
@@ -118,7 +126,8 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
       setList(init.id);
       setSelected(0);
       setTableName(init?.title);
-      getAllMessages(init.id);
+      setGroupId(init?.id);
+      getAllMessages(init?.id);
     }
   }, [messageGroup]);
 
@@ -153,13 +162,13 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
                 <MessageCard
                   index={index}
                   title={x.title}
-                  isActive={x.is_status}
+                  isActive={x?.is_status}
                   onMessaageClick={() => handleMessage(x, index)}
                   select={selected}
                   handleDelete={() => {
                     deleteMessageGroups({ id: x.id });
                   }}
-                  onEdit={() => onEdit(x?.id)}
+                  onEdit={() => onEdit(x)}
                 />
               </Box>
             );
@@ -191,7 +200,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
         Footercomponent={
           <FooterComponent
             check={true}
-            checked={addMessage.is_status}
+            checked={addMessage?.is_status}
             SwitchChange={(e: any) => handleChange('is_status', e.target.checked)}
             onSave={handleAddMsg}
             onCancel={handleClose}
@@ -211,7 +220,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
         Footercomponent={
           <FooterComponent
             check={true}
-            checked={editMessageList.is_status}
+            checked={editMessageList?.is_status}
             SwitchChange={(e: any) => handleeditChange('is_status', e.target.checked)}
             onSave={Edit}
             onCancel={handleEditClose}

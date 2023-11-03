@@ -11,6 +11,7 @@ export interface TabsValueCardProps {
   sx?: SxProps<Theme> | undefined;
 }
 
+// eslint-disable-next-line react/display-name
 export const TabsValueCard = forwardRef((props: TabsValueCardProps): JSX.Element => {
   const { data } = props;
   return (
@@ -24,7 +25,7 @@ export const TabsValueCard = forwardRef((props: TabsValueCardProps): JSX.Element
       }
     >
       <span>{data?.number}</span>
-      <Typography>{data?.value}</Typography>
+      <Typography sx={{ fontSize: { xs: '10px', sm: '11px' } }}>{data?.value}</Typography>
     </Box>
   );
 });

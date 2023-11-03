@@ -1,6 +1,7 @@
 import { webRoutes } from '@core/routes';
 import {
   AddOne,
+  AppLayout,
   Charges,
   CreateCustomerForm,
   CreatePlan,
@@ -14,6 +15,7 @@ import {
   SubscriptionDetails,
 } from '@core/ui/components';
 import { PrivateRouter } from '@router/privateRouter';
+import App from 'App';
 
 // Routes for APP - Message Catalogue
 export const PlanAndSubscriptionRoutes = [
@@ -21,7 +23,9 @@ export const PlanAndSubscriptionRoutes = [
     path: webRoutes.customer,
     element: (
       <PrivateRouter>
-        <Customer />
+        <AppLayout>
+          <Customer />
+        </AppLayout>
       </PrivateRouter>
     ),
   },
@@ -29,7 +33,9 @@ export const PlanAndSubscriptionRoutes = [
     path: webRoutes.addOns,
     element: (
       <PrivateRouter>
-        <AddOne />
+        <AppLayout>
+          <AddOne />
+        </AppLayout>
       </PrivateRouter>
     ),
   },
@@ -37,7 +43,9 @@ export const PlanAndSubscriptionRoutes = [
     path: webRoutes.createCustomer,
     element: (
       <PrivateRouter>
-        <CreateCustomerForm />
+        <AppLayout>
+          <CreateCustomerForm />
+        </AppLayout>
       </PrivateRouter>
     ),
   },
@@ -45,7 +53,9 @@ export const PlanAndSubscriptionRoutes = [
     path: webRoutes.customerDetail,
     element: (
       <PrivateRouter>
-        <CustomerDetails />
+        <AppLayout>
+          <CustomerDetails />
+        </AppLayout>
       </PrivateRouter>
     ),
   },
@@ -53,7 +63,9 @@ export const PlanAndSubscriptionRoutes = [
     path: webRoutes.subscription,
     element: (
       <PrivateRouter>
-        <Subscription />
+        <AppLayout>
+          <Subscription />
+        </AppLayout>
       </PrivateRouter>
     ),
   },
@@ -61,7 +73,9 @@ export const PlanAndSubscriptionRoutes = [
     path: webRoutes.subscriptiondetails,
     element: (
       <PrivateRouter>
-        <SubscriptionDetails />
+        <AppLayout>
+          <SubscriptionDetails />
+        </AppLayout>
       </PrivateRouter>
     ),
   },
@@ -69,7 +83,9 @@ export const PlanAndSubscriptionRoutes = [
     path: webRoutes.plan,
     element: (
       <PrivateRouter>
-        <Plans />
+        <AppLayout>
+          <Plans />
+        </AppLayout>
       </PrivateRouter>
     ),
   },
@@ -77,7 +93,9 @@ export const PlanAndSubscriptionRoutes = [
     path: webRoutes.createplan,
     element: (
       <PrivateRouter>
-        <CreatePlan />
+        <AppLayout>
+          <CreatePlan />
+        </AppLayout>
       </PrivateRouter>
     ),
   },
@@ -85,7 +103,9 @@ export const PlanAndSubscriptionRoutes = [
     path: webRoutes.charges,
     element: (
       <PrivateRouter>
-        <Charges />
+        <AppLayout>
+          <Charges />
+        </AppLayout>
       </PrivateRouter>
     ),
   },
@@ -93,7 +113,9 @@ export const PlanAndSubscriptionRoutes = [
     path: webRoutes.featureGroups,
     element: (
       <PrivateRouter>
-        <FeatureGroups />
+        <AppLayout>
+          <FeatureGroups />
+        </AppLayout>
       </PrivateRouter>
     ),
   },
@@ -101,7 +123,9 @@ export const PlanAndSubscriptionRoutes = [
     path: webRoutes.features,
     element: (
       <PrivateRouter>
-        <Feature />
+        <AppLayout>
+          <Feature />
+        </AppLayout>
       </PrivateRouter>
     ),
   },

@@ -19,6 +19,10 @@ export type InputProps = StandardTextFieldProps & {
   endAdornment?: any;
   startAdornment?: any;
   header?: string;
+  onChange?:
+    | (React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> &
+        ((event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void | undefined))
+    | undefined;
   textFieldStyle?: object | any;
   variant?: 'filled' | 'outlined' | 'standard';
 };

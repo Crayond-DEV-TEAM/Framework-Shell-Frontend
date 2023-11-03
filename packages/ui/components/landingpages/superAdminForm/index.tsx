@@ -10,6 +10,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AddChipDropdown } from '@atoms/addChipDropdown';
 import { AddChipMultipleDropdown } from '@atoms/addChipMultipleDropdown';
 import { ToggleButtons } from '@atoms/toggleButton';
+import { useAdminLanding, useUserLanding } from '@core/store';
 
 export interface SuperAdminFormProps {
   className?: string;
@@ -30,6 +31,11 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
     userMaster,
     ...rest
   } = props;
+  const { addUserInvite } = useAdminLanding();
+
+  const onSaveUserInvite = () => {
+    addUserInvite('');
+  };
 
   return (
     <Box
@@ -86,7 +92,7 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
         <Box sx={{ m: '16px' }} />
         <Box sx={superAdminFormStyle.inputGroupSx}>
           <Label sx={superAdminFormStyle.labelSx} htmlFor="addTitle" isRequired>
-            Organisation Name
+            Email Id
           </Label>
           <Input
             size="small"
@@ -120,7 +126,12 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
             </AccordionSummary>
             <AccordionDetails sx={{ padding: '0px' }}>
               {/* <Chip label="Chip Filled" sx={{ height: '28px', borderRadius: '8px' }} /> */}
-              <AddChipMultipleDropdown dataList={userMaster} handleChange={handleChange} />
+              <AddChipMultipleDropdown
+                createEditAdmin={createEditOrganisation}
+                dataList={userMaster}
+                handleChange={handleChange}
+                onSaveUserInvite={onSaveUserInvite}
+              />
             </AccordionDetails>
           </Accordion>
           <Accordion

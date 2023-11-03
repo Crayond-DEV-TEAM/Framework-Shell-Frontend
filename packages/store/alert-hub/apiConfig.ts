@@ -23,6 +23,11 @@ export const useAPIConfig = create<APIConfig>((set, get) => ({
         profileId: '27ad652f-9143-4c54-a5cd-85bcd470b967',
       },
       true,
+      {
+        headers: {
+          slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
+        }
+      }
     )
       .then((response) => {
         return response;
@@ -46,6 +51,11 @@ export const useAPIConfig = create<APIConfig>((set, get) => ({
         // id using for now
       },
       true,
+      {
+        headers: {
+          slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
+        }
+      }
     )
       .then((response) => {
         const dataTable: any = [];
@@ -80,6 +90,11 @@ export const useAPIConfig = create<APIConfig>((set, get) => ({
         // id using for now
       },
       true,
+      {
+        headers: {
+          slug: '46f5e3e2-0672-4fdc-8fd2-388856c0fd9e'
+        }
+      }
     )
       .then((response) => {
         return response;

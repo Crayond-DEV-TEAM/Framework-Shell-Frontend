@@ -53,8 +53,9 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   getPermissionList: () => {
     const { apiToken } = get();
     set({ fetchingPermission: true, errorOnPermission: false });
-
-    httpRequest('get', `${envConfig.idm_api_url}/permissions`, {}, true, apiToken)
+    httpRequest('post', `${envConfig.api_url}/idm/permission/get`, {}, true, apiToken, {
+      headers: { slug: '3ef02e4b-b862-47b0-a48c-939b2e9d16d9' },
+    })
       .then((response) => {
         set({ PermissionList: response.data.data });
       })
@@ -79,9 +80,12 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       name: addPermissionList.name,
       description: addPermissionList.description,
       is_active: addPermissionList.is_active,
+      project_service_mapping_id: '3ef02e4b-b862-47b0-a48c-939b2e9d16d9',
     };
 
-    httpRequest('post', `${envConfig.idm_api_url}/permissions/create`, payload, true, apiToken)
+    httpRequest('post', `${envConfig.api_url}/idm/permission/create`, payload, true, apiToken, {
+      headers: { slug: '3ef02e4b-b862-47b0-a48c-939b2e9d16d9' },
+    })
       .then((response) => {
         enqueueSnackbar('Permission added Succesfully!', { variant: 'success' });
       })
@@ -108,7 +112,9 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       is_active: addPermissionList.is_active,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.idm_api_url}/permissions`, payload, true, apiToken)
+    httpRequest('put', `${envConfig.api_url}/idm/permissions/edit`, payload, true, apiToken, {
+      headers: { slug: '3ef02e4b-b862-47b0-a48c-939b2e9d16d9' },
+    })
       .then((response) => {
         enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
       })
@@ -131,7 +137,9 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       permission_id: x.id,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('delete', `${envConfig.idm_api_url}/permissions`, payload, true, apiToken)
+    httpRequest('delete', `${envConfig.api_url}/idm/permissions/delete`, payload, true, apiToken, {
+      headers: { slug: '3ef02e4b-b862-47b0-a48c-939b2e9d16d9' },
+    })
       .then((response) => {
         enqueueSnackbar('Permission deleted Succesfully!', { variant: 'success' });
       })
@@ -155,7 +163,9 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       is_active: true,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.idm_api_url}/permissions/update`, payload, true, apiToken)
+    httpRequest('put', `${envConfig.api_url}/idm/permissions/update`, payload, true, apiToken, {
+      headers: { slug: '3ef02e4b-b862-47b0-a48c-939b2e9d16d9' },
+    })
       .then((response) => {
         enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
       })

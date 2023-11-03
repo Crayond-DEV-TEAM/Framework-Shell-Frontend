@@ -1,24 +1,30 @@
 import DeleteIcon from '@assets/deleteIcon';
 import EditIcon from '@assets/editIcon';
 import { DialogDrawer } from '@atoms/dialogDrawer';
-import { Box, Grid } from '@mui/material';
-import { Table as CommonTable } from "@crayond_dev/ui_table";
-import React from 'react';
-import { emailTab_style } from './style';
 import { FooterComponent } from '@atoms/footerComponent';
-import { TableHeader } from '@components/commonComponents'
-import { EmailDialog } from '../emailDialog'
+import { WhatsappDialog } from '@components/whatsappDialog';
 import { useAlertConfig } from '@core/store';
+import { TableHeader } from '@core/ui/components';
+import { Box, Grid } from '@mui/material';
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 import { enqueueSnackbar } from 'notistack';
+import React from 'react';
+import { whatsappTab_style } from './style';
 
-export function EmailTab(): JSX.Element {
+export function WhatsappTab(): JSX.Element {
   const [open, setOpen] = React.useState(false);
   const [switchList, setSwitchList] = React.useState([1, 4]);
 
-  const { emailConfiguration, addEmailConfig, editEmailConfig, clearEmailState, deleteEmailConfig, emailList } =
-    useAlertConfig();
+  const {
+    whatsappConfiguration,
+    whatsappList,
+    addWhatsappConfig,
+    editWhatsappConfig,
+    clearWhatsappState,
+    deleteWhatsappConfig,
+  } = useAlertConfig();
 
-  const header = [
+  const Header = [
     {
       id: 'identification_name',
       align: 'left',
@@ -26,58 +32,22 @@ export function EmailTab(): JSX.Element {
       label: 'Identification Name',
     },
     {
-      id: 'email_provider',
+      id: 'whatsapp_buisness_phone_number',
       align: 'left',
       disablePadding: false,
-      label: 'Email Provider',
+      label: 'Whatsapp Number',
     },
     {
-      id: 'smtp_host',
+      id: 'access_token',
       align: 'left',
       disablePadding: false,
-      label: 'SMTP Host',
+      label: 'Access Token',
     },
     {
-      id: 'smtp_port',
+      id: 'api_version',
       align: 'left',
       disablePadding: false,
-      label: 'SMTP Port',
-    },
-    {
-      id: 'smtp_username',
-      align: 'left',
-      disablePadding: false,
-      label: 'SMTP Username',
-    },
-    {
-      id: 'aws_secret_key',
-      align: 'left',
-      disablePadding: false,
-      label: 'Aws Secret Key',
-    },
-    {
-      id: 'api_key',
-      align: 'left',
-      disablePadding: false,
-      label: 'API Key',
-    },
-    {
-      id: 'aws_access_id',
-      align: 'left',
-      disablePadding: false,
-      label: 'Aws Access Id',
-    },
-    {
-      id: 'mail_domain',
-      align: 'left',
-      disablePadding: false,
-      label: 'Email Domain',
-    },
-    {
-      id: 'from_mail',
-      align: 'left',
-      disablePadding: false,
-      label: 'From Mail',
+      label: 'API Version',
     },
     {
       id: 'action',
@@ -88,25 +58,19 @@ export function EmailTab(): JSX.Element {
   ];
 
   const editHandel = (e: string, val: any) => {
-    editEmailConfig(val);
+    editWhatsappConfig(val);
     setOpen(true);
   };
 
   const deleteHandel = (e: string, val: any) => {
-    deleteEmailConfig(val);
+    deleteWhatsappConfig(val);
   };
 
   const tableData = [
     { type: ['TEXT'], name: 'identification_name' },
-    { type: ['TEXT'], name: 'email_provider' },
-    { type: ['TEXT'], name: 'smtp_host' },
-    { type: ['TEXT'], name: 'smtp_port' },
-    { type: ['TEXT'], name: 'smtp_username' },
-    { type: ['TEXT'], name: 'aws_secret_key' },
-    { type: ['TEXT'], name: 'api_key' },
-    { type: ['TEXT'], name: 'aws_access_id' },
-    { type: ['TEXT'], name: 'mail_domain' },
-    { type: ['TEXT'], name: 'from_mail' },
+    { type: ['TEXT'], name: 'whatsapp_buisness_phone_number' },
+    { type: ['TEXT'], name: 'access_token' },
+    { type: ['TEXT'], name: 'api_version' },
     {
       type: ['ACTION'],
       name: 'action',
@@ -124,7 +88,7 @@ export function EmailTab(): JSX.Element {
   ];
 
   const handleClose = () => {
-    clearEmailState();
+    clearWhatsappState();
     setOpen(false);
   };
 
@@ -134,39 +98,12 @@ export function EmailTab(): JSX.Element {
 
   const handleAdd = () => {
     if (
-      emailConfiguration?.email_provider === 'MailChimp' &&
-      emailConfiguration?.identification_name &&
-      emailConfiguration?.email_provider &&
-      emailConfiguration?.smtp_host &&
-      emailConfiguration?.smtp_port &&
-      emailConfiguration?.smtp_username &&
-      emailConfiguration?.smtp_password &&
-      emailConfiguration?.mail_domain &&
-      emailConfiguration?.from_mail
+      whatsappConfiguration?.whatsapp_buisness_phone_number &&
+      whatsappConfiguration?.access_token &&
+      whatsappConfiguration?.api_version &&
+      whatsappConfiguration?.identification_name
     ) {
-      addEmailConfig();
-      setOpen(false);
-    } else if (
-      emailConfiguration?.email_provider === 'SendGrid' &&
-      emailConfiguration?.identification_name &&
-      emailConfiguration?.email_provider &&
-      emailConfiguration?.api_key &&
-      emailConfiguration?.mail_domain &&
-      emailConfiguration?.from_mail
-    ) {
-      addEmailConfig();
-      setOpen(false);
-    } else if (
-      emailConfiguration.email_provider === 'Pinpoint' &&
-      emailConfiguration.identification_name &&
-      emailConfiguration.email_provider &&
-      emailConfiguration.aws_access_id &&
-      emailConfiguration.aws_secret_key &&
-      emailConfiguration.aws_region &&
-      emailConfiguration.aws_pinpoint_project_id &&
-      emailConfiguration.from_mail
-    ) {
-      addEmailConfig();
+      addWhatsappConfig();
       setOpen(false);
     } else {
       enqueueSnackbar('Please fill in all required fields.', { variant: 'error' });
@@ -179,12 +116,12 @@ export function EmailTab(): JSX.Element {
 
   return (
     <Box>
-      <Grid container sx={emailTab_style.marginTop}>
+      <Grid container sx={whatsappTab_style.marginTop}>
         <Grid item xs={12}>
-          <Box sx={emailTab_style.commonTable}>
+          <Box sx={whatsappTab_style.commonTable}>
             <CommonTable
-              Header={header}
-              dataList={emailList}
+              Header={Header}
+              dataList={whatsappList}
               tableData={tableData}
               headerOptions={{
                 fontSize: '14px',
@@ -205,7 +142,7 @@ export function EmailTab(): JSX.Element {
                 rowEvenBgColor: '#F7F7F7',
               }}
               switchList={switchList}
-              tableMinWidth={'2000px'}
+              tableMinWidth={'800px'}
               tableMinHeight={'400px'}
               paddingAll={'0px'}
               marginAll={'0px'}
@@ -214,7 +151,7 @@ export function EmailTab(): JSX.Element {
                 variant: 'CUSTOM',
                 component: (
                   <TableHeader
-                    tableHeader="Email"
+                    tableHeader="Whatsapp"
                     buttonName="Add New Config"
                     isBtnRequired={true}
                     isFilterRequired={false}
@@ -227,21 +164,21 @@ export function EmailTab(): JSX.Element {
           </Box>
         </Grid>
       </Grid>
-      <Box sx={emailTab_style.emailDialog}>
+      <Box sx={whatsappTab_style.emailDialog}>
         <DialogDrawer
           dialogRootStyle={{
             width: '400px',
             // height: '604px',
           }}
           fullWidth={false}
-          title="Add Email Details"
+          title="Add Whatsapp Details"
           fullScreen={false}
           check={false}
           isDialogOpened={open}
           handleClose={handleClose}
           handleCloseDialog={handleClose}
           handleSubmit={handleSubmit}
-          content={<EmailDialog />}
+          content={<WhatsappDialog />}
           Footercomponent={<FooterComponent saveText="Add" onCancel={handleClose} onSave={handleAdd} />}
         />
       </Box>

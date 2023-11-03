@@ -6,6 +6,7 @@ import { useRouting } from '../common';
 import { create } from 'zustand';
 import { Menu, MenusProps } from '../interface';
 import { AllRoutes } from '../utils';
+import { enqueueSnackbar } from 'notistack';
 
 export const useMenu = create<MenusProps>((set, get) => ({
   sideMenus: [],
@@ -23,7 +24,7 @@ export const useMenu = create<MenusProps>((set, get) => ({
       );
       if (data.status === 200) {
         debugger;
-        const sideMenus: Menu[] = [];
+        // const sideMenus: Menu[] = [];
         data.data?.tools_details?.forEach(
           (tool: {
             id: string;
@@ -34,10 +35,10 @@ export const useMenu = create<MenusProps>((set, get) => ({
             };
             tool_id: number;
           }) => {
-            sideMenus.push({ ...AllRoutes[tool.tool_id], baseUrl: tool.tool.baseUrl });
+            // sideMenus.push({ ...AllRoutes[tool.tool_id], baseUrl: tool.tool.baseUrl });
           },
         );
-        set({ sideMenus: sideMenus });
+        // set({ sideMenus: sideMenus });
       }
 
       return data;
@@ -49,36 +50,35 @@ export const useMenu = create<MenusProps>((set, get) => ({
     }
   },
 
-  getSideMenusFromProject: async (id: string) => {
-    debugger;
-    try {
-      set({ loading: true, error: false });
-      const payload = {
-        project_id: id,
-      };
-      const { data } = await httpRequest('post', `${envConfig.api_url}/idm/project/list-services`, payload, true);
-      if (data.status === 200) {
-        debugger;
-        const sideMenus: Menu[] = [];
-        data.data?.rows?.forEach(
-          (tool: {
-              id: string;
-              tool_name: string;
-          }) => {
-            sideMenus.push({ ...AllRoutes[tool.tool_id], baseUrl: tool.tool.baseUrl });
-          },
-        );
-        set({ sideMenus: sideMenus });
-        console.log(sideMenus,'sidemenus')
-      }
+  getSideMenusFromProject: (id: string) => {
+    set({ loading: true, error: false });
+    const payload = {
+      project_id: id,
+    };
+    httpRequest('post', `${envConfig.api_url}/idm/project/list-services`, payload, true)
+      .then((response) => {
+        const sideMenus: any = [];
+        // debugger;
 
-      return data;
-    } catch (err: any) {
-      set({ error: false });
-      log('error', err);
-    } finally {
-      set({ loading: false });
-    }
+        if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
+          const matchedServiceIds = response.data.data.rows.map((apiItem: any) => apiItem.service_id);
+
+          const matchedRoutes = AllRoutes.filter((route) => matchedServiceIds.includes(route.service_id));
+
+          // console.log(matchedRoutes, 'matchedRoutesmatchedRoutes');
+
+          set({ sideMenus: matchedRoutes });
+        } else {
+          // set({ sideMenus: [] });
+        }
+      })
+      .catch((err) => {
+        set({ error: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ loading: false });
+      });
   },
 
   onLinkClick: (data: Menu) => {

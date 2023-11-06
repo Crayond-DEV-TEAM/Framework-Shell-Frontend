@@ -25,6 +25,9 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
   deleteMessageError: false,
 
   setaddMessage: (payload: { key: string; value: string }) => {
+    const { addMessage } = get()
+    console.log(addMessage, 'addMessage');
+
     set((state) => ({ addMessage: { ...state.addMessage, [payload.key]: payload.value } }));
   },
 

@@ -30,9 +30,6 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
   //   getUserList(OrganisationDetails.id);
   //   getServiceList(OrganisationDetails.id);
   // }, []);
-  const onSaveUserInvite = () => {
-    addUserInvite(OrganisationDetails.id);
-  };
 
   return (
     <Box
@@ -134,7 +131,6 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
                 createEditAdmin={createEditAdmin}
                 dataList={UserListMaster}
                 handleChange={handlechange}
-                onSaveUserInvite={onSaveUserInvite}
               />
             </AccordionDetails>
           </Accordion>

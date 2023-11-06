@@ -45,11 +45,10 @@ export const AddChipDropdown: React.FC<AddChipDropdownProps> = (props) => {
     }
     onChange('mapServices', values);
   };
-
+  console.log(permissionList, 'permissionListpermissionListpermissionList');
   useEffect(() => {
     if (createEditState?.length > 0) setValues(createEditState);
   }, [createEditState]);
-
 
   return (
     <Box sx={{ ...addChipDropdownStyle.rootSx, ...(Array.isArray(sx) ? sx : [sx]) }} className={className}>

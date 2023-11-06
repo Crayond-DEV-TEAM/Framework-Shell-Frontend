@@ -58,7 +58,7 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
 }: AddChipMultipleDropdownProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [selectedOptions, setSelectedOptions] = useState<UserData[]>([]);
-  const [accessState, setAccessState] = useState<AccessOption | null>(null);
+  const [accessState, setAccessState] = useState({ id: '1', name: 'Full Access' });
   const [values, setValues] = useState(false);
 
   const {
@@ -88,7 +88,7 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
   const onSaveUserInvite = () => {
     addUserInvite();
     handleCloseUserInvite();
-    getUserMasterByOrganisation();
+    // getUserMasterByOrganisation();
     handleClose();
     // getAllUserList();
   };
@@ -184,6 +184,7 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
                   }}
                   onChange={(e: AccessOption | null) => handleChangeAccess(e)}
                   permissionList={accessMaster}
+                  value={accessState}
                 />
               </Box>
             </MenuItem>

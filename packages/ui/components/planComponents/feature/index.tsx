@@ -243,7 +243,7 @@ export const Feature = (props: FeatureProps): JSX.Element => {
             SwitchChange={(e) => {
               handladdEditchange('is_active', e.target.checked);
             }}
-            checked={createEditFeature.is_active}
+            checked={createEditFeature?.is_active}
             disabled={savedes === true ? editsave : addsave}
             check
             saveButtonStyle={{ minWidth: '90px', height: '28px' }}

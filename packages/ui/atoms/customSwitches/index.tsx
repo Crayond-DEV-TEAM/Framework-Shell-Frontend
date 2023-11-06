@@ -80,7 +80,7 @@ export const CustomSwitches = (props: CustomSwitchesProps): JSX.Element => {
       {...rest}
     >
       <FormControlLabel
-        control={<CustomSwitch sx={{ ml: 1 }} checked={value} readOnly={readOnly} onChange={onChange} />}
+        control={<CustomSwitch sx={{ ml: 1 }} checked={value} readOnly={readOnly} onChange={onChange}  />}
         label={label}
       />
     </Box>

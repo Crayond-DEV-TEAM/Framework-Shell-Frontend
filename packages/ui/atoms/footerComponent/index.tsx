@@ -29,7 +29,7 @@ export const FooterComponent = forwardRef((props: FooterComponentProps, ref: Rea
     className = '',
     sx = {},
     check = false,
-    checked,
+    checked=true,
     loading = false,
     SwitchChange = () => false,
     onSave = () => false,

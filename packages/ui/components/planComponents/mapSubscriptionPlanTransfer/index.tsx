@@ -90,12 +90,12 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
         (item: any) => item?.add_on?.id !== value?.add_on?.id,
       );
       handleChangeEvent('add_on', updatedAddOnList);
-      const updatedNewAddOnList = createEditSubscription?.new_addon.filter(
+      const updatedNewAddOnList = createEditSubscription?.new_addon?.filter(
         (item: any) => item?.add_on?.id !== value?.add_on?.id,
       );
       handleChangeEvent('new_addon', updatedNewAddOnList);
       const finding = Boolean(
-        createEditSubscription?.new_addon.find((item: any) => item?.add_on?.id === value?.add_on?.id),
+        createEditSubscription?.new_addon?.find((item: any) => item?.add_on?.id === value?.add_on?.id),
       );
       if (finding === false) {
         handleChangeEvent('old_addon', value);
@@ -142,14 +142,18 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
             <Label sx={mapSubscriptionPlanTransferStyle.labelSx} htmlFor="addTitle" isRequired>
               Choose Plan
             </Label>
-            
+
             <CutstomizedAutocomplete
               placeholder={'Monthly'}
               permissionList={AddOnsList}
               onChange={(value) => {
                 handleSetupFunc(value);
               }}
-              value={createEditSubscription?.plan_id ?? null}
+              value={
+                createEditSubscription?.plan_id && Object.keys(createEditSubscription)?.length > 0
+                  ? createEditSubscription?.plan_id
+                  : null
+              }
               isError={Boolean(formErrors.plan_id)}
               errorMessage={formErrors.plan_id}
             />

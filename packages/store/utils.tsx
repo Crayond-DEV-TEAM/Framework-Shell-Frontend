@@ -328,7 +328,7 @@ export const AllRoutes = [
       },
       {
         id: 7,
-        link: '/feature',
+        link: '/features',
         name: 'Feature',
         baseUrl: '',
         icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,

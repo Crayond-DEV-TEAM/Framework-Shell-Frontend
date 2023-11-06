@@ -99,7 +99,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     }
     if (key === 'old_addon') {
       if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
-        createEditSubscription?.old_addon.push(value);
+        createEditSubscription?.old_addon?.push(value);
         // debugger;
         return set((state) => ({
           createEditSubscription: {
@@ -186,7 +186,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       customer_id: createEditSubscription?.customer_id,
       plan_id: createEditSubscription?.plan_id?.id,
       is_active: false,
-      add_on: createEditSubscription.add_on.map((x) => ({
+      add_on: createEditSubscription?.add_on.map((x) => ({
         id: x.add_on.id,
         price: {
           monthly: x.price.monthly,
@@ -240,7 +240,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       customer_id: createEditSubscription?.customer_id,
       plan_id: createEditSubscription?.plan_id?.id,
       is_active: false,
-      new_add_on: createEditSubscription.new_addon.map((x) => ({
+      new_add_on: createEditSubscription?.new_addon.map((x) => ({
         id: x.add_on.id,
         price: {
           monthly: x.price?.monthly,

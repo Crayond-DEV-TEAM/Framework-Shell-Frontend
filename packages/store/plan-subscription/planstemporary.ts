@@ -4,22 +4,28 @@ import { create } from 'zustand';
 import { PlanInterface } from '../interface';
 import { permission } from '../../ui/components/addpermission/utils';
 import { enqueueSnackbar } from 'notistack';
+import { convertKeysToCamelCase, convertKeysToSnakeCase } from '@core/utils/helperFunctions';
+import { useSlug } from '../common';
 // import { tableJson } from '@components/feature/utils'
+
+
 export const usePlan = create<PlanInterface>((set, get) => ({
   PlanList: [],
 
   getPlanList: () => {
     // set({ fetching: true, errorOnFetching: false });
-    const payload = {
+const slugId= useSlug?.getState()?.slugs?.PASM;
+const payload = {
       offset: 0,
       limit: 20,
     };
-    httpRequest('post', `${envConfig.api_url}/plans`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/pasm/plans/get`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: slugId },
+    })
       .then((response) => {
         const dataTable: any = [];
-        // debugger;
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
-          response.data.data.rows.map(
+          convertKeysToSnakeCase(response.data.data.rows).map(
             (tableData: any, i: any) =>
               dataTable.push({
                 name: tableData.name,

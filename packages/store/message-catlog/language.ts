@@ -5,6 +5,7 @@ import { httpRequest, parseJwt, queryClient, routeTo, ValidateEmail } from '@cor
 import { filterContent, localStorageKeys } from '@core/utils/constants';
 import { enqueueSnackbar } from 'notistack';
 import { create } from 'zustand';
+import { useSlug } from '../common';
 
 export interface LanguageProps {
   langState: any;
@@ -78,6 +79,8 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
     });
   },
   languagedisplay: async () => {
+    const slugId = useSlug.getState().slugs?.['MESSAGE-CATALOG']
+    
     try {
       const { langState } = get();
       set({ loading: true });
@@ -86,9 +89,13 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
       //   queryFn: async () => {
       const { data } = await httpRequest(
         'get',
-        `${envConfig.message_api_url}/config_languages/display_Master_languages`,
+        `${envConfig.api_url}/message_catalog/display_Master_languages`,
         {},
         true,
+        undefined,
+        {
+          headers: { slug: slugId },
+        }
       );
 
       const arr = [];
@@ -112,6 +119,8 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
   },
 
   addedlanguagedisplay: async () => {
+    const slugId = useSlug.getState().slugs?.['MESSAGE-CATALOG']
+
     try {
       const { addedLangState } = get();
       set({ loading: true });
@@ -120,9 +129,13 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
         queryFn: async () => {
           const { data } = await httpRequest(
             'get',
-            `${envConfig.message_api_url}/config_languages/display_config_languages`,
+            `${envConfig.api_url}/message_catalog/display_config_languages`,
             {},
             true,
+            undefined,
+            {
+              headers: { slug: slugId },
+            }
           );
           return data;
         },
@@ -143,6 +156,8 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
     }
   },
   savelanguages: async (payload) => {
+    const slugId = useSlug.getState().slugs?.['MESSAGE-CATALOG']
+
     try {
       const { savelangState } = get();
       set({ loading: true });
@@ -151,7 +166,7 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
         queryFn: async () => {
           const { data } = await httpRequest(
             'post',
-            `${envConfig.message_api_url}/config_languages/config_language`,
+            `${envConfig.api_url}/config_languages/config_language`,
             {
               languages: [
                 {
@@ -161,6 +176,10 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
               ],
             },
             true,
+            undefined,
+            {
+              headers: { slug: slugId },
+            }
           );
 
           return data;

@@ -31,6 +31,22 @@ export const IdmBackgroundCard = (props: IdmBackgroundCardProps): JSX.Element =>
     ...rest
   } = props;
 
+  // const testfunction = () => {
+  //   const checkData =
+  //     createEditState ===
+  //     {
+  //       id: '',
+  //       name: '',
+  //       rolename: '',
+  //     }
+  //       ? createEditState
+  //       : handleChangeDropDown(optionList?.[0]);
+  //   console.log(checkData, 'pls');
+  // };
+  // useEffect(() => {
+  //   testfunction();
+  // }, []);
+
   return (
     <Box
       sx={[

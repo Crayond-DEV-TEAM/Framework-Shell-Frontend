@@ -1,97 +1,47 @@
 import DeleteIcon from '@assets/deleteIcon';
 import EditIcon from '@assets/editIcon';
 import { DialogDrawer } from '@atoms/dialogDrawer';
+import { PushDialog } from '@core/ui/components';
+import { TableHeader } from '@core/ui/components';
 import { Box, Grid } from '@mui/material';
 import { Table as CommonTable } from '@crayond_dev/ui_table';
 import React from 'react';
 import { pushNotification_style } from './style';
-import { TableHeader } from '@components/commonComponents';
-import { PushDialog } from '../pushDialog';
+import { FooterComponent } from '@atoms/footerComponent';
+import { useAlertConfig } from '@core/store';
+import { enqueueSnackbar } from 'notistack';
 
 export function PushNotification(): JSX.Element {
   const [open, setOpen] = React.useState(false);
-  const [isSelectedAll, setIsSelectedAll] = React.useState(false);
-  const [selectedCheckbox, setSelectedCheckbox] = React.useState([1, 2]);
   const [switchList, setSwitchList] = React.useState([1, 4]);
-  const [headerSelect, setHederSelect] = React.useState('status');
-  const [headerCheckbox, setHederCheckbox] = React.useState(true);
-  const checkboxHandleChange = (data: any) => {
-    if (!selectedCheckbox.includes(data)) {
-      setSelectedCheckbox([...selectedCheckbox, data]);
-    } else {
-      const index = selectedCheckbox.indexOf(data);
-      if (index > -1) {
-        selectedCheckbox.splice(index, 1);
-        setSelectedCheckbox([...selectedCheckbox]);
-      }
-    }
-  };
-  const setHederSearch = (value: any) => {
-    console.log('🚀 ~ file: App.tsx:31 ~ setHederSearch ~ value:', value);
-  };
-  const SelectAll = (data: any, isRestSet: any) => {
-    if (!isRestSet) {
-      setSelectedCheckbox([...data]);
-      setIsSelectedAll(true);
-    } else {
-      setSelectedCheckbox([]);
-      setIsSelectedAll(false);
-    }
-  };
-  const handleSwitch = (id: any) => {
-    if (!switchList.includes(id)) {
-      setSwitchList([...switchList, id]);
-    } else {
-      const index = switchList.indexOf(id);
-      if (index > -1) {
-        switchList.splice(index, 1);
-        setSwitchList([...switchList]);
-      }
-    }
-  };
-  const downloadMethod = () => {
-    console.log('Download Method working!');
-  };
-  const fillerMethod = () => {
-    console.log('Filter Method working!');
-  };
-  const primaryBtnMethod = () => {
-    console.log('primary Btn Method working!');
-  };
-  const secondaryBtnMethod = () => {
-    console.log('secondary Btn Method working!');
-  };
+
+  const { pushConfiguration, pushList, addPushConfig, editPushConfig, deletePushConfig, clearPushState } =
+    useAlertConfig();
 
   const Header = [
-    // {
-    //     id: 'no',
-    //     align: 'left',
-    //     disablePadding: false,
-    //     label: 'Sl no',
-    // },
     {
-      id: 'server_key',
+      id: 'projectId',
       align: 'left',
       disablePadding: false,
-      label: 'FCM Server Key',
+      label: 'Project Id',
     },
     {
-      id: 'project_id',
-      align: 'left',
-      disablePadding: false,
-      label: 'FCM Project ID',
-    },
-    {
-      id: 'client_email',
+      id: 'clientEmail',
       align: 'left',
       disablePadding: false,
       label: 'Client Email',
     },
     {
-      id: 'private_key',
+      id: 'privateKey',
       align: 'left',
       disablePadding: false,
       label: 'Private Key',
+    },
+    {
+      id: 'pushServerKey',
+      align: 'left',
+      disablePadding: false,
+      label: 'Push Server Key',
     },
     {
       id: 'action',
@@ -101,92 +51,20 @@ export function PushNotification(): JSX.Element {
     },
   ];
 
-  const dataList = [
-    {
-      id: 1,
-      server_key: 'kdjf-jdhd-3fd',
-      project_id: 'id-3409',
-      client_email: 'kathryn.dean@mail.com',
-      private_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 2,
-      server_key: 'kdjf-jdhd-3fd',
-      project_id: 'id-3409',
-      client_email: 'kathryn.dean@mail.com',
-      private_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 3,
-      server_key: 'kdjf-jdhd-3fd',
-      project_id: 'id-3409',
-      client_email: 'kathryn.dean@mail.com',
-      private_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 4,
-      server_key: 'kdjf-jdhd-3fd',
-      project_id: 'id-3409',
-      client_email: 'kathryn.dean@mail.com',
-      private_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 5,
-      server_key: 'kdjf-jdhd-3fd',
-      project_id: 'id-3409',
-      client_email: 'kathryn.dean@mail.com',
-      private_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 6,
-      server_key: 'kdjf-jdhd-3fd',
-      project_id: 'id-3409',
-      client_email: 'kathryn.dean@mail.com',
-      private_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 7,
-      server_key: 'kdjf-jdhd-3fd',
-      project_id: 'id-3409',
-      client_email: 'kathryn.dean@mail.com',
-      private_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 8,
-      server_key: 'kdjf-jdhd-3fd',
-      project_id: 'id-3409',
-      client_email: 'kathryn.dean@mail.com',
-      private_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 9,
-      server_key: 'kdjf-jdhd-3fd',
-      project_id: 'id-3409',
-      client_email: 'kathryn.dean@mail.com',
-      private_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-    {
-      id: 10,
-      server_key: 'kdjf-jdhd-3fd',
-      project_id: 'id-3409',
-      client_email: 'kathryn.dean@mail.com',
-      private_key: 'https://alertshub-api.crayond.com/api/v1/sendmessage',
-    },
-  ];
-  const editHandel = () => {
-    console.log('o');
+  const editHandel = (e: string, val: any) => {
+    editPushConfig(val);
+    setOpen(true);
   };
 
-  const deleteHandel = () => {
-    console.log('o');
+  const deleteHandel = (e: string, val: any) => {
+    deletePushConfig(val);
   };
 
   const tableData = [
-    // { type: ['INCREMENT'], name: 'sl_no' },
-    { type: ['TEXT'], name: 'server_key' },
-    { type: ['TEXT'], name: 'project_id' },
-    { type: ['TEXT'], name: 'client_email' },
-    { type: ['TEXT'], name: 'private_key' },
+    { type: ['TEXT'], name: 'projectId' },
+    { type: ['TEXT'], name: 'clientEmail' },
+    { type: ['TEXT'], name: 'privateKey' },
+    { type: ['TEXT'], name: 'pushServerKey' },
     {
       type: ['ACTION'],
       name: 'action',
@@ -204,11 +82,26 @@ export function PushNotification(): JSX.Element {
   ];
 
   const handleClose = () => {
+    clearPushState();
     setOpen(false);
   };
 
   const handleSubmit = () => {
     setOpen(false);
+  };
+
+  const handleAdd = () => {
+    if (
+      pushConfiguration.pushServerKey &&
+      pushConfiguration.projectId &&
+      pushConfiguration.clientEmail &&
+      pushConfiguration.privateKey
+    ) {
+      addPushConfig();
+      setOpen(false);
+    } else {
+      enqueueSnackbar('Please fill in all required fields.', { variant: 'error' });
+    }
   };
 
   const handleClick = () => {
@@ -222,7 +115,7 @@ export function PushNotification(): JSX.Element {
           <Box sx={pushNotification_style.commonTable}>
             <CommonTable
               Header={Header}
-              dataList={dataList}
+              dataList={pushList}
               tableData={tableData}
               headerOptions={{
                 fontSize: '14px',
@@ -254,10 +147,10 @@ export function PushNotification(): JSX.Element {
                   <TableHeader
                     tableHeader="Push Notification"
                     buttonName="Add New Config"
-                    isBtnRequired={true}
+                    isBtnRequired={pushList?.length > 0 ? false : true}
                     isFilterRequired={false}
                     isSearchRequired={false}
-                    // onClick={handleClick}
+                    handleOpen={handleClick}
                   />
                 ),
               }}
@@ -266,14 +159,19 @@ export function PushNotification(): JSX.Element {
         </Grid>
       </Grid>
       <DialogDrawer
+        dialogRootStyle={{
+          width: '1000px',
+        }}
+        fullWidth={false}
         title="Add Push Notification Details"
+        fullScreen={false}
+        check={false}
         isDialogOpened={open}
         handleClose={handleClose}
+        handleCloseDialog={handleClose}
         handleSubmit={handleSubmit}
         content={<PushDialog />}
-        handleCloseDialog={function (): void {
-          throw new Error('Function not implemented.');
-        }}
+        Footercomponent={<FooterComponent saveText="Add" onCancel={handleClose} onSave={handleAdd} />}
       />
     </Box>
   );

@@ -1,11 +1,13 @@
 import { envConfig } from '@core/envconfig';
-import { httpRequest } from '@core/utils';
+import { convertKeysToCamelCase, convertKeysToSnakeCase, httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { AddOnsInterface } from '../interface';
 import { permission } from '../../ui/components/addpermission/utils';
 import { enqueueSnackbar } from 'notistack';
 import moment from 'moment';
+import { useSlug } from '../common';
 // import { tableJson } from '@components/feature/utils'
+
 export const useAddOns = create<AddOnsInterface>((set, get) => ({
   AddOnsList: [],
 
@@ -31,6 +33,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
 
   getAddOnsList: (data: any = { is_active: false }) => {
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const payload: any = {
       offset: 0,
       limit: 100,
@@ -40,7 +43,9 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
       payload.is_active = true;
     }
 
-    httpRequest('post', `${envConfig.api_url}/addons`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/pasm/addon/get`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: slugId },
+    })
       .then((response) => {
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
@@ -49,9 +54,9 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
               dataTable.push({
                 id: tableData.id,
                 name: tableData.name,
-                is_active: tableData.is_active,
-                featuregroup: tableData.feature_group,
-                attachedin: tableData.plan_add_on_mappings.length + ' ' + 'plans',
+                is_active: tableData.isActive,
+                featuregroup: tableData.featureGroup,
+                attachedin: tableData.planAddOnMappings.length + ' ' + 'plans',
                 feature: tableData.feature,
                 description: tableData.description,
                 createdon: moment(tableData.created_at).format('DD- MMM - YYYY'),
@@ -72,6 +77,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
   },
   createAddOns: () => {
     set({ addsave: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { createEditAddOns, getAddOnsList, clearAll } = get();
     const payload = {
       name: createEditAddOns.name,
@@ -81,7 +87,9 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
       feature_group_id: (createEditAddOns.featuregroup as { id: string }).id,
     };
 
-    httpRequest('post', `${envConfig.api_url}/addons/create`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/pasm/addon/create`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: slugId },
+    })
       .then((response) => {
         enqueueSnackbar('Add-On Created Succesfully!', { variant: 'success' });
       })
@@ -100,6 +108,7 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
   },
   editAddOns: () => {
     set({ editsave: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { createEditAddOns, getAddOnsList, clearAll } = get();
     const payload = {
       feature_id: (createEditAddOns.features as { id: string }).id,
@@ -110,7 +119,9 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
       addon_id: createEditAddOns.id,
     };
 
-    httpRequest('put', `${envConfig.api_url}/addons`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/pasm/addon/update`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: slugId },
+    })
       .then((response) => {
         enqueueSnackbar('Add-On Edited Succesfully!', { variant: 'success' });
       })
@@ -126,11 +137,14 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
   },
   deleteAddOns: (id: string) => {
     set({ deletefetch: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { getAddOnsList } = get();
     const payload = {
       addon_id: id,
     };
-    httpRequest('delete', `${envConfig.api_url}/addons`, payload, true)
+    httpRequest('delete', `${envConfig.api_url}/pasm/addon/delete`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: slugId },
+    })
       .then((response) => {
         enqueueSnackbar('Add-On Deleted Succesfully!', { variant: 'success' });
         // set({ AddOnsList: response.data.data });
@@ -146,13 +160,16 @@ export const useAddOns = create<AddOnsInterface>((set, get) => ({
   },
   getStatusList: (id: any, status: any) => {
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { getAddOnsList } = get();
     const payload = {
       addon_id: id,
       is_active: status,
     };
 
-    httpRequest('put', `${envConfig.api_url}/addons`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/pasm/addon/update`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: slugId },
+    })
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });
       })

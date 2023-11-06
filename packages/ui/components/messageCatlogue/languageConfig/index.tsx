@@ -59,13 +59,16 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     setSelected(false);
   };
   const handleDelete = () => {
-    deleteLanguage();
+    debugger
+    deleteLanguage(null, null);
     setSelected(false);
   };
+  console.log(languages, 'message');
+  
   const OnsaveLangugae = () => {
     saveLanguage();
     setTimeout(() => {
-      navigate(messageRoutes.messagegroup);
+      navigate(messageRoutes.messagegroup, {state: languages});
     }, 5000);
   };
 
@@ -189,7 +192,7 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
         isDialogOpened={selected}
         Bodycomponent={
           <Box>
-            <Typography sx={{ fontWeight: 600 }}>Are you sure want to delete this ??</Typography>
+            <Typography sx={{ fontWeight: 600 }}>Are you sure want to delete this ?</Typography>
             <Box sx={languageConfigStyle.totalFooterSx}>
               <Box sx={languageConfigStyle.btnSx}>
                 <Box sx={languageConfigStyle.btnBg}>

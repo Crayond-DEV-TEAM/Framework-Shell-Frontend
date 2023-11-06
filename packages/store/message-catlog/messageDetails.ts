@@ -4,6 +4,7 @@ import { enqueueSnackbar } from 'notistack';
 import { httpRequest } from '@core/utils';
 import { envConfig } from '@core/envconfig';
 import { giveMestatusGroupState, giveMeStateOfid } from '../utils';
+import { useSlug } from '../common';
 
 export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) => ({
   MessagesList: [],
@@ -114,10 +115,18 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   },
 
   getMessageList: (group_id: string) => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
+
     const payload = { id: group_id };
 
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('post', `${envConfig.message_api_url}/message_groups/display_all_msg_in_grp`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/message_catalog/display_all_msg_in_grp`, payload, true,
+      undefined,
+      {
+        headers: {
+          slug: slugId
+        }
+      })
       .then((response) => {
         set({ MessageArray: response.data });
         const dataTable: any = [];
@@ -160,12 +169,14 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     return false;
   },
   getStatus: (id: string, is_status: boolean) => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
+
     const payload = {
       id,
       is_status,
     };
     set({ statusLoading: true, erronOnStatus: false });
-    httpRequest('post', `${envConfig.message_api_url}/messages/is_status`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/messages/is_status`, payload, true)
       .then((response) => {
         enqueueSnackbar(`Status changed Successfully !`, { variant: 'success' });
       })
@@ -179,9 +190,14 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     return false;
   },
   getServerity: () => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
     set({ statusLoading: true, erronOnStatus: false });
 
-    httpRequest('get', `${envConfig.message_api_url}/messages/display_severity`, {}, true)
+    httpRequest('get', `${envConfig.api_url}/message_catalog/display_severity`, {}, true, undefined,{
+      headers: {
+        slug: slugId
+      }
+    })
       .then((response) => {
         const severtiyCopy: any = [];
 
@@ -206,18 +222,24 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   },
 
   deleteMessage: () => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
     const { idList } = get();
     const { MessagesList } = get();
     const msgId = MessagesList?.filter(({ msg_grp_msgs_Total }: any) => msg_grp_msgs_Total).map(({ id }: any) => id);
     const messageId = msgId.map((id: any) => ({ id }));
-    console.log(messageId);
 
     const payload = {
       msg_grp_msg_info_id: idList,
       msg_grp_msg_data: messageId,
     };
     set({ deleteLoading: true, errorOnDelete: false });
-    httpRequest('put', `${envConfig.message_api_url}/messages/delete_message`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/message_catalog/delete_message`, payload, true,
+      undefined,
+      {
+        headers: {
+          slug: slugId
+        }
+      })
       .then((response) => {
         enqueueSnackbar(`Deleted message Successfully !`, { variant: 'success' });
       })
@@ -232,8 +254,8 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   },
 
   addMessageTable: () => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
     const { addMessageList, idList, getMessageList } = get();
-    console.log(addMessageList, 'addMessageList');
     const payload = {
       title: addMessageList.title,
       description: addMessageList.description,
@@ -248,7 +270,13 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
       ],
     };
     set({ addMessageLoading: true, errorOnAddMesage: false });
-    httpRequest('post', `${envConfig.message_api_url}/messages/add_message`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/message_catalog/add_message`, payload, true,
+      undefined,
+      {
+        headers: {
+          slug: slugId
+        }
+      })
       .then((response) => {
         enqueueSnackbar(`Added message Successfully !`, { variant: 'success' });
       })
@@ -264,9 +292,17 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
   },
   //
   editDisplayMessageTable: (id: any) => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
+
     const payload = { id: id };
     set({ addMessageLoading: true, errorOnAddMesage: false });
-    httpRequest('post', `${envConfig.message_api_url}/messages/display_message_by_id`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/messages/display_message_by_id`, payload, true,
+      undefined,
+      {
+        headers: {
+          slug: slugId
+        }
+      })
       .then((response) => {
         set({ editMessageList: response?.data?.data?.language_info });
       })
@@ -280,6 +316,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     return false;
   },
   editMessageTable: () => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
     const { editMessageList, idList } = get();
     const payload = {
       title: editMessageList.title,
@@ -297,7 +334,13 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
       ],
     };
     set({ editMessageLoading: true, errorOnEditMesage: false });
-    httpRequest('put', `${envConfig.message_api_url}/messages/edit_message`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/message_catalog/edit_message`, payload, true,
+      undefined,
+      {
+        headers: {
+          slug: slugId
+        }
+      })
       .then((response) => {
         enqueueSnackbar(`Edited message Successfully !`, { variant: 'success' });
       })
@@ -311,39 +354,50 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
     return false;
   },
 
-  filterMessage: (serverityFilter: string | number, createdOn: any, updateOn: any) => {
-    const { idList } = get();
+  // filterMessage: (serverityFilter: string | number, createdOn: any, updateOn: any, messageGroupId: string) => {
+  //   const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
 
-    const payload = {
-      msg_grp_id: idList,
-      is_status: true,
-      severity_id: serverityFilter ?? [],
-      created: createdOn ?? {
-        from_date: '',
-        end_date: '',
-      },
-      updated: updateOn ?? {
-        from_date: '',
-        end_date: '',
-      },
-    };
-    set({ filterMessageLoading: true, errorOnFilterMesage: false });
-    httpRequest('post', `${envConfig.message_api_url}/messages/filter_message`, payload, true)
-      .then((response) => {
-        enqueueSnackbar(`Filtered Successfully !`, { variant: 'success' });
-      })
-      .catch((err) => {
-        set({ errorOnFilterMesage: true });
-        enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
-      })
-      .finally(() => {
-        set({ filterMessageLoading: false });
-      });
-    return false;
-  },
+  //   const { getMessageList } = get();
+  //   const payload = {
+  //     msg_grp_id: messageGroupId,
+  //     is_status: true,
+  //     severity_id: serverityFilter ?? [],
+  //     created: createdOn ?? {
+  //       from_date: '',
+  //       end_date: '',
+  //     },
+  //     updated: updateOn ?? {
+  //       from_date: '',
+  //       end_date: '',
+  //     },
+  //   };
+  //   set({ filterMessageLoading: true, errorOnFilterMesage: false });
+  //   httpRequest('post', `${envConfig.api_url}/message_catalog/filter_message`,
+  //     payload,
+  //     true,
+  //     undefined,
+  //     {
+  //       headers: {
+  //         slug: slugId
+  //       }
+  //     }
+  //   )
+  //     .then((response) => {
+  //       getMessageList(messageGroupId)
+  //       enqueueSnackbar(`Filtered Successfully !`, { variant: 'success' });
+  //     })
+  //     .catch((err) => {
+  //       set({ errorOnFilterMesage: true });
+  //       enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
+  //     })
+  //     .finally(() => {
+  //       set({ filterMessageLoading: false });
+  //     });
+  //   return false;
+  // },
 
-  onApply: () => {
-    const { filterContent, filterMessage } = get();
+  onApply: (messageGroupId: string) => {
+    const { filterContent } = get();
     const FilterArray: any = [];
     if (Array.isArray(filterContent?.[0]?.children) && filterContent?.[0]?.children?.length > 0) {
       filterContent?.[0]?.children?.filter((val: any) => val?.value === true && FilterArray.push(val?.id));
@@ -376,7 +430,7 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
         };
       }
     }
-    filterMessage(FilterArray, created, updated);
+    // filterMessage(FilterArray, created, updated, messageGroupId);
     // clearfilter();
   },
 

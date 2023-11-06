@@ -3,7 +3,7 @@ import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { UserManagementInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
-// import { RepoJson } from '@components/repositoryComponent/utils';
+import { useSlug } from '../common';
 
 export const useRepository = create<UserManagementInterface>((set, get) => ({
   RepositoryList: [],
@@ -24,11 +24,14 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
     const { apiToken } = get();
 
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug.getState().slugs?.IDM;
 
-    httpRequest('get', `${envConfig.idm_api_url}/repository`, {}, true, apiToken)
+    httpRequest('get', `${envConfig.api_url}/idm/repository/get`, {}, true, apiToken, {
+      headers: { slug: slugId },
+    })
       .then((response) => {
         const lastObject = response.data.data[response.data.data.length - 1];
-        set({ RepositoryList: lastObject.data.editRepositoryList, RepositoryId: lastObject.id });
+        set({ RepositoryList: lastObject.data, RepositoryId: lastObject.id });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -38,10 +41,14 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
       });
   },
   createRepository: () => {
-    const { RepositoryList, editRepositoryList, getAllRepository, apiToken } = get();
+    const { editRepositoryList, getAllRepository, apiToken } = get();
     set({ onEditLoading: true, erroronEdit: false });
+    const data = editRepositoryList;
+    const slugId = useSlug.getState().slugs?.IDM;
 
-    httpRequest('post', `${envConfig.idm_api_url}/repository/upsert`, { data: { editRepositoryList } }, true, apiToken)
+    httpRequest('post', `${envConfig.api_url}/idm/repository/create`, { data, is_active: true }, true, apiToken, {
+      headers: { slug: slugId },
+    })
       .then((response) => {
         enqueueSnackbar('Json Updated Succesfully!', { variant: 'success' });
       })
@@ -57,12 +64,20 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
   editRepository: () => {
     const { RepositoryId, editRepositoryList, getAllRepository, apiToken } = get();
     set({ onEditLoading: true, erroronEdit: false });
-    const payload = {
-      id: RepositoryId,
-      data: { editRepositoryList },
-    };
+    const slugId = useSlug.getState().slugs?.IDM;
 
-    httpRequest('post', `${envConfig.idm_api_url}/repository/upsert`, payload, true, apiToken)
+    const data = editRepositoryList;
+
+    httpRequest(
+      'post',
+      `${envConfig.api_url}/idm/repository/create`,
+      { id: RepositoryId, data, is_active: true },
+      true,
+      apiToken,
+      {
+        headers: { slug: slugId },
+      },
+    )
       .then((response) => {
         enqueueSnackbar('Json Updated Succesfully!', { variant: 'success' });
       })

@@ -108,7 +108,7 @@ export interface LanguageConfigInterface {
   getSavedLanguage: () => boolean;
   getAllLanguages: () => boolean;
   addLanguage: (lang: SelectBoxInterface, index: number) => boolean;
-  deleteLanguage: (lang: SelectBoxInterface, index: number) => boolean;
+  deleteLanguage: (lang: SelectBoxInterface | null, index: number | null) => boolean;
   updateDefaultLang: (lang: SelectBoxInterface, index: number) => boolean;
   saveLanguage: () => boolean;
 }
@@ -135,10 +135,27 @@ export interface MenusProps {
   getMenu: () => void;
   getSideMenusFromProject: (id: string) => void;
 }
+
+export type ServiceName = 'IDM' | 'PASM' | 'ALERTSHUB' | 'MESSAGE-CATALOG';
+
+export type SideMenuResponse = {
+  [key: string]: any;
+  service_name: ServiceName;
+};
+
+export type SlugOption = {
+  [key in ServiceName]: string;
+};
+
+export interface SlugProps {
+  getSlug: (id: ServiceName) => void;
+  slugs: SlugOption;
+}
 export interface MessageCreateInterface {
   title: number | string;
   description: number | string;
   is_status: boolean;
+  id?: string
 }
 
 export interface MessageConfigInterface {
@@ -153,7 +170,7 @@ export interface MessageConfigInterface {
 
   editMessageList: MessageGroup;
 
-  setselctedMessage: (payload: { key: string; value: string }) => void;
+  setselctedMessage: (payload: { key: MessageCreateInterface; value: string }) => void;
   fetching: boolean;
   errorOnFetching: boolean;
 
@@ -313,8 +330,8 @@ export interface MessageGroupsDetails {
   deleteMessage: () => boolean;
   addMessageTable: () => boolean;
   editMessageTable: () => boolean;
-  onApply: () => void;
-  filterMessage: (serverityFilter: string | number, createdOn: any, updateOn: any) => void;
+  onApply: (messageGroupId: string) => void;
+  filterMessage: (serverityFilter: string | number, createdOn: any, updateOn: any, messageGroupId: string) => void;
   getStatus: (id: string, is_status: boolean) => void;
   editDisplayMessageTable: (id: any) => void;
   clearAll: () => void;
@@ -381,30 +398,84 @@ export interface AddAlertRule {
   reference_id: number | string;
   hashtags: number | string;
   description: number | string;
+  is_email: boolean;
+  is_push: boolean;
+  is_sms: boolean;
+  is_whatsApp: boolean;
+  is_slack: boolean;
+  is_inApp: boolean;
   push_title: number | string;
   push_body: number | string;
   email_subject: number | string;
   email_body: number | string;
   SMS_body: number | string;
-  is_email: boolean;
-  is_push: boolean;
-  is_sms: boolean;
-  is_status: boolean;
-  alert_rule_code: number | string;
-  hashtag: number | string;
-  isActive: boolean;
+  whatsApp_template_name: string;
+  whatsApp_body: string;
+  slack_body: string;
+  in_app_title: string;
+  inApp_body: string;
+  alert_rule_code?: number | string;
+  is_active: boolean;
 }
+
+export interface HashTagsInterface {
+  component: string;
+  id: number;
+  value: boolean;
+  label: string;
+}
+
+export interface AlertTypesInterface {
+  component: string;
+  id: number;
+  value: boolean;
+  label: string;
+}
+
+export interface FilterStatusInterface {
+  component: string;
+  id: number;
+  value: boolean;
+  label: string;
+}
+
+export interface DateSectionInterface {
+  component: string;
+  value: boolean | string;
+  label: string;
+}
+
 export interface AlertRuleInterface {
   addAlert: AddAlertRule[];
   alertsList: AddAlertRule[];
   addAlertRules: AddAlertRule;
   addAlertRuleLoading: boolean;
+  hashtagFilter: HashTagsInterface[];
+  alertTypeFilter: AlertTypesInterface[];
+  statusFilter: FilterStatusInterface[];
+  dateFilter: DateSectionInterface[];
+
+  handleChipDelete: (chip: string, index: number, parentIndex: number, category: string) => void;
+  setfilter: (
+    filterName: 'hashtagFilter' | 'alertTypeFilter' | 'statusFilter' | 'dateFilter',
+    id: number,
+    value: any,
+  ) => void;
   setaddAlertRule: (payload: { key: string; value: string }) => void;
-  addAlertRule: () => boolean;
-  getAlertTable: () => boolean;
-  editAlertRule: (data: any) => void;
+  addAlertRule: (newAlertRuleCode: string) => void;
+  getAlertTable: () => void;
+  getHashtagData: () => void;
+  editAlertRule: (data: AddAlertRule) => void;
+  deleteAlertRule: (data: any) => void;
+  onApply: () => void;
+  clearState: () => void;
+  clearfilter: () => void;
+  clearSelectedFilterByKey: (key: string | undefined) => void;
+
+  editFetching: boolean;
   fetching: boolean;
   errorOnFetching: boolean;
+  [key: string]: any;
 }
 
 export interface ReportInterface {
@@ -420,13 +491,110 @@ export interface AddNewConfig {
   API_Key: number | string;
   isActive: boolean;
 }
+
+export interface EmailConfigInterface {
+  id: string;
+  identification_name: string;
+  email_provider: string;
+  smtp_host: string;
+  smtp_port: string;
+  smtp_username: string;
+  smtp_password: string;
+  mail_domain: string;
+  from_mail: string;
+  api_key: string;
+  aws_access_id: string;
+  aws_secret_key: string;
+  aws_region: string;
+  aws_pinpoint_project_id: string;
+  isDefault: boolean;
+}
+
+export interface SmsConfigInterface {
+  id: string | undefined;
+  identifier: string;
+  provider_name: string;
+  provider_sid: string;
+  provider_api_key: string;
+  sender_id: string;
+  isDefault: boolean;
+}
+
+export interface PushConfigInterface {
+  id: string;
+  pushServerKey: string;
+  projectId: string;
+  clientEmail: string;
+  privateKey: string;
+}
+
+export interface SlackConfigInterface {
+  slack_bot_token: string;
+  id?: string | undefined;
+  isDefault: boolean;
+  identification_name: string;
+}
+
+export interface WhatsappConfigInterface {
+  whatsapp_buisness_phone_number: string;
+  access_token: string;
+  api_version: string;
+  identification_name: string;
+  isDefault: boolean;
+  id?: string | undefined;
+}
+
 export interface AlertConfig {
   addAlertConfig: AddNewConfig;
   getAlertConfigList: AddNewConfig[];
   errorOnFetching: boolean;
   fetching: boolean;
-  addAlertConfigRule: () => void;
-  setaddAlertConfig: (payload: { key: string; value: string }) => void;
+
+  emailList: EmailConfigInterface[];
+  smsList: SmsConfigInterface[];
+  pushList: PushConfigInterface[];
+  slackList: SlackConfigInterface[];
+  whatsappList: WhatsappConfigInterface[];
+
+  emailConfiguration: EmailConfigInterface;
+  smsConfiguration: SmsConfigInterface;
+  pushConfiguration: PushConfigInterface;
+  slackConfiguration: SlackConfigInterface;
+  whatsappConfiguration: WhatsappConfigInterface;
+
+  addEmailConfig: () => void;
+  addSmsConfig: () => void;
+  addPushConfig: () => void;
+  addSlackConfig: () => void;
+  addWhatsappConfig: () => void;
+
+  getEmailConfig: () => void;
+  getSmsConfig: () => void;
+  getPushConfig: () => void;
+  getSlackConfig: () => void;
+  getWhatsappConfig: () => void;
+
+  editEmailConfig: (data: any) => void;
+  editSmsConfig: (data: any) => void;
+  editPushConfig: (data: any) => void;
+  editSlackConfig: (data: any) => void;
+  editWhatsappConfig: (data: any) => void;
+
+  deleteEmailConfig: (data: any) => void;
+  deleteSmsConfig: (data: any) => void;
+  deletePushConfig: (data: any) => void;
+  deleteSlackConfig: (data: any) => void;
+  deleteWhatsappConfig: (data: any) => void;
+
+  updateConfig: (field: any, value: any, configType: string) => void;
+  setEmailProvider: (value: any) => void;
+  setDefault: (value: boolean, configType: string) => void;
+
+  clearEmailState: () => void;
+  clearSmsState: () => void;
+  clearPushState: () => void;
+  clearSlackState: () => void;
+  clearWhatsappState: () => void;
 }
 
 export interface APIConfig {
@@ -955,7 +1123,7 @@ export interface AdminInterface {
   editAdmin: () => void;
   getStatusList: (id: any, status: any) => void;
   deleteAdmin: (id: string) => void;
-  addUserInvite: (id:string) => void;
+  addUserInvite: () => void;
   emailChecker: () => void;
   userNameChecker: () => void;
   createServiceMap:() =>void

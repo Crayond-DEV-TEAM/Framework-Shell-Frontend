@@ -78,7 +78,6 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
 
       const response = await httpRequest('post', `${envConfig.api_url}/framework_shell_auth/sign_in `, payload);
       if (response?.status === 200 && response?.data?.data) {
-        debugger;
         const token = response?.data?.data?.token;
         const user = parseJwt(token);
         useUser.setState({ user });
@@ -277,7 +276,7 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
     });
     localStorage.removeItem(localStorageKeys.authToken);
     useUser.setState({ user: null });
-    window.location.replace(envConfig.frame_work_shell_ui + '/?task=logout');
+     window.location.href = '/login';
   },
 
   clearAll: () => {

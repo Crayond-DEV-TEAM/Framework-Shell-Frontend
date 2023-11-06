@@ -10,7 +10,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AddChipDropdown } from '@atoms/addChipDropdown';
 import { AddChipMultipleDropdown } from '@atoms/addChipMultipleDropdown';
-import { useAdmin, useAdminLanding, useProfileUser, useService } from '@core/store';
+import { useAdminLanding } from '@core/store';
 import { useState } from 'react';
 
 export interface AdminSecFormProps {

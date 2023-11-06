@@ -12,6 +12,7 @@ import { FooterComponent } from '@atoms/footerComponent';
 import { TableHeader } from '@components/commonComponents';
 import { useNavigate } from 'react-router-dom';
 import { webRoutes } from '@core/routes';
+import { localStorageKeys } from '@core/utils';
 export interface AdminSectionProps {
   className?: string;
   sx?: SxProps<Theme>;
@@ -36,10 +37,12 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     getAllProjectsEditData,
     deleteAdmin,
     editAdmin,
+    getStatusList,
   } = useAdminLanding();
   const { getSideMenusFromProject } = useMenu();
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [switchList, setSwitchList] = useState<any>([]);
   const [open, setOpen] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const navigate = useNavigate();
@@ -49,6 +52,8 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
 
   const handleTableEdit = (id: string, data: any, e: any) => {
     getAllProjectsEditData(id);
+    getServiceMasterByOrganisation();
+    getUserMasterByOrganisation();
     setOpen(true);
   };
   const handleTableDelete = (id: string) => {
@@ -59,10 +64,12 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     debugger;
     // getMenu();
     getSideMenusFromProject(id);
+    localStorage.setItem(localStorageKeys.projectId, id);
     navigate(webRoutes.root);
   };
   const handleDrawerClose = () => {
     setOpen(false);
+    clearAll();
   };
   const handleDrawerOpen = () => {
     getAdminList();
@@ -114,6 +121,31 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
       clearAll();
     }
   };
+  const handleSwitch = (id: any, data: any, e: any) => {
+    if (!switchList.includes(id)) {
+      setSwitchList([...switchList, id]);
+    } else {
+      const index = switchList.indexOf(id);
+      if (index > -1) {
+        switchList.splice(index, 1);
+        setSwitchList([...switchList]);
+      }
+    }
+    if (e.target.checked === true) {
+      getStatusList(id, true);
+    } else {
+      getStatusList(id, false);
+    }
+  };
+  const handleStatus = () => {
+    if (adminList?.length > 0) {
+      const status = adminList?.filter((val: any) => val?.is_active === true)?.map((val: any) => val?.id);
+      setSwitchList(status);
+    }
+  };
+  useEffect(() => {
+    handleStatus();
+  }, [adminList]);
   return (
     <Box
       sx={[
@@ -137,6 +169,8 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
               Header={Header}
               dataList={filteredMessageGroup}
               tableData={tableData(handleTableEdit, handleTableDelete, handleTableDetail)}
+              switchList={switchList}
+              handleSwitch={handleSwitch}
               headerOptions={{
                 fontSize: '14px',
                 fontWeight: '500',

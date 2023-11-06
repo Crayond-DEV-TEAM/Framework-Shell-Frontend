@@ -2,9 +2,9 @@ import { envConfig } from '@core/envconfig';
 import { log } from '@core/logger';
 import { webRoutes, messageRoutes } from '@core/routes';
 import { httpRequest, routeTo } from '@core/utils';
-import { useRouting } from '../common';
+import { useRouting, useSlug } from '../common';
 import { create } from 'zustand';
-import { Menu, MenusProps } from '../interface';
+import { Menu, MenusProps, SideMenuResponse } from '../interface';
 import { AllRoutes } from '../utils';
 import { enqueueSnackbar } from 'notistack';
 
@@ -23,7 +23,6 @@ export const useMenu = create<MenusProps>((set, get) => ({
         true,
       );
       if (data.status === 200) {
-        debugger;
         // const sideMenus: Menu[] = [];
         data.data?.tools_details?.forEach(
           (tool: {
@@ -60,12 +59,27 @@ export const useMenu = create<MenusProps>((set, get) => ({
         const sideMenus: any = [];
         // debugger;
 
+        // Set the slugId in slug state
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
-          const matchedServiceIds = response.data.data.rows.map((apiItem: any) => apiItem.service_id);
+          response.data.data.rows.forEach((apiItem: SideMenuResponse) => {
+            const slugs = useSlug.getState().slugs;
+            useSlug.setState({
+              slugs: {
+                ...slugs,
+                [apiItem.service_name]: apiItem.project_service_mapping_id,
+              },
+            });
+
+            console.log('useSlug.getState().slugs', useSlug.getState().slugs);
+          });
+        }
+
+        if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
+          const matchedServiceIds = response.data.data.rows.map((apiItem: SideMenuResponse) => {
+            return apiItem.service_id;
+          });
 
           const matchedRoutes = AllRoutes.filter((route) => matchedServiceIds.includes(route.service_id));
-
-          // console.log(matchedRoutes, 'matchedRoutesmatchedRoutes');
 
           set({ sideMenus: matchedRoutes });
         } else {
@@ -87,7 +101,7 @@ export const useMenu = create<MenusProps>((set, get) => ({
       data.baseUrl === window.location.protocol + '//' + window.location.host ||
       window.location.hostname === 'localhost'
     ) {
-      routeTo(useRouting, data.link);
+      // routeTo(useRouting, data.link);
     } else {
       window.location.replace(data.baseUrl + data.link);
     }

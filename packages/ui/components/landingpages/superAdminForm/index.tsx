@@ -12,6 +12,7 @@ import { AddChipMultipleDropdown } from '@atoms/addChipMultipleDropdown';
 import { ToggleButtons } from '@atoms/toggleButton';
 import { useAdminLanding, useUserLanding } from '@core/store';
 import { useState } from 'react';
+import { MapAdminChipDropdown } from '@atoms/mapAdminChipDropdown';
 
 export interface SuperAdminFormProps {
   className?: string;
@@ -150,8 +151,8 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
             </AccordionSummary>
             <AccordionDetails sx={{ padding: '0px' }}>
               {/* <Chip label="Chip Filled" sx={{ height: '28px', borderRadius: '8px' }} /> */}
-              <AddChipMultipleDropdown
-                createEditAdmin={createEditOrganisation}
+              <MapAdminChipDropdown
+                createEditAdmin={createEditOrganisation.mapAdmin}
                 dataList={userMaster}
                 handleChange={handleChange}
                 onSaveUserInvite={onSaveUserInvite}

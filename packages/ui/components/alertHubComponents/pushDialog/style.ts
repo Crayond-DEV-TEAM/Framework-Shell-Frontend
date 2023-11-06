@@ -19,4 +19,8 @@ export const pushDialog_style = {
       backgroundColor: '#FFFFFF',
     },
   },
+
+  inputStyle: {
+    marginTop: '9px',
+  },
 };

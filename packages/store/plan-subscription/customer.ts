@@ -1,8 +1,10 @@
 import { envConfig } from '@core/envconfig';
-import { httpRequest } from '@core/utils';
+import { convertKeysToCamelCase, convertKeysToSnakeCase, httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { CustomerInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
+import { useSlug } from '../common';
+
 export const useCustomer = create<CustomerInterface>((set, get) => ({
   CustomerList: [],
   fetching: false,
@@ -33,23 +35,25 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
   },
   getCustomerList: () => {
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const payload = {
       offset: 0,
       limit: 10,
     };
-    httpRequest('post', `${envConfig.api_url}/customers`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/pasm/customer/get`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: slugId },
+    })
       .then((response) => {
-        // debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
             (tableData: any, i: any) =>
               dataTable.push({
-                customerid: tableData.alias_id,
-                companyName: tableData.company_name,
+                customerid: tableData.aliasId,
+                companyName: tableData.companyName,
                 customerName: tableData.name,
-                email: tableData.email_id,
-                is_active: tableData.is_active,
+                email: tableData.emailId,
+                is_active: tableData.isActive,
                 dataList: tableData,
                 id: tableData.id,
               }),
@@ -69,6 +73,7 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
   },
   createCustomer: () => {
     set({ addsave: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { createEditCustomer, getCustomerList } = get();
     const payload = {
       name: createEditCustomer.name,
@@ -82,7 +87,9 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
       pincode: createEditCustomer.pincode,
     };
 
-    httpRequest('post', `${envConfig.api_url}/customers/create`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/pasm/customer/create`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: slugId },
+    })
       .then((response) => {
         enqueueSnackbar('Customer Created Succesfully!', { variant: 'success' });
       })
@@ -100,6 +107,7 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
   },
   editCustomer: () => {
     set({ editsave: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { createEditCustomer, getCustomerList } = get();
     const payload = {
       name: createEditCustomer.name,
@@ -115,7 +123,9 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
       address_id: createEditCustomer.address_id,
     };
 
-    httpRequest('put', `${envConfig.api_url}/customers`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/pasm/customer/update`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: slugId },
+    })
       .then((response) => {
         enqueueSnackbar('Customers Edited Succesfully!', { variant: 'success' });
       })
@@ -130,11 +140,19 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
   },
   deleteCustomer: (id: string) => {
     set({ deletefetch: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { getCustomerList } = get();
     const payload = {
       customer_id: id,
     };
-    httpRequest('delete', `${envConfig.api_url}/customers`, payload, true)
+    httpRequest(
+      'delete',
+      `${envConfig.api_url}/pasm/customer/delete`,
+      convertKeysToCamelCase(payload),
+      true,
+      undefined,
+      { headers: { slug: slugId } },
+    )
       .then((response) => {
         enqueueSnackbar('Customers Deleted Succesfully!', { variant: 'success' });
         // set({ FeatureList: response.data.data });
@@ -150,13 +168,16 @@ export const useCustomer = create<CustomerInterface>((set, get) => ({
   },
   getStatusList: (id: any, status: any) => {
     set({ fetching: true, errorOnFetching: false });
+    const slugId = useSlug?.getState()?.slugs?.PASM;
     const { getCustomerList } = get();
     const payload = {
       customer_id: id,
       is_active: status,
     };
 
-    httpRequest('put', `${envConfig.api_url}/customers`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/pasm/customer/update`, convertKeysToCamelCase(payload), true, undefined, {
+      headers: { slug: slugId },
+    })
       .then((response) => {
         enqueueSnackbar('Status updated Succesfully!', { variant: 'success' });
       })

@@ -1,10 +1,9 @@
+import { httpRequest } from '@core/utils';
+import { enqueueSnackbar } from 'notistack';
 import { create } from 'zustand';
 import { ReportInterface } from '../interface';
-import { enqueueSnackbar } from 'notistack';
-import { httpRequest } from '@core/utils';
-import { envConfig } from '@core/envconfig';
-import { giveMeAlertRule } from '../utils';
-import { RepeatOnSharp } from '@mui/icons-material';
+import { useSlug } from '../common';
+
 export const useAlertReports = create<ReportInterface>((set, get) => ({
   reportCard: [],
   getTotalReports: [],
@@ -12,8 +11,14 @@ export const useAlertReports = create<ReportInterface>((set, get) => ({
   errorOnFetching: false,
 
   getReportCard: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('post', ``, {}, true)
+    httpRequest('post', ``, {}, true, undefined, {
+      headers: {
+        slug: slugId,
+      },
+    })
       .then((response) => {
         set({
           reportCard: response?.data,
@@ -31,6 +36,8 @@ export const useAlertReports = create<ReportInterface>((set, get) => ({
   },
 
   getReportTable: () => {
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+
     set({ fetching: true, errorOnFetching: false });
     httpRequest(
       'post',
@@ -40,6 +47,12 @@ export const useAlertReports = create<ReportInterface>((set, get) => ({
         profileId: '27ad652f-9143-4c54-a5cd-85bcd470b967',
       },
       true,
+      undefined,
+      {
+        headers: {
+          slug: slugId,
+        },
+      },
     )
       .then((response) => {
         const dataTable: any = [];

@@ -38,6 +38,7 @@ import DeleteIcon from '@core/ui/assets/deleteIcon';
 import EditIcon from '@core/ui/assets/editIcon';
 import EmailIcon from '@core/ui/assets/emailIcon';
 import NotificationIcon from '@core/ui/assets/notificationIcon';
+import { webRoutes } from '@core/routes';
 
 export const giveMeAuthInitialState = (): {
   signUpState: SignUpStateInterface;
@@ -189,28 +190,28 @@ export const AllRoutes = [
     childrens: [
       {
         id: 1,
-        link: '/reports',
+        link: webRoutes.reports,
         name: 'Reports',
         baseUrl: '',
         icon: (isSelected: boolean) => <ReportIcon sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 2,
-        link: '/alertrule',
+        link: webRoutes.alertRule,
         name: 'Alert Rule',
         baseUrl: '',
         icon: (isSelected: boolean) => <AlertRuleIcon sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 3,
-        link: '/apidocumentation',
+        link: webRoutes.apiDocumentation,
         name: 'API Documentation',
         baseUrl: '',
         icon: (isSelected: boolean) => <ApiDocument sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 4,
-        link: '/alertconfig',
+        link: webRoutes.alertConfig,
         name: 'Alert Configuration',
         baseUrl: '',
         icon: (isSelected: boolean) => <AlertConfigIcon sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
@@ -229,14 +230,14 @@ export const AllRoutes = [
     childrens: [
       {
         id: 1,
-        link: '/languageconfig',
+        link: webRoutes.languageConfig,
         name: 'Language Config',
         baseUrl: '',
         icon: (isSelected: boolean) => <SubMessageLanguage sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 2,
-        link: '/messagegroup',
+        link: webRoutes.messagegroup,
         name: 'Message Group',
         baseUrl: '',
         icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
@@ -255,7 +256,7 @@ export const AllRoutes = [
     childrens: [
       {
         id: 1,
-        link: '/userManagment',
+        link: webRoutes.userManagment,
         name: 'User Managment',
         baseUrl: '',
         icon: (isSelected: boolean) => <SubMessageLanguage sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
@@ -286,49 +287,49 @@ export const AllRoutes = [
     childrens: [
       {
         id: 1,
-        link: '/customer',
+        link: webRoutes.customer,
         name: 'Customer',
         baseUrl: '',
         icon: (isSelected: boolean) => <SubMessageLanguage sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 2,
-        link: '/plan',
+        link: webRoutes.plan,
         name: 'Plans',
         baseUrl: '',
         icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 3,
-        link: '/subscription',
+        link: webRoutes.subscription,
         name: 'Subscription',
         baseUrl: '',
         icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 4,
-        link: '/addons',
+        link: webRoutes.addOns,
         name: 'AddOns',
         baseUrl: '',
         icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 5,
-        link: '/charges',
+        link: webRoutes.charges,
         name: 'Charges',
         baseUrl: '',
         icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 6,
-        link: '/featureGroups',
+        link: webRoutes.featureGroups,
         name: 'FeatureGroup',
         baseUrl: '',
         icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 7,
-        link: '/feature',
+        link: webRoutes.features,
         name: 'Feature',
         baseUrl: '',
         icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
@@ -598,6 +599,72 @@ export const tabsCard = {
         },
       ],
     },
+    {
+      icon: <SmsIcon />,
+      header: 'WhatsApp',
+      cardDetails: [
+        {
+          number: '250',
+          value: 'Sent',
+        },
+        {
+          number: '243',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '165',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <EmailIcon />,
+      header: 'InApp',
+      cardDetails: [
+        {
+          number: '825',
+          value: 'Sent',
+        },
+        {
+          number: '675',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '243',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <NotificationIcon />,
+      header: 'Slack',
+      cardDetails: [
+        {
+          number: '064',
+          value: 'Sent',
+        },
+        {
+          number: '056',
+          value: 'Delivered',
+        },
+        {
+          number: '012',
+          value: 'Not Delivered',
+        },
+        {
+          number: '042',
+          value: 'Clicked',
+        },
+      ],
+    },
   ],
   thisWeek: [
     {
@@ -647,6 +714,72 @@ export const tabsCard = {
     {
       icon: <SmsIcon />,
       header: 'SMS',
+      cardDetails: [
+        {
+          number: '064',
+          value: 'Sent',
+        },
+        {
+          number: '056',
+          value: 'Delivered',
+        },
+        {
+          number: '012',
+          value: 'Not Delivered',
+        },
+        {
+          number: '042',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <EmailIcon />,
+      header: 'InApp',
+      cardDetails: [
+        {
+          number: '250',
+          value: 'Sent',
+        },
+        {
+          number: '243',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '165',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <NotificationIcon />,
+      header: 'Slack',
+      cardDetails: [
+        {
+          number: '825',
+          value: 'Sent',
+        },
+        {
+          number: '675',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '243',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <SmsIcon />,
+      header: 'WhatsApp',
       cardDetails: [
         {
           number: '064',
@@ -734,11 +867,77 @@ export const tabsCard = {
         },
       ],
     },
+    {
+      icon: <NotificationIcon />,
+      header: 'Slack',
+      cardDetails: [
+        {
+          number: '250',
+          value: 'Sent',
+        },
+        {
+          number: '243',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '165',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <SmsIcon />,
+      header: 'WhatsApp',
+      cardDetails: [
+        {
+          number: '825',
+          value: 'Sent',
+        },
+        {
+          number: '675',
+          value: 'Delivered',
+        },
+        {
+          number: '356',
+          value: 'Not Delivered',
+        },
+        {
+          number: '243',
+          value: 'Clicked',
+        },
+      ],
+    },
+    {
+      icon: <EmailIcon />,
+      header: 'InApp',
+      cardDetails: [
+        {
+          number: '064',
+          value: 'Sent',
+        },
+        {
+          number: '056',
+          value: 'Delivered',
+        },
+        {
+          number: '012',
+          value: 'Not Delivered',
+        },
+        {
+          number: '042',
+          value: 'Clicked',
+        },
+      ],
+    },
   ],
 };
 
 export const giveMeMessageGroupInitialState = (): MessageGroup => {
-  return { title: '', description: '', is_status: false };
+  return { title: '', description: '', is_status: true };
 };
 
 export const giveMestatusGroupState = (): MessageDetails => {
@@ -767,7 +966,7 @@ export const giveMeAddEditMessageInitialState = (): AddEditMessageState => {
     title: '',
     description: '',
     severity: null,
-    status: false,
+    status: true,
     messages: null,
     error: {
       title: '',

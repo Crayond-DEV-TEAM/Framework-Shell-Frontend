@@ -4,6 +4,7 @@ import { enqueueSnackbar } from 'notistack';
 import { httpRequest } from '@core/utils';
 import { envConfig } from '@core/envconfig';
 import { giveMeMessageGroupInitialState } from '../utils';
+import { useSlug } from '../common';
 
 export const useMessageConfiguration = create<MessageConfigInterface>((set, get) => ({
   messageGroup: [],
@@ -24,26 +25,35 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
   deleteMessageError: false,
 
   setaddMessage: (payload: { key: string; value: string }) => {
+    const { addMessage } = get()
+    console.log(addMessage, 'addMessage');
+
     set((state) => ({ addMessage: { ...state.addMessage, [payload.key]: payload.value } }));
   },
 
   seteditMessage: (payload: { key: string; value: string }) => {
     set((state) => ({ editMessageList: { ...state.editMessageList, [payload.key]: payload.value } }));
   },
-  setselctedMessage: (payload: { key: string; value: string }) => {
+  setselctedMessage: (payload: { key: any; value: string }) => {
     set((state) => ({ editMessageList: { ...state.editMessageList, [payload.key]: payload.value } }));
   },
 
   getMessageGroups: () => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
+
     set({ fetching: true, errorOnFetching: false });
     httpRequest(
       'post',
-      `${envConfig.message_api_url}/message_groups/display_message_group`,
+      `${envConfig.api_url}/message_catalog/display_message_group`,
       {
         offset: 0,
         limit: 50,
       },
       true,
+      undefined,
+      {
+        headers: { slug: slugId },
+      }
     )
       .then((response) => {
         set({ messageGroup: response.data.data?.sort((a: any, b: any) => b.label - a.label) });
@@ -59,6 +69,8 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
   },
 
   addMessageGroups: () => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
+
     set({ addMessageLoading: true, deleteMessageError: false });
     const { addMessage, getMessageGroups } = get();
     const payload = {
@@ -67,7 +79,9 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
       is_status: addMessage.is_status,
     };
 
-    httpRequest('post', `${envConfig.message_api_url}/message_groups/add_message_group`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/message_catalog/add_message_group`, payload, true, undefined, {
+      headers: { slug: slugId },
+    })
       .then((response) => {
         enqueueSnackbar('New Message Group successfully Added!', { variant: 'success' });
         get().getMessageGroups();
@@ -83,16 +97,20 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
     return false;
   },
   editMessageGroups: () => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
+
     const { editMessage, editMessageList, getMessageGroups } = get();
     const payload = {
-      id: editMessageList.id,
+      id: editMessageList?.id,
       title: editMessageList.title,
       description: editMessageList.description,
       is_status: editMessageList.is_status,
     };
 
     set({ editMessageLoading: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.message_api_url}/message_groups/edit_message_group`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/message_catalog/edit_message_group`, payload, true, undefined, {
+      headers: { slug: slugId },
+    })
       .then((response) => {
         enqueueSnackbar('Edit Successfully!!', { variant: 'success' });
       })
@@ -108,12 +126,16 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
   },
   // editMessageListGroups
   editMessageListGroups: (payload: any) => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
     const { editMessageList } = get();
 
     set({ editMessageLoading: true, errorOnFetching: false });
-    httpRequest('post', `${envConfig.message_api_url}/message_groups/display_all_message_from_grp_by_id `, payload, true)
+    httpRequest('post', `${envConfig.api_url}/message_catalog/display_all_message_from_grp_by_id `, payload, true, undefined,
+      {
+        headers: { slug: slugId },
+      })
       .then((response) => {
-        set({ editMessageList: response.data.data.message_group_data });
+        set({ editMessageList: response.data.data });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -125,10 +147,16 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
     return false;
   },
   deleteMessageGroups: (payload: any) => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
+
     const { deleteMessage, getMessageGroups } = get();
 
     set({ deleteMessageLoading: true, deleteMessageError: false });
-    httpRequest('put', `${envConfig.message_api_url}/message_groups/delete_message_group`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/message_catalog/delete_message_group`, payload, true,
+      undefined,
+      {
+        headers: { slug: slugId },
+      })
       .then((response) => {
         enqueueSnackbar('Deleted message Group Successfully!', { variant: 'success' });
       })

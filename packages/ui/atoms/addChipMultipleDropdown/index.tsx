@@ -14,7 +14,17 @@ import {
 } from '..';
 
 import { addChipMultipleDropdownStyle } from './style';
-import { useAdminLanding } from '@core/store';
+import { useAdminLanding, useSuperAdminLanding } from '@core/store';
+
+interface AccessOption {
+  id: string;
+  name: string;
+}
+
+interface UserData {
+  id: string;
+  name: string;
+}
 
 interface AccessOption {
   id: string;
@@ -33,8 +43,7 @@ export interface AddChipMultipleDropdownProps {
   optionList?: AccessOption[];
   handleChange?: (key: string, value: any) => void;
   createEditAdmin: any;
-  onSaveUserInvite?: () => void;
-  formError: any
+  // onSaveUserInvite?: () => void;
 }
 
 export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = ({
@@ -44,8 +53,7 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
   handleChange = () => {},
   optionList = [],
   createEditAdmin,
-  onSaveUserInvite = () => false,
-  formError,
+  // onSaveUserInvite = () => false,
   ...rest
 }: AddChipMultipleDropdownProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -53,7 +61,16 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
   const [accessState, setAccessState] = useState<AccessOption | null>(null);
   const [values, setValues] = useState(false);
 
-  const { emailChecker, userNameChecker, userInviteEdit, seteditUserInviteDetails, addUserInvite } = useAdminLanding();
+  const {
+    emailChecker,
+    userNameChecker,
+    userInviteEdit,
+    seteditUserInviteDetails,
+    addUserInvite,
+    getUserMasterByOrganisation,
+  } = useAdminLanding();
+
+  const { getAllUserList } = useSuperAdminLanding();
 
   const accessMaster = [
     { id: '1', name: 'Full Access' },
@@ -68,9 +85,13 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
     seteditUserInviteDetails({ key, value });
   };
 
-  // const onSaveUserInvite = () => {
-  //   addUserInvite();
-  // };
+  const onSaveUserInvite = () => {
+    addUserInvite();
+    handleCloseUserInvite();
+    getUserMasterByOrganisation();
+    handleClose();
+    // getAllUserList();
+  };
   const handleOpenUserInvite = () => {
     setValues(true);
   };
@@ -103,7 +124,7 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
       handleChange('mapAdmin', setItemsUsers);
     }
   };
-console.log(userInviteEdit,'userInviteEdit');
+  console.log(userInviteEdit, 'userInviteEdit');
 
   useEffect(() => {
     if (userInviteEdit.userName !== '') {
@@ -221,7 +242,7 @@ console.log(userInviteEdit,'userInviteEdit');
               </Label>
               <Input
                 size="small"
-                placeholder="Charge name"
+                placeholder="User name"
                 required
                 value={userInviteEdit?.userName}
                 textFieldStyle={addChipMultipleDropdownStyle.inputSx}

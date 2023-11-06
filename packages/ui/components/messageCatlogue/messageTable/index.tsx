@@ -10,6 +10,8 @@ import { AddMessage, AddMessageGroup } from '..';
 import { messageTableStyle } from './style';
 import { Header, tableData } from './utils';
 import { TableHeader } from '@components/commonComponents';
+import { useLocation } from "react-router-dom";
+
 
 export interface MessageTableProps {
   className?: string;
@@ -40,7 +42,11 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     clearAll,
     clearAllMessage,
   } = useMessage();
-  console.log(addEditMessageState, 'addEditMessageStateaddEditMessageStateaddEditMessageStateaddEditMessageState');
+  const location = useLocation();
+  const {state} = location;
+  const languagesList = state
+  
+
   // const filterContent: any[] = [];
   const { languages, getSavedLanguage } = useLanguageConfiguration();
   const [isEdit, setIsEdit] = useState(false);
@@ -50,15 +56,11 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const [deleteId, setDeleteId] = useState('');
   const [List, setList] = useState('');
 
-  const filteredMessageGroup = MessagesList.filter((x: any) =>
-    x.title.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
-  console.log(MessagesList, 'filteredMessageGroupfilteredMessageGroupfilteredMessageGroup');
+  const filteredMessageGroup = MessagesList
   const [switchList, setSwitchList] = useState<any>([]);
   const handleTableEdit = (id: string) => {
     setOpen(true);
     setIsEdit(true);
-    // setIsEdit(true);
     onEditClicked(id);
   };
 
@@ -74,18 +76,19 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const handleDelFunc = () => {
     deleteMessage(deleteId, groupId);
     handlemodalClose();
-    getAllMessages(groupId);
+    // getAllMessages(groupId);
   };
 
   const handleChange = (key: any, value: string) => {
+    console.log(key, 'key');
+    
     setList(key.id);
     setTableName(key.title);
+
     setGroupId(key.id);
     clearAllMessage();
     getAllMessages(key.id);
   };
-
-  // const handleAddChange = (key: string, value: string) => setaddMessage({ key, value });
 
   const handleSwitch = (id: string, data: any, e: any) => {
     if (!switchList.includes(id)) {
@@ -165,6 +168,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
               addTitle="Add New Message Group"
               editTitle="Edit Message Group"
               setTableName={setTableName}
+              setGroupId={setGroupId}
             />
           </Box>
         </Grid>
@@ -206,7 +210,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                 variant: 'CUSTOM',
                 component: (
                   <TableHeader
-                    isFilterRequired={false}
+                    isFilterRequired={true}
                     filterContent={filterContent}
                     filterChange={handleFilterChange}
                     // onChange={handleAddChange}
@@ -217,11 +221,11 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                     setSearchTerm={setSearchTerm}
                     open={open}
                     handleOpen={handleOpen}
+                    messageGroupId={groupId}
                     handleClose={handleClose}
                     setOpen={setOpen}
-                    onApply={onApply}
+                    onApply={onApply('')}
                     language={languages}
-                    // editTableMessage={addEditMessageState.id ? editMessageList : addMessageList}
                   />
                 ),
               }}
@@ -252,7 +256,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
           </Box>
         }
       />
-
+      {console.log(SevorityList, 'SevorityList')}
       <DialogDrawer
         dialogRootStyle={{
           width: '832px',

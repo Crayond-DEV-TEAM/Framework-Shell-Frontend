@@ -79,7 +79,6 @@ export const CustomerDetails = (props: CustomerDetailsProps): JSX.Element => {
       {...rest}
     >
       <CustomerHeader title={'Customer Details'} onSave={customerdetailSave} onBack={customerdetailSave} />
-      <Box sx={{ margin: '45px' }} />
       <Box sx={customerDetailsStyle.content}>
         <Box>
           {create ? (

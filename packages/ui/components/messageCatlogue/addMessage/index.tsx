@@ -9,18 +9,20 @@ import { Box, IconButton, Skeleton, Stack, SxProps, Theme, Typography } from '@m
 import { forwardRef, useEffect, useState } from 'react';
 import { ModalAddMessage } from '..';
 import { addMessageStyle } from './style';
+import { enqueueSnackbar } from 'notistack';
 
 export interface AddMessageProps {
   className?: string;
   sx?: SxProps<Theme>;
   onMessageTable?: (key: any, value: string) => void;
-  setList?: any;
+  setList: React.Dispatch<any>;
   setTableName?: any;
   open?: boolean;
   payload?: any;
   title?: string;
   addTitle?: string;
   editTitle?: string;
+  setGroupId: React.Dispatch<any>
 }
 
 export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTMLElement>): JSX.Element => {
@@ -34,6 +36,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     addTitle = '',
     editTitle = '',
     setTableName,
+    setGroupId,
     ...rest
   } = props;
 
@@ -78,8 +81,12 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
   };
 
   const handleAddMsg = () => {
-    setOpen(false);
-    addMessageGroups();
+    if (addMessage?.title && addMessage?.description) {
+      setOpen(false);
+      addMessageGroups();
+    } else {
+      enqueueSnackbar('Message Group items required!', { variant: 'error' });
+    }
   };
 
   const filteredMessageGroup = messageGroup?.filter((x: any) =>
@@ -90,26 +97,31 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
 
   const handleeditChange = (key: string, value: string) => seteditMessage({ key, value });
 
-  const onEdit = async (id: string) => {
+
+  const onEdit = async (x: any) => {
     setValues(true);
-    editMessageListGroups({ id: id });
+    editMessageListGroups({ id: x?.id });
   };
 
   const Edit = () => {
     editMessageGroups();
     setValues(false);
   };
-  const handleMessage = (key: string, value: any) => {
+  const handleMessage = (key: {
+    description: string,
+    id: string,
+    is_status: boolean,
+    title: string
+  }, value: any) => {
+    debugger
     setselctedMessage({ key, value });
     setSelected(value);
     onMessageTable(key, value);
     setList(key.id);
   };
-  console.log(messageGroup, 'messageGroup');
 
   useEffect(() => {
     getMessageGroups();
-    // setSelected(0);
     // eslint-disable-next-line
   }, []);
   useEffect(() => {
@@ -118,7 +130,8 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
       setList(init.id);
       setSelected(0);
       setTableName(init?.title);
-      getAllMessages(init.id);
+      setGroupId(init?.id);
+      getAllMessages(init?.id as string);
     }
   }, [messageGroup]);
 
@@ -153,13 +166,13 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
                 <MessageCard
                   index={index}
                   title={x.title}
-                  isActive={x.is_status}
+                  isActive={x?.is_status}
                   onMessaageClick={() => handleMessage(x, index)}
                   select={selected}
                   handleDelete={() => {
                     deleteMessageGroups({ id: x.id });
                   }}
-                  onEdit={() => onEdit(x?.id)}
+                  onEdit={() => onEdit(x)}
                 />
               </Box>
             );
@@ -191,7 +204,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
         Footercomponent={
           <FooterComponent
             check={true}
-            checked={addMessage.is_status}
+            checked={addMessage?.is_status}
             SwitchChange={(e: any) => handleChange('is_status', e.target.checked)}
             onSave={handleAddMsg}
             onCancel={handleClose}
@@ -211,7 +224,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
         Footercomponent={
           <FooterComponent
             check={true}
-            checked={editMessageList.is_status}
+            checked={editMessageList?.is_status}
             SwitchChange={(e: any) => handleeditChange('is_status', e.target.checked)}
             onSave={Edit}
             onCancel={handleEditClose}

@@ -109,7 +109,8 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
   console.log(createEditSubscription, 'adddOnList');
   console.log(OldSubscription, 'OldSubscription');
   const chargeMaps = createEditSubscription?.plan_id?.plan_charge_mappings?.map((value: any) => value?.price);
-  const Chargessum = chargeMaps?.reduce((accumulator: any, currentValue: any) => accumulator + currentValue, 0);
+  // const Chargessum = chargeMaps?.reduce((accumulator: any, currentValue: any) => accumulator + currentValue, 0);
+  const Chargessum = parseInt(chargeMaps?.join(''), 10);
   const oldchargesMaps = OldSubscription?.charges?.map((value: any) => value.price);
   const oldChargessum = oldchargesMaps?.reduce((accumulator, currentValue) => {
     return accumulator + parseInt(currentValue, 10);
@@ -117,6 +118,8 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
   const billChecking = objectArray?.find((item) => item?.name === billtype?.name) ? billtype : null;
   console.log(objectArray?.find((item) => item?.name === billtype?.name) ? billtype : null, 'chargeMaps');
   console.log(billtype, 'billtype');
+
+  console.log(Chargessum, 'ChargessumChargessumChargessumChargessum');
 
   return (
     <Box
@@ -142,7 +145,7 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
             <Label sx={mapSubscriptionPlanTransferStyle.labelSx} htmlFor="addTitle" isRequired>
               Choose Plan
             </Label>
-            
+
             <CutstomizedAutocomplete
               placeholder={'Monthly'}
               permissionList={AddOnsList}

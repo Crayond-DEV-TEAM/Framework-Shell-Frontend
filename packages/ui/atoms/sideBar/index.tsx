@@ -74,7 +74,7 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
   const { className = '', menuItems = () => false, sx = {}, ...rest } = props;
 
   //store data
-  const { sideMenus, loading, error, onLinkClick, getSideMenusFromProject } = useMenu();
+  const { sideMenus, loading, error, getSideMenusFromProject } = useMenu();
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
@@ -84,6 +84,19 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
   const handleDrawerOpen = () => {
     setopenCollapse(!openCollapse);
     setDrawer(true);
+  };
+  const onLinkClick = (data: Menu) => {
+    navigate(data.link);
+    // debugger;
+    // if (
+    //   data.baseUrl === window.location.protocol + '//' + window.location.host ||
+    //   window.location.hostname === 'localhost'
+    // ) {
+    //   navigate(data.link);
+    // } else {
+    //   // window.location.replace(data.baseUrl + data.link);
+    // }
+    return false;
   };
 
   const handleDrawerClose = () => setDrawer(false);
@@ -105,7 +118,7 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
 
   React.useEffect(() => {
     const projectId = localStorage.getItem(localStorageKeys?.projectId);
-    fetchMenu(projectId);
+    // fetchMenu(projectId);
     if (!projectId) {
       const projectIdCheck = setTimeout(() => {
         navigate(webRoutes.admin);

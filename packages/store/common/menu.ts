@@ -101,7 +101,7 @@ export const useMenu = create<MenusProps>((set, get) => ({
       data.baseUrl === window.location.protocol + '//' + window.location.host ||
       window.location.hostname === 'localhost'
     ) {
-      routeTo(useRouting, data.link);
+      // routeTo(useRouting, data.link);
     } else {
       window.location.replace(data.baseUrl + data.link);
     }

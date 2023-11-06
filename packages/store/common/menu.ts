@@ -59,8 +59,9 @@ export const useMenu = create<MenusProps>((set, get) => ({
         const sideMenus: any = [];
         // debugger;
 
+        // Set the slugId in slug state
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
-          const matchedServiceIds = response.data.data.rows.map((apiItem: SideMenuResponse) => {
+          response.data.data.rows.forEach((apiItem: SideMenuResponse) => {
             const slugs = useSlug.getState().slugs;
             useSlug.setState({
               slugs: {
@@ -70,7 +71,11 @@ export const useMenu = create<MenusProps>((set, get) => ({
             });
 
             console.log('useSlug.getState().slugs', useSlug.getState().slugs);
+          });
+        }
 
+        if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
+          const matchedServiceIds = response.data.data.rows.map((apiItem: SideMenuResponse) => {
             return apiItem.service_id;
           });
 

@@ -6,6 +6,7 @@ import { jsonViewerStyle } from './style';
 // import sampleData from './utils';
 import { useState } from 'react';
 import { localeEn } from './utils';
+import { useRepository } from '@core/store';
 
 export interface JsonViewerProps {
   className?: string;
@@ -16,13 +17,11 @@ export interface JsonViewerProps {
 
 export const JsonViewer = (props: JsonViewerProps): JSX.Element => {
   const { className = '', sx = {}, data = [], onChange = {}, ...rest } = props;
-  // const [change, setChange] = useState({
-  //   list: props.data,
-  //   edit
-  // });
-  console.log('dfdf');
+  const { seteditRepository } = useRepository();
   const onChange1 = (data: any) => {
-    console.log(')))))', data);
+    onChange(data.jsObject);
+    // console.log(')))))', data);
+    seteditRepository(data.jsObject);
   };
   return (
     <Box
@@ -36,29 +35,16 @@ export const JsonViewer = (props: JsonViewerProps): JSX.Element => {
       {...rest}
     >
       <JSONInput
-        // id={1}
-        placeholder={data} // data to display
+        placeholder={data}
         theme="light_mitsuketa_tribute"
         locale={localeEn}
         colors={{
-          string: '#357968', // overrides theme colors with whatever color value you want
+          string: '#357968',
         }}
         onChange={(e: any) => onChange1(e)}
         height="296px"
         width="100%"
       />
-      {/* <ReactJson
-        src={data}
-        onEdit={(e: any) => onChange1(e)}
-        // onDelete={handleJsonChange}
-        // onAdd={handleJsonChange}
-        displayDataTypes={false}
-        enableClipboard={false}
-        indentWidth={2}
-        theme="rjv-default"
-        locale={locale}
-      />
-      ; */}
     </Box>
   );
 };

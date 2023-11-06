@@ -41,11 +41,17 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
   };
   const handleOpen = () => {
     setValues(true);
-    seteditRepository(RepoJson);
+    // seteditRepository(RepoJson);
   };
   const handleSave = () => {
     RepositoryId ? editRepository() : createRepository();
     handleClose();
+  };
+
+  const handleChange = (e: any) => {
+    debugger;
+    // console.log('val', e?.jsObject);
+    // seteditRepository(e?.jsObject);
   };
 
   useEffect(() => {
@@ -84,7 +90,15 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
         maxModalWidth="xl"
         isDialogOpened={values}
         title={'Configure Repo'}
-        Bodycomponent={<ConfigureRepo data={editRepositoryList} />}
+        Bodycomponent={
+          <ConfigureRepo
+            data={editRepositoryList}
+            onChange={(val: any) => {
+              handleChange(val);
+              debugger;
+            }}
+          />
+        }
         handleCloseDialog={handleClose}
         Footercomponent={
           <FooterComponent
@@ -94,7 +108,7 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
             onSave={handleSave}
             onCancel={handleClose}
             loading={onEditLoading}
-          // loading={addMessageLoading}
+            // loading={addMessageLoading}
           />
         }
         dialogRootStyle={repositoryComponentStyle.dialogSx}

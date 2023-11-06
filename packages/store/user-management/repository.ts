@@ -4,10 +4,11 @@ import { create } from 'zustand';
 import { UserManagementInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
 import { useSlug } from '../common';
+import { RepoJson } from '@components/userManagementComponents/repositoryComponent/utils'
 
 export const useRepository = create<UserManagementInterface>((set, get) => ({
   RepositoryList: [],
-  editRepositoryList: {},
+  editRepositoryList: RepoJson,
   RepositoryId: '',
 
   fetching: false,

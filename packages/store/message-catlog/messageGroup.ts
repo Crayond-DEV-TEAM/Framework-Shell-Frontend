@@ -6,7 +6,7 @@ import { filterContent, localStorageKeys } from '@core/utils/constants';
 import { enqueueSnackbar } from 'notistack';
 import { create } from 'zustand';
 
-import { useRouting } from '../common';
+import { useRouting, useSlug } from '../common';
 
 export interface groupStateProps {
   filterContent: any;
@@ -143,6 +143,8 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
 
   // AddMessage Table
   addMessageTable: async (languagePayload, messageGroupId) => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
+
     try {
       const { groupState } = get();
       const { editTableMessage, status: serverity } = groupState;
@@ -180,6 +182,8 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
 
   // Get Severity
   getSeverityDetails: async () => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
+
     try {
       const { groupState } = get();
       set({ loading: true });
@@ -222,6 +226,8 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
 
   // List Table Message
   getAllTableGroup: async (id: any) => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
+
     try {
       const { groupState } = get();
       const { setstatus } = groupState;
@@ -286,6 +292,8 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
 
   // filter
   filterTableContent: async (serverityFilter: any, createdOn: any, updateOn: any, messageGroupId: any) => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
+
     try {
       const { groupState } = get();
       const { filterContent } = groupState;
@@ -353,6 +361,7 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
 
   // status
   getStatus: async (payload) => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
     try {
       set({ loading: true });
       const response = await httpRequest(
@@ -363,6 +372,12 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
           is_status: payload?.status,
         },
         true,
+        undefined,
+        {
+          headers: {
+            slug: slugId
+          }
+        }
       );
 
       if (response.data?.status === 200) {
@@ -390,6 +405,8 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
 
   // delete Message
   deleteTableMessage: async (payload: any) => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
+
     try {
 
       set({ loading: true });
@@ -404,7 +421,7 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
         undefined,
         {
           headers: {
-            slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+            slug: slugId
           }
         }
       );
@@ -422,6 +439,8 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
 
   // get Table
   getTable: async (id: any) => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
+
     try {
       const { groupState } = get();
       const { editTableMessage } = groupState;
@@ -440,7 +459,7 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
             undefined,
             {
               headers: {
-                slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+                slug: slugId
               }
             }
           );
@@ -477,6 +496,8 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
 
   // Edit Message
   tableEditMessage: async (payload: any) => {
+    const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
+
     try {
       const { groupState } = get();
       const { status } = groupState;
@@ -497,7 +518,7 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
         undefined,
         {
           headers: {
-            slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
+            slug: slugId
           }
         }
       );

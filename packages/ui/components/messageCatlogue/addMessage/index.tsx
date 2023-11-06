@@ -15,14 +15,14 @@ export interface AddMessageProps {
   className?: string;
   sx?: SxProps<Theme>;
   onMessageTable?: (key: any, value: string) => void;
-  setList?: any;
+  setList: React.Dispatch<any>;
   setTableName?: any;
   open?: boolean;
   payload?: any;
   title?: string;
   addTitle?: string;
   editTitle?: string;
-  setGroupId?: string
+  setGroupId: React.Dispatch<any>
 }
 
 export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTMLElement>): JSX.Element => {
@@ -81,7 +81,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
   };
 
   const handleAddMsg = () => {
-    if(addMessage?.title && addMessage?.description) {
+    if (addMessage?.title && addMessage?.description) {
       setOpen(false);
       addMessageGroups();
     } else {
@@ -97,7 +97,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
 
   const handleeditChange = (key: string, value: string) => seteditMessage({ key, value });
 
-  
+
   const onEdit = async (x: any) => {
     setValues(true);
     editMessageListGroups({ id: x?.id });
@@ -107,17 +107,21 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     editMessageGroups();
     setValues(false);
   };
-  const handleMessage = (key: string, value: any) => {
+  const handleMessage = (key: {
+    description: string,
+    id: string,
+    is_status: boolean,
+    title: string
+  }, value: any) => {
+    debugger
     setselctedMessage({ key, value });
     setSelected(value);
     onMessageTable(key, value);
     setList(key.id);
   };
-  console.log(messageGroup, 'messageGroup');
 
   useEffect(() => {
     getMessageGroups();
-    // setSelected(0);
     // eslint-disable-next-line
   }, []);
   useEffect(() => {
@@ -127,7 +131,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
       setSelected(0);
       setTableName(init?.title);
       setGroupId(init?.id);
-      getAllMessages(init?.id);
+      getAllMessages(init?.id as string);
     }
   }, [messageGroup]);
 

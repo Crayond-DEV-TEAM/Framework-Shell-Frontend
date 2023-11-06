@@ -5,8 +5,7 @@ import { httpRequest, parseJwt, queryClient, routeTo, ValidateEmail } from '@cor
 import { filterContent, localStorageKeys } from '@core/utils/constants';
 import { enqueueSnackbar } from 'notistack';
 import { create } from 'zustand';
-
-import { useRouting } from '../common';
+import { useRouting, useSlug } from '../common';
 
 export interface groupStateProps {
   addMessage: any;
@@ -56,6 +55,7 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
 
   // List Message Group
   getAllMessageGroup: async () => {
+    const slugId = useSlug.getState().slugs?.['MESSAGE-CATALOG']
     try {
       const { groupState } = get();
       set({ loading: true });
@@ -72,10 +72,8 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
             true,
             undefined,
             {
-              headers: {
-                slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
-              }
-            },
+              headers: { slug: slugId },
+            }
           );
           return data;
         },
@@ -98,6 +96,7 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
 
   // Add Message
   addMessageGroup: async () => {
+    const slugId = useSlug.getState().slugs?.['MESSAGE-CATALOG']
     try {
       const { groupState } = get();
       const { addMessage, messageId } = groupState;
@@ -116,10 +115,8 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
             true,
             undefined,
             {
-              headers: {
-                slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
-              }
-            },
+              headers: { slug: slugId },
+            }
           );
           return data;
         },
@@ -137,6 +134,7 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
 
   // Edit Message
   editMessage: async (payload, isEdit) => {
+    const slugId = useSlug.getState().slugs?.['MESSAGE-CATALOG']
     try {
       set({ loading: true });
       const response = await httpRequest(
@@ -151,10 +149,8 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
         true,
         '',
         {
-          headers: {
-            slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
-          }
-        },
+          headers: { slug: slugId },
+        }
       );
 
       if (response.data?.status === 200) {
@@ -171,6 +167,7 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
 
   // Delete Message
   deleteMessage: async (id) => {
+    const slugId = useSlug.getState().slugs?.['MESSAGE-CATALOG']
     try {
       set({ loading: true });
       const response = await httpRequest(
@@ -182,10 +179,8 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
         true,
         undefined,
         {
-          headers: {
-            slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
-          }
-        },
+          headers: { slug: slugId },
+        }
       );
 
       if (response.data?.status === 200) {
@@ -206,6 +201,7 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
 
   //Get All Message Group By ID
   get: async (id) => {
+    const slugId = useSlug.getState().slugs?.['MESSAGE-CATALOG']
     try {
       const { groupState } = get();
       const { addMessage } = groupState;
@@ -222,10 +218,8 @@ export const useAddGroup = create<MessageGroupProps>((set, get) => ({
             true,
             undefined,
             {
-              headers: {
-                slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
-              }
-            },
+              headers: { slug: slugId },
+            }
           );
           return data;
         },

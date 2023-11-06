@@ -5,6 +5,7 @@ import { httpRequest, parseJwt, queryClient, routeTo, ValidateEmail } from '@cor
 import { filterContent, localStorageKeys } from '@core/utils/constants';
 import { enqueueSnackbar } from 'notistack';
 import { create } from 'zustand';
+import { useSlug } from '../common';
 
 export interface LanguageProps {
   langState: any;
@@ -78,6 +79,8 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
     });
   },
   languagedisplay: async () => {
+    const slugId = useSlug.getState().slugs?.['MESSAGE-CATALOG']
+    
     try {
       const { langState } = get();
       set({ loading: true });
@@ -89,12 +92,10 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
         `${envConfig.api_url}/message_catalog/display_Master_languages`,
         {},
         true,
-        undefined, 
+        undefined,
         {
-          headers: {
-            slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
-          }
-        },
+          headers: { slug: slugId },
+        }
       );
 
       const arr = [];
@@ -118,6 +119,8 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
   },
 
   addedlanguagedisplay: async () => {
+    const slugId = useSlug.getState().slugs?.['MESSAGE-CATALOG']
+
     try {
       const { addedLangState } = get();
       set({ loading: true });
@@ -131,10 +134,8 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
             true,
             undefined,
             {
-              headers: {
-                slug: 'bde5b3fe-7af1-4cc3-9a6e-5e4af2c416a3'
-              }
-            },
+              headers: { slug: slugId },
+            }
           );
           return data;
         },
@@ -155,6 +156,8 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
     }
   },
   savelanguages: async (payload) => {
+    const slugId = useSlug.getState().slugs?.['MESSAGE-CATALOG']
+
     try {
       const { savelangState } = get();
       set({ loading: true });
@@ -173,6 +176,10 @@ export const useLanguage = create<LanguageProps>((set, get) => ({
               ],
             },
             true,
+            undefined,
+            {
+              headers: { slug: slugId },
+            }
           );
 
           return data;

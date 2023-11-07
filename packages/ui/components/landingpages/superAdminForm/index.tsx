@@ -11,7 +11,7 @@ import { AddChipDropdown } from '@atoms/addChipDropdown';
 import { AddChipMultipleDropdown } from '@atoms/addChipMultipleDropdown';
 import { ToggleButtons } from '@atoms/toggleButton';
 import { useAdminLanding, useUserLanding } from '@core/store';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export interface SuperAdminFormProps {
   className?: string;
@@ -34,8 +34,10 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
     formErrors,
     ...rest
   } = props;
-  const { addUserInvite, userInviteEdit } = useAdminLanding();
+  const { addUserInvite, userInviteEdit, clearInviteAll } = useAdminLanding();
   const [formError, setFormError] = useState({});
+  const [newformError, setnewFormError] = useState({ username: '', email: '' });
+  console.log(newformError, 'newformError');
 
   // form validations
   const validateForm = () => {
@@ -43,23 +45,55 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
 
     if (userInviteEdit.userName.trim().length === 0) {
       errors.username = 'User Name is required';
-    } else if (userInviteEdit.userNameStatus === 200) {
-      errors.username = 'User Name already exists';
     }
+    // else if (userInviteEdit.userNameStatus === 200) {
+    //   errors.username = 'User Name already exists';
+    // }
     if (userInviteEdit.email.trim().length === 0) {
       errors.email = 'Email is required';
-    } else if (userInviteEdit.emailStatus === 200) {
-      errors.email = 'Email Id already exists';
     }
+    // else if (userInviteEdit.emailStatus === 200) {
+    //   errors.email = 'Email Id already exists';
+    // }
     setFormError(errors);
     return Object.keys(errors).length === 0;
   };
 
+  const newValidateFn = () => {
+    const errors: Record<string, string> = {};
+    if (userInviteEdit.userNameStatus != 200) {
+      errors.username = 'User Name already exists';
+    } else {
+      errors.username = '';
+    }
+
+    if (userInviteEdit.emailErrorStatus === 500) {
+      errors.email = 'Email Id already exists';
+    } else {
+      errors.email = '';
+    }
+
+    setnewFormError(errors);
+  };
+  console.log(userInviteEdit.userNameStatus, 'userInviteEdit.userNameStatus');
+
   const onSaveUserInvite = () => {
     if (validateForm()) {
       addUserInvite('');
+      clearInviteAll();
     }
   };
+
+  useEffect(() => {
+    newValidateFn();
+  }, [userInviteEdit.userNameStatus, userInviteEdit.emailStatus]);
+
+  // useEffect(() => {
+  //   setnewFormError({
+  //     username: '',
+  //     email: '',
+  //   });
+  // }, []);
 
   return (
     <Box
@@ -156,6 +190,7 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
                 handleChange={handleChange}
                 onSaveUserInvite={onSaveUserInvite}
                 formError={formError}
+                newformError={newformError}
               />
             </AccordionDetails>
           </Accordion>

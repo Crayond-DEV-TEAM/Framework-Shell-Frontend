@@ -32,6 +32,8 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     email: '',
     userNameStatus: 0,
     emailStatus: 0,
+    userNameErrorStatus: 0,
+    emailErrorStatus: 0,
   },
   OrganisationDetails: {
     id: '',
@@ -125,7 +127,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
   },
 
   editAdmin: () => {
-    const { clearAll, getAdminList, OrganisationDetails ,createEditAdmin } = get();
+    const { clearAll, getAdminList, OrganisationDetails, createEditAdmin } = get();
     set({ fetching: true, errorOnFetching: false });
     const payload = {
       organisation_id: OrganisationDetails.id,
@@ -288,11 +290,11 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     const payload = {
       project_id: id,
     };
-     debugger;
+    debugger;
     httpRequest('post', `${envConfig.api_url}/idm/project/get/id`, payload, true)
       .then((response) => {
         debugger;
-        const responseData = response.data.data
+        const responseData = response.data.data;
         const editData = {
           projectTitle: responseData.name,
           description: responseData.description,
@@ -448,7 +450,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       });
   },
 
-  deleteAdmin: (id:string) => {
+  deleteAdmin: (id: string) => {
     const { getAdminList } = get();
     set({ fetching: true, errorOnFetching: false });
     const payload = {
@@ -509,6 +511,10 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
         }
       })
       .catch((err) => {
+        console.log(err, 'errrrrrr');
+        const key = 'emailErrorStatus';
+        const value = err.response.status;
+        seteditUserInviteDetails({ key, value });
         set({ errorOnFetching: true });
         enqueueSnackbar(err.response.data.message, { variant: 'error' });
       })
@@ -550,6 +556,16 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
         mapAdmin: [],
         is_active: false,
         id: '',
+      },
+    });
+  },
+  clearInviteAll: () => {
+    set({
+      userInviteEdit: {
+        userName: '',
+        email: '',
+        userNameStatus: 0,
+        emailStatus: 0,
       },
     });
   },

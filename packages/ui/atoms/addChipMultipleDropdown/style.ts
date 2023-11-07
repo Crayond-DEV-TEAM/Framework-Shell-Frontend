@@ -31,5 +31,9 @@ export const addChipMultipleDropdownStyle: AddChipMultipleDropdownStyleProps = {
       fontSize: '14px',
     },
   },
+  name:{
+    fontSize:"12px",
+    color:"#d32f2f"
+  }
 };
 

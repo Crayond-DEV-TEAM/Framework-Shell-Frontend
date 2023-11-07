@@ -11,7 +11,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AddChipDropdown } from '@atoms/addChipDropdown';
 import { AddChipMultipleDropdown } from '@atoms/addChipMultipleDropdown';
 import { useAdmin, useAdminLanding, useProfileUser, useService } from '@core/store';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export interface AdminSecFormProps {
   className?: string;
@@ -24,8 +24,11 @@ export interface AdminSecFormProps {
 export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
   const { className = '', sx = {}, createEditAdmin, handlechange = () => false, formErrors, ...rest } = props;
 
-  const { ServiceListMaster, UserListMaster, addUserInvite, OrganisationDetails, userInviteEdit } = useAdminLanding();
+  const { ServiceListMaster, UserListMaster, addUserInvite, OrganisationDetails, userInviteEdit, clearInviteAll } =
+    useAdminLanding();
   const [formError, setFormError] = useState({});
+  const [newformError, setnewFormError] = useState({ username: '', email: '' });
+  console.log(newformError, 'newformError');
 
   console.log(createEditAdmin, 'createEditAdmincreateEditAdmin');
 
@@ -41,23 +44,45 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
 
     if (userInviteEdit.userName.trim().length === 0) {
       errors.username = 'User Name is required';
-    } else if (userInviteEdit.userNameStatus === 200) {
-      errors.username = 'User Name already exists';
     }
+    // else if (userInviteEdit.userNameStatus === 200) {
+    //   errors.username = 'User Name already exists';
+    // }
     if (userInviteEdit.email.trim().length === 0) {
       errors.email = 'Email is required';
-    } else if (userInviteEdit.emailStatus === 200) {
-      errors.email = 'Email Id already exists';
     }
+    // else if (userInviteEdit.emailStatus === 200) {
+    //   errors.email = 'Email Id already exists';
+    // }
     setFormError(errors);
     return Object.keys(errors).length === 0;
   };
+  const newValidateFn = () => {
+    const errors: Record<string, string> = {};
+    if (userInviteEdit.userNameStatus != 200) {
+      errors.username = 'User Name already exists';
+    } else {
+      errors.username = '';
+    }
 
+    if (userInviteEdit.emailStatus != 200) {
+      errors.email = 'Email Id already exists';
+    } else {
+      errors.email = '';
+    }
+
+    setnewFormError(errors);
+  };
   const onSaveUserInvite = () => {
     if (validateForm()) {
       addUserInvite(OrganisationDetails.id);
+      clearInviteAll();
     }
   };
+
+  useEffect(() => {
+    newValidateFn();
+  }, [userInviteEdit.userNameStatus, userInviteEdit.emailStatus]);
 
   return (
     <Box
@@ -161,6 +186,7 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
                 handleChange={handlechange}
                 onSaveUserInvite={onSaveUserInvite}
                 formError={formError}
+                newformError={newformError}
               />
             </AccordionDetails>
           </Accordion>

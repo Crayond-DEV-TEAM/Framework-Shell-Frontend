@@ -247,7 +247,7 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
           <List
             component="div"
             disablePadding
-            sx={{ display: drawer ? 'block' : 'none', bottom: 0, position: 'fixed', width: '28%' }}
+            sx={{ display: drawer ? 'block' : 'none', bottom: 0, position: 'fixed', width: '208px' }}
           >
             <ListItemButton onClick={projectRouterfunc}>
               <AlertRuleIcon />

@@ -3,9 +3,10 @@ import { useAuth } from '@core/store';
 import { UserDataInterface } from '@core/store/interface';
 import { localStorageKeys, parseJwt } from '@core/utils';
 import { Avatar, AppBar as MUIAppBar, Menu, MenuItem, SxProps, Theme, Typography } from '@mui/material';
-import {Box} from '@mui/material';
+import { Box } from '@mui/material';
 import { useState } from 'react';
 import { appBarStyle } from './style';
+import { useNavigate } from "react-router-dom";
 export interface AppBarProps {
   className?: string;
   sx?: SxProps<Theme>;
@@ -19,6 +20,7 @@ export function AppBar(props: AppBarProps): JSX.Element {
   const [open, setOpen] = useState<boolean>(false);
   const token = localStorage.getItem(localStorageKeys.authToken);
   const user = parseJwt(token);
+  const history = useNavigate();
 
   const handleOpen = () => {
     setOpen(true);
@@ -28,6 +30,10 @@ export function AppBar(props: AppBarProps): JSX.Element {
   };
   const { logOut } = useAuth();
   console.log(user, 'user');
+
+  const myProfile = () => {
+    history("/profile");
+  };
 
   return (
     <Box
@@ -77,22 +83,24 @@ export function AppBar(props: AppBarProps): JSX.Element {
         sx={{
           top: '18px',
           right: '28px',
-          '& .MuiPaper-root': { width: '162px', height: '109px' },
+          '& .MuiPaper-root': { width: '162px', height: '80px' },
           '& .MuiList-root': { paddingTop: '0px', paddingBottom: '0px' },
         }}
       >
         <MenuItem>
           <Box sx={appBarStyle.profileSec}>
             <ManIcon />
-            <Typography sx={appBarStyle.menutext}>My Profile</Typography>
+            <Typography sx={appBarStyle.menutext} onClick={myProfile}>
+              My Profile
+            </Typography>
           </Box>
         </MenuItem>
-        <MenuItem>
+        {/* <MenuItem>
           <Box sx={appBarStyle.profileSec}>
             <ApiProfile />
             <Typography sx={appBarStyle.menutext}>API Key</Typography>
           </Box>
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem>
           <Box sx={appBarStyle.profileSec} onClick={logOut}>
             <Logout />

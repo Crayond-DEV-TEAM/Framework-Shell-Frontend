@@ -477,6 +477,61 @@ export interface AlertRuleInterface {
   errorOnFetching: boolean;
   [key: string]: any;
 }
+export interface ApiBodyInterface { 
+  reference_id: string,
+  alert_key: string,
+  push_receivers: [],
+  push_title: [],
+  push_body: [],
+  push_data: { },
+  push_click_action: string,
+  push_icon: string,
+  push_image: string,
+  push_actions: [
+    {
+      title:string,
+      action: string
+  }
+  ],
+  whatsapp_body: [],
+  whatsapp_template_name: string,
+  inapp_title: [],
+  inapp_body: [],
+  inapp_image: string,
+  inapp_action1: string,
+  inapp_action2: string,
+  inapp_type: string,
+  inapp_eventReferenceId: string,
+  inapp_clientIds: [],
+  inapp_icon: string,
+  is_send_push_notification: boolean,
+  is_send_inapp_notification: boolean,
+  is_user_specific_notification: boolean,
+  to_mobiles: [],
+  sms_body: [],
+  URL: string,
+  to_emails: [],
+  email_CC: [],
+  email_BCC: [],
+  from_mail: string,
+  email_subject: [],
+  email_body: [],
+  email_attachments: [
+    {
+      content: string,
+      filename: string,
+      type: string,
+      disposition: string,
+    },
+  ],
+}
+
+export interface ApiDocumentationInterface {
+  apiBody: ApiBodyInterface
+  apiBodyMessage: string,
+  handleChangeCallback: (key: string, value: string) => void,
+  requestBodyAPI: () => void
+}
 
 export interface ReportInterface {
   reportCard: [];
@@ -1117,7 +1172,7 @@ export interface AdminInterface {
   getOrganisationMaster: () => void;
   getServiceMasterByOrganisation: () => void;
   getUserMasterByOrganisation: () => void;
-  getAllProjectsEditData:(id:string) =>void;
+  getAllProjectsEditData: (id: string) => void;
 
   createAdmin: () => void;
   editAdmin: () => void;
@@ -1126,10 +1181,10 @@ export interface AdminInterface {
   addUserInvite: () => void;
   emailChecker: () => void;
   userNameChecker: () => void;
-  createServiceMap:() =>void
-  editServiceMap:() =>void
-  createUserMap:() =>void
-  editUserMap:() =>void
+  createServiceMap: () => void
+  editServiceMap: () => void
+  createUserMap: () => void
+  editUserMap: () => void
 
   clearAll: () => void;
 }
@@ -1303,7 +1358,7 @@ export interface SuperAdminLandingKey {
 export interface SuperAdminLandingInterface {
   OrganisationList: SuperAdminLandingKey[];
   ServiceList: [];
-  UserListMaster:[]
+  UserListMaster: []
   fetching: boolean;
   errorOnFetching: boolean;
 
@@ -1321,11 +1376,11 @@ export interface SuperAdminLandingInterface {
   getAllUserList: () => void;
   createOrganisation: () => void;
   editOrganisation: () => void;
-  editGetDataOrganisation:(id:string) => void;
-  createServicemap:() => void;
-  deleteServicemap:() => void;
-  createAdminmap:()=> void;
-  deleteAdminmap:() => void;
+  editGetDataOrganisation: (id: string) => void;
+  createServicemap: () => void;
+  deleteServicemap: () => void;
+  createAdminmap: () => void;
+  deleteAdminmap: () => void;
   getStatusList: (id: any, status: any) => void;
   deleteOrganisation: (id: string) => void;
   getServiceList: () => void;

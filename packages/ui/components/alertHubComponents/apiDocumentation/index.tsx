@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { IconButton, SxProps, Theme } from '@mui/material';
 import { Grid, Stack, Typography, Box } from '@mui/material';
 import { Table as CommonTable } from '@crayond_dev/ui_table';
@@ -8,6 +8,7 @@ import { Button, DialogDrawer, Input, Label } from '@atoms';
 import { dummyAlert } from '@core/store/utils';
 import { ErrorInfo } from '@atoms/icons';
 import { SubHeader } from '@components/commonComponents';
+import { useApiDocumentation } from '@core/store';
 
 export interface ApiDocumentationProps {
   data?: any;
@@ -20,28 +21,10 @@ export interface ApiDocumentationProps {
 }
 
 export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
+  const { requestBodyAPI, handleChangeCallback, apiBody, apiBodyMessage } = useApiDocumentation()
   const [tabindex, settabindex] = React.useState(0);
   const [open, setOpen] = React.useState(false);
-  const textBox = [
-    'Reference ID',
-    'Alert Key',
-    'Push Receivers',
-    'Push Title',
-    'Push Body',
-    'Push Date',
-    'Push Click Action',
-    'Push Icon',
-    'To Mobiles',
-    'SMS Body',
-    'URL',
-    'To Emails',
-    'Email CC',
-    'Email BCC',
-    'From Mail',
-    'Email Subject',
-    'Email Body',
-    'Email Attachments',
-  ];
+
   const sampleTab = ['Sample Request', 'Sample Response'];
 
   const handleTab = (i: any) => {
@@ -82,6 +65,16 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
     setOpen(true);
   };
 
+  const handleChange = (e: any) => {
+    const value = e.target.value;
+    const name = e?.target.attributes[2].nodeValue
+    handleChangeCallback(name, value)
+  }
+
+  React.useEffect(() => {
+    requestBodyAPI()
+  }, [])
+
   return (
     <Box sx={apiDocumentation_style.root}>
       <SubHeader title="API Documentation" sx={apiDocumentation_style.subHeader} />
@@ -111,11 +104,12 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
             <Box m={1} ml={0} mt={2}>
               <Typography sx={apiDocumentation_style.textFieldhead}>Request Body</Typography>
               <Box sx={apiDocumentation_style.referenceScroll} p={2}>
-                {textBox?.map((e: any, index: any) => {
+                {Object.keys(apiBody)?.map((e: any, index: any) => {
                   return (
                     <Box key={index} sx={apiDocumentation_style.textBox}>
                       <Label sx={apiDocumentation_style.labelSx}>{e}</Label>
-                      <Input placeholder={e} textFieldStyle={apiDocumentation_style.inputSx} />
+                      <Input placeholder={e} onChange={(e) => handleChange(e)} value={apiBody[e]}
+                        textFieldStyle={apiDocumentation_style.inputSx} />
                     </Box>
                   );
                 })}
@@ -130,30 +124,14 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
                 </Box>
               </Box>
               <Box sx={apiDocumentation_style.referenceScroll} p={2}>
-                <Typography component={'pre'} sx={apiDocumentation_style.dummy}>
-                  {`{ "reference_id": "", 
-                                      "push_receivers": [],
-                                      "push_title": [],
-                                      "push_body": [],
-                                      "push_data": {},
-                                      "push_click_action": "", 
-                                      "push_icon": "",
-                                      "to_mobiles": [],
-                                      "sms_body": [], 
-                                      "URL": "",
-                                      "to_emails": [],
-                                          "email_CC": [],
-                                          "email_BCC": [],
-                                          "from_mail": "", 
-                                          "email_subject": [],
-                                          "email_body": [],
-                                              "email_attachments": [ 
-                                              { "content": "", 
-                                              "filename": "", 
-                                              "type": "",
-                                                  "disposition": "" } ] 
-                   '}`}
-                </Typography>
+                <pre
+                  style={{
+                    whiteSpace: "pre-wrap",
+                    wordBreak: "break-word",
+                  }}
+                >
+                  <code>{JSON.stringify(apiBody, null, 2)}</code>
+                </pre>
               </Box>
             </Box>
           </Grid>
@@ -208,9 +186,14 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
         </Stack>
         <Box p={2} mb={2}>
           <Typography sx={apiDocumentation_style.apicontent}>
-            {`"reference_id": "test", "alert_key": "eyJhbGciOiJIUzI1NiIsInsfFR5cdsdsdCI6IkpXVCJ9sds.eyJpZCI6ImIyMTU2ZWNmLWFiNTgtNGY0Zi1iYjlsSFDADFjLWJjYTk0Yzhm...", "push_receivers": ["fDh9oeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIyMTU2ZWNmLWFiNTgtNGY0Zi1iYjljLWJjYTk0YzhmM2U3OCI..."], "push_title": ["Test","Title"], "push_body": ["Test","Body"], "push_data": {"test": "push data" }, "push_click_action": "https//www.example.com/path/", "push_icon": "https//www.example.com/logo.png", "to_mobiles": ["91XXXXXXXXXX"], "sms_body": ["Test","SMS","Body"], "URL":"http://alertshub.crayond.com", "to_emails": ["alertshub@crayond.com"], "email_CC": ["text_cc@alertshub.com","text_cc2@alertshub.com"], "email_BCC": ["text_bcc@alertshub.com","text_bcc2@alertshub.com"], "from_mail": "text_from_mail@alertshub.com", "email_subject": ["test","email","subject"], "email_body": ["test","email","body"], "email_attachments": [ {"content": 
-                          "R0lGODlhPQBEAPeoAJosM//AwO/AwHVYZ/z595kzAP/s7P+goOXMv8+fhw/v739/f+8PD98fH/8mJl+fn/9ZWb8u7zPzWlwPzWlwvvWlwv...",
-                           "filename": "test.jpeg", "type": "base64", "disposition": "attachment" } ] `}
+            <pre
+              style={{
+                whiteSpace: "pre-wrap",
+                wordBreak: "break-word",
+              }}
+            >
+              <code>{JSON.stringify(apiBody, null, 2)}</code>
+            </pre>
           </Typography>
         </Box>
       </Box>
@@ -240,18 +223,18 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
             <Typography sx={apiDocumentation_style.responseSx}>Response</Typography>
 
             <Box>
-              <Typography sx={apiDocumentation_style.bodySx}>Request failed with status code 402</Typography>
+              <Typography sx={apiDocumentation_style.bodySx}>{apiBodyMessage}</Typography>
 
               <Button
                 sx={apiDocumentation_style.ResponseBtn}
-                // onClick={handleOpen}
+              onClick={() =>setOpen(false)}
               >
                 close
               </Button>
             </Box>
           </Box>
         }
-        // handleCloseDialog={handleClose}
+      // handleCloseDialog={handleClose}
       />
     </Box>
   );

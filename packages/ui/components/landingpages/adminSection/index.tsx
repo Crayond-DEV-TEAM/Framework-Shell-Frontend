@@ -88,22 +88,21 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     handleChangeOrganisationkey('rolename', value.rolename);
   };
 
-    // form validations
-    const validateForm = () => {
-      const errors: Record<string, string> = {};
-  
-      if (createEditAdmin.projectTitle.trim().length === 0) {
-        errors.name = 'Charge name is required';
-      }
-      if ((createEditAdmin.description).trim().length === 0) {
-        errors.description = 'Description is required';
-      }  
-      setFormErrors(errors);
-      return Object.keys(errors).length === 0;
-    };
+  // form validations
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (createEditAdmin.projectTitle.trim().length === 0) {
+      errors.name = 'project name is required';
+    }
+    if (createEditAdmin.description.trim().length === 0) {
+      errors.description = 'Description is required';
+    }
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const handleSave = () => {
-
     if (validateForm()) {
       if (createEditAdmin.id) {
         editAdmin();
@@ -227,7 +226,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
           pr: 0,
         }}
       >
-        <AdminSecForm createEditAdmin={createEditAdmin} handlechange={handleChange} formErrors={formErrors}/>
+        <AdminSecForm createEditAdmin={createEditAdmin} handlechange={handleChange} formErrors={formErrors} />
       </Drawer>
     </Box>
   );

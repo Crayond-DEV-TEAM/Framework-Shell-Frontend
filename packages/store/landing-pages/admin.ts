@@ -32,8 +32,8 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     email: '',
     userNameStatus: 0,
     emailStatus: 0,
-    userNameErrorStatus: 0,
-    emailErrorStatus: 0,
+    userNameErrorStatus: false,
+    emailErrorStatus: false,
   },
   OrganisationDetails: {
     id: '',
@@ -509,11 +509,13 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
           const value = response.status;
           seteditUserInviteDetails({ key, value });
         }
+        const key = 'emailErrorStatus';
+        const value = false;
+        seteditUserInviteDetails({ key, value });
       })
       .catch((err) => {
-        console.log(err, 'errrrrrr');
         const key = 'emailErrorStatus';
-        const value = err.response.status;
+        const value = err.response.data.message === "Email Id already exists!" ? true : false;;
         seteditUserInviteDetails({ key, value });
         set({ errorOnFetching: true });
         enqueueSnackbar(err.response.data.message, { variant: 'error' });
@@ -537,8 +539,15 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
           const value = response.status;
           seteditUserInviteDetails({ key, value });
         }
+        const key = 'userNameErrorStatus';
+        const value = false;
+        seteditUserInviteDetails({ key, value });
       })
       .catch((err) => {
+        console.log(err,'errrrrrrrrrrrrrrrr')
+        const key = 'userNameErrorStatus';
+        const value = err.response.data.message ===  "User Name already exists!" ? true : false;
+        seteditUserInviteDetails({ key, value });
         set({ errorOnFetching: true });
         enqueueSnackbar(err.response.data.message, { variant: 'error' });
       })
@@ -566,6 +575,8 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
         email: '',
         userNameStatus: 0,
         emailStatus: 0,
+        emailErrorStatus:false,
+        userNameErrorStatus:false,
       },
     });
   },

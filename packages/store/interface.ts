@@ -922,8 +922,8 @@ export interface InviteUserKey {
   email: string;
   userNameStatus: number;
   emailStatus: number;
-  userNameErrorStatus: number;
-  emailErrorStatus: number;
+  userNameErrorStatus: boolean;
+  emailErrorStatus: boolean;
 }
 
 export interface AdminInterface {

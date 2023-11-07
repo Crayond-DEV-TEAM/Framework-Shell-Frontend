@@ -55,7 +55,8 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
   const [accessState, setAccessState] = useState<AccessOption | null>(null);
   const [values, setValues] = useState(false);
 
-  const { emailChecker, userNameChecker, userInviteEdit, seteditUserInviteDetails, addUserInvite } = useAdminLanding();
+  const { emailChecker, userNameChecker, userInviteEdit, seteditUserInviteDetails, addUserInvite, clearInviteAll } =
+    useAdminLanding();
 
   const accessMaster = [
     { id: '1', name: 'Full Access' },
@@ -78,6 +79,7 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
   };
   const handleCloseUserInvite = () => {
     setValues(false);
+    clearInviteAll();
   };
 
   const handleClose = () => {
@@ -234,7 +236,7 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
                 isError={Boolean(formError.username)}
                 errorMessage={formError.username}
               />
-              <span  style={addChipMultipleDropdownStyle.name}>{newformError?.username}</span>
+              <span style={addChipMultipleDropdownStyle.name}>{newformError?.username}</span>
             </Box>
             <Box sx={{ m: '16px' }} />
             <Box sx={addChipMultipleDropdownStyle.inputGroupSx}>
@@ -254,7 +256,7 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
                 isError={Boolean(formError.email)}
                 errorMessage={formError.email}
               />
-              <span style ={addChipMultipleDropdownStyle.name}>{newformError?.email}</span>
+              <span style={addChipMultipleDropdownStyle.name}>{newformError?.email}</span>
             </Box>
           </Box>
         }

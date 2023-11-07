@@ -27,7 +27,7 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
   const { ServiceListMaster, UserListMaster, addUserInvite, OrganisationDetails, userInviteEdit, clearInviteAll } =
     useAdminLanding();
   const [formError, setFormError] = useState({});
-  const [newformError, setnewFormError] = useState({ username: '', email: '' });
+  const [newformError, setnewFormError] = useState({});
   console.log(newformError, 'newformError');
 
   console.log(createEditAdmin, 'createEditAdmincreateEditAdmin');
@@ -59,13 +59,14 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
   };
   const newValidateFn = () => {
     const errors: Record<string, string> = {};
-    if (userInviteEdit.userNameStatus != 200) {
+
+    if (userInviteEdit.userNameErrorStatus === true) {
       errors.username = 'User Name already exists';
     } else {
       errors.username = '';
     }
 
-    if (userInviteEdit.emailStatus != 200) {
+    if (userInviteEdit.emailErrorStatus === true) {
       errors.email = 'Email Id already exists';
     } else {
       errors.email = '';
@@ -82,7 +83,7 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
 
   useEffect(() => {
     newValidateFn();
-  }, [userInviteEdit.userNameStatus, userInviteEdit.emailStatus]);
+  }, [userInviteEdit]);
 
   return (
     <Box

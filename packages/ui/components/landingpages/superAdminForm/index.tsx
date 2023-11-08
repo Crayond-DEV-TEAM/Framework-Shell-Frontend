@@ -32,7 +32,7 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
     userMaster,
     ...rest
   } = props;
-  const { addUserInvite } = useAdminLanding();
+  // const { addUserInvite } = useAdminLanding();
 
   // const onSaveUserInvite = () => {
   //   addUserInvite();

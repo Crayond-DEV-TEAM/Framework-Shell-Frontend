@@ -1294,8 +1294,10 @@ export interface SuperAdminLandingKey {
   organisationName: string;
   description: string;
   email_id: string;
-  mapAdmin: string[];
-  mapServices: string[];
+  mapAdmin: [];
+  mapServices: [];
+  adminDatas:[],
+  serviceDatas:[]
   is_active: boolean;
   id?: string;
 }

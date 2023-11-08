@@ -36,55 +36,61 @@ export const MapAdminChipDropdown = (props: MapAdminChipDropdownProps): JSX.Elem
     ...rest
   } = props;
 
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const [selectedOptions, setSelectedOptions] = useState<UserData[]>([]);
-  const [values, setValues] = useState(false);
-
-  const {
-    emailChecker,
-    userNameChecker,
-    userInviteEdit,
-    seteditUserInviteDetails,
-    addUserInvite,
-    getUserMasterByOrganisation,
-  } = useAdminLanding();
+  const { userInviteEdit, userNameChecker, emailChecker, seteditUserInviteDetails, addUserInvite } = useAdminLanding();
 
   const { getAllUserList } = useSuperAdminLanding();
+  console.log('createEditAdmincreateEditAdmincreateEditAdmincreateEditAdmin', createEditAdmin);
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const [values, setValues]: any = useState(createEditAdmin);
+
+  const [invitestate, setInvitestate] = useState(false);
 
   const handleChangeUserInvite = (key: string, value: string) => {
     seteditUserInviteDetails({ key, value });
   };
 
-  const onSaveUserInvite = () => {
-    addUserInvite();
-    handleCloseUserInvite();
-    getAllUserList();
-    setAnchorEl(null);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
   };
 
   const handleOpenUserInvite = () => {
-    setValues(true);
+    setInvitestate(true);
   };
 
   const handleCloseUserInvite = () => {
-    setValues(false);
+    setInvitestate(false);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const selectedOptions = values || [];
+  console.log('valuesvaluesvaluesvalues', values);
 
-  const handleOptionToggle = (option: UserData) => {
-    const isSelected = selectedOptions.some((selected) => selected.id === option.id);
-    setSelectedOptions((prevOptions) =>
-      isSelected ? prevOptions.filter((opt) => opt.id !== option.id) : [...prevOptions, option],
-    );
+  const onSaveUserInvite = () => {
+    addUserInvite();
+    handleCloseUserInvite();
+    setAnchorEl(null);
+    getAllUserList();
   };
 
+  const handleOptionToggle = (option: any) => {
+    debugger;
+    const isSelected = values.find((v: any) => v?.id === option?.id);
+    if (isSelected?.id) {
+      const isSelected = values.filter((v: any) => v?.id !== option?.id);
+      setValues(isSelected);
+    } else {
+      values.push(option);
+      setValues(values);
+    }
+    handleChange('mapAdmin', values);
+  };
+  useEffect(() => {
+    if (createEditAdmin?.length > 0) setValues(createEditAdmin);
+  }, [createEditAdmin]);
   const onSetChange = () => {
     handleChange('mapAdmin', selectedOptions);
   };
@@ -110,7 +116,7 @@ export const MapAdminChipDropdown = (props: MapAdminChipDropdownProps): JSX.Elem
   useEffect(() => {
     onSetChange();
   }, [selectedOptions]);
-  console.log('createEditAdmincreateEditAdmincreateEditAdmin', createEditAdmin);
+  // console.log('createEditAdmincreateEditAdmincreateEditAdmin', createEditAdmin);
 
   return (
     <Box
@@ -137,23 +143,26 @@ export const MapAdminChipDropdown = (props: MapAdminChipDropdownProps): JSX.Elem
             },
           }}
         >
-          {dataList.map((data) => (
-            <MenuItem
-              sx={{
-                py: 0,
-                backgroundColor: selectedOptions.some((opt) => opt.id === data.id) ? '#dce8e5' : '#fff',
-              }}
-              key={data.id}
-              onClick={() => handleOptionToggle(data)}
-            >
-              <CheckBox style={{ marginRight: '8px' }} checked={selectedOptions.some((opt) => opt.id === data.id)} />
-              <Box
-                sx={{ px: 1, display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
+          {dataList.map((data) => {
+            const isSelected = values?.filter((v: any) => v?.id === data?.id);
+            return (
+              <MenuItem
+                sx={{
+                  py: 0,
+                  backgroundColor: isSelected?.length > 0 ? '#dce8e5' : '#fff',
+                }}
+                key={data.id}
+                onClick={() => handleOptionToggle(data)}
               >
-                <MappedAdminCard options={data} />
-              </Box>
-            </MenuItem>
-          ))}
+                <CheckBox style={{ marginRight: '8px' }} checked={isSelected?.length > 0} />
+                <Box
+                  sx={{ px: 1, display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
+                >
+                  <MappedAdminCard options={data} />
+                </Box>
+              </MenuItem>
+            );
+          })}
           <MenuItem
             sx={{
               py: 1,
@@ -195,7 +204,7 @@ export const MapAdminChipDropdown = (props: MapAdminChipDropdownProps): JSX.Elem
       </div>
       <DialogDrawer
         maxModalWidth="xl"
-        isDialogOpened={values}
+        isDialogOpened={invitestate}
         title={'Invite a user'}
         Bodycomponent={
           <Box sx={mapAdminChipDropdownStyle.padd}>

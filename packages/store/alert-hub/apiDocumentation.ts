@@ -9,6 +9,7 @@ import { giveMeApiBody } from '../utils';
 export const useApiDocumentation = create<ApiDocumentationInterface>((set, get) => ({
     apiBody: giveMeApiBody(),
     apiBodyMessage: '',
+    apiBodyError: false,
 
 
     handleChangeCallback: (key: string, value: string) => {
@@ -27,10 +28,12 @@ export const useApiDocumentation = create<ApiDocumentationInterface>((set, get) 
             },
         })
             .then((response) => {
-                // enqueueSnackbar('New Alert Rule successfully Added!', { variant: 'success' });
+                set((state) => ({ apiBodyMessage: response?.data?.message }));
+                set((state) => ({ apiBodyError: false}))
             })
             .catch((err) => {
                 set((state) => ({ apiBodyMessage: err?.response?.data?.message }));
+                set((state) => ({ apiBodyError: true}))
 
                 // enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
             })

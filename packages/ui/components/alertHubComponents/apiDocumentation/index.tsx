@@ -21,7 +21,7 @@ export interface ApiDocumentationProps {
 }
 
 export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
-  const { requestBodyAPI, handleChangeCallback, apiBody, apiBodyMessage } = useApiDocumentation()
+  const { requestBodyAPI, handleChangeCallback, apiBody, apiBodyMessage, apiBodyError } = useApiDocumentation()
   const [tabindex, settabindex] = React.useState(0);
   const [open, setOpen] = React.useState(false);
 
@@ -62,6 +62,7 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
   };
 
   const handleOpen = () => {
+    requestBodyAPI()
     setOpen(true);
   };
 
@@ -72,7 +73,6 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
   }
 
   React.useEffect(() => {
-    requestBodyAPI()
   }, [])
 
   return (
@@ -223,11 +223,13 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
             <Typography sx={apiDocumentation_style.responseSx}>Response</Typography>
 
             <Box>
-              <Typography sx={apiDocumentation_style.bodySx}>{apiBodyMessage}</Typography>
-
+              <Typography sx={{
+                ...{ color: apiBodyError ? '#FF4A4D' : null },
+                ...apiDocumentation_style.bodySx
+              }}>{apiBodyMessage}</Typography>
               <Button
                 sx={apiDocumentation_style.ResponseBtn}
-              onClick={() =>setOpen(false)}
+                onClick={() => setOpen(false)}
               >
                 close
               </Button>

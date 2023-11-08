@@ -479,7 +479,7 @@ export interface AlertRuleInterface {
 }
 export interface ApiBodyInterface { 
   reference_id: string,
-  alert_key: string,
+  alert_rule_code: string,
   push_receivers: [],
   push_title: [],
   push_body: [],
@@ -530,7 +530,9 @@ export interface ApiDocumentationInterface {
   apiBody: ApiBodyInterface
   apiBodyMessage: string,
   handleChangeCallback: (key: string, value: string) => void,
-  requestBodyAPI: () => void
+  requestBodyAPI: () => void,
+  apiBodyError: boolean,
+
 }
 
 export interface ReportInterface {

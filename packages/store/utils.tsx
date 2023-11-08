@@ -370,8 +370,8 @@ export const giveMeAlertConfig = (): AddNewConfig => {
 
 export const giveMeApiBody = (): ApiBodyInterface => {
   return {
-    reference_id: 'EMAIL_TEST',
-    alert_key: '8128620823',
+    reference_id: '',
+    alert_rule_code: '',
     push_receivers: [],
     push_title: [],
     push_body: [],

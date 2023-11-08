@@ -937,7 +937,7 @@ export const tabsCard = {
 };
 
 export const giveMeMessageGroupInitialState = (): MessageGroup => {
-  return { title: '', description: '', is_status: false };
+  return { title: '', description: '', is_status: true };
 };
 
 export const giveMestatusGroupState = (): MessageDetails => {
@@ -966,7 +966,7 @@ export const giveMeAddEditMessageInitialState = (): AddEditMessageState => {
     title: '',
     description: '',
     severity: null,
-    status: false,
+    status: true,
     messages: null,
     error: {
       title: '',

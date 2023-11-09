@@ -1,30 +1,18 @@
 # IDM react component usage
 
 
-# V1.2.0
+# V2.0.1
 
-
-
-* Added user management react components
-* Provide apiUrl as props
-* Set authToken in localstorage with key **_authToken_**
+### Prerequisite
+1. Just add the API Token you would have found from the crayond toolkit library.
 
 
 ```
-import { UserManagement } from "@crayond_dev/idm-components";
+import { UserManagement } from "@crayond_dev/user-management-test";
 
 function App() {
-return <UserManagement 
-          apiUrl="https://dev-idm-api.crayond.com/api/v1" 
-          onStatusChangeCallback={onStatusChangeCallback}
-          onEditRoleCallback={onEditRoleCallback}
-          onDeleteRoleCallback={onDeleteRoleCallback}
-          onAddRoleCallback={onAddRoleCallback}
-/>;
+  return <UserManagement apiToken={"R0RSUX8YW7CNF6FG12"} />;
 }
 
 export default App;
 ```
-
-
-This dependency will be fixed in coming updates.

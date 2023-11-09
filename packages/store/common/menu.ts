@@ -2,7 +2,7 @@ import { envConfig } from '@core/envconfig';
 import { log } from '@core/logger';
 import { webRoutes, messageRoutes } from '@core/routes';
 import { httpRequest, routeTo } from '@core/utils';
-import { useRouting, useSlug } from '../common';
+import { useAPIKey, useRouting, useSlug } from '../common';
 import { create } from 'zustand';
 import { Menu, MenusProps, SideMenuResponse } from '../interface';
 import { AllRoutes } from '../utils';
@@ -70,7 +70,13 @@ export const useMenu = create<MenusProps>((set, get) => ({
               },
             });
 
-            console.log('useSlug.getState().slugs', useSlug.getState().slugs);
+            const APIkey = useAPIKey.getState().APIkey;
+            useAPIKey.setState({
+              APIkey: {
+                ...APIkey,
+                [apiItem.service_name]: apiItem.api_token,
+              },
+            });
           });
         }
 

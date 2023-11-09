@@ -1,5 +1,5 @@
 import { webRoutes } from '@core/routes';
-import { AppLayout, LanguageConfig, MessageTable } from '@core/ui/components';
+import { AppLayout, LanguageConfig, MessageTable, Settings } from '@core/ui/components';
 import { Box } from '@mui/material';
 
 // Routes for APP - Message Catalogue
@@ -19,6 +19,14 @@ export const messageCatalogueRoutes = [
         <Box sx={{ width: '100%', maxWidth: '761px', margin: 'auto' }}>
           <LanguageConfig />
         </Box>
+      </AppLayout>
+    ),
+  },
+  {
+    path: webRoutes.messageCatalogSettings,
+    element: (
+      <AppLayout>
+        <Settings service={'MESSAGE-CATALOG'} />
       </AppLayout>
     ),
   },

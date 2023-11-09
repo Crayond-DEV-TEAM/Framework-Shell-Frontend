@@ -19,8 +19,8 @@ export const greetingStyles: GreetingStyleProps = {
     background: '#FFFFFF',
     width: '430px',
     margin: 'auto',
-    padding: '24px',
+    padding: '30px',
     textAlign: 'center',
-    borderRadius: '4px'
+    borderRadius: '8px'
   }
 };

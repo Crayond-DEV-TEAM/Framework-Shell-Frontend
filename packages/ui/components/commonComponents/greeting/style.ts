@@ -17,7 +17,7 @@ export const greetingStyles: GreetingStyleProps = {
   },
   bannerbox: {
     background: '#FFFFFF',
-    width: '430px',
+    width: '500px',
     margin: 'auto',
     padding: '30px',
     textAlign: 'center',

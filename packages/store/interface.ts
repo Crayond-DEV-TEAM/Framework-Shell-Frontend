@@ -143,14 +143,18 @@ export type SideMenuResponse = {
   service_name: ServiceName;
 };
 
-export type SlugOption = {
+export type ServiceOptionList = {
   [key in ServiceName]: string;
 };
 
+export interface APIKeyProps {
+  APIkey?: ServiceOptionList
+}
+
 export interface SlugProps {
   getSlug: (id: ServiceName) => void;
-  slugs?: SlugOption;
-  APIkey?: SlugOption
+  slugs?: ServiceOptionList;
+  APIkey?: ServiceOptionList
 }
 export interface MessageCreateInterface {
   title: number | string;

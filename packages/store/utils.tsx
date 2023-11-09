@@ -269,7 +269,7 @@ export const AllRoutes = [
   {
     service_id: '3ef02e4b-b862-47b0-a48c-939b2e9d16d9',
     link: '/',
-    name: 'Configurations',
+    name: 'User Management',
     baseUrl: '',
     links: ['/userManagment'],
     icon: (isSelected: boolean) => (
@@ -279,19 +279,12 @@ export const AllRoutes = [
       {
         id: 1,
         link: webRoutes.userManagment,
-        name: 'User Managment',
+        name: 'Configurations',
         baseUrl: '',
         icon: (isSelected: boolean) => <SubMessageLanguage sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
-        id: 1,
-        link: webRoutes.userManagment,
-        name: 'Settings',
-        baseUrl: '',
-        icon: (isSelected: boolean) => <SubMessageLanguage sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
-      },
-      {
-        id: 3,
+        id: 2,
         link: webRoutes.configSettings,
         name: 'Settings',
         baseUrl: '',

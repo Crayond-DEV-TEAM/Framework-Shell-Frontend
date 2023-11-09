@@ -12,29 +12,18 @@ import { useEffect, useState } from 'react';
 export interface SettingsProps {
   className?: string;
   sx?: SxProps<Theme>;
-  service: 'IDM' | 'MESSAGE-CATALOG' | 'ALERTSHUB' | 'PASM'
+  service: 'IDM' | 'MESSAGE-CATALOG' | 'ALERTSHUB' | 'PASM';
 }
 
 export const Settings = (props: SettingsProps): JSX.Element => {
   const { className = '', sx = {}, service = '', ...rest } = props;
 
-  const [serviceApikey, setServiceApikey] = useState('')
-  const APIKey = useAPIKey.getState().APIkey[service]
+  const [serviceApikey, setServiceApikey] = useState('');
+  const APIKey = useAPIKey.getState().APIkey[service];
 
   useEffect(() => {
-    switch (service) {
-      case 'IDM':
-        return setServiceApikey(APIKey);
-      case 'ALERTSHUB':
-        return setServiceApikey(APIKey);
-      case 'MESSAGE-CATALOG':
-        return setServiceApikey(APIKey);
-      case 'PASM':
-        return setServiceApikey(APIKey);
-      default:
-        break;
-    }
-  }, [service])
+    setServiceApikey(APIKey);
+  }, [service]);
   return (
     <Box
       sx={[
@@ -52,8 +41,7 @@ export const Settings = (props: SettingsProps): JSX.Element => {
           API Key
         </Label>
         <Input
-          placeholder="https://alertshub-api.crayond.com/api/v1/sendmessage"
-          //   value="https://alertshub-api.crayond.com/api/v1/sendmessage"
+          placeholder="SERVICE API KEY"
           endAdornment={
             <IconButton sx={settingsStyle.copySx}>
               <CopyLinkIcon />

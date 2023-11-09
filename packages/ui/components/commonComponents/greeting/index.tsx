@@ -46,7 +46,7 @@ export function Greeting(props: GreetingProps): JSX.Element {
         <Box sx={greetingStyles?.bannerbox}>
           <BannerSvg />
           <Typography my={1} sx={{ fontWeight: 600, fontSize: '22px', textAlign: 'center' }}>
-            Welcome to <>{user?.firstName ?? 'User'}</>!!
+            Welcome to Crayond's Framework Shell
           </Typography>
           <Typography mb={1} sx={{ fontStyle: 'italic', fontSize: '18px', textAlign: 'center' }}>
             Select any services from the sidebar to open

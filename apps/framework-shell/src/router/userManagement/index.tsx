@@ -1,5 +1,5 @@
 import { webRoutes } from '@core/routes';
-import { AppLayout, UserManagement } from '@core/ui/components';
+import { AppLayout, Settings, UserManagement } from '@core/ui/components';
 
 // Routes for APP - IDM
 export const idmRoutes = [
@@ -8,6 +8,14 @@ export const idmRoutes = [
     element: (
       <AppLayout>
         <UserManagement />
+      </AppLayout>
+    ),
+  },
+  {
+    path: webRoutes.configSettings,
+    element: (
+      <AppLayout>
+        <Settings service={'IDM'}/>
       </AppLayout>
     ),
   },

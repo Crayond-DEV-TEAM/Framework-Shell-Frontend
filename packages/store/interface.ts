@@ -149,7 +149,8 @@ export type SlugOption = {
 
 export interface SlugProps {
   getSlug: (id: ServiceName) => void;
-  slugs: SlugOption;
+  slugs?: SlugOption;
+  APIkey?: SlugOption
 }
 export interface MessageCreateInterface {
   title: number | string;

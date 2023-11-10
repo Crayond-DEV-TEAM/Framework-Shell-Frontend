@@ -101,6 +101,7 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
     handleStatus();
   }, [OrganisationList]);
 
+  console.log('paravaye engu',createEditOrganisation)
   return (
     <Box
       sx={[
@@ -172,7 +173,7 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
         show={open}
         onCloseDrawer={handleDrawerClose}
         anchor="right"
-        drawerStyleSX={{ padding: '20px' }}
+        drawerStyleSX={{ padding: '20px', pb: '50px' }}
         drawerRightClose
         header={createEditOrganisation.id ? 'Edit Organisation' : 'Add New Organisation'}
         headerStyle={{

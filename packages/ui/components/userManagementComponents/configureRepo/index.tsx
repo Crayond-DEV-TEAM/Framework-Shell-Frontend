@@ -40,7 +40,7 @@ export const ConfigureRepo = (props: ConfigureRepoProps): JSX.Element => {
       </Box>
       <Box sx={{ padding: '8px' }} />
       <Box sx={{ height: '30%' }}>
-        <JsonViewer data={data} onChange={onChange} />
+        <JsonViewer data={data} onChange={(e: any) => e} />
       </Box>
     </Box>
   );

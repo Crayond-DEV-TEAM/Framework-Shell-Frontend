@@ -25,7 +25,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       name: '',
       access: '',
     },
-    is_active: false,
+    is_active: true,
     id: '',
   },
   userInviteEdit: {
@@ -482,7 +482,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
 
   addUserInvite: () => {
     set({ fetching: true, errorOnFetching: false });
-    const { OrganisationDetails, userInviteEdit } = get();
+    const { OrganisationDetails, userInviteEdit , getUserMasterByOrganisation } = get();
     const payload = {
       organisation_id: OrganisationDetails.id,
       username: userInviteEdit.userName,
@@ -498,7 +498,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
-        getAllUserList();
+        getUserMasterByOrganisation();
       });
   },
 
@@ -559,7 +559,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
         description: '',
         mapServices: [],
         mapAdmin: [],
-        is_active: false,
+        is_active: true,
         id: '',
       },
     });

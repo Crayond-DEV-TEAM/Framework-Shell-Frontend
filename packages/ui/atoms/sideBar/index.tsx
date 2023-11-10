@@ -247,9 +247,16 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
           <List
             component="div"
             disablePadding
-            sx={{ display: drawer ? 'block' : 'none', bottom: 0, position: 'fixed', width: '28%' }}
+            sx={{ display: drawer ? 'block' : 'none', bottom: 0, position: 'fixed', width: '208px' }}
           >
-            <ListItemButton onClick={projectRouterfunc}>
+            <ListItemButton
+              onClick={projectRouterfunc}
+              sx={{
+                '&:hover': {
+                  // backgroundColor: '#fff',
+                },
+              }}
+            >
               <AlertRuleIcon />
               <Typography sx={{ ml: 2, fontSize: '12px', fontWeight: 600 }}>Back to projects</Typography>
             </ListItemButton>

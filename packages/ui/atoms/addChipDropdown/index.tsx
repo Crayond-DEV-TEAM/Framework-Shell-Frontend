@@ -5,6 +5,7 @@ import { CheckBox } from '@atoms/checkBox';
 import { GreenCloseCircleIcon } from '@assets/iconSet';
 import { addChipDropdownStyle } from './style';
 import type { SxProps, Theme } from '@mui/material';
+import { useAdminLanding, useSuperAdminLanding } from '@core/store';
 
 export interface AddChipDropdownProps {
   className: string;
@@ -16,8 +17,9 @@ export interface AddChipDropdownProps {
 }
 
 export const AddChipDropdown: React.FC<AddChipDropdownProps> = (props) => {
-  const { className = '', placeholder, permissionList = [], createEditState, onChange, sx = {} } = props;
-  console.log('createEditStatecreateEditStatecreateEditStatecreateEditState', createEditState);
+  const { className = '', permissionList = [], createEditState, onChange, sx = {} } = props;
+  const { deleteServicemap, createServicemap, createEditOrganisation } = useSuperAdminLanding();
+  console.log('tttttttttttttttttttttttttttttttttttttttt', createEditState);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -39,17 +41,20 @@ export const AddChipDropdown: React.FC<AddChipDropdownProps> = (props) => {
     if (isSelected?.id) {
       const isSelected = values.filter((v) => v?.id !== option?.id);
       setValues(isSelected);
+      onChange('mapServices', isSelected);
+      // createEditOrganisation.id ? deleteServicemap() : '';
     } else {
       values.push(option);
       setValues(values);
+      onChange('mapServices', values);
+      // createEditOrganisation.id ? deleteServicemap() : '';
+      // createServicemap();
     }
-    onChange('mapServices', values);
   };
-
+  console.log(permissionList, 'permissionListpermissionListpermissionList');
   useEffect(() => {
     if (createEditState?.length > 0) setValues(createEditState);
   }, [createEditState]);
-
 
   return (
     <Box sx={{ ...addChipDropdownStyle.rootSx, ...(Array.isArray(sx) ? sx : [sx]) }} className={className}>

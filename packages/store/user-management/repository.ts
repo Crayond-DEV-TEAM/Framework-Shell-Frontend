@@ -4,6 +4,7 @@ import { create } from 'zustand';
 import { UserManagementInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
 import { useSlug } from '../common';
+import { RepoJson } from '@components/userManagementComponents/repositoryComponent/utils';
 
 export const useRepository = create<UserManagementInterface>((set, get) => ({
   RepositoryList: [],
@@ -31,7 +32,7 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
     })
       .then((response) => {
         const lastObject = response.data.data[response.data.data.length - 1];
-        set({ RepositoryList: lastObject.data, RepositoryId: lastObject.id });
+        set({ RepositoryList: lastObject.data, RepositoryId: lastObject.id, editRepositoryList: lastObject.data });
       })
       .catch((err) => {
         set({ errorOnFetching: true });

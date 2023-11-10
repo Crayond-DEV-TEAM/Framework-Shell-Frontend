@@ -3,7 +3,7 @@ import { useAuth } from '@core/store';
 import { UserDataInterface } from '@core/store/interface';
 import { localStorageKeys, parseJwt } from '@core/utils';
 import { Avatar, AppBar as MUIAppBar, Menu, MenuItem, SxProps, Theme, Typography } from '@mui/material';
-import {Box} from '@mui/material';
+import { Box } from '@mui/material';
 import { useState } from 'react';
 import { appBarStyle } from './style';
 export interface AppBarProps {
@@ -93,8 +93,8 @@ export function AppBar(props: AppBarProps): JSX.Element {
             <Typography sx={appBarStyle.menutext}>API Key</Typography>
           </Box>
         </MenuItem>
-        <MenuItem>
-          <Box sx={appBarStyle.profileSec} onClick={logOut}>
+        <MenuItem onClick={logOut}>
+          <Box sx={appBarStyle.profileSec}>
             <Logout />
             <Typography sx={appBarStyle.menutext}>Logout</Typography>
           </Box>

@@ -58,7 +58,6 @@ export const useMenu = create<MenusProps>((set, get) => ({
       .then((response) => {
         const sideMenus: any = [];
         // debugger;
-
         // Set the slugId in slug state
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.forEach((apiItem: SideMenuResponse) => {
@@ -79,7 +78,6 @@ export const useMenu = create<MenusProps>((set, get) => ({
             });
           });
         }
-
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           const matchedServiceIds = response.data.data.rows.map((apiItem: SideMenuResponse) => {
             return apiItem.service_id;
@@ -103,14 +101,14 @@ export const useMenu = create<MenusProps>((set, get) => ({
 
   onLinkClick: (data: Menu) => {
     // debugger;
-    if (
-      data.baseUrl === window.location.protocol + '//' + window.location.host ||
-      window.location.hostname === 'localhost'
-    ) {
-      // routeTo(useRouting, data.link);
-    } else {
-      window.location.replace(data.baseUrl + data.link);
-    }
+    // if (
+    //   data.baseUrl === window.location.protocol + '//' + window.location.host ||
+    //   window.location.hostname === 'localhost'
+    // ) {
+    //   // routeTo(useRouting, data.link);
+    // } else {
+    //   window.location.replace(data.baseUrl + data.link);
+    // }
     return false;
   },
 }));

@@ -83,7 +83,7 @@ export function AppBar(props: AppBarProps): JSX.Element {
         sx={{
           top: '18px',
           right: '28px',
-          '& .MuiPaper-root': { width: '162px', height: '80px' },
+          '& .MuiPaper-root': { width: '162px', height: '109px' },
           '& .MuiList-root': { paddingTop: '0px', paddingBottom: '0px' },
         }}
       >
@@ -95,12 +95,12 @@ export function AppBar(props: AppBarProps): JSX.Element {
             </Typography>
           </Box>
         </MenuItem>
-        {/* <MenuItem>
+        <MenuItem>
           <Box sx={appBarStyle.profileSec}>
             <ApiProfile />
             <Typography sx={appBarStyle.menutext}>API Key</Typography>
           </Box>
-        </MenuItem> */}
+        </MenuItem>
         <MenuItem>
           <Box sx={appBarStyle.profileSec} onClick={logOut}>
             <Logout />

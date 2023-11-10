@@ -5,51 +5,109 @@ import { DialogDrawer } from '@atoms/dialogDrawer';
 import { FooterComponent } from '@atoms/footerComponent';
 import { Label } from '@atoms/label';
 import { Input } from '@atoms/input';
+import { Visibility, VisibilityOff } from '@atoms/icons';
+import { Alert, IconButton, SxProps, Theme } from '@mui/material';
+import BackIcon from '@assets/backIcon';
+import { useNavigate } from 'react-router-dom';
+import { useProfileUserLanding } from '@core/store';
 
 export interface MyProfileProps {
   onClick?: () => void;
+  showpassword: '';
 }
 
 export function MyProfile(props: MyProfileProps): JSX.Element {
   const [values, setValues] = useState(false);
+  const [password, setPasswordOpen] = useState(false);
+  const [showpassword, setPassword] = useState<boolean>(false);
+  const [formErrors, setFormErrors] = useState({ name: '', mobileno: '' });
 
-  const handleOpen = () => {
+
+  const { getMyProfile, MyProfileList, editProfileData, editProfile, seteditMyProfile } = useProfileUserLanding();
+
+  // console.log(MyProfileList, 'MyProfileList');
+  // console.log(editProfile, 'editProfile');
+
+  const history = useNavigate();
+
+  const handleChange = (key: string, value: string | number) => {
+    seteditMyProfile(key, value);
+  };
+
+  const handleOpenProfile = () => {
     setValues(true);
+  };
+  const handleOpenPassword = () => {
+    setPasswordOpen(true);
   };
   const handleClose = () => {
     setValues(false);
+    setPasswordOpen(false);
   };
+
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (editProfile.name.trim().length === 0) {
+      errors.name = 'User Name is required';
+    }
+
+    if (editProfile.mobileno.trim().length === 0) {
+      errors.mobileno = 'Mobile Number is required';
+    }
+
+    setFormErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleEdit = () => {
+    if (validateForm()) {
+      editProfileData();
+      setValues(false);
+    }
+  };
+  const redirect = () => {
+    history('/');
+  };
+
+  useEffect(() => {
+    getMyProfile();
+  }, []);
 
   return (
     <Box sx={ProfileStyle.mainBox}>
       <Box sx={ProfileStyle.Box}>
         <Box sx={ProfileStyle.titleBox}>
+          <BackIcon style={{ cursor: 'pointer' }} onClick={redirect} />
           <Typography sx={ProfileStyle.head}>My Profile</Typography>
         </Box>
         <Box sx={ProfileStyle.imgBox}>
           <Avatar sx={ProfileStyle.avatar} src="https://picsum.photos/200/300"></Avatar>
         </Box>
         <Typography align="center" sx={ProfileStyle.name}>
-          Mike Pearson
+          {MyProfileList?.full_name ?? '-'}
         </Typography>
         <Box mt={3} pl={2.5}>
-          <Typography sx={ProfileStyle.title}>Email</Typography>
-          <Typography sx={ProfileStyle.subtitle}>Michaelbloomberg@email.com</Typography>
+          <Typography sx={ProfileStyle.title}>User Name</Typography>
+          <Typography sx={ProfileStyle.subtitle}>{MyProfileList?.name ?? '-'}</Typography>
         </Box>
         <Box mt={3} pl={2.5}>
-          <Typography sx={ProfileStyle.title}>Date Of Birth</Typography>
-          <Typography sx={ProfileStyle.subtitle}>01/06/1990</Typography>
+          <Typography sx={ProfileStyle.title}>Email</Typography>
+          <Typography sx={ProfileStyle.subtitle}>{MyProfileList?.email_id ?? '-'}</Typography>
         </Box>
         <Box mt={3} pl={2.5}>
           <Typography sx={ProfileStyle.title}>Mobile Number</Typography>
-          <Typography sx={ProfileStyle.subtitle}>+91 94875 12031</Typography>
+          <Typography sx={ProfileStyle.subtitle}>
+            +{MyProfileList?.mobile_code + ' ' + MyProfileList?.mobile_number ?? '-'}
+          </Typography>
         </Box>
         <Divider sx={{ mt: 3 }} />
         <Box sx={ProfileStyle.btnBox}>
-          <Button variant={'contained'} sx={ProfileStyle.btn}>
+          <Button variant={'contained'} sx={ProfileStyle.btn} onClick={handleOpenPassword}>
             Reset Password
           </Button>
-          <Button variant={'contained'} sx={ProfileStyle.btn} onClick={handleOpen}>
+          <Button variant={'contained'} sx={ProfileStyle.btn} onClick={handleOpenProfile}>
             Edit Profile
           </Button>
         </Box>
@@ -63,79 +121,20 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
             <Box sx={ProfileStyle.padd}>
               <Box sx={ProfileStyle.inputGroupSx}>
                 <Label sx={ProfileStyle.labelSx} htmlFor="addTitle">
-                  First Name
+                  Name
                 </Label>
                 <Input
                   size="small"
-                  placeholder="First Name"
+                  placeholder="Name"
                   required
-                  //   value={createEditAdmin.projectTitle}
+                  value={editProfile.name}
                   textFieldStyle={ProfileStyle.inputSx}
                   id="title"
-                  //   onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                  //     handlechange('projectTitle', e.target.value)
-                  //   }
-                  // isError={Boolean(formErrors.name)}
-                  // errorMessage={formErrors.name}
-                />
-              </Box>
-              <Box sx={{ m: '16px' }} />
-              <Box sx={ProfileStyle.inputGroupSx}>
-                <Label sx={ProfileStyle.labelSx} htmlFor="addTitle">
-                  Last Name
-                </Label>
-                <Input
-                  size="small"
-                  placeholder="Last Name"
-                  required
-                  //   value={createEditAdmin.projectTitle}
-                  textFieldStyle={ProfileStyle.inputSx}
-                  id="title"
-                  //   onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                  //     handlechange('projectTitle', e.target.value)
-                  //   }
-                  // isError={Boolean(formErrors.name)}
-                  // errorMessage={formErrors.name}
-                />
-              </Box>
-              <Box sx={{ m: '16px' }} />
-
-              <Box sx={ProfileStyle.inputGroupSx}>
-                <Label sx={ProfileStyle.labelSx} htmlFor="addTitle">
-                  Email
-                </Label>
-                <Input
-                  size="small"
-                  placeholder="Email"
-                  required
-                  //   value={createEditAdmin.projectTitle}
-                  textFieldStyle={ProfileStyle.inputSx}
-                  id="title"
-                  //   onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                  //     handlechange('projectTitle', e.target.value)
-                  //   }
-                  // isError={Boolean(formErrors.name)}
-                  // errorMessage={formErrors.name}
-                />
-              </Box>
-              <Box sx={{ m: '16px' }} />
-
-              <Box sx={ProfileStyle.inputGroupSx}>
-                <Label sx={ProfileStyle.labelSx} htmlFor="addTitle">
-                  Date Of Birth
-                </Label>
-                <Input
-                  size="small"
-                  placeholder="Date Of Birth"
-                  required
-                  //   value={createEditAdmin.projectTitle}
-                  textFieldStyle={ProfileStyle.inputSx}
-                  id="title"
-                  //   onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                  //     handlechange('projectTitle', e.target.value)
-                  //   }
-                  // isError={Boolean(formErrors.name)}
-                  // errorMessage={formErrors.name}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                    handleChange('name', e.target.value)
+                  }
+                  isError={Boolean(formErrors.name)}
+                  errorMessage={formErrors.name}
                 />
               </Box>
               <Box sx={{ m: '16px' }} />
@@ -147,14 +146,14 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
                   size="small"
                   placeholder="Mobile Number"
                   required
-                  //   value={createEditAdmin.projectTitle}
+                  value={editProfile.mobileno}
                   textFieldStyle={ProfileStyle.inputSx}
                   id="title"
-                  //   onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                  //     handlechange('projectTitle', e.target.value)
-                  //   }
-                  // isError={Boolean(formErrors.name)}
-                  // errorMessage={formErrors.name}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                    handleChange('mobileno', e.target.value)
+                  }
+                  isError={Boolean(formErrors.mobileno)}
+                  errorMessage={formErrors.mobileno}
                 />
               </Box>
             </Box>{' '}
@@ -164,17 +163,77 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
         dialogRootStyle={ProfileStyle.dialogSx}
         Footercomponent={
           <FooterComponent
-            // check
-            // SwitchChange={(e) => {
-            //   handleCreateAddedit('is_active', e.target.checked);
-            // }}
-            // disabled={editname === true ? editsave : addsave}
-            // checked={createEditAddOns.is_active}
-            // saveButtonStyle={{ minWidth: '90px', height: '28px' }}
-            // onSave={editname === true ? handleEditAddon : handleCreateAddon}
+             onSave={handleEdit}
             onCancel={handleClose}
           />
         }
+      />
+      <DialogDrawer
+        maxModalWidth="sm"
+        isDialogOpened={password}
+        title={'Change Password'}
+        Bodycomponent={
+          <Box sx={ProfileStyle.passwordBox}>
+            <Box sx={ProfileStyle.inputGroupSx}>
+              <Typography sx={ProfileStyle.reset}>Provide us the registered email to reset your password.</Typography>
+              <Label sx={ProfileStyle.labelSx} htmlFor="password">
+                New Password
+              </Label>
+              <Input
+                id="password"
+                type={showpassword ? 'text' : 'password'}
+                // value={resetPasswordState.password}
+                placeholder="New password"
+                size="small"
+                // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                //   handleChange('password', e.target.value)
+                // }
+                endAdornment={
+                  <IconButton onClick={() => setPassword((prevState) => !prevState)} edge="end">
+                    {showpassword ? (
+                      <VisibilityOff rootStyle={ProfileStyle.eyeSx} />
+                    ) : (
+                      <Visibility rootStyle={ProfileStyle.eyeSx} />
+                    )}
+                  </IconButton>
+                }
+              />
+            </Box>
+            <Box sx={ProfileStyle.inputGroupConform}>
+              <Label sx={ProfileStyle.labelConform} htmlFor="password">
+                Confirm Password
+              </Label>
+              <Box>
+                <Input
+                  id="confirmPassword"
+                  type={showpassword ? 'text' : 'password'}
+                  // value={resetPasswordState.confirmPassword}
+                  size="small"
+                  placeholder="Confirm Password"
+                  textFieldStyle={ProfileStyle.inputpassword}
+                  // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                  //   handleChange('confirmPassword', e.target.value)
+                  // }
+                  endAdornment={
+                    <IconButton onClick={() => setPassword((prevState) => !prevState)} edge="end">
+                      {showpassword ? (
+                        <VisibilityOff rootStyle={ProfileStyle.eyeSx} />
+                      ) : (
+                        <Visibility rootStyle={ProfileStyle.eyeSx} />
+                      )}
+                    </IconButton>
+                  }
+                />
+              </Box>
+            </Box>
+            <Button variant={'contained'} sx={ProfileStyle.ConfirmBtn}>
+              Confirm
+            </Button>
+          </Box>
+        }
+        handleCloseDialog={handleClose}
+        dialogRootStyle={ProfileStyle.dialogPassword}
+        isFooterRequired={false}
       />
     </Box>
   );

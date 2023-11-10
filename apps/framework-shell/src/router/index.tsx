@@ -35,7 +35,7 @@ const router = createBrowserRouter([
       ...messageCatalogueRoutes,
       ...idmRoutes,
       ...alertsHubRoutes,
-      ...PlanAndSubscriptionRoutes
+      ...PlanAndSubscriptionRoutes,
     ],
   },
   {
@@ -44,13 +44,13 @@ const router = createBrowserRouter([
     element: <PageNotFound />,
   },
   {
-    path:"/profile",
+    path: '/profile',
     element: (
-      <AppLayout sideBarSection={false}>
+      <AppLayout sideBarSection={false} mainelement={{ p: '0px', height: '100vh' }}>
         <MyProfile />
-     </AppLayout>
+      </AppLayout>
     ),
-  }
+  },
 ]);
 
 function RouterApp() {

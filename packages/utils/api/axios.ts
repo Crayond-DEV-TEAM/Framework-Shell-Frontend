@@ -3,6 +3,8 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { localStorageKeys } from '../constants';
 import { envConfig } from '@core/envconfig';
 
+export const axiosInstance = axios.create({});
+
 interface ConfigOptions {
   headers?: {
     [headerName: string]: string;
@@ -34,13 +36,13 @@ export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, 
       envConfig.client_environment !== 'external' && {
         Authorization: `Bearer ${localStorage.getItem(localStorageKeys.authToken)}`,
       }),
-    ...(Boolean(apiToken) && {
-      'x-api-token': apiToken,
-    }),
+    // ...(Boolean(apiToken) && {
+    //   'x-api-token': apiToken,
+    // }),
     ...(config?.headers ?? {}),
   };
 
-  return axios({
+  return axiosInstance({
     method,
     url,
     data,

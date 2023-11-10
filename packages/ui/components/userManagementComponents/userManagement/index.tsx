@@ -1,9 +1,10 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Tabs, Typography } from '@mui/material';
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Permission, RepositoryComponent, Roles } from '..';
 import { userManagementStyle } from './style';
 import { SnackbarProvider } from 'notistack';
+import { axiosInstance } from '@core/utils';
 
 export interface UserManagementProps {
   className?: string;
@@ -54,6 +55,10 @@ export const UserManagement = (props: UserManagementProps): JSX.Element => {
   const handleChange = (event: any, newValue: any) => {
     setValue(newValue);
   };
+
+  useLayoutEffect(() => {
+    axiosInstance.defaults.headers.common['x-api-token'] = apiToken;
+  }, []);
 
   const tabs = [
     {

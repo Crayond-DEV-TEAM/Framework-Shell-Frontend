@@ -49,7 +49,7 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
     (x: any) => x.alert_rule_code?.toLowerCase()?.includes(searchTerm.toLowerCase()),
   );
   const [open, setOpen] = React.useState(false);
-
+ 
   const [switchList, setSwitchList] = useState<any>([]);
 
   const filterContent = [

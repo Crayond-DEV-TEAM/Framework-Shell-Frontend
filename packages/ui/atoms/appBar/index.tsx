@@ -51,7 +51,7 @@ export function AppBar(props: AppBarProps): JSX.Element {
                 <Typography sx={appBarStyle.email}>{user?.email_id}</Typography>
               </Box>
               <Avatar
-                src={'https://expertphotography.b-cdn.net/wp-content/uploads/2020/08/social-media-profile-photos-3.jpg'}
+                // src={'https://expertphotography.b-cdn.net/wp-content/uploads/2020/08/social-media-profile-photos-3.jpg'}
                 variant="rounded"
                 sx={{ borderRadius: '8px' }}
               />
@@ -77,7 +77,7 @@ export function AppBar(props: AppBarProps): JSX.Element {
         sx={{
           top: '18px',
           right: '28px',
-          '& .MuiPaper-root': { width: '162px', height: '109px' },
+          '& .MuiPaper-root': { width: '162px', height: 'auto' },
           '& .MuiList-root': { paddingTop: '0px', paddingBottom: '0px' },
         }}
       >
@@ -87,12 +87,13 @@ export function AppBar(props: AppBarProps): JSX.Element {
             <Typography sx={appBarStyle.menutext}>My Profile</Typography>
           </Box>
         </MenuItem>
-        <MenuItem>
+        {/* Commented As per requirment */}
+        {/* <MenuItem>
           <Box sx={appBarStyle.profileSec}>
             <ApiProfile />
             <Typography sx={appBarStyle.menutext}>API Key</Typography>
           </Box>
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem>
           <Box sx={appBarStyle.profileSec} onClick={logOut}>
             <Logout />

@@ -1,5 +1,5 @@
 import type { SxProps, Theme } from '@mui/material';
-import { Box, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Chip, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { adminSectionStyle } from './style';
 import { IdmBackgroundCard } from '@atoms/idmBackgroundCard';
@@ -13,6 +13,10 @@ import { TableHeader } from '@components/commonComponents';
 import { useNavigate } from 'react-router-dom';
 import { webRoutes } from '@core/routes';
 import { localStorageKeys } from '@core/utils';
+import { AddChipDropdown } from '@atoms/addChipDropdown';
+import { AddChipMultipleDropdown } from '@atoms/addChipMultipleDropdown';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { MappedUserCard } from '@atoms/mappedUserCard';
 export interface AdminSectionProps {
   className?: string;
   sx?: SxProps<Theme>;
@@ -44,6 +48,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
   const [switchList, setSwitchList] = useState<any>([]);
   const [open, setOpen] = useState(false);
+  const [profileDetails, setProfileDetails] = useState(false);
   const navigate = useNavigate();
   const filteredMessageGroup = adminList.filter(
     (x: any) => x.projectTitle?.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -65,7 +70,16 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     getSideMenusFromProject(id);
     localStorage.setItem(localStorageKeys.projectId, id);
     navigate(webRoutes.root);
+    
+    // getAllProjectsEditData(id);
+    // setProfileDetails(true);
   };
+  const onRowClick = (id:string)=>{
+    getSideMenusFromProject(id);
+    localStorage.setItem(localStorageKeys.projectId, id);
+    navigate(webRoutes.root);
+
+  }
   const handleDrawerClose = () => {
     setOpen(false);
     clearAll();
@@ -147,9 +161,10 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
         content={
           <Box sx={adminSectionStyle.commonTable}>
             <CommonTable
+
               Header={Header}
               dataList={filteredMessageGroup}
-              tableData={tableData(handleTableEdit, handleTableDelete, handleTableDetail)}
+              tableData={tableData(handleTableEdit, handleTableDelete, handleTableDetail, onRowClick)}
               switchList={switchList}
               handleSwitch={handleSwitch}
               headerOptions={{
@@ -203,6 +218,8 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
           </Box>
         }
       />
+
+      {/* Edit Form Drawer */}
       <Drawer
         show={open}
         onCloseDrawer={handleDrawerClose}
@@ -244,6 +261,84 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
       >
         <AdminSecForm createEditAdmin={createEditAdmin} handlechange={handleChange} />
       </Drawer>
+
+       {/* Profile Details Drawer */}
+       <Drawer
+        show={profileDetails}
+        onCloseDrawer={()=>setProfileDetails(false)}
+        anchor="right"
+        drawerStyleSX={{ padding: '20px 20px 70px 20px' }}
+        drawerRightClose
+        header={'Project title'}
+        headerStyle={{
+          fontSize: '16px',
+          fontWeight: 600,
+          color: '#101010',
+          textTransform: 'capitalize',
+        }}
+        rootStyle={{
+          '& .MuiDrawer-paperAnchorRight': {
+            width: '340px',
+            borderTopLeftRadius: '8px',
+            borderBottomLeftRadius: '8px',
+          },
+        }}
+        
+      >
+        <div>
+          <Accordion
+            sx={{
+              boxShadow: 'none',
+              // borderBottom: '1px solid #EAEAEA',
+              // // margin: '0px',
+              // '.MuiAccordion-root.Mui-expanded .MuiPaper-root': {
+              //   margin: '0px',
+              // },
+            }}
+            defaultExpanded
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+              sx={{ padding: 0 }}
+            >
+              <Typography sx={{ fontWeight: 600, fontSize: '14px', padding: 0 }}>Services</Typography>
+            </AccordionSummary>
+            <AccordionDetails sx={{ padding: '0px' }}>
+            {createEditAdmin.mapServices?.map((option: any) => (
+          <Chip
+            key={option.name}
+            label={option.name}
+            sx={{ height: '28px', borderRadius: '8px', marginBottom: '15px', marginRight: '10px' }}
+          />
+        ))}
+            </AccordionDetails>
+          </Accordion>
+          <Accordion
+            sx={{
+              boxShadow: 'none',
+            }}
+            defaultExpanded
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2a-content"
+              id="panel2a-header"
+              sx={{ padding: 0 }}
+            >
+              <Typography sx={{ fontWeight: 600, fontSize: '14px', padding: 0 }}>Mapped Users</Typography>
+            </AccordionSummary>
+            <AccordionDetails sx={{ padding: '0px' }}>
+              <MappedUserCard dataMaster={createEditAdmin.mapAdmin} />
+            </AccordionDetails>
+          </Accordion>
+        </div>
+      </Drawer>
+
+
+
+
     </Box>
   );
 };

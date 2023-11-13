@@ -48,7 +48,6 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
   const alertRuleData = alertsList.filter(
     (x: any) => x.alert_rule_code?.toLowerCase()?.includes(searchTerm.toLowerCase()),
   );
-
   const [open, setOpen] = React.useState(false);
 
   const [switchList, setSwitchList] = useState<any>([]);
@@ -223,6 +222,7 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
       <Grid container>
         <Grid item xs={12}>
           <Box sx={alertRuleStyles.commonTable}>
+            
             <CommonTable
               Header={Header}
               dataList={alertRuleData}

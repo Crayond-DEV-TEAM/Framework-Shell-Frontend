@@ -60,6 +60,7 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
+    "@crayond_dev/ui_table": "^1.0.1",
     "jsoneditor-react": "^3.1.2",
     "moment": "^2.29.4",
     "react-input-json": "^0.1.11",

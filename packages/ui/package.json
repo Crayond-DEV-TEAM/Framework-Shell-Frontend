@@ -19,7 +19,7 @@
     "@core/store": "*",
     "@core/theme": "*",
     "@core/utils": "*",
-    "@crayond_dev/ui_table": "^0.1.0",
+    "@crayond_dev/ui_table": "^1.0.1",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.1.11",

@@ -57,6 +57,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const [List, setList] = useState('');
 
   const filteredMessageGroup = MessagesList
+  console.log('filteredMessageGroup', filteredMessageGroup);
   const [switchList, setSwitchList] = useState<any>([]);
   const handleTableEdit = (id: string) => {
     setOpen(true);

@@ -44,6 +44,9 @@ export interface AuthStoreInterface {
   resetPasswordState: ResetPasswordState;
   setRestPasswordState: (payload: { key: string; value: string }) => void;
 
+  changePasswordState: ResetPasswordState;
+  setChangePasswordState: (key: string, value: string) => void;
+
   signInLoading: boolean;
   signUpLoading: boolean;
   forgotPasswordLoading: boolean;
@@ -68,6 +71,7 @@ export interface AuthStoreInterface {
   resetPassword: (payload: { token: string | null }) => void;
   logOut: () => void;
   clearAll: () => void;
+  changePassword: () => void;
 }
 
 export interface UserDataInterface {
@@ -148,13 +152,13 @@ export type ServiceOptionList = {
 };
 
 export interface APIKeyProps {
-  APIkey?: ServiceOptionList
+  APIkey?: ServiceOptionList;
 }
 
 export interface SlugProps {
   getSlug: (id: ServiceName) => void;
   slugs?: ServiceOptionList;
-  APIkey?: ServiceOptionList
+  APIkey?: ServiceOptionList;
 }
 export interface MessageCreateInterface {
   title: number | string;
@@ -1408,8 +1412,8 @@ export interface UserProfileLandingKey {
 }
 
 export interface UserEditProfileKey {
-  name:"",
-  mobileno:""
+  name: '';
+  mobileno: '';
 }
 export interface UserProfileLandingInterface {
   UserProfileList: UserProfileLandingKey[];

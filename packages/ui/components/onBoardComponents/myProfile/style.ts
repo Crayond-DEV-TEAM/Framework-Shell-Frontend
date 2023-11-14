@@ -70,7 +70,7 @@ export const ProfileStyle: ProfileStyleProps = {
   },
   dialogPassword: {
     width: '425px',
-    height: '325px',
+    // height: '325px',
     borderRadius: '12px',
   },
   padd: {
@@ -120,5 +120,9 @@ export const ProfileStyle: ProfileStyleProps = {
   },
   inputpassword: {
     mt: '9px',
+  },
+  eyeSx: {
+    width: '20px',
+    height: '20px',
   },
 };

@@ -8,7 +8,7 @@ import { useRouting } from '../common';
 import { AuthStoreInterface } from '../interface';
 import { giveMeAuthInitialState, validateResetPasswordData, validateSignUpData } from '../utils';
 import { useUser } from './user';
-import { enqueueSnackbar } from 'notistack'
+import { enqueueSnackbar } from 'notistack';
 // import { useHistory } from 'react-router-dom';
 const initialState = giveMeAuthInitialState();
 // const history = useHistory();
@@ -18,6 +18,7 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
   signUpState: initialState.signUpState,
   forgotPasswordState: initialState.forgotPasswordState,
   resetPasswordState: initialState.resetPasswordState,
+  changePasswordState: initialState.changePasswordState,
 
   signInLoading: false,
   signUpLoading: false,
@@ -64,6 +65,9 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
       set({ resetPasswordMessage: '', resetPasswordError: false });
     }
   },
+  setChangePasswordState: (key: string, value: string) => {
+    set((state) => ({ changePasswordState: { ...state.changePasswordState, [key]: value } }));
+  },
 
   signIn: async () => {
     set({ signInLoading: true, signInMessage: '', signInError: false });
@@ -84,7 +88,7 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
         localStorage.setItem(localStorageKeys.authToken, token);
         set({ signInMessage: 'Signed in Successfully', signInError: false });
         if (user.isSuperAdmin === true) {
-           window.location.href = '/superAdmin';
+          window.location.href = '/superAdmin';
           console.log('super admin');
         } else {
           window.location.href = '/admin';
@@ -103,14 +107,12 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
   },
   // /idm/user-profile/list/organisation?limit=20&offset=0
 
- getUserProfileList: () => {
-
+  getUserProfileList: () => {
     set({ signInLoading: true, signInError: false });
-  
+
     httpRequest('get', `${envConfig.api_url}/idm/user-profile/list/organisation?limit=20&offset=0`, {}, true)
       .then((response) => {
         debugger;
-        
       })
       .catch((err) => {
         set({ signInError: true });
@@ -120,7 +122,6 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
         set({ signInLoading: false });
       });
   },
-
 
   signUp: async () => {
     // debugger;
@@ -252,6 +253,42 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
     }
   },
 
+  changePassword: async () => {
+    const slugId = '98a60c91-a068-43cb-989d-172cf3f90321';
+
+    const { changePasswordState } = get();
+    set({ resetPasswordError: false });
+
+    const payload = {
+      newPassword: changePasswordState.password,
+    };
+
+    try {
+      const response = await httpRequest(
+        'post',
+        `${envConfig.api_url}/framework_shell_auth/changePassword`,
+        payload,
+        true,
+        undefined,
+        {
+          headers: { slug: slugId },
+        },
+      );
+
+      if (response.data.status === '200') {
+        enqueueSnackbar('Password Changed Successfully!', { variant: 'success' });
+      } else {
+        enqueueSnackbar(response.data.message || 'Password change failed.', { variant: 'error' });
+        set({ resetPasswordError: true });
+      }
+    } catch (err) {
+      enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      set({ resetPasswordError: true });
+    } finally {
+      set({ resetPasswordError: false });
+    }
+  },
+
   logOut: () => {
     set({
       signInState: initialState.signInState,
@@ -276,7 +313,7 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
     });
     localStorage.removeItem(localStorageKeys.authToken);
     useUser.setState({ user: null });
-     window.location.href = '/login';
+    window.location.href = '/login';
   },
 
   clearAll: () => {

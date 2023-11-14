@@ -9,7 +9,9 @@ import { Visibility, VisibilityOff } from '@atoms/icons';
 import { Alert, IconButton, SxProps, Theme } from '@mui/material';
 import BackIcon from '@assets/backIcon';
 import { useNavigate } from 'react-router-dom';
-import { useProfileUserLanding } from '@core/store';
+import { useAuth, useProfileUserLanding } from '@core/store';
+import { passwordRegex, validateResetPasswordData } from '@core/store/utils';
+import { ResetPasswordState } from '@core/store/interface';
 
 export interface MyProfileProps {
   onClick?: () => void;
@@ -20,20 +22,21 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
   const [values, setValues] = useState(false);
   const [password, setPasswordOpen] = useState(false);
   const [showpassword, setPassword] = useState<boolean>(false);
-  const [formErrors, setFormErrors] = useState({ name: '', mobileno: '' });
-
+  const [formErrors, setFormErrors] = useState({ name: '', mobileno: '', password: '', confirmPassword: '' });
 
   const { getMyProfile, MyProfileList, editProfileData, editProfile, seteditMyProfile } = useProfileUserLanding();
-
+  const { changePasswordState, setChangePasswordState, changePassword } = useAuth();
   // console.log(MyProfileList, 'MyProfileList');
-  // console.log(editProfile, 'editProfile');
+  // console.log(changePasswordState, 'editProfile');
 
   const history = useNavigate();
 
   const handleChange = (key: string, value: string | number) => {
     seteditMyProfile(key, value);
   };
-
+  const handleChangePassword = (key: string, value: string) => {
+    setChangePasswordState(key, value);
+  };
   const handleOpenProfile = () => {
     setValues(true);
   };
@@ -61,12 +64,40 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
     return Object.keys(errors).length === 0;
   };
 
+  const validatePasswordData = () => {
+    const errors: Record<string, string> = {};
+
+    if (changePasswordState.password.trim().length === 0) {
+      errors.password = 'Password is required';
+    }
+
+    if (changePasswordState.confirmPassword.trim().length === 0) {
+      errors.confirmPassword = 'confirm password is required';
+    }
+    if (
+      changePasswordState.confirmPassword.length > 0 &&
+      changePasswordState.confirmPassword !== changePasswordState.password
+    ) {
+      errors.confirmPassword = 'Password and confirm password is not matching';
+    }
+    setFormErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
+
   const handleEdit = () => {
     if (validateForm()) {
       editProfileData();
       setValues(false);
     }
   };
+  const confirmPassword = () => {
+    if (validatePasswordData()) {
+      changePassword();
+      setPasswordOpen(false);
+    }
+  };
+
   const redirect = () => {
     history('/');
   };
@@ -161,12 +192,7 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
         }
         handleCloseDialog={handleClose}
         dialogRootStyle={ProfileStyle.dialogSx}
-        Footercomponent={
-          <FooterComponent
-             onSave={handleEdit}
-            onCancel={handleClose}
-          />
-        }
+        Footercomponent={<FooterComponent onSave={handleEdit} onCancel={handleClose} />}
       />
       <DialogDrawer
         maxModalWidth="sm"
@@ -182,12 +208,12 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
               <Input
                 id="password"
                 type={showpassword ? 'text' : 'password'}
-                // value={resetPasswordState.password}
+                value={changePasswordState.password}
                 placeholder="New password"
                 size="small"
-                // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                //   handleChange('password', e.target.value)
-                // }
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                  handleChangePassword('password', e.target.value)
+                }
                 endAdornment={
                   <IconButton onClick={() => setPassword((prevState) => !prevState)} edge="end">
                     {showpassword ? (
@@ -197,6 +223,8 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
                     )}
                   </IconButton>
                 }
+                isError={Boolean(formErrors.password)}
+                errorMessage={formErrors.password}
               />
             </Box>
             <Box sx={ProfileStyle.inputGroupConform}>
@@ -207,13 +235,13 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
                 <Input
                   id="confirmPassword"
                   type={showpassword ? 'text' : 'password'}
-                  // value={resetPasswordState.confirmPassword}
+                  value={changePasswordState.confirmPassword}
                   size="small"
                   placeholder="Confirm Password"
                   textFieldStyle={ProfileStyle.inputpassword}
-                  // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                  //   handleChange('confirmPassword', e.target.value)
-                  // }
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+                    handleChangePassword('confirmPassword', e.target.value)
+                  }
                   endAdornment={
                     <IconButton onClick={() => setPassword((prevState) => !prevState)} edge="end">
                       {showpassword ? (
@@ -223,10 +251,12 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
                       )}
                     </IconButton>
                   }
+                  isError={Boolean(formErrors.confirmPassword)}
+                  errorMessage={formErrors.confirmPassword}
                 />
               </Box>
             </Box>
-            <Button variant={'contained'} sx={ProfileStyle.ConfirmBtn}>
+            <Button variant={'contained'} sx={ProfileStyle.ConfirmBtn} onClick={confirmPassword}>
               Confirm
             </Button>
           </Box>

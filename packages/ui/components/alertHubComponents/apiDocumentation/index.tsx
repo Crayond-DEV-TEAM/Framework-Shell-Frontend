@@ -77,27 +77,6 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
 
   return (
     <Box sx={apiDocumentation_style.root}>
-      <SubHeader title="API Documentation" sx={apiDocumentation_style.subHeader} />
-      <Box sx={apiDocumentation_style.firstInput}>
-        <Label sx={apiDocumentation_style.labelSx} htmlFor="APICalls">
-          API Calls
-        </Label>
-        <Input
-          placeholder="https://alertshub-api.crayond.com/api/v1/sendmessage"
-          //   value="https://alertshub-api.crayond.com/api/v1/sendmessage"
-          endAdornment={
-            <IconButton sx={apiDocumentation_style.copySx} onClick={handleCopy}>
-              <CopyLinkIcon />
-            </IconButton>
-          }
-          textFieldStyle={{
-            ...apiDocumentation_style.inputSx,
-            '& .MuiOutlinedInput-root': {
-              pr: 0,
-            },
-          }}
-        />
-      </Box>
       <Box sx={apiDocumentation_style.gridBox}>
         <Grid container sx={apiDocumentation_style.referenceParent}>
           <Grid item md={6} sm={12} sx={apiDocumentation_style.referenceParent1}>

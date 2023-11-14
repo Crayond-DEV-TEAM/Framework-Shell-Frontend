@@ -59,13 +59,17 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     getServiceMasterByOrganisation();
     getUserMasterByOrganisation();
     setOpen(true);
+    e.preventDefault();
+    e.stopPropagation();
     
   };
-  const handleTableDelete = (id: string) => {
+  const handleTableDelete = (id: string, data: any, e: any) => {
     deleteAdmin(id);
     console.log('');
+    e.preventDefault();
+    e.stopPropagation();
   };
-  const handleTableDetail = (id: string) => {
+  const handleTableDetail = (id: string, data: any, e: any) => {
     // debugger;
     // getMenu();
     // getSideMenusFromProject(id);
@@ -74,12 +78,17 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     
     getAllProjectsEditData(id);
     setProfileDetails(true);
+    e.preventDefault();
+    e.stopPropagation();
     
   };
   const onRowClick = (data:any, e:any)=>{
     getSideMenusFromProject(data.id);
     localStorage.setItem(localStorageKeys.projectId, data.id);
     navigate(webRoutes.root);
+    e.preventDefault();
+    e.stopPropagation();
+    
     
   }
   const handleDrawerClose = () => {
@@ -167,7 +176,8 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
               onRowClick={ (data:any, e:any) => {
                 onRowClick(data, e);
                 e.preventDefault();
-                e.stoppropagation();
+                e.stopPropagation();
+                
               }
             }              
               Header={Header}

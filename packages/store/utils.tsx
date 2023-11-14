@@ -53,6 +53,7 @@ export const giveMeAuthInitialState = (): {
   signInState: SignInState;
   forgotPasswordState: ForgotPasswordState;
   resetPasswordState: ResetPasswordState;
+  changePasswordState: ResetPasswordState;
 } => {
   return {
     signUpState: {
@@ -68,6 +69,7 @@ export const giveMeAuthInitialState = (): {
     signInState: { username: '', password: '' },
     forgotPasswordState: { email_id: '' },
     resetPasswordState: { password: '', confirmPassword: '' },
+    changePasswordState: { password: '', confirmPassword: '' },
   };
 };
 

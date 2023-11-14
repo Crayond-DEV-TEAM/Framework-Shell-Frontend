@@ -168,7 +168,7 @@ export const useProfileUserLanding = create<UserProfileLandingInterface>((set, g
   },
 
   getMyProfile: () => {
-    debugger
+    // debugger
     // const { OrganisationDetails } = get();
     // const slugId = useSlug?.getState()?.slugs?.PASM;
     const slugId = '98a60c91-a068-43cb-989d-172cf3f90321';

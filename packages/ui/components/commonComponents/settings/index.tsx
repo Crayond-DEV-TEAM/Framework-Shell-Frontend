@@ -69,7 +69,7 @@ export const Settings = (props: SettingsProps): JSX.Element => {
     >
       <SubHeader title="API" sx={settingsStyle.subHeader} />
       <Box sx={settingsStyle.firstInput}>
-        <Label sx={settingsStyle.labelSx} htmlFor="API Keys" onClick={handleTooltipOpen}>
+        <Label sx={settingsStyle.labelSx} htmlFor="API Keys">
           API Key
         </Label>
         <Input
@@ -90,11 +90,6 @@ export const Settings = (props: SettingsProps): JSX.Element => {
           }}
         />
       </Box>
-      <Tooltip
-        onClose={handleTooltipClose}
-        open={open}
-        title={copyText} arrow>
-      </Tooltip>
     </Box>
   );
 };

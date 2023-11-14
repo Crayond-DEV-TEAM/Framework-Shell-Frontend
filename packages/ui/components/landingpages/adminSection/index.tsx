@@ -49,6 +49,9 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     (x: any) => x.projectTitle?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
+  console.log(filteredMessageGroup, 'filteredMessageGroup');
+  
+
   const handleTableEdit = (id: string, data: any, e: any) => {
     getAllProjectsEditData(id);
     getServiceMasterByOrganisation();

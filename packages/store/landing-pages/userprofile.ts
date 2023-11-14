@@ -3,8 +3,10 @@ import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { UserProfileLandingInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
+import { useSlug } from '../common';
 export const useProfileUserLanding = create<UserProfileLandingInterface>((set, get) => ({
   UserProfileList: [],
+  MyProfileList: [],
   fetching: false,
   errorOnFetching: false,
 
@@ -14,21 +16,28 @@ export const useProfileUserLanding = create<UserProfileLandingInterface>((set, g
 
   createEditUserProfile: {
     userProfileName: '',
-    description:'',
+    description: '',
     id: '',
+  },
+  editProfile:{
+    name:"",
+    mobileno:""
   },
 
   seteditUserProfile: (payload: { key: string; value: string | number }) => {
     set((state) => ({ createEditUserProfile: { ...state.createEditUserProfile, [payload.key]: payload.value } }));
   },
 
+  seteditMyProfile: (key: string, value: string | number) => {
+    set((state) => ({ editProfile: { ...state.editProfile, [key]: value } }));
+  },
 
   getUserProfileList: (id: string) => {
     // const { OrganisationDetails } = get();
 
     set({ fetching: true, errorOnFetching: false });
     const payload = {
-    //   organisation_id: OrganisationDetails.id,
+      //   organisation_id: OrganisationDetails.id,
     };
     httpRequest('get', `${envConfig.api_url}/idm/user-profile/list`, payload, true)
       .then((response) => {
@@ -60,11 +69,11 @@ export const useProfileUserLanding = create<UserProfileLandingInterface>((set, g
     set({ fetching: true, errorOnFetching: false });
     // const { RepositoryList } = useRepository();
     const payload = {
-    //   name: createEditUser.name,
-    //   email_id: createEditUser.email,
-    //   designation: createEditUser.designation,
-    //   is_active: createEditUser.is_active,
-    //   organisation_id: OrganisationDetails.id,
+      //   name: createEditUser.name,
+      //   email_id: createEditUser.email,
+      //   designation: createEditUser.designation,
+      //   is_active: createEditUser.is_active,
+      //   organisation_id: OrganisationDetails.id,
     };
 
     httpRequest('post', `${envConfig.api_url}/user-profiles`, payload, true)
@@ -91,12 +100,12 @@ export const useProfileUserLanding = create<UserProfileLandingInterface>((set, g
     set({ fetching: true, errorOnFetching: false });
     // const { RepositoryList } = useRepository();
     const payload = {
-    //   name: createEditUser.name,
-    //   email_id: createEditUser.email,
-    //   designation: createEditUser.designation,
-    //   is_active: createEditUser.is_active,
-    //   organisation_id: OrganisationDetails.id,
-    //   user_profile_id: createEditUser.id,
+      //   name: createEditUser.name,
+      //   email_id: createEditUser.email,
+      //   designation: createEditUser.designation,
+      //   is_active: createEditUser.is_active,
+      //   organisation_id: OrganisationDetails.id,
+      //   user_profile_id: createEditUser.id,
     };
 
     set({ fetching: true, errorOnFetching: false });
@@ -120,7 +129,7 @@ export const useProfileUserLanding = create<UserProfileLandingInterface>((set, g
     const payload = {
       user_profile_id: id,
       is_active: status,
-    //   organisation_id: OrganisationDetails.id,
+      // organisation_id: OrganisationDetails.id,
     };
     httpRequest('put', `${envConfig.api_url}/user-profiles`, payload, true)
       .then((response) => {
@@ -158,13 +167,66 @@ export const useProfileUserLanding = create<UserProfileLandingInterface>((set, g
       });
   },
 
+  getMyProfile: () => {
+    debugger
+    // const { OrganisationDetails } = get();
+    // const slugId = useSlug?.getState()?.slugs?.PASM;
+    const slugId = '98a60c91-a068-43cb-989d-172cf3f90321';
+    console.log(slugId, 'slugId');
+
+    set({ fetching: true, errorOnFetching: false });
+    const payload = {};
+
+    httpRequest('get', `${envConfig.api_url}/idm/user-profile`, payload, true, undefined, { headers: { slug: slugId } })
+      .then((response) => {
+        const responseData = response.data.data;
+        set({ MyProfileList: responseData });
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ fetching: false });
+      });
+  },
+
+  editProfileData: (data: any) => {
+    const slugId = '98a60c91-a068-43cb-989d-172cf3f90321';
+
+    set({ editsave: true, errorOnFetching: false });
+    const { MyProfileList, clearAll, getMyProfile,editProfile } = get();
+
+    const payload = {
+      id: MyProfileList.id,
+      isActive: true,
+      fullName: editProfile.name,
+      mobileNumber: editProfile.mobileno.slice(2, 12),
+      mobileCode: editProfile.mobileno.slice(0, 2),
+    };
+
+    httpRequest('put', `${envConfig.api_url}/idm/user-profile`, payload, true, undefined, { headers: { slug: slugId } })
+      .then((response) => {
+        enqueueSnackbar('Profile Edited Succesfully!', { variant: 'success' });
+      })
+      .catch((err) => {
+        set({ errorOnFetching: true });
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+      })
+      .finally(() => {
+        set({ editsave: false });
+        // clearAll();
+        getMyProfile();
+      });
+  },
   clearAll: () => {
     set({
-        createEditUserProfile: {
-    userProfileName: '',
-    description:'',
-    id: '',
-  },
+      createEditUserProfile: {
+        userProfileName: '',
+        description: '',
+        id: '',
+      },
+      // MyProfileList:[]
     });
   },
 }));

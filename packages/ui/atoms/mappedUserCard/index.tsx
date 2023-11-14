@@ -14,8 +14,6 @@ export interface MappedUserCardProps {
 export const MappedUserCard = (props: MappedUserCardProps): JSX.Element => {
   const { className = '', sx = {}, altText, dataMaster, ...rest } = props;
 
-  // console.log(altText, 'altText');
-
   // const { createEditAdmin } = useAdminLanding();
   // const dataMaster = createEditAdmin.mapAdmin;
   return (

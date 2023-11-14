@@ -160,7 +160,7 @@ export interface MessageCreateInterface {
   title: number | string;
   description: number | string;
   is_status: boolean;
-  id?: string
+  id?: string;
 }
 
 export interface MessageConfigInterface {
@@ -1188,10 +1188,10 @@ export interface AdminInterface {
   addUserInvite: () => void;
   emailChecker: () => void;
   userNameChecker: () => void;
-  createServiceMap: () => void
-  editServiceMap: () => void
-  createUserMap: () => void
-  editUserMap: () => void
+  createServiceMap: () => void;
+  editServiceMap: () => void;
+  createUserMap: () => void;
+  editUserMap: () => void;
 
   clearAll: () => void;
 }
@@ -1367,7 +1367,7 @@ export interface SuperAdminLandingKey {
 export interface SuperAdminLandingInterface {
   OrganisationList: SuperAdminLandingKey[];
   ServiceList: [];
-  UserListMaster: []
+  UserListMaster: [];
   fetching: boolean;
   errorOnFetching: boolean;
 
@@ -1401,8 +1401,19 @@ export interface UserProfileLandingKey {
   id?: string;
 }
 
+export interface UserProfileLandingKey {
+  userProfileName: string;
+  description: string;
+  id?: string;
+}
+
+export interface UserEditProfileKey {
+  name:"",
+  mobileno:""
+}
 export interface UserProfileLandingInterface {
   UserProfileList: UserProfileLandingKey[];
+  MyProfileList: any;
   fetching: boolean;
   errorOnFetching: boolean;
 
@@ -1411,6 +1422,7 @@ export interface UserProfileLandingInterface {
   deletefetch: boolean;
 
   createEditUserProfile: UserProfileLandingKey;
+  editProfile: UserEditProfileKey;
   seteditUserProfile: (payload: { key: string; value: string | number }) => void;
 
   updateEditData: (data: any) => void;
@@ -1420,4 +1432,7 @@ export interface UserProfileLandingInterface {
   getStatusList: (id: any, status: any) => void;
   deleteUserProfile: (id: string) => void;
   clearAll: () => void;
+  getMyProfile: (data: any) => void;
+  editProfileData: (data: any) => void;
+  seteditMyProfile: (key: string, value: string | number) => void;
 }

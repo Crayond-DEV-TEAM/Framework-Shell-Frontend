@@ -6,6 +6,7 @@ import { Avatar, AppBar as MUIAppBar, Menu, MenuItem, SxProps, Theme, Typography
 import { Box } from '@mui/material';
 import { useState } from 'react';
 import { appBarStyle } from './style';
+import { useNavigate } from "react-router-dom";
 export interface AppBarProps {
   className?: string;
   sx?: SxProps<Theme>;
@@ -19,6 +20,7 @@ export function AppBar(props: AppBarProps): JSX.Element {
   const [open, setOpen] = useState<boolean>(false);
   const token = localStorage.getItem(localStorageKeys.authToken);
   const user = parseJwt(token);
+  const history = useNavigate();
 
   const handleOpen = () => {
     setOpen(true);
@@ -28,6 +30,10 @@ export function AppBar(props: AppBarProps): JSX.Element {
   };
   const { logOut } = useAuth();
   console.log(user, 'user');
+
+  const myProfile = () => {
+    history("/profile");
+  };
 
   return (
     <Box
@@ -51,7 +57,7 @@ export function AppBar(props: AppBarProps): JSX.Element {
                 <Typography sx={appBarStyle.email}>{user?.email_id}</Typography>
               </Box>
               <Avatar
-                src={'https://expertphotography.b-cdn.net/wp-content/uploads/2020/08/social-media-profile-photos-3.jpg'}
+                // src={'https://expertphotography.b-cdn.net/wp-content/uploads/2020/08/social-media-profile-photos-3.jpg'}
                 variant="rounded"
                 sx={{ borderRadius: '8px' }}
               />
@@ -77,24 +83,27 @@ export function AppBar(props: AppBarProps): JSX.Element {
         sx={{
           top: '18px',
           right: '28px',
-          '& .MuiPaper-root': { width: '162px', height: '109px' },
+          '& .MuiPaper-root': { width: '162px', height: 'auto' },
           '& .MuiList-root': { paddingTop: '0px', paddingBottom: '0px' },
         }}
       >
         <MenuItem>
           <Box sx={appBarStyle.profileSec}>
             <ManIcon />
-            <Typography sx={appBarStyle.menutext}>My Profile</Typography>
+            <Typography sx={appBarStyle.menutext} onClick={myProfile}>
+              My Profile
+            </Typography>
           </Box>
         </MenuItem>
-        <MenuItem>
+        {/* Commented As per requirment */}
+        {/* <MenuItem>
           <Box sx={appBarStyle.profileSec}>
             <ApiProfile />
             <Typography sx={appBarStyle.menutext}>API Key</Typography>
           </Box>
-        </MenuItem>
-        <MenuItem onClick={logOut}>
-          <Box sx={appBarStyle.profileSec}>
+        </MenuItem> */}
+        <MenuItem>
+          <Box sx={appBarStyle.profileSec} onClick={logOut}>
             <Logout />
             <Typography sx={appBarStyle.menutext}>Logout</Typography>
           </Box>

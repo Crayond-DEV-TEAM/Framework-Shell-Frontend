@@ -12,7 +12,7 @@ export const addMessageStyle: AddMessageStyleProps = {
     borderRadius: '8px',
     border: '1px solid #EAEAEA',
     // height: '100vh',
-    width: '230px',
+    width: '100%',
     height: 'calc(100vh - 100px)',
   },
   header: {

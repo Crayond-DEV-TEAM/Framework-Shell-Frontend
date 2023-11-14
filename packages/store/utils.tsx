@@ -284,13 +284,6 @@ export const AllRoutes = [
         icon: (isSelected: boolean) => <SubMessageLanguage sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
-        id: 1,
-        link: webRoutes.userManagment,
-        name: 'Settings',
-        baseUrl: '',
-        icon: (isSelected: boolean) => <SubMessageLanguage sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
-      },
-      {
         id: 3,
         link: webRoutes.configSettings,
         name: 'Settings',

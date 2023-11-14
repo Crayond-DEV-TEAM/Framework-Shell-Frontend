@@ -1,5 +1,5 @@
 import type { SxProps, Theme } from '@mui/material';
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, Button, IconButton, Tooltip, Typography } from '@mui/material';
 
 import { settingsStyle } from './style';
 import { ReportTabs, SubHeader, TabPage } from '..';
@@ -35,6 +35,26 @@ export const Settings = (props: SettingsProps): JSX.Element => {
         break;
     }
   }, [service])
+
+  const [open, setOpen] = useState(false);
+  const [copyText, setCopyText] = useState('');
+
+
+  const handleTooltipClose = () => {
+    setOpen(false);
+  };
+
+  const handleCopyAPIkey = async () => {
+    try {
+      await navigator.clipboard.writeText(APIKey);
+      setCopyText("Copied to clipboard!");
+      setOpen(true);
+
+    } catch (err) {
+      setOpen(false)
+      setCopyText("Unable to copyText to clipboard.")
+    }
+  };
   return (
     <Box
       sx={[
@@ -48,14 +68,14 @@ export const Settings = (props: SettingsProps): JSX.Element => {
     >
       <SubHeader title="API" sx={settingsStyle.subHeader} />
       <Box sx={settingsStyle.firstInput}>
-        <Label sx={settingsStyle.labelSx} htmlFor="API Keys">
+        <Label sx={settingsStyle.labelSx} htmlFor="API Keys" onClick={handleTooltipOpen}>
           API Key
         </Label>
         <Input
           placeholder="https://alertshub-api.crayond.com/api/v1/sendmessage"
           //   value="https://alertshub-api.crayond.com/api/v1/sendmessage"
           endAdornment={
-            <IconButton sx={settingsStyle.copySx}>
+            <IconButton sx={settingsStyle.copySx} onClick={handleCopyAPIkey}>
               <CopyLinkIcon />
             </IconButton>
           }
@@ -69,6 +89,11 @@ export const Settings = (props: SettingsProps): JSX.Element => {
           }}
         />
       </Box>
+      <Tooltip
+        onClose={handleTooltipClose}
+        open={open}
+        title={copyText} arrow>
+      </Tooltip>
     </Box>
   );
 };

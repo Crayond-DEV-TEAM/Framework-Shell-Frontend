@@ -159,7 +159,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     >
       <Grid container display="flex" sx={messageTableStyle.totalTableSx} spacing={3}>
         {/* Message Group */}
-        <Grid item xs={12} sm={4} md={2.25}>
+        <Grid item xs={12} sm={4} md={2} lg={2.25} xl={2.25} pl={'36px !important'}>
           <Box sx={messageTableStyle.addSx}>
             <AddMessage
               onMessageTable={handleChange}
@@ -173,7 +173,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
           </Box>
         </Grid>
 
-        <Grid item xs={12} sm={8} md={9.75}>
+        <Grid item xs={12} sm={8} md={10} lg={9.75} xl={9.75} pl={"0px !important"}>
           <Box sx={messageTableStyle.commonTable}>
             <CommonTable
               Header={Header}

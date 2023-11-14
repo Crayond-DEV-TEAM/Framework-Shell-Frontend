@@ -59,26 +59,28 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     getServiceMasterByOrganisation();
     getUserMasterByOrganisation();
     setOpen(true);
+    
   };
   const handleTableDelete = (id: string) => {
     deleteAdmin(id);
     console.log('');
   };
   const handleTableDetail = (id: string) => {
-    debugger;
+    // debugger;
     // getMenu();
-    getSideMenusFromProject(id);
-    localStorage.setItem(localStorageKeys.projectId, id);
+    // getSideMenusFromProject(id);
+    // localStorage.setItem(localStorageKeys.projectId, id);
+    // navigate(webRoutes.root);
+    
+    getAllProjectsEditData(id);
+    setProfileDetails(true);
+    
+  };
+  const onRowClick = (data:any, e:any)=>{
+    getSideMenusFromProject(data.id);
+    localStorage.setItem(localStorageKeys.projectId, data.id);
     navigate(webRoutes.root);
     
-    // getAllProjectsEditData(id);
-    // setProfileDetails(true);
-  };
-  const onRowClick = (id:string)=>{
-    getSideMenusFromProject(id);
-    localStorage.setItem(localStorageKeys.projectId, id);
-    navigate(webRoutes.root);
-
   }
   const handleDrawerClose = () => {
     setOpen(false);
@@ -160,7 +162,14 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
         createEditState={OrganisationDetails}
         content={
           <Box sx={adminSectionStyle.commonTable}>
-            <CommonTable
+            <CommonTable       
+              // onRowClick={onRowClick}  
+              onRowClick={ (data:any, e:any) => {
+                onRowClick(data, e);
+                e.preventDefault();
+                e.stoppropagation();
+              }
+            }              
               Header={Header}
               dataList={filteredMessageGroup}
               tableData={tableData(handleTableEdit, handleTableDelete, handleTableDetail)}

@@ -161,10 +161,9 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
         content={
           <Box sx={adminSectionStyle.commonTable}>
             <CommonTable
-
               Header={Header}
               dataList={filteredMessageGroup}
-              tableData={tableData(handleTableEdit, handleTableDelete, handleTableDetail, onRowClick)}
+              tableData={tableData(handleTableEdit, handleTableDelete, handleTableDetail)}
               switchList={switchList}
               handleSwitch={handleSwitch}
               headerOptions={{

@@ -216,14 +216,14 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
     const isActiveData = alertsList?.filter((alert) => alert?.is_active).map(({ id }) => id);
     setSwitchList(isActiveData);
   }, [alertsList]);
+  
 
   return (
     <Box>
       <Grid container>
         <Grid item xs={12}>
-          <Box sx={alertRuleStyles.commonTable}>
-            
-            <CommonTable
+          <Box sx={alertRuleStyles.commonTable}>          
+            <CommonTable     
               Header={Header}
               dataList={alertRuleData}
               tableData={tableData}
@@ -246,6 +246,8 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
                 color: '#5A5A5A',
                 borderBottom: '0px',
               }}
+              tableMinWidth={'1500px'}
+              tableMinHeight={'60vh'}
               paddingAll={'0px'}
               marginAll={'0px'}
               dense={'small'}

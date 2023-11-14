@@ -45,8 +45,6 @@ export const FooterComponent = forwardRef((props: FooterComponentProps, ref: Rea
   } = props;
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-  console.log('checkedcheckedchecked', checked);
-
   return (
     <Box
       sx={[

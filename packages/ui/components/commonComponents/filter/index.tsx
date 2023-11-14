@@ -211,8 +211,6 @@ export const Filter = forwardRef((props: FilterProps): JSX.Element => {
     }
   };
 
-  console.log('filterContent', filterContent);
-
   return (
     <Box
       sx={[

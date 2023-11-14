@@ -3,6 +3,7 @@ import { useUser } from '@core/store/framework-shell/user';
 import { Box, Typography } from '@mui/material';
 
 import { greetingStyles } from './style';
+import { BannerSvg } from '@atoms/icons';
 
 export interface GreetingProps {
   className?: string;
@@ -41,12 +42,17 @@ export function Greeting(props: GreetingProps): JSX.Element {
       className={`${className}`}
       {...rest}
     >
-      <Typography sx={{ fontWeight: 600, fontSize: '22px' }}>
-        Welcome, <>{user?.firstName ?? 'User'}</>!
-      </Typography>
-      <Typography sx={{ fontStyle: 'italic', fontSize: '18px' }}>
-        Select any services from the sidebar to open
-      </Typography>
+      <Box sx={greetingStyles?.subRootSx}>
+        <Box sx={greetingStyles?.bannerbox}>
+          <BannerSvg />
+          <Typography my={1} sx={{ fontWeight: 600, fontSize: '22px', textAlign: 'center' }}>
+            Welcome to Crayond's Framework Shell
+          </Typography>
+          <Typography mb={1} sx={{ fontStyle: 'italic', fontSize: '18px', textAlign: 'center' }}>
+            Select any services from the sidebar to open
+          </Typography>
+        </Box>
+      </Box>
     </Box>
   );
 }

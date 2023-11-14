@@ -340,7 +340,6 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
               is_active: tableData?.isActive,
             }),
           );
-          console.log('updateData', updateData);
 
           set((state) => ({ ...state, addAlertRules: updateData?.[0] }));
         }
@@ -357,9 +356,6 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
 
   getAlertTable: async () => {
     const slugId = useSlug.getState().slugs.ALERTSHUB;
-
-    console.log('useSlug.getState()', useSlug.getState());
-    // console.log('useSlug.getState().slugs-----------------', useSlug.getState().slugs);
 
     set({ fetching: true, errorOnFetching: false });
 
@@ -411,6 +407,10 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
           });
           set({
             alertsList: dataTable,
+          });
+        } else {
+          set({
+            alertsList: [],
           });
         }
       })
@@ -477,6 +477,7 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
     })
       .then((response) => {
         enqueueSnackbar('Data Deleted Succesfully!', { variant: 'success' });
+        getAlertTable();
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -484,7 +485,6 @@ export const useAlertRules = create<AlertRuleInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
-        getAlertTable();
       });
   },
 

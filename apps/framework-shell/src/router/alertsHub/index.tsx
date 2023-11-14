@@ -7,6 +7,7 @@ import {
   LanguageConfig,
   MessageTable,
   Reports,
+  Settings,
 } from '@core/ui/components';
 import { Box } from '@mui/material';
 
@@ -41,6 +42,14 @@ export const alertsHubRoutes = [
     element: (
       <AppLayout>
         <ApiDocumentation />
+      </AppLayout>
+    ),
+  },
+  {
+    path: webRoutes.alertshubSettings,
+    element: (
+      <AppLayout>
+        <Settings service={'ALERTSHUB'} />
       </AppLayout>
     ),
   },

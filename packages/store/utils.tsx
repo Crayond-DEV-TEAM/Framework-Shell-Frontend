@@ -3,6 +3,7 @@ import {
   AddAlertRule,
   AddEditMessageState,
   AddNewConfig,
+  ApiBodyInterface,
   ForgotPasswordState,
   Menu,
   MessageDetails,
@@ -400,6 +401,57 @@ export const giveMeAlertConfig = (): AddNewConfig => {
     Provider: '',
     API_Key: '',
     isActive: false,
+  };
+};
+
+export const giveMeApiBody = (): ApiBodyInterface => {
+  return {
+    reference_id: '',
+    alert_rule_code: '',
+    push_receivers: [],
+    push_title: [],
+    push_body: [],
+    push_data: { },
+    push_click_action: '',
+    push_icon: '',
+    push_image: '',
+    push_actions: [
+      {
+        title:'',
+        action: ''
+    }
+    ],
+    whatsapp_body: [],
+    whatsapp_template_name: '',
+    inapp_title: [],
+    inapp_body: [],
+    inapp_image: '',
+    inapp_action1: '',
+    inapp_action2: '',
+    inapp_type: '',
+    inapp_eventReferenceId: '',
+    inapp_clientIds: [],
+    inapp_icon: '',
+    is_send_push_notification: false,
+    is_send_inapp_notification: false,
+    is_user_specific_notification: false,
+    to_mobiles: [],
+    sms_body: [],
+    URL: '',
+    to_emails: [],
+    email_CC: [],
+    email_BCC: [],
+    from_mail: '',
+    email_subject: [],
+    email_body: [],
+    email_attachments: [
+      {
+        content: '',
+        filename: '',
+        type: '',
+        disposition: '',
+      },
+    ],
   };
 };
 

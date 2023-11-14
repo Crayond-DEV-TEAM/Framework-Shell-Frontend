@@ -12,8 +12,13 @@ export const useApiDocumentation = create<ApiDocumentationInterface>((set, get) 
     apiBodyError: false,
 
 
-    handleChangeCallback: (key: string, value: string) => {
-        set((state) => ({ apiBody: { ...state.apiBody, [key]: value } }));
+    handleChangeCallback: (key: string, value: string, apiBody: any) => {
+        if (Object.values(apiBody)) {
+            set((state) => ({ apiBody: { ...state.apiBody, [key]: [value] } }));
+        } else {
+            set((state) => ({ apiBody: { ...state.apiBody, [key]: value } }));
+
+        }
     },
 
     requestBodyAPI: () => {
@@ -29,11 +34,11 @@ export const useApiDocumentation = create<ApiDocumentationInterface>((set, get) 
         })
             .then((response) => {
                 set((state) => ({ apiBodyMessage: response?.data?.message }));
-                set((state) => ({ apiBodyError: false}))
+                set((state) => ({ apiBodyError: false }))
             })
             .catch((err) => {
                 set((state) => ({ apiBodyMessage: err?.response?.data?.message }));
-                set((state) => ({ apiBodyError: true}))
+                set((state) => ({ apiBodyError: true }))
 
                 // enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
             })

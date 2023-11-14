@@ -66,14 +66,17 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
     setOpen(true);
   };
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: any, apiBody: any) => {
     const value = e.target.value;
     const name = e?.target.attributes[2].nodeValue
-    handleChangeCallback(name, value)
+    handleChangeCallback(name, value, apiBody)
   }
 
   React.useEffect(() => {
   }, [])
+
+  console.log(apiBody, 'apiBody');
+  
 
   return (
     <Box sx={apiDocumentation_style.root}>
@@ -87,7 +90,7 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
                   return (
                     <Box key={index} sx={apiDocumentation_style.textBox}>
                       <Label sx={apiDocumentation_style.labelSx}>{e}</Label>
-                      <Input placeholder={e} onChange={(e) => handleChange(e)} value={apiBody[e]}
+                      <Input placeholder={e} onChange={(e) => handleChange(e, apiBody)} value={apiBody[e]}
                         textFieldStyle={apiDocumentation_style.inputSx} />
                     </Box>
                   );

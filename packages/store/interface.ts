@@ -529,7 +529,7 @@ export interface ApiBodyInterface {
 export interface ApiDocumentationInterface {
   apiBody: ApiBodyInterface
   apiBodyMessage: string,
-  handleChangeCallback: (key: string, value: string) => void,
+  handleChangeCallback: (key: string, value: string, apiBody: any) => void,
   requestBodyAPI: () => void,
   apiBodyError: boolean,
 

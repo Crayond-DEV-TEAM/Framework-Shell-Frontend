@@ -73,14 +73,14 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
   }
 
   React.useEffect(() => {
-  }, [])
-
-  console.log(apiBody, 'apiBody');
-  
+  }, [])  
 
   return (
     <Box sx={apiDocumentation_style.root}>
+      
+      <Typography sx={apiDocumentation_style.headText}>API Testing</Typography>
       <Box sx={apiDocumentation_style.gridBox}>
+        
         <Grid container sx={apiDocumentation_style.referenceParent}>
           <Grid item md={6} sm={12} sx={apiDocumentation_style.referenceParent1}>
             <Box m={1} ml={0} mt={2}>

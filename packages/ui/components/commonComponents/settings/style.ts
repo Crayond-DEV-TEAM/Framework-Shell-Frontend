@@ -9,6 +9,26 @@ export const settingsStyle: SettingsStyleProps = {
     backgroundColor: '#E9F0EF',
     borderRadius: '0px',
   },
+  copySxedit: {
+    backgroundColor: '#E9F0EF',
+    borderRadius: '4px',
+    padding:'6px',
+    '& .MuiSvgIcon-root':{
+      color:'#91b6ad'
+
+    }
+  },
+  copySxeditIcon:{
+    backgroundColor: '#E9F0EF',
+    borderRadius: '4px',
+    padding:'6px',
+    marginRight:'4px',
+    '& .MuiSvgIcon-root':{
+      color:'#91b6ad'
+
+    }
+
+  },
   inputSx: {
     '& .MuiOutlinedInput-root': {
       pl: 0.7,

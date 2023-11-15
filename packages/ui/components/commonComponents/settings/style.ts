@@ -38,4 +38,10 @@ export const settingsStyle: SettingsStyleProps = {
     },
     border: '1px solid #eaeaea',
   },
+  saveSx :{ 
+    backgroundColor: '#E9F0EF',
+    borderRadius: '0px',
+    fontweight: '600',
+    textTransform: 'capitalize'
+  }
 };

@@ -147,6 +147,10 @@ export type SlugOption = {
   [key in ServiceName]: string;
 };
 
+export interface WebhookUrl {
+  id:  string,
+  url: string
+}
 export interface SlugProps {
   getSlug: (id: ServiceName) => void;
   slugs?: SlugOption;

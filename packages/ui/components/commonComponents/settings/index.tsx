@@ -6,7 +6,7 @@ import { ReportTabs, SubHeader, TabPage } from '..';
 import { Input } from '@atoms/input';
 import CopyLinkIcon from '@assets/copyLinkIcon';
 import { Label } from '@atoms/label';
-import { useAPIKey } from '@core/store';
+import { useAPIKey, useWebHookUrl } from '@core/store';
 import { useEffect, useState } from 'react';
 import React from 'react';
 
@@ -19,8 +19,10 @@ export interface SettingsProps {
 export const Settings = (props: SettingsProps): JSX.Element => {
   const { className = '', sx = {}, service = '', ...rest } = props;
 
+  const {saveWebhookUrlAPI} = useWebHookUrl()
+
   const [serviceApikey, setServiceApikey] = useState('')
-  const APIKey = useAPIKey.getState().APIkey[service]
+  const APIKey = useAPIKey?.getState()?.APIkey[service]
 
   useEffect(() => {
     switch (service) {
@@ -39,11 +41,16 @@ export const Settings = (props: SettingsProps): JSX.Element => {
 
   const [open, setOpen] = useState(false);
   const [copyText, setCopyText] = useState('');
+  const [webhookUrl, setWebhookUrl] = useState('')
 
 
   const handleTooltipClose = () => {
     setOpen(false);
   };
+
+  const UpdateWebHookUrl = (e: string) => {
+    setWebhookUrl(e)
+  }
 
   const handleCopyAPIkey = async () => {
     try {
@@ -56,6 +63,12 @@ export const Settings = (props: SettingsProps): JSX.Element => {
       setCopyText("Unable to copyText to clipboard.")
     }
   };
+
+  const saveWebhookUrl = () => {
+    if(webhookUrl !== ''){
+      saveWebhookUrlAPI()
+    }
+  }
   return (
     <Box
       sx={[
@@ -74,7 +87,6 @@ export const Settings = (props: SettingsProps): JSX.Element => {
         </Label>
         <Input
           placeholder="https://alertshub-api.crayond.com/api/v1/sendmessage"
-          //   value="https://alertshub-api.crayond.com/api/v1/sendmessage"
           endAdornment={
             <IconButton sx={settingsStyle.copySx} onClick={handleCopyAPIkey}>
               <CopyLinkIcon />
@@ -82,6 +94,28 @@ export const Settings = (props: SettingsProps): JSX.Element => {
           }
           disabled={true}
           value={serviceApikey}
+          textFieldStyle={{
+            ...settingsStyle.inputSx,
+            '& .MuiOutlinedInput-root': {
+              pr: 0,
+            },
+          }}
+        />
+      </Box>
+
+      <Box sx={settingsStyle.firstInput}>
+        <Label sx={settingsStyle.labelSx} htmlFor="API Keys">
+          Webhook Url
+        </Label>
+        <Input
+          placeholder="Url"
+          endAdornment={
+            <Button sx={settingsStyle.saveSx} onClick={saveWebhookUrl}>
+            Save
+          </Button>
+          }
+          value={webhookUrl}
+          onChange={(e) =>UpdateWebHookUrl(e?.target?.value)}
           textFieldStyle={{
             ...settingsStyle.inputSx,
             '& .MuiOutlinedInput-root': {

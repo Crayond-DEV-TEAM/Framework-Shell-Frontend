@@ -133,6 +133,7 @@ editGetDataOrganisation: (id: string) => {
       debugger;
       const responseData = response.data.data;
       const Servicemap: any = [];
+      const Adminmap: any = [];
 
       if (Array.isArray(responseData.organisation_service_mappings) && responseData.organisation_service_mappings.length > 0) {
         responseData.organisation_service_mappings.forEach((tableData: any) => {
@@ -143,13 +144,22 @@ editGetDataOrganisation: (id: string) => {
         });
       }
 
+      if (Array.isArray(responseData.organisation_user_mappings) && responseData.organisation_user_mappings.length > 0) {
+        responseData.organisation_user_mappings.forEach((tableData: any) => {
+          Adminmap.push({
+            id: tableData.user_profile_id,
+            name: tableData.name,
+          });
+        });
+      }
+
       const Datalist = {
         organisationName: responseData.name,
         description: responseData.description,
         email_id: responseData.email_id,
-        mapAdmin: responseData.organisation_user_mappings,
+        mapAdmin: Adminmap,
         mapServices: Servicemap,
-        adminDatas: responseData.organisation_user_mappings,
+        adminDatas: Adminmap,
         serviceDatas:Servicemap,
         is_active: responseData.is_active,
         id: responseData.id,

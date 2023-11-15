@@ -180,7 +180,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
                 stickyLeft: [],
                 stickyRight: [],
               }}
-              tableMinHeight={'calc(100vh - 308px)'}
+              tableMinHeight={'calc(100vh - 348px)'}
               tableMaxHeight={'calc(100vh - 308px)'}
               paddingAll={'0px'}
               marginAll={'0px 0px 0px'}

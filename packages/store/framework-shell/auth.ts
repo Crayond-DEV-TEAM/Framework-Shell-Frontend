@@ -182,7 +182,10 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
     try {
       const { forgotPasswordState } = get();
 
-      const response = await httpRequest('put', `${envConfig.api_url}/forgot_password`, forgotPasswordState);
+      const payload ={
+          email_id: forgotPasswordState.email_id
+}
+      const response = await httpRequest('post', `${envConfig.api_url}/framework_shell_auth/forgot_password`, forgotPasswordState);
 
       if (response?.status === 200) {
         set({ forgotPasswordMessage: 'We have sent a link to reset your password, please check your email inbox' });
@@ -199,7 +202,8 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
     }
   },
 
-  resetPassword: async (payload) => {
+
+  resetPassword: async (data) => {
     set({ resetPasswordLoading: true, resetPasswordMessage: '', resetPasswordError: false, resetSuccess: false });
     try {
       const { resetPasswordState } = get();
@@ -214,12 +218,14 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
       }
 
       const response = await httpRequest(
-        'put',
-        `${envConfig.api_url}/reset_password`,
+        'post',
+        `${envConfig.api_url}/framework_shell_auth/reset_password`,
         { new_password: resetPasswordState.password },
         false,
-        { headers: { Authorization: 'Bearer ' + payload.token } },
-      );
+        '',
+        {token:data}
+        // { headers: { Authorization: 'Bearer ' + data } },
+        );
 
       if (response?.status === 200) {
         let seconds = 1;

@@ -16,7 +16,7 @@ export const adminSectionStyle: AdminSectionStyleProps = {
     //   sm: '10px 20px',
     //   xs: '10px 0px',
     // },
-    padding: '16px 20px',
+    padding: '16px',
     // margin: '24px 31px',
     // borderRadius: '8px',
     // height: 'calc(100vh - 100px)',

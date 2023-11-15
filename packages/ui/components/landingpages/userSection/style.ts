@@ -35,9 +35,9 @@ export const userSectionStyle: UserSectionStyleProps = {
       border: '1px solid #EAEAEA',
       width: '100%',
     },
-    '& .LABEL': {
-      width: '40% !important',
-      // backgroundColor: 'red',
-    },
+    // '& .LABEL': {
+    //   width: '40% !important',
+    //   // backgroundColor: 'red',
+    // },
   },
 };

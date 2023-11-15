@@ -33,7 +33,7 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
   ];
   const options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
 
-  const { getUserProjectList, ProjectList } = useUserLanding();
+  // const { getUserProjectList, ProjectList } = useUserLanding();
 
   // const filteredMessageGroup = tableJson.filter((x: any) =>
   //   // x.projectTitle?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
@@ -46,9 +46,9 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  useEffect(() => {
-    getUserProjectList();
-  }, []);
+  // useEffect(() => {
+  //   getUserProjectList();
+  // }, []);
 
   return (
     <Box
@@ -61,14 +61,14 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
-      <IdmBackgroundCard
+      {/* <IdmBackgroundCard
         title="Organisation"
         subTitle="Projects"
-        content={
+        content={ */}
           <Box sx={userSectionStyle.commonTable}>
             <CommonTable
               Header={Header}
-              dataList={ProjectList}
+              dataList={tableJson}
               tableData={tableData(handleTabledetail)}
               // switchList={switchList}
               // handleSwitch={handleSwitch}
@@ -108,9 +108,10 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
                 variant: 'CUSTOM',
                 component: (
                   <TableHeader
+                    // onApply={false}
                     isFilterRequired={false}
                     // buttonName={'Projects'}
-                    tableHeader={'Projects'}
+                    tableHeader={'Users'}
                     setSearchTerm={setSearchTerm}
                     searchTerm={searchTerm}
                     isBtnRequired={false}
@@ -121,8 +122,8 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
               }}
             />
           </Box>
-        }
-      />
+        {/* }
+      /> */}
       <Drawer
         show={open}
         onCloseDrawer={handleDrawerClose}
@@ -130,7 +131,7 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
         drawerStyleSX={{ padding: '0px 20px' }}
         // drawerStyleSX={subscriptionDetailsStyle.drawerBody}
         drawerRightClose
-        header={'Project Title'}
+        header={'Add New User'}
         headerStyle={{
           fontSize: '16px',
           fontWeight: 600,
@@ -144,25 +145,6 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
             borderBottomLeftRadius: '8px',
           },
         }}
-        // footer={
-        //   <Box sx={{ display: 'flex', justifyContent: 'end' }}>
-        //     <Button
-        //       fullWidth={false}
-        //       size={'small'}
-        //       onClick={handleDrawerClose}
-        //       // sx={createPlanStyle.cancButton}
-        //     >
-        //       Cancel
-        //     </Button>
-        //     <Button
-        //       fullWidth={false}
-        //       size={'small'}
-        //       // sx={createPlanStyle.saveButton}
-        //     >
-        //       Save
-        //     </Button>
-        //   </Box>
-        // }
       >
         <div>
           <Accordion
@@ -182,13 +164,13 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
               id="panel1a-header"
               sx={{ padding: 0 }}
             >
-              <Typography sx={{ fontWeight: 600, fontSize: '14px', padding: 0 }}>Services</Typography>
+              <Typography sx={{ fontWeight: 600, fontSize: '14px', padding: 0 }}>Add Users</Typography>
             </AccordionSummary>
             <AccordionDetails sx={{ padding: '0px' }}>
               <Chip label="Chip Filled" sx={{ height: '28px', borderRadius: '8px' }} />
             </AccordionDetails>
           </Accordion>
-          <Accordion
+          {/* <Accordion
             sx={{
               boxShadow: 'none',
             }}
@@ -205,7 +187,7 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
             <AccordionDetails sx={{ padding: '0px' }}>
               <MappedUserCard altText={altText} />
             </AccordionDetails>
-          </Accordion>
+          </Accordion> */}
         </div>
         {/* <AddChipDropdown placeholder="options" permissionList={options} /> */}
       </Drawer>

@@ -2,24 +2,18 @@ import { DeleteIcon, EditIcon, MoreIcon } from '@atoms/icons';
 
 export const Header = [
   {
-    id: 'projectTitle',
+    id: 'userName',
     align: 'left',
     disablePadding: false,
-    label: 'Project Title',
+    label: 'User Name',
     isSortable: true,
   },
   {
-    id: 'description',
+    id: 'access',
     align: 'left',
     disablePadding: false,
-    label: 'Description',
+    label: 'Access',
     isSortable: true,
-  },
-  {
-    id: 'serviceMapped',
-    align: 'left',
-    disablePadding: false,
-    label: 'Service Mapped',
   },
   {
     id: 'is_active',
@@ -35,10 +29,9 @@ export const Header = [
   },
 ];
 
-export const tableData = (detailHandel: (id: string, data: any, e: any) => void) => [
-  { type: ['TEXT'], name: 'projectTitle' },
-  { type: ['TEXT'], name: 'description' },
-  { type: ['TEXT'], name: 'serviceMapped' },
+export const tableData = (editHandel: (id: string, data: any, e: any) => void, deleteHandel: (id: string) => void) => [
+  { type: ['TEXT'], name: 'userName' },
+  { type: ['TEXT'], name: 'access' },
   {
     type: ['SWITCH'],
     name: 'is_active',
@@ -49,8 +42,12 @@ export const tableData = (detailHandel: (id: string, data: any, e: any) => void)
     name: 'action',
     variant: [
       {
-        icon: <MoreIcon />,
-        method: detailHandel,
+        icon: <EditIcon />,
+        method: editHandel,
+      },
+      {
+        icon: <DeleteIcon />,
+        method: deleteHandel,
       },
     ],
   },
@@ -58,36 +55,36 @@ export const tableData = (detailHandel: (id: string, data: any, e: any) => void)
 
 export const tableJson = [
   {
-    projectTitle: 'property',
-    description: 'description',
+    userName: 'property',
+    access: 'access',
     serviceMapped: '04',
     id: '1',
     status: true,
   },
   {
-    projectTitle: 'Client',
-    description: 'client description',
+    userName: 'Client',
+    access: 'client access',
     serviceMapped: '07',
     status: true,
     id: '2',
   },
   {
-    projectTitle: 'Broker',
-    description: 'Management',
+    userName: 'Broker',
+    access: 'Management',
     serviceMapped: '10',
     status: true,
     id: '3',
   },
   {
-    projectTitle: 'Easy',
-    description: 'client description',
+    userName: 'Easy',
+    access: 'client access',
     serviceMapped: '04',
     status: true,
     id: '4',
   },
   {
-    projectTitle: 'Admin',
-    description: 'Management',
+    userName: 'Admin',
+    access: 'Management',
     serviceMapped: '02',
     status: true,
     id: '5',

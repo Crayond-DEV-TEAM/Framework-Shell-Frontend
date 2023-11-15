@@ -1,14 +1,14 @@
 import type { SxProps } from '@mui/material';
 
-interface UserManagementStyleProps {
+interface SuperAdminTabsStyleProps {
   [key: string]: SxProps;
 }
 
-export const userManagementStyle: UserManagementStyleProps = {
-  rootSx: {
+export const superAdminTabsStyle: SuperAdminTabsStyleProps = {
+    rootSx: {
     // height: '52px',
-    marginTop: '-22px',
-    marginLeft: '-7px',
+    marginTop: '-23px',
+    // marginLeft: '-7px',
     backgroundColor: '#FFFFFF',
     border: '1px solid #EAEAEA',
     opacity: 1,
@@ -19,7 +19,7 @@ export const userManagementStyle: UserManagementStyleProps = {
     fontSize: '16px',
     fontWeight: 600,
     padding: '16px',
-    ml:'10px',
+    // marginLeft:'12px'
   },
   reportTabs: {
     borderRadius: '6px',
@@ -59,7 +59,7 @@ export const userManagementStyle: UserManagementStyleProps = {
   alertConfigTab: {
     cursor: 'pointer',
     fontSize: '14px',
-    fontWeight: 600,
+    fontWeight: 500,
     paddingBottom: '18px !important',
     color: '#5A5A5A',
     '&:nth-child(even)': {
@@ -70,7 +70,7 @@ export const userManagementStyle: UserManagementStyleProps = {
   alertConfigTabTxt: {
     cursor: 'pointer',
     fontSize: '14px',
-    fontWeight: 600,
+    fontWeight: 500,
     color: '#357968',
     // color: theme.palette.primary.mailInput,
     borderBottom: '3px solid #357968',
@@ -82,3 +82,4 @@ export const userManagementStyle: UserManagementStyleProps = {
     },
   },
 };
+

@@ -101,7 +101,7 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
     handleStatus();
   }, [OrganisationList]);
 
-  console.log('paravaye engu',createEditOrganisation)
+  console.log('paravaye engu', UserListMaster);
   return (
     <Box
       sx={[

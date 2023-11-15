@@ -9,6 +9,14 @@ export const webRoutes = {
   superAdmin: '/superAdmin',
   admin: '/admin',
   user: '/user',
+
+  // settings page
+  alertshubSettings: '/alertshubSettings',
+  messageCatalogSettings: '/messageCatalogSettings',
+  configSettings: '/configSettings',
+  planSubscriptionSettings: '/planSubscriptionSettings',
+
+
   
   // alertshub
   smallChartCard: '/smallChartCard',

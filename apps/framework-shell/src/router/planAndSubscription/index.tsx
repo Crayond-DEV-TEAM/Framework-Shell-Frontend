@@ -10,6 +10,7 @@ import {
   Feature,
   FeatureGroups,
   Plans,
+  Settings,
   SidebarLayout,
   Subscription,
   SubscriptionDetails,
@@ -125,6 +126,16 @@ export const PlanAndSubscriptionRoutes = [
       <PrivateRouter>
         <AppLayout>
           <Feature />
+        </AppLayout>
+      </PrivateRouter>
+    ),
+  },
+  {
+    path: webRoutes.planSubscriptionSettings,
+    element: (
+      <PrivateRouter>
+        <AppLayout>
+          <Settings service={'PASM'} />
         </AppLayout>
       </PrivateRouter>
     ),

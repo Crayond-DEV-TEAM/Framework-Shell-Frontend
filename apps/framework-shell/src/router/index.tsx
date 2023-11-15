@@ -1,5 +1,5 @@
 import { planSubscriptionRoutes, webRoutes } from '@core/routes';
-import { PageNotFound, RootLayout } from '@core/ui/components';
+import { AppLayout, MyProfile, PageNotFound, RootLayout } from '@core/ui/components';
 import ErrorBoundary from '@pages/errorBoundary';
 import Home from '@pages/home';
 
@@ -35,13 +35,21 @@ const router = createBrowserRouter([
       ...messageCatalogueRoutes,
       ...idmRoutes,
       ...alertsHubRoutes,
-      ...PlanAndSubscriptionRoutes
+      ...PlanAndSubscriptionRoutes,
     ],
   },
   {
     path: '*',
     errorElement: <ErrorBoundary />,
     element: <PageNotFound />,
+  },
+  {
+    path: '/profile',
+    element: (
+      <AppLayout sideBarSection={false} mainelement={{ p: '0px', height: '100vh' }}>
+        <MyProfile />
+      </AppLayout>
+    ),
   },
 ]);
 

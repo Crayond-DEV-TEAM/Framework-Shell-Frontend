@@ -3,6 +3,7 @@ import {
   AddAlertRule,
   AddEditMessageState,
   AddNewConfig,
+  ApiBodyInterface,
   ForgotPasswordState,
   Menu,
   MessageDetails,
@@ -25,6 +26,14 @@ import {
   SubMessageGroup,
   SubMessageLanguage,
   ApiDocument,
+  AddOns,
+  CustomerSvg,
+  Charges,
+  Plans,
+  Subscripiton,
+  SettingsSvg,
+  FeatureGroups,
+  FeatureSvg,
 } from '@atoms/icons';
 
 import SingleTickGreen from '@core/ui/assets/sgTickGreen';
@@ -45,6 +54,7 @@ export const giveMeAuthInitialState = (): {
   signInState: SignInState;
   forgotPasswordState: ForgotPasswordState;
   resetPasswordState: ResetPasswordState;
+  changePasswordState: ResetPasswordState;
 } => {
   return {
     signUpState: {
@@ -60,6 +70,7 @@ export const giveMeAuthInitialState = (): {
     signInState: { username: '', password: '' },
     forgotPasswordState: { email_id: '' },
     resetPasswordState: { password: '', confirmPassword: '' },
+    changePasswordState: { password: '', confirmPassword: '' },
   };
 };
 
@@ -216,6 +227,13 @@ export const AllRoutes = [
         baseUrl: '',
         icon: (isSelected: boolean) => <AlertConfigIcon sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
+      {
+        id: 5,
+        link: webRoutes.alertshubSettings,
+        name: 'Settings',
+        baseUrl: '',
+        icon: (isSelected: boolean) => <SettingsSvg sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+      },
     ],
   },
   {
@@ -242,12 +260,19 @@ export const AllRoutes = [
         baseUrl: '',
         icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
+      {
+        id: 3,
+        link: webRoutes.messageCatalogSettings,
+        name: 'Settings',
+        baseUrl: '',
+        icon: (isSelected: boolean) => <SettingsSvg sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+      },
     ],
   },
   {
     service_id: '3ef02e4b-b862-47b0-a48c-939b2e9d16d9',
     link: '/',
-    name: 'User Managment',
+    name: 'User Management',
     baseUrl: '',
     links: ['/userManagment'],
     icon: (isSelected: boolean) => (
@@ -257,9 +282,16 @@ export const AllRoutes = [
       {
         id: 1,
         link: webRoutes.userManagment,
-        name: 'User Managment',
+        name: 'Configurations',
         baseUrl: '',
         icon: (isSelected: boolean) => <SubMessageLanguage sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+      },
+      {
+        id: 2,
+        link: webRoutes.configSettings,
+        name: 'Settings',
+        baseUrl: '',
+        icon: (isSelected: boolean) => <SettingsSvg sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
     ],
   },
@@ -290,49 +322,56 @@ export const AllRoutes = [
         link: webRoutes.customer,
         name: 'Customer',
         baseUrl: '',
-        icon: (isSelected: boolean) => <SubMessageLanguage sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+        icon: (isSelected: boolean) => <CustomerSvg sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 2,
         link: webRoutes.plan,
         name: 'Plans',
         baseUrl: '',
-        icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+        icon: (isSelected: boolean) => <Plans sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 3,
         link: webRoutes.subscription,
         name: 'Subscription',
         baseUrl: '',
-        icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+        icon: (isSelected: boolean) => <Subscripiton sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 4,
         link: webRoutes.addOns,
         name: 'AddOns',
         baseUrl: '',
-        icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+        icon: (isSelected: boolean) => <AddOns sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 5,
         link: webRoutes.charges,
         name: 'Charges',
         baseUrl: '',
-        icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+        icon: (isSelected: boolean) => <Charges sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 6,
         link: webRoutes.featureGroups,
         name: 'FeatureGroup',
         baseUrl: '',
-        icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+        icon: (isSelected: boolean) => <FeatureGroups sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
       {
         id: 7,
         link: webRoutes.features,
         name: 'Feature',
         baseUrl: '',
-        icon: (isSelected: boolean) => <SubMessageGroup sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+        icon: (isSelected: boolean) => <FeatureSvg sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
+      },
+      {
+        id: 8,
+        link: webRoutes.planSubscriptionSettings,
+        name: 'Settings',
+        baseUrl: '',
+        icon: (isSelected: boolean) => <SettingsSvg sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
     ],
   },
@@ -364,6 +403,57 @@ export const giveMeAlertConfig = (): AddNewConfig => {
     Provider: '',
     API_Key: '',
     isActive: false,
+  };
+};
+
+export const giveMeApiBody = (): ApiBodyInterface => {
+  return {
+    reference_id: '',
+    alert_rule_code: '',
+    push_receivers: [],
+    push_title: [],
+    push_body: [],
+    push_data: { },
+    push_click_action: '',
+    push_icon: '',
+    push_image: '',
+    push_actions: [
+      {
+        title:'',
+        action: ''
+    }
+    ],
+    whatsapp_body: [],
+    whatsapp_template_name: '',
+    inapp_title: [],
+    inapp_body: [],
+    inapp_image: '',
+    inapp_action1: '',
+    inapp_action2: '',
+    inapp_type: '',
+    inapp_eventReferenceId: '',
+    inapp_clientIds: [],
+    inapp_icon: '',
+    is_send_push_notification: false,
+    is_send_inapp_notification: false,
+    is_user_specific_notification: false,
+    to_mobiles: [],
+    sms_body: [],
+    URL: '',
+    to_emails: [],
+    email_CC: [],
+    email_BCC: [],
+    from_mail: '',
+    email_subject: [],
+    email_body: [],
+    email_attachments: [
+      {
+        content: '',
+        filename: '',
+        type: '',
+        disposition: '',
+      },
+    ],
   };
 };
 

@@ -14,3 +14,5 @@ export { TabsCard } from './tabsCard';
 export { TabsValueCard } from './tabsValueCard';
 export { TextBox } from './textBox';
 export { Greeting } from './greeting';
+export { Settings } from './settings';
+

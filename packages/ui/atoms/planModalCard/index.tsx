@@ -48,8 +48,11 @@ export const PlanModalCard = (props: PlanModalCardProps): JSX.Element => {
         return accumulator + (monthlyPrice || 0);
       }, 0)
     : 0;
-  const Total = planCost + monthlyTotal + charges;
-  console.log(planName, 'planNameplanNameplanName');
+    const Total = planCost + parseFloat(monthlyTotal) + parseFloat(charges);
+    console.log(Total, 'tot');
+  console.log(planCost, 'planCost');
+  console.log(monthlyTotal, 'monthlyTotal');
+  console.log(charges, 'charges');
   const planBlur = planName.length === 0 ? 'blur(4px)' : '';
   return (
     <Box

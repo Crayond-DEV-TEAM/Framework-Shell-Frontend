@@ -31,7 +31,12 @@ export function Login(props: LoginProps): JSX.Element {
   const handleChange = (key: string, value: string) => setSignInState({ key, value });
 
   const signInHIt = async () => signIn();
-
+  
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      signIn();
+    }
+  };
   useEffect(() => {
     clearAll();
     // eslint-disable-next-line
@@ -55,6 +60,7 @@ export function Login(props: LoginProps): JSX.Element {
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('username', e.target.value)
             }
+            onKeyPress={handleKeyPress}
           />
         </Box>
 
@@ -72,6 +78,7 @@ export function Login(props: LoginProps): JSX.Element {
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('password', e.target.value)
             }
+            onKeyPress={handleKeyPress}
             endAdornment={
               <IconButton aria-label="toggle password visibility" onClick={() => handleClickShowPassword()} edge="end">
                 {showpassword ? (

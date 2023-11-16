@@ -10,9 +10,11 @@ export interface AddMessageGroupProps {
   options?: any;
   language?: any;
   status?: any;
+  formErrors?:any
 }
 
 export const AddMessageGroup = (props: AddMessageGroupProps): JSX.Element => {
+  const {formErrors} = props
   const { addEditMessageState, handleAddEditStateChange, handleAddEditMessageChange } = useMessage();
   console.log(addEditMessageState, 'addEditMessageState');
   console.log(props.isEdit, 'props.isEditprops.isEditprops.isEditprops.isEdit');
@@ -35,8 +37,8 @@ export const AddMessageGroup = (props: AddMessageGroupProps): JSX.Element => {
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
                   handleAddEditStateChange('title', e.target.value)
                 }
-                isError={addEditMessageState?.error?.title ? true : false}
-                errorMessage={addEditMessageState?.error?.title ?? ''}
+                isError={formErrors.title ? true : false}
+                errorMessage={formErrors.title ?? ''}
               />
             </Box>
             <Box sx={addMessageGroupStyle.inputGroupSx}>
@@ -57,8 +59,8 @@ export const AddMessageGroup = (props: AddMessageGroupProps): JSX.Element => {
                   handleAddEditStateChange('description', e.target.value);
                 }}
                 textFieldStyle={addMessageGroupStyle.inputSx}
-                isError={addEditMessageState?.error?.description ? true : false}
-                errorMessage={addEditMessageState?.error?.description ?? ''}
+                isError={formErrors.description ? true : false}
+                errorMessage={formErrors.description ?? ''}
               />
             </Box>
             <Box sx={addMessageGroupStyle.inputGroupSx}>

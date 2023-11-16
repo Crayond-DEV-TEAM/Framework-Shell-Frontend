@@ -28,7 +28,6 @@ export const useFeature = create<FeatureInterface>((set, get) => ({
   },
 
   getFeatureList: (data: any = { is_active: false }) => {
-    // debugger;
     set({ fetching: true, errorOnFetching: false });
     const slugId = useSlug?.getState()?.slugs?.PASM;
     const payload: any = {

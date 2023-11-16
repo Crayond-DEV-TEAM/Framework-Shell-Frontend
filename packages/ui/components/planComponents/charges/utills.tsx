@@ -37,7 +37,7 @@ export const Header = [
   },
   {
     id: 'action',
-    align: 'left',
+    align: 'center',
     disablePadding: false,
     label: 'Action',
   },

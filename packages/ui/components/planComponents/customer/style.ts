@@ -59,4 +59,5 @@ export const customerStyle: CustomerStyleProps = {
       gap:'6px',
     },
   },
+
 };

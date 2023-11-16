@@ -64,7 +64,9 @@ export const AddMessageGroup = (props: AddMessageGroupProps): JSX.Element => {
               />
             </Box>
             <Box sx={addMessageGroupStyle.inputGroupSx}>
-              <Label sx={addMessageGroupStyle.labelSx}>Severity</Label>
+              <Label sx={addMessageGroupStyle.labelSx}>
+                Severity<span style={{ color: '#d32f2f' }}>*</span>
+              </Label>
               {/* <p>{props.isEdit}</p> */}
               <ToggleButtons
                 value={addEditMessageState.severity}
@@ -73,6 +75,12 @@ export const AddMessageGroup = (props: AddMessageGroupProps): JSX.Element => {
                 }}
                 options={props.options}
               />
+              {
+                addEditMessageState?.error?.severity && <Typography sx={{
+                  color: '#d32f2f',
+                  fontSize: '13px'
+                }}>Severity Required</Typography>
+              }
             </Box>
           </Box>
         </Grid>

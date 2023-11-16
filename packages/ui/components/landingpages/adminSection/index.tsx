@@ -53,8 +53,6 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
   const filteredMessageGroup = adminList.filter(
     (x: any) => x.projectTitle?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
-
-  console.log(filteredMessageGroup, 'filteredMessageGroup');
   
 
   const handleTableEdit = (id: string, data: any, e: any) => {
@@ -73,7 +71,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     e.stopPropagation();
   };
   const handleTableDetail = (id: string, data: any, e: any) => {
-    // debugger;
+    
     // getMenu();
     // getSideMenusFromProject(id);
     // localStorage.setItem(localStorageKeys.projectId, id);
@@ -116,13 +114,11 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     getAdminList();
   };
   const handleChangeOrganisation = (value: any) => {
-    debugger;
     handleChangeOrganisationkey('id', value.id);
     handleChangeOrganisationkey('name', value.name);
     handleChangeOrganisationkey('rolename', value.rolename);
   };
   const handleSave = () => {
-    debugger;
     if (createEditAdmin.id) {
       editAdmin();
     } else {

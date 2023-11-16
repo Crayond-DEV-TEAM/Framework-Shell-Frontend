@@ -105,8 +105,9 @@ export const Settings = (props: SettingsProps): JSX.Element => {
           }}
         />
         <Box pt={1}>
-          <Label sx={settingsStyle.labelSx} htmlFor="WebHook URL">
-            Webhook URL
+          <Label sx={settingsStyle.labelSx} 
+          htmlFor="WebHook URL">
+            Webhook URL 
           </Label>
           <Input
             placeholder="Webhook URL"

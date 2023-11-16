@@ -43,9 +43,7 @@ export const Settings = (props: SettingsProps): JSX.Element => {
   };
 
   const handleSaveUrl = () => {
-    if (webHook !== '') {
-      saveWebhookUrlAPI(APIKey, webHook, service)
-    }
+    saveWebhookUrlAPI(APIKey, webHook, service)
   }
 
   const handleCopyAPIkey = async () => {
@@ -108,7 +106,7 @@ export const Settings = (props: SettingsProps): JSX.Element => {
         />
         <Box pt={1}>
           <Label sx={settingsStyle.labelSx} htmlFor="WebHook URL">
-            WebHook URL
+            Webhook URL
           </Label>
           <Input
             placeholder="Webhook URL"

@@ -549,6 +549,11 @@ export interface ApiBodyInterface {
   ],
 }
 
+export interface ChannelData {
+  sent: number;
+  delivered: number;
+  notDelivered: number;
+}
 export interface ApiDocumentationInterface {
   apiBody: ApiBodyInterface
   apiBodyMessage: string,
@@ -560,11 +565,15 @@ export interface ApiDocumentationInterface {
 
 export interface ReportInterface {
   reportCard: [];
+  reportDelivery: [];
+  reportList: [];
   fetching: boolean;
   errorOnFetching: boolean;
   getTotalReports: [];
   getReportCard: () => void;
   getReportTable: () => void;
+  getReportDelivery: () => void;
+  getReportList: () => void;
 }
 export interface AddNewConfig {
   Provider: number | string;

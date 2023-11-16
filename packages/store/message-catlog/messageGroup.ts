@@ -366,7 +366,7 @@ export const useMessageGroup = create<MessageGroupProps>((set, get) => ({
       set({ loading: true });
       const response = await httpRequest(
         'post',
-        `${envConfig.api_url}/messages/is_status`,
+        `${envConfig.api_url}/message_catalog/is_status`,
         {
           id: payload?.id,
           is_status: payload?.status,

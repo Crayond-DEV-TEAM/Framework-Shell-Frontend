@@ -216,7 +216,7 @@ export const AllRoutes = [
       {
         id: 3,
         link: webRoutes.apiDocumentation,
-        name: 'API Documentation',
+        name: 'API Testing',
         baseUrl: '',
         icon: (isSelected: boolean) => <ApiDocument sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
@@ -1061,6 +1061,7 @@ export const giveMeAddEditMessageInitialState = (): AddEditMessageState => {
     error: {
       title: '',
       description: '',
+      severity: ''
     },
   };
 };

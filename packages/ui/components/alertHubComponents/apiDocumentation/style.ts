@@ -42,6 +42,12 @@ export const apiDocumentation_style = {
     fontWeight: 600,
     padding: ' 0px 16px 0px 16px',
   },
+  headText: {
+    color: '#262C33',
+    fontSize: '14px',
+    fontWeight: 600,
+    padding: ' 0px 16px 0px 8px',
+  },
   gridBox: {
     backgroundColor: '#FFFFFF',
     boxShadow: '0 5px 20px #0000000A',

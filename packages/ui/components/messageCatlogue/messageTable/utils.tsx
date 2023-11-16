@@ -53,14 +53,14 @@ export const Header = [
   },
   {
     id: 'action',
-    align: 'left',
+    align: 'center',
     disablePadding: false,
     label: 'Action',
   },
 ];
 
 export const tableData = (editHandel: (id: string) => void, deleteHandel: (id: string) => void) => [
-  { type: ['TEXT'], name: 'id' },
+  { type: ['TEXT'], name: 'ref_id' },
   { type: ['TEXT'], name: 'title' },
   { type: ['TEXT'], name: 'description' },
   { type: ['LABEL'], name: 'severity' },

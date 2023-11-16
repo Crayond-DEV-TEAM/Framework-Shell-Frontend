@@ -176,7 +176,11 @@ export const useMessageGroupDetails = create<MessageGroupsDetails>((set, get) =>
       is_status,
     };
     set({ statusLoading: true, erronOnStatus: false });
-    httpRequest('post', `${envConfig.api_url}/messages/is_status`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/message_catalog/is_status`, payload, true, undefined, {
+      headers: {
+        slug: slugId
+      }
+    })
       .then((response) => {
         enqueueSnackbar(`Status changed Successfully !`, { variant: 'success' });
       })

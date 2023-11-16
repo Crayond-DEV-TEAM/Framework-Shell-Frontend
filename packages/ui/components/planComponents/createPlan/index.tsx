@@ -243,6 +243,9 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
     if (addEditPlan.name.trim().length === 0) {
       errors.name = 'Plan name is required';
     }
+    if (addEditPlan.description.trim().length === 0) {
+      errors.description = 'Description is required';
+    }
 
     if (addEditPlan.billing_period.length <= 0) {
       errors.billing_period = 'Billing period is required';
@@ -540,8 +543,8 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
                     isMulti={true}
                     textFieldStyle={createPlanStyle.inputSx}
                     id="description"
-                    // isError={groupState?.error?.addTitle ? true : false}
-                    // errorMessage={groupState?.error?.addTitle ?? ''}
+                    isError={formErrors?.description?.length > 0 ? true : false}
+                    errorMessage={formErrors?.description}
                   />
                 </Box>
               </Grid>

@@ -54,6 +54,10 @@ export const featureStyle: FeatureStyleProps = {
     '& .MuiPaper-root': {
       borderRadius: '8px',
     },
+    '& .SWITCH label': {
+      display: 'flex',
+      gap: '6px',
+    },
     // '& .MuiTableCell-sizeSmall TEXT  activesubscription': {
     //   width: '136px',
     // },
@@ -83,4 +87,5 @@ export const featureStyle: FeatureStyleProps = {
       fontSize: '14px',
     },
   },
+  
 };

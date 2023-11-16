@@ -1,4 +1,5 @@
 import { DeleteIcon, EditIcon, MoreIcon } from '@atoms/icons';
+import { Switch } from '@mui/material';
 
 export const Header = [
   {
@@ -39,6 +40,7 @@ export const tableData = (
   editHandel: (id: string, data: any, e: any) => void,
   deleteHandel: (id: string) => void,
   detailHandel: (id: string) => void,
+  switchHandle: (id: string, data: any, e: any) => void,
 ) => [
   { type: ['TEXT'], name: 'projectTitle' },
   { type: ['TEXT'], name: 'description' },
@@ -48,6 +50,17 @@ export const tableData = (
     name: 'is_active',
     switchText: [{ label_1: 'In Active', label_2: 'Active' }],
   },
+  // {
+  //   type: ['CUSTOM'],
+  //   name: 'is_active',
+  //   switchText: [{ label_1: 'In Active', label_2: 'Active' }],
+  //   variant:[
+  //     {
+  //       icon:<EditIcon />,
+  //       method:switchHandle
+  //     }
+  //   ]
+  // },
   {
     type: ['ACTION'],
     name: 'action',

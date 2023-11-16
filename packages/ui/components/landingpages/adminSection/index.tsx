@@ -128,6 +128,8 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     clearAll();
   };
   const handleSwitch = (id: any, data: any, e: any) => {
+    e.stopPropagation();
+    e.preventDefault();
     if (!switchList.includes(id)) {
       setSwitchList([...switchList, id]);
     } else {
@@ -141,7 +143,9 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
       getStatusList(id, true);
     } else {
       getStatusList(id, false);
+
     }
+    
   };
   const handleStatus = () => {
     if (adminList?.length > 0) {
@@ -185,6 +189,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
               tableData={tableData(handleTableEdit, handleTableDelete, handleTableDetail)}
               switchList={switchList}
               handleSwitch={handleSwitch}
+
               headerOptions={{
                 fontSize: '14px',
                 fontWeight: '500',

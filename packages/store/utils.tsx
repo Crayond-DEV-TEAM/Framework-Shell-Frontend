@@ -1237,6 +1237,7 @@ export const giveMeAddEditMessageInitialState = (): AddEditMessageState => {
     error: {
       title: '',
       description: '',
+      severity: ''
     },
   };
 };

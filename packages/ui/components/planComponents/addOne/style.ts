@@ -54,6 +54,10 @@ export const addOneStyle: AddOneStyleProps = {
     '& .MuiPaper-root': {
       borderRadius: '8px',
     },
+    '& .SWITCH label': {
+      display: 'flex',
+      gap: '6px',
+    },
   },
   dialogSx: {
     width: '400px',

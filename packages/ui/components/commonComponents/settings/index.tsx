@@ -8,7 +8,10 @@ import { Label } from '@atoms/label';
 import { useAPIKey } from '@core/store';
 import { useEffect, useState } from 'react';
 import React from 'react';
-
+import { Webhook } from '@mui/icons-material';
+import { useSettings } from '@core/store/common/webHookUrl';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import SaveIcon from '@mui/icons-material/Save';
 export interface SettingsProps {
   className?: string;
   sx?: SxProps<Theme>;
@@ -17,34 +20,50 @@ export interface SettingsProps {
 
 export const Settings = (props: SettingsProps): JSX.Element => {
   const { className = '', sx = {}, service = '', ...rest } = props;
-
-  const [serviceApikey, setServiceApikey] = useState('');
-
-
-  // const [webHookChange, setWebHookChange] = useState('');
+  const { saveWebhookUrlAPI } = useSettings()
   const APIKey = useAPIKey.getState().APIkey[service];
+  const WebHookUrl = useWebHookURL.getState().WebHookUrl[service];
+  const [serviceApikey, setServiceApikey] = useState('');
+  const [webHook, setWebHook] = useState('');
+  const [isEditing, setIsEditing] = useState(WebHookUrl ? true : false);
+  const [isCopied, setIsCopied] = useState(false);
 
-  useEffect(() => {
-    setServiceApikey(APIKey);
-  }, [service]);
+  console.log(isEditing, WebHookUrl, 'webHook');
 
-  const [open, setOpen] = useState(false);
-  const [copyText, setCopyText] = useState('');
+  // Event handler for input changes
+  const handleInputChange = (event?: any) => {
+    setWebHook(event.target.value);
 
-  const handleTooltipClose = () => {
-    setOpen(false);
   };
+
+  const handleWebhookEditURL = () => {
+    setIsEditing((prevEditing) => !prevEditing);
+  };
+
+  const handleSaveUrl = () => {
+    saveWebhookUrlAPI(APIKey, webHook, service)
+  }
 
   const handleCopyAPIkey = async () => {
     try {
       await navigator.clipboard.writeText(APIKey);
-      setCopyText('Copied to clipboard!');
-      setOpen(true);
+      setIsCopied(true);
+      setTimeout(() => {
+        setIsCopied(true);
+      }, 1500);
+
     } catch (err) {
-      setOpen(false);
-      setCopyText('Unable to copyText to clipboard.');
+      setIsCopied(false);
     }
   };
+
+  useEffect(() => {
+    setServiceApikey(APIKey);
+    setWebHook(WebHookUrl);
+    setIsEditing(WebHookUrl ? true : false)
+    setIsCopied(false)
+  }, [service]);
+
   return (
     <Box
       sx={[
@@ -56,16 +75,22 @@ export const Settings = (props: SettingsProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
-      <SubHeader title="API" sx={settingsStyle.subHeader} />
+      <SubHeader title="Settings" sx={settingsStyle.subHeader} />
       <Box sx={settingsStyle.firstInput}>
         <Label sx={settingsStyle.labelSx} htmlFor="API Keys">
           API Key
         </Label>
         <Input
-          placeholder="SERVICE API KEY"
+          placeholder="Service API Key"
           endAdornment={
-            <IconButton sx={settingsStyle.copySx} onClick={handleCopyAPIkey}>
-              <CopyLinkIcon />
+            <IconButton sx={{
+              ...settingsStyle.copySx,
+              ...{ padding: isCopied ? '2px' : '8px' },
+            }} onClick={handleCopyAPIkey}>
+              {
+                isCopied ? <Typography sx={settingsStyle.copyText}> <span><DoneAllIcon /></span> Copied!</Typography> :
+                  <CopyLinkIcon />
+              }
             </IconButton>
           }
           disabled={true}

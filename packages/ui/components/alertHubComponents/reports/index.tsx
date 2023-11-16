@@ -12,34 +12,18 @@ import SmallSmsIcon from '@core/ui/assets/smallSmsIcon';
 import SmsIcon from '@core/ui/assets/smsIcon';
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Grid } from '@mui/material';
-import { Table as CommonTable } from "@crayond_dev/ui_table";
-import React from 'react';
+import { Table as CommonTable } from '@crayond_dev/ui_table';
+import React, { useEffect } from 'react';
 import { reports_styles } from './style';
 import { dummyTableData, tabsCard } from '@core/store/utils';
-import { ReportTabs, TableHeader, TabsCard } from '@components/commonComponents'
+import { ReportTabs, TableHeader, TabsCard } from '@components/commonComponents';
+import { useAlertReports } from '@core/store';
+import moment from 'moment';
 
 export interface ReportsProps {
   data?: any;
   sx?: SxProps<Theme>;
 }
-
-const tabs = [
-  {
-    id: 0,
-    label: 'Today',
-    children: <TabsCard data={tabsCard?.today} />,
-  },
-  {
-    id: 1,
-    label: 'This Week',
-    children: <TabsCard data={tabsCard?.thisWeek} />,
-  },
-  {
-    id: 2,
-    label: 'This Month',
-    children: <TabsCard data={tabsCard?.thisMonth} />,
-  },
-];
 
 export function Reports(props: ReportsProps): JSX.Element {
   const { data } = props;
@@ -52,10 +36,143 @@ export function Reports(props: ReportsProps): JSX.Element {
   const [switchList, setSwitchList] = React.useState([1, 4]);
   const [headerSelect, setHederSelect] = React.useState('status');
   const [headerCheckbox, setHederCheckbox] = React.useState(true);
+  const [filterContent, setFilterContent] = React.useState([]);
+  const [searchTerm, setSearchTerms] = React.useState('');
+  const { getReportDelivery, reportDelivery, getReportList, reportList } = useAlertReports();
 
   //   const handleClick = (event: any) => {
   //     setOpenAnchorEl(event.currentTarget);
   //   };
+  const TabData = [
+    {
+      icon: <SmsIcon />,
+      header: 'SMS',
+      cardDetails: [
+        {
+          number: reportDelivery?.sms?.sent > 0 ? reportDelivery?.sms?.sent : '-',
+          value: 'Sent',
+        },
+        {
+          number: reportDelivery?.sms?.delivered > 0 ? reportDelivery?.sms?.delivered : '-',
+          value: 'Delivered',
+        },
+        {
+          number: reportDelivery?.sms?.notDelivered > 0 ? reportDelivery?.sms?.notDelivered : '-',
+          value: 'Not Delivered',
+        },
+        // {
+        //   number: '165',
+        //   value: 'Clicked',
+        // },
+      ],
+    },
+
+    {
+      icon: <EmailIcon />,
+      header: 'Email',
+      cardDetails: [
+        {
+          number: reportDelivery?.email?.sent > 0 ? reportDelivery?.email?.sent : '-' ,
+          value: 'Sent',
+        },
+        {
+          number: reportDelivery?.email?.delivered > 0 ? reportDelivery?.email?.delivered : '-',
+          value: 'Delivered',
+        },
+        {
+          number: reportDelivery?.email?.notDelivered > 0 ? reportDelivery?.email?.notDelivered : '-',
+          value: 'Not Delivered',
+        },
+        // {
+        //   number: '243',
+        //   value: 'Clicked',
+        // },
+      ],
+    },
+    {
+      icon: <NotificationIcon />,
+      header: 'Push Notification',
+      cardDetails: [
+        {
+          number: reportDelivery?.push?.sent > 0 ? reportDelivery?.push?.sent : '-',
+          value: 'Sent',
+        },
+        {
+          number: reportDelivery?.push?.delivered > 0 ? reportDelivery?.push?.delivered : '-',
+          value: 'Delivered',
+        },
+        {
+          number: reportDelivery?.push?.notDelivered > 0 ? reportDelivery?.push?.notDelivered : '-',
+          value: 'Not Delivered',
+        },
+        // {
+        //   number: '042',
+        //   value: 'Clicked',
+        // },
+      ],
+    },
+    {
+      icon: <SmsIcon />,
+      header: 'WhatsApp',
+      cardDetails: [
+        {
+          number: reportDelivery?.whatsapp?.sent > 0 ? reportDelivery?.whatsapp?.sent : '-',
+          value: 'Sent',
+        },
+        {
+          number: reportDelivery?.whatsapp?.delivered >0 ?reportDelivery?.whatsapp?.delivered : '-',
+          value: 'Delivered',
+        },
+        {
+          number: reportDelivery?.whatsapp?.notDelivered > 0?reportDelivery?.whatsapp?.notDelivered : '-',
+          value: 'Not Delivered',
+        },
+        // {
+        //   number: '165',
+        //   value: 'Clicked',
+        // },
+      ],
+    },
+    {
+      icon: <NotificationIcon />,
+      header: 'Slack',
+      cardDetails: [
+        {
+          number: reportDelivery?.slack?.sent > 0 ? reportDelivery?.slack?.sent :'-',
+          value: 'Sent',
+        },
+        {
+          number: reportDelivery?.slack?.delivered > 0 ? reportDelivery?.slack?.delivered : '-',
+          value: 'Delivered',
+        },
+        {
+          number: reportDelivery?.slack?.notDelivered > 0 ? reportDelivery?.slack?.notDelivered : '-',
+          value: 'Not Delivered',
+        },
+        // {
+        //   number: '042',
+        //   value: 'Clicked',
+        // },
+      ],
+    },
+  ];
+  const tabs = [
+    {
+      id: 0,
+      label: 'Today',
+      children: <TabsCard data={TabData} />,
+    },
+    {
+      id: 1,
+      label: 'This Week',
+      children: <TabsCard data={TabData} />,
+    },
+    {
+      id: 2,
+      label: 'This Month',
+      children: <TabsCard data={TabData} />,
+    },
+  ];
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setOpenAnchorEl(event.currentTarget);
@@ -153,10 +270,10 @@ export function Reports(props: ReportsProps): JSX.Element {
       label: 'Description',
     },
     {
-      id: 'receiver_info',
+      id: 'receiver',
       align: 'left',
       disablePadding: false,
-      label: 'Receiver Info',
+      label: 'Receiver',
     },
     {
       id: 'alert_type',
@@ -165,35 +282,35 @@ export function Reports(props: ReportsProps): JSX.Element {
       label: 'Alert Type',
     },
     {
-      id: 'sent_on',
+      id: 'sentOn',
       align: 'center',
       disablePadding: false,
       label: 'Sent on',
     },
-    {
-      id: 'delivered_on',
-      align: 'left',
-      disablePadding: false,
-      label: 'Delivered on',
-    },
-    {
-      id: 'clicked',
-      align: 'left',
-      disablePadding: false,
-      label: 'Clicked',
-    },
-    {
-      id: 'status',
-      align: 'left',
-      disablePadding: false,
-      label: 'Status',
-    },
-    {
-      id: 'action',
-      align: 'left',
-      disablePadding: false,
-      label: 'Action',
-    },
+    // {
+    //   id: 'delivered_on',
+    //   align: 'left',
+    //   disablePadding: false,
+    //   label: 'Delivered on',
+    // },
+    // {
+    //   id: 'clicked',
+    //   align: 'left',
+    //   disablePadding: false,
+    //   label: 'Clicked',
+    // },
+    // {
+    //   id: 'status',
+    //   align: 'left',
+    //   disablePadding: false,
+    //   label: 'Status',
+    // },
+    // {
+    //   id: 'action',
+    //   align: 'left',
+    //   disablePadding: false,
+    //   label: 'Action',
+    // },
   ];
 
   const tableData = [
@@ -202,162 +319,163 @@ export function Reports(props: ReportsProps): JSX.Element {
     { type: ['TEXT'], name: 'reference_id' },
     { type: ['LABEL'], name: 'hashtag' },
     { type: ['TEXT'], name: 'description' },
-    { type: ['IMAGE_WITH_LABEL'], name: 'receiver_info', variant: 'circular' },
+    { type: ['TEXT'], name: 'receiver' },
     { type: ['ICON_WITH_LABEL'], name: 'alert_type' },
-    { type: ['DATE'], name: 'sent_on', format: 'DD MMM hh:mm' },
-    { type: ['DATE'], name: 'delivered_on', format: 'DD MMM hh:mm' },
-    { type: ['DATE'], name: 'clicked', format: 'DD MMM hh:mm' },
-    {
-      type: ['SWITCH'],
-      name: 'status',
-      switchText: [{ label_1: 'In Active', label_2: 'Active' }],
-    },
-    {
-      type: ['ACTION'],
-      name: 'action',
-      variant: [
-        {
-          icon: <EditIcon />,
-          method: editHandel,
-        },
-        {
-          icon: <DeleteIcon />,
-          method: deleteHandel,
-        },
-      ],
-    },
+    { type: ['DATE'], name: 'sentOn', format: 'DD MMM hh:mm' },
+    // { type: ['DATE'], name: 'delivered_on', format: 'DD MMM hh:mm' },
+    // { type: ['DATE'], name: 'clicked', format: 'DD MMM hh:mm' },
+    // {
+    //   type: ['SWITCH'],
+    //   name: 'status',
+    //   switchText: [{ label_1: 'In Active', label_2: 'Active' }],
+    // },
+    // {
+    //   type: ['ACTION'],
+    //   name: 'action',
+    //   variant: [
+    //     {
+    //       icon: <EditIcon />,
+    //       method: editHandel,
+    //     },
+    //     {
+    //       icon: <DeleteIcon />,
+    //       method: deleteHandel,
+    //     },
+    //   ],
+    // },
   ];
 
-  // const filterContent = [
-  //   {
-  //     name: 'Hashtag',
-  //     children: [
-  //       {
-  //         component: 'searchField',
-  //         value: '',
-  //       },
-  //       {
-  //         component: 'checkbox',
-  //         label: 'hashtag1',
-  //         value: false,
-  //       },
-  //       {
-  //         component: 'checkbox',
-  //         label: 'hashtag2',
-  //         value: false,
-  //       },
-  //       {
-  //         component: 'checkbox',
-  //         label: 'hashtag3',
-  //         value: false,
-  //       },
-  //       {
-  //         component: 'checkbox',
-  //         label: 'hashtag4',
-  //         value: false,
-  //       },
-  //       {
-  //         component: 'checkbox',
-  //         label: 'hashtag5',
-  //         value: false,
-  //       },
-  //       {
-  //         component: 'checkbox',
-  //         label: 'hashtag6',
-  //         value: false,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     name: 'Alert Type',
-  //     children: [
-  //       {
-  //         component: 'checkbox',
-  //         label: 'hashtag1',
-  //         value: false,
-  //       },
-  //       {
-  //         component: 'checkbox',
-  //         label: 'hashtag2',
-  //         value: false,
-  //       },
-  //       {
-  //         component: 'checkbox',
-  //         label: 'hashtag3',
-  //         value: false,
-  //       },
-  //       {
-  //         component: 'checkbox',
-  //         label: 'hashtag4',
-  //         value: false,
-  //       },
-  //       {
-  //         component: 'checkbox',
-  //         label: 'hashtag5',
-  //         value: false,
-  //       },
-  //       {
-  //         component: 'checkbox',
-  //         label: 'hashtag6',
-  //         value: false,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     name: 'Status',
-  //     children: [
-  //       {
-  //         component: 'checkbox',
-  //         label: 'high',
-  //         value: false,
-  //       },
-  //       {
-  //         component: 'checkbox',
-  //         label: 'medium',
-  //         value: false,
-  //       },
-  //       {
-  //         component: 'checkbox',
-  //         label: 'low',
-  //         value: false,
-  //       },
-  //       {
-  //         componentName: 'switch',
-  //         value: false,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     name: 'Date',
-  //     children: [
-  //       {
-  //         component: 'dateCheckbox',
-  //         label: 'Sent on',
-  //         value: false,
-  //       },
-  //       {
-  //         component: 'dateCheckbox',
-  //         label: 'Delivered on',
-  //         value: false,
-  //       },
-  //       {
-  //         component: 'dateCheckbox',
-  //         label: 'Clicked on',
-  //         value: false,
-  //       },
-  //       {
-  //         component: 'dateInput',
-  //         label: 'Select Date From',
-  //         value: '23rd Jan, 22',
-  //       },
-  //       {
-  //         component: 'dateInput',
-  //         label: 'Select Date To',
-  //         value: '25th Jan, 22',
-  //       },
-  //     ],
-  //   },
-  // ];
+  const constructReportData = (data: any, val: string) => {
+    let arr: any = [];
+
+    if (Array.isArray(data) && data.length > 0) {
+      if (val?.length > 0) {
+        data.map((value) => {
+          if (value?.receiver?.toLocaleLowerCase()?.includes(val?.toLocaleLowerCase())) {
+            arr.push({
+              id: 1,
+              alert_rule_code: value?.alert_rule_code ?? '',
+              reference_id: value?.reference_id ?? '',
+              hashtag: [
+                {
+                  label: value?.hashtag ?? '#hashtag',
+                  color: '#305AAE',
+                  bgColor: '#E2EAFA',
+                },
+              ],
+              description: value?.description ?? '',
+              alert_type: {
+                label:
+                  value?.alert_type === 'Email'
+                    ? 'Email'
+                    : value?.alert_type === 'SMS'
+                      ? 'SMS'
+                      : value?.alert_type === 'PUSH NOTIFICATION'
+                        ? 'PUSH NOTIFICATION'
+                        : '',
+                color:
+                  value?.alert_type === 'Email'
+                    ? '#754218'
+                    : value?.alert_type === 'SMS'
+                      ? '#185C75'
+                      : value?.alert_type === 'PUSH NOTIFICATION'
+                        ? '#754218'
+                        : '',
+                bgColor:
+                  value?.alert_type === 'Email'
+                    ? '#F7CFFA'
+                    : value?.alert_type === 'SMS'
+                      ? '#CFEFFA'
+                      : value?.alert_type === 'PUSH NOTIFICATION'
+                        ? '#754218'
+                        : '',
+                icon:
+                  value?.alert_type === 'Email' ? (
+                    <SmallMailIcon />
+                  ) : value?.alert_type === 'SMS' ? (
+                    <SmallSmsIcon />
+                  ) : value?.alert_type === 'PUSH NOTIFICATION' ? (
+                    <SmallNotificationIcon />
+                  ) : (
+                    ''
+                  ),
+              },
+              receiver: value?.receiver ?? '',
+              sentOn: moment(value?.sentOn).format('YYYY-MM-DD') ?? '',
+              status: value?.status === 'Delivered' ? true : false,
+            });
+          }
+        });
+      } else {
+        data.map((value) => {
+          arr.push({
+            id: 1,
+            alert_rule_code: value?.alert_rule_code ?? '',
+            reference_id: value?.reference_id ?? '',
+            hashtag: [
+              {
+                label: value?.hashtag?.length > 0 ? value?.hashtag : '-',
+                color: '#305AAE',
+                bgColor: '#E2EAFA',
+              },
+            ],
+            description: value?.description ?? '',
+            alert_type: {
+              label:
+                value?.alert_type === 'Email'
+                  ? 'Email'
+                  : value?.alert_type === 'SMS'
+                    ? 'SMS'
+                    : value?.alert_type === 'PUSH NOTIFICATION'
+                      ? 'PUSH NOTIFICATION'
+                      : '',
+              color:
+                value?.alert_type === 'Email'
+                  ? '#754218'
+                  : value?.alert_type === 'SMS'
+                    ? '#185C75'
+                    : value?.alert_type === 'PUSH NOTIFICATION'
+                      ? '#754218'
+                      : '',
+              bgColor:
+                value?.alert_type === 'Email'
+                  ? '#F7CFFA'
+                  : value?.alert_type === 'SMS'
+                    ? '#CFEFFA'
+                    : value?.alert_type === 'PUSH NOTIFICATION'
+                      ? '#754218'
+                      : '',
+              icon:
+                value?.alert_type === 'Email' ? (
+                  <SmallMailIcon />
+                ) : value?.alert_type === 'SMS' ? (
+                  <SmallSmsIcon />
+                ) : value?.alert_type === 'PUSH NOTIFICATION' ? (
+                  <SmallNotificationIcon />
+                ) : (
+                  ''
+                ),
+            },
+            receiver: value?.receiver ?? '',
+            sentOn: moment(value?.sentOn).format('YYYY-MM-DD') ?? '',
+            status: value?.status === 'Delivered' ? true : false,
+          });
+        });
+      }
+    }
+    return arr;
+  };
+
+  const setSearchTerm = (value: string) => {
+    setSearchTerms(value);
+    const filterReportData = constructReportData(reportList, value);
+    setFilterContent(filterReportData);
+  };
+
+  useEffect(() => {
+    getReportDelivery();
+    getReportList();
+  }, []);
 
   return (
     <Box>
@@ -371,7 +489,15 @@ export function Reports(props: ReportsProps): JSX.Element {
           <Box sx={reports_styles.commonTable}>
             <CommonTable
               Header={Header}
-              dataList={dummyTableData}
+              dataList={
+                searchTerm?.length > 0 && filterContent?.length > 0
+                  ? filterContent
+                  : searchTerm?.length > 0 && filterContent?.length === 0
+                    ? []
+                    : Array.isArray(reportList) && reportList?.length > 0
+                      ? constructReportData(reportList, '')
+                      : []
+              }
               tableData={tableData}
               headerOptions={{
                 fontSize: '14px',
@@ -380,11 +506,11 @@ export function Reports(props: ReportsProps): JSX.Element {
                 bgColor: '#EAEAEA',
                 borderBottom: '0px',
               }}
-              stickyOptions={{
-                stickyHeader: true,
-                stickyLeft: [],
-                stickyRight: ['action', 'status'],
-              }}
+              // stickyOptions={{
+              //   stickyHeader: true,
+              //   stickyLeft: [],
+              //   stickyRight: ['action', 'status'],
+              // }}
               cellOptions={{
                 fontSize: '14px',
                 fontWeight: '500',
@@ -405,15 +531,17 @@ export function Reports(props: ReportsProps): JSX.Element {
                 variant: 'CUSTOM',
                 component: (
                   <TableHeader
-                    tableHeader="Total Reports (12)"
+                    tableHeader={`Total Reports (${reportList?.length ?? 0})`}
                     buttonName="Add New Config"
                     placeholder="Search by receiver info (or) description"
                     // isFilterRequired={true}
                     isSearchRequired={true}
                     isDownloadRequired={true}
                     isBtnRequired={false}
-                    // filterContent={filterContent}
+                    filterContent={filterContent}
                     onChange={handleChange}
+                    setSearchTerm={setSearchTerm}
+                    searchTerm={searchTerm}
                     checked={checked}
                     openPop={openPop}
                     openAnchorEl={openAnchorEl}

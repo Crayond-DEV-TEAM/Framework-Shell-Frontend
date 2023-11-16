@@ -35,6 +35,10 @@ export const featureGroupsStyle: FeatureGroupsStyleProps = {
       border: '1px solid #EAEAEA',
       width: '100%',
     },
+    '& .SWITCH label': {
+      display: 'flex',
+      gap: '6px',
+    },
     // '& .TEXT': {
     //   width: '40% !important',
     //   // backgroundColor: 'red',

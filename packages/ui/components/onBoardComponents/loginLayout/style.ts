@@ -86,6 +86,12 @@ export const loginLayoutStyle: LoginLayoutStyleProps = {
     color: 'primary.main',
     fontSize: '26px',
   },
+  version:{
+    p: 1,
+    fontWeight: 500,
+    color: 'primary.main',
+    fontSize: '16px',
+  },
   power: {
     pl: 1.5,
     fontSize: '14px',

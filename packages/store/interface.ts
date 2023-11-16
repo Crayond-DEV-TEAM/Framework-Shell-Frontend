@@ -1316,37 +1316,6 @@ export interface UserProfileInterface {
   deleteUserRollMap: () => void;
   clearAll: () => void;
 }
-
-export interface SuperAdminKey {
-  organisationName: string;
-  description: string;
-  mapAdmin: string[];
-  mapUsers: string[];
-  is_active: boolean;
-  id?: string;
-}
-
-export interface SuperAdminInterface {
-  OrganisationList: SuperAdminKey[];
-  fetching: boolean;
-  errorOnFetching: boolean;
-
-  addsave: boolean;
-  editsave: boolean;
-  deletefetch: boolean;
-
-  createEditOrganisation: SuperAdminKey;
-  seteditOrganisation: (payload: { key: string; value: string | number }) => void;
-
-  updateEditData: (data: any) => void;
-
-  getOrganisationList: () => void;
-  createOrganisation: () => void;
-  editOrganisation: () => void;
-  getStatusList: (id: any, status: any) => void;
-  deleteOrganisation: (id: string) => void;
-  clearAll: () => void;
-}
 export interface UserLandingInterface {
   OrganisationList: OrganisationDetailKey;
   fetching: boolean;

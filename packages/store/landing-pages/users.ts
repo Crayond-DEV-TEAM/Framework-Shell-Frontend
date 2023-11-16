@@ -9,7 +9,7 @@ export const useUserLanding = create<UserLandingInterface>((set, get) => ({
   errorOnFetching: false,
 //   OrganisationList: [];
 
-  OrganisationList: {
+  OrganisationDetails: {
     id: '',
     name: '',
   },

@@ -32,7 +32,14 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
   errorOnEditData: false,
 
   handleAddEditStateChange: (key: string, value: string | number | boolean) => {
-    set((state) => ({ addEditMessageState: { ...state.addEditMessageState, [key]: value } }));
+    const { addEditMessageState } = get()
+    const error = addEditMessageState?.error
+    error[key] = ''
+    set((state) => ({
+      addEditMessageState: {
+        ...state.addEditMessageState, [key]: value, error
+      }
+    }));
   },
 
   handleAddEditMessageChange: (configuration_id: string, message: string) => {
@@ -82,6 +89,17 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
       });
   },
 
+  validateCallBack: (isValid, error) => {
+    const { addEditMessageState } = get()
+    set((state) => ({
+      addEditMessageState: {
+        ...state.addEditMessageState, error
+      }
+    }));
+    console.log(addEditMessageState);
+    return isValid;
+  },
+
   addMessage: (group_id: string) => {
     const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
 
@@ -96,23 +114,24 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
     };
 
     set({ adding: true, errorOnAdding: false });
+
     httpRequest('post', `${envConfig.api_url}/message_catalog/add_message`, payload, true, undefined, {
       headers: { slug: slugId },
     })
       .then((response) => {
         set({ addEditMessageState: giveMeAddEditMessageInitialState(), open: false });
-        enqueueSnackbar(`Added mVerify with youressage Successfully !`, { variant: 'success' });
+        enqueueSnackbar(response?.data?.message, { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnAdding: true });
         enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
       })
       .finally(() => {
-        debugger;
         set({ adding: false });
         getAllMessages(group_id);
         clearAll();
       });
+
   },
 
   editMessage: (group_id: string) => {
@@ -191,7 +210,7 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
           response.data.data?.map(
             (tableData: any, i: any) =>
               dataTable.push({
-                id: tableData?.id ?? i,
+                id: tableData?.ref_id ?? '',
                 msg_grp_id: tableData?.msg_grp_id ?? '',
                 updated_at: tableData?.updated_at ?? '',
                 created_at: tableData?.created_at ?? '',

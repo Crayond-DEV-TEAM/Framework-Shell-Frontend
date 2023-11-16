@@ -7,24 +7,39 @@ interface SettingsStyleProps {
 export const settingsStyle: SettingsStyleProps = {
   copySx: {
     backgroundColor: '#E9F0EF',
-    borderRadius: '0px',
+    borderRadius: '0px 8px 4px 0px',
+  },
+  copyText: {
+    color:'#357968',
+    padding:'3px 5px',
+    display: 'flex',
+    alignItems: 'center',
+    '& span': {
+      display: 'flex',
+      padding:'4px',
+      '& .MuiSvgIcon-root':{
+        color:'#357968',
+        fontSize: '18px'
+      }
+    }
   },
   copySxedit: {
     backgroundColor: '#E9F0EF',
-    borderRadius: '4px',
+    borderRadius: '0px 8px 4px 0px',
     padding:'6px',
     '& .MuiSvgIcon-root':{
-      color:'#91b6ad'
+      color:'#357968'
 
     }
   },
   copySxeditIcon:{
-    backgroundColor: '#E9F0EF',
+    backgroundColor: 'transparent',
     borderRadius: '4px',
     padding:'6px',
     marginRight:'4px',
+    cursor: 'pointer',
     '& .MuiSvgIcon-root':{
-      color:'#91b6ad'
+      color:'#357968'
 
     }
 

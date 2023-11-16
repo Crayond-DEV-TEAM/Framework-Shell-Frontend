@@ -41,11 +41,12 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     setOpen,
     clearAll,
     clearAllMessage,
+    validateCallBack
   } = useMessage();
   const location = useLocation();
-  const {state} = location;
+  const { state } = location;
   const languagesList = state
-  
+
 
   // const filterContent: any[] = [];
   const { languages, getSavedLanguage } = useLanguageConfiguration();
@@ -82,7 +83,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
 
   const handleChange = (key: any, value: string) => {
     console.log(key, 'key');
-    
+
     setList(key.id);
     setTableName(key.title);
 
@@ -130,11 +131,32 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     setSelected(false);
   };
 
+  const validate = () => {
+    const error = addEditMessageState?.error
+    let isValid = true;
+    if (!addEditMessageState?.title) {
+      isValid = false;
+      error.title = 'Title required'
+    }
+    if (!addEditMessageState?.description) {
+      isValid = false;
+      error.description = 'Description required'
+    }
+    if (typeof (addEditMessageState?.severity) !== 'number') {
+      isValid = false;
+      error.severity = 'Severity required'
+    }
+    return validateCallBack(isValid, error)
+
+  }
+
   const handleSave = (groupId: any) => {
-    addMessage(groupId);
-    handleClose();
-    getAllMessages(groupId);
-    clearAll();
+    if (validate()) {
+      addMessage(groupId);
+      handleClose();
+      getAllMessages(groupId);
+      clearAll();
+    }
   };
 
   const handleEdit = (groupId: any) => {

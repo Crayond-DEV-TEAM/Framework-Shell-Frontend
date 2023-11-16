@@ -140,6 +140,12 @@ export interface MenusProps {
   getSideMenusFromProject: (id: string) => void;
 }
 
+export interface SettingsProps {
+  loading: boolean;
+  error: boolean;
+  saveWebhookUrlAPI: (id: string, url: string, service: string) => void;
+}
+
 export type ServiceName = 'IDM' | 'PASM' | 'ALERTSHUB' | 'MESSAGE-CATALOG';
 
 export type SideMenuResponse = {
@@ -369,6 +375,7 @@ export interface AddEditMessageState {
   error: {
     title: string;
     description: string;
+    severity: string
   };
 }
 export interface MessageStoreInterface {
@@ -386,6 +393,7 @@ export interface MessageStoreInterface {
   addEditMessageState: AddEditMessageState;
   handleAddEditStateChange: (key: string, value: string | number | boolean) => void;
   handleAddEditMessageChange: (configuration_id: string, message: string) => void;
+  validateCallBack: (isValid: boolean, error: object) => boolean;
 
   onEditClicked: (id: string) => void;
   editDataLoading: boolean;

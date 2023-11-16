@@ -84,6 +84,7 @@ export const useMenu = create<MenusProps>((set, get) => ({
                 
               },
             });
+            console.log(useWebHookURL.getState().WebHookUrl, useAPIKey.getState().APIkey,'');
           });
         }
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {

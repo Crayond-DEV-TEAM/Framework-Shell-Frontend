@@ -155,16 +155,11 @@ export interface APIKeyProps {
   APIkey?: ServiceOptionList;
 }
 
-export interface WebHookUrlProps {
-  WebHookUrl?:ServiceOptionList;
-}
 
 export interface SlugProps {
   getSlug: (id: ServiceName) => void;
   slugs?: ServiceOptionList;
-  APIkey?: ServiceOptionList;
-  WebHookUrl?:ServiceOptionList;
-  
+  APIkey?: ServiceOptionList;  
 }
 export interface MessageCreateInterface {
   title: number | string;

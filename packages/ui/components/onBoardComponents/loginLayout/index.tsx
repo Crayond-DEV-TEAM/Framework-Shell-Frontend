@@ -10,6 +10,7 @@ import login from '@assets/login.svg';
 import toolkit from '@assets/toolkit.svg';
 import { loginLayoutStyle } from './style';
 import { useUser } from '@core/store'
+import packageJson from '../../../../../package.json';
 
 export interface LoginLayoutProps {
   className?: string;
@@ -43,11 +44,14 @@ export const LoginLayout = forwardRef((props: LoginLayoutProps): JSX.Element => 
     }
   }, [location]);
 
+  const appVersion = packageJson.version;
+
   return (
     <Box sx={[{ ...loginLayoutStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]} className={`${className}`} {...rest}>
       <Box sx={loginLayoutStyle?.toolkit}>
         <Box component={'img'} sx={{ width: '40px', height: '40px' }} src={toolkit} />
         <Typography sx={loginLayoutStyle.toolkitText}>Toolkit</Typography>
+        <Typography sx={loginLayoutStyle.version}>(v:{appVersion})</Typography>
       </Box>
 
       <Grid container>

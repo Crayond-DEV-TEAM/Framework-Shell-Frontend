@@ -60,6 +60,7 @@ export const tableData = (
   //       method:switchHandle
   //     }
   //   ]
+  
   // },
   {
     type: ['ACTION'],

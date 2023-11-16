@@ -45,7 +45,6 @@ export const Settings = (props: SettingsProps): JSX.Element => {
   const handleSaveUrl = () => {
     if (webHook !== '') {
       saveWebhookUrlAPI(APIKey, webHook, service)
-      setWebHook('')
     }
   }
 

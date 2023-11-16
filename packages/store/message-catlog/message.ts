@@ -210,7 +210,8 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
           response.data.data?.map(
             (tableData: any, i: any) =>
               dataTable.push({
-                id: tableData?.ref_id ?? '',
+                id: tableData?.id ?? i,
+                ref_id: tableData?.ref_id ?? '',
                 msg_grp_id: tableData?.msg_grp_id ?? '',
                 updated_at: tableData?.updated_at ?? '',
                 created_at: tableData?.created_at ?? '',

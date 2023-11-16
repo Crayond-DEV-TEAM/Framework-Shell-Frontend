@@ -93,6 +93,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   };
 
   const handleSwitch = (id: string, data: any, e: any) => {
+    debugger
     if (!switchList.includes(id)) {
       setSwitchList([...switchList, id]);
     } else {

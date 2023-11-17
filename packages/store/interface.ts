@@ -542,6 +542,15 @@ export interface ApiBodyInterface {
       disposition: string,
     },
   ],
+  notification_type :[],
+mail_provider_id :string,
+sms_provider_id:string,
+whatsapp_to :[],
+whatsapp_provider_name:string,
+slack_to :[],
+slack_body :[],
+slack_provider_name:string,
+push_receiver_clientIds :[],
 }
 
 export interface ChannelData {

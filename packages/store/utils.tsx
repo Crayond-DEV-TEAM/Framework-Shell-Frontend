@@ -435,7 +435,7 @@ export const giveMeApiBody = (): ApiBodyInterface => {
     inapp_clientIds: [],
     inapp_icon: '',
     is_send_push_notification: true,
-    is_send_inapp_notification: false,
+    is_send_inapp_notification: true,
     is_user_specific_notification: false,
     to_mobiles: [],
     sms_body: [],
@@ -454,6 +454,16 @@ export const giveMeApiBody = (): ApiBodyInterface => {
         disposition: '',
       },
     ],
+    notification_type :[],
+mail_provider_id :'',
+sms_provider_id:'',
+whatsapp_to :[],
+whatsapp_provider_name:'',
+slack_to :[],
+slack_body :[],
+slack_provider_name:'',
+push_receiver_clientIds :[],
+    
   };
 };
 
@@ -794,6 +804,60 @@ export const dummyAlert = [
     parameter: 'email_attachments',
     type: 'array',
     description: `List of attachments for email`,
+  },
+  {
+    id: 33,
+    parameter: 'notification_type',
+    type: 'array',
+    description: `list the notification types [push,sms,mail]`,
+  },
+  {
+    id: 34,
+    parameter: 'sms_provider_id',
+    type: 'string',
+    description: `To specify the sms provider name`,
+  },
+  {
+    id: 35,
+    parameter: 'mail_provider_id',
+    type: 'string',
+    description: `to specify the mail provider name ex:pinpoint`,
+  },
+  {
+    id: 36,
+    parameter: 'whatsapp_to',
+    type: 'string',
+    description: `List of whatsapp numbers to send`,
+  },
+  {
+    id: 37,
+    parameter: 'whatsapp_provider_name',
+    type: 'string',
+    description: `To specify the whatsapp provider name`,
+  },
+  {
+    id: 38,
+    parameter: 'slack_to',
+    type: 'array',
+    description: `List of  of slack ids to send notification`,
+  },
+  {
+    id: 39,
+    parameter: 'slack_body',
+    type: 'array',
+    description: `List of data parameters for slack body`,
+  },
+  {
+    id: 40,
+    parameter: 'slack_provider_name',
+    type: 'string',
+    description: `to specify the slack provider name`,
+  },
+  {
+    id: 41,
+    parameter: 'push_receiver_clientIds',
+    type: 'array',
+    description: `List of ids to send push notification`,
   },
 ];
 

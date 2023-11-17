@@ -7,13 +7,14 @@ import { ReportTabs, SubHeader, TabPage } from '..';
 import { Input } from '@atoms/input';
 import CopyLinkIcon from '@assets/copyLinkIcon';
 import { Label } from '@atoms/label';
-import { useAPIKey, useWebHookURL } from '@core/store';
+import { useAPIKey, useMenu, useWebHookURL } from '@core/store';
 import { useEffect, useState } from 'react';
 import React from 'react';
 import { Webhook } from '@mui/icons-material';
 import { useSettings } from '@core/store/common/webHookUrl';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import SaveIcon from '@mui/icons-material/Save';
+import { localStorageKeys } from '@core/utils';
 export interface SettingsProps {
   className?: string;
   sx?: SxProps<Theme>;
@@ -23,14 +24,14 @@ export interface SettingsProps {
 export const Settings = (props: SettingsProps): JSX.Element => {
   const { className = '', sx = {}, service = '', ...rest } = props;
   const { saveWebhookUrlAPI } = useSettings()
+  const { getSideMenusFromProject } = useMenu()
+  const ProjectId = localStorage.getItem(localStorageKeys?.projectId);
   const APIKey = useAPIKey.getState().APIkey[service];
   const WebHookUrl = useWebHookURL.getState().WebHookUrl[service];
   const [serviceApikey, setServiceApikey] = useState('');
   const [webHook, setWebHook] = useState('');
   const [isEditing, setIsEditing] = useState(WebHookUrl ? true : false);
   const [isCopied, setIsCopied] = useState(false);
-
-  console.log(isEditing, WebHookUrl, 'webHook');
 
   // Event handler for input changes
   const handleInputChange = (event?: any) => {
@@ -42,8 +43,9 @@ export const Settings = (props: SettingsProps): JSX.Element => {
     setIsEditing((prevEditing) => !prevEditing);
   };
 
-  const handleSaveUrl = () => {
-    saveWebhookUrlAPI(APIKey, webHook, service)
+  const handleSaveUrl = async () => {
+    await saveWebhookUrlAPI(APIKey, webHook, service)
+    await getSideMenusFromProject(ProjectId)
   }
 
   const handleCopyAPIkey = async () => {
@@ -62,7 +64,7 @@ export const Settings = (props: SettingsProps): JSX.Element => {
   useEffect(() => {
     setServiceApikey(APIKey);
     setWebHook(WebHookUrl);
-    setIsEditing(WebHookUrl ? true : false)
+    // setIsEditing(WebHookUrl ? true : false)
     setIsCopied(false)
   }, [service]);
 

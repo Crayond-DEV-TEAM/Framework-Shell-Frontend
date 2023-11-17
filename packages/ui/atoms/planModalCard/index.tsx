@@ -118,7 +118,6 @@ export const PlanModalCard = (props: PlanModalCardProps): JSX.Element => {
       <Box
         sx={planModalCardStyle.align}
         // onChange={(e) => {
-        //   debugger;
         //   console.log(e,'checkinge')
         //   // handleChangeEvent('actual_price', e);
         // }}

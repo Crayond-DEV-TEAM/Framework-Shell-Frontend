@@ -121,6 +121,10 @@ export interface MessageGroup {
   title: number | string;
   description: number | string;
   is_status: boolean;
+  error: {
+    title: number | string;
+    description: number | string;
+  }
 }
 export interface Menu {
   id: number;
@@ -162,15 +166,15 @@ export interface APIKeyProps {
 }
 
 export interface WebHookUrlProps {
-  WebHookUrl?:ServiceOptionList;
+  WebHookUrl?: ServiceOptionList;
 }
 
 export interface SlugProps {
   getSlug: (id: ServiceName) => void;
   slugs?: ServiceOptionList;
   APIkey?: ServiceOptionList;
-  WebHookUrl?:ServiceOptionList;
-  
+  WebHookUrl?: ServiceOptionList;
+
 }
 export interface MessageCreateInterface {
   title: number | string;
@@ -393,7 +397,7 @@ export interface MessageStoreInterface {
   addEditMessageState: AddEditMessageState;
   handleAddEditStateChange: (key: string, value: string | number | boolean) => void;
   handleAddEditMessageChange: (configuration_id: string, message: string) => void;
-  validateCallBack: (isValid: boolean, error: object) => boolean;
+  validateCallBack: (isValid: boolean, error: object, state: object) => boolean;
 
   onEditClicked: (id: string) => void;
   editDataLoading: boolean;
@@ -500,21 +504,21 @@ export interface AlertRuleInterface {
   errorOnFetching: boolean;
   [key: string]: any;
 }
-export interface ApiBodyInterface { 
+export interface ApiBodyInterface {
   reference_id: string,
   alert_rule_code: string,
   push_receivers: [],
   push_title: [],
   push_body: [],
-  push_data: { },
+  push_data: {},
   push_click_action: string,
   push_icon: string,
   push_image: string,
   push_actions: [
     {
-      title:string,
+      title: string,
       action: string
-  }
+    }
   ],
   whatsapp_body: [],
   whatsapp_template_name: string,
@@ -1385,8 +1389,8 @@ export interface SuperAdminLandingKey {
   email_id: string;
   mapAdmin: [];
   mapServices: [];
-  adminDatas:[],
-  serviceDatas:[]
+  adminDatas: [],
+  serviceDatas: []
   is_active: boolean;
   id?: string;
 }

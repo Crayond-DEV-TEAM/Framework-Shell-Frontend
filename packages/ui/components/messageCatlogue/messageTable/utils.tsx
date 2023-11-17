@@ -59,7 +59,7 @@ export const Header = [
   },
 ];
 
-export const tableData = (editHandel: (id: string) => void, deleteHandel: (id: string) => void) => [
+export const tableData = (editHandle: (id: string) => void, deleteHandle: (id: string) => void) => [
   { type: ['TEXT'], name: 'ref_id' },
   { type: ['TEXT'], name: 'title' },
   { type: ['TEXT'], name: 'description' },
@@ -78,11 +78,11 @@ export const tableData = (editHandel: (id: string) => void, deleteHandel: (id: s
     variant: [
       {
         icon: <EditIcon />,
-        method: editHandel,
+        method: editHandle,
       },
       {
         icon: <DeleteIcon />,
-        method: deleteHandel,
+        method: deleteHandle,
       },
     ],
   },

@@ -87,7 +87,6 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
   };
   const onLinkClick = (data: Menu) => {
     navigate(data.link);
-    // debugger;
     // if (
     //   data.baseUrl === window.location.protocol + '//' + window.location.host ||
     //   window.location.hostname === 'localhost'

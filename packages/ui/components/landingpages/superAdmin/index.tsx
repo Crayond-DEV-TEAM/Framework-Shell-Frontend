@@ -52,7 +52,6 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
     // console.log('');
   };
   const handleChange = (key: string, value: any) => {
-    debugger;
     seteditOrganisation({ key, value });
   };
 

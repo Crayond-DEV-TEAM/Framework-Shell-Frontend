@@ -57,7 +57,6 @@ export const useMenu = create<MenusProps>((set, get) => ({
     httpRequest('post', `${envConfig.api_url}/idm/project/list-services`, payload, true)
       .then((response) => {
         const sideMenus: any = [];
-        // debugger;
         // Set the slugId in slug state
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.forEach((apiItem: SideMenuResponse) => {
@@ -116,7 +115,6 @@ export const useMenu = create<MenusProps>((set, get) => ({
     httpRequest('post', `${envConfig.api_url}/idm/project/list-services`, payload, true)
       .then((response) => {
         const sideMenus: any = [];
-        // debugger;
         // Set the slugId in slug state
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.forEach((apiItem: SideMenuResponse) => {
@@ -167,7 +165,6 @@ export const useMenu = create<MenusProps>((set, get) => ({
   },
 
   onLinkClick: (data: Menu) => {
-    // debugger;
     // if (
     //   data.baseUrl === window.location.protocol + '//' + window.location.host ||
     //   window.location.hostname === 'localhost'

@@ -36,7 +36,6 @@ export const AddChipDropdown: React.FC<AddChipDropdownProps> = (props) => {
   console.log('valuesvaluesvaluesvalues', values);
 
   const handleOptionToggle = (option: any) => {
-    debugger;
     const isSelected = values.find((v) => v?.id === option?.id);
     if (isSelected?.id) {
       const isSelected = values.filter((v) => v?.id !== option?.id);

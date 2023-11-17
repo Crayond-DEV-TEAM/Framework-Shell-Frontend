@@ -119,7 +119,6 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     editMessageListGroups({ id: x?.id });
   };
 
-
   const Edit = () => {
     if (validate('editMessageList')) {
       editMessageGroups();

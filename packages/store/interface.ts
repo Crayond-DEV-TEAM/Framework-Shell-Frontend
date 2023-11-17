@@ -172,9 +172,7 @@ export interface WebHookUrlProps {
 export interface SlugProps {
   getSlug: (id: ServiceName) => void;
   slugs?: ServiceOptionList;
-  APIkey?: ServiceOptionList;
-  WebHookUrl?: ServiceOptionList;
-
+  APIkey?: ServiceOptionList;  
 }
 export interface MessageCreateInterface {
   title: number | string;

@@ -10,7 +10,9 @@ import { ErrorInfo } from '@atoms/icons';
 import { SubHeader } from '@components/commonComponents';
 import { useApiDocumentation } from '@core/store';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+// import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 export interface ApiDocumentationProps {
   data?: any;
@@ -96,7 +98,6 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
   const sampleRequest = 
     {
       'reference_id': 'test',
-      'alert_key': 'eyJhbGciOiJIUzI1NiIsInsfFR5cdsdsdCI6IkpXVCJ9sds.eyJpZCI6ImIyMTU2ZWNmLWFiNTgtNGY0Zi1iYjlsSFDADFjLWJjYTk0Yzhm...',
       'push_receivers': ['fDh9oeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIyMTU2ZWNmLWFiNTgtNGY0Zi1iYjljLWJjYTk0YzhmM2U3OCI...'],
       'push_title': ['Test','Title'],
       'push_body': ['Test','Body'],
@@ -174,8 +175,9 @@ const tabs = [
                   <Checkbox
                             onChange={(v) => handleChangeCallback(e, v.target.checked)}
                             checked={apiBody[e]}
-                            icon={<RadioButtonUncheckedIcon />}                            
-                            checkedIcon={<RadioButtonCheckedIcon />}
+                            icon={<CheckBoxOutlineBlankIcon />}                            
+                            checkedIcon={<CheckBoxIcon />}
+                            
                              />          
                   </>
                 ) : (

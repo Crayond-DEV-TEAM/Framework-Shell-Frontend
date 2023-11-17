@@ -83,12 +83,12 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     e.stopPropagation();
     
   };
-  const onRowClick = (data:any, e:any)=>{
-    getSideMenusFromProject(data.id);
-    localStorage.setItem(localStorageKeys.projectId, data.id);
+  const onRowClick = (id: string, data: any, e: any)=>{
+    getSideMenusFromProject(id);
+    localStorage.setItem(localStorageKeys.projectId, id);
     navigate(webRoutes.root);
-    e.preventDefault();
-    e.stopPropagation();
+    // e.preventDefault();
+    // e.stopPropagation();
     
     
   }
@@ -177,16 +177,16 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
           <Box sx={adminSectionStyle.commonTable}>
             <CommonTable       
               // onRowClick={onRowClick}  
-              onRowClick={ (data:any, e:any) => {
-                onRowClick(data, e);
-                e.preventDefault();
-                e.stopPropagation();
+            //   onRowClick={ (data:any, e:any) => {
+            //     onRowClick(data, e);
+            //     e.preventDefault();
+            //     e.stopPropagation();
                 
-              }
-            }              
+            //   }
+            // }              
               Header={Header}
               dataList={filteredMessageGroup}
-              tableData={tableData(handleTableEdit, handleTableDelete, handleTableDetail)}
+              tableData={tableData(handleTableEdit, handleTableDelete, handleTableDetail, onRowClick)}
               switchList={switchList}
               handleSwitch={handleSwitch}
 

@@ -25,9 +25,9 @@ export const adminSectionStyle: AdminSectionStyleProps = {
       display:'flex',
       gap:'6px',
     },
-    '& .MuiTableRow-root':{
-      cursor:'pointer'
-    },
+    // '& .MuiTableRow-root':{
+    //   cursor:'pointer'
+    // },
     '& .css-x5ymgk': {
       gap: '0px',
       marginBottom: '14px',

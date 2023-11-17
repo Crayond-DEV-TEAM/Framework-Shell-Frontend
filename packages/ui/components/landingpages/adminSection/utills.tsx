@@ -1,7 +1,13 @@
 import { DeleteIcon, EditIcon, MoreIcon } from '@atoms/icons';
-import { Switch } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info'; 
 
 export const Header = [
+  {
+    id: 'action',
+    align: 'center',
+    disablePadding: false,
+    // label: 'Action',
+  },
   {
     id: 'projectTitle',
     align: 'left',
@@ -40,8 +46,18 @@ export const tableData = (
   editHandel: (id: string, data: any, e: any) => void,
   deleteHandel: (id: string) => void,
   detailHandel: (id: string) => void,
-  switchHandle: (id: string, data: any, e: any) => void,
+  onRowClick: (id: string, data: any, e: any) => void,
 ) => [
+  {
+    type: ['ACTION'],
+    name: 'action',
+    variant: [
+      {
+        icon: <InfoIcon sx={{color:'#357968'}} />,
+        method: onRowClick,
+      },
+    ],
+  },
   { type: ['TEXT'], name: 'projectTitle' },
   { type: ['TEXT'], name: 'description' },
   { type: ['TEXT'], name: 'serviceMapped' },
@@ -50,18 +66,6 @@ export const tableData = (
     name: 'is_active',
     switchText: [{ label_1: 'In Active', label_2: 'Active' }],
   },
-  // {
-  //   type: ['CUSTOM'],
-  //   name: 'is_active',
-  //   switchText: [{ label_1: 'In Active', label_2: 'Active' }],
-  //   variant:[
-  //     {
-  //       icon:<EditIcon />,
-  //       method:switchHandle
-  //     }
-  //   ]
-  
-  // },
   {
     type: ['ACTION'],
     name: 'action',

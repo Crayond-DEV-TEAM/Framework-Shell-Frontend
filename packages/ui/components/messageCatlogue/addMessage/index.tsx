@@ -98,10 +98,10 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
 
 
   const handleAddMsg = () => {
-    if (validate('addMessage')) {
+    // if (validate('addMessage')) {
       setOpen(false);
       addMessageGroups();
-    }
+    // }
 
   };
 
@@ -120,9 +120,9 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
   };
 
   const Edit = () => {
-    if (validate('editMessageList')) {
+    // if (validate('editMessageList')) {
       editMessageGroups();
-    }
+    // }
     setValues(false);
     console.log(editMessageList, 'addMessage');
 

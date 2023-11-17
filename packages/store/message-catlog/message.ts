@@ -33,11 +33,11 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
 
   handleAddEditStateChange: (key: string, value: string | number | boolean) => {
     const { addEditMessageState } = get()
-    const error = addEditMessageState?.error
-    error[key] = ''
+    // const error = addEditMessageState?.error
+    // error[key] = ''
     set((state) => ({
       addEditMessageState: {
-        ...state.addEditMessageState, [key]: value, error
+        ...state.addEditMessageState, [key]: value,
       }
     }));
   },

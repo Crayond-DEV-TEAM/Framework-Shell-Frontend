@@ -134,7 +134,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       project_id: createEditAdmin.id,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.api_url}/idm/project/deactivate`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/idm/project/deactivate`, payload, true)
       .then((response) => {
         enqueueSnackbar('Project edited Succesfully!', { variant: 'success' });
       })
@@ -156,7 +156,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       project_id: id,
       is_active: status,
     };
-    httpRequest('put', `${envConfig.api_url}/idm/project/deactivate`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/idm/project/deactivate`, payload, true)
       .then((response) => {
         enqueueSnackbar('Status changed succesfully!', { variant: 'success' });
       })

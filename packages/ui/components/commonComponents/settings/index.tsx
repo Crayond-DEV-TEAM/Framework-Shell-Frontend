@@ -1,11 +1,13 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Button, IconButton, Tooltip, Typography } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import SendIcon from '@mui/icons-material/Send';
 import { settingsStyle } from './style';
 import { ReportTabs, SubHeader, TabPage } from '..';
 import { Input } from '@atoms/input';
 import CopyLinkIcon from '@assets/copyLinkIcon';
 import { Label } from '@atoms/label';
-import { useAPIKey } from '@core/store';
+import { useAPIKey, useWebHookURL } from '@core/store';
 import { useEffect, useState } from 'react';
 import React from 'react';
 import { Webhook } from '@mui/icons-material';
@@ -98,10 +100,41 @@ export const Settings = (props: SettingsProps): JSX.Element => {
           textFieldStyle={{
             ...settingsStyle.inputSx,
             '& .MuiOutlinedInput-root': {
-              pr: 0,
+              p: 0,
             },
           }}
         />
+        <Box pt={1}>
+          <Label sx={settingsStyle.labelSx} 
+          htmlFor="WebHook URL">
+            Webhook URL 
+          </Label>
+          <Input
+            placeholder="Webhook URL"
+            endAdornment={
+              <>
+                {
+                  webHook &&
+                  <IconButton sx={settingsStyle.copySxeditIcon} onClick={handleWebhookEditURL}>
+                    <EditIcon />
+                  </IconButton>
+                }
+                <IconButton sx={settingsStyle.copySxedit} onClick={handleSaveUrl} >
+                  <SaveIcon />
+                </IconButton>
+              </>
+            }
+            disabled={isEditing}
+            onChange={handleInputChange}
+            value={webHook}
+            textFieldStyle={{
+              ...settingsStyle.inputSx,
+              '& .MuiOutlinedInput-root': {
+                p: 0,
+              },
+            }}
+          />
+        </Box>
       </Box>
     </Box>
   );

@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth, useProfileUserLanding } from '@core/store';
 import { passwordRegex, validateResetPasswordData } from '@core/store/utils';
 import { ResetPasswordState } from '@core/store/interface';
-
+import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 export interface MyProfileProps {
   onClick?: () => void;
   showpassword: '';
@@ -23,8 +23,18 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
   const [password, setPasswordOpen] = useState(false);
   const [showpassword, setPassword] = useState<boolean>(false);
   const [formErrors, setFormErrors] = useState({ name: '', mobileno: '', password: '', confirmPassword: '' });
+  // const [selectedFile, setSelectedFile] = useState(null);
 
-  const { getMyProfile, MyProfileList, editProfileData, editProfile, seteditMyProfile } = useProfileUserLanding();
+  const {
+    getMyProfile,
+    MyProfileList,
+    editProfileData,
+    editProfile,
+    seteditMyProfile,
+    fileUpload,
+    setSelectedFile,
+    selectedFile,
+  } = useProfileUserLanding();
   const { changePasswordState, setChangePasswordState, changePassword } = useAuth();
   // console.log(MyProfileList, 'MyProfileList');
   // console.log(changePasswordState, 'editProfile');
@@ -102,9 +112,28 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
     history('/');
   };
 
+  const handleFileUpload = (file) => {
+    if (file) {
+      fileUpload(file);
+    }
+  };
+
+  const handleFileChange = (event: File) => {
+    const file = event.target.files;
+    setSelectedFile(file);
+    handleFileUpload(file);
+  };
+
   useEffect(() => {
     getMyProfile();
   }, []);
+
+  useEffect(() => {
+    if (MyProfileList) {
+      seteditMyProfile('name', MyProfileList.full_name || '');
+      seteditMyProfile('mobileno', `+${MyProfileList.mobile_code} ${MyProfileList.mobile_number}` || '');
+    }
+  }, [MyProfileList]);
 
   return (
     <Box sx={ProfileStyle.mainBox}>
@@ -114,7 +143,19 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
           <Typography sx={ProfileStyle.head}>My Profile</Typography>
         </Box>
         <Box sx={ProfileStyle.imgBox}>
-          <Avatar sx={ProfileStyle.avatar} src="https://picsum.photos/200/300"></Avatar>
+          <Box sx={ProfileStyle.upload}>
+            <Avatar sx={ProfileStyle.avatar1} src={MyProfileList?.profile_pic}></Avatar>
+            <input
+              data-testId="upload"
+              onChange={handleFileChange}
+              type="file"
+              style={ProfileStyle.avatar}
+              accept="image/jpeg, image/*,application/pdf"
+            />
+          </Box>
+          {/* <Button variant="contained" color="primary" onClick={handleFileUpload} sx={ProfileStyle.uploadbtn}>
+            Upload
+          </Button> */}
         </Box>
         <Typography align="center" sx={ProfileStyle.name}>
           {MyProfileList?.full_name ?? '-'}
@@ -192,7 +233,7 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
         }
         handleCloseDialog={handleClose}
         dialogRootStyle={ProfileStyle.dialogSx}
-        Footercomponent={<FooterComponent onSave={handleEdit} onCancel={handleClose} />}
+        Footercomponent={<FooterComponent onSave={handleEdit} onCancel={handleClose} sx={{ padding: '4px 0px' }} />}
       />
       <DialogDrawer
         maxModalWidth="sm"

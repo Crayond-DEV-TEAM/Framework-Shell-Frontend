@@ -45,7 +45,6 @@ export const useProfileUserLanding = create<UserProfileLandingInterface>((set, g
     };
     httpRequest('get', `${envConfig.api_url}/idm/user-profile/list`, payload, true)
       .then((response) => {
-        debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
@@ -172,7 +171,6 @@ export const useProfileUserLanding = create<UserProfileLandingInterface>((set, g
   },
 
   getMyProfile: () => {
-    // debugger
     // const { OrganisationDetails } = get();
     // const slugId = useSlug?.getState()?.slugs?.PASM;
     const slugId = '98a60c91-a068-43cb-989d-172cf3f90321';

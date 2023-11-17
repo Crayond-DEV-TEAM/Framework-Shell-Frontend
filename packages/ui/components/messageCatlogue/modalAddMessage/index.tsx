@@ -41,8 +41,8 @@ export const ModalAddMessage = forwardRef((props: ModalAddMessageProps, ref: Rea
               handleChange('title', e?.target?.value)
             }
             textFieldStyle={modalAddMessageStyle.inputSx}
-            // isError={groupState?.error?.addTitle ? true : false}
-            // errorMessage={groupState?.error?.addTitle ?? ''}
+            isError={groupState?.error?.title ? true : false}
+            errorMessage={groupState?.error?.title ?? ''}
           />
         </Box>
         <Box sx={modalAddMessageStyle.inputGroupSx}>
@@ -62,8 +62,8 @@ export const ModalAddMessage = forwardRef((props: ModalAddMessageProps, ref: Rea
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('description', e.target.value)
             }
-            // isError={groupState?.error?.addDescription ? true : false}
-            // errorMessage={groupState?.error?.addDescription ?? ''}
+            isError={groupState?.error?.description ? true : false}
+            errorMessage={groupState?.error?.description ?? ''}
           />
         </Box>
       </Box>

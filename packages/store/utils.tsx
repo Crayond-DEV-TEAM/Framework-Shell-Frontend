@@ -216,7 +216,7 @@ export const AllRoutes = [
       {
         id: 3,
         link: webRoutes.apiDocumentation,
-        name: 'API Testing',
+        name: 'API Tester',
         baseUrl: '',
         icon: (isSelected: boolean) => <ApiDocument sx={{ color: isSelected ? 'primary.main' : 'action' }} />,
       },
@@ -413,15 +413,15 @@ export const giveMeApiBody = (): ApiBodyInterface => {
     push_receivers: [],
     push_title: [],
     push_body: [],
-    push_data: { },
+    push_data: {},
     push_click_action: '',
     push_icon: '',
     push_image: '',
     push_actions: [
       {
-        title:'',
+        title: '',
         action: ''
-    }
+      }
     ],
     whatsapp_body: [],
     whatsapp_template_name: '',
@@ -434,8 +434,8 @@ export const giveMeApiBody = (): ApiBodyInterface => {
     inapp_eventReferenceId: '',
     inapp_clientIds: [],
     inapp_icon: '',
-    is_send_push_notification: false,
-    is_send_inapp_notification: false,
+    is_send_push_notification: true,
+    is_send_inapp_notification: true,
     is_user_specific_notification: false,
     to_mobiles: [],
     sms_body: [],
@@ -454,6 +454,16 @@ export const giveMeApiBody = (): ApiBodyInterface => {
         disposition: '',
       },
     ],
+    notification_type :[],
+mail_provider_id :'',
+sms_provider_id:'',
+whatsapp_to :[],
+whatsapp_provider_name:'',
+slack_to :[],
+slack_body :[],
+slack_provider_name:'',
+push_receiver_clientIds :[],
+    
   };
 };
 
@@ -603,21 +613,251 @@ export const dummyTableData = [
 export const dummyAlert = [
   {
     id: 1,
-    parameter: 'push',
+    parameter: 'reference_id',
     type: 'string',
-    description: 'Enim nisl dapibus',
+    description: 'Unique Representation of a alert',
   },
   {
     id: 2,
-    parameter: 'push',
-    type: 'string',
-    description: 'Enim nisl dapibus',
+    parameter: 'push_receivers',
+    type: 'array',
+    description: 'List of push notification receivers',
   },
   {
     id: 3,
-    parameter: 'push',
+    parameter: 'push_title',
+    type: 'array',
+    description: 'List of data parameters for push title',
+  },
+  {
+    id: 4,
+    parameter: 'push_body',
+    type: 'object',
+    description: 'List of data parameters for push body',
+  },
+  {
+    id: 5,
+    parameter: 'push_click_action',
     type: 'string',
-    description: 'Enim nisl dapibus',
+    description: 'URL to open site when clicking a received push notification',
+  },
+  {
+    id: 6,
+    parameter: 'push_icon',
+    type: 'string',
+    description: 'Pass an image URL to set as an icon to the push notification',
+  },
+  {
+    id: 7,
+    parameter: 'push_image',
+    type: 'string',
+    description: 'Pass an image URL to display the image in the push notification',
+  },
+  {
+    id: 8,
+    parameter: 'push_actions',
+    type: 'array',
+    description: 'List of actions to display the action button',
+  },
+  {
+    id: 9,
+    parameter: 'push_receiver_clientIds',
+    type: 'array of string',
+    description: `List of push notification receivers's Id`,
+  },
+  {
+    id: 10,
+    parameter: 'inapp_title',
+    type: 'array',
+    description: 'List of data parameters for In-App title',
+  },
+  {
+    id: 11,
+    parameter: 'inapp_body',
+    type: 'array',
+    description: 'List of data parameters for In-App body',
+  },
+  {
+    id: 12,
+    parameter: 'inapp_image',
+    type: 'string',
+    description: 'Pass an image URL to display the image in In-App notificaiton',
+  },
+  {
+    id: 13,
+    parameter: 'inapp_action1',
+    type: 'string',
+    description: 'Set the action title for In-App.e.g : Share',
+  },
+  {
+    id: 14,
+    parameter: 'inapp_action2',
+    type: 'string',
+    description: 'Set the another action title for In-App. e.g: Participate',
+  },
+  {
+    id: 15,
+    parameter: 'inapp_type',
+    type: 'string',
+    description: 'Pass the type of the notification.It helps to redirect the page. e.g : Teams',
+  },
+  {
+    id: 16,
+    parameter: 'inapp_clientIds',
+    type: 'array of string',
+    description: `List of In-App notification receivers's Id`,
+  },
+  {
+    id: 17,
+    parameter: 'inapp_eventReferenceId',
+    type: 'string',
+    description: 'Pass the reference eventId to In-App notificaiton. e.g: 11',
+  },
+  {
+    id: 18,
+    parameter: 'is_send_push_notification',
+    type: 'boolean',
+    description: `In default it's true.If it's false then does not send any notification`,
+  },
+  {
+    id: 19,
+    parameter: 'is_send_inapp_notification',
+    type: 'boolean',
+    description: `In Default it's true.If it's false then does not send any notification`,
+  },
+  		
+
+  {
+    id: 20,
+    parameter: 'is_user_specific_notification',
+    type: 'boolean',
+    description: `In default it's false. Set true - Send the Push and In-App notification for only one user.`,
+  },
+  {
+    id: 21,
+    parameter: 'to_mobiles',
+    type: 'array',
+    description: `List of mobile numbers to send SMS`,
+  },
+  {
+    id: 22,
+    parameter: 'sms_body',
+    type: 'array',
+    description: `List of data parameters for sms body`,
+  },
+  {
+    id: 23,
+    parameter: 'URL',
+    type: 'string',
+    description: `URL Shortener. Use {URL} de-limiter in the alert rule SMS body content`,
+  },
+  {
+    id: 24,
+    parameter: 'sms_body',
+    type: 'array',
+    description: `List of data parameters for sms body`,
+  },
+  {
+    id: 25,
+    parameter: 'URL',
+    type: 'string',
+    description: `URL Shortener. Use {URL} de-limiter in the alert rule SMS body content`,
+  },
+  {
+    id: 26,
+    parameter: 'to_emails',
+    type: 'array',
+    description: `List of emails to send Mail`,
+  },
+  {
+    id: 27,
+    parameter: 'email_CC',
+    type: 'array',
+    description: `List of data parameters for email CC`,
+  },
+  {
+    id: 28,
+    parameter: 'email_BCC',
+    type: 'array',
+    description: `List of data parameters for email BCC`,
+  },
+  {
+    id: 29,
+    parameter: 'from_mail',
+    type: 'string',
+    description: `Sender E-mail ID`,
+  },
+  {
+    id: 30,
+    parameter: 'email_subject',
+    type: 'array',
+    description: `List of data parameters for email subject`,
+  },
+  {
+    id: 31,
+    parameter: 'email_body',
+    type: 'array',
+    description: `List of data parameters for email body`,
+  },
+  {
+    id: 32,
+    parameter: 'email_attachments',
+    type: 'array',
+    description: `List of attachments for email`,
+  },
+  {
+    id: 33,
+    parameter: 'notification_type',
+    type: 'array',
+    description: `list the notification types [push,sms,mail]`,
+  },
+  {
+    id: 34,
+    parameter: 'sms_provider_id',
+    type: 'string',
+    description: `To specify the sms provider name`,
+  },
+  {
+    id: 35,
+    parameter: 'mail_provider_id',
+    type: 'string',
+    description: `to specify the mail provider name ex:pinpoint`,
+  },
+  {
+    id: 36,
+    parameter: 'whatsapp_to',
+    type: 'string',
+    description: `List of whatsapp numbers to send`,
+  },
+  {
+    id: 37,
+    parameter: 'whatsapp_provider_name',
+    type: 'string',
+    description: `To specify the whatsapp provider name`,
+  },
+  {
+    id: 38,
+    parameter: 'slack_to',
+    type: 'array',
+    description: `List of  of slack ids to send notification`,
+  },
+  {
+    id: 39,
+    parameter: 'slack_body',
+    type: 'array',
+    description: `List of data parameters for slack body`,
+  },
+  {
+    id: 40,
+    parameter: 'slack_provider_name',
+    type: 'string',
+    description: `to specify the slack provider name`,
+  },
+  {
+    id: 41,
+    parameter: 'push_receiver_clientIds',
+    type: 'array',
+    description: `List of ids to send push notification`,
   },
 ];
 
@@ -1027,7 +1267,15 @@ export const tabsCard = {
 };
 
 export const giveMeMessageGroupInitialState = (): MessageGroup => {
-  return { title: '', description: '', is_status: true };
+  return {
+    title: '',
+    description: '',
+    is_status: true,
+    error: {
+      title: '',
+      description: ''
+    }
+  };
 };
 
 export const giveMestatusGroupState = (): MessageDetails => {

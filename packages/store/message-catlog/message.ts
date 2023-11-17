@@ -33,11 +33,11 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
 
   handleAddEditStateChange: (key: string, value: string | number | boolean) => {
     const { addEditMessageState } = get()
-    const error = addEditMessageState?.error
-    error[key] = ''
+    // const error = addEditMessageState?.error
+    // error[key] = ''
     set((state) => ({
       addEditMessageState: {
-        ...state.addEditMessageState, [key]: value, error
+        ...state.addEditMessageState, [key]: value,
       }
     }));
   },
@@ -89,14 +89,14 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
       });
   },
 
-  validateCallBack: (isValid, error) => {
+  validateCallBack: (isValid, error, state) => {
     const { addEditMessageState } = get()
-    set((state) => ({
-      addEditMessageState: {
-        ...state.addEditMessageState, error
+    set((prevState) => ({
+      [state]: {
+        ...prevState[state], error
       }
     }));
-    console.log(addEditMessageState);
+    // console.log(state);
     return isValid;
   },
 

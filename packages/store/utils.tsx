@@ -413,15 +413,15 @@ export const giveMeApiBody = (): ApiBodyInterface => {
     push_receivers: [],
     push_title: [],
     push_body: [],
-    push_data: { },
+    push_data: {},
     push_click_action: '',
     push_icon: '',
     push_image: '',
     push_actions: [
       {
-        title:'',
+        title: '',
         action: ''
-    }
+      }
     ],
     whatsapp_body: [],
     whatsapp_template_name: '',
@@ -1267,7 +1267,15 @@ export const tabsCard = {
 };
 
 export const giveMeMessageGroupInitialState = (): MessageGroup => {
-  return { title: '', description: '', is_status: true };
+  return {
+    title: '',
+    description: '',
+    is_status: true,
+    error: {
+      title: '',
+      description: ''
+    }
+  };
 };
 
 export const giveMestatusGroupState = (): MessageDetails => {

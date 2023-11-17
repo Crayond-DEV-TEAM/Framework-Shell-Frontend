@@ -69,7 +69,6 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
         createEditSubscription?.add_on?.push(value);
         totalCountFunc();
-        // debugger;
         return set((state) => ({
           createEditSubscription: {
             ...state.createEditSubscription,
@@ -85,7 +84,6 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     if (key === 'new_addon') {
       if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
         createEditSubscription?.new_addon.push(value);
-        // debugger;
         return set((state) => ({
           createEditSubscription: {
             ...state.createEditSubscription,
@@ -100,7 +98,6 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     if (key === 'old_addon') {
       if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
         createEditSubscription?.old_addon.push(value);
-        // debugger;
         return set((state) => ({
           createEditSubscription: {
             ...state.createEditSubscription,
@@ -234,7 +231,6 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     const { createEditSubscription, getSubscriptionList, clearAll } = get();
     const newAddOn = createEditSubscription?.new_addon?.map((x) => x?.add_on?.id) || [];
     const oldAddOn = createEditSubscription?.old_addon?.map((x) => x?.add_on?.id) || [];
-    // debugger;
     const payload = {
       subscription_id: createEditSubscription?.id,
       customer_id: createEditSubscription?.customer_id,

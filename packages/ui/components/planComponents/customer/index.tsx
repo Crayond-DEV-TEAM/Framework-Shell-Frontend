@@ -61,7 +61,6 @@ export const Customer = (props: CustomerProps): JSX.Element => {
     };
     updateEditData(updateData);
     seteditadd(true);
-    // debugger;
     // setSelected(true);
     // setidRole(id);
     navigate(planSubscriptionRoutes.createCustomer);

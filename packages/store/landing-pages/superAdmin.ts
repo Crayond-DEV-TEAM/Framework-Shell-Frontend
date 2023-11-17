@@ -34,7 +34,6 @@ export const useSuperAdminLanding = create<SuperAdminLandingInterface>((set, get
     set({ fetching: true, errorOnFetching: false });
     httpRequest('get', `${envConfig.api_url}/idm/organisation/list`, {}, true)
       .then((response) => {
-        debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
@@ -65,7 +64,6 @@ export const useSuperAdminLanding = create<SuperAdminLandingInterface>((set, get
     const { clearAll, createEditOrganisation, getOrganisationList } = get();
 
     set({ fetching: true, errorOnFetching: false });
-    debugger;
     const payload = {
       name: createEditOrganisation.organisationName,
       emailId: createEditOrganisation.email_id,
@@ -130,7 +128,6 @@ editGetDataOrganisation: (id: string) => {
 
   httpRequest('post', `${envConfig.api_url}/idm/organisation/get`, payload, true)
     .then((response) => {
-      debugger;
       const responseData = response.data.data;
       const Servicemap: any = [];
 
@@ -216,7 +213,6 @@ editGetDataOrganisation: (id: string) => {
   createServicemap: () => {
     const { createEditOrganisation,editGetDataOrganisation } = get();
     set({ fetching: true, errorOnFetching: false });
-    debugger;
     const newList = createEditOrganisation.mapServices.filter(newObj => !createEditOrganisation.serviceDatas.some(existingObj => existingObj.id === newObj.id));
      const orgId = createEditOrganisation.id
     const payload = {
@@ -242,7 +238,6 @@ editGetDataOrganisation: (id: string) => {
   deleteServicemap: () => {
     const { clearAll, getOrganisationList, createEditOrganisation ,editGetDataOrganisation } = get();
     set({ fetching: true, errorOnFetching: false });
-    debugger;
         const missingList = createEditOrganisation.serviceDatas.filter(existingObj => !createEditOrganisation.mapServices.some(newObj => newObj.id === existingObj.id));
         const orgId = createEditOrganisation.id
         console.log('missingList',missingList)
@@ -317,7 +312,6 @@ editGetDataOrganisation: (id: string) => {
     };
     httpRequest('get', `${envConfig.api_url}/idm/user-profile/list`, payload, true)
       .then((response) => {
-        debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
@@ -345,10 +339,8 @@ editGetDataOrganisation: (id: string) => {
     set({ fetching: true, errorOnFetching: false });
     httpRequest('post', `${envConfig.api_url}/idm/service/get`, {}, true)
       .then((response) => {
-        debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
-          debugger;
           response.data.data.rows.map(
             (tableData: any, i: any) =>
               dataTable.push({

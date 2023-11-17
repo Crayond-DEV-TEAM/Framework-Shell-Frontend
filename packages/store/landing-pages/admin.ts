@@ -62,7 +62,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
 
     httpRequest('post', `${envConfig.api_url}/idm/projects/get`, payload, true)
       .then((response) => {
-        debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
@@ -109,7 +108,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       })),
       is_active: createEditAdmin?.is_active,
     };
-    // debugger;
     httpRequest('post', `${envConfig.api_url}/idm/projects/create`, payload, true)
       .then((response) => {
         enqueueSnackbar('Project created Succesfully!', { variant: 'success' });
@@ -136,7 +134,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       project_id: createEditAdmin.id,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.api_url}/idm/projects/update`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/idm/project/deactivate`, payload, true)
       .then((response) => {
         enqueueSnackbar('Project edited Succesfully!', { variant: 'success' });
       })
@@ -158,7 +156,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       project_id: id,
       is_active: status,
     };
-    httpRequest('put', `${envConfig.api_url}/idm/projects/update`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/idm/project/deactivate`, payload, true)
       .then((response) => {
         enqueueSnackbar('Status changed succesfully!', { variant: 'success' });
       })
@@ -173,12 +171,9 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
   },
   getOrganisationMaster: () => {
     const { getAdminList } = get();
-    debugger;
     set({ fetching: true, errorOnFetching: false });
-    //  debugger;
     httpRequest('get', `${envConfig.api_url}/idm/user-profile/list/organisation?limit=20&offset=0`, {}, true)
       .then((response) => {
-        debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
@@ -214,7 +209,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       });
   },
   getServiceMasterByOrganisation: () => {
-    debugger;
     set({ fetching: true, errorOnFetching: false });
     const { OrganisationDetails } = get();
     const payload = {
@@ -222,10 +216,8 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       limit: 10,
       offset: 0,
     };
-    //  debugger;
     httpRequest('post', `${envConfig.api_url}/idm/organisation/service`, payload, true)
       .then((response) => {
-        debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
@@ -249,17 +241,14 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       });
   },
   getUserMasterByOrganisation: () => {
-    debugger;
     const { OrganisationDetails } = get();
     set({ fetching: true, errorOnFetching: false });
 
     const payload = {
       organisation_id: OrganisationDetails.id,
     };
-    //  debugger;
     httpRequest('post', `${envConfig.api_url}/idm/organisation/users`, payload, true)
       .then((response) => {
-        debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
@@ -283,16 +272,13 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       });
   },
   getAllProjectsEditData: (id: string) => {
-    debugger;
     set({ fetching: true, errorOnFetching: false });
 
     const payload = {
       project_id: id,
     };
-     debugger;
     httpRequest('post', `${envConfig.api_url}/idm/project/get/id`, payload, true)
       .then((response) => {
-        debugger;
         const responseData = response.data.data
         const Servicemap: any = [];
 
@@ -323,17 +309,14 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       });
   },
   createServiceMap: () => {
-    debugger;
     const { OrganisationDetails } = get();
     set({ fetching: true, errorOnFetching: false });
 
     const payload = {
       organisation_id: OrganisationDetails.id,
     };
-    //  debugger;
     httpRequest('post', `${envConfig.api_url}/idm/organisation/users`, payload, true)
       .then((response) => {
-        debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
@@ -357,17 +340,14 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       });
   },
   editServiceMap: () => {
-    debugger;
     const { OrganisationDetails } = get();
     set({ fetching: true, errorOnFetching: false });
 
     const payload = {
       organisation_id: OrganisationDetails.id,
     };
-    //  debugger;
     httpRequest('post', `${envConfig.api_url}/idm/organisation/users`, payload, true)
       .then((response) => {
-        debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
@@ -391,17 +371,14 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       });
   },
   createUserMap: () => {
-    debugger;
     const { OrganisationDetails } = get();
     set({ fetching: true, errorOnFetching: false });
 
     const payload = {
       organisation_id: OrganisationDetails.id,
     };
-    //  debugger;
     httpRequest('post', `${envConfig.api_url}/idm/organisation/users`, payload, true)
       .then((response) => {
-        debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
@@ -425,17 +402,14 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       });
   },
   editUserMap: () => {
-    debugger;
     const { OrganisationDetails } = get();
     set({ fetching: true, errorOnFetching: false });
 
     const payload = {
       organisation_id: OrganisationDetails.id,
     };
-    //  debugger;
     httpRequest('post', `${envConfig.api_url}/idm/organisation/users`, payload, true)
       .then((response) => {
-        debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
@@ -503,7 +477,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
   },
 
   emailChecker: () => {
-    debugger;
     set({ fetching: true, errorOnFetching: false });
     const { userInviteEdit, seteditUserInviteDetails } = get();
 
@@ -512,7 +485,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     };
     httpRequest('post', `${envConfig.api_url}/framework_shell_auth/check/email`, payload, false)
       .then((response) => {
-        debugger;
         if (response.data) {
           const key = 'emailStatus';
           const value = response.status;
@@ -529,7 +501,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
   },
 
   userNameChecker: () => {
-    debugger;
     set({ fetching: true, errorOnFetching: false });
     const { userInviteEdit, seteditUserInviteDetails } = get();
     const payload = {

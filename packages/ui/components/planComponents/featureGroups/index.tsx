@@ -124,7 +124,6 @@ export const FeatureGroups = (props: FeatureGroupsProps): JSX.Element => {
     }
   };
   const handleEditFeatureGroup = () => {
-    debugger
     const isFormValid = validateForm();
 
     if (isFormValid) {

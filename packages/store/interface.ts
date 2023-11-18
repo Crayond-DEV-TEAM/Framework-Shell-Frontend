@@ -172,7 +172,12 @@ export interface WebHookUrlProps {
 export interface SlugProps {
   getSlug: (id: ServiceName) => void;
   slugs?: ServiceOptionList;
+<<<<<<< HEAD
+  APIkey?: ServiceOptionList;
+  WebHookUrl?: ServiceOptionList;
+=======
   APIkey?: ServiceOptionList;  
+>>>>>>> 0c72b356626d1f3608dc64ebdf125c1a992ea3b2
 }
 export interface MessageCreateInterface {
   title: number | string;
@@ -377,7 +382,7 @@ export interface AddEditMessageState {
   error: {
     title: string;
     description: string;
-    severity: string
+    severity: string;
   };
 }
 export interface MessageStoreInterface {
@@ -503,6 +508,46 @@ export interface AlertRuleInterface {
   [key: string]: any;
 }
 export interface ApiBodyInterface {
+<<<<<<< HEAD
+  reference_id: string;
+  alert_rule_code: string;
+  push_receivers: [];
+  push_title: [];
+  push_body: [];
+  push_data: {};
+  push_click_action: string;
+  push_icon: string;
+  push_image: string;
+  push_actions: [
+    {
+      title: string;
+      action: string;
+    },
+  ];
+  whatsapp_body: [];
+  whatsapp_template_name: string;
+  inapp_title: [];
+  inapp_body: [];
+  inapp_image: string;
+  inapp_action1: string;
+  inapp_action2: string;
+  inapp_type: string;
+  inapp_eventReferenceId: string;
+  inapp_clientIds: [];
+  inapp_icon: string;
+  is_send_push_notification: boolean;
+  is_send_inapp_notification: boolean;
+  is_user_specific_notification: boolean;
+  to_mobiles: [];
+  sms_body: [];
+  URL: string;
+  to_emails: [];
+  email_CC: [];
+  email_BCC: [];
+  from_mail: string;
+  email_subject: [];
+  email_body: [];
+=======
   reference_id: string,
   alert_rule_code: string,
   push_receivers: [],
@@ -541,13 +586,17 @@ export interface ApiBodyInterface {
   from_mail: string,
   email_subject: [],
   email_body: [],
+>>>>>>> 0c72b356626d1f3608dc64ebdf125c1a992ea3b2
   email_attachments: [
     {
-      content: string,
-      filename: string,
-      type: string,
-      disposition: string,
+      content: string;
+      filename: string;
+      type: string;
+      disposition: string;
     },
+<<<<<<< HEAD
+  ];
+=======
   ],
   notification_type :[],
 mail_provider_id :string,
@@ -558,6 +607,7 @@ slack_to :[],
 slack_body :[],
 slack_provider_name:string,
 push_receiver_clientIds :[],
+>>>>>>> 0c72b356626d1f3608dc64ebdf125c1a992ea3b2
 }
 
 export interface ChannelData {
@@ -566,12 +616,11 @@ export interface ChannelData {
   notDelivered: number;
 }
 export interface ApiDocumentationInterface {
-  apiBody: ApiBodyInterface
-  apiBodyMessage: string,
-  handleChangeCallback: (key: string, value: string, apiBody: any) => void,
-  requestBodyAPI: () => void,
-  apiBodyError: boolean,
-
+  apiBody: ApiBodyInterface;
+  apiBodyMessage: string;
+  handleChangeCallback: (key: string, value: string, apiBody: any) => void;
+  requestBodyAPI: () => void;
+  apiBodyError: boolean;
 }
 
 export interface ReportInterface {
@@ -1454,6 +1503,7 @@ export interface UserProfileLandingInterface {
   MyProfileList: any;
   fetching: boolean;
   errorOnFetching: boolean;
+  selectedFile: any;
 
   addsave: boolean;
   editsave: boolean;
@@ -1473,4 +1523,6 @@ export interface UserProfileLandingInterface {
   getMyProfile: (data: any) => void;
   editProfileData: (data: any) => void;
   seteditMyProfile: (key: string, value: string | number) => void;
+  fileUpload: (data: any) => void;
+  setSelectedFile: (data: any) => void;
 }

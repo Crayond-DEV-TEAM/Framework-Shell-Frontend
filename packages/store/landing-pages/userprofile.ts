@@ -1,5 +1,5 @@
 import { envConfig } from '@core/envconfig';
-import { httpRequest } from '@core/utils';
+import { httpRequest, imageUpload } from '@core/utils';
 import { create } from 'zustand';
 import { UserProfileLandingInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
@@ -7,6 +7,7 @@ import { useSlug } from '../common';
 export const useProfileUserLanding = create<UserProfileLandingInterface>((set, get) => ({
   UserProfileList: [],
   MyProfileList: [],
+  selectedFile: null,
   fetching: false,
   errorOnFetching: false,
 
@@ -19,9 +20,9 @@ export const useProfileUserLanding = create<UserProfileLandingInterface>((set, g
     description: '',
     id: '',
   },
-  editProfile:{
-    name:"",
-    mobileno:""
+  editProfile: {
+    name: '',
+    mobileno: '',
   },
 
   seteditUserProfile: (payload: { key: string; value: string | number }) => {
@@ -30,6 +31,9 @@ export const useProfileUserLanding = create<UserProfileLandingInterface>((set, g
 
   seteditMyProfile: (key: string, value: string | number) => {
     set((state) => ({ editProfile: { ...state.editProfile, [key]: value } }));
+  },
+  setSelectedFile: (file) => {
+    set((state) => ({ selectedFile: file }));
   },
 
   getUserProfileList: (id: string) => {
@@ -193,14 +197,14 @@ export const useProfileUserLanding = create<UserProfileLandingInterface>((set, g
     const slugId = '98a60c91-a068-43cb-989d-172cf3f90321';
 
     set({ editsave: true, errorOnFetching: false });
-    const { MyProfileList, clearAll, getMyProfile,editProfile } = get();
+    const { MyProfileList, clearAll, getMyProfile, editProfile } = get();
 
     const payload = {
       id: MyProfileList.id,
       isActive: true,
       fullName: editProfile.name,
-      mobileNumber: editProfile.mobileno.slice(2, 12),
-      mobileCode: editProfile.mobileno.slice(0, 2),
+      mobileNumber: editProfile.mobileno.slice(3, 13),
+      mobileCode: editProfile.mobileno.slice(0, 3),
     };
 
     httpRequest('put', `${envConfig.api_url}/idm/user-profile`, payload, true, undefined, { headers: { slug: slugId } })
@@ -217,6 +221,39 @@ export const useProfileUserLanding = create<UserProfileLandingInterface>((set, g
         getMyProfile();
       });
   },
+
+  fileUpload: async (data: any) => {
+    set({ fetching: true, errorOnFetching: false });
+    const { MyProfileList, getMyProfile } = get();
+    try {
+      let url: any[] | undefined = [];
+      if (data?.length > 0) {
+        url = await imageUpload(data);
+      }
+
+      await httpRequest(
+        'put',
+        `${envConfig.api_url}/idm/user-profile`,
+        {
+          id: MyProfileList.id,
+          profilePic: url ?? '',
+        },
+        true,
+      )
+        .then((res) => {
+          console.log(res, 'res');
+          enqueueSnackbar('Profile picture uploaded Succesfully!', { variant: 'success' });
+          getMyProfile();
+        })
+        .catch((err) => {
+          set({ errorOnFetching: true });
+          enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+        });
+    } finally {
+      set({ fetching: false });
+    }
+  },
+
   clearAll: () => {
     set({
       createEditUserProfile: {

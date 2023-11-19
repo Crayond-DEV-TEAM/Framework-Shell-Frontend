@@ -38,7 +38,7 @@ export interface TableHeaderProps {
   handleStateChange?: (key: any, value: any) => void;
   // onChangeMessage?: (key: any, value: any, state: any) => void;
   updateStatusReport?: (e: any) => void;
-  onApply: (groupId:  string) => void;
+  onApply: (groupId: string) => void;
   handleOpen?: () => void;
   handleChange?: () => void;
   handleClose?: () => void;
@@ -185,6 +185,8 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
           </Popover>
         </Box>
       </Box>
+
+      <hr style={{ border: 0, height: '1px', backgroundColor: '#EAEAEA', margin: '0px -20px' }} />
     </Box>
   );
 });

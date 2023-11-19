@@ -10,6 +10,7 @@ import { superAdminStyle } from './style';
 import { TableHeader } from '@components/commonComponents';
 import { useProfileUserLanding, useSuperAdminLanding } from '@core/store';
 import { FooterComponent } from '@atoms/footerComponent';
+import './customStyles.css';
 
 export interface SuperAdminProps {
   className?: string;
@@ -124,9 +125,9 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
             fontWeight: '500',
             color: '#818181',
             bgColor: '#EAEAEA',
-            borderBottom: '0px',
+            borderBottom: '5px',
             // width: '100%',
-            padding: '6px 16px 6px 7px',
+            padding: '11px 16px 12px 29px',
           }}
           cellOptions={{
             fontSize: '14px',
@@ -134,7 +135,7 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
             color: '#5A5A5A',
             borderBottom: '0px',
             // padding: '8px',
-            padding: '3px 0px 3px 7px',
+            padding: '3px 16px 3px 29px',
           }}
           rowOptions={{
             rowOddBgColor: '#fff',

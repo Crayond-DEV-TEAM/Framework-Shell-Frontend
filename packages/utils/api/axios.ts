@@ -17,7 +17,6 @@ type HttpRequestProps = (
   includeToken?: boolean,
   apiToken?: string,
   config?: ConfigOptions,
-  token?:string
 ) => Promise<AxiosResponse<any, any>>;
 
 /**
@@ -29,7 +28,7 @@ type HttpRequestProps = (
  * A promise that resolves with the response data or rejects with an error.
  */
 
-export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, includeToken, apiToken,token, config) => {
+export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, includeToken, apiToken,config) => {
   const headers = {
     ...(includeToken &&
       envConfig.client_environment !== 'external' && {
@@ -38,7 +37,6 @@ export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, 
     ...(Boolean(apiToken) && {
       'x-api-token': apiToken,
     }),
-    ...token,
     ...(config?.headers ?? {}),
   };
 

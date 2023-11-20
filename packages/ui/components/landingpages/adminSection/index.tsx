@@ -13,8 +13,8 @@ import { TableHeader } from '@components/commonComponents';
 import { useNavigate } from 'react-router-dom';
 import { webRoutes } from '@core/routes';
 import { localStorageKeys } from '@core/utils';
-import { AddChipDropdown } from '@atoms/addChipDropdown';
-import { AddChipMultipleDropdown } from '@atoms/addChipMultipleDropdown';
+// import { AddChipDropdown } from '@atoms/addChipDropdown';
+// import { AddChipMultipleDropdown } from '@atoms/addChipMultipleDropdown';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { MappedUserCard } from '@atoms/mappedUserCard';
 export interface AdminSectionProps {
@@ -55,7 +55,6 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
   );
 
   console.log(filteredMessageGroup, 'filteredMessageGroup');
-  
 
   const handleTableEdit = (id: string, data: any, e: any) => {
     getAllProjectsEditData(id);
@@ -64,7 +63,6 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     setOpen(true);
     e.preventDefault();
     e.stopPropagation();
-    
   };
   const handleTableDelete = (id: string, data: any, e: any) => {
     deleteAdmin(id);
@@ -78,22 +76,19 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     // getSideMenusFromProject(id);
     // localStorage.setItem(localStorageKeys.projectId, id);
     // navigate(webRoutes.root);
-    
+
     getAllProjectsEditData(id);
     setProfileDetails(true);
     e.preventDefault();
     e.stopPropagation();
-    
   };
-  const onRowClick = (data:any, e:any)=>{
+  const onRowClick = (data: any, e: any) => {
     getSideMenusFromProject(data.id);
     localStorage.setItem(localStorageKeys.projectId, data.id);
     navigate(webRoutes.root);
     e.preventDefault();
     e.stopPropagation();
-    
-    
-  }
+  };
   const handleDrawerClose = () => {
     setOpen(false);
     clearAll();
@@ -109,7 +104,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
   };
 
   useEffect(() => {
-    getOrganisationMaster();
+    // getOrganisationMaster()/;
   }, []);
   const handleChangeOrganisationkey = (key: string, value: string | number) => {
     seteditOrganisationDetails({ key, value });
@@ -167,79 +162,76 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
-      <IdmBackgroundCard
+      {/* <IdmBackgroundCard
         title="Organisation"
         subTitle="Projects"
         optionList={OrganisationListMaster}
         handleChangeDropDown={handleChangeOrganisation}
         createEditState={OrganisationDetails}
-        content={
-          <Box sx={adminSectionStyle.commonTable}>
-            <CommonTable       
-              // onRowClick={onRowClick}  
-              onRowClick={ (data:any, e:any) => {
-                onRowClick(data, e);
-                e.preventDefault();
-                e.stopPropagation();
-                
-              }
-            }              
-              Header={Header}
-              dataList={filteredMessageGroup}
-              tableData={tableData(handleTableEdit, handleTableDelete, handleTableDetail)}
-              switchList={switchList}
-              handleSwitch={handleSwitch}
-              headerOptions={{
-                fontSize: '14px',
-                fontWeight: '500',
-                color: '#818181',
-                bgColor: '#EAEAEA',
-                borderBottom: '0px',
-                width: '100%',
-                padding: '6px 16px 6px 7px',
-              }}
-              cellOptions={{
-                fontSize: '14px',
-                fontWeight: '500',
-                color: '#5A5A5A',
-                borderBottom: '0px',
-                // padding: '8px',
-                padding: '3px 0px 3px 7px',
-              }}
-              rowOptions={{
-                rowOddBgColor: '#fff',
-                rowEvenBgColor: '#F7F7F7',
-              }}
-              tableMinWidth={'80px'}
-              stickyOptions={{
-                stickyHeader: true,
-                stickyLeft: [],
-                stickyRight: [],
-              }}
-              tableMinHeight={'calc(100vh - 348px)'}
-              tableMaxHeight={'calc(100vh - 308px)'}
-              paddingAll={'0px'}
-              marginAll={'0px 0px 0px'}
-              dense={'small'}
-              HeaderComponent={{
-                variant: 'CUSTOM',
-                component: (
-                  <TableHeader
-                    isFilterRequired={false}
-                    buttonName={'Add Projects'}
-                    tableHeader={'Projects'}
-                    setSearchTerm={setSearchTerm}
-                    searchTerm={searchTerm}
-                    isBtnRequired={OrganisationDetails.rolename === 'TOOLKIT-ADMIN' ? true : false}
-                    handleOpen={handleDrawerOpen}
-                    // editTableMessage={addRole}
-                  />
-                ),
-              }}
-            />
-          </Box>
-        }
-      />
+        content={ */}
+      <Box sx={adminSectionStyle.commonTable}>
+        <CommonTable
+          onRowClick={(data: any, e: any) => {
+            onRowClick(data, e);
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          Header={Header}
+          dataList={filteredMessageGroup}
+          tableData={tableData(handleTableEdit, handleTableDelete, handleTableDetail)}
+          switchList={switchList}
+          handleSwitch={handleSwitch}
+          headerOptions={{
+            fontSize: '14px',
+            fontWeight: '500',
+            color: '#818181',
+            bgColor: '#EAEAEA',
+            borderBottom: '0px',
+            width: '100%',
+            padding: '6px 16px 6px 7px',
+          }}
+          cellOptions={{
+            fontSize: '14px',
+            fontWeight: '500',
+            color: '#5A5A5A',
+            borderBottom: '0px',
+            // padding: '8px',
+            padding: '3px 0px 3px 7px',
+          }}
+          rowOptions={{
+            rowOddBgColor: '#fff',
+            rowEvenBgColor: '#F7F7F7',
+          }}
+          tableMinWidth={'80px'}
+          stickyOptions={{
+            stickyHeader: true,
+            stickyLeft: [],
+            stickyRight: [],
+          }}
+          tableMinHeight={'calc(100vh - 308px)'}
+          tableMaxHeight={'calc(100vh - 308px)'}
+          paddingAll={'0px'}
+          marginAll={'0px 0px 0px'}
+          dense={'small'}
+          HeaderComponent={{
+            variant: 'CUSTOM',
+            component: (
+              <TableHeader
+                isFilterRequired={false}
+                buttonName={'Add Projects'}
+                tableHeader={'Projects'}
+                setSearchTerm={setSearchTerm}
+                searchTerm={searchTerm}
+                isBtnRequired={OrganisationDetails.rolename === 'TOOLKIT-ADMIN' ? true : false}
+                handleOpen={handleDrawerOpen}
+                // editTableMessage={addRole}
+              />
+            ),
+          }}
+        />
+      </Box>
+      {/* }
+      /> */}
 
       {/* Edit Form Drawer */}
       <Drawer
@@ -284,10 +276,10 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
         <AdminSecForm createEditAdmin={createEditAdmin} handlechange={handleChange} />
       </Drawer>
 
-       {/* Profile Details Drawer */}
-       <Drawer
+      {/* Profile Details Drawer */}
+      <Drawer
         show={profileDetails}
-        onCloseDrawer={()=>setProfileDetails(false)}
+        onCloseDrawer={() => setProfileDetails(false)}
         anchor="right"
         drawerStyleSX={{ padding: '20px 20px 70px 20px' }}
         drawerRightClose
@@ -305,7 +297,6 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
             borderBottomLeftRadius: '8px',
           },
         }}
-        
       >
         <div>
           <Accordion
@@ -328,13 +319,13 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
               <Typography sx={{ fontWeight: 600, fontSize: '14px', padding: 0 }}>Services</Typography>
             </AccordionSummary>
             <AccordionDetails sx={{ padding: '0px' }}>
-            {createEditAdmin.mapServices?.map((option: any) => (
-          <Chip
-            key={option.name}
-            label={option.name}
-            sx={{ height: '28px', borderRadius: '8px', marginBottom: '15px', marginRight: '10px' }}
-          />
-        ))}
+              {createEditAdmin.mapServices?.map((option: any) => (
+                <Chip
+                  key={option.name}
+                  label={option.name}
+                  sx={{ height: '28px', borderRadius: '8px', marginBottom: '15px', marginRight: '10px' }}
+                />
+              ))}
             </AccordionDetails>
           </Accordion>
           <Accordion
@@ -357,10 +348,6 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
           </Accordion>
         </div>
       </Drawer>
-
-
-
-
     </Box>
   );
 };

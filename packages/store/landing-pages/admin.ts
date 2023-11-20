@@ -4,6 +4,7 @@ import { create } from 'zustand';
 import { AdminInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
 import { useSuperAdminLanding } from './superAdmin'
+import { useUserLanding } from './users'
 export const useAdminLanding = create<AdminInterface>((set, get) => ({
   adminList: [],
   OrganisationListMaster: [],
@@ -33,6 +34,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     email: '',
     userNameStatus: 0,
     emailStatus: 0,
+    role:{},
   },
   OrganisationDetails: {
     id: '',
@@ -172,7 +174,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       });
   },
   getOrganisationMaster: () => {
-    const { getAdminList } = get();
+    const { getAdminList ,OrganisationDetails } = get();
     debugger;
     set({ fetching: true, errorOnFetching: false });
     //  debugger;
@@ -209,7 +211,9 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
+        // const { getAllUserProfileList } = useUserLanding();
         getAdminList();
+        // getAllUserProfileList(OrganisationDetails.id);
         set({ fetching: false });
       });
   },

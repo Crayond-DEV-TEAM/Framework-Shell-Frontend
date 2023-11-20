@@ -7,8 +7,7 @@ interface AdminSectionStyleProps {
 export const adminSectionStyle: AdminSectionStyleProps = {
   rootSx: {},
   commonTable: {
-    borderBottomRightRadius: '8px',
-    borderBottomLeftRadius: '8px',
+    borderRadius:'8px',
     bgcolor: '#fff',
     // margin: {
     //   lg: '0px 12px',

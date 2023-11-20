@@ -8,11 +8,14 @@ export const superAdminTabsStyle: SuperAdminTabsStyleProps = {
     rootSx: {
     // height: '52px',
     marginTop: '-23px',
+    pr:'20px',
     // marginLeft: '-7px',
     backgroundColor: '#FFFFFF',
     border: '1px solid #EAEAEA',
     opacity: 1,
     display: 'flex',
+    alignItems:'center',
+    justifyContent:'space-between'
   },
   title: {
     textTransform: 'capitalize',
@@ -59,7 +62,7 @@ export const superAdminTabsStyle: SuperAdminTabsStyleProps = {
   alertConfigTab: {
     cursor: 'pointer',
     fontSize: '14px',
-    fontWeight: 500,
+    fontWeight: 600,
     paddingBottom: '18px !important',
     color: '#5A5A5A',
     '&:nth-child(even)': {
@@ -70,7 +73,7 @@ export const superAdminTabsStyle: SuperAdminTabsStyleProps = {
   alertConfigTabTxt: {
     cursor: 'pointer',
     fontSize: '14px',
-    fontWeight: 500,
+    fontWeight: 600,
     color: '#357968',
     // color: theme.palette.primary.mailInput,
     borderBottom: '3px solid #357968',
@@ -81,5 +84,10 @@ export const superAdminTabsStyle: SuperAdminTabsStyleProps = {
       margin: '0 24px',
     },
   },
+  align:{
+    display:'flex',
+    alignItems:'center',
+    // justifyContent:'center'
+  }
 };
 

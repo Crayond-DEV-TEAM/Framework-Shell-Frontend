@@ -2,17 +2,17 @@ import { DeleteIcon, EditIcon, MoreIcon } from '@atoms/icons';
 
 export const Header = [
   {
-    id: 'userName',
+    id: 'name',
     align: 'left',
     disablePadding: false,
     label: 'User Name',
     isSortable: true,
   },
   {
-    id: 'access',
+    id: 'role',
     align: 'left',
     disablePadding: false,
-    label: 'Access',
+    label: 'Role',
     isSortable: true,
   },
   {
@@ -30,8 +30,8 @@ export const Header = [
 ];
 
 export const tableData = (editHandel: (id: string, data: any, e: any) => void, deleteHandel: (id: string) => void) => [
-  { type: ['TEXT'], name: 'userName' },
-  { type: ['TEXT'], name: 'access' },
+  { type: ['TEXT'], name: 'name' },
+  { type: ['TEXT'], name: 'role' },
   {
     type: ['SWITCH'],
     name: 'is_active',

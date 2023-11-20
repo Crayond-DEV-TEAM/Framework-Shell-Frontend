@@ -118,12 +118,13 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
 
   React.useEffect(() => {
     const projectId = localStorage.getItem(localStorageKeys?.projectId);
-    // fetchMenu(projectId);
     if (!projectId) {
       const projectIdCheck = setTimeout(() => {
         navigate(webRoutes.admin);
       }, 750);
       return () => clearTimeout(projectIdCheck);
+    } else {
+      fetchMenu(projectId);
     }
   }, []);
   // console.log(sideMenus, 'sidem======');

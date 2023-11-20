@@ -224,7 +224,9 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
         { new_password: resetPasswordState.password },
         false,
         '',
-        {token:data}
+        {
+      headers: { token: data },
+      }
         // { headers: { Authorization: 'Bearer ' + data } },
         );
 

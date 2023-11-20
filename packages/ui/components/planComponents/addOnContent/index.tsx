@@ -125,7 +125,7 @@ export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
           </Label>
           <CutstomizedAutocomplete
             placeholder={'Silver'}
-            permissionList={featuesList}
+            permissionList={featuesList ?? []}
             onChange={(value) => {
               handleAddEditStateChange('features', value);
             }}

@@ -81,6 +81,7 @@ export const CreateFormDetails = (props: CreateFormDetailsProps): JSX.Element =>
             </Label>
             <Input
               size="small"
+              type="number"
               placeholder="Enter Mobile number"
               value={createEditCustomer?.contact_number}
               id="contact_number"

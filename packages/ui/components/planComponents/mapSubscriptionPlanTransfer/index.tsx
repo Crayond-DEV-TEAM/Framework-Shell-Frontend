@@ -148,7 +148,7 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
 
             <CutstomizedAutocomplete
               placeholder={'Monthly'}
-              permissionList={AddOnsList}
+              permissionList={AddOnsList ?? []}
               onChange={(value) => {
                 handleSetupFunc(value);
               }}

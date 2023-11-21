@@ -77,7 +77,6 @@ export const MapAdminChipDropdown = (props: MapAdminChipDropdownProps): JSX.Elem
   };
 
   const handleOptionToggle = (option: any) => {
-    debugger;
     const isSelected = values.find((v: any) => v?.id === option?.id);
     if (isSelected?.id) {
       const isSelected = values.filter((v: any) => v?.id !== option?.id);

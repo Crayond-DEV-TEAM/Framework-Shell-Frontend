@@ -1,19 +1,18 @@
 import { Button } from '@atoms/button';
-import { DialogDrawer } from '@atoms/dialogDrawer';
-import { FooterComponent } from '@atoms/footerComponent';
 import { Input } from '@atoms/input';
 import SearchIcon from '@mui/icons-material/Search';
-import { SxProps, Theme, Popover } from '@mui/material';
+import { SxProps, Theme, Popover, Stack, ClickAwayListener, Tooltip, makeStyles } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-import { forwardRef } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { Filter } from '..';
 import DownloadIcon from '@core/ui/assets/downloadIcon';
 import XlsIcon from '@core/ui/assets/xlsIcon';
 import { tableHeaderStyle } from './style';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 export interface TableHeaderProps {
   className?: string;
-  tableHeader?: string;
+  tableHeader?: any;
   buttonName?: string;
   placeholder?: string;
   isFilterRequired?: boolean;
@@ -38,7 +37,7 @@ export interface TableHeaderProps {
   handleStateChange?: (key: any, value: any) => void;
   // onChangeMessage?: (key: any, value: any, state: any) => void;
   updateStatusReport?: (e: any) => void;
-  onApply: (groupId:  string) => void;
+  onApply: (groupId: string) => void;
   handleOpen?: () => void;
   handleChange?: () => void;
   handleClose?: () => void;
@@ -54,13 +53,14 @@ export interface TableHeaderProps {
   options?: any;
   onChange?: any;
   filterChange?:
-    | ((
-        filterName: 'hashtagFilter' | 'alertTypeFilter' | 'statusFilter' | 'dateFilter',
-        id: number,
-        value: any,
-      ) => void)
-    | undefined;
+  | ((
+    filterName: 'hashtagFilter' | 'alertTypeFilter' | 'statusFilter' | 'dateFilter',
+    id: number,
+    value: any,
+  ) => void)
+  | undefined;
   messageGroupId?: string;
+  tableType?: string;
   onClick?: () => boolean;
   sx?: SxProps<Theme>;
 }
@@ -108,8 +108,34 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     messageGroupId,
     onClick = () => false,
     sx = {},
+    tableType = '',
     ...rest
   } = props;
+
+  const [isCopied, setIsCopied] = useState(false)
+
+
+  const handleCopyRefId = async () => {
+    try {
+      await navigator.clipboard.writeText(tableHeader?.refId);
+      setIsCopied(true);
+
+
+    } catch (err) {
+      setIsCopied(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isCopied) {
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 3000);
+    }
+  }, [isCopied])
+
+
+
   return (
     <Box
       sx={[
@@ -122,7 +148,34 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
       {...rest}
     >
       <Box sx={tableHeaderStyle.totalHeaderSx}>
-        <Typography sx={tableHeaderStyle.titleSx}>{tableHeader}</Typography>
+        {
+          tableType === 'message' && tableHeader?.name ?
+            <Stack direction={'row'} alignItems={'center'}>
+              <ClickAwayListener onClickAway={() => setIsCopied(false)}>
+                <Tooltip
+                  PopperProps={{
+                    disablePortal: true,
+                  }}
+                  onClose={() => setIsCopied(false)}
+                  open={isCopied}
+                  disableFocusListener
+                  disableHoverListener
+                  disableTouchListener
+                  arrow
+                  placement="top"
+                  title={'Copied to Clipboard!'}
+                >
+                  <Typography sx={tableHeaderStyle.titleSx}>{`${tableHeader?.name} - ${tableHeader?.refId}`}</Typography>
+                </Tooltip>
+              </ClickAwayListener>
+              <Box sx={tableHeaderStyle?.copyBtn} onClick={handleCopyRefId}>
+                <ContentCopyIcon />
+              </Box>
+            </Stack>
+            :
+            typeof (tableHeader) === 'string' &&
+            <Typography sx={tableHeaderStyle.titleSx}>{tableHeader}</Typography>
+        }
         <Box sx={tableHeaderStyle.leftSx}>
           {isSearchRequired && (
             <Box sx={{ pr: 1, pt: '3px' }}>
@@ -185,7 +238,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
           </Popover>
         </Box>
       </Box>
-    </Box>
+    </Box >
   );
 });
 

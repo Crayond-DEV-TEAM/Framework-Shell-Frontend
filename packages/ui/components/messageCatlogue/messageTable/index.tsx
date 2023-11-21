@@ -51,7 +51,10 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const { languages, getSavedLanguage } = useLanguageConfiguration();
   const [isEdit, setIsEdit] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [tableName, setTableName] = useState('');
+  const [tableName, setTableName] = useState({
+    name: '',
+    refId: ''
+  });
   const [groupId, setGroupId] = useState<string>('');
   const [deleteId, setDeleteId] = useState('');
   const [List, setList] = useState('');
@@ -83,9 +86,11 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
 
   const handleChange = (key: any, value: string) => {
     console.log(key, 'key');
-
     setList(key.id);
-    setTableName(key.title);
+    setTableName({
+      name: key.title,
+      refId: key.ref_id
+    });
 
     setGroupId(key.id);
     clearAllMessage();
@@ -254,6 +259,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                     options={SevorityList}
                     status={StatusList}
                     tableHeader={tableName}
+                    tableType={'message'}
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
                     open={open}

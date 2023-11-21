@@ -68,4 +68,15 @@ export const tableHeaderStyle: TableHeaderStyleProps = {
       fontSize: '14px',
     },
   },
+  copyBtn: {
+    width: '20px',
+    height: '20px',
+    cursor: 'pointer',
+    marginLeft: '8px',
+    '& svg': {
+      color: '#357968',
+      width: '100%',
+      height: '100%'
+    }
+  }
 };

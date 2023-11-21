@@ -20,31 +20,31 @@ export function SmsTab(): JSX.Element {
   const Header = [
     {
       id: 'identifier',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Identifier',
     },
     {
       id: 'provider_api_key',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Provider API Key',
     },
     {
       id: 'provider_name',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Provider Name',
     },
     {
       id: 'provider_sid',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Provider Sid',
     },
     {
       id: 'sender_id',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Sender Id',
     },

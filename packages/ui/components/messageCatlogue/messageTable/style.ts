@@ -28,6 +28,14 @@ export const messageTableStyle: MessageTableStyleProps = {
       display:'flex',
       gap:'6px',
     },
+    '& .MuiTableCell-root p':{
+      display:'flex',
+      justifyContent:'center'
+    },
+    '& .css-i5q2k0': {
+      display:'flex',
+      justifyContent:'center'
+    }
     // '& .MuiTableRow-root':{
     //   cursor:'pointer'
     // },

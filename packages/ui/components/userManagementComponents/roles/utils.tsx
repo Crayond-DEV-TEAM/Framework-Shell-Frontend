@@ -3,27 +3,27 @@ import { DeleteIcon, EditIcon } from '@atoms/icons';
 export const Header = [
   {
     id: 'name',
-    align: 'left',
+    align: 'center',
     disablePadding: false,
     label: 'Roles Name',
     isSortable: true,
   },
   {
     id: 'description',
-    align: 'left',
+    align: 'center',
     disablePadding: false,
     label: 'Description',
     isSortable: true,
   },
   {
     id: 'permission',
-    align: 'left',
+    align: 'center',
     disablePadding: false,
     label: 'Permission',
   },
   {
     id: 'is_active',
-    align: 'left',
+    align: 'center',
     disablePadding: false,
     label: 'Status',
   },

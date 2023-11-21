@@ -39,5 +39,18 @@ export const superAdminStyle: SuperAdminStyleProps = {
       width: '40% !important',
       // backgroundColor: 'red',
     },
+    '& .SWITCH label':{
+      display:'flex',
+      gap:'6px',
+      justifyContent:'center'
+    },
+    '& .MuiTableCell-root p':{
+      display:'flex',
+      justifyContent:'center'
+    },
+    '& .css-i5q2k0': {
+      display:'flex',
+      justifyContent:'center'
+    }
   },
 };

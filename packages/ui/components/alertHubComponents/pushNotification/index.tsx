@@ -21,25 +21,25 @@ export function PushNotification(): JSX.Element {
   const Header = [
     {
       id: 'projectId',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Project Id',
     },
     {
       id: 'clientEmail',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Client Email',
     },
     {
       id: 'privateKey',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Private Key',
     },
     {
       id: 'pushServerKey',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Push Server Key',
     },

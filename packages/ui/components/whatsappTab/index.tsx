@@ -27,25 +27,25 @@ export function WhatsappTab(): JSX.Element {
   const Header = [
     {
       id: 'identification_name',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Identification Name',
     },
     {
       id: 'whatsapp_buisness_phone_number',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Whatsapp Number',
     },
     {
       id: 'access_token',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Access Token',
     },
     {
       id: 'api_version',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'API Version',
     },

@@ -247,37 +247,37 @@ export function Reports(props: ReportsProps): JSX.Element {
   const Header = [
     {
       id: 'alert_rule_code',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Alert Rule Code',
     },
     {
       id: 'reference_id',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Reference ID',
     },
     {
       id: 'hashtag',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Hashtag',
     },
     {
       id: 'description',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Description',
     },
     {
       id: 'receiver',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Receiver',
     },
     {
       id: 'alert_type',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Alert Type',
     },

@@ -21,13 +21,13 @@ export function SlackTab(): JSX.Element {
   const Header = [
     {
       id: 'identification_name',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Identification Name',
     },
     {
       id: 'slack_bot_token',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Slack Bot Token',
     },

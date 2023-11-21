@@ -46,5 +46,17 @@ export const adminSectionStyle: AdminSectionStyleProps = {
       width: '40% !important',
       // backgroundColor: 'red',
     },
+    '& .MuiTableCell-root p':{
+      display:'flex',
+      justifyContent:'center'
+    },
+    '& .css-i5q2k0': {
+      display:'flex',
+      justifyContent:'center'
+    },
+    "& .CUSTOM":{
+      display:'flex',
+      justifyContent:'center'
+    }
   },
 };

@@ -226,9 +226,9 @@ export const useProfileUserLanding = create<UserProfileLandingInterface>((set, g
     set({ fetching: true, errorOnFetching: false });
     const { MyProfileList, getMyProfile } = get();
     try {
-      let url: any[] | undefined = [];
+      let url: null = null;
       if (data?.length > 0) {
-        url = await imageUpload(data);
+        url = await imageUpload(data || []);
       }
 
       await httpRequest(
@@ -236,13 +236,17 @@ export const useProfileUserLanding = create<UserProfileLandingInterface>((set, g
         `${envConfig.api_url}/idm/user-profile`,
         {
           id: MyProfileList.id,
-          profilePic: url ?? '',
+          profilePic: data?.length > 0 ? url : null,
         },
         true,
       )
         .then((res) => {
           console.log(res, 'res');
-          enqueueSnackbar('Profile picture uploaded Succesfully!', { variant: 'success' });
+          if (data?.length > 0) {
+            enqueueSnackbar('Profile picture uploaded Succesfully!', { variant: 'success' });
+          } else {
+            enqueueSnackbar('Profile picture removed Succesfully!', { variant: 'success' });
+          }
           getMyProfile();
         })
         .catch((err) => {

@@ -54,7 +54,7 @@ export function AppBar(props: AppBarProps): JSX.Element {
         <Box sx={appBarStyle.mainSx}>
           <Typography sx={appBarStyle.title}>{title}</Typography>
           <Box sx={appBarStyle.profileSec}>
-            <ChatNav />
+            {/* <ChatNav /> */}
             <Box sx={appBarStyle.profileSec}>
               <Box sx={{ pl: 3, pr: 1 }}>
                 <Typography sx={appBarStyle.profileName}>{user?.username}</Typography>

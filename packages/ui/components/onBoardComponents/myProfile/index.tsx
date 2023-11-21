@@ -10,6 +10,8 @@ import { Alert, IconButton, SxProps, Theme } from '@mui/material';
 import BackIcon from '@assets/backIcon';
 import { useNavigate } from 'react-router-dom';
 import { useAuth, useProfileUserLanding } from '@core/store';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { passwordRegex, validateResetPasswordData } from '@core/store/utils';
 import { ResetPasswordState } from '@core/store/interface';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
@@ -23,7 +25,6 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
   const [password, setPasswordOpen] = useState(false);
   const [showpassword, setPassword] = useState<boolean>(false);
   const [formErrors, setFormErrors] = useState({ name: '', mobileno: '', password: '', confirmPassword: '' });
-  // const [selectedFile, setSelectedFile] = useState(null);
 
   const {
     getMyProfile,
@@ -36,6 +37,8 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
     selectedFile,
   } = useProfileUserLanding();
   const { changePasswordState, setChangePasswordState, changePassword } = useAuth();
+  const [imagePresent, setImagePresent] = useState(MyProfileList?.profile_pic?.length > 0);
+
   // console.log(MyProfileList, 'MyProfileList');
   // console.log(changePasswordState, 'editProfile');
 
@@ -109,10 +112,10 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
   };
 
   const redirect = () => {
-    history('/');
+    history(-1);
   };
 
-  const handleFileUpload = (file) => {
+  const handleFileUpload = (file: any) => {
     if (file) {
       fileUpload(file);
     }
@@ -122,8 +125,14 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
     const file = event.target.files;
     setSelectedFile(file);
     handleFileUpload(file);
+    setImagePresent(true);
   };
 
+  const handleRemove = () => {
+    setSelectedFile(null);
+    fileUpload(null);
+    setImagePresent(false);
+  };
   useEffect(() => {
     getMyProfile();
   }, []);
@@ -144,18 +153,22 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
         </Box>
         <Box sx={ProfileStyle.imgBox}>
           <Box sx={ProfileStyle.upload}>
-            <Avatar sx={ProfileStyle.avatar1} src={MyProfileList?.profile_pic}></Avatar>
-            <input
-              data-testId="upload"
-              onChange={handleFileChange}
-              type="file"
-              style={ProfileStyle.avatar}
-              accept="image/jpeg, image/*,application/pdf"
-            />
+            <Avatar sx={ProfileStyle.avatar1} src={MyProfileList?.profile_pic ?? ''}></Avatar>
+            {imagePresent ? (
+              <DeleteIcon sx={ProfileStyle.deleteIcon} onClick={handleRemove} />
+            ) : (
+              <>
+                <AddAPhotoIcon sx={ProfileStyle.addImageIcon} />
+                <input
+                  data-testId="upload"
+                  onChange={handleFileChange}
+                  type="file"
+                  style={ProfileStyle.avatar}
+                  accept="image/jpeg, image/*,application/pdf"
+                />
+              </>
+            )}
           </Box>
-          {/* <Button variant="contained" color="primary" onClick={handleFileUpload} sx={ProfileStyle.uploadbtn}>
-            Upload
-          </Button> */}
         </Box>
         <Typography align="center" sx={ProfileStyle.name}>
           {MyProfileList?.full_name ?? '-'}

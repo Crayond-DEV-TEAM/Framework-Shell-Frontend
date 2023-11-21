@@ -72,8 +72,8 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
     billingType === 'Monthly'
       ? createEditSubscription?.plan_id?.price?.monthly
       : billingType === 'Yearly'
-      ? createEditSubscription?.plan_id?.price?.yearly
-      : null;
+        ? createEditSubscription?.plan_id?.price?.yearly
+        : null;
   const onChange = (value: any, index: number, e: any) => {
     const checked = e.target.checked;
 
@@ -114,7 +114,7 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
   }, 0);
   const billChecking = objectArray?.find((item) => item?.name === billtype?.name) ? billtype : null;
   console.log(objectArray?.find((item) => item?.name === billtype?.name) ? billtype : null, 'chargeMaps');
-  console.log(billtype, 'billtype');
+  console.log(billChecking, 'billChecking');
 
   console.log(Chargessum, 'ChargessumChargessumChargessumChargessum');
 
@@ -142,14 +142,17 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
             <Label sx={mapSubscriptionPlanTransferStyle.labelSx} htmlFor="addTitle" isRequired>
               Choose Plan
             </Label>
-
             <CutstomizedAutocomplete
               placeholder={'Monthly'}
               permissionList={AddOnsList ?? []}
               onChange={(value) => {
                 handleSetupFunc(value);
               }}
-              value={createEditSubscription?.plan_id ?? null}
+              value={
+                createEditSubscription && Object.keys(createEditSubscription?.plan_id)?.length > 0
+                  ? createEditSubscription?.plan_id
+                  : null
+              }
               isError={Boolean(formErrors.plan_id)}
               errorMessage={formErrors.plan_id}
             />

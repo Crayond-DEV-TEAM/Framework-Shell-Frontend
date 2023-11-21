@@ -18,7 +18,7 @@ export const ProfileStyle: ProfileStyleProps = {
     color: '#29302B',
     fontWeight: '600',
     ml: '12px',
-    mt:"2px"
+    mt: '2px',
   },
   titleBox: {
     padding: '16px',
@@ -32,15 +32,17 @@ export const ProfileStyle: ProfileStyleProps = {
     mt: '23px',
   },
   avatar: {
-    height: '98px',
-    width: '105px',
+    height: '24px',
+    width: '24px',
     opacity: 0,
     position: 'absolute',
+    marginBottom: '-65px',
+    marginLeft: '83px',
   },
   avatar1: {
     height: '98px',
     width: '105px',
-    position:'absolute'
+    position: 'absolute',
   },
   name: {
     mt: '22px',
@@ -138,14 +140,39 @@ export const ProfileStyle: ProfileStyleProps = {
     height: '100px',
     borderRadius: '70px',
     backgroundColor: '#fff',
-    position: "relative",
-    alignItems:"center",
-    display: "flex",
-    justifyContent: "center"
+    position: 'relative',
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'center',
   },
 
-  uploadbtn:{
-    height:"32px",
-    mt:1.5
-  }
+  uploadbtn: {
+    height: '32px',
+    mt: 1.5,
+  },
+  addImageIcon: {
+    position: 'absolute',
+    marginLeft: '80px',
+    marginTop: '65px',
+    color: '#357968',
+    cusor: 'pointer',
+    background: '#fff',
+    borderRadius: '18px',
+    padding: '4px',
+    border: '2px solid #357968',
+    height:'30px',
+    width:'30px'
+  },
+  deleteIcon: {
+    position: 'absolute',
+    color: '#357968',
+    ml: '81px',
+    mt: '65px',
+    background: '#fff',
+    borderRadius: '18px',
+    padding: '4px',
+    border: '2px solid #357968',
+    height:'30px',
+    width:'30px'
+  },
 };

@@ -13,12 +13,12 @@ export const useApiDocumentation = create<ApiDocumentationInterface>((set, get) 
 
 
     handleChangeCallback: (key: string, value: string, apiBody: any) => {
-        if (Object.values(apiBody)) {
-            set((state) => ({ apiBody: { ...state.apiBody, [key]: [value] } }));
-        } else {
+        // if (Object.values(apiBody.email_body)) {
+        //     set((state) => ({ apiBody: { ...state.apiBody, [key]: [value] } }));
+        // } else {
             set((state) => ({ apiBody: { ...state.apiBody, [key]: value } }));
 
-        }
+        // }
     },
 
     requestBodyAPI: () => {

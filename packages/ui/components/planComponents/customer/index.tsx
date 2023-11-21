@@ -48,7 +48,7 @@ export const Customer = (props: CustomerProps): JSX.Element => {
     const updateData = {
       name: data.customerName,
       email_id: data.email,
-      contact_number: data.dataList.contact_number,
+      contact_number: data.dataList.contactNumber,
       company_name: data.companyName,
       address_line: data.dataList.address.address_line,
       city: data.dataList.address.city,

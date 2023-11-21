@@ -27,7 +27,6 @@ export const CreateCustomerForm = (props: CreateCustomerFormProps): JSX.Element 
   const handleChange = (key: any, value: any) => {
     setCustomerList(key, value);
   };
-
   const validateForm = () => {
     const errors: Record<string, string> = {};
 
@@ -36,6 +35,12 @@ export const CreateCustomerForm = (props: CreateCustomerFormProps): JSX.Element 
     }
     if (createEditCustomer.email_id.length === 0) {
       errors.email_id = 'Email is required';
+    } else {
+      // Regular expression for basic email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(createEditCustomer.email_id)) {
+        errors.email_id = 'Invalid Email';
+      }
     }
     if (createEditCustomer.contact_number.length === 0) {
       errors.contact_number = 'Contact number is required';

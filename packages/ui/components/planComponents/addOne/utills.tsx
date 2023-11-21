@@ -1,37 +1,37 @@
 import { DeleteIcon, EditIcon } from '@atoms/icons';
 
 export const Header = [
-  {
-    id: 'checkbox',
-    align: 'left',
-    disablePadding: false,
-    variant: 'CHECKBOX',
-    isSortable: false,
-  },
+  // {
+  //   id: 'checkbox',
+  //   align: 'left',
+  //   disablePadding: false,
+  //   variant: 'CHECKBOX',
+  //   isSortable: false,
+  // },
   {
     id: 'name',
-    align: 'left',
+    align: 'center',
     disablePadding: false,
     label: 'Add-on',
-    isSortable: true,
+    // isSortable: true,
   },
   {
     id: 'attachedin',
-    align: 'left',
+    align: 'center',
     disablePadding: false,
     label: 'Attached in',
-    isSortable: true,
+    // isSortable: true,
   },
   {
     id: 'createdon',
-    align: 'left',
+    align: 'center',
     disablePadding: false,
     label: 'Created On',
-    isSortable: true,
+    // isSortable: true,
   },
   {
     id: 'is_active',
-    align: 'left',
+    align: 'center',
     disablePadding: false,
     label: 'Status',
   },
@@ -44,7 +44,7 @@ export const Header = [
 ];
 
 export const tableData = (editHandel: (id: string, data: any, e: any) => void, deleteHandel: (id: string) => void) => [
-  { type: ['CHECKBOX'], name: 'checkbox' },
+  // { type: ['CHECKBOX'], name: 'checkbox' },
   { type: ['TEXT'], name: 'name' },
   { type: ['TEXT'], name: 'attachedin' },
   { type: ['TEXT'], name: 'createdon' },

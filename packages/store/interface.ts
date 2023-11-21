@@ -1179,7 +1179,7 @@ export interface SubscriptionInterface {
 export interface CustomerKey {
   name: string;
   email_id: string;
-  contact_number: string;
+  contact_number: number;
   company_name: string;
   address_line: string;
   city: string;

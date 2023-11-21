@@ -46,7 +46,7 @@ export const customerStyle: CustomerStyleProps = {
       marginRight: '0px',
     },
     '& .MuiTableCell-root': {
-      padding: '0px 9px 0px 7px',
+      padding: '6px 16px 6px 16px',
     },
     '& .MuiTableSortLabel-root': {
       width: '136px',
@@ -54,5 +54,15 @@ export const customerStyle: CustomerStyleProps = {
     '& .MuiPaper-root': {
       borderRadius: '8px',
     },
+    '& .SWITCH label':{
+      display:'flex',
+      gap:'6px',
+      justifyContent:'center'
+    },
+    '& .MuiTableCell-root p':{
+      display:'flex',
+      justifyContent:'center'
+    }
   },
+
 };

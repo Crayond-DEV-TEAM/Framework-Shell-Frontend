@@ -40,6 +40,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     setOpen,
     clearAll,
     clearAllMessage,
+    validateCallBack
   } = useMessage();
   const { slugs } = useSlug();
   const location = useLocation();
@@ -54,6 +55,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const [groupId, setGroupId] = useState<string>('');
   const [deleteId, setDeleteId] = useState('');
   const [List, setList] = useState('');
+  const [formErrors, setFormErrors] = useState<any>({});
 
   const filteredMessageGroup = MessagesList;
   console.log('filteredMessageGroup', filteredMessageGroup);
@@ -128,12 +130,47 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const handlemodalClose = () => {
     setSelected(false);
   };
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (addEditMessageState?.title.trim().length === 0) {
+      errors.title = 'Plan name is required';
+    }
+    if (addEditMessageState?.description.trim().length === 0) {
+      errors.description = 'Description is required';
+    }
+
+    setFormErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
+
+  const validate = () => {
+    const error = addEditMessageState?.error
+    let isValid = true;
+    if (!addEditMessageState?.title) {
+      isValid = false;
+      error.title = 'Title required'
+    }
+    if (!addEditMessageState?.description) {
+      isValid = false;
+      error.description = 'Description required'
+    }
+    if (typeof (addEditMessageState?.severity) !== 'number') {
+      isValid = false;
+      error.severity = 'Severity required'
+    }
+    return validateCallBack(isValid, error)
+
+  }
 
   const handleSave = (groupId: any) => {
-    addMessage(groupId);
-    handleClose();
-    getAllMessages(groupId);
-    clearAll();
+    if (validateForm()) {
+      addMessage(groupId);
+      handleClose();
+      getAllMessages(groupId);
+      clearAll();
+    }
   };
 
   const handleEdit = (groupId: any) => {
@@ -267,7 +304,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
         isDialogOpened={open}
         title={`${addEditMessageState.id ? 'Edit' : 'Add New'} Message`}
         Bodycomponent={
-          <AddMessageGroup status={StatusList} options={SevorityList} language={languages} isEdit={isEdit} />
+          <AddMessageGroup status={StatusList} options={SevorityList} language={languages} isEdit={isEdit} formErrors={formErrors}/>
         }
         Footercomponent={
           <FooterComponent

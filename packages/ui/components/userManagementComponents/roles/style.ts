@@ -42,6 +42,10 @@ export const rolesStyle: RolesStyleProps = {
       width: '40% !important',
       // backgroundColor: 'red',
     },
+    '& .SWITCH label':{
+      display:'flex',
+      gap:'6px',
+    },
   },
   dialogSx: {
     width: '500px',

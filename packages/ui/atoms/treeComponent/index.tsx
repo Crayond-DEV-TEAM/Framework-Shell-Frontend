@@ -51,7 +51,6 @@ export const CustomLabel = (props: CustomLabelProps): JSX.Element => {
             style={{ marginRight: '17px' }}
             disabled={disable}
             onChange={(e) => {
-              // debugger;
               const updatedAllowed = nodes?.allowed?.includes('create')
                 ? [...nodes?.allowed].filter((item: any) => item !== 'create')
                 : [...(nodes?.allowed ?? []), 'create'];
@@ -65,7 +64,6 @@ export const CustomLabel = (props: CustomLabelProps): JSX.Element => {
             style={{ marginRight: '17px' }}
             disabled={disable}
             onChange={(e) => {
-              // debugger;
               const updatedAllowed = nodes?.allowed?.includes('read')
                 ? [...nodes?.allowed].filter((item: any) => item !== 'read')
                 : [...(nodes?.allowed ?? []), 'read'];
@@ -78,7 +76,6 @@ export const CustomLabel = (props: CustomLabelProps): JSX.Element => {
             style={{ marginRight: '17px' }}
             disabled={disable}
             onChange={(e) => {
-              // debugger;
               const updatedAllowed = nodes?.allowed?.includes('update')
                 ? [...nodes?.allowed].filter((item: any) => item !== 'update')
                 : [...(nodes?.allowed ?? []), 'update'];
@@ -92,7 +89,6 @@ export const CustomLabel = (props: CustomLabelProps): JSX.Element => {
             style={{ marginRight: '17px' }}
             disabled={disable}
             onChange={(e) => {
-              // debugger;
               const updatedAllowed = nodes?.allowed?.includes('delete')
                 ? [...nodes?.allowed].filter((item: any) => item !== 'delete')
                 : [...(nodes?.allowed ?? []), 'delete'];

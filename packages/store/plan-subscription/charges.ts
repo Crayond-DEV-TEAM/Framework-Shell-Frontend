@@ -36,7 +36,7 @@ export const useCharges = create<ChargesInterface>((set, get) => ({
       limit: 100,
       // is_active: true,
     };
-    console.log(useSlug?.getState()?.slugs?.PASM, '-----');
+
     if (data.is_acive === true) {
       payload.is_active = true;
     }

@@ -1,12 +1,12 @@
 import { ApiProfile, ChatNav, KeyBoardDown, Logout, ManIcon } from '@atoms/icons';
-import { useAuth } from '@core/store';
+import { useAuth, useProfileUserLanding } from '@core/store';
 import { UserDataInterface } from '@core/store/interface';
 import { localStorageKeys, parseJwt } from '@core/utils';
 import { Avatar, AppBar as MUIAppBar, Menu, MenuItem, SxProps, Theme, Typography } from '@mui/material';
 import { Box } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { appBarStyle } from './style';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 export interface AppBarProps {
   className?: string;
   sx?: SxProps<Theme>;
@@ -17,6 +17,7 @@ export interface AppBarProps {
 
 export function AppBar(props: AppBarProps): JSX.Element {
   const { className = '', sx = {}, title = 'Message Catlogue', ...rest } = props;
+  const { MyProfileList, getMyProfile } = useProfileUserLanding();
   const [open, setOpen] = useState<boolean>(false);
   const token = localStorage.getItem(localStorageKeys.authToken);
   const user = parseJwt(token);
@@ -32,8 +33,11 @@ export function AppBar(props: AppBarProps): JSX.Element {
   console.log(user, 'user');
 
   const myProfile = () => {
-    history("/profile");
+    history('/profile');
   };
+  useEffect(() => {
+    getMyProfile();
+  }, []);
 
   return (
     <Box
@@ -50,17 +54,13 @@ export function AppBar(props: AppBarProps): JSX.Element {
         <Box sx={appBarStyle.mainSx}>
           <Typography sx={appBarStyle.title}>{title}</Typography>
           <Box sx={appBarStyle.profileSec}>
-            <ChatNav />
+            {/* <ChatNav /> */}
             <Box sx={appBarStyle.profileSec}>
               <Box sx={{ pl: 3, pr: 1 }}>
                 <Typography sx={appBarStyle.profileName}>{user?.username}</Typography>
                 <Typography sx={appBarStyle.email}>{user?.email_id}</Typography>
               </Box>
-              <Avatar
-                // src={'https://expertphotography.b-cdn.net/wp-content/uploads/2020/08/social-media-profile-photos-3.jpg'}
-                variant="rounded"
-                sx={{ borderRadius: '8px' }}
-              />
+              <Avatar src={MyProfileList?.profile_pic} variant="rounded" sx={{ borderRadius: '8px' }} />
               <Box sx={{ pl: 1 }} onClick={handleOpen}>
                 <KeyBoardDown />
               </Box>
@@ -87,12 +87,10 @@ export function AppBar(props: AppBarProps): JSX.Element {
           '& .MuiList-root': { paddingTop: '0px', paddingBottom: '0px' },
         }}
       >
-        <MenuItem>
+        <MenuItem onClick={myProfile}>
           <Box sx={appBarStyle.profileSec}>
             <ManIcon />
-            <Typography sx={appBarStyle.menutext} onClick={myProfile}>
-              My Profile
-            </Typography>
+            <Typography sx={appBarStyle.menutext}>My Profile</Typography>
           </Box>
         </MenuItem>
         {/* Commented As per requirment */}
@@ -102,8 +100,8 @@ export function AppBar(props: AppBarProps): JSX.Element {
             <Typography sx={appBarStyle.menutext}>API Key</Typography>
           </Box>
         </MenuItem> */}
-        <MenuItem>
-          <Box sx={appBarStyle.profileSec} onClick={logOut}>
+        <MenuItem onClick={logOut}>
+          <Box sx={appBarStyle.profileSec}>
             <Logout />
             <Typography sx={appBarStyle.menutext}>Logout</Typography>
           </Box>

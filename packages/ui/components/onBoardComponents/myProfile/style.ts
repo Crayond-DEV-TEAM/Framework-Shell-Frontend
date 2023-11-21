@@ -9,7 +9,7 @@ export const ProfileStyle: ProfileStyleProps = {
     width: '400px',
     border: '1px solid #E0E0E0',
     borderRadius: '8px',
-    boxShadow: '0px 2px 4px 1px rgba(0,0,0,0.41)',
+    boxShadow: '#0000001F 0px 0px 32px',
     backgroundColor: '#fff',
   },
   head: {
@@ -18,6 +18,7 @@ export const ProfileStyle: ProfileStyleProps = {
     color: '#29302B',
     fontWeight: '600',
     ml: '12px',
+    mt: '2px',
   },
   titleBox: {
     padding: '16px',
@@ -25,14 +26,23 @@ export const ProfileStyle: ProfileStyleProps = {
     display: 'flex',
   },
   imgBox: {
-    display: 'flex',
+    display: 'grid',
     justifyContent: 'center',
     alignItems: 'center',
     mt: '23px',
   },
   avatar: {
-    height: '116px',
-    width: '116px',
+    height: '24px',
+    width: '24px',
+    opacity: 0,
+    position: 'absolute',
+    marginBottom: '-65px',
+    marginLeft: '83px',
+  },
+  avatar1: {
+    height: '98px',
+    width: '105px',
+    position: 'absolute',
   },
   name: {
     mt: '22px',
@@ -61,7 +71,7 @@ export const ProfileStyle: ProfileStyleProps = {
     fontSize: '12px',
     fontFamily: 'Inter,Roboto,-apple-system,sans-serif',
     textTransform: 'capitalize',
-    width: '45%',
+    width: '48%',
   },
   dialogSx: {
     width: '400px',
@@ -74,7 +84,7 @@ export const ProfileStyle: ProfileStyleProps = {
     borderRadius: '12px',
   },
   padd: {
-    p: '12px 24px',
+    p: '16px 24px',
   },
   labelSx: {
     fontSize: '12px',
@@ -98,7 +108,7 @@ export const ProfileStyle: ProfileStyleProps = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    mt: '100px',
+    mt: '60px',
   },
   passwordBox: {
     p: 2.5,
@@ -124,5 +134,45 @@ export const ProfileStyle: ProfileStyleProps = {
   eyeSx: {
     width: '20px',
     height: '20px',
+  },
+  upload: {
+    width: '100px',
+    height: '100px',
+    borderRadius: '70px',
+    backgroundColor: '#fff',
+    position: 'relative',
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+
+  uploadbtn: {
+    height: '32px',
+    mt: 1.5,
+  },
+  addImageIcon: {
+    position: 'absolute',
+    marginLeft: '80px',
+    marginTop: '65px',
+    color: '#357968',
+    cusor: 'pointer',
+    background: '#fff',
+    borderRadius: '18px',
+    padding: '4px',
+    border: '2px solid #357968',
+    height:'30px',
+    width:'30px'
+  },
+  deleteIcon: {
+    position: 'absolute',
+    color: '#357968',
+    ml: '81px',
+    mt: '65px',
+    background: '#fff',
+    borderRadius: '18px',
+    padding: '4px',
+    border: '2px solid #357968',
+    height:'30px',
+    width:'30px'
   },
 };

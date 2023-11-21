@@ -1,3 +1,6 @@
+import { envConfig } from "@core/envconfig";
+import { httpRequest } from "./api";
+
 export const camalize = function camalize(str) {
   return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
 };
@@ -30,4 +33,19 @@ export const parseJwt = (token) => {
   } catch (e) {
     return null;
   }
+};
+
+export const imageUpload = async (files: any) => {
+  
+  if(!files?.length > 0) {
+    return 
+  }
+  let response = [];
+  for (const iterator of files) {
+    const formData = new FormData();
+    formData.append('file', iterator);
+    const res = await httpRequest('POST', `${envConfig.api_url}/files/upload`, formData, true);
+    response.push(res?.data?.data?.url);
+  }
+  return response;
 };

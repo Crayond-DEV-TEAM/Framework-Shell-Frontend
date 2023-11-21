@@ -24,6 +24,13 @@ export const messageTableStyle: MessageTableStyleProps = {
       marginBottom: '14px',
       padding: 0,
     },
+    '& .SWITCH label':{
+      display:'flex',
+      gap:'6px',
+    },
+    // '& .MuiTableRow-root':{
+    //   cursor:'pointer'
+    // },
   },
   totalTableSx: {
     padding: '0px 12px',
@@ -73,5 +80,6 @@ export const messageTableStyle: MessageTableStyleProps = {
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  
   // addSx: { width: '100%', maxWidth: '230px', margin: '0px 21px' },
 };

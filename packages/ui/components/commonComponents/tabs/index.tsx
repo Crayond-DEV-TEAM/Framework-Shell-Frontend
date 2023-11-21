@@ -3,6 +3,7 @@ import { Box, Tabs, Typography } from '@mui/material';
 import * as React from 'react';
 import { forwardRef } from 'react';
 import { tabs_style } from './style';
+import { useAlertReports } from '@core/store';
 
 export interface ReportTabsProps {
   data?: any;
@@ -33,6 +34,7 @@ export const ReportTabs = forwardRef((props: ReportTabsProps): JSX.Element => {
   const { tabs = [] } = props;
   const [value, setValue] = React.useState(0);
   const [index, setIndex] = React.useState(0);
+  const { getReportDelivery, getReportList } = useAlertReports();
 
   const handleChange = (event: any, newValue: any) => {
     setValue(newValue);
@@ -41,7 +43,10 @@ export const ReportTabs = forwardRef((props: ReportTabsProps): JSX.Element => {
   const handleTabChange = (i: any) => {
     setIndex(i);
   };
-
+  React.useEffect(() => {
+    getReportDelivery(index);
+    getReportList(index)
+  }, [index]);
   return (
     <>
       <Box sx={tabs_style.tabBar}>

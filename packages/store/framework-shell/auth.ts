@@ -72,7 +72,6 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
   signIn: async () => {
     set({ signInLoading: true, signInMessage: '', signInError: false });
     try {
-      // debugger;
       const { signInState: payload } = get();
 
       if (payload.username.trim().length === 0 || payload.password.trim().length === 0) {
@@ -112,7 +111,6 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
 
     httpRequest('get', `${envConfig.api_url}/idm/user-profile/list/organisation?limit=20&offset=0`, {}, true)
       .then((response) => {
-        debugger;
       })
       .catch((err) => {
         set({ signInError: true });
@@ -124,7 +122,6 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
   },
 
   signUp: async () => {
-    // debugger;
     set({ signUpLoading: true, signUpMessage: '', signUpError: false });
 
     try {

@@ -1,5 +1,5 @@
 import type { SxProps, Theme } from '@mui/material';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Chip, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Chip, Switch, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { adminSectionStyle } from './style';
 import { IdmBackgroundCard } from '@atoms/idmBackgroundCard';
@@ -17,14 +17,22 @@ import { localStorageKeys } from '@core/utils';
 // import { AddChipMultipleDropdown } from '@atoms/addChipMultipleDropdown';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { MappedUserCard } from '@atoms/mappedUserCard';
+import { CustomSwitches } from '@atoms/customSwitches';
 export interface AdminSectionProps {
   className?: string;
   sx?: SxProps<Theme>;
 }
 
+interface CustomSwitchProps {
+  checked?: boolean;
+  onChange?: (checked: boolean) => void;
+}
+
 export const AdminSection = (props: AdminSectionProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
-
+  const CustomSwitch: React.FC<CustomSwitchProps> = ({ checked, onChange }) => {
+    return <CustomSwitches label="" value={checked} onClick={onChange} />;
+  };
   const {
     getOrganisationMaster,
     OrganisationListMaster,
@@ -50,9 +58,36 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [profileDetails, setProfileDetails] = useState(false);
   const navigate = useNavigate();
-  const filteredMessageGroup = adminList.filter(
-    (x: any) => x.projectTitle?.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  const filteredMessageGroup = adminList
+    .filter((x) => x.projectTitle?.toLowerCase().includes(searchTerm.toLowerCase()))
+    .map((v) => {
+      const handleSwitch = (id: any, data: any, e: any) => {
+        e.stopPropagation();
+        e.preventDefault();
+        if (!switchList.includes(id)) {
+          setSwitchList([...switchList, id]);
+        } else {
+          const index = switchList.indexOf(id);
+          if (index > -1) {
+            switchList.splice(index, 1);
+            setSwitchList([...switchList]);
+          }
+        }
+        if (e.target.checked === true) {
+          getStatusList(id, true);
+        } else {
+          getStatusList(id, false);
+        }
+      };
+      const customObj = {
+        is_active: <CustomSwitch onChange={(checked) => handleSwitch(v.id, v, checked)} checked={v.is_active} />,
+      };
+
+      return {
+        ...v,
+        ...customObj,
+      };
+    });
 
   console.log(filteredMessageGroup, 'filteredMessageGroup');
 
@@ -179,8 +214,8 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
           Header={Header}
           dataList={filteredMessageGroup}
           tableData={tableData(handleTableEdit, handleTableDelete, handleTableDetail)}
-          switchList={switchList}
-          handleSwitch={handleSwitch}
+          // switchList={switchList}
+          // handleSwitch={handleSwitch}
           headerOptions={{
             fontSize: '14px',
             fontWeight: '500',

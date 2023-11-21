@@ -46,7 +46,10 @@ const router = createBrowserRouter([
   {
     path: '/profile',
     element: (
-      <AppLayout sideBarSection={false} mainelement={{ p: '0px', height: '100vh' }}>
+      <AppLayout
+        sideBarSection={false}
+        mainelement={{ p: '0px', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      >
         <MyProfile />
       </AppLayout>
     ),

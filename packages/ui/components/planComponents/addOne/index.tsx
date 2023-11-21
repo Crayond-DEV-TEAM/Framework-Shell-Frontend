@@ -55,10 +55,10 @@ export const AddOne = (props: AddOneProps): JSX.Element => {
     if (createEditAddOns.description.trim().length === 0) {
       errors.description = 'Description is required';
     }
-    if (createEditAddOns.features.length === 0) {
+    if (!createEditAddOns.features || Object.keys(createEditAddOns.features).length === 0) {
       errors.features = 'Feature is required';
     }
-    if (createEditAddOns.featuregroup.length === 0) {
+    if (!createEditAddOns.featuregroup || Object.keys(createEditAddOns.featuregroup).length === 0) {
       errors.featuregroup = 'Feature Group is required';
     }
 

@@ -50,7 +50,6 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
   };
 
   const handleChange = (e: any) => {
-    debugger;
     // console.log('val', e?.jsObject);
     // seteditRepository(e?.jsObject);
   };
@@ -98,7 +97,6 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
             data={editRepositoryList}
             onChange={(val: any) => {
               handleChange(val);
-              debugger;
             }}
           />
         }

@@ -69,7 +69,6 @@ export const useUserLanding = create<UserLandingInterface>((set, get) => ({
     httpRequest('post', `${envConfig.api_url}/idm/organisation/list-member`, payload, true)
       .then((response) => {
         const dataTable: any = [];
-        debugger;
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           debugger;
           response.data.data.rows.map(

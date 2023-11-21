@@ -72,4 +72,13 @@ export const createPlanStyle: CreatePlanStyleProps = {
     boxShadow: 'none',
     fontSize: '12px',
   },
+  noDataFOund:{
+    textAlign:'center',
+    position: 'absolute',
+    top:'52%',
+    alignItems:'center',
+    left:'0%',
+    right:'0%'
+
+  }
 };

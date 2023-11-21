@@ -18,8 +18,9 @@ export const drawerStyle: DrawerStyleProps = {
     bgcolor: 'common.white',
     borderTop: '1.3px dashed',
     borderColor: 'border.main',
-    // position: 'absolute',
-    // bottom: '10px',
+    position: 'absolute',
+    bottom: '10px',
+    width:'100%'
   },
   closeSx: {
     width: '15px',

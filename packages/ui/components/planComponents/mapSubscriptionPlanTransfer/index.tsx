@@ -32,16 +32,13 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
   } = props;
 
   const billtype = createEditSubscription?.billing_type;
-  // debugger;
   useEffect(() => {
     if (createEditSubscription?.id !== '') {
       const planDetails = createEditSubscription;
-      // debugger;
       // billtype = { name: planDetails.billing_type };
       setPlanCard(planDetails?.plan_id);
       setBilling(planDetails?.plan_id?.billing_period);
       setAddOnList(planDetails?.plan_id?.plan_add_on_mappings);
-      // debugger;
     }
   }, [createEditSubscription?.id]);
   const { OldSubscription, clearAll } = useSubscription();
@@ -148,7 +145,7 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
 
             <CutstomizedAutocomplete
               placeholder={'Monthly'}
-              permissionList={AddOnsList}
+              permissionList={AddOnsList ?? []}
               onChange={(value) => {
                 handleSetupFunc(value);
               }}
@@ -179,7 +176,6 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
           </Box>
           {Array.isArray(adddOnList) &&
             adddOnList?.map((x: any, index: number) => {
-              // debugger;
               return (
                 <Box sx={mapSubscriptionPlanTransferStyle.align} key={index}>
                   <Typography sx={mapSubscriptionPlanTransferStyle.btmTxt}>{x.add_on.name}</Typography>

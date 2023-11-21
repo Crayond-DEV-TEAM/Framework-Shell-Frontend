@@ -20,6 +20,13 @@ export const adminSectionStyle: AdminSectionStyleProps = {
     // borderRadius: '8px',
     // height: 'calc(100vh - 100px)',
     border: '1px solid #EAEAEA',
+    '& .SWITCH label':{
+      display:'flex',
+      gap:'6px',
+    },
+    '& .MuiTableRow-root':{
+      cursor:'pointer'
+    },
     '& .css-x5ymgk': {
       gap: '0px',
       marginBottom: '14px',

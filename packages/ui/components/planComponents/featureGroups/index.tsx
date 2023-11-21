@@ -1,6 +1,6 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-import { Table as CommonTable } from "@crayond_dev/ui_table";
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 import { useState, useEffect } from 'react';
 
 import { featureGroupsStyle } from './style';
@@ -8,7 +8,7 @@ import { DialogDrawer } from '@atoms/dialogDrawer';
 import { Header, tableData, tableJson } from './utills';
 import { FeatureGroupContent } from '..';
 import { FooterComponent } from '@atoms/footerComponent';
-import { useFeature, useFeatureGroup } from '@core/store';
+import { useFeature, useFeatureGroup, useSlug } from '@core/store';
 import { DeleteComponent, TableHeader } from '@components/commonComponents';
 
 export interface FeatureGroupsProps {
@@ -33,6 +33,7 @@ export const FeatureGroups = (props: FeatureGroupsProps): JSX.Element => {
     editsave,
     deletefetch,
   } = useFeatureGroup();
+  const { slugs } = useSlug();
   const { FeatureList, getFeatureList } = useFeature();
   const [values, setValues] = useState(false);
   const [editData, setEditData] = useState(false);
@@ -41,8 +42,8 @@ export const FeatureGroups = (props: FeatureGroupsProps): JSX.Element => {
   const [del, setDel] = useState(false);
   const [delId, setDelId] = useState('');
   const [formErrors, setFormErrors] = useState({});
-  const filteredMessageGroup = FeatureGroupList.filter((x: any) =>
-    x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()),
+  const filteredMessageGroup = FeatureGroupList.filter(
+    (x: any) => x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()),
   );
   const validateForm = () => {
     const errors: Record<string, string> = {};
@@ -124,7 +125,7 @@ export const FeatureGroups = (props: FeatureGroupsProps): JSX.Element => {
     }
   };
   const handleEditFeatureGroup = () => {
-    debugger
+    debugger;
     const isFormValid = validateForm();
 
     if (isFormValid) {
@@ -149,9 +150,12 @@ export const FeatureGroups = (props: FeatureGroupsProps): JSX.Element => {
   };
 
   useEffect(() => {
-    getFeatureGroupList();
-    getFeatureList();
-  }, []);
+    if (slugs?.PASM) {
+      getFeatureGroupList();
+      getFeatureList();
+    }
+  }, [slugs?.PASM]);
+
   useEffect(() => {
     handleStatus();
   }, [FeatureGroupList]);

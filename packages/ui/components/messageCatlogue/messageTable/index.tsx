@@ -2,16 +2,15 @@ import { Button } from '@atoms/button';
 import { DeleteDailog } from '@atoms/deletedailog';
 import { DialogDrawer } from '@atoms/dialogDrawer';
 import { FooterComponent } from '@atoms/footerComponent';
-import { useLanguageConfiguration, useMessage, useMessageGroupDetails } from '@core/store';
+import { useLanguageConfiguration, useMessage, useMessageGroupDetails, useSlug } from '@core/store';
 import { Box, Grid, SxProps, Theme, Typography } from '@mui/material';
-import { Table as CommonTable } from "@crayond_dev/ui_table";
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 import { forwardRef, useEffect, useState } from 'react';
 import { AddMessage, AddMessageGroup } from '..';
 import { messageTableStyle } from './style';
 import { Header, tableData } from './utils';
 import { TableHeader } from '@components/commonComponents';
-import { useLocation } from "react-router-dom";
-
+import { useLocation } from 'react-router-dom';
 
 export interface MessageTableProps {
   className?: string;
@@ -42,10 +41,10 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     clearAll,
     clearAllMessage,
   } = useMessage();
+  const { slugs } = useSlug();
   const location = useLocation();
-  const {state} = location;
-  const languagesList = state
-  
+  const { state } = location;
+  const languagesList = state;
 
   // const filterContent: any[] = [];
   const { languages, getSavedLanguage } = useLanguageConfiguration();
@@ -56,7 +55,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const [deleteId, setDeleteId] = useState('');
   const [List, setList] = useState('');
 
-  const filteredMessageGroup = MessagesList
+  const filteredMessageGroup = MessagesList;
   console.log('filteredMessageGroup', filteredMessageGroup);
   const [switchList, setSwitchList] = useState<any>([]);
   const handleTableEdit = (id: string) => {
@@ -82,7 +81,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
 
   const handleChange = (key: any, value: string) => {
     console.log(key, 'key');
-    
+
     setList(key.id);
     setTableName(key.title);
 
@@ -149,8 +148,10 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   }, [MessagesListStatus]);
 
   useEffect(() => {
-    getServerity();
-  }, []);
+    if (slugs?.['MESSAGE-CATALOG']) {
+      getServerity();
+    }
+  }, [slugs?.['MESSAGE-CATALOG']]);
   return (
     <Box
       sx={[{ ...messageTableStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]}
@@ -174,7 +175,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
           </Box>
         </Grid>
 
-        <Grid item xs={12} sm={8} md={10} lg={9.75} xl={9.75} pl={"0px !important"}>
+        <Grid item xs={12} sm={8} md={10} lg={9.75} xl={9.75} pl={'0px !important'}>
           <Box sx={messageTableStyle.commonTable}>
             <CommonTable
               Header={Header}

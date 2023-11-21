@@ -3,7 +3,7 @@ import { FooterComponent } from '@atoms/footerComponent';
 import { AddIcon } from '@atoms/icons';
 import { Input } from '@atoms/input';
 import { MessageCard } from '@atoms/messageCard';
-import { useMessage, useMessageConfiguration } from '@core/store';
+import { useMessage, useMessageConfiguration, useSlug } from '@core/store';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, IconButton, Skeleton, Stack, SxProps, Theme, Typography } from '@mui/material';
 import { forwardRef, useEffect, useState } from 'react';
@@ -22,7 +22,7 @@ export interface AddMessageProps {
   title?: string;
   addTitle?: string;
   editTitle?: string;
-  setGroupId: React.Dispatch<any>
+  setGroupId: React.Dispatch<any>;
 }
 
 export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTMLElement>): JSX.Element => {
@@ -58,6 +58,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     editMessageList,
     clearAll,
   } = useMessageConfiguration();
+  const { slugs } = useSlug();
   const { getAllMessages } = useMessage();
 
   const [open, setOpen] = useState(false);
@@ -97,7 +98,6 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
 
   const handleeditChange = (key: string, value: string) => seteditMessage({ key, value });
 
-
   const onEdit = async (x: any) => {
     setValues(true);
     editMessageListGroups({ id: x?.id });
@@ -107,23 +107,27 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     editMessageGroups();
     setValues(false);
   };
-  const handleMessage = (key: {
-    description: string,
-    id: string,
-    is_status: boolean,
-    title: string
-  }, value: any) => {
-    debugger
+  const handleMessage = (
+    key: {
+      description: string;
+      id: string;
+      is_status: boolean;
+      title: string;
+    },
+    value: any,
+  ) => {
+    debugger;
     setselctedMessage({ key, value });
     setSelected(value);
     onMessageTable(key, value);
     setList(key.id);
   };
-
   useEffect(() => {
-    getMessageGroups();
-    // eslint-disable-next-line
-  }, []);
+    if (slugs?.['MESSAGE-CATALOG']) {
+      getMessageGroups();
+    }
+  }, [slugs?.['MESSAGE-CATALOG']]);
+
   useEffect(() => {
     if (messageGroup && messageGroup.length > 0) {
       const init = messageGroup[0];

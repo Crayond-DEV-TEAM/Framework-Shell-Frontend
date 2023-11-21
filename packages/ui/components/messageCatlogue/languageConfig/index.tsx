@@ -7,7 +7,7 @@ import { Chip, Grid, Skeleton, SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { forwardRef, useEffect, useState } from 'react';
 import { languageConfigStyle } from './style';
-import { useLanguageConfiguration } from '@core/store';
+import { useLanguageConfiguration, useSlug } from '@core/store';
 // import { enqueueSnackbar } from 'notistack';
 import { SelectBoxInterface } from '@core/store/interface';
 import { DeleteDailog } from '@atoms/deletedailog';
@@ -44,11 +44,8 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     message,
   } = useLanguageConfiguration();
 
-  useEffect(() => {
-    getAllLanguages();
-    getSavedLanguage();
-    // eslint-disable-nextline
-  }, []);
+  const { slugs } = useSlug();
+
   const [selected, setSelected] = useState(false);
   const navigate = useNavigate();
   const handleOpen = () => {
@@ -59,18 +56,25 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     setSelected(false);
   };
   const handleDelete = () => {
-    debugger
+    debugger;
     deleteLanguage(null, null);
     setSelected(false);
   };
   console.log(languages, 'message');
-  
+
   const OnsaveLangugae = () => {
     saveLanguage();
     setTimeout(() => {
-      navigate(messageRoutes.messagegroup, {state: languages});
+      navigate(messageRoutes.messagegroup, { state: languages });
     }, 5000);
   };
+
+  useEffect(() => {
+    if (slugs?.['MESSAGE-CATALOG']) {
+      getAllLanguages();
+      getSavedLanguage();
+    }
+  }, [slugs?.['MESSAGE-CATALOG']]);
 
   return (
     <Box

@@ -1,7 +1,7 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { Table as CommonTable } from "@crayond_dev/ui_table";
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 
 import { chargesStyle } from './style';
 import { DialogDrawer } from '@atoms/dialogDrawer';
@@ -9,8 +9,8 @@ import { Header, tableData, tableJson } from './utills';
 import { FooterComponent } from '@atoms/footerComponent';
 import { Label } from '@atoms/label';
 import { Input } from '@atoms/input';
-import { useCharges } from '@core/store';
-import { DeleteComponent, TableHeader } from '@components/commonComponents'
+import { useCharges, useSlug } from '@core/store';
+import { DeleteComponent, TableHeader } from '@components/commonComponents';
 
 export interface ChargesProps {
   className?: string;
@@ -33,6 +33,7 @@ export const Charges = (props: ChargesProps): JSX.Element => {
     editsave,
     deletefetch,
   } = useCharges();
+  const { slugs } = useSlug();
   const [values, setValues] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [switchList, setSwitchList] = useState<any>([]);
@@ -41,8 +42,8 @@ export const Charges = (props: ChargesProps): JSX.Element => {
   const [delId, setDelId] = useState('');
   const [formErrors, setFormErrors] = useState({});
 
-  const filteredMessageGroup = ChargesList.filter((x: any) =>
-    x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()),
+  const filteredMessageGroup = ChargesList.filter(
+    (x: any) => x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()),
   );
 
   const validateForm = () => {
@@ -140,8 +141,11 @@ export const Charges = (props: ChargesProps): JSX.Element => {
     setFormErrors({});
   };
   useEffect(() => {
-    getChargesList();
-  }, []);
+    if (slugs?.PASM) {
+      getChargesList();
+    }
+  }, [slugs?.PASM]);
+
   useEffect(() => {
     handleStatus();
   }, [ChargesList]);

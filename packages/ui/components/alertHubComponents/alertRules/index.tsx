@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 
 // import { Popup } from "@core/ui/components/popup";
 import { FooterComponent } from '@atoms/footerComponent';
-import { useAlertRules } from '@core/store';
+import { useAlertRules, useSlug } from '@core/store';
 import type { SxProps, Theme } from '@mui/material';
 import { alertRuleStyles } from './style';
 export interface AlertRuleProps {
@@ -45,11 +45,13 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
     clearSelectedFilterByKey,
   } = useAlertRules();
 
+  const { slugs } = useSlug();
+
   const alertRuleData = alertsList.filter(
     (x: any) => x.alert_rule_code?.toLowerCase()?.includes(searchTerm.toLowerCase()),
   );
   const [open, setOpen] = React.useState(false);
- 
+
   const [switchList, setSwitchList] = useState<any>([]);
 
   const filterContent = [
@@ -207,23 +209,28 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
     clearState();
   };
 
+  // useEffect(() => {
+  //   getAlertTable();
+  //   getHashtagData();
+  // }, []);
   useEffect(() => {
-    getAlertTable();
-    getHashtagData();
-  }, []);
+    if (slugs?.ALERTSHUB) {
+      getAlertTable();
+      getHashtagData();
+    }
+  }, [slugs?.ALERTSHUB]);
 
   useEffect(() => {
     const isActiveData = alertsList?.filter((alert) => alert?.is_active).map(({ id }) => id);
     setSwitchList(isActiveData);
   }, [alertsList]);
-  
 
   return (
     <Box>
       <Grid container>
         <Grid item xs={12}>
-          <Box sx={alertRuleStyles.commonTable}>          
-            <CommonTable     
+          <Box sx={alertRuleStyles.commonTable}>
+            <CommonTable
               Header={Header}
               dataList={alertRuleData}
               tableData={tableData}

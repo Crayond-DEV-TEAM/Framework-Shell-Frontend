@@ -27,6 +27,7 @@ export const appBarStyle: AppBarStyleProps = {
     fontSize: '12px',
     fontWeight: 600,
     color: 'primary.contrastText',
+    textTransform: 'capitalize',
   },
   email: {
     fontSize: '10px',

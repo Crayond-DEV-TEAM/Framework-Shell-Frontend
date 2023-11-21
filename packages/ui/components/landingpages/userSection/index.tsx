@@ -33,7 +33,7 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
   const [switchList, setSwitchList] = useState<any>([]);
   const [values, setValues] = useState(false);
-
+  const [formError, setFormError] = useState(false);
   const [open, setOpen] = useState(false);
 
   const roleOption = [
@@ -84,7 +84,7 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
   };
   const handleTableDelete = (id: string) => {
     deleteUserlist(id);
-    // setOpen(true);
+    // setOpen(tru);
     console.log('');
   };
 
@@ -94,12 +94,20 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
   };
 
   const handleSave = () => {
-    createUserList();
-    handleDrawerClose();
-    clearAll();
+    if (createEditUserRoleList.mapAdmin.length > 0) {
+      // If the length is greater than 0, do nothing or handle the case where it's greater than 0
+      createUserList();
+      handleDrawerClose();
+      clearAll();
+      setFormError(false);
+    } else {
+      setFormError(true);
+      // If the length is not greater than 0, execute the following code
+    }
   };
   const handleDrawerClose = () => {
     setOpen(false);
+    setFormError(false);
     clearAll();
   };
 
@@ -270,6 +278,9 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
                 handleChange={handleChange}
                 inviteSection={true}
               />
+              <Typography sx={{ fontSize: '12px', fontWeight: 600, color: 'red', mt: '10px' }}>
+                {formError ? 'Please select the users and role map' : ''}
+              </Typography>
             </AccordionDetails>
           </Accordion>
         </div>

@@ -7,8 +7,8 @@ interface SuperAdminStyleProps {
 export const superAdminStyle: SuperAdminStyleProps = {
   rootSx: {},
   commonTable: {
-    borderBottomRightRadius: '8px',
-    borderBottomLeftRadius: '8px',
+    borderRadius: "12px",
+    
     bgcolor: '#fff',
     // margin: {
     //   lg: '0px 12px',

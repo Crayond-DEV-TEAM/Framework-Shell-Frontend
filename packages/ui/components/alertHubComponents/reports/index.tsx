@@ -284,7 +284,7 @@ export function Reports(props: ReportsProps): JSX.Element {
     },
     {
       id: 'sentOn',
-      align: 'center',
+      align: 'left',
       disablePadding: false,
       label: 'Sent on',
     },

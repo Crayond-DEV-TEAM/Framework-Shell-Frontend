@@ -62,7 +62,7 @@ export const subscriptionStyle: SubscriptionStyleProps = {
       marginRight: '0px',
     },
     '& .MuiTableCell-root': {
-      padding: '6px 16px 6px 7px',
+      padding: '6px 16px 6px 16px',
     },
     '& .MuiTableSortLabel-root': {
       width: '136px',
@@ -70,19 +70,19 @@ export const subscriptionStyle: SubscriptionStyleProps = {
     '& .MuiPaper-root': {
       borderRadius: '8px',
     },
-    '& .SWITCH label':{
-      display:'flex',
-      gap:'6px',
-      justifyContent:'center'
-    },
-    '& .MuiTableCell-root p':{
-      display:'flex',
-      justifyContent:'center'
-    },
-    '& .css-i5q2k0': {
-      display:'flex',
-      justifyContent:'center'
-    }
+    // '& .SWITCH label':{
+    //   display:'flex',
+    //   gap:'6px',
+    //   justifyContent:'center'
+    // },
+    // '& .MuiTableCell-root p':{
+    //   display:'flex',
+    //   justifyContent:'center'
+    // },
+    // '& .css-i5q2k0': {
+    //   display:'flex',
+    //   justifyContent:'center'
+    // }
   },
   dialogSx: {
     width: '400px',

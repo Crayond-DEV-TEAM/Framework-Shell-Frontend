@@ -54,15 +54,15 @@ export const customerStyle: CustomerStyleProps = {
     '& .MuiPaper-root': {
       borderRadius: '8px',
     },
-    '& .SWITCH label':{
-      display:'flex',
-      gap:'6px',
-      justifyContent:'center'
-    },
-    '& .MuiTableCell-root p':{
-      display:'flex',
-      justifyContent:'center'
-    }
+    // '& .SWITCH label':{
+    //   display:'flex',
+    //   gap:'6px',
+    //   justifyContent:'center'
+    // },
+    // '& .MuiTableCell-root p':{
+    //   display:'flex',
+    //   justifyContent:'center'
+    // }
   },
 
 };

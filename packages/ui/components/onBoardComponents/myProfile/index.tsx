@@ -8,13 +8,16 @@ import { Input } from '@atoms/input';
 import { Visibility, VisibilityOff } from '@atoms/icons';
 import { Alert, IconButton, SxProps, Theme } from '@mui/material';
 import BackIcon from '@assets/backIcon';
-import { useNavigate } from 'react-router-dom';
-import { useAuth, useProfileUserLanding } from '@core/store';
+import { useAuth, useProfileUserLanding, useUser } from '@core/store';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { passwordRegex, validateResetPasswordData } from '@core/store/utils';
 import { ResetPasswordState } from '@core/store/interface';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { localStorageKeys, parseJwt } from '@core/utils';
+import { webRoutes } from '@core/routes';
+
 export interface MyProfileProps {
   onClick?: () => void;
   showpassword: '';
@@ -111,8 +114,21 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
     }
   };
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const redirect = () => {
-    history(-1);
+    const authToken = localStorage.getItem(localStorageKeys?.authToken);
+
+    if (authToken) {
+      const user = parseJwt(authToken);
+      useUser.setState({ user });
+      if (user.isSuperAdmin === true) {
+        navigate(webRoutes.superAdmin);
+      } else {
+        navigate('/');
+      }
+    }
   };
 
   const handleFileUpload = (file: any) => {

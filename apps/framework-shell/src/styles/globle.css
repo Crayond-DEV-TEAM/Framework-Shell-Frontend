@@ -37,6 +37,7 @@ input[type='number'] {
   font-weight: 600 !important;
   background: #eaf1ef !important;
   color: #357968 !important;
+  font-size: 18px;
   /* Add any other styles you need */
 }
 

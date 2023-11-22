@@ -123,6 +123,11 @@ export function SlackTab(): JSX.Element {
               paddingAll={'0px'}
               marginAll={'0px'}
               dense={'medium'}
+              paginationOption={{
+                isEnable: true,
+                rowPerPage: 10,
+                rowsPerPageOptions: [5, 10, 25]
+              }}
               HeaderComponent={{
                 variant: 'CUSTOM',
                 component: (

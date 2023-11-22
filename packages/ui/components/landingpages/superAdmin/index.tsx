@@ -1,15 +1,17 @@
 import type { SxProps, Theme } from '@mui/material';
-import { Box, Typography } from '@mui/material';
+import { Box, ClickAwayListener, Tooltip, Typography } from '@mui/material';
 import { IdmBackgroundCard } from '@atoms/idmBackgroundCard';
 import { Drawer } from '@atoms/drawer';
 import { AdminSecForm, SuperAdminForm } from '..';
 import { Table as CommonTable } from '@crayond_dev/ui_table';
 import { Header, tableData, tableJson } from './utills';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { superAdminStyle } from './style';
 import { TableHeader } from '@components/commonComponents';
 import { useProfileUserLanding, useSuperAdminLanding } from '@core/store';
 import { FooterComponent } from '@atoms/footerComponent';
+import { TooltipComp } from '@components';
+
 
 export interface SuperAdminProps {
   className?: string;
@@ -41,7 +43,15 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
 
   const filteredMessageGroup = OrganisationList.filter(
     (x: any) => x.organisationTitle?.toLowerCase()?.includes(searchTerm.toLowerCase()),
-  );
+  ).map((e) => {
+    return {
+      ...e,
+      description: <TooltipComp
+        value={e?.description}
+      />
+    }
+  })
+
   const handleTableEdit = (id: string, data: any, e: any) => {
     editGetDataOrganisation(id);
     handleDrawerOpen();
@@ -100,7 +110,7 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
     handleStatus();
   }, [OrganisationList]);
 
-  console.log('paravaye engu',createEditOrganisation)
+  console.log('paravaye engu', createEditOrganisation)
   return (
     <Box
       sx={[
@@ -151,6 +161,11 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
           paddingAll={'0px'}
           marginAll={'0px 0px 0px'}
           dense={'small'}
+          paginationOption={{
+            isEnable: true,
+            rowPerPage: 10,
+            rowsPerPageOptions: [5, 10, 25]
+          }}
           HeaderComponent={{
             variant: 'CUSTOM',
             component: (
@@ -162,7 +177,7 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
                 searchTerm={searchTerm}
                 isBtnRequired={true}
                 handleOpen={handleDrawerOpen}
-                // editTableMessage={addRole}
+              // editTableMessage={addRole}
               />
             ),
           }}

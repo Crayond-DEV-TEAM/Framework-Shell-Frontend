@@ -36,13 +36,14 @@ export const Header = [
 ];
 
 export const tableData = (editHandel: (id: string, data: any, e: any) => void, deleteHandel: (id: string) => void) => [
-  { type: ['TEXT'], name: 'organisationTitle' },
-  { type: ['TEXT'], name: 'description' },
-  { type: ['TEXT'], name: 'serviceMapped' },
+  { type: ['TEXT'], name: 'organisationTitle', width: '150px' },
+  { type: ['CUSTOM'], name: 'description', width: '150px' },
+  { type: ['TEXT'], name: 'serviceMapped', width: '150px' },
   {
     type: ['SWITCH'],
     name: 'is_active',
     switchText: [{ label_1: 'In Active', label_2: 'Active' }],
+    width: '150px' 
   },
   {
     type: ['ACTION'],
@@ -57,6 +58,7 @@ export const tableData = (editHandel: (id: string, data: any, e: any) => void, d
         method: deleteHandel,
       },
     ],
+    width: '80px' 
   },
 ];
 

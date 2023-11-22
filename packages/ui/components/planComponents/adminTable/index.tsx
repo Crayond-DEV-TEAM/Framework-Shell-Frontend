@@ -69,9 +69,9 @@ export const AdminTable = (props: AdminTableProps): JSX.Element => {
             stickyRight: ['is_active', 'action'],
           }}
           paginationOption={{
-            isEnable: false,
-            // rowPerPage: 5,
-            // rowsPerPageOptions: [5, 10, 25],
+            isEnable: true,
+            rowPerPage: 10,
+            rowsPerPageOptions: [5, 10, 25]
           }}
           // tableMinHeight={'calc(100vh - 167px)'}
           // tableMaxHeight={'calc(100vh - 167px)'}

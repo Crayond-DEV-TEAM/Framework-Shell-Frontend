@@ -158,7 +158,7 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
     },
     {
       id: 'action',
-      align: 'left',
+      align: 'center',
       disablePadding: false,
       label: 'Action',
     },

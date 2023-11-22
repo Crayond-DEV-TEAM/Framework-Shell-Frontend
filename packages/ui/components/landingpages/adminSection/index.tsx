@@ -60,9 +60,10 @@ const navigate = useNavigate();
 // );
 
 const CustomSwitch: React.FC<CustomSwitchProps> = ({ checked, onChange }) => {
-
-
-return <Switch checked={checked} onClick={onChange} />;
+return <Box sx={adminSectionStyle.customSwitch}>
+    <Switch checked={checked} onClick={onChange} />
+    <Typography sx={adminSectionStyle.customSwitchStatus}>{checked === true ? 'Active' : 'In-Active'}</Typography>
+    </Box>;
 };
 
 

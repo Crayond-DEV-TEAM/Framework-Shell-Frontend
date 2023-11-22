@@ -50,7 +50,7 @@ export const Customer = (props: CustomerProps): JSX.Element => {
       email_id: data.email,
       contact_number: data.dataList.contactNumber,
       company_name: data.companyName,
-      address_line: data.dataList.address.address_line,
+      address_line: data.dataList.address.addressline,
       city: data.dataList.address.city,
       state: data.dataList.address.state,
       country: data.dataList.address.country,

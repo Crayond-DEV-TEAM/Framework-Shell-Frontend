@@ -503,7 +503,7 @@ export interface AlertRuleInterface {
   errorOnFetching: boolean;
   [key: string]: any;
 }
-export interface ApiBodyInterface { 
+export interface ApiBodyInterface {
   reference_id: string,
   alert_rule_code: string,
   push_receivers: [],
@@ -550,6 +550,15 @@ export interface ApiBodyInterface {
       disposition: string,
     },
   ],
+  notification_type :[],
+  mail_provider_id :string,
+  sms_provider_id:string,
+  whatsapp_to :[],
+  whatsapp_provider_name:string,
+  slack_to :[],
+  slack_body :[],
+  slack_provider_name:string,
+  push_receiver_clientIds :[],
 }
 
 export interface ApiDocumentationInterface {

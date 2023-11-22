@@ -69,7 +69,6 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
         createEditSubscription?.add_on?.push(value);
         totalCountFunc();
-        // debugger;
         return set((state) => ({
           createEditSubscription: {
             ...state.createEditSubscription,
@@ -85,7 +84,6 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     if (key === 'new_addon') {
       if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
         createEditSubscription?.new_addon.push(value);
-        // debugger;
         return set((state) => ({
           createEditSubscription: {
             ...state.createEditSubscription,
@@ -100,7 +98,6 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     if (key === 'old_addon') {
       if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
         createEditSubscription?.old_addon.push(value);
-        // debugger;
         return set((state) => ({
           createEditSubscription: {
             ...state.createEditSubscription,
@@ -182,11 +179,12 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     set({ fetching: true, errorOnFetching: false });
     const slugId = useSlug?.getState()?.slugs?.PASM;
     const { createEditSubscription, getSubscriptionList, clearAll } = get();
+    
     const payload = {
       customer_id: createEditSubscription?.customer_id,
       plan_id: createEditSubscription?.plan_id?.id,
       is_active: false,
-      add_on: createEditSubscription.add_on.map((x) => ({
+      add_on: createEditSubscription.add_on.map((x: any) => ({
         id: x.add_on.id,
         price: {
           monthly: x.price.monthly,
@@ -199,7 +197,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
         price_paid: createEditSubscription?.price_paid,
       },
       is_plan_effective: createEditSubscription?.is_plan_effective,
-      plan_effective_from: dateFetching(createEditSubscription?.plan_effective_from),
+      plan_effective_from: dateFetching(createEditSubscription?.is_plan_effective,createEditSubscription?.billing_type?.name),
     };
 
     httpRequest(
@@ -234,12 +232,11 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     const { createEditSubscription, getSubscriptionList, clearAll } = get();
     const newAddOn = createEditSubscription?.new_addon?.map((x) => x?.add_on?.id) || [];
     const oldAddOn = createEditSubscription?.old_addon?.map((x) => x?.add_on?.id) || [];
-    // debugger;
     const payload = {
       subscription_id: createEditSubscription?.id,
       customer_id: createEditSubscription?.customer_id,
       plan_id: createEditSubscription?.plan_id?.id,
-      is_active: false,
+      is_active: createEditSubscription?.is_active,
       new_add_on: createEditSubscription.new_addon.map((x) => ({
         id: x.add_on.id,
         price: {

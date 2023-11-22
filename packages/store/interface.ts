@@ -121,6 +121,10 @@ export interface MessageGroup {
   title: number | string;
   description: number | string;
   is_status: boolean;
+  error: {
+    title: number | string;
+    description: number | string;
+  }
 }
 export interface Menu {
   id: number;
@@ -162,15 +166,18 @@ export interface APIKeyProps {
 }
 
 export interface WebHookUrlProps {
-  WebHookUrl?:ServiceOptionList;
+  WebHookUrl?: ServiceOptionList;
 }
 
 export interface SlugProps {
   getSlug: (id: ServiceName) => void;
   slugs?: ServiceOptionList;
+<<<<<<< HEAD
   APIkey?: ServiceOptionList;
-  WebHookUrl?:ServiceOptionList;
-  
+  WebHookUrl?: ServiceOptionList;
+=======
+  APIkey?: ServiceOptionList;  
+>>>>>>> 0c72b356626d1f3608dc64ebdf125c1a992ea3b2
 }
 export interface MessageCreateInterface {
   title: number | string;
@@ -375,7 +382,7 @@ export interface AddEditMessageState {
   error: {
     title: string;
     description: string;
-    severity: string
+    severity: string;
   };
 }
 export interface MessageStoreInterface {
@@ -393,7 +400,7 @@ export interface MessageStoreInterface {
   addEditMessageState: AddEditMessageState;
   handleAddEditStateChange: (key: string, value: string | number | boolean) => void;
   handleAddEditMessageChange: (configuration_id: string, message: string) => void;
-  validateCallBack: (isValid: boolean, error: object) => boolean;
+  validateCallBack: (isValid: boolean, error: object, state: object) => boolean;
 
   onEditClicked: (id: string) => void;
   editDataLoading: boolean;
@@ -500,21 +507,61 @@ export interface AlertRuleInterface {
   errorOnFetching: boolean;
   [key: string]: any;
 }
-export interface ApiBodyInterface { 
+export interface ApiBodyInterface {
+<<<<<<< HEAD
+  reference_id: string;
+  alert_rule_code: string;
+  push_receivers: [];
+  push_title: [];
+  push_body: [];
+  push_data: {};
+  push_click_action: string;
+  push_icon: string;
+  push_image: string;
+  push_actions: [
+    {
+      title: string;
+      action: string;
+    },
+  ];
+  whatsapp_body: [];
+  whatsapp_template_name: string;
+  inapp_title: [];
+  inapp_body: [];
+  inapp_image: string;
+  inapp_action1: string;
+  inapp_action2: string;
+  inapp_type: string;
+  inapp_eventReferenceId: string;
+  inapp_clientIds: [];
+  inapp_icon: string;
+  is_send_push_notification: boolean;
+  is_send_inapp_notification: boolean;
+  is_user_specific_notification: boolean;
+  to_mobiles: [];
+  sms_body: [];
+  URL: string;
+  to_emails: [];
+  email_CC: [];
+  email_BCC: [];
+  from_mail: string;
+  email_subject: [];
+  email_body: [];
+=======
   reference_id: string,
   alert_rule_code: string,
   push_receivers: [],
   push_title: [],
   push_body: [],
-  push_data: { },
+  push_data: {},
   push_click_action: string,
   push_icon: string,
   push_image: string,
   push_actions: [
     {
-      title:string,
+      title: string,
       action: string
-  }
+    }
   ],
   whatsapp_body: [],
   whatsapp_template_name: string,
@@ -539,14 +586,28 @@ export interface ApiBodyInterface {
   from_mail: string,
   email_subject: [],
   email_body: [],
+>>>>>>> 0c72b356626d1f3608dc64ebdf125c1a992ea3b2
   email_attachments: [
     {
-      content: string,
-      filename: string,
-      type: string,
-      disposition: string,
+      content: string;
+      filename: string;
+      type: string;
+      disposition: string;
     },
+<<<<<<< HEAD
+  ];
+=======
   ],
+  notification_type :[],
+mail_provider_id :string,
+sms_provider_id:string,
+whatsapp_to :[],
+whatsapp_provider_name:string,
+slack_to :[],
+slack_body :[],
+slack_provider_name:string,
+push_receiver_clientIds :[],
+>>>>>>> 0c72b356626d1f3608dc64ebdf125c1a992ea3b2
 }
 
 export interface ChannelData {
@@ -555,12 +616,11 @@ export interface ChannelData {
   notDelivered: number;
 }
 export interface ApiDocumentationInterface {
-  apiBody: ApiBodyInterface
-  apiBodyMessage: string,
-  handleChangeCallback: (key: string, value: string, apiBody: any) => void,
-  requestBodyAPI: () => void,
-  apiBodyError: boolean,
-
+  apiBody: ApiBodyInterface;
+  apiBodyMessage: string;
+  handleChangeCallback: (key: string, value: string, apiBody: any) => void;
+  requestBodyAPI: () => void;
+  apiBodyError: boolean;
 }
 
 export interface ReportInterface {
@@ -1119,7 +1179,7 @@ export interface SubscriptionInterface {
 export interface CustomerKey {
   name: string;
   email_id: string;
-  contact_number: string;
+  contact_number: number;
   company_name: string;
   address_line: string;
   city: string;
@@ -1385,8 +1445,8 @@ export interface SuperAdminLandingKey {
   email_id: string;
   mapAdmin: [];
   mapServices: [];
-  adminDatas:[],
-  serviceDatas:[]
+  adminDatas: [],
+  serviceDatas: []
   is_active: boolean;
   id?: string;
 }
@@ -1443,6 +1503,7 @@ export interface UserProfileLandingInterface {
   MyProfileList: any;
   fetching: boolean;
   errorOnFetching: boolean;
+  selectedFile: any;
 
   addsave: boolean;
   editsave: boolean;
@@ -1462,4 +1523,6 @@ export interface UserProfileLandingInterface {
   getMyProfile: (data: any) => void;
   editProfileData: (data: any) => void;
   seteditMyProfile: (key: string, value: string | number) => void;
+  fileUpload: (data: any) => void;
+  setSelectedFile: (data: any) => void;
 }

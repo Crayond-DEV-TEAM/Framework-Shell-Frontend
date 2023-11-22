@@ -89,7 +89,7 @@ export const useAlertReports = create<ReportInterface>((set, get) => ({
     return false;
   },
   getReportDelivery: (index: any) => {
-    const slugId = '4a1035df-8acd-42a9-9f28-78a971e3deba';
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
 
     set({ fetching: true, errorOnFetching: false });
     const payload = {
@@ -132,7 +132,9 @@ export const useAlertReports = create<ReportInterface>((set, get) => ({
   },
 
   getReportList: (index: any) => {
-    const slugId = '4a1035df-8acd-42a9-9f28-78a971e3deba';
+    const slugId = useSlug.getState().slugs.ALERTSHUB;
+    console.log(slugId,'slug');
+    
 
     set({ fetching: true, errorOnFetching: false });
     const payload = {

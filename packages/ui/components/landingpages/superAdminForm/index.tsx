@@ -160,7 +160,6 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
               {/* <ToggleButtons
                 // value={addEditMessageState.severity}
                 onChange={(e: any, id: any) => {
-                  debugger;
                   // props.isEdit ? handleAddEditStateChange('severity', id) : handleAddEditStateChange('severity', e);
                 }}
                 options={ServiceMaster}

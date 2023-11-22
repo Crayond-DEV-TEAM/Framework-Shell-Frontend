@@ -46,7 +46,7 @@ export const featureStyle: FeatureStyleProps = {
       marginRight: '0px',
     },
     '& .MuiTableCell-root': {
-      padding: '0px 9px 0px 7px',
+      padding: '6px 9px 6px 7px',
     },
     '& .MuiTableSortLabel-root': {
       width: '186px',
@@ -57,7 +57,12 @@ export const featureStyle: FeatureStyleProps = {
     '& .SWITCH label':{
       display:'flex',
       gap:'6px',
+      justifyContent:'center'
     },
+    '& .MuiTableCell-root p':{
+      display:'flex',
+      justifyContent:'center'
+    }
     // '& .MuiTableCell-sizeSmall TEXT  activesubscription': {
     //   width: '136px',
     // },
@@ -87,4 +92,5 @@ export const featureStyle: FeatureStyleProps = {
       fontSize: '14px',
     },
   },
+  
 };

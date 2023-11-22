@@ -17,7 +17,6 @@ function PrivateRouter(props: { children: JSX.Element }) {
     // If auth token is not present in local storage, navigate to login.
     const authToken = localStorage.getItem(localStorageKeys?.authToken);
     if (!authToken) {
-      // debugger;
       navigate(webRoutes.login);
       return;
     }

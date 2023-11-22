@@ -7,6 +7,7 @@ import { ImageUpload } from '@atoms/imageUpload';
 import { Label } from '@atoms/label';
 import { Input } from '@atoms/input';
 import { CustomerCardComponent } from '@atoms/customerCardComponent';
+import { useCustomer } from '@core/store';
 
 export interface CreateFormDetailsProps {
   className?: string;
@@ -18,7 +19,7 @@ export interface CreateFormDetailsProps {
 
 export const CreateFormDetails = (props: CreateFormDetailsProps): JSX.Element => {
   const { className = '', sx = {}, handleChange, createEditCustomer, formErrors, ...rest } = props;
-
+  const { isEdit } = useCustomer();
   return (
     <Box
       sx={[
@@ -59,6 +60,7 @@ export const CreateFormDetails = (props: CreateFormDetailsProps): JSX.Element =>
               size="small"
               placeholder="Enter Email"
               value={createEditCustomer?.email_id}
+              disabled={isEdit ? true : false}
               id="email_id"
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
                 handleChange('email_id', e?.target?.value)
@@ -79,6 +81,7 @@ export const CreateFormDetails = (props: CreateFormDetailsProps): JSX.Element =>
             </Label>
             <Input
               size="small"
+              type="number"
               placeholder="Enter Mobile number"
               value={createEditCustomer?.contact_number}
               id="contact_number"

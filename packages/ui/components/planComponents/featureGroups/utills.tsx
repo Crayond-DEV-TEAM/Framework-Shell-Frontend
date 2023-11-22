@@ -1,50 +1,50 @@
 import { DeleteIcon, EditIcon } from '@atoms/icons';
 
 export const Header = [
-  {
-    id: 'checkbox',
-    align: 'left',
-    disablePadding: false,
-    variant: 'CHECKBOX',
-    isSortable: false,
-  },
+  // {
+  //   id: 'checkbox',
+  //   align: 'center',
+  //   disablePadding: false,
+  //   variant: 'CHECKBOX',
+  //   isSortable: false,
+  // },
   {
     id: 'name',
-    align: 'left',
+    align: 'center',
     disablePadding: false,
     label: 'Feature group',
-    isSortable: true,
+    // isSortable: true,
   },
   {
     id: 'features',
-    align: 'left',
+    align: 'center',
     disablePadding: false,
     label: 'Features',
-    isSortable: true,
+    // isSortable: true,
   },
   {
     id: 'modified',
-    align: 'left',
+    align: 'center',
     disablePadding: false,
     label: 'Modified On',
-    isSortable: true,
+    // isSortable: true,
   },
   {
     id: 'is_active',
-    align: 'left',
+    align: 'center',
     disablePadding: false,
     label: 'Status',
   },
   {
     id: 'action',
-    align: 'left',
+    align: 'center',
     disablePadding: false,
     label: 'Action',
   },
 ];
 
 export const tableData = (editHandel: (id: string, data: any, e: any) => void, deleteHandel: (id: string) => void) => [
-  { type: ['CHECKBOX'], name: 'checkbox' },
+  // { type: ['CHECKBOX'], name: 'checkbox' },
   { type: ['TEXT'], name: 'name' },
   { type: ['TEXT'], name: 'features' },
   { type: ['TEXT'], name: 'modified' },

@@ -5,5 +5,5 @@ interface ProfileStyleProps {
 }
 
 export const ProfileStyle: ProfileStyleProps = {
- 
+  
 };

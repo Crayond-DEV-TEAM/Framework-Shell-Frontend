@@ -58,7 +58,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     editMessageList,
     clearAll,
   } = useMessageConfiguration();
-  const { getAllMessages } = useMessage();
+  const { getAllMessages, validateCallBack } = useMessage();
 
   const [open, setOpen] = useState(false);
 
@@ -80,13 +80,29 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     clearAll();
   };
 
+  const validate = (state: string) => {
+    debugger
+    const error = [state]?.error
+    let isValid = true;
+    if (!state[title]) {
+      isValid = false;
+      error.title = 'Title required'
+    }
+    if (!state[description]) {
+      isValid = false;
+      error.description = 'Description required'
+    }
+    return validateCallBack(isValid, error, state)
+
+  }
+
+
   const handleAddMsg = () => {
-    if (addMessage?.title && addMessage?.description) {
+    // if (validate('addMessage')) {
       setOpen(false);
       addMessageGroups();
-    } else {
-      enqueueSnackbar('Message Group items required!', { variant: 'error' });
-    }
+    // }
+
   };
 
   const filteredMessageGroup = messageGroup?.filter((x: any) =>
@@ -104,8 +120,12 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
   };
 
   const Edit = () => {
-    editMessageGroups();
+    // if (validate('editMessageList')) {
+      editMessageGroups();
+    // }
     setValues(false);
+    console.log(editMessageList, 'addMessage');
+
   };
   const handleMessage = (key: {
     description: string,
@@ -113,7 +133,6 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     is_status: boolean,
     title: string
   }, value: any) => {
-    debugger
     setselctedMessage({ key, value });
     setSelected(value);
     onMessageTable(key, value);

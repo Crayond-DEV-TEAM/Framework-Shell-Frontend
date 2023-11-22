@@ -96,7 +96,10 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
   };
 
   const onSaveUserInvite = () => {
-    addUserInvite();
+    // addUserInvite();
+    addUserInvite(() => {
+      getUserMasterByOrganisation();
+    });
     handleCloseUserInvite();
     // getUserMasterByOrganisation();
     handleClose();

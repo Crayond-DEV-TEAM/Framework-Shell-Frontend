@@ -462,7 +462,9 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       });
   },
 
-  addUserInvite: () => {
+  addUserInvite: (callback = () => false) => {
+    debugger
+    // const { getAllUserList } = useSuperAdminLanding();
     set({ fetching: true, errorOnFetching: false });
     const { OrganisationDetails, userInviteEdit, getUserMasterByOrganisation } = get();
     const payload = {
@@ -473,14 +475,22 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     httpRequest('post', `${envConfig.api_url}/idm/project/invite-user`, payload, true)
       .then((response) => {
         enqueueSnackbar('User Invited Succesfully!', { variant: 'success' });
+        callback();
       })
       .catch((err) => {
         set({ errorOnFetching: true });
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
+        // debugger
+
         set({ fetching: false });
-        getUserMasterByOrganisation();
+        // if(OrganisationDetails.id){
+        // getUserMasterByOrganisation();
+        // }else{
+        //   getAllUserList();
+        // }
+        //  getAllUserList();
       });
   },
 

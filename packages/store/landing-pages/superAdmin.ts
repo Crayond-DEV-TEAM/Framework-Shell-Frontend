@@ -27,6 +27,7 @@ export const useSuperAdminLanding = create<SuperAdminLandingInterface>((set, get
   },
 
   seteditOrganisation: (payload: { key: string; value: string | number }) => {
+    debugger
     set((state) => ({ createEditOrganisation: { ...state.createEditOrganisation, [payload.key]: payload.value } }));
   },
 
@@ -149,6 +150,7 @@ editGetDataOrganisation: (id: string) => {
           });
         });
       }
+      const Servicemaps = get()
 
       const Datalist = {
         organisationName: responseData.name,
@@ -156,8 +158,9 @@ editGetDataOrganisation: (id: string) => {
         email_id: responseData.email_id,
         mapAdmin: Adminmap,
         mapServices: Servicemap,
-        adminDatas: Adminmap,
-        serviceDatas:Servicemap,
+        adminDatas: [...Adminmap],
+        // serviceDatas:JSON.parse(JSON.stringify(Servicemap)),
+         serviceDatas: [ ...Servicemap ],
         is_active: responseData.is_active,
         id: responseData.id,
       };
@@ -176,39 +179,19 @@ editGetDataOrganisation: (id: string) => {
 },
 
   createAdminmap: () => {
-    const { clearAll, getOrganisationList, createEditOrganisation } = get();
+    const { clearAll, getOrganisationList, createEditOrganisation ,editGetDataOrganisation } = get();
     set({ fetching: true, errorOnFetching: false });
-
-    // console.log('crea')
-    // const { RepositoryList } = useRepository();
-    const payload = {};
-
-    set({ fetching: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.api_url}/organisations`, payload, true)
-      .then((response) => {
-        enqueueSnackbar('Organisations edited Succesfully!', { variant: 'success' });
-      })
-      .catch((err) => {
-        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
-        set({ errorOnFetching: true });
-      })
-      .finally(() => {
-        set({ fetching: false });
-        getOrganisationList();
-        clearAll();
-      });
-  },
-  deleteAdminmap: () => {
-    const { clearAll, getOrganisationList, createEditOrganisation } = get();
-    set({ fetching: true, errorOnFetching: false });
+    const newList = createEditOrganisation.mapAdmin.filter(newObj => !createEditOrganisation.adminDatas.some(existingObj => existingObj.id === newObj.id));
+     const orgId = createEditOrganisation.id
     const payload = {
-      
+       organisation_id:orgId,
+       user_profile_id:newList.map((x:any)=>x?.id)
     };
 
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('put', `${envConfig.api_url}/organisations`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/idm/organisation/admin/upsert`, payload, true)
       .then((response) => {
-        enqueueSnackbar('Organisations edited Succesfully!', { variant: 'success' });
+        enqueueSnackbar('New admin mapped Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
@@ -218,16 +201,46 @@ editGetDataOrganisation: (id: string) => {
         set({ fetching: false });
         getOrganisationList();
         clearAll();
+        editGetDataOrganisation(orgId)
+      });
+  },
+  deleteAdminmap: () => {
+    const { clearAll, getOrganisationList, createEditOrganisation ,editGetDataOrganisation } = get();
+     set({ fetching: true, errorOnFetching: false });
+        const missingList = createEditOrganisation.adminDatas.filter(existingObj => !createEditOrganisation.mapAdmin.some(newObj => newObj.id === existingObj.id));
+        const orgId = createEditOrganisation.id
+        console.log('missingList',missingList)
+    // const { RepositoryList } = useRepository();
+    const payload = {
+       organisation_id:orgId,
+       user_profile_id:missingList.map((x:any)=>x?.id)
+    };
+
+    set({ fetching: true, errorOnFetching: false });
+    httpRequest('delete', `${envConfig.api_url}/idm/organisation/admin`, payload, true)
+      .then((response) => {
+        enqueueSnackbar('Admin Unmapped Succesfully!', { variant: 'success' });
+      })
+      .catch((err) => {
+        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+        set({ errorOnFetching: true });
+      })
+      .finally(() => {
+        set({ fetching: false });
+        getOrganisationList();
+        clearAll();
+        editGetDataOrganisation(orgId)
       });
   },
   createServicemap: () => {
+    debugger;
     const { createEditOrganisation,editGetDataOrganisation } = get();
     set({ fetching: true, errorOnFetching: false });
     const newList = createEditOrganisation.mapServices.filter(newObj => !createEditOrganisation.serviceDatas.some(existingObj => existingObj.id === newObj.id));
      const orgId = createEditOrganisation.id
     const payload = {
        organisation_id:orgId,
-       service_id:newList.map((x)=>x?.id)
+       service_id:newList.map((x:any)=>x?.id)
     };
 
     set({ fetching: true, errorOnFetching: false });
@@ -246,6 +259,7 @@ editGetDataOrganisation: (id: string) => {
       });
   },
   deleteServicemap: () => {
+    debugger
     const { clearAll, getOrganisationList, createEditOrganisation ,editGetDataOrganisation } = get();
     set({ fetching: true, errorOnFetching: false });
         const missingList = createEditOrganisation.serviceDatas.filter(existingObj => !createEditOrganisation.mapServices.some(newObj => newObj.id === existingObj.id));
@@ -254,7 +268,7 @@ editGetDataOrganisation: (id: string) => {
     // const { RepositoryList } = useRepository();
     const payload = {
        organisation_id:orgId,
-       service_id:missingList.map((x)=>x?.id)
+       service_id:missingList.map((x:any)=>x?.id)
     };
 
     set({ fetching: true, errorOnFetching: false });

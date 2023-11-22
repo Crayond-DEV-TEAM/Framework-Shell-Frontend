@@ -154,6 +154,12 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
     }
   };
   useEffect(() => {
+    if (createEditUserRoleList.mapAdmin.length > 0) {
+      setFormError(false);
+    } else {
+    }
+  }, [createEditUserRoleList.mapAdmin]);
+  useEffect(() => {
     handleStatus();
   }, [UserList]);
 

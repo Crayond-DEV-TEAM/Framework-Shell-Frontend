@@ -11,20 +11,74 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AddChipDropdown } from '@atoms/addChipDropdown';
 import { AddChipMultipleDropdown } from '@atoms/addChipMultipleDropdown';
 import { useAdminLanding } from '@core/store';
+import { useEffect, useState } from 'react';
 
 export interface AdminSecFormProps {
   className?: string;
   sx?: SxProps<Theme>;
   createEditAdmin?: any;
+  formErrors?: any;
   handlechange?: (key: string, value: string | number) => void;
 }
 
 export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
-  const { className = '', sx = {}, createEditAdmin, handlechange = () => false, ...rest } = props;
+  const { className = '', sx = {}, createEditAdmin, handlechange = () => false,formErrors, ...rest } = props;
 
-  const { ServiceListMaster, UserListMaster, addUserInvite, OrganisationDetails } = useAdminLanding();
+  const { ServiceListMaster, UserListMaster, addUserInvite, OrganisationDetails,userInviteEdit, clearInviteAll } = useAdminLanding();
+
+  const [formError, setFormError] = useState({});
+  const [newformError, setnewFormError] = useState({});
+  console.log(newformError, 'newformError');
 
   console.log(createEditAdmin, 'createEditAdmincreateEditAdmin');
+
+  // form validations
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (userInviteEdit.userName.trim().length === 0) {
+      errors.username = 'User Name is required';
+    }
+    // else if (userInviteEdit.userNameStatus === 200) {
+    //   errors.username = 'User Name already exists';
+    // }
+    if (userInviteEdit.email.trim().length === 0) {
+      errors.email = 'Email is required';
+    }
+    // else if (userInviteEdit.emailStatus === 200) {
+    //   errors.email = 'Email Id already exists';
+    // }
+    setFormError(errors);
+    return Object.keys(errors).length === 0;
+  };
+  const newValidateFn = () => {
+    const errors: Record<string, string> = {};
+
+    if (userInviteEdit.userNameErrorStatus === true) {
+      errors.username = 'User Name already exists';
+    } else {
+      errors.username = '';
+    }
+
+    if (userInviteEdit.emailErrorStatus === true) {
+      errors.email = 'Email Id already exists';
+    } else {
+      errors.email = '';
+    }
+
+    setnewFormError(errors);
+  };
+  const onSaveUserInvite = () => {
+    if (validateForm()) {
+      addUserInvite(OrganisationDetails.id);
+      clearInviteAll();
+    }
+  };
+
+  useEffect(() => {
+    newValidateFn();
+  }, [userInviteEdit]);
+
 
   // useEffect(() => {
   //   getUserList(OrganisationDetails.id);
@@ -57,8 +111,8 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handlechange('projectTitle', e.target.value)
             }
-            // isError={Boolean(formErrors.name)}
-            // errorMessage={formErrors.name}
+            isError={Boolean(formErrors.name)}
+            errorMessage={formErrors.name}
           />
         </Box>
         <Box sx={{ m: '16px' }} />
@@ -79,8 +133,8 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handlechange('description', e.target.value)
             }
-            // isError={Boolean(formErrors.description)}
-            // errorMessage={formErrors.description}
+            isError={Boolean(formErrors.description)}
+            errorMessage={formErrors.description}
           />
         </Box>
         <Box sx={{ m: '16px' }} />
@@ -131,6 +185,9 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
                 createEditAdmin={createEditAdmin}
                 dataList={UserListMaster}
                 handleChange={handlechange}
+                onSaveUserInvite={onSaveUserInvite}
+                formError={formError}
+                newformError={newformError}
               />
             </AccordionDetails>
           </Accordion>

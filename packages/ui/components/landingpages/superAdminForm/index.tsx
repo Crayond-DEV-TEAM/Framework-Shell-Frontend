@@ -12,6 +12,7 @@ import { AddChipMultipleDropdown } from '@atoms/addChipMultipleDropdown';
 import { ToggleButtons } from '@atoms/toggleButton';
 import { useAdminLanding, useUserLanding } from '@core/store';
 import { MapAdminChipDropdown } from '@atoms/mapAdminChipDropdown';
+import { useEffect, useState } from 'react';
 
 export interface SuperAdminFormProps {
   className?: string;
@@ -20,6 +21,7 @@ export interface SuperAdminFormProps {
   createEditOrganisation?: any;
   handleChange?: (key: string, value: any) => void;
   userMaster?: any;
+  formErrors?: any;
 }
 
 export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
@@ -30,13 +32,63 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
     createEditOrganisation,
     ServiceMaster,
     userMaster,
+    formErrors,
     ...rest
   } = props;
-  // const { addUserInvite } = useAdminLanding();
 
-  // const onSaveUserInvite = () => {
-  //   addUserInvite();
-  // };
+  const { addUserInvite, userInviteEdit, clearInviteAll } = useAdminLanding();
+  const [formError, setFormError] = useState({});
+  const [newformError, setnewFormError] = useState({ username: '', email: '' });
+  console.log(newformError, 'newformError');
+
+  // form validations
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (userInviteEdit.userName.trim().length === 0) {
+      errors.username = 'User Name is required';
+    }
+    // else if (userInviteEdit.userNameStatus === 200) {
+    //   errors.username = 'User Name already exists';
+    // }
+    if (userInviteEdit.email.trim().length === 0) {
+      errors.email = 'Email is required';
+    }
+    // else if (userInviteEdit.emailStatus === 200) {
+    //   errors.email = 'Email Id already exists';
+    // }
+    setFormError(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const newValidateFn = () => {
+    const errors: Record<string, string> = {};
+    if (userInviteEdit.userNameStatus != 200) {
+      errors.username = 'User Name already exists';
+    } else {
+      errors.username = '';
+    }
+
+    if (userInviteEdit.emailErrorStatus === 500) {
+      errors.email = 'Email Id already exists';
+    } else {
+      errors.email = '';
+    }
+
+    setnewFormError(errors);
+  };
+  console.log(userInviteEdit.userNameStatus, 'userInviteEdit.userNameStatus');
+
+  const onSaveUserInvite = () => {
+    if (validateForm()) {
+      addUserInvite('');
+      clearInviteAll();
+    }
+  };
+
+  useEffect(() => {
+    newValidateFn();
+  }, [userInviteEdit.userNameStatus, userInviteEdit.emailStatus]);
 
   return (
     <Box
@@ -64,8 +116,8 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('organisationName', e.target.value)
             }
-            // isError={Boolean(formErrors.name)}
-            // errorMessage={formErrors.name}
+            isError={Boolean(formErrors.name)}
+            errorMessage={formErrors.name}
           />
         </Box>
         <Box sx={{ m: '16px' }} />
@@ -86,8 +138,8 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('description', e.target.value)
             }
-            // isError={Boolean(formErrors.description)}
-            // errorMessage={formErrors.description}
+            isError={Boolean(formErrors.description)}
+            errorMessage={formErrors.description}
           />
         </Box>
         <Box sx={{ m: '16px' }} />
@@ -105,8 +157,8 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handleChange('email_id', e.target.value)
             }
-            // isError={Boolean(formErrors.name)}
-            // errorMessage={formErrors.name}
+            isError={Boolean(formErrors.email_id)}
+            errorMessage={formErrors.email_id}
           />
         </Box>
         <Box sx={{ m: '16px' }} />

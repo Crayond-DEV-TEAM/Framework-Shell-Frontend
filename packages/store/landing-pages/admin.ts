@@ -33,6 +33,8 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     email: '',
     userNameStatus: 0,
     emailStatus: 0,
+    userNameErrorStatus: false,
+    emailErrorStatus: false
   },
   OrganisationDetails: {
     id: '',
@@ -513,8 +515,14 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
           const value = response.status;
           seteditUserInviteDetails({ key, value });
         }
+        const key = 'userNameErrorStatus';
+        const value = false;
+        seteditUserInviteDetails({ key, value });
       })
       .catch((err) => {
+        const key = 'userNameErrorStatus';
+        const value = false;
+        seteditUserInviteDetails({ key, value });
         set({ errorOnFetching: true });
         enqueueSnackbar(err.response.data.message, { variant: 'error' });
       })

@@ -13,8 +13,6 @@ import { TableHeader } from '@components/commonComponents';
 import { useNavigate } from 'react-router-dom';
 import { webRoutes } from '@core/routes';
 import { localStorageKeys } from '@core/utils';
-// import { AddChipDropdown } from '@atoms/addChipDropdown';
-// import { AddChipMultipleDropdown } from '@atoms/addChipMultipleDropdown';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { MappedUserCard } from '@atoms/mappedUserCard';
 import { CustomSwitches } from '@atoms/customSwitches';
@@ -23,16 +21,17 @@ export interface AdminSectionProps {
   sx?: SxProps<Theme>;
 }
 
-interface CustomSwitchProps {
-  checked?: boolean;
-  onChange?: (checked: boolean) => void;
-}
+const CustomSwitch = (checked: any, onChange: any) => {
+  return (
+    <Box sx={adminSectionStyle.customSwitch}>
+      <CustomSwitches label="" value={checked} onClick={onChange} />
+      <Typography sx={adminSectionStyle.customSwitchStatus}>{checked === true ? 'Active' : 'In-Active'}</Typography>
+    </Box>
+  );
+};
 
 export const AdminSection = (props: AdminSectionProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
-  const CustomSwitch: React.FC<CustomSwitchProps> = ({ checked, onChange }) => {
-    return <CustomSwitches label="" value={checked} onClick={onChange} />;
-  };
   const {
     getOrganisationMaster,
     OrganisationListMaster,
@@ -80,7 +79,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
         }
       };
       const customObj = {
-        is_active: <CustomSwitch onChange={(checked) => handleSwitch(v.id, v, checked)} checked={v.is_active} />,
+        is_active: <CustomSwitch onChange={(checked: any) => handleSwitch(v.id, v, checked)} checked={v.is_active} />,
       };
 
       return {

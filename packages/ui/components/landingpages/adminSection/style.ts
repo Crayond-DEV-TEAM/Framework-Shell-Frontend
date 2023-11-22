@@ -46,4 +46,13 @@ export const adminSectionStyle: AdminSectionStyleProps = {
       // backgroundColor: 'red',
     },
   },
+  customSwitch:{
+    display:'flex',
+    gap:'6px',
+    alignItems:'center'
+  },
+  customSwitchStatus:{
+    fontSize:'14px',
+
+  }
 };

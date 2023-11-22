@@ -176,62 +176,73 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
-      <Box sx={userSectionStyle.commonTable}>
-        <CommonTable
-          Header={Header}
-          dataList={filteredMessageGroup}
-          tableData={tableData(handleTableEdit, handleTableDelete)}
-          switchList={switchList}
-          handleSwitch={handleSwitch}
-          headerOptions={{
-            fontSize: '14px',
-            fontWeight: '500',
-            color: '#818181',
-            bgColor: '#EAEAEA',
-            borderBottom: '0px',
-            width: '100%',
-            padding: '6px 16px 6px 7px',
-          }}
-          cellOptions={{
-            fontSize: '14px',
-            fontWeight: '500',
-            color: '#5A5A5A',
-            borderBottom: '0px',
-            // padding: '8px',
-            padding: '3px 0px 3px 7px',
-          }}
-          rowOptions={{
-            rowOddBgColor: '#fff',
-            rowEvenBgColor: '#F7F7F7',
-          }}
-          tableMinWidth={'80px'}
-          stickyOptions={{
-            stickyHeader: true,
-            stickyLeft: [],
-            stickyRight: [],
-          }}
-          tableMinHeight={'calc(100vh - 308px)'}
-          tableMaxHeight={'calc(100vh - 308px)'}
-          paddingAll={'0px'}
-          marginAll={'0px 0px 0px'}
-          dense={'small'}
-          HeaderComponent={{
-            variant: 'CUSTOM',
-            component: (
-              <TableHeader
-                // onApply={false}
-                isFilterRequired={false}
-                buttonName={'Add User'}
-                tableHeader={'Users'}
-                setSearchTerm={setSearchTerm}
-                searchTerm={searchTerm}
-                isBtnRequired={true}
-                handleOpen={handleDrawerOpen}
-              />
-            ),
-          }}
-        />
-      </Box>
+      <IdmBackgroundCard
+        title="Organisation"
+        subTitle="Projects"
+        content={
+          <Box sx={userSectionStyle.commonTable}>
+            <CommonTable
+              Header={Header}
+              dataList={ProjectList}
+              tableData={tableData(handleTabledetail)}
+              // switchList={switchList}
+              // handleSwitch={handleSwitch}
+              headerOptions={{
+                fontSize: '14px',
+                fontWeight: '500',
+                color: '#818181',
+                bgColor: '#EAEAEA',
+                borderBottom: '0px',
+                width: '100%',
+                padding: '6px 16px 6px 7px',
+              }}
+              cellOptions={{
+                fontSize: '14px',
+                fontWeight: '500',
+                color: '#5A5A5A',
+                borderBottom: '0px',
+                // padding: '8px',
+                padding: '3px 0px 3px 7px',
+              }}
+              rowOptions={{
+                rowOddBgColor: '#fff',
+                rowEvenBgColor: '#F7F7F7',
+              }}
+              tableMinWidth={'80px'}
+              stickyOptions={{
+                stickyHeader: true,
+                stickyLeft: [],
+                stickyRight: [],
+              }}
+              tableMinHeight={'calc(100vh - 308px)'}
+              tableMaxHeight={'calc(100vh - 308px)'}
+              paddingAll={'0px'}
+              marginAll={'0px 0px 0px'}
+              dense={'small'}
+              paginationOption={{
+                isEnable: true,
+                rowPerPage: 10,
+                rowsPerPageOptions: [5, 10, 25],
+              }}
+              HeaderComponent={{
+                variant: 'CUSTOM',
+                component: (
+                  <TableHeader
+                    isFilterRequired={false}
+                    // buttonName={'Projects'}
+                    tableHeader={'Projects'}
+                    setSearchTerm={setSearchTerm}
+                    searchTerm={searchTerm}
+                    isBtnRequired={false}
+                    // handleOpen={handleOpen}
+                    // editTableMessage={addRole}
+                  />
+                ),
+              }}
+            />
+          </Box>
+        }
+      />
       <Drawer
         show={open}
         onCloseDrawer={handleDrawerClose}

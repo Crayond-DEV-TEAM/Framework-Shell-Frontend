@@ -176,7 +176,7 @@ export const FeatureGroups = (props: FeatureGroupsProps): JSX.Element => {
         setSearchTerm={setSearchTerm}
         searchTerm={searchTerm}
         handleOpen={addhandle}
-        // editTableMessage={addRole}
+      // editTableMessage={addRole}
       />
       <Box sx={{ margin: '17px' }} />
       <Box sx={featureGroupsStyle.commonTable}>
@@ -218,6 +218,11 @@ export const FeatureGroups = (props: FeatureGroupsProps): JSX.Element => {
           paddingAll={'0px'}
           marginAll={'0px 0px 0px'}
           dense={'small'}
+          paginationOption={{
+            isEnable: true,
+            rowPerPage: 10,
+            rowsPerPageOptions: [5, 10, 25]
+          }}
         />
       </Box>
       <DialogDrawer

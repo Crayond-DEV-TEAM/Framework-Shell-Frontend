@@ -258,6 +258,11 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
               paddingAll={'0px'}
               marginAll={'0px'}
               dense={'small'}
+              paginationOption={{
+                isEnable: true,
+                rowPerPage: 10,
+                rowsPerPageOptions: [5, 10, 25]
+              }}
               HeaderComponent={{
                 variant: 'CUSTOM',
                 component: (

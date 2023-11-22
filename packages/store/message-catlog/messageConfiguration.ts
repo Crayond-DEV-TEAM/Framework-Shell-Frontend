@@ -25,7 +25,6 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
   deleteMessageError: false,
 
   setaddMessage: (payload: { key: string; value: string }) => {
-    debugger
     const { addMessage } = get()
     const error = addMessage?.error
     error[payload.key] = ''
@@ -35,7 +34,6 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
   },
 
   seteditMessage: (payload: { key: string; value: string }) => {
-    debugger
     const { editMessageList } = get()
     const error = editMessageList?.error
     error[payload.key] = ''
@@ -147,7 +145,6 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
   // editMessageListGroups
   editMessageListGroups: (payload: any) => {
     const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
-    debugger
     const { editMessageList } = get();
 
     set({ editMessageLoading: true, errorOnFetching: false });

@@ -82,7 +82,6 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
   };
 
   const validate = (state: string) => {
-    debugger;
     const error = [state]?.error;
     let isValid = true;
     if (!state[title]) {
@@ -149,7 +148,10 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
       const init = messageGroup[0];
       setList(init.id);
       setSelected(0);
-      setTableName(init?.title);
+      setTableName({
+        name: init.title,
+        refId: init.ref_id,
+      });
       setGroupId(init?.id);
       getAllMessages(init?.id as string);
     }

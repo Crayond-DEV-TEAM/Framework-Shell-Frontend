@@ -37,7 +37,7 @@ export const LoginLayout = forwardRef((props: LoginLayoutProps): JSX.Element => 
           //  window.location.href = '/superAdmin';
           console.log('super admin');
         } else {
-          navigate(webRoutes.admin)
+          // navigate(webRoutes.admin)
           // window.location.href = '/admin';
         }
       // navigate(webRoutes.ad);

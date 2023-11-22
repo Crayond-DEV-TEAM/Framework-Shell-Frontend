@@ -808,6 +808,7 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
                 handleDrawerClose('charges');
               }}
               sx={createPlanStyle.saveButton}
+              disabled={charges && charges?.length < 0 && true}
             >
               Save
             </Button>
@@ -815,6 +816,7 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
         }
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          {charges && charges?.length > 0 ?
           <GroupCheckBox
             checklist={charges}
             checked={optionscharges.map((charge: any) => {
@@ -822,6 +824,9 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
             })}
             handleChange={(value) => handleChargeSelected(value)}
           />
+          :
+          <Typography sx={createPlanStyle.noDataFOund}>No Charges</Typography>
+}
         </Box>
       </Drawer>
 
@@ -870,6 +875,7 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
                 handleDrawerClose('add_ons');
               }}
               sx={createPlanStyle.saveButton}
+              disabled={addons && addons?.length < 0 && true}
             >
               Save
             </Button>
@@ -877,6 +883,7 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
         }
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          {addons && addons?.length > 0 ?
           <GroupCheckBox
             checklist={addons}
             checked={optionsaddons.map((feature: any) => {
@@ -884,6 +891,10 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
             })}
             handleChange={(value) => handleAddOnSelected(value)}
           />
+          :
+          <Typography sx={createPlanStyle.noDataFOund}>No Add-Ons</Typography>
+}
+
         </Box>
       </Drawer>
 
@@ -930,6 +941,7 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
                 handleDrawerClose('featureGroup');
               }}
               sx={createPlanStyle.saveButton}
+              disabled={featureList && featureList?.length < 0 && true}
             >
               Save
             </Button>
@@ -937,6 +949,7 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
         }
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          {featureList && featureList?.length > 0 ?
           <GroupCheckBox
             checklist={featureList}
             checked={optionsfeatureList.map((feature: any) => {
@@ -944,6 +957,9 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
             })}
             handleChange={(value) => handleSelected(value)}
           />
+          :
+          <Typography sx={createPlanStyle.noDataFOund}>No Feature Group</Typography>
+}
         </Box>
       </Drawer>
 
@@ -992,13 +1008,17 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
                 handleDrawerClose('feature');
               }}
               sx={createPlanStyle.saveButton}
+              disabled={ungroupedFeatureList && ungroupedFeatureList?.length < 0 && true}
             >
               Save
             </Button>
           </Box>
         }
       >
-        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', }}>
+          {ungroupedFeatureList && ungroupedFeatureList?.length > 0 ? 
+          
           <GroupCheckBox
             checklist={ungroupedFeatureList}
             checked={optionsungroupedFeatureList.map((feature: any) => {
@@ -1006,6 +1026,9 @@ export const CreatePlan = (props: CreatePlanProps): JSX.Element => {
             })}
             handleChange={(value) => handleUnGroupFeatureSelected(value)}
           />
+          :
+          <Typography sx={createPlanStyle.noDataFOund}>No Feature Found</Typography>
+}
         </Box>
       </Drawer>
     </Box>

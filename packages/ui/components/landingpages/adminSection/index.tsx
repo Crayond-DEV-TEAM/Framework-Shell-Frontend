@@ -60,9 +60,10 @@ const navigate = useNavigate();
 // );
 
 const CustomSwitch: React.FC<CustomSwitchProps> = ({ checked, onChange }) => {
-
-
-return <Switch checked={checked} onClick={onChange} />;
+return <Box sx={adminSectionStyle.customSwitch}>
+    <Switch checked={checked} onClick={onChange} />
+    <Typography sx={adminSectionStyle.customSwitchStatus}>{checked === true ? 'Active' : 'In-Active'}</Typography>
+    </Box>;
 };
 
 
@@ -71,7 +72,6 @@ const filteredMessageGroup = adminList
 .map((v) => {
 
 const handleSwitch = (id: any, data: any, e: any) => {
-console.log(e, 'eeee');
 e.stopPropagation();
 e.preventDefault();
 if (!switchList.includes(id)) {
@@ -173,26 +173,6 @@ createAdmin();
 }
 setOpen(false);
 clearAll();
-};
-const handleSwitch = (id: any, data: any, e: any) => {
-e.stopPropagation();
-e.preventDefault();
-if (!switchList.includes(id)) {
-setSwitchList([...switchList, id]);
-} else {
-const index = switchList.indexOf(id);
-if (index > -1) {
-switchList.splice(index, 1);
-setSwitchList([...switchList]);
-}
-}
-if (e.target.checked === true) {
-getStatusList(id, true);
-} else {
-getStatusList(id, false);
-
-}
-
 };
 const handleStatus = () => {
 if (adminList?.length > 0) {

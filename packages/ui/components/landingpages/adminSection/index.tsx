@@ -13,6 +13,8 @@ import { TableHeader } from '@components/commonComponents';
 import { useNavigate } from 'react-router-dom';
 import { webRoutes } from '@core/routes';
 import { localStorageKeys } from '@core/utils';
+// import { AddChipDropdown } from '@atoms/addChipDropdown';
+// import { AddChipMultipleDropdown } from '@atoms/addChipMultipleDropdown';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { MappedUserCard } from '@atoms/mappedUserCard';
 import { CustomSwitches } from '@atoms/customSwitches';
@@ -21,7 +23,8 @@ export interface AdminSectionProps {
   sx?: SxProps<Theme>;
 }
 
-const CustomSwitch = (checked: any, onChange: any) => {
+
+const CustomSwitch = ({ checked, onChange }) => {
   return (
     <Box sx={adminSectionStyle.customSwitch}>
       <CustomSwitches label="" value={checked} onClick={onChange} />
@@ -79,7 +82,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
         }
       };
       const customObj = {
-        is_active: <CustomSwitch onChange={(checked: any) => handleSwitch(v.id, v, checked)} checked={v.is_active} />,
+        is_active: <CustomSwitch onChange={(checked) => handleSwitch(v.id, v, checked)} checked={v.is_active} />,
       };
 
       return {

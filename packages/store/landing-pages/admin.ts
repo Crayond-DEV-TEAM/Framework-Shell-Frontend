@@ -21,12 +21,10 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     projectTitle: '',
     description: '',
     mapServices: [],
-    mapAdmin: {
-      id: '',
-      name: '',
-      access: '',
-    },
+    mapAdmin: [],
     is_active: true,
+    adminDatas:[],
+    Servicedatas:[],
     id: '',
   },
   userInviteEdit: {
@@ -257,6 +255,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     };
     httpRequest('post', `${envConfig.api_url}/idm/organisation/users`, payload, true)
       .then((response) => {
+        debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
@@ -305,6 +304,8 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
           mapAdmin: responseData.project_user_mappings,
           is_active: responseData.is_active,
           id: responseData.id,
+          Servicedatas:[...Servicemap],
+          adminDatas:[...responseData.project_user_mappings]
         };
         set((state) => ({ createEditAdmin: { ...editData } }));
       })
@@ -317,27 +318,17 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       });
   },
   createServiceMap: () => {
-    const { OrganisationDetails } = get();
+    const { OrganisationDetails , getAllProjectsEditData ,createEditAdmin } = get();
     set({ fetching: true, errorOnFetching: false });
+    const newList = createEditAdmin.mapServices.filter(newObj => !createEditAdmin.Servicedatas.some(existingObj => existingObj.id === newObj.id));
 
     const payload = {
-      organisation_id: OrganisationDetails.id,
-    };
-    httpRequest('post', `${envConfig.api_url}/idm/organisation/users`, payload, true)
+    project_id: createEditAdmin.id,
+    service_id: newList.map((x:any)=>x?.id)
+}
+    httpRequest('post', `${envConfig.api_url}/idm/project/service/upsert`, payload, true)
       .then((response) => {
-        const dataTable: any = [];
-        if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
-          response.data.data.rows.map(
-            (tableData: any, i: any) =>
-              dataTable.push({
-                id: tableData.id,
-                name: tableData.name,
-              }),
-            set({ UserListMaster: dataTable }),
-          );
-        } else {
-          set({ UserListMaster: [] });
-        }
+        enqueueSnackbar('New Service mapped Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -345,30 +336,20 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
+        getAllProjectsEditData(createEditAdmin.id)
       });
   },
   editServiceMap: () => {
-    const { OrganisationDetails } = get();
+    const { OrganisationDetails,createEditAdmin,getAllProjectsEditData } = get();
     set({ fetching: true, errorOnFetching: false });
-
+   const missingList = createEditAdmin.Servicedatas.filter(existingObj => !createEditAdmin.mapServices.some(newObj => newObj.id === existingObj.id));
     const payload = {
-      organisation_id: OrganisationDetails.id,
-    };
-    httpRequest('post', `${envConfig.api_url}/idm/organisation/users`, payload, true)
+    project_id: createEditAdmin.id,
+    service_id: missingList.map((x:any)=>x?.id)
+}
+    httpRequest('delete', `${envConfig.api_url}/idm/project/service`, payload, true)
       .then((response) => {
-        const dataTable: any = [];
-        if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
-          response.data.data.rows.map(
-            (tableData: any, i: any) =>
-              dataTable.push({
-                id: tableData.id,
-                name: tableData.name,
-              }),
-            set({ UserListMaster: dataTable }),
-          );
-        } else {
-          set({ UserListMaster: [] });
-        }
+      enqueueSnackbar('Service unmapped Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -376,30 +357,20 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
+        getAllProjectsEditData(createEditAdmin.id)
       });
   },
   createUserMap: () => {
-    const { OrganisationDetails } = get();
+    const { OrganisationDetails , getAllProjectsEditData , createEditAdmin } = get();
     set({ fetching: true, errorOnFetching: false });
-
+    const newList = createEditAdmin.mapAdmin.filter(newObj => !createEditAdmin.adminDatas.some(existingObj => existingObj.id === newObj.id));
     const payload = {
-      organisation_id: OrganisationDetails.id,
+      project_id: createEditAdmin.id,
+      user_profile_id: newList.map((x:any)=>x?.id)
     };
-    httpRequest('post', `${envConfig.api_url}/idm/organisation/users`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/idm/project/user/upsert`, payload, true)
       .then((response) => {
-        const dataTable: any = [];
-        if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
-          response.data.data.rows.map(
-            (tableData: any, i: any) =>
-              dataTable.push({
-                id: tableData.id,
-                name: tableData.name,
-              }),
-            set({ UserListMaster: dataTable }),
-          );
-        } else {
-          set({ UserListMaster: [] });
-        }
+        enqueueSnackbar('New user mapped Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -407,30 +378,20 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
+        getAllProjectsEditData(createEditAdmin.id)
       });
   },
   editUserMap: () => {
-    const { OrganisationDetails } = get();
+      const { OrganisationDetails,createEditAdmin,getAllProjectsEditData } = get();
     set({ fetching: true, errorOnFetching: false });
-
+   const missingList = createEditAdmin.adminDatas.filter(existingObj => !createEditAdmin.mapAdmin.some(newObj => newObj.id === existingObj.id));
     const payload = {
-      organisation_id: OrganisationDetails.id,
-    };
-    httpRequest('post', `${envConfig.api_url}/idm/organisation/users`, payload, true)
+    project_id: createEditAdmin.id,
+    user_profile_id: missingList.map((x:any)=>x?.id)
+}
+    httpRequest('delete', `${envConfig.api_url}/idm/project/user`, payload, true)
       .then((response) => {
-        const dataTable: any = [];
-        if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
-          response.data.data.rows.map(
-            (tableData: any, i: any) =>
-              dataTable.push({
-                id: tableData.id,
-                name: tableData.name,
-              }),
-            set({ UserListMaster: dataTable }),
-          );
-        } else {
-          set({ UserListMaster: [] });
-        }
+      enqueueSnackbar('User unmapped Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -438,6 +399,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
+        getAllProjectsEditData(createEditAdmin.id)
       });
   },
 
@@ -543,14 +505,16 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
 
   clearAll: () => {
     set({
-      createEditAdmin: {
-        projectTitle: '',
-        description: '',
-        mapServices: [],
-        mapAdmin: [],
-        is_active: true,
-        id: '',
-      },
+       createEditAdmin: {
+    projectTitle: '',
+    description: '',
+    mapServices: [],
+    mapAdmin: [],
+    is_active: true,
+    adminDatas:[],
+    Servicedatas:[],
+    id: '',
+  },
     });
   },
 }));

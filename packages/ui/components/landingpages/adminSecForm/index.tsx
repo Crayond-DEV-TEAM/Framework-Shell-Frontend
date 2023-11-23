@@ -114,6 +114,7 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
                 permissionList={ServiceListMaster}
                 onChange={handlechange}
                 createEditState={createEditAdmin.mapServices}
+                admin={true}
               />
             </AccordionDetails>
           </Accordion>
@@ -133,7 +134,7 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
             </AccordionSummary>
             <AccordionDetails sx={{ padding: '0px' }}>
               <AddChipMultipleDropdown
-                createEditAdmin={createEditAdmin}
+                createEditAdmin={createEditAdmin.mapAdmin}
                 dataList={UserListMaster}
                 handleChange={handlechange}
                 accessMaster={accessMaster}

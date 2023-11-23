@@ -14,11 +14,14 @@ export interface AddChipDropdownProps {
   createEditState: any;
   onChange: () => void;
   sx?: SxProps<Theme>;
+  admin?: boolean;
 }
 
 export const AddChipDropdown: React.FC<AddChipDropdownProps> = (props) => {
-  const { className = '', permissionList = [], createEditState, onChange, sx = {} } = props;
+  const { className = '', permissionList = [], createEditState, onChange, admin = false, sx = {} } = props;
   const { deleteServicemap, createServicemap, createEditOrganisation, getAllUserList } = useSuperAdminLanding();
+
+  const { createEditAdmin, createServiceMap, editServiceMap } = useAdminLanding();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -42,13 +45,20 @@ export const AddChipDropdown: React.FC<AddChipDropdownProps> = (props) => {
       const isSelected = values.filter((v) => v?.id !== option?.id);
       setValues(isSelected);
       onChange('mapServices', isSelected);
-      createEditOrganisation.id ? deleteServicemap() : '';
+      if (admin) {
+        createEditAdmin.id ? editServiceMap() : '';
+      } else {
+        createEditOrganisation.id ? deleteServicemap() : '';
+      }
     } else {
       values.push(option);
       setValues(values);
       onChange('mapServices', values);
-      createEditOrganisation.id ? createServicemap() : '';
-      // createServicemap();
+      if (admin) {
+        createEditAdmin.id ? createServiceMap() : '';
+      } else {
+        createEditOrganisation.id ? createServicemap() : '';
+      }
     }
   };
   console.log(permissionList, 'permissionListpermissionListpermissionList');

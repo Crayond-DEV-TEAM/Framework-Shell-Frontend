@@ -132,12 +132,10 @@ export const MapAdminChipDropdown = (props: MapAdminChipDropdownProps): JSX.Elem
     }
   }, [userInviteEdit.email]);
 
-  console.log(dataList, ' datalist datalist');
 
   useEffect(() => {
     onSetChange();
   }, [selectedOptions]);
-  // console.log('createEditAdmincreateEditAdmincreateEditAdmin', createEditAdmin);
 
   return (
     <Box

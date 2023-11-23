@@ -2,7 +2,7 @@ import type { SxProps, Theme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Header, tableData, tableJson } from './utills';
 import { planSubscriptionRoutes } from '@core/routes';
-import { usePlans } from '@core/store';
+import { usePlans, useSlug } from '@core/store';
 import { DeleteComponent, TableHeader } from '@components/commonComponents';
 import { Box, CircularProgress } from '@mui/material';
 import { Table as CommonTable } from '@crayond_dev/ui_table';
@@ -34,10 +34,13 @@ export const Plans = (props: PlansProps): JSX.Element => {
     editPlanStatus,
     clearAll,
   } = usePlans();
+  const { slugs } = useSlug();
   const [del, setDel] = useState(false);
   const [delid, setDelId] = useState('');
 
-  const filteredMessageGroup = PlanList?.filter((x: any) => x?.plan?.toLowerCase()?.includes(searchTerm?.toLowerCase()));
+  const filteredMessageGroup = PlanList?.filter(
+    (x: any) => x?.plan?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
+  );
 
   const handleTableEdit = (id: any, data: any, e: any) => {
     const temp_group: any = [];
@@ -168,8 +171,10 @@ export const Plans = (props: PlansProps): JSX.Element => {
   };
 
   useEffect(() => {
-    getPlansList({ offset: 0, limit: 100 });
-  }, []);
+    if (slugs?.PASM) {
+      getPlansList({ offset: 0, limit: 100 });
+    }
+  }, [slugs?.PASM]);
 
   useEffect(() => {
     handleStatus();

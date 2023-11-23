@@ -10,7 +10,7 @@ import { AddIcon } from '@atoms/icons';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState, useEffect } from 'react';
 import { Input } from '@atoms/input';
-import { usePermission, useRepository } from '@core/store';
+import { usePermission, useRepository, useSlug } from '@core/store';
 import { enqueueSnackbar } from 'notistack';
 
 export interface AddPermissionProps {
@@ -48,6 +48,7 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
     fetchingPermission,
     clearAll,
   } = usePermission();
+
   const { RepositoryList } = useRepository();
 
   const [editRole, setEditRole] = useState(false);

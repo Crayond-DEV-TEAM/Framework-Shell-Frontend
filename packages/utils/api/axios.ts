@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse, Method } from 'axios';
 import { enqueueSnackbar } from 'notistack';
 
 import { localStorageKeys } from '../constants';
@@ -12,9 +12,9 @@ interface ConfigOptions {
 }
 
 type HttpRequestProps = (
-  method: AxiosRequestConfig['method'],
-  url: AxiosRequestConfig['url'],
-  data?: AxiosRequestConfig['data'],
+  method: Method,
+  url: string,
+  data?: any,
   includeToken?: boolean,
   apiToken?: string,
   config?: ConfigOptions,
@@ -30,7 +30,7 @@ type HttpRequestProps = (
  */
 
 
-export const httpRequest = async (method = 'get', url, data = null, includeToken, apiToken, config) => {
+export const httpRequest: HttpRequestProps = async (method = 'get', url, data = null, includeToken, apiToken, config) => {
   const headers = {
     ...(includeToken &&
       envConfig.client_environment !== 'external' && {

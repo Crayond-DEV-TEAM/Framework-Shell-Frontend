@@ -11,7 +11,7 @@ import { TableHeader } from '@components/commonComponents';
 import { useProfileUserLanding, useSuperAdminLanding } from '@core/store';
 import { FooterComponent } from '@atoms/footerComponent';
 import { TooltipComp } from '@components';
-
+import './customStyles.css';
 
 export interface SuperAdminProps {
   className?: string;
@@ -46,11 +46,9 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
   ).map((e) => {
     return {
       ...e,
-      description: <TooltipComp
-        value={e?.description}
-      />
-    }
-  })
+      description: <TooltipComp value={e?.description} />,
+    };
+  });
 
   const handleTableEdit = (id: string, data: any, e: any) => {
     editGetDataOrganisation(id);
@@ -62,6 +60,7 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
     // console.log('');
   };
   const handleChange = (key: string, value: any) => {
+    debugger;
     seteditOrganisation({ key, value });
   };
 
@@ -109,8 +108,6 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
   useEffect(() => {
     handleStatus();
   }, [OrganisationList]);
-
-  console.log('paravaye engu', createEditOrganisation)
   return (
     <Box
       sx={[
@@ -134,9 +131,9 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
             fontWeight: '500',
             color: '#818181',
             bgColor: '#EAEAEA',
-            borderBottom: '0px',
+            borderBottom: '5px',
             // width: '100%',
-            padding: '6px 16px 6px 7px',
+            padding: '11px 16px 12px 29px',
           }}
           cellOptions={{
             fontSize: '14px',
@@ -144,7 +141,7 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
             color: '#5A5A5A',
             borderBottom: '0px',
             // padding: '8px',
-            padding: '3px 0px 3px 7px',
+            padding: '3px 16px 3px 29px',
           }}
           rowOptions={{
             rowOddBgColor: '#fff',
@@ -164,7 +161,7 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
           paginationOption={{
             isEnable: true,
             rowPerPage: 10,
-            rowsPerPageOptions: [5, 10, 25]
+            rowsPerPageOptions: [5, 10, 25],
           }}
           HeaderComponent={{
             variant: 'CUSTOM',
@@ -177,7 +174,7 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
                 searchTerm={searchTerm}
                 isBtnRequired={true}
                 handleOpen={handleDrawerOpen}
-              // editTableMessage={addRole}
+                // editTableMessage={addRole}
               />
             ),
           }}

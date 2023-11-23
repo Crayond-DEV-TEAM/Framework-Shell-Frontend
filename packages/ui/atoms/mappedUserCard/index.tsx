@@ -9,13 +9,17 @@ export interface MappedUserCardProps {
   sx?: SxProps<Theme>;
   altText?: any;
   dataMaster?: any;
+  accessSection?: boolean;
 }
 
 export const MappedUserCard = (props: MappedUserCardProps): JSX.Element => {
-  const { className = '', sx = {}, altText, dataMaster, ...rest } = props;
+  const { className = '', sx = {}, altText, dataMaster, accessSection = true, ...rest } = props;
+
+  // cons
 
   // const { createEditAdmin } = useAdminLanding();
-  // const dataMaster = createEditAdmin.mapAdmin;
+  // const dataList = dataMaster;
+
   return (
     <Box
       sx={[
@@ -34,7 +38,7 @@ export const MappedUserCard = (props: MappedUserCardProps): JSX.Element => {
               <Avatar sx={mappedUserCardStyle.avatar} alt={x?.name} src="/broken-image.jpg" />
               <Typography sx={mappedUserCardStyle.title}>{x?.name}</Typography>
             </Box>
-            <Typography sx={{ fontSize: '12px', color: '#818181' }}>{x?.access}</Typography>
+            {accessSection && <Typography sx={{ fontSize: '12px', color: '#818181' }}>{x?.access.name}</Typography>}
           </Box>
         ))}
     </Box>

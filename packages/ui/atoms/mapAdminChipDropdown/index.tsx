@@ -36,10 +36,20 @@ export const MapAdminChipDropdown = (props: MapAdminChipDropdownProps): JSX.Elem
     ...rest
   } = props;
 
+  const roleOption = [
+    {
+      id: '4819fbb0-9dc3-4bbf-bf01-23b29ce2d198',
+      name: 'TOOLKIT-ADMIN',
+    },
+    {
+      id: '38667c3d-7cdc-48f8-9848-9b557a130728',
+      name: 'TOOLKIT-USER',
+    },
+  ];
+
   const { userInviteEdit, userNameChecker, emailChecker, seteditUserInviteDetails, addUserInvite } = useAdminLanding();
 
-  const { getAllUserList } = useSuperAdminLanding();
-  console.log('createEditAdmincreateEditAdmincreateEditAdmincreateEditAdmin', createEditAdmin);
+  const { getAllUserList , createAdminmap,deleteAdminmap,createEditOrganisation } = useSuperAdminLanding();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -70,10 +80,16 @@ export const MapAdminChipDropdown = (props: MapAdminChipDropdownProps): JSX.Elem
   console.log('valuesvaluesvaluesvalues', values);
 
   const onSaveUserInvite = () => {
-    addUserInvite();
+    // addUserInvite({
+    // // addUserInvite();
+    //   getAllUserList();
+    // });
+    addUserInvite(() => {
+      getAllUserList();
+    });
+
     handleCloseUserInvite();
     setAnchorEl(null);
-    getAllUserList();
   };
 
   const handleOptionToggle = (option: any) => {
@@ -81,11 +97,14 @@ export const MapAdminChipDropdown = (props: MapAdminChipDropdownProps): JSX.Elem
     if (isSelected?.id) {
       const isSelected = values.filter((v: any) => v?.id !== option?.id);
       setValues(isSelected);
+      handleChange('mapAdmin', isSelected);
+      createEditOrganisation.id ? deleteAdminmap() : '';
     } else {
       values.push(option);
       setValues(values);
+      handleChange('mapAdmin', values);
+      createEditOrganisation.id ? createAdminmap() : '';
     }
-    handleChange('mapAdmin', values);
   };
   useEffect(() => {
     if (createEditAdmin?.length > 0) setValues(createEditAdmin);
@@ -111,6 +130,8 @@ export const MapAdminChipDropdown = (props: MapAdminChipDropdownProps): JSX.Elem
       return () => clearTimeout(getemailCheck);
     }
   }, [userInviteEdit.email]);
+
+  console.log(dataList, ' datalist datalist');
 
   useEffect(() => {
     onSetChange();
@@ -144,6 +165,7 @@ export const MapAdminChipDropdown = (props: MapAdminChipDropdownProps): JSX.Elem
         >
           {dataList.map((data) => {
             const isSelected = values?.filter((v: any) => v?.id === data?.id);
+            // debugger;
             return (
               <MenuItem
                 sx={{
@@ -188,7 +210,7 @@ export const MapAdminChipDropdown = (props: MapAdminChipDropdownProps): JSX.Elem
             <Typography style={{ color: '#357968', fontSize: '14px', fontWeight: 600 }}>Invite User</Typography>
           </MenuItem>
         </Menu>
-        <MappedUserCard dataMaster={createEditAdmin} />
+        <MappedUserCard dataMaster={createEditAdmin} accessSection={false} />
         <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', marginTop: '10px' }} onClick={handleClick}>
           <GreenCloseCircleIcon
             rootStyle={{
@@ -238,6 +260,22 @@ export const MapAdminChipDropdown = (props: MapAdminChipDropdownProps): JSX.Elem
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
                   handleChangeUserInvite('email', e.target.value)
                 }
+              />
+            </Box>
+            <Box sx={{ m: '16px' }} />
+            <Box sx={mapAdminChipDropdownStyle.inputGroupSx}>
+              <Label sx={mapAdminChipDropdownStyle.labelSx} htmlFor="addTitle" isRequired>
+                Role
+              </Label>
+              <CutstomizedAutocomplete
+                placeholder="Silver"
+                permissionList={roleOption}
+                onChange={(value) => {
+                  handleChangeUserInvite('role', value);
+                }}
+                value={userInviteEdit.role && Object.keys(userInviteEdit.role).length > 0 ? userInviteEdit.role : null}
+                // isError={Boolean(formErrors.role)}
+                // errorMessage={formErrors.role}
               />
             </Box>
           </Box>

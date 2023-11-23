@@ -3,7 +3,8 @@ import { httpRequest } from '@core/utils';
 import { create } from 'zustand';
 import { AdminInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
-import { useSuperAdminLanding } from './superAdmin'
+import { useSuperAdminLanding } from './superAdmin';
+import { useUserLanding } from './users';
 export const useAdminLanding = create<AdminInterface>((set, get) => ({
   adminList: [],
   OrganisationListMaster: [],
@@ -33,6 +34,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     email: '',
     userNameStatus: 0,
     emailStatus: 0,
+    role: {},
   },
   OrganisationDetails: {
     id: '',
@@ -124,7 +126,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
   },
 
   editAdmin: () => {
-    const { clearAll, getAdminList, OrganisationDetails ,createEditAdmin } = get();
+    const { clearAll, getAdminList, OrganisationDetails, createEditAdmin } = get();
     set({ fetching: true, errorOnFetching: false });
     const payload = {
       organisation_id: OrganisationDetails.id,
@@ -170,7 +172,8 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       });
   },
   getOrganisationMaster: () => {
-    const { getAdminList } = get();
+    const { getAdminList, OrganisationDetails } = get();
+    debugger;
     set({ fetching: true, errorOnFetching: false });
     httpRequest('get', `${envConfig.api_url}/idm/user-profile/list/organisation?limit=20&offset=0`, {}, true)
       .then((response) => {
@@ -185,8 +188,10 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
               }),
             set({ OrganisationListMaster: dataTable }),
           );
-          if (dataTable.length > 0) {
-            const zerothObject = dataTable[0];
+          if (
+            OrganisationDetails.id === ''
+          ) {
+           const zerothObject = dataTable[0];
             set({
               OrganisationDetails: {
                 id: zerothObject.id,
@@ -196,7 +201,8 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
             });
           }
         } else {
-          set({ OrganisationListMaster: [] });
+           
+          // set({ OrganisationListMaster: [] });
         }
       })
       .catch((err) => {
@@ -204,7 +210,9 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
+        // const { getAllUserProfileList } = useUserLanding();
         getAdminList();
+        // getAllUserProfileList(OrganisationDetails.id);
         set({ fetching: false });
       });
   },
@@ -279,17 +287,17 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     };
     httpRequest('post', `${envConfig.api_url}/idm/project/get/id`, payload, true)
       .then((response) => {
-        const responseData = response.data.data
+        const responseData = response.data.data;
         const Servicemap: any = [];
 
-      if (Array.isArray(responseData.project_service_mappings) && responseData.project_service_mappings.length > 0) {
-        responseData.project_service_mappings.forEach((tableData: any) => {
-          Servicemap.push({
-            id: tableData.service_id,
-            name: tableData.service_name,
+        if (Array.isArray(responseData.project_service_mappings) && responseData.project_service_mappings.length > 0) {
+          responseData.project_service_mappings.forEach((tableData: any) => {
+            Servicemap.push({
+              id: tableData.service_id,
+              name: tableData.service_name,
+            });
           });
-        });
-      }
+        }
         const editData = {
           projectTitle: responseData.name,
           description: responseData.description,
@@ -433,7 +441,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       });
   },
 
-  deleteAdmin: (id:string) => {
+  deleteAdmin: (id: string) => {
     const { getAdminList } = get();
     set({ fetching: true, errorOnFetching: false });
     const payload = {
@@ -454,9 +462,11 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       });
   },
 
-  addUserInvite: () => {
+  addUserInvite: (callback = () => false) => {
+    debugger
+    // const { getAllUserList } = useSuperAdminLanding();
     set({ fetching: true, errorOnFetching: false });
-    const { OrganisationDetails, userInviteEdit , getUserMasterByOrganisation } = get();
+    const { OrganisationDetails, userInviteEdit, getUserMasterByOrganisation } = get();
     const payload = {
       organisation_id: OrganisationDetails.id,
       username: userInviteEdit.userName,
@@ -465,14 +475,22 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     httpRequest('post', `${envConfig.api_url}/idm/project/invite-user`, payload, true)
       .then((response) => {
         enqueueSnackbar('User Invited Succesfully!', { variant: 'success' });
+        callback();
       })
       .catch((err) => {
         set({ errorOnFetching: true });
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
+        // debugger
+
         set({ fetching: false });
-        getUserMasterByOrganisation();
+        // if(OrganisationDetails.id){
+        // getUserMasterByOrganisation();
+        // }else{
+        //   getAllUserList();
+        // }
+        //  getAllUserList();
       });
   },
 

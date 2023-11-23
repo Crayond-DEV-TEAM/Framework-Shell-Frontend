@@ -217,7 +217,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
             bgColor: '#EAEAEA',
             borderBottom: '0px',
             width: '100%',
-            padding: '6px 16px 6px 7px',
+            padding: '6px 16px 6px 16px',
           }}
           cellOptions={{
             fontSize: '14px',
@@ -225,7 +225,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
             color: '#5A5A5A',
             borderBottom: '0px',
             // padding: '8px',
-            padding: '3px 0px 3px 7px',
+            padding: '3px 0px 3px 16px',
           }}
           rowOptions={{
             rowOddBgColor: '#fff',

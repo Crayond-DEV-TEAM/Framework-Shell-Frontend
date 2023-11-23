@@ -2,7 +2,7 @@ import { Button } from '@atoms/button';
 import { DeleteDailog } from '@atoms/deletedailog';
 import { DialogDrawer } from '@atoms/dialogDrawer';
 import { FooterComponent } from '@atoms/footerComponent';
-import { useLanguageConfiguration, useMessage, useMessageGroupDetails } from '@core/store';
+import { useLanguageConfiguration, useMessage, useMessageGroupDetails, useSlug } from '@core/store';
 import { Box, Grid, SxProps, Theme, Typography } from '@mui/material';
 import { Table as CommonTable } from '@crayond_dev/ui_table';
 import { forwardRef, useEffect, useState } from 'react';
@@ -42,10 +42,10 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     clearAllMessage,
     validateCallBack
   } = useMessage();
+  const { slugs } = useSlug();
   const location = useLocation();
   const { state } = location;
-  const languagesList = state
-
+  const languagesList = state;
 
   // const filterContent: any[] = [];
   const { languages, getSavedLanguage } = useLanguageConfiguration();
@@ -190,8 +190,10 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   }, [MessagesListStatus]);
 
   useEffect(() => {
-    getServerity();
-  }, []);
+    if (slugs?.['MESSAGE-CATALOG']) {
+      getServerity();
+    }
+  }, [slugs?.['MESSAGE-CATALOG']]);
   return (
     <Box
       sx={[{ ...messageTableStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]}

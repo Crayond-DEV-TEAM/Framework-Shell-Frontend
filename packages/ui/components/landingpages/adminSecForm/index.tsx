@@ -26,6 +26,11 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
 
   console.log(createEditAdmin, 'createEditAdmincreateEditAdmin');
 
+  const accessMaster = [
+    { id: '1', name: 'Full Access' },
+    { id: '2', name: 'Restricted' },
+  ];
+
   // useEffect(() => {
   //   getUserList(OrganisationDetails.id);
   //   getServiceList(OrganisationDetails.id);
@@ -131,6 +136,7 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
                 createEditAdmin={createEditAdmin}
                 dataList={UserListMaster}
                 handleChange={handlechange}
+                accessMaster={accessMaster}
               />
             </AccordionDetails>
           </Accordion>

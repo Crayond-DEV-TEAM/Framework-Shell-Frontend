@@ -35,15 +35,15 @@ export const featureGroupsStyle: FeatureGroupsStyleProps = {
       border: '1px solid #EAEAEA',
       width: '100%',
     },
-    '& .SWITCH label':{
-      display:'flex',
-      gap:'6px',
-      justifyContent:'center'
-    },
-    '& .MuiTableCell-root p':{
-      display:'flex',
-      justifyContent:'center'
-    },
+    // '& .SWITCH label':{
+    //   display:'flex',
+    //   gap:'6px',
+    //   justifyContent:'center'
+    // },
+    // '& .MuiTableCell-root p':{
+    //   display:'flex',
+    //   justifyContent:'center'
+    // },
     // '& .TEXT': {
     //   width: '40% !important',
     //   // backgroundColor: 'red',
@@ -55,7 +55,7 @@ export const featureGroupsStyle: FeatureGroupsStyleProps = {
       marginRight: '0px',
     },
     '& .MuiTableCell-root': {
-      padding: '6px 9px 6px 7px',
+      padding: '6px 9px 6px 16px',
     },
     '& .MuiTableSortLabel-root': {
       width: '186px',

@@ -7,6 +7,7 @@ export interface CustomSwitchesProps {
   className?: string;
   sx?: SxProps<Theme>;
   onChange?: (value: any) => any;
+  onClick?: any;
   value: any;
   readOnly?: boolean;
   label?: string;
@@ -66,7 +67,16 @@ const CustomSwitch = styled((props: SwitchProps) => (
 }));
 
 export const CustomSwitches = (props: CustomSwitchesProps): JSX.Element => {
-  const { className = '', sx = {}, onChange = () => false, label = '', readOnly = false, value, ...rest } = props;
+  const {
+    className = '',
+    sx = {},
+    onChange = () => false,
+    label = '',
+    readOnly = false,
+    onClick,
+    value,
+    ...rest
+  } = props;
 
   return (
     <Box
@@ -80,7 +90,9 @@ export const CustomSwitches = (props: CustomSwitchesProps): JSX.Element => {
       {...rest}
     >
       <FormControlLabel
-        control={<CustomSwitch sx={{ ml: 1 }} checked={value} readOnly={readOnly} onChange={onChange} />}
+        control={
+          <CustomSwitch sx={{ ml: 1 }} checked={value} readOnly={readOnly} onChange={onChange} onClick={onClick} />
+        }
         label={label}
       />
     </Box>

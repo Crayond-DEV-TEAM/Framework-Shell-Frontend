@@ -53,12 +53,12 @@ export interface TableHeaderProps {
   options?: any;
   onChange?: any;
   filterChange?:
-  | ((
-    filterName: 'hashtagFilter' | 'alertTypeFilter' | 'statusFilter' | 'dateFilter',
-    id: number,
-    value: any,
-  ) => void)
-  | undefined;
+    | ((
+        filterName: 'hashtagFilter' | 'alertTypeFilter' | 'statusFilter' | 'dateFilter',
+        id: number,
+        value: any,
+      ) => void)
+    | undefined;
   messageGroupId?: string;
   tableType?: string;
   onClick?: () => boolean;
@@ -112,15 +112,12 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
     ...rest
   } = props;
 
-  const [isCopied, setIsCopied] = useState(false)
-
+  const [isCopied, setIsCopied] = useState(false);
 
   const handleCopyRefId = async () => {
     try {
       await navigator.clipboard.writeText(tableHeader?.refId);
       setIsCopied(true);
-
-
     } catch (err) {
       setIsCopied(false);
     }
@@ -132,9 +129,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
         setIsCopied(false);
       }, 3000);
     }
-  }, [isCopied])
-
-
+  }, [isCopied]);
 
   return (
     <Box
@@ -148,34 +143,32 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
       {...rest}
     >
       <Box sx={tableHeaderStyle.totalHeaderSx}>
-        {
-          tableType === 'message' && tableHeader?.name ?
-            <Stack direction={'row'} alignItems={'center'}>
-              <ClickAwayListener onClickAway={() => setIsCopied(false)}>
-                <Tooltip
-                  PopperProps={{
-                    disablePortal: true,
-                  }}
-                  onClose={() => setIsCopied(false)}
-                  open={isCopied}
-                  disableFocusListener
-                  disableHoverListener
-                  disableTouchListener
-                  arrow
-                  placement="top"
-                  title={'Copied to Clipboard!'}
-                >
-                  <Typography sx={tableHeaderStyle.titleSx}>{`${tableHeader?.name} - ${tableHeader?.refId}`}</Typography>
-                </Tooltip>
-              </ClickAwayListener>
-              <Box sx={tableHeaderStyle?.copyBtn} onClick={handleCopyRefId}>
-                <ContentCopyIcon />
-              </Box>
-            </Stack>
-            :
-            typeof (tableHeader) === 'string' &&
-            <Typography sx={tableHeaderStyle.titleSx}>{tableHeader}</Typography>
-        }
+        {tableType === 'message' && tableHeader?.name ? (
+          <Stack direction={'row'} alignItems={'center'}>
+            <ClickAwayListener onClickAway={() => setIsCopied(false)}>
+              <Tooltip
+                PopperProps={{
+                  disablePortal: true,
+                }}
+                onClose={() => setIsCopied(false)}
+                open={isCopied}
+                disableFocusListener
+                disableHoverListener
+                disableTouchListener
+                arrow
+                placement="top"
+                title={'Copied to Clipboard!'}
+              >
+                <Typography sx={tableHeaderStyle.titleSx}>{`${tableHeader?.name} - ${tableHeader?.refId}`}</Typography>
+              </Tooltip>
+            </ClickAwayListener>
+            <Box sx={tableHeaderStyle?.copyBtn} onClick={handleCopyRefId}>
+              <ContentCopyIcon />
+            </Box>
+          </Stack>
+        ) : (
+          typeof tableHeader === 'string' && <Typography sx={tableHeaderStyle.titleSx}>{tableHeader}</Typography>
+        )}
         <Box sx={tableHeaderStyle.leftSx}>
           {isSearchRequired && (
             <Box sx={{ pr: 1, pt: '3px' }}>
@@ -238,7 +231,9 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
           </Popover>
         </Box>
       </Box>
-    </Box >
+
+      <hr style={{ border: 0, height: '1px', backgroundColor: '#EAEAEA', margin: '0px -20px' }} />
+    </Box>
   );
 });
 

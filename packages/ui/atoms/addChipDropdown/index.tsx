@@ -18,8 +18,7 @@ export interface AddChipDropdownProps {
 
 export const AddChipDropdown: React.FC<AddChipDropdownProps> = (props) => {
   const { className = '', permissionList = [], createEditState, onChange, sx = {} } = props;
-  const { deleteServicemap, createServicemap, createEditOrganisation } = useSuperAdminLanding();
-  console.log('tttttttttttttttttttttttttttttttttttttttt', createEditState);
+  const { deleteServicemap, createServicemap, createEditOrganisation, getAllUserList } = useSuperAdminLanding();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -31,22 +30,24 @@ export const AddChipDropdown: React.FC<AddChipDropdownProps> = (props) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+    getAllUserList();
   };
   const selectedOptions = values || [];
   console.log('valuesvaluesvaluesvalues', values);
 
   const handleOptionToggle = (option: any) => {
+    debugger;
     const isSelected = values.find((v) => v?.id === option?.id);
     if (isSelected?.id) {
       const isSelected = values.filter((v) => v?.id !== option?.id);
       setValues(isSelected);
       onChange('mapServices', isSelected);
-      // createEditOrganisation.id ? deleteServicemap() : '';
+      createEditOrganisation.id ? deleteServicemap() : '';
     } else {
       values.push(option);
       setValues(values);
       onChange('mapServices', values);
-      // createEditOrganisation.id ? deleteServicemap() : '';
+      createEditOrganisation.id ? createServicemap() : '';
       // createServicemap();
     }
   };

@@ -43,6 +43,8 @@ export interface AddChipMultipleDropdownProps {
   optionList?: AccessOption[];
   handleChange?: (key: string, value: any) => void;
   createEditAdmin: any;
+  accessMaster: any;
+  inviteSection?: boolean;
   // onSaveUserInvite?: () => void;
 }
 
@@ -53,13 +55,26 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
   handleChange = () => {},
   optionList = [],
   createEditAdmin,
+  accessMaster,
+  inviteSection = false,
   // onSaveUserInvite = () => false,
   ...rest
 }: AddChipMultipleDropdownProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [selectedOptions, setSelectedOptions] = useState<UserData[]>([]);
-  const [accessState, setAccessState] = useState({ id: '1', name: 'Full Access' });
+  const [accessState, setAccessState] = useState(accessMaster?.[0]);
   const [values, setValues] = useState(false);
+
+  const roleOption = [
+    {
+      id: '4819fbb0-9dc3-4bbf-bf01-23b29ce2d198',
+      name: 'TOOLKIT-ADMIN',
+    },
+    {
+      id: '38667c3d-7cdc-48f8-9848-9b557a130728',
+      name: 'TOOLKIT-USER',
+    },
+  ];
 
   const {
     emailChecker,
@@ -72,11 +87,6 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
 
   const { getAllUserList } = useSuperAdminLanding();
 
-  const accessMaster = [
-    { id: '1', name: 'Full Access' },
-    { id: '2', name: 'Restricted' },
-  ];
-
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -86,7 +96,10 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
   };
 
   const onSaveUserInvite = () => {
-    addUserInvite();
+    // addUserInvite();
+    addUserInvite(() => {
+      getUserMasterByOrganisation();
+    });
     handleCloseUserInvite();
     // getUserMasterByOrganisation();
     handleClose();
@@ -119,9 +132,10 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
       const setItemsUsers = selectedOptions.map((user) => ({
         id: user.id,
         name: user.name,
-        access: accessState.name,
+        access: accessState,
       }));
       handleChange('mapAdmin', setItemsUsers);
+      console.log('setaccessstatebjdhfjwh', setItemsUsers);
     }
   };
 
@@ -189,32 +203,34 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
               </Box>
             </MenuItem>
           ))}
-          <MenuItem
-            sx={{
-              py: 1,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              cursor: 'pointer',
-              backgroundColor: '#f0f0f0',
-              px: 0,
-              justifyItems: 'left', // Customize the background color as needed
-            }}
-            onClick={() => {
-              handleOpenUserInvite();
-            }}
-          >
-            <GreenCloseCircleIcon
-              rootStyle={{
-                minWidth: '22px',
-                height: '22px',
-                borderRadius: '50% !important',
-                marginRight: '10px',
-                // p:'3px'
+          {inviteSection && (
+            <MenuItem
+              sx={{
+                py: 1,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                cursor: 'pointer',
+                backgroundColor: '#f0f0f0',
+                px: 0,
+                justifyItems: 'left', // Customize the background color as needed
               }}
-            />
-            <Typography style={{ color: '#357968', fontSize: '14px', fontWeight: 600 }}>Invite User</Typography>
-          </MenuItem>
+              onClick={() => {
+                handleOpenUserInvite();
+              }}
+            >
+              <GreenCloseCircleIcon
+                rootStyle={{
+                  minWidth: '22px',
+                  height: '22px',
+                  borderRadius: '50% !important',
+                  marginRight: '10px',
+                  // p:'3px'
+                }}
+              />
+              <Typography style={{ color: '#357968', fontSize: '14px', fontWeight: 600 }}>Invite User</Typography>
+            </MenuItem>
+          )}
         </Menu>
         <MappedUserCard dataMaster={createEditAdmin.mapAdmin} />
         <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', marginTop: '10px' }} onClick={handleClick}>
@@ -271,6 +287,22 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
                 }
                 // isError={Boolean(formErrors.description)}
                 // errorMessage={formErrors.description}
+              />
+            </Box>
+            <Box sx={{ m: '16px' }} />
+            <Box sx={addChipMultipleDropdownStyle.inputGroupSx}>
+              <Label sx={addChipMultipleDropdownStyle.labelSx} htmlFor="addTitle" isRequired>
+                Role
+              </Label>
+              <CutstomizedAutocomplete
+                placeholder="Silver"
+                permissionList={roleOption}
+                onChange={(value) => {
+                  handleChangeUserInvite('role', value);
+                }}
+                value={userInviteEdit.role && Object.keys(userInviteEdit.role).length > 0 ? userInviteEdit.role : null}
+                // isError={Boolean(formErrors.role)}
+                // errorMessage={formErrors.role}
               />
             </Box>
           </Box>

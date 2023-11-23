@@ -176,8 +176,7 @@ const tabs = [
                             onChange={(v) => handleChangeCallback(e, v.target.checked)}
                             checked={apiBody[e]}
                             icon={<CheckBoxOutlineBlankIcon />}                            
-                            checkedIcon={<CheckBoxIcon />}
-                            
+                            checkedIcon={<CheckBoxIcon />}                            
                              />          
                   </>
                 ) : (

@@ -131,6 +131,7 @@ export const SuperAdminForm = (props: SuperAdminFormProps): JSX.Element => {
                 createEditAdmin={createEditOrganisation.mapAdmin}
                 dataList={userMaster}
                 handleChange={handleChange}
+                inviteSection={true}
                 // onSaveUserInvite={onSaveUserInvite}
               />
             </AccordionDetails>

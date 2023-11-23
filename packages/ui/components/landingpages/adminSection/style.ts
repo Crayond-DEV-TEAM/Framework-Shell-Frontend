@@ -7,8 +7,7 @@ interface AdminSectionStyleProps {
 export const adminSectionStyle: AdminSectionStyleProps = {
   rootSx: {},
   commonTable: {
-    borderBottomRightRadius: '8px',
-    borderBottomLeftRadius: '8px',
+    borderRadius:'8px',
     bgcolor: '#fff',
     // margin: {
     //   lg: '0px 12px',
@@ -16,7 +15,7 @@ export const adminSectionStyle: AdminSectionStyleProps = {
     //   sm: '10px 20px',
     //   xs: '10px 0px',
     // },
-    padding: '16px 20px',
+    padding: '16px',
     // margin: '24px 31px',
     // borderRadius: '8px',
     // height: 'calc(100vh - 100px)',
@@ -47,4 +46,13 @@ export const adminSectionStyle: AdminSectionStyleProps = {
       // backgroundColor: 'red',
     },
   },
+  customSwitch:{
+    display:'flex',
+    gap:'6px',
+    alignItems:'center'
+  },
+  customSwitchStatus:{
+    fontSize:'14px',
+
+  }
 };

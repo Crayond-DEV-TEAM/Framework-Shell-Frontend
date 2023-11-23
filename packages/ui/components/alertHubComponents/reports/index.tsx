@@ -17,7 +17,7 @@ import React, { useEffect } from 'react';
 import { reports_styles } from './style';
 import { dummyTableData, tabsCard } from '@core/store/utils';
 import { ReportTabs, TableHeader, TabsCard } from '@components/commonComponents';
-import { useAlertReports } from '@core/store';
+import { useAlertReports, useSlug } from '@core/store';
 import moment from 'moment';
 
 export interface ReportsProps {
@@ -39,6 +39,7 @@ export function Reports(props: ReportsProps): JSX.Element {
   const [filterContent, setFilterContent] = React.useState([]);
   const [searchTerm, setSearchTerms] = React.useState('');
   const { getReportDelivery, reportDelivery, getReportList, reportList } = useAlertReports();
+  const { slugs } = useSlug();
 
   //   const handleClick = (event: any) => {
   //     setOpenAnchorEl(event.currentTarget);
@@ -72,7 +73,7 @@ export function Reports(props: ReportsProps): JSX.Element {
       header: 'Email',
       cardDetails: [
         {
-          number: reportDelivery?.email?.sent > 0 ? reportDelivery?.email?.sent : '-' ,
+          number: reportDelivery?.email?.sent > 0 ? reportDelivery?.email?.sent : '-',
           value: 'Sent',
         },
         {
@@ -120,11 +121,11 @@ export function Reports(props: ReportsProps): JSX.Element {
           value: 'Sent',
         },
         {
-          number: reportDelivery?.whatsapp?.delivered >0 ?reportDelivery?.whatsapp?.delivered : '-',
+          number: reportDelivery?.whatsapp?.delivered > 0 ? reportDelivery?.whatsapp?.delivered : '-',
           value: 'Delivered',
         },
         {
-          number: reportDelivery?.whatsapp?.notDelivered > 0?reportDelivery?.whatsapp?.notDelivered : '-',
+          number: reportDelivery?.whatsapp?.notDelivered > 0 ? reportDelivery?.whatsapp?.notDelivered : '-',
           value: 'Not Delivered',
         },
         // {
@@ -138,7 +139,7 @@ export function Reports(props: ReportsProps): JSX.Element {
       header: 'Slack',
       cardDetails: [
         {
-          number: reportDelivery?.slack?.sent > 0 ? reportDelivery?.slack?.sent :'-',
+          number: reportDelivery?.slack?.sent > 0 ? reportDelivery?.slack?.sent : '-',
           value: 'Sent',
         },
         {
@@ -283,7 +284,7 @@ export function Reports(props: ReportsProps): JSX.Element {
     },
     {
       id: 'sentOn',
-      align: 'center',
+      align: 'left',
       disablePadding: false,
       label: 'Sent on',
     },
@@ -473,9 +474,11 @@ export function Reports(props: ReportsProps): JSX.Element {
   };
 
   useEffect(() => {
-    getReportDelivery();
-    getReportList();
-  }, []);
+    if (slugs?.ALERTSHUB) {
+      getReportDelivery();
+      getReportList();
+    }
+  }, [slugs?.ALERTSHUB]);
 
   return (
     <Box>

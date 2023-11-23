@@ -10,6 +10,7 @@ export const customerStyle: CustomerStyleProps = {
   },
   commonTable: {
     bgcolor: '#fff',
+    // height: '100%',
     // margin: {
     //   lg: '0px 12px',
     //   md: '0px 12px',

@@ -226,10 +226,10 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
   }, [alertsList]);
 
   return (
-    <Box>
-      <Grid container>
-        <Grid item xs={12}>
-          <Box sx={alertRuleStyles.commonTable}>
+    <Box height={'100%'}>
+      <Grid container height={'100%'}>
+        <Grid item xs={12} height={'100%'}>
+          <Box sx={alertRuleStyles.commonTable} height={'100%'}>
             <CommonTable
               Header={Header}
               dataList={alertRuleData}
@@ -252,6 +252,12 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
                 fontWeight: '500',
                 color: '#5A5A5A',
                 borderBottom: '0px',
+              }}
+              sx={{
+                height: '100% !important',
+                '& div' :{
+                  // height: '100% !important'
+                }
               }}
               tableMinWidth={'1500px'}
               tableMinHeight={'60vh'}

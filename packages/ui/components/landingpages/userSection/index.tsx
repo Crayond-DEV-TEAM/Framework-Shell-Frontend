@@ -204,6 +204,11 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
             rowOddBgColor: '#fff',
             rowEvenBgColor: '#F7F7F7',
           }}
+          paginationOption={{
+            isEnable: true,
+            rowPerPage: 10,
+            rowsPerPageOptions: [5, 10, 25]
+          }}
           tableMinWidth={'80px'}
           stickyOptions={{
             stickyHeader: true,
@@ -222,7 +227,7 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
                 // onApply={false}
                 isFilterRequired={false}
                 buttonName={'Add User'}
-                tableHeader={'Users'}
+                tableHeader={''}
                 setSearchTerm={setSearchTerm}
                 searchTerm={searchTerm}
                 isBtnRequired={true}

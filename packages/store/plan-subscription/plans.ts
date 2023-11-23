@@ -313,7 +313,7 @@ export const usePlans = create<PlansInterface>((set, get) => ({
               plan: x?.name,
               billing: x?.billing_period?.join(),
               public: x?.is_plan_public ? 'Yes' : 'No',
-              activesubscription: x?.subscriptions?.length?.toString() | 0,
+              activesubscription: x?.subscriptions,
               lastmodified: `${new Date(x?.updated_at ?? x?.updatedAt)?.getDate()} /
               ${new Date(x?.updated_at ?? x?.updatedAt)?.getMonth()} /
               ${new Date(x?.updated_at ?? x?.updatedAt)?.getFullYear()}`,

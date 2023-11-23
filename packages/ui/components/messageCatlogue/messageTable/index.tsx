@@ -217,8 +217,8 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
           </Box>
         </Grid>
 
-        <Grid item xs={12} sm={8} md={10} lg={9.75} xl={9.75} pl={'0px !important'}>
-          <Box sx={messageTableStyle.commonTable}>
+        <Grid item xs={12} sm={8} md={10} lg={9.75} xl={9.75} height={'100%'} pl={'0px !important'}>
+          <Box sx={messageTableStyle.commonTable} height={'100%'}>
             <CommonTable
               Header={Header}
               dataList={filteredMessageGroup}
@@ -233,6 +233,9 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                 borderBottom: '0px',
                 width: '100%',
                 padding: '6px 16px 6px 7px',
+              }}
+              sx={{
+                height: '100% !important'
               }}
               cellOptions={{
                 fontSize: '14px',

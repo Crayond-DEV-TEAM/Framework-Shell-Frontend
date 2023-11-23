@@ -66,9 +66,6 @@ export const Plans = (props: PlansProps): JSX.Element => {
         });
       }
     });
-
-    console.log('Feature GROUP ', feature_group_all);
-    console.log('temp', temp_group);
     feature_group_all.map((grp: any) => {
       temp_group.map((x: any) => {
         if (x.id === grp?.feature_group?.id) {

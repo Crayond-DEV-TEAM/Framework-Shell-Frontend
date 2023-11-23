@@ -169,7 +169,7 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
               <TableHeader
                 isFilterRequired={false}
                 buttonName={'Add Organisation'}
-                tableHeader={'Organisation'}
+                tableHeader={''}
                 setSearchTerm={setSearchTerm}
                 searchTerm={searchTerm}
                 isBtnRequired={true}

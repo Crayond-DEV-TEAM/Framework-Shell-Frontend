@@ -242,6 +242,11 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
             stickyLeft: [],
             stickyRight: [],
           }}
+          paginationOption={{
+            isEnable: true,
+            rowPerPage: 10,
+            rowsPerPageOptions: [5, 10, 25]
+          }}
           tableMinHeight={'calc(100vh - 308px)'}
           tableMaxHeight={'calc(100vh - 308px)'}
           paddingAll={'0px'}
@@ -253,7 +258,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
               <TableHeader
                 isFilterRequired={false}
                 buttonName={'Add Projects'}
-                tableHeader={'Projects'}
+                tableHeader={''}
                 setSearchTerm={setSearchTerm}
                 searchTerm={searchTerm}
                 isBtnRequired={OrganisationDetails.rolename === 'TOOLKIT-ADMIN' ? true : false}

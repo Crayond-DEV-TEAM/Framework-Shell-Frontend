@@ -148,18 +148,17 @@ export const useLanguageConfiguration = create<LanguageConfigInterface>((set, ge
       newLanguages.splice(index as number, 1);
       const newMasterLanguages = state.masterLanguages;
       newMasterLanguages.push(lang as SelectBoxInterface);
-      newMasterLanguages.sort((a: any, b: any) => b.label - a.label);
+      newMasterLanguages.sort((a: any, b: any) => b?.label - a?.label);
       return {
+        message: "Changes will be lost if you don't save.",
         languages: newLanguages,
         masterLanguages: newMasterLanguages,
         isSaved: false,
-        message: "Changes will be lost if you don't save.",
       };
     });
     setTimeout(() => {
       set({ message: '' });
     }, 5000);
-
     enqueueSnackbar('Language removed successfully!', { variant: 'success' });
     return true;
   },

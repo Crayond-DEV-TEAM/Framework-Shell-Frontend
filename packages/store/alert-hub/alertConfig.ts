@@ -109,6 +109,7 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   },
 
   updateConfig: (field, value, configType) => {
+    const { emailConfiguration } = get()
     if (configType === 'email') {
       set((state) => ({
         emailConfiguration: {
@@ -116,6 +117,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
           [field]: value,
         },
       }));
+      console.log(emailConfiguration, '111');
+
     } else if (configType === 'sms') {
       set((state) => ({
         smsConfiguration: {
@@ -145,6 +148,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
         },
       }));
     }
+
+
   },
 
   addEmailConfig: () => {
@@ -370,7 +375,7 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
 
   getEmailConfig: () => {
     const slugId = useSlug.getState().slugs.ALERTSHUB;
-
+    const { emailConfiguration } = get()
     set({ fetching: true, errorOnFetching: false });
     httpRequest('get', `${envConfig.api_url}/alertshub/config/mail/getAll`, {}, true, undefined, {
       headers: {
@@ -379,7 +384,6 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
     })
       .then((response) => {
         const dataTable = response?.data?.data?.rows;
-
         if (Array.isArray(dataTable) && dataTable?.length > 0) {
           const emailConfigArray = dataTable?.map((row) => ({
             id: row?.id,
@@ -398,10 +402,14 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
             aws_pinpoint_project_id: row?.aws_pinpoint_project_id || '-',
             isDefault: row?.isDefault,
           }));
-
           set({
             emailList: emailConfigArray,
           });
+          set({
+            emailConfiguration: emailConfigArray
+          });
+          console.log(emailConfiguration, 'emailConfigurationemailConfiguration');
+
         } else {
           set({
             emailList: [],
@@ -596,7 +604,7 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
         smtp_username: data?.smtp_username,
         smtp_password: data?.smtp_password,
         mail_domain: data?.mail_domain,
-        from_mail: data?.from_mail,
+        from_mail: data?.from_mail?.props?.value,
         api_key: data?.api_key,
         aws_access_id: data?.aws_access_id,
         aws_secret_key: data?.aws_secret_key,
@@ -613,8 +621,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
         id: data?.id,
         identifier: data?.identifier,
         provider_name: data?.provider_name,
-        provider_sid: data?.provider_sid,
-        provider_api_key: data?.provider_api_key,
+        provider_sid: data?.provider_sid?.props?.value,
+        provider_api_key: data?.provider_api_key?.props?.value,
         sender_id: data?.sender_id,
         isDefault: data?.isDefault,
       },
@@ -625,10 +633,10 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
     set({
       pushConfiguration: {
         id: data?.id,
-        pushServerKey: data?.pushServerKey,
+        pushServerKey: data?.pushServerKey?.props?.value,
         projectId: data?.projectId,
-        clientEmail: data?.clientEmail,
-        privateKey: data?.privateKey,
+        clientEmail: data?.clientEmail?.props?.value,
+        privateKey: data?.privateKey?.props?.value,
       },
     });
   },
@@ -636,7 +644,7 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   editSlackConfig: async (data: any) => {
     set({
       slackConfiguration: {
-        slack_bot_token: data?.slack_bot_token,
+        slack_bot_token: data?.slack_bot_token?.props?.value,
         id: data?.id,
         isDefault: data?.isDefault,
         identification_name: data?.identification_name,

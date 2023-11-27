@@ -54,6 +54,7 @@ export const httpRequest: HttpRequestProps = async (method = 'get', url, data = 
   } catch (error) {
     if (error?.response?.data?.status === 401) {
       console.log('Error:unauthorized', error);
+      localStorage.clear();
       window.location.href = 'login'
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     } else {

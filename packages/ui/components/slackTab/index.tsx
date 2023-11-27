@@ -1,7 +1,7 @@
 import DeleteIcon from '@assets/deleteIcon';
 import EditIcon from '@assets/editIcon';
 import { DialogDrawer } from '@atoms/dialogDrawer';
-import { TableHeader } from '@core/ui/components';
+import { TableHeader, TooltipComp } from '@core/ui/components';
 import { Box, Grid } from '@mui/material';
 import { Table as CommonTable } from '@crayond_dev/ui_table';
 import React from 'react';
@@ -17,6 +17,15 @@ export function SlackTab(): JSX.Element {
 
   const { slackConfiguration, slackList, addSlackConfig, editSlackConfig, clearSlackState, deleteSlackConfig } =
     useAlertConfig();
+
+    const customData = slackList?.map((e) => {
+      return {
+        ...e,
+        slack_bot_token: <TooltipComp
+          value={e?.slack_bot_token}
+        />,
+      }
+    })
 
   const Header = [
     {
@@ -50,8 +59,8 @@ export function SlackTab(): JSX.Element {
 
   const tableData = [
     // { type: ['INCREMENT'], name: 'sl_no' },
-    { type: ['TEXT'], name: 'identification_name' },
-    { type: ['TEXT'], name: 'slack_bot_token' },
+    { type: ['TEXT'], name: 'identification_name',  width: '150px'  },
+    { type: ['TEXT'], name: 'slack_bot_token', width: '200px' },
     {
       type: ['ACTION'],
       name: 'action',
@@ -65,6 +74,7 @@ export function SlackTab(): JSX.Element {
           method: deleteHandel,
         },
       ],
+      width: '120px'
     },
   ];
 
@@ -97,7 +107,7 @@ export function SlackTab(): JSX.Element {
           <Box sx={slackTab_style.commonTable}>
             <CommonTable
               Header={Header}
-              dataList={slackList}
+              dataList={customData}
               tableData={tableData}
               headerOptions={{
                 fontSize: '14px',

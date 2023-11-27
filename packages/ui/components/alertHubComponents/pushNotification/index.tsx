@@ -1,7 +1,7 @@
 import DeleteIcon from '@assets/deleteIcon';
 import EditIcon from '@assets/editIcon';
 import { DialogDrawer } from '@atoms/dialogDrawer';
-import { PushDialog } from '@core/ui/components';
+import { PushDialog, TooltipComp } from '@core/ui/components';
 import { TableHeader } from '@core/ui/components';
 import { Box, Grid } from '@mui/material';
 import { Table as CommonTable } from '@crayond_dev/ui_table';
@@ -17,6 +17,22 @@ export function PushNotification(): JSX.Element {
 
   const { pushConfiguration, pushList, addPushConfig, editPushConfig, deletePushConfig, clearPushState } =
     useAlertConfig();
+
+
+    const customData = pushList?.map((e) => {
+      return {
+        ...e,
+        clientEmail: <TooltipComp
+          value={e?.clientEmail}
+        />,
+        privateKey: <TooltipComp
+          value={e?.privateKey}
+        />,
+        pushServerKey: <TooltipComp
+        value={e?.pushServerKey}
+      />
+      }
+    })
 
   const Header = [
     {
@@ -61,10 +77,10 @@ export function PushNotification(): JSX.Element {
   };
 
   const tableData = [
-    { type: ['TEXT'], name: 'projectId' },
-    { type: ['TEXT'], name: 'clientEmail' },
-    { type: ['TEXT'], name: 'privateKey' },
-    { type: ['TEXT'], name: 'pushServerKey' },
+    { type: ['TEXT'], name: 'projectId' , width: '140px'},
+    { type: ['CUSTOM'], name: 'clientEmail', width: '120px' },
+    { type: ['CUSTOM'], name: 'privateKey', width: '120px' },
+    { type: ['CUSTOM'], name: 'pushServerKey', width: '120px' },
     {
       type: ['ACTION'],
       name: 'action',
@@ -78,6 +94,7 @@ export function PushNotification(): JSX.Element {
           method: deleteHandel,
         },
       ],
+      width: '120px'
     },
   ];
 
@@ -115,7 +132,7 @@ export function PushNotification(): JSX.Element {
           <Box sx={pushNotification_style.commonTable}>
             <CommonTable
               Header={Header}
-              dataList={pushList}
+              dataList={customData}
               tableData={tableData}
               headerOptions={{
                 fontSize: '14px',

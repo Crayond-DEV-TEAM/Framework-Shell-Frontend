@@ -190,7 +190,7 @@ export function EmailTab(): JSX.Element {
   const handleClick = () => {
     setOpen(true);
   };
-
+  
   return (
     <Box>
       <Grid container sx={emailTab_style.marginTop}>
@@ -260,7 +260,7 @@ export function EmailTab(): JSX.Element {
           handleClose={handleClose}
           handleCloseDialog={handleClose}
           handleSubmit={handleSubmit}
-          content={<EmailDialog />}
+          content={<EmailDialog  emailConfiguration={emailConfiguration} />}
           Footercomponent={<FooterComponent saveText="Add" onCancel={handleClose} onSave={handleAdd} />}
         />
       </Box>

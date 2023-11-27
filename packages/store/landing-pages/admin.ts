@@ -106,7 +106,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       services: createEditAdmin.mapServices?.map((x: any) => x?.id),
       users: createEditAdmin.mapAdmin?.map((x: any) => ({
         user_profile_id: x?.id,
-        access: x?.access,
+        access: x?.access?.id,
       })),
       is_active: createEditAdmin?.is_active,
     };

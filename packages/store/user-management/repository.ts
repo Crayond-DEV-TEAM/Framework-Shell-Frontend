@@ -48,7 +48,7 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
   createRepository: () => {
     const { editRepositoryList, getAllRepository, apiToken } = get();
     set({ onEditLoading: true, erroronEdit: false });
-    const data = editRepositoryList;
+    const data = RepoJson;
     const slugId = useSlug.getState().slugs?.IDM;
 
     httpRequest('post', `${envConfig.api_url}/idm/repository/create`, { data, is_active: true }, true, apiToken, {

@@ -3,7 +3,10 @@ import { Box, Typography } from '@mui/material';
 
 import { repositoryComponentStyle } from './style';
 import { ConfigureRepo } from '..';
-import { TreeComponent } from '@atoms/treeComponent';
+// import { TreeComponent } from '@atoms/treeComponent';
+// import { Table as CommonTable } from '@crayond_dev/ui_table';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { TreeView } from '@crayond_dev/ui_tree-view';
 // import { RepoJson, books } from './utils';
 import { DialogDrawer } from '@atoms/dialogDrawer';
 import { FooterComponent } from '@atoms/footerComponent';
@@ -12,6 +15,7 @@ import { useRepository, useSlug } from '@core/store';
 import { RepoJson } from './utils';
 import { Repositorysimmer } from './simmer';
 import { TableHeader } from '@components/commonComponents';
+import { CollapseIcon, ExpandIcon, InfoIcon, SettingIcon } from '@atoms/icons';
 
 export interface RepositoryComponentProps {
   className?: string;
@@ -84,8 +88,60 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
         />
       </Box>
 
-      <Box sx={{ height: 'calc( 100vh - 237px )', overflow: 'scroll' }}>
-        {fetching ? <Repositorysimmer /> : <TreeComponent data={RepositoryList} />}
+      <Box sx={{ height: 'calc( 100vh - 237px )', overflow: 'scroll', margin: '20px' }}>
+        {fetching ? (
+          <Repositorysimmer />
+        ) : (
+          <TreeView
+            checkboxBgColor="primary.main"
+            checkboxBorderRadius="2px"
+            checkboxHeight="20px"
+            checkboxWidth="20px"
+            childrenLabelStyle={{
+              color: '#29302B',
+              fontSize: '14px',
+              fontWeight: 500,
+            }}
+            connectors
+            defaultCollapseIcon={<ExpandIcon />}
+            defaultExpandIcon={<CollapseIcon />}
+            handleChange={handleChange}
+            headingSx={{}}
+            labelStyle={{
+              color: '#29302B',
+              fontSize: '14px',
+              fontWeight: 600,
+            }}
+            leftSec={{
+              breakpoints: {
+                lg: 6,
+                md: 6,
+                sm: 4,
+                xs: 12,
+              },
+            }}
+            parentChildIcon={<InfoIcon />}
+            parentIcon={<SettingIcon />}
+            permissionHeadingSx={{
+              color: '#29302B',
+            }}
+            rightSec={{
+              breakpoints: {
+                lg: 6,
+                md: 6,
+                sm: 8,
+                xs: 12,
+              },
+            }}
+            state={RepositoryList}
+            subChildLabelStyle={{
+              alignItems: 'center',
+              color: '#818181',
+              display: 'flex',
+              fontSize: '12px',
+            }}
+          />
+        )}
       </Box>
 
       <DialogDrawer

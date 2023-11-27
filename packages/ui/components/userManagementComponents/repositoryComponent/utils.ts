@@ -21,309 +21,196 @@ export const books = [
 
 export const RepoJson = [
   {
-    id: '22afc36b-4f7f-42ca-9fce-1a3012ccwe8905456d',
-    name: 'Admin Section',
-    child: [
+    "id": "22afc36b-4f7f-42ca-9fce-1a30cc05456d",
+    "name": "Onboarding",
+    "child": [
       {
-        id: '22afc36b-4f7f-42ca-9fce-1a301sds223cc05456d',
-        name: 'Admin',
-        child: [
-          {
-            id: '22afc36b-4f7f-42ca-9fce-1a3450das12cc05456d',
-            name: 'Admin panel',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
+        "id": "831728ec-55f1-4f56-9b94-dbd20a36a565",
+        "name": "Sign up",
+        "allowed": [
+          "read",
+          "create",
+          "update"
         ],
+        "permissions": [
+          "read",
+          "create",
+          "delete",
+          "update",
+        ],
+        "child": [
+          {
+            "id": "47d1a9fc-10fb-4d6e-90dc-93bff8277d39",
+            "name": "basic info",
+            "allowed": [
+              "read",
+              "create",
+              "update"
+            ],
+            "permissions": [
+              "read",
+              "create",
+              "delete",
+              "update"
+            ]
+          },
+          {
+            "id": "e14bf7f2-c7af-4fe7-ae96-a56890e2d72b",
+            "name": "Proffesional details",
+            "allowed": [
+              "read",
+              "create",
+              "update"
+            ],
+            "permissions": [
+              "read",
+              "create",
+              "delete",
+              "update"
+            ]
+          }
+        ]
       },
+      {
+        "id": "2ac0afc4-0621-4f2a-befa-732d307bd480",
+        "name": "Sign in",
+        "child": [
+          {
+            "id": "3b7d6e21-d08b-493b-9884-f1c3a000faa2",
+            "name": "Sign in with mobile number",
+            "child": [
+              {
+                "id": "6509fa5d-3b1d-4f62-897a-320d1c9db0db",
+                "name": "company",
+                "allowed": [
+                  "read",
+                  "create",
+                  "update"
+                ],
+                "permissions": [
+                  "read",
+                  "create",
+                  "delete",
+                  "update"
+                ]
+              }
+            ],
+            "allowed": [
+              "read",
+              "create",
+              "update"
+            ],
+            "permissions": [
+              "read",
+              "create",
+              "delete",
+              "update"
+            ]
+          },
+          {
+            "id": "9a21dde5-222f-451c-a601-4d0c3ed63bcf",
+            "name": "Sign in with email id",
+            "allowed": [
+              "read",
+              "create",
+              "update"
+            ],
+            "permissions": [
+              "read",
+              "create",
+              "delete",
+              "update"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "610cb708-9440-49ad-b46c-08cb0c5da8b9",
+        "name": "Forgot Password"
+      }
     ],
+    "allowed": [
+      "read",
+      "create",
+      "update"
+    ],
+    "permissions": [
+      "read",
+      "create",
+      "delete",
+      "update",
+    ]
   },
   {
-    id: '2gbg-4fuk7f-42ca-9fce-1a3012cc05456d',
-    name: 'Dashboard Section',
-    child: [
+    "id": "3a18ad99-04bf-4461-b55f-18c9384deed9",
+    "name": "Dashboard",
+    "child": [
       {
-        id: '3a18ad99-0476bf-4461-b55f-18c93fgbfed9',
-        name: 'Dashboard',
-        child: [
+        "id": "4cdfbee6-6012-4a5f-94b7-c37009500c52",
+        "name": "To-do",
+        "child": [
           {
-            id: '4cdfb1e6-676012-4a5f-94b7-c3700fgb012c52',
-            name: 'Employee Engagement Dashboard',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
+            "id": "8a95c3a7-9d15-4584-a3a6-7e136083709b",
+            "name": "basic information",
+            "allowed": [
+              "update",
+              "read",
+              "create"
+            ],
+            "permissions": [
+              "read",
+              "create",
+              "delete",
+              "update"
+            ]
           },
           {
-            id: '8begfbf07e-1293-4a12d4-b089d7-cb76f4840cbc',
-            name: 'Hall of Fame',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-        ],
+            "id": "38ba5e2d-6595-4c6d-b561-f8654b4d9e01",
+            "name": "Proffesional"
+          }
+        ]
       },
-    ],
-  },
-  {
-    id: '22afc36b-4f7f-42ca-9fc67e-1a30jmkmu56d',
-    name: 'E Card Section',
-    child: [
       {
-        id: '3a18ad99-04bf-4461-b58785f-18c9hnhfnjneed9',
-        name: 'E Cards',
-        child: [
+        "id": "8be9607e-9293-4ad4-b0d7-cb76f4840cbc",
+        "name": "Rename",
+        "child": [
           {
-            id: '4cdytjte6-6012-4a5f-9490b7-c3700950012c52',
-            name: 'Templates',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
+            "id": "08a55c83-c44b-451f-a3db-1436fd6e6cac",
+            "name": "Changed successfull",
+            "allowed": [
+              "update"
+            ],
+            "permissions": [
+              "read",
+              "create",
+              "delete",
+              "update"
+            ]
           },
-        ],
-      },
+          {
+            "id": "722710fe-460b-422b-a2c0-7f29dcd36745",
+            "name": "Forgot number",
+            "allowed": [
+              "read"
+            ],
+            "permissions": [
+              "read",
+              "create",
+              "delete",
+              "update"
+            ]
+          }
+        ]
+      }
     ],
-  },
-  {
-    id: '9yuu7u-4f7f-42ca-9fc67e-56565767',
-    name: 'Certificates Section',
-    child: [
-      {
-        id: '5465-04bf-4461-b58785f-5465',
-        name: 'Certificates',
-        child: [
-          {
-            id: '4cd546e6-6012-4a5f-9490b7-c370546512c52',
-            name: 'Send',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-          {
-            id: '8be967607e-9191-1a1562d4-b0d7-4546840cbc',
-            name: 'Create',
-            allowed: ['create', 'delete', 'update', 'read'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-          {
-            id: '8be9607e-9191-1a12d4-b0d7-cb54650cbc',
-            name: 'Modify',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-        ],
-      },
+    "allowed": [
+      "read"
     ],
-  },
-  {
-    id: '22afc36b-4f7f-42ca-9fc67e-1a30168786d',
-    name: 'Badges Section',
-    child: [
-      {
-        id: '3a18ad99-04bf-4461-b58785545f-18c9384d2eed9',
-        name: 'Badges',
-        child: [
-          {
-            id: '4cdhgfhe6-6012-4a5f-9490b7-c3700950012c52',
-            name: 'Send',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-          {
-            id: '8be96743607e-9191-1a12d4-b0d7-cmcbc',
-            name: 'Create',
-            allowed: ['create', 'delete', 'update', 'read'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-          {
-            id: '8be9607e-9191-1a12d4-b0d7-cb450cbc',
-            name: 'Modify',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: '22afc36b-4f7f-42ca-9fc90e-1a3lkl5456d',
-    name: 'Awards Section',
-    child: [
-      {
-        id: '3a18ad99-04bf-4461-b5565f-18c90987d9',
-        name: 'Awards',
-        child: [
-          {
-            id: '4cdfb1e6-6012-4a5f-9894b7-c370tc52',
-            name: 'Create',
-            allowed: ['create', 'delete', 'update', 'read'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-          {
-            id: '8be9607e-4a12d4-b07fghgh8d7-cb76f4840cbc',
-            name: 'Modify',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-          {
-            id: '8be9607e-9191-b450fdgfd7-cb76f4840cbc',
-            name: 'Categorisation',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-          {
-            id: '8be9607e-9191-b450d7-cb76f4840cbc',
-            name: 'Nominator assignee',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: '22afc36b-4f7f-42ca-9e-1a3012cc05456d',
-    name: 'Program Section',
-    child: [
-      {
-        id: '3a18ad99-04bf-4461-b58785f-18ceed9',
-        name: 'Program',
-        child: [
-          {
-            id: '4cde6-6012-4a5f-9490b7-c3700950012c52',
-            name: 'Create',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-          {
-            id: '8be967607e-9191-1a12mnmd4-b0d7-cb76f4840cbc',
-            name: 'Modify',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-          {
-            id: '8be9xc607e-9191-1a12d4-b0d7-cb7687f4840cbc',
-            name: 'Manage',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: '22afcdf36b-4f7f-42ca-9fce-1a3012cc788905456d',
-    name: 'Survey Section',
-    child: [
-      {
-        id: '22afcfvf36b-4f7f-42dfdca-9fce-45',
-        name: 'Survey',
-        child: [
-          {
-            id: '22afc36b-4f7f-42df878ca-9fce-34',
-            name: 'Create',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-          {
-            id: '22afc36b-4f7f-42popdfdoca-9fce-34',
-            name: 'Modify',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: '22afc09836b-4f7f-42ca-9fce-1a3012cc788905456d',
-    name: 'Ideas Section',
-    child: [
-      {
-        id: '22afcere36b-4f7f-42ca-9fce-45',
-        name: 'Ideas',
-        child: [
-          {
-            id: '22afc36b-4f7f-42cerea-9fce-34',
-            name: 'Hide',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: '22afc36b-4frrt7f-42ca-9fce-1a3012cc788905456d',
-    name: 'Forum Section',
-    child: [
-      {
-        id: '22afc36b-4f7f-42efgtca-9fce-45',
-        name: 'Forum',
-        child: [
-          {
-            id: '22afdedec36b-4f7f-42ca-9fce-34',
-            name: 'Hide',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: '22afc36b-4f7f-42ca-9fce-1c788905456d',
-    name: 'Polls Section',
-    child: [
-      {
-        id: '22afc36b-4f7f-42loloca-9fce-45',
-        name: 'Polls',
-        child: [
-          {
-            id: '22afc36b-4f7f-42coola-9fce-34',
-            name: 'Create',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-          {
-            id: '22afc36b-4f7ffrff-42ca-9fce-34',
-            name: 'Modify',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: '22afc36b-4f7f-42ca-956fce-1a3012cc788905456d',
-    name: 'Enlite Wall Section',
-    child: [
-      {
-        id: '22afc36b-4f7ujuf-42ca-9fce-45',
-        name: 'Enlite Wall',
-        child: [
-          {
-            id: '22afc3dfd6b-4f7f-42ca-9fce-34',
-            name: 'Hide',
-            allowed: ['read', 'create', 'delete', 'update'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: '22afc36b-4f7f-42ca-956fce-1a376d',
-    name: 'Org Section',
-    child: [
-      {
-        id: '22afc36b-4fuf-42ca-9fce-45',
-        name: 'Org Charts',
-        child: [
-          {
-            id: '22afc3d6b-4f7f-42ca-9fce-34',
-            name: 'Org Chart',
-            allowed: ['create', 'delete', 'update', 'read'],
-            permissions: ['read', 'create', 'delete', 'update'],
-          },
-        ],
-      },
-    ],
-  },
-];
+    "permissions": [
+      "read",
+      "create",
+      "delete",
+      "update",
+    ]
+  }
+]

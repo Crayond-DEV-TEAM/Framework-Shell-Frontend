@@ -3,10 +3,13 @@ import { Box, Typography } from '@mui/material';
 
 import { facilityCloneStyle } from './style';
 import { TreeComponent } from '@atoms/treeComponent';
+import { TreeView } from '@crayond_dev/ui_tree-view';
+
 import { Button } from '@atoms/button';
 import { usePermission } from '@core/store';
 import { useEffect, useState } from 'react';
 import { Repositorysimmer } from '../repositoryComponent/simmer';
+import { CollapseIcon, ExpandIcon, InfoIcon, SettingIcon } from '@atoms/icons';
 export interface FacilityCloneProps {
   className?: string;
   sx?: SxProps<Theme>;
@@ -28,9 +31,16 @@ export const FacilityClone = (props: FacilityCloneProps): JSX.Element => {
   };
   const handleCheckChange = (e: any, type: string, data: any, index: any) => {
     const value = data;
-    setRepository(type, index, value);
+    // setRepository(type, index, value);
     // console.log(data);
   };
+
+  const handleChange = (e: any) => {
+    setRepository(e);
+    debugger;
+  };
+
+  console.log(data?.data, 'kkkkkkkkkkkkkkkkkkk');
 
   const { fetchingPermission } = usePermission();
 
@@ -54,14 +64,101 @@ export const FacilityClone = (props: FacilityCloneProps): JSX.Element => {
           <Typography sx={facilityCloneStyle.crudText}>Read</Typography>
           <Typography sx={facilityCloneStyle.crudText}>Update</Typography>
           <Typography sx={facilityCloneStyle.crudText}>Delete</Typography>
+          <Typography sx={facilityCloneStyle.crudText}>Edit</Typography>
         </Box>
       </Box>
       <Box sx={facilityCloneStyle.borderLine} />
-      <Box sx={{ height: 'calc(100vh - 323px)', overflow: 'scroll' }}>
+      <Box sx={{ height: 'calc(100vh - 323px)', overflow: 'scroll', margin: '15px' }}>
         {fetchingPermission ? (
           <Repositorysimmer />
         ) : (
-          <TreeComponent data={data?.data} checkboxsection={true} setEdit={ischeck} onChange={handleCheckChange} />
+          // <TreeView
+          //   checkboxsection
+          //   customLabel={{
+          //     checkBoxStyles: {
+          //       bgColor: 'primary.main',
+          //       checkboxBorderRadius: '20px',
+          //       checkboxHeight: '40px',
+          //       checkboxWidth: '',
+          //     },
+          //     disable: false,
+          //     formControlPropsSx: {},
+          //     handleChange: { handleChange },
+          //     isCheckBox: false,
+          //   }}
+          //   // setEdit={true}
+          //   defaultCollapseIcon={<ExpandIcon />}
+          //   defaultExpandIcon={<CollapseIcon />}
+          //   heading="Repository"
+          //   leftSec={{
+          //     breakpoints: {
+          //       lg: 8,
+          //       md: 6,
+          //       sm: 4,
+          //       xs: 4,
+          //     },
+          //   }}
+          //   rightSec={{
+          //     breakpoints: {
+          //       lg: 4,
+          //       md: 6,
+          //       sm: 8,
+          //       xs: 8,
+          //     },
+          //   }}
+          //   state={data?.data}
+          // />
+          <TreeView
+            checkboxBgColor="primary.main"
+            checkboxBorderRadius="2px"
+            checkboxHeight="20px"
+            checkboxWidth="20px"
+            checkboxsection
+            childrenLabelStyle={{
+              color: '#29302B',
+              fontSize: '14px',
+              fontWeight: 500,
+            }}
+            connectors
+            defaultCollapseIcon={<ExpandIcon />}
+            defaultExpandIcon={<CollapseIcon />}
+            handleChange={handleChange}
+            heading="Basic View"
+            headingSx={{}}
+            labelStyle={{
+              color: '#29302B',
+              fontSize: '14px',
+              fontWeight: 600,
+            }}
+            leftSec={{
+              breakpoints: {
+                lg: 6,
+                md: 6,
+                sm: 4,
+                xs: 12,
+              },
+            }}
+            parentChildIcon={<InfoIcon />}
+            parentIcon={<SettingIcon />}
+            permissionHeadingSx={{
+              color: '#29302B',
+            }}
+            rightSec={{
+              breakpoints: {
+                lg: 6,
+                md: 6,
+                sm: 8,
+                xs: 12,
+              },
+            }}
+            state={data?.data}
+            subChildLabelStyle={{
+              alignItems: 'center',
+              color: '#818181',
+              display: 'flex',
+              fontSize: '12px',
+            }}
+          />
         )}
       </Box>
       {/* sx={{ height: '50vh', overflow: 'scroll' }} */}

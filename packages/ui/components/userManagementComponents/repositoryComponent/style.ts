@@ -13,4 +13,9 @@ export const repositoryComponentStyle: RepositoryComponentStyleProps = {
     width: '500px',
     height: '450px',
   },
+  tree:{
+    '& MuiGrid-root':{
+      padding:'0px !important'
+    }
+  }
 };

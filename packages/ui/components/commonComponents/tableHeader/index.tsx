@@ -232,7 +232,7 @@ export const TableHeader = forwardRef((props: TableHeaderProps): JSX.Element => 
         </Box>
       </Box>
 
-      <hr style={{ border: 0, height: '1px', backgroundColor: '#EAEAEA', margin: '0px -20px' }} />
+      {/* <hr style={{ border: 0, height: '1px', backgroundColor: '#EAEAEA', margin: '0px -17px' }} /> */}
     </Box>
   );
 });

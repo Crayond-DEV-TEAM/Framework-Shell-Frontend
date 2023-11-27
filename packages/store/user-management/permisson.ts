@@ -37,19 +37,22 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   setRepositoryList: (data: any, id: any, key: any) => {
     set({ indexUpdateList: data, permissionId: id, RepositoryList: key });
   },
-  setRepository: (type: string, value: string, data: any) => {
-    const { indexUpdateList } = get();
-    const indexArray = value.replaceAll('-', '-child-').split('-');
-    const jsonObject = indexUpdateList.data;
-    const foundObject = findObjectByIndex(jsonObject, indexArray);
+  // setRepository: (type: string, value: string, data: any) => {
+    // const { indexUpdateList } = get();
+    // const indexArray = value.replaceAll('-', '-child-').split('-');
+    // const jsonObject = indexUpdateList.data;
+    // const foundObject = findObjectByIndex(jsonObject, indexArray);
 
-    if (foundObject) {
-      modifyObjectByIndexWithKey(foundObject, [], data, type);
-      console.log(jsonObject);
-    } else {
-      console.log('Object not found');
-    }
-    set({ indexUpdateList: { data: jsonObject } });
+    // if (foundObject) {
+    //   modifyObjectByIndexWithKey(foundObject, [], data, type);
+    //   console.log(jsonObject);
+    // } else {
+    //   console.log('Object not found');
+    // }
+    // set({ indexUpdateList: { data: jsonObject } });
+  // },
+  setRepository: ( data: any) => {
+     set({ indexUpdateList: { data: data } });
   },
 
   getPermissionList: () => {

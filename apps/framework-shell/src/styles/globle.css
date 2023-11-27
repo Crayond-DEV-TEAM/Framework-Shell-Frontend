@@ -35,12 +35,7 @@ input[type='number'] {
 /* Add your styles for the tooltip title here */
 .MuiTooltip-tooltip {
   font-weight: 600 !important;
-  background: #eaf1ef !important;
-  color: #357968 !important;
-  font-size: 18px;
+  font-size: 13px !important;
+  padding: 7px 7px !important;
   /* Add any other styles you need */
-}
-
-.MuiTooltip-arrow {
-  color: #357968 !important;
 }

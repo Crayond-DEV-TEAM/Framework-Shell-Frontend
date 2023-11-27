@@ -4,7 +4,7 @@ import { DialogDrawer } from '@atoms/dialogDrawer';
 import { FooterComponent } from '@atoms/footerComponent';
 import { WhatsappDialog } from '@components/whatsappDialog';
 import { useAlertConfig } from '@core/store';
-import { TableHeader } from '@core/ui/components';
+import { TableHeader, TooltipComp } from '@core/ui/components';
 import { Box, Grid } from '@mui/material';
 import { Table as CommonTable } from '@crayond_dev/ui_table';
 import { enqueueSnackbar } from 'notistack';
@@ -14,6 +14,7 @@ import { whatsappTab_style } from './style';
 export function WhatsappTab(): JSX.Element {
   const [open, setOpen] = React.useState(false);
   const [switchList, setSwitchList] = React.useState([1, 4]);
+  const [isEdit, setIsEdit] = React.useState(false)
 
   const {
     whatsappConfiguration,
@@ -23,6 +24,15 @@ export function WhatsappTab(): JSX.Element {
     clearWhatsappState,
     deleteWhatsappConfig,
   } = useAlertConfig();
+
+  const customData = whatsappList?.map((e) => {
+    return {
+      ...e,
+      access_token: <TooltipComp
+        value={e?.access_token}
+      />,
+    }
+  })
 
   const Header = [
     {
@@ -59,6 +69,7 @@ export function WhatsappTab(): JSX.Element {
 
   const editHandel = (e: string, val: any) => {
     editWhatsappConfig(val);
+    setIsEdit(true);
     setOpen(true);
   };
 
@@ -67,10 +78,10 @@ export function WhatsappTab(): JSX.Element {
   };
 
   const tableData = [
-    { type: ['TEXT'], name: 'identification_name' },
-    { type: ['TEXT'], name: 'whatsapp_buisness_phone_number' },
-    { type: ['TEXT'], name: 'access_token' },
-    { type: ['TEXT'], name: 'api_version' },
+    { type: ['TEXT'], name: 'identification_name', width: '140px' },
+    { type: ['TEXT'], name: 'whatsapp_buisness_phone_number', width: '120px' },
+    { type: ['TEXT'], name: 'access_token', width: '160px' },
+    { type: ['TEXT'], name: 'api_version', width: '130px' },
     {
       type: ['ACTION'],
       name: 'action',
@@ -84,15 +95,18 @@ export function WhatsappTab(): JSX.Element {
           method: deleteHandel,
         },
       ],
+      width: '120px'
     },
   ];
 
   const handleClose = () => {
     clearWhatsappState();
+    setIsEdit(false);
     setOpen(false);
   };
 
   const handleSubmit = () => {
+    setIsEdit(false);
     setOpen(false);
   };
 
@@ -121,7 +135,7 @@ export function WhatsappTab(): JSX.Element {
           <Box sx={whatsappTab_style.commonTable}>
             <CommonTable
               Header={Header}
-              dataList={whatsappList}
+              dataList={customData}
               tableData={tableData}
               headerOptions={{
                 fontSize: '14px',
@@ -171,7 +185,7 @@ export function WhatsappTab(): JSX.Element {
             // height: '604px',
           }}
           fullWidth={false}
-          title="Add Whatsapp Details"
+          title={`${isEdit ? 'Edit' : 'Add'} Whatsapp Details`}
           fullScreen={false}
           check={false}
           isDialogOpened={open}
@@ -179,7 +193,7 @@ export function WhatsappTab(): JSX.Element {
           handleCloseDialog={handleClose}
           handleSubmit={handleSubmit}
           content={<WhatsappDialog />}
-          Footercomponent={<FooterComponent saveText="Add" onCancel={handleClose} onSave={handleAdd} />}
+          Footercomponent={<FooterComponent saveText={`${isEdit ? 'Edit' : 'Add'}`} onCancel={handleClose} onSave={handleAdd} />}
         />
       </Box>
     </Box>

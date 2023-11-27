@@ -262,7 +262,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                 variant: 'CUSTOM',
                 component: (
                   <TableHeader
-                    isFilterRequired={true}
+                    isFilterRequired={false}
                     filterContent={filterContent}
                     filterChange={handleFilterChange}
                     // onChange={handleAddChange}

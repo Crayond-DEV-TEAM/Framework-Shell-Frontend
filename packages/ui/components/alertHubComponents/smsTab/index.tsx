@@ -1,7 +1,7 @@
 import DeleteIcon from '@assets/deleteIcon';
 import EditIcon from '@assets/editIcon';
 import { DialogDrawer } from '@core/ui/atoms';
-import { SmsDialog } from '@core/ui/components';
+import { SmsDialog, TooltipComp } from '@core/ui/components';
 import { TableHeader } from '@core/ui/components';
 import { Box, Grid, SxProps, Theme } from '@mui/material';
 import { Table as CommonTable } from '@crayond_dev/ui_table';
@@ -14,8 +14,22 @@ import { enqueueSnackbar } from 'notistack';
 export function SmsTab(): JSX.Element {
   const [open, setOpen] = React.useState(false);
   const [switchList, setSwitchList] = React.useState([1, 4]);
+  const [isEdit, setIsEdit] = React.useState(false)
+
 
   const { smsConfiguration, smsList, editSmsConfig, addSmsConfig, clearSmsState, deleteSmsConfig } = useAlertConfig();
+
+  const customData = smsList?.map((e) => {
+    return {
+      ...e,
+      provider_api_key: <TooltipComp
+        value={e?.provider_api_key}
+      />,
+      provider_sid: <TooltipComp
+        value={e?.provider_sid}
+      />
+    }
+  })
 
   const Header = [
     {
@@ -40,7 +54,7 @@ export function SmsTab(): JSX.Element {
       id: 'provider_sid',
       align: 'left',
       disablePadding: false,
-      label: 'Provider Sid',
+      label: 'Providers Id',
     },
     {
       id: 'sender_id',
@@ -58,6 +72,7 @@ export function SmsTab(): JSX.Element {
 
   const editHandel = (e: string, val: any) => {
     editSmsConfig(val);
+    setIsEdit(true);
     setOpen(true);
   };
 
@@ -66,11 +81,11 @@ export function SmsTab(): JSX.Element {
   };
 
   const tableData = [
-    { type: ['TEXT'], name: 'identifier' },
-    { type: ['TEXT'], name: 'provider_api_key' },
-    { type: ['TEXT'], name: 'provider_name' },
-    { type: ['TEXT'], name: 'provider_sid' },
-    { type: ['TEXT'], name: 'sender_id' },
+    { type: ['TEXT'], name: 'identifier' , width: ' 120px'},
+    { type: ['CUSTOM'], name: 'provider_api_key', width: ' 120px' },
+    { type: ['TEXT'], name: 'provider_name', width: ' 120px' },
+    { type: ['CUSTOM'], name: 'provider_sid', width: ' 120px' },
+    { type: ['TEXT'], name: 'sender_id', width: ' 120px' },
     {
       type: ['ACTION'],
       name: 'action',
@@ -84,16 +99,19 @@ export function SmsTab(): JSX.Element {
           method: deleteHandel,
         },
       ],
+      width: ' 120px'
     },
   ];
 
   const handleClose = () => {
     clearSmsState();
+    setIsEdit(false);
     setOpen(false);
   };
 
   const handleSubmit = () => {
     setOpen(false);
+    setIsEdit(false);
   };
 
   const handleAdd = () => {
@@ -122,7 +140,7 @@ export function SmsTab(): JSX.Element {
           <Box sx={smsTab_style.commonTable}>
             <CommonTable
               Header={Header}
-              dataList={smsList}
+              dataList={customData}
               tableData={tableData}
               headerOptions={{
                 fontSize: '14px',
@@ -171,7 +189,7 @@ export function SmsTab(): JSX.Element {
             width: '400px',
           }}
           fullWidth={false}
-          title="Add SMS Details"
+          title={`${isEdit ? 'Edit' : 'Add'} SMS Details`}
           fullScreen={false}
           check={false}
           isDialogOpened={open}
@@ -179,7 +197,7 @@ export function SmsTab(): JSX.Element {
           handleCloseDialog={handleClose}
           handleSubmit={handleSubmit}
           content={<SmsDialog />}
-          Footercomponent={<FooterComponent saveText="Add" onCancel={handleClose} onSave={handleAdd} />}
+          Footercomponent={<FooterComponent saveText={`${isEdit ? 'Edit' : 'Add'}`} onCancel={handleClose} onSave={handleAdd} />}
         />
       </Box>
     </Box>

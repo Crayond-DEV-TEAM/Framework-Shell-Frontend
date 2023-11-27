@@ -15,6 +15,7 @@ import { TooltipComp } from '../../commonComponents/tooltipComp';
 export function EmailTab(): JSX.Element {
   const [open, setOpen] = React.useState(false);
   const [switchList, setSwitchList] = React.useState([1, 4]);
+  const [isEdit, setIsEdit] = React.useState(false)
  
   const { emailConfiguration, addEmailConfig, editEmailConfig, clearEmailState, deleteEmailConfig, emailList } =
     useAlertConfig();
@@ -102,6 +103,7 @@ export function EmailTab(): JSX.Element {
 
   const editHandel = (e: string, val: any) => {
     editEmailConfig(val);
+    setIsEdit(true);
     setOpen(true);
   };
 
@@ -119,7 +121,7 @@ export function EmailTab(): JSX.Element {
     { type: ['CUSTOM'], name: 'api_key', width: '120px' },
     { type: ['TEXT'], name: 'aws_access_id', width: '120px' },
     { type: ['TEXT'], name: 'mail_domain', width: '150px' },
-    { type: ['TEXT'], name: 'from_mail', width: '150px' },
+    { type: ['CUSTOM'], name: 'from_mail', width: '150px' },
     {
       type: ['ACTION'],
       name: 'action',
@@ -139,11 +141,13 @@ export function EmailTab(): JSX.Element {
 
   const handleClose = () => {
     clearEmailState();
+    setIsEdit(false)
     setOpen(false);
   };
 
   const handleSubmit = () => {
     setOpen(false);
+    setIsEdit(false)
   };
 
   const handleAdd = () => {
@@ -190,7 +194,7 @@ export function EmailTab(): JSX.Element {
   const handleClick = () => {
     setOpen(true);
   };
-
+  
   return (
     <Box>
       <Grid container sx={emailTab_style.marginTop}>
@@ -253,15 +257,15 @@ export function EmailTab(): JSX.Element {
             // height: '604px',
           }}
           fullWidth={false}
-          title="Add Email Details"
+          title={`${isEdit ? 'Edit' : 'Add'} Email Details`}
           fullScreen={false}
           check={false}
           isDialogOpened={open}
           handleClose={handleClose}
           handleCloseDialog={handleClose}
           handleSubmit={handleSubmit}
-          content={<EmailDialog />}
-          Footercomponent={<FooterComponent saveText="Add" onCancel={handleClose} onSave={handleAdd} />}
+          content={<EmailDialog  emailConfiguration={emailConfiguration} />}
+          Footercomponent={<FooterComponent saveText={`${isEdit ? 'Edit' : 'Add'}`} onCancel={handleClose} onSave={handleAdd} />}
         />
       </Box>
     </Box>

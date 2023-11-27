@@ -1,6 +1,17 @@
 import { ClickAwayListener, Tooltip, Typography } from "@mui/material";
 import React from "react";
 
+const tooltipStyles = {
+    title: {
+        fontSize: '13px !important',
+        fontWeight: '600 !important',
+        whiteSpace: 'wrap !important',
+        overflow: 'auto !important',
+        textTransform: 'capitalize !important',
+        textOverflow: 'inherit !important'
+    }
+}
+
 export function TooltipComp(props: any): JSX.Element {
     const { value } = props
 
@@ -25,15 +36,15 @@ export function TooltipComp(props: any): JSX.Element {
                 PopperProps={{
                     disablePortal: true,
                 }}
+                
                 onClose={() => handleTooltipClose()}
                 open={isTooltip?.description}
                 disableFocusListener
                 disableHoverListener
                 disableTouchListener
                 arrow
-                placement="top"
-                title={value}
-                followCursor
+                placement="bottom"
+                title={<Typography sx={tooltipStyles?.title}>{value}</Typography>}
             >
                 <Typography sx={{ cursor: 'pointer' }} onClick={() => handleTooltipOpen()}>{value}</Typography>
             </Tooltip>

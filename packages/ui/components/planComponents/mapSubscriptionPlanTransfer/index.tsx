@@ -105,9 +105,10 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
   const addOnId = createEditSubscription?.add_on?.map((x: any) => x?.add_on?.id);
   console.log(createEditSubscription, 'adddOnList');
   console.log(OldSubscription, 'OldSubscription');
-  const chargeMaps = createEditSubscription?.plan_id?.plan_charge_mappings?.map((value: any) => value?.price);
+  debugger
+  const chargeMaps = Array.isArray(createEditSubscription?.plan_id?.plan_charge_mappings) ? createEditSubscription?.plan_id?.plan_charge_mappings?.map((value: any) => value?.price) : [];
   // const Chargessum = chargeMaps?.reduce((accumulator: any, currentValue: any) => accumulator + currentValue, 0);
-  const Chargessum = parseInt(chargeMaps?.join(''), 10);
+  const Chargessum = chargeMaps.length > 0 ? parseInt(chargeMaps?.join(''), 10) : 0;
   const oldchargesMaps = OldSubscription?.charges?.map((value: any) => value.price);
   const oldChargessum = oldchargesMaps?.reduce((accumulator, currentValue) => {
     return accumulator + parseInt(currentValue, 10);

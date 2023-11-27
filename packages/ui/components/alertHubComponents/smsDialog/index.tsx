@@ -30,7 +30,7 @@ export function SmsDialog(): JSX.Element {
         <Input name="provider_name" value={smsConfiguration?.provider_name} onChange={handleChange} />
       </Box>
       <Box sx={smsDialog_style.field}>
-        <Label isRequired={true}>Provider SId</Label>
+        <Label isRequired={true}>Providers Id</Label>
         <Input name="provider_sid" value={smsConfiguration?.provider_sid} onChange={handleChange} />
       </Box>
       <Box sx={smsDialog_style.field}>

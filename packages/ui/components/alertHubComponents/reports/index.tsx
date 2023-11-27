@@ -537,9 +537,9 @@ export function Reports(props: ReportsProps): JSX.Element {
                     tableHeader={`Total Reports (${reportList?.length ?? 0})`}
                     buttonName="Add New Config"
                     placeholder="Search by receiver info (or) description"
-                    // isFilterRequired={true}
+                    isFilterRequired={false}
                     isSearchRequired={true}
-                    isDownloadRequired={true}
+                    isDownloadRequired={false}
                     isBtnRequired={false}
                     filterContent={filterContent}
                     onChange={handleChange}

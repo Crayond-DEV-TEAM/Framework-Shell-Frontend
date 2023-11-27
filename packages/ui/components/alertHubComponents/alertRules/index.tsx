@@ -276,7 +276,7 @@ export function AlertRules(props: AlertRuleProps): JSX.Element {
                     tableHeader="Alert Rule"
                     buttonName="Add New Rule"
                     placeholder="Search by rule code"
-                    isFilterRequired={true}
+                    isFilterRequired={false}
                     filterContent={filterContent}
                     filterChange={handleFilterChange}
                     handleChipDelete={handleChipDelete}

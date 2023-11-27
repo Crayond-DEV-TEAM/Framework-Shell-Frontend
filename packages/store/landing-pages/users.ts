@@ -9,7 +9,7 @@ export const useUserLanding = create<UserLandingInterface>((set, get) => ({
   fetching: false,
   errorOnFetching: false,
   UserList: [],
-  createEditUserRoleList: { mapAdmin: [] },
+  createEditUserRoleList: { mapAdmin: [] , searchName: '' },
   UserListMasterBySearch: [],
   UserEditRoleData: { name: '', role: '', id: '', is_active: false },
 
@@ -178,12 +178,13 @@ export const useUserLanding = create<UserLandingInterface>((set, get) => ({
   },
   // /idm/user-profile/search
   getSearchOptionList: (id: string) => {
+    const { createEditUserRoleList } = get();
     debugger;
     set({ fetching: true, errorOnFetching: false });
 
     const payload = {
       organisation_id: id,
-      searchStr: 'ana',
+      searchStr: createEditUserRoleList.searchName,
       limit: 50,
       offset: 0,
     };
@@ -238,7 +239,7 @@ export const useUserLanding = create<UserLandingInterface>((set, get) => ({
 
   clearAll: () => {
     set({
-      createEditUserRoleList: { mapAdmin: [] },
+      createEditUserRoleList: { mapAdmin: [] , searchName: '' },
     });
   },
 }));

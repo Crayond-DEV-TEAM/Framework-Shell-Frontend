@@ -20,7 +20,6 @@ export const JsonViewer = (props: JsonViewerProps): JSX.Element => {
   const { seteditRepository } = useRepository();
   const onChange1 = (data: any) => {
     onChange(data.jsObject);
-    // console.log(')))))', data);
     seteditRepository(data.jsObject);
   };
   return (

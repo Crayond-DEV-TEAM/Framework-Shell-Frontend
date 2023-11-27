@@ -23,7 +23,6 @@ export interface AdminSectionProps {
   sx?: SxProps<Theme>;
 }
 
-
 const CustomSwitch = ({ checked, onChange }) => {
   return (
     <Box sx={adminSectionStyle.customSwitch}>
@@ -108,12 +107,6 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     e.stopPropagation();
   };
   const handleTableDetail = (id: string, data: any, e: any) => {
-    // debugger;
-    // getMenu();
-    // getSideMenusFromProject(id);
-    // localStorage.setItem(localStorageKeys.projectId, id);
-    // navigate(webRoutes.root);
-
     getAllProjectsEditData(id);
     setProfileDetails(true);
     e.preventDefault();
@@ -162,22 +155,6 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     }
     setOpen(false);
     clearAll();
-  };
-  const handleSwitch = (id: any, data: any, e: any) => {
-    if (!switchList.includes(id)) {
-      setSwitchList([...switchList, id]);
-    } else {
-      const index = switchList.indexOf(id);
-      if (index > -1) {
-        switchList.splice(index, 1);
-        setSwitchList([...switchList]);
-      }
-    }
-    if (e.target.checked === true) {
-      getStatusList(id, true);
-    } else {
-      getStatusList(id, false);
-    }
   };
   const handleStatus = () => {
     if (adminList?.length > 0) {

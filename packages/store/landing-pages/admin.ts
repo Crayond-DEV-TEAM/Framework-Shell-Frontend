@@ -96,6 +96,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     const { clearAll, createEditAdmin, getAdminList, OrganisationDetails } = get();
 
     set({ fetching: true, errorOnFetching: false });
+    debugger;
     // const { RepositoryList } = useRepository();
     const payload = {
       organisation_id: OrganisationDetails.id,
@@ -104,7 +105,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       services: createEditAdmin.mapServices?.map((x: any) => x?.id),
       users: createEditAdmin.mapAdmin?.map((x: any) => ({
         user_profile_id: x?.id,
-        access: x?.access,
+        access: x?.access?.name,
       })),
       is_active: createEditAdmin?.is_active,
     };
@@ -173,7 +174,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     const { getAdminList, OrganisationDetails } = get();
     debugger;
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('get', `${envConfig.api_url}/idm/user-profile/list/organisation?limit=20&offset=0`, {}, true)
+    httpRequest('get', `${envConfig.api_url}/idm/user-profile/list/organisation?limit=100&offset=0`, {}, true)
       .then((response) => {
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
@@ -279,6 +280,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       });
   },
   getAllProjectsEditData: (id: string) => {
+    debugger
     set({ fetching: true, errorOnFetching: false });
 
     const payload = {
@@ -288,6 +290,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       .then((response) => {
         const responseData = response.data.data;
         const Servicemap: any = [];
+        const Usermap: any = [];
 
         if (Array.isArray(responseData.project_service_mappings) && responseData.project_service_mappings.length > 0) {
           responseData.project_service_mappings.forEach((tableData: any) => {
@@ -297,15 +300,27 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
             });
           });
         }
+
+        if (Array.isArray(responseData.project_user_mappings) && responseData.project_user_mappings.length > 0) {
+          responseData.project_user_mappings.forEach((tableData: any) => {
+            Usermap.push({
+              id: tableData.id,
+              name: tableData.name,
+              access:{
+                 id:tableData.access === 'Full Access' ? '2' : '1' , name: tableData.access 
+              }
+            });
+          });
+        }
         const editData = {
           projectTitle: responseData.name,
           description: responseData.description,
           mapServices: Servicemap,
-          mapAdmin: responseData.project_user_mappings,
+          mapAdmin: Usermap,
           is_active: responseData.is_active,
           id: responseData.id,
           Servicedatas:[...Servicemap],
-          adminDatas:[...responseData.project_user_mappings]
+          adminDatas:[...Usermap]
         };
         set((state) => ({ createEditAdmin: { ...editData } }));
       })
@@ -433,8 +448,9 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       organisation_id: OrganisationDetails.id,
       username: userInviteEdit.userName,
       email_id: userInviteEdit.email,
+      role_id:userInviteEdit.role.id,
     };
-    httpRequest('post', `${envConfig.api_url}/idm/project/invite-user`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/idm/user-profile/invite`, payload, true)
       .then((response) => {
         enqueueSnackbar('User Invited Succesfully!', { variant: 'success' });
         callback();

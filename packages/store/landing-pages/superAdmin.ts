@@ -293,7 +293,7 @@ editGetDataOrganisation: (id: string) => {
       organisation_id: id,
       is_active: status,
     };
-    httpRequest('put', `${envConfig.api_url}/idm/organisation/update`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/idm/organisation/deactivate`, payload, true)
       .then((response) => {
         enqueueSnackbar('Status changed succesfully!', { variant: 'success' });
       })

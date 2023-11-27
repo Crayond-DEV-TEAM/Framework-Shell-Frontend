@@ -1341,6 +1341,7 @@ export interface UserProfileInterface {
 }
 export interface UserListKey {
   mapAdmin: any;
+  searchName: string;
 }
 
 export interface UserEditKey {

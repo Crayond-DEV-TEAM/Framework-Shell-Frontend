@@ -134,7 +134,7 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
             </AccordionSummary>
             <AccordionDetails sx={{ padding: '0px' }}>
               <AddChipMultipleDropdown
-                createEditAdmin={createEditAdmin.mapAdmin}
+                createEditAdmin={createEditAdmin}
                 dataList={UserListMaster}
                 handleChange={handlechange}
                 accessMaster={accessMaster}

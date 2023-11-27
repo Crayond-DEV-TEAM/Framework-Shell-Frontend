@@ -35,12 +35,20 @@ export const Header = [
   },
 ];
 
-export const tableData = (editHandel: (id: string, data: any, e: any) => void, deleteHandel: (id: string) => void) => [
+export const tableData = (
+  editHandel: (id: string, data: any, e: any) => void,
+  deleteHandel: (id: string, data: any, e: any) => void,
+) => [
   { type: ['TEXT'], name: 'organisationTitle' },
   { type: ['TEXT'], name: 'description' },
   { type: ['TEXT'], name: 'serviceMapped' },
+  // {
+  //   type: ['SWITCH'],
+  //   name: 'is_active',
+  //   switchText: [{ label_1: 'In Active', label_2: 'Active' }],
+  // },
   {
-    type: ['SWITCH'],
+    type: ['CUSTOM'],
     name: 'is_active',
     switchText: [{ label_1: 'In Active', label_2: 'Active' }],
   },

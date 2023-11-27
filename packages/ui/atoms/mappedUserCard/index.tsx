@@ -14,12 +14,12 @@ export interface MappedUserCardProps {
 
 export const MappedUserCard = (props: MappedUserCardProps): JSX.Element => {
   const { className = '', sx = {}, altText, dataMaster, accessSection = true, ...rest } = props;
+  console.log(dataMaster, ' dataMasterdataMaster');
 
   // cons
 
   // const { createEditAdmin } = useAdminLanding();
   // const dataList = dataMaster;
-
   return (
     <Box
       sx={[

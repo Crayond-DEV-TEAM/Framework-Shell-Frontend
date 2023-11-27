@@ -25,6 +25,8 @@ export type InputProps = StandardTextFieldProps & {
     | undefined;
   textFieldStyle?: object | any;
   variant?: 'filled' | 'outlined' | 'standard';
+  height?: string; // Add height prop
+  width?: string;
 };
 
 export function Input(props: InputProps): JSX.Element {
@@ -50,15 +52,20 @@ export function Input(props: InputProps): JSX.Element {
     textFieldStyle = {},
     className = '',
     header = '',
+    height,
+    width,
     ...rest
   } = props;
+  const dynamicStyles: SxProps<Theme> = {
+    height: height || undefined,
+  };
 
   return (
     <>
       <TextField
         type={type}
         size={size}
-        sx={{ ...inputStyle.textFieldSx, ...textFieldStyle }}
+        sx={{ ...inputStyle.textFieldSx, ...textFieldStyle, ...dynamicStyles }}
         variant={variant}
         value={value}
         placeholder={placeholder}
@@ -77,6 +84,7 @@ export function Input(props: InputProps): JSX.Element {
           endAdornment: <InputAdornment position="end">{endAdornment}</InputAdornment>,
         }}
         {...rest}
+        // height={'10px'}
       />
     </>
   );

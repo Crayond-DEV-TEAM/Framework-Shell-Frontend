@@ -80,7 +80,7 @@ export function EmailDialog(props: {
       ) : props?.emailConfiguration?.email_provider === 'SendGrid' ? (
         <Box sx={emailDialog_style.field}>
           <Label isRequired={true}>API Key</Label>
-          <Input name="api_key" value={props?.emailConfiguration?.api_key?.props?.value} onChange={handleChange} />
+          <Input name="api_key" value={props?.emailConfiguration?.api_key} onChange={handleChange} />
         </Box>
       ) : props?.emailConfiguration?.email_provider === 'Pinpoint' ? (
         <Box>
@@ -116,7 +116,6 @@ export function EmailDialog(props: {
       )}
 
       <Box sx={emailDialog_style.field}>
-        {console.log(props?.emailConfiguration)}
         <Label isRequired={true}>From mail</Label>
         <Input name="from_mail" value={props?.emailConfiguration?.from_mail} onChange={handleChange} />
       </Box>

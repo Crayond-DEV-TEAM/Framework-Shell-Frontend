@@ -111,6 +111,7 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
   updateConfig: (field, value, configType) => {
     const { emailConfiguration } = get()
     if (configType === 'email') {
+      // debugger
       set((state) => ({
         emailConfiguration: {
           ...state.emailConfiguration,
@@ -206,8 +207,8 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
         slug: slugId,
       },
     })
-      .then(() => {
-        enqueueSnackbar('Email Config Successfully Added!', { variant: 'success' });
+      .then((res) => {
+        enqueueSnackbar(res?.data?.message, { variant: 'success' });
         getEmailConfig();
         clearEmailState();
       })
@@ -249,7 +250,7 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
       },
     })
       .then((response) => {
-        enqueueSnackbar('Sms Config Successfully Added!', { variant: 'success' });
+        enqueueSnackbar(response?.data?.message, { variant: 'success' });
         getSmsConfig();
         clearSmsState();
       })
@@ -281,7 +282,7 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
       },
     })
       .then((response) => {
-        enqueueSnackbar('Push Config Successfully Added!', { variant: 'success' });
+        enqueueSnackbar(response?.data?.message, { variant: 'success' });
         getPushConfig();
         clearPushState();
       })
@@ -319,7 +320,7 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
       },
     })
       .then((response) => {
-        enqueueSnackbar('Slack Config Successfully Added!', { variant: 'success' });
+        enqueueSnackbar(response?.data?.message, { variant: 'success' });
         getSlackConfig();
         clearSlackState();
       })
@@ -605,7 +606,7 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
         smtp_password: data?.smtp_password,
         mail_domain: data?.mail_domain,
         from_mail: data?.from_mail?.props?.value,
-        api_key: data?.api_key,
+        api_key: data?.api_key?.props?.value,
         aws_access_id: data?.aws_access_id,
         aws_secret_key: data?.aws_secret_key,
         aws_region: data?.aws_region,
@@ -656,7 +657,7 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
     set({
       whatsappConfiguration: {
         whatsapp_buisness_phone_number: data?.whatsapp_buisness_phone_number,
-        access_token: data?.access_token,
+        access_token: data?.access_token?.props?.value,
         api_version: data?.api_version,
         identification_name: data?.identification_name,
         isDefault: data?.isDefault,
@@ -680,7 +681,7 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
       },
     })
       .then((response) => {
-        enqueueSnackbar('Data Deleted Succesfully!', { variant: 'success' });
+        enqueueSnackbar(response?.data?.message, { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -708,7 +709,7 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
       },
     })
       .then((response) => {
-        enqueueSnackbar('Data Deleted Succesfully!', { variant: 'success' });
+        enqueueSnackbar(response?.data?.message, { variant: 'success' });
         // getSmsConfig();
       })
       .catch((err) => {
@@ -736,7 +737,7 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
       },
     })
       .then((response) => {
-        enqueueSnackbar('Data Deleted Succesfully!', { variant: 'success' });
+        enqueueSnackbar(response?.data?.message, { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -763,7 +764,7 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
       },
     })
       .then((response) => {
-        enqueueSnackbar('Data Deleted Succesfully!', { variant: 'success' });
+        enqueueSnackbar(response?.data?.message, { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -790,7 +791,7 @@ export const useAlertConfig = create<AlertConfig>((set, get) => ({
       },
     })
       .then((response) => {
-        enqueueSnackbar('Data Deleted Succesfully!', { variant: 'success' });
+        enqueueSnackbar(response?.data?.message, { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });

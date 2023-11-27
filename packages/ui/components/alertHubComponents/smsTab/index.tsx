@@ -14,6 +14,8 @@ import { enqueueSnackbar } from 'notistack';
 export function SmsTab(): JSX.Element {
   const [open, setOpen] = React.useState(false);
   const [switchList, setSwitchList] = React.useState([1, 4]);
+  const [isEdit, setIsEdit] = React.useState(false)
+
 
   const { smsConfiguration, smsList, editSmsConfig, addSmsConfig, clearSmsState, deleteSmsConfig } = useAlertConfig();
 
@@ -70,6 +72,7 @@ export function SmsTab(): JSX.Element {
 
   const editHandel = (e: string, val: any) => {
     editSmsConfig(val);
+    setIsEdit(true);
     setOpen(true);
   };
 
@@ -102,11 +105,13 @@ export function SmsTab(): JSX.Element {
 
   const handleClose = () => {
     clearSmsState();
+    setIsEdit(false);
     setOpen(false);
   };
 
   const handleSubmit = () => {
     setOpen(false);
+    setIsEdit(false);
   };
 
   const handleAdd = () => {
@@ -184,7 +189,7 @@ export function SmsTab(): JSX.Element {
             width: '400px',
           }}
           fullWidth={false}
-          title="Add SMS Details"
+          title={`${isEdit ? 'Edit' : 'Add'} SMS Details`}
           fullScreen={false}
           check={false}
           isDialogOpened={open}
@@ -192,7 +197,7 @@ export function SmsTab(): JSX.Element {
           handleCloseDialog={handleClose}
           handleSubmit={handleSubmit}
           content={<SmsDialog />}
-          Footercomponent={<FooterComponent saveText="Add" onCancel={handleClose} onSave={handleAdd} />}
+          Footercomponent={<FooterComponent saveText={`${isEdit ? 'Edit' : 'Add'}`} onCancel={handleClose} onSave={handleAdd} />}
         />
       </Box>
     </Box>

@@ -3,7 +3,7 @@ import React from "react";
 
 const tooltipStyles = {
     title: {
-        fontSize: '14px !important',
+        fontSize: '13px !important',
         fontWeight: '600 !important',
         whiteSpace: 'wrap !important',
         overflow: 'auto !important',

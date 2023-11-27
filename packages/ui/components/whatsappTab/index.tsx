@@ -14,6 +14,7 @@ import { whatsappTab_style } from './style';
 export function WhatsappTab(): JSX.Element {
   const [open, setOpen] = React.useState(false);
   const [switchList, setSwitchList] = React.useState([1, 4]);
+  const [isEdit, setIsEdit] = React.useState(false)
 
   const {
     whatsappConfiguration,
@@ -68,6 +69,7 @@ export function WhatsappTab(): JSX.Element {
 
   const editHandel = (e: string, val: any) => {
     editWhatsappConfig(val);
+    setIsEdit(true);
     setOpen(true);
   };
 
@@ -99,10 +101,12 @@ export function WhatsappTab(): JSX.Element {
 
   const handleClose = () => {
     clearWhatsappState();
+    setIsEdit(false);
     setOpen(false);
   };
 
   const handleSubmit = () => {
+    setIsEdit(false);
     setOpen(false);
   };
 
@@ -181,7 +185,7 @@ export function WhatsappTab(): JSX.Element {
             // height: '604px',
           }}
           fullWidth={false}
-          title="Add Whatsapp Details"
+          title={`${isEdit ? 'Edit' : 'Add'} Whatsapp Details`}
           fullScreen={false}
           check={false}
           isDialogOpened={open}
@@ -189,7 +193,7 @@ export function WhatsappTab(): JSX.Element {
           handleCloseDialog={handleClose}
           handleSubmit={handleSubmit}
           content={<WhatsappDialog />}
-          Footercomponent={<FooterComponent saveText="Add" onCancel={handleClose} onSave={handleAdd} />}
+          Footercomponent={<FooterComponent saveText={`${isEdit ? 'Edit' : 'Add'}`} onCancel={handleClose} onSave={handleAdd} />}
         />
       </Box>
     </Box>

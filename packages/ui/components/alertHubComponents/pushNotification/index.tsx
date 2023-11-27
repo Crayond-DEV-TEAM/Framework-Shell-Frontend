@@ -14,6 +14,7 @@ import { enqueueSnackbar } from 'notistack';
 export function PushNotification(): JSX.Element {
   const [open, setOpen] = React.useState(false);
   const [switchList, setSwitchList] = React.useState([1, 4]);
+  const [isEdit, setIsEdit] = React.useState(false)
 
   const { pushConfiguration, pushList, addPushConfig, editPushConfig, deletePushConfig, clearPushState } =
     useAlertConfig();
@@ -69,6 +70,7 @@ export function PushNotification(): JSX.Element {
 
   const editHandel = (e: string, val: any) => {
     editPushConfig(val);
+    setIsEdit(true);
     setOpen(true);
   };
 
@@ -100,11 +102,13 @@ export function PushNotification(): JSX.Element {
 
   const handleClose = () => {
     clearPushState();
+    setIsEdit(false);
     setOpen(false);
   };
 
   const handleSubmit = () => {
     setOpen(false);
+    setIsEdit(false);
   };
 
   const handleAdd = () => {
@@ -180,7 +184,7 @@ export function PushNotification(): JSX.Element {
           width: '1000px',
         }}
         fullWidth={false}
-        title="Add Push Notification Details"
+        title={`${isEdit ? 'Edit' : 'Add'} Push Notification Details`}
         fullScreen={false}
         check={false}
         isDialogOpened={open}
@@ -188,7 +192,7 @@ export function PushNotification(): JSX.Element {
         handleCloseDialog={handleClose}
         handleSubmit={handleSubmit}
         content={<PushDialog />}
-        Footercomponent={<FooterComponent saveText="Add" onCancel={handleClose} onSave={handleAdd} />}
+        Footercomponent={<FooterComponent saveText={`${isEdit ? 'Edit' : 'Add'}`} onCancel={handleClose} onSave={handleAdd} />}
       />
     </Box>
   );

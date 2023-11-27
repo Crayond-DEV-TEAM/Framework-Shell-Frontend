@@ -14,6 +14,8 @@ import { SlackDialog } from '..';
 export function SlackTab(): JSX.Element {
   const [open, setOpen] = React.useState(false);
   const [switchList, setSwitchList] = React.useState([1, 4]);
+  const [isEdit, setIsEdit] = React.useState(false)
+
 
   const { slackConfiguration, slackList, addSlackConfig, editSlackConfig, clearSlackState, deleteSlackConfig } =
     useAlertConfig();
@@ -50,6 +52,7 @@ export function SlackTab(): JSX.Element {
 
   const editHandel = (e: string, val: any) => {
     editSlackConfig(val);
+    setIsEdit(true);
     setOpen(true);
   };
 
@@ -80,11 +83,13 @@ export function SlackTab(): JSX.Element {
 
   const handleClose = () => {
     clearSlackState();
+    setIsEdit(false);
     setOpen(false);
   };
 
   const handleSubmit = () => {
     setOpen(false);
+    setIsEdit(false);
   };
 
   const handleAdd = () => {
@@ -162,7 +167,7 @@ export function SlackTab(): JSX.Element {
             // height: '604px',
           }}
           fullWidth={false}
-          title="Add Slack Details"
+          title={`${isEdit ? 'Edit' : 'Add'} Slack Details`}
           fullScreen={false}
           check={false}
           isDialogOpened={open}
@@ -170,7 +175,7 @@ export function SlackTab(): JSX.Element {
           handleCloseDialog={handleClose}
           handleSubmit={handleSubmit}
           content={<SlackDialog />}
-          Footercomponent={<FooterComponent saveText="Add" onCancel={handleClose} onSave={handleAdd} />}
+          Footercomponent={<FooterComponent saveText={`${isEdit ? 'Edit' : 'Add'}`} onCancel={handleClose} onSave={handleAdd} />}
         />
       </Box>
     </Box>

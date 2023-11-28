@@ -140,6 +140,15 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
               display: 'flex',
               fontSize: '12px',
             }}
+            leftBorderStyle={{
+              position: 'absolute',
+              top: 0,
+              left: 10,
+              width: '10px',
+              height: '100%',
+              borderLeft: '1px solid #9B9B9B',
+              zIndex: 999,
+            }}
           />
         )}
       </Box>

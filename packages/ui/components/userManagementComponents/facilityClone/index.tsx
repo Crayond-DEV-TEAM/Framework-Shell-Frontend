@@ -57,7 +57,7 @@ export const FacilityClone = (props: FacilityCloneProps): JSX.Element => {
     >
       <Typography sx={facilityCloneStyle.header}>{tableName}</Typography>
       <Box sx={facilityCloneStyle.borderLine} />
-      <Box sx={facilityCloneStyle.repository}>
+      {/* <Box sx={facilityCloneStyle.repository}>
         <Typography sx={facilityCloneStyle.repositoryText}>Repository</Typography>
         <Box sx={{ display: 'flex' }}>
           <Typography sx={facilityCloneStyle.crudText}>Create</Typography>
@@ -66,9 +66,9 @@ export const FacilityClone = (props: FacilityCloneProps): JSX.Element => {
           <Typography sx={facilityCloneStyle.crudText}>Delete</Typography>
           <Typography sx={facilityCloneStyle.crudText}>Edit</Typography>
         </Box>
-      </Box>
-      <Box sx={facilityCloneStyle.borderLine} />
-      <Box sx={{ height: 'calc(100vh - 323px)', overflow: 'scroll', margin: '15px' }}>
+      </Box> */}
+      {/* <Box sx={facilityCloneStyle.borderLine} /> */}
+      <Box sx={{ height: 'calc(100vh - 302px)', overflow: 'scroll', margin: '15px' }}>
         {fetchingPermission ? (
           <Repositorysimmer />
         ) : (
@@ -120,11 +120,12 @@ export const FacilityClone = (props: FacilityCloneProps): JSX.Element => {
               fontWeight: 500,
             }}
             connectors
+            disable={true}
             defaultCollapseIcon={<ExpandIcon />}
             defaultExpandIcon={<CollapseIcon />}
             handleChange={handleChange}
-            heading="Basic View"
-            headingSx={{}}
+            heading="Repository"
+            headingSx={{ fontSize: '14px', padding: '15px' }}
             labelStyle={{
               color: '#29302B',
               fontSize: '14px',
@@ -142,6 +143,8 @@ export const FacilityClone = (props: FacilityCloneProps): JSX.Element => {
             parentIcon={<SettingIcon />}
             permissionHeadingSx={{
               color: '#29302B',
+              fontWeight: 600,
+              // borderBottom: '1px solid',
             }}
             rightSec={{
               breakpoints: {
@@ -157,6 +160,15 @@ export const FacilityClone = (props: FacilityCloneProps): JSX.Element => {
               color: '#818181',
               display: 'flex',
               fontSize: '12px',
+            }}
+            leftBorderStyle={{
+              position: 'absolute',
+              top: 0,
+              left: 10,
+              width: '10px',
+              height: '100%',
+              borderLeft: '1px solid #9B9B9B',
+              zIndex: 999,
             }}
           />
         )}

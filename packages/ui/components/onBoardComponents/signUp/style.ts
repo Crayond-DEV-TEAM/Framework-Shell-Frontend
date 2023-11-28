@@ -43,7 +43,9 @@ export const signUpStyle: SignUpStyleProps = {
   loginSx: {
     textAlign: 'center',
     fontSize: '14px',
-    color: '#5C6266',
+    color: 'primary.main',
+    textDecoration:'underline',
+    fontWeight:600,
   },
   eyeSx: {
     width: '16px',

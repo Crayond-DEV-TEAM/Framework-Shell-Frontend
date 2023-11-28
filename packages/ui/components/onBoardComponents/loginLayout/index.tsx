@@ -9,7 +9,7 @@ import crayond from '@assets/crayond.svg';
 import login from '@assets/login.svg';
 import toolkit from '@assets/toolkit.svg';
 import { loginLayoutStyle } from './style';
-import { useUser } from '@core/store'
+import { useUser } from '@core/store';
 import packageJson from '../../../../../package.json';
 
 export interface LoginLayoutProps {
@@ -31,20 +31,24 @@ export const LoginLayout = forwardRef((props: LoginLayoutProps): JSX.Element => 
     //Already logged in
     if (authToken) {
       const user = parseJwt(authToken);
-        useUser.setState({ user });
-        if (user.isSuperAdmin === true) {
-          navigate(webRoutes.superAdmin)
-          //  window.location.href = '/superAdmin';
-          console.log('super admin');
-        } else {
-          // navigate(webRoutes.admin)
-          // window.location.href = '/admin';
-        }
+      useUser.setState({ user });
+      if (user.isSuperAdmin === true) {
+        navigate(webRoutes.superAdmin);
+        //  window.location.href = '/superAdmin';
+        console.log('super admin');
+      } else {
+        // navigate(webRoutes.admin)
+        // window.location.href = '/admin';
+      }
       // navigate(webRoutes.ad);
     }
   }, [location]);
 
   const appVersion = packageJson.version;
+
+  const handleRoute = () => {
+    navigate(webRoutes.signup);
+  };
 
   return (
     <Box sx={[{ ...loginLayoutStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]} className={`${className}`} {...rest}>
@@ -73,10 +77,18 @@ export const LoginLayout = forwardRef((props: LoginLayoutProps): JSX.Element => 
           </Box>
         </Grid>
       </Grid>
-
-      <Box sx={loginLayoutStyle?.toolkitBottom}>
-        <Box component={'img'} src={crayond} sx={loginLayoutStyle.bottomImgSx} />
-        <Typography sx={loginLayoutStyle?.power}>Powered by Crayon&apos;d</Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Box sx={loginLayoutStyle?.toolkitBottom}>
+          <Box component={'img'} src={crayond} sx={loginLayoutStyle.bottomImgSx} />
+          <Typography sx={loginLayoutStyle?.power}>Powered by Crayon&apos;d</Typography>
+        </Box>
+        {location.pathname === '/login' ? (
+          <Box onClick={handleRoute}>
+            <Typography sx={loginLayoutStyle?.onboardButton}>// Onboarding Flow</Typography>
+          </Box>
+        ) : (
+          ''
+        )}
       </Box>
     </Box>
   );

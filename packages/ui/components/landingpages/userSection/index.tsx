@@ -68,7 +68,6 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
   const filteredMessageGroup = UserList.filter((x: any) => x.name?.toLowerCase().includes(searchTerm.toLowerCase()));
 
   const handleTableEdit = (id: string, data: any, e: any) => {
-    debugger;
     const editData = {
       id: data.id,
       name: data.name,
@@ -80,12 +79,10 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
     };
     updateEditData(editData);
     setValues(true);
-    console.log('');
   };
   const handleTableDelete = (id: string) => {
     deleteUserlist(id);
     // setOpen(tru);
-    console.log('');
   };
 
   const onSaveUserEdit = () => {
@@ -115,7 +112,6 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
     setValues(false);
   };
   const handleDrawerOpen = () => {
-    debugger;
     setOpen(true);
     getSearchOptionList(OrganisationDetails.id);
   };
@@ -167,7 +163,6 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
     handleStatus();
   }, [UserList]);
 
-  console.log(createEditUserRoleList, 'hcksdjhkadjhlksaidulwqkdj');
 
   return (
     <Box

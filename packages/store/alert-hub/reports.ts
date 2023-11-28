@@ -115,7 +115,6 @@ export const useAlertReports = create<ReportInterface>((set, get) => ({
       .then((response) => {
         let res = response?.data?.data;
 
-        console.log(res, 'res');
 
         set({
           reportDelivery: res,
@@ -133,7 +132,6 @@ export const useAlertReports = create<ReportInterface>((set, get) => ({
 
   getReportList: (index: any) => {
     const slugId = useSlug.getState().slugs.ALERTSHUB;
-    console.log(slugId,'slug');
     
 
     set({ fetching: true, errorOnFetching: false });

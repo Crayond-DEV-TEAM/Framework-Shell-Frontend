@@ -47,9 +47,7 @@ export const Plans = (props: PlansProps): JSX.Element => {
     const feature_group_all = data?.plan_data?.plan_feature_mapings?.filter(
       (feature_group: any) => feature_group?.feature_group !== null,
     );
-    // console.log(feature_group_all);
     feature_group_all?.map((grp: any, index: any) => {
-      // console.log(temp_group);
       if (temp_group.length <= 0) {
         temp_group.push({
           id: grp.feature_group.id,
@@ -67,8 +65,6 @@ export const Plans = (props: PlansProps): JSX.Element => {
       }
     });
 
-    console.log('Feature GROUP ', feature_group_all);
-    console.log('temp', temp_group);
     feature_group_all.map((grp: any) => {
       temp_group.map((x: any) => {
         if (x.id === grp?.feature_group?.id) {
@@ -96,7 +92,6 @@ export const Plans = (props: PlansProps): JSX.Element => {
 
     setUngroupedFeature(ungroupped_feature);
 
-    console.log(data.plan_data.plan_add_on_mappings);
     const add_on = data.plan_data.plan_add_on_mappings.map((plan_addon: any) => {
       return {
         id: plan_addon.add_on.id,
@@ -107,7 +102,6 @@ export const Plans = (props: PlansProps): JSX.Element => {
         limit_count: plan_addon.limit_count,
       };
     });
-    console.log(add_on);
     setAddOn(add_on);
     const charges = data.plan_data.plan_charge_mappings.map((charge: any) => {
       return {
@@ -151,10 +145,8 @@ export const Plans = (props: PlansProps): JSX.Element => {
       }
     }
     if (e.target.checked === true) {
-      console.log(id);
       editPlanStatus(id, true);
     } else {
-      console.log(id);
       editPlanStatus(id, false);
     }
   };

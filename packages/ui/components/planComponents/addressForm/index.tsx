@@ -27,7 +27,6 @@ export const AddressForm = (props: AddressFormProps): JSX.Element => {
     createEditCustomer.country = selectedCountry;
   }
 
-  console.log(createEditCustomer.country, 'createEditCustomer.country');
   return (
     <Box
       sx={[

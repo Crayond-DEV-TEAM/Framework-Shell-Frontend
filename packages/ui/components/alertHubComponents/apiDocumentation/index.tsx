@@ -78,7 +78,6 @@ export function ApiDocumentation(props: ApiDocumentationProps): JSX.Element {
     { type: ['TEXT'], name: 'description' },
   ];
   const handleCopy = () => {
-    console.log('Hi');
   };
 
   const handleOpen = () => {

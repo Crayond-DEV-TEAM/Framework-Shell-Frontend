@@ -60,7 +60,6 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
     (x) => x.organisationTitle?.toLowerCase().includes(searchTerm.toLowerCase()),
   ).map((v) => {
     const handleSwitch = (id: any, data: any, e: any) => {
-      debugger;
       e.stopPropagation();
       e.preventDefault();
       if (!switchList.includes(id)) {
@@ -92,11 +91,8 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
     handleDrawerOpen();
     e.preventDefault();
     e.stopPropagation();
-    // console.log('');
   };
   const onRowClick = (data: any, e: any) => {
-    debugger;
-    console.log(data.id, 'id');
     const foundObject = OrganisationListMaster?.filter((item: any) => item.id === data.id);
     const handleChangeOrganisationkey = (key: string, value: string | number) => {
       seteditOrganisationDetails({ key, value });
@@ -107,7 +103,6 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
       handleChangeOrganisationkey('rolename', x.rolename);
     });
     navigate(webRoutes.admin);
-    console.log(foundObject, ' hkajdshkaj');
     e.preventDefault();
     e.stopPropagation();
   };
@@ -118,7 +113,6 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
     e.stopPropagation();
   };
   const handleChange = (key: string, value: any) => {
-    debugger;
     seteditOrganisation({ key, value });
   };
 

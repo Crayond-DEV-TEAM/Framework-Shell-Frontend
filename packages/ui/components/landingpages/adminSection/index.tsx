@@ -90,7 +90,6 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
       };
     });
 
-  console.log(filteredMessageGroup, 'filteredMessageGroup');
 
   const handleTableEdit = (id: string, data: any, e: any) => {
     getAllProjectsEditData(id);
@@ -102,7 +101,6 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
   };
   const handleTableDelete = (id: string, data: any, e: any) => {
     deleteAdmin(id);
-    console.log('');
     e.preventDefault();
     e.stopPropagation();
   };
@@ -141,13 +139,11 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     getAdminList();
   };
   const handleChangeOrganisation = (value: any) => {
-    debugger;
     handleChangeOrganisationkey('id', value.id);
     handleChangeOrganisationkey('name', value.name);
     handleChangeOrganisationkey('rolename', value.rolename);
   };
   const handleSave = () => {
-    debugger;
     if (createEditAdmin.id) {
       editAdmin();
     } else {

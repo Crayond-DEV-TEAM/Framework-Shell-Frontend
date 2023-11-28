@@ -44,7 +44,6 @@ export const Feature = (props: FeatureProps): JSX.Element => {
     deletefetch,
   } = useFeature();
   const { slugs } = useSlug();
-  console.log('FeatureList', FeatureList);
   const filteredMessageGroup = FeatureList.filter(
     (x: any) => x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()),
   );
@@ -88,10 +87,8 @@ export const Feature = (props: FeatureProps): JSX.Element => {
       }
     }
     if (e.target.checked === true) {
-      // console.log(id);
       getStatusList(id, true);
     } else {
-      // console.log(id);
       getStatusList(id, false);
     }
   };

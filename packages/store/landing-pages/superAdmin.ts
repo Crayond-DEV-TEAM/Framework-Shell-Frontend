@@ -27,7 +27,6 @@ export const useSuperAdminLanding = create<SuperAdminLandingInterface>((set, get
   },
 
   seteditOrganisation: (payload: { key: string; value: string | number }) => {
-    debugger
     set((state) => ({ createEditOrganisation: { ...state.createEditOrganisation, [payload.key]: payload.value } }));
   },
 
@@ -208,8 +207,7 @@ editGetDataOrganisation: (id: string) => {
     const { clearAll, getOrganisationList, createEditOrganisation ,editGetDataOrganisation } = get();
      set({ fetching: true, errorOnFetching: false });
         const missingList = createEditOrganisation.adminDatas.filter(existingObj => !createEditOrganisation.mapAdmin.some(newObj => newObj.id === existingObj.id));
-        const orgId = createEditOrganisation.id
-        console.log('missingList',missingList)
+        const orgId = createEditOrganisation.email_id
     // const { RepositoryList } = useRepository();
     const payload = {
        organisation_id:orgId,
@@ -233,7 +231,6 @@ editGetDataOrganisation: (id: string) => {
       });
   },
   createServicemap: () => {
-    debugger;
     const { createEditOrganisation,editGetDataOrganisation } = get();
     set({ fetching: true, errorOnFetching: false });
     const newList = createEditOrganisation.mapServices.filter(newObj => !createEditOrganisation.serviceDatas.some(existingObj => existingObj.id === newObj.id));
@@ -259,12 +256,10 @@ editGetDataOrganisation: (id: string) => {
       });
   },
   deleteServicemap: () => {
-    debugger
     const { clearAll, getOrganisationList, createEditOrganisation ,editGetDataOrganisation } = get();
     set({ fetching: true, errorOnFetching: false });
         const missingList = createEditOrganisation.serviceDatas.filter(existingObj => !createEditOrganisation.mapServices.some(newObj => newObj.id === existingObj.id));
         const orgId = createEditOrganisation.id
-        console.log('missingList',missingList)
     // const { RepositoryList } = useRepository();
     const payload = {
        organisation_id:orgId,

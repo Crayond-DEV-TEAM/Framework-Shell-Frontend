@@ -82,7 +82,6 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
-      {/* {console.log(value, 'valuevalue')} */}
       <Autocomplete
         value={value}
         // defaultValue={value}

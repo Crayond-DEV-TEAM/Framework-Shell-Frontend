@@ -96,20 +96,16 @@ export const AddOnBackgroundCard = (props: AddOnBackgroundCardProps): JSX.Elemen
   }, []);
 
   const handleChange = (event: string, x: string) => {
-    // console.log(event, x);
     // const temp_limits = limits;
     // temp_limits[x] = event;
     // setLimits({ ...temp_limits });
     // onChange(x, event === 'unlimited' ? 0 : 5, 'limit_count', '');
 
-    console.log(event, x);
     onChange(x, event, '');
   };
 
   const handleLimitChange = (event: string, x: string) => {
-    console.log(event, x);
     onChange(x, event, '');
-    // console.log(event, x);
     // const temp_limit_values = limitValues;
     // temp_limit_values[x] = event;
     // setLimitValues({ ...temp_limit_values });
@@ -117,7 +113,6 @@ export const AddOnBackgroundCard = (props: AddOnBackgroundCardProps): JSX.Elemen
   };
 
   const handleMoneyChange = (title: string, value: any, key: string) => {
-    console.log(title, value, key);
     onChange(key, value, title);
   };
 

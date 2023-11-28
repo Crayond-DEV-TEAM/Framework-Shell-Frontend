@@ -17,10 +17,8 @@ export const AdminTable = (props: AdminTableProps): JSX.Element => {
     onEditChange;
   };
   const handleTableDelete = () => {
-    console.log('_');
   };
   const handleTablemore = () => {
-    console.log('_');
   };
 
   return (

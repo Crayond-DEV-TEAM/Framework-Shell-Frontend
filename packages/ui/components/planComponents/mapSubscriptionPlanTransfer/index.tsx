@@ -65,7 +65,6 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
   const convertToObj = (billing: any) => {
     return { name: billing };
   };
-  console.log(createEditSubscription, 'OldSubscriptionOldSubscriptionOldSubscription');
   const objectArray = billing?.map(convertToObj);
   const billingType = createEditSubscription?.billing_type?.name;
   const planCardPrice =
@@ -103,8 +102,6 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
   };
 
   const addOnId = createEditSubscription?.add_on?.map((x: any) => x?.add_on?.id);
-  console.log(createEditSubscription, 'adddOnList');
-  console.log(OldSubscription, 'OldSubscription');
   const chargeMaps = createEditSubscription?.plan_id?.plan_charge_mappings?.map((value: any) => value?.price);
   // const Chargessum = chargeMaps?.reduce((accumulator: any, currentValue: any) => accumulator + currentValue, 0);
   const Chargessum = parseInt(chargeMaps?.join(''), 10);
@@ -113,10 +110,6 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
     return accumulator + parseInt(currentValue, 10);
   }, 0);
   const billChecking = objectArray?.find((item) => item?.name === billtype?.name) ? billtype : null;
-  console.log(objectArray?.find((item) => item?.name === billtype?.name) ? billtype : null, 'chargeMaps');
-  console.log(billChecking, 'billChecking');
-
-  console.log(Chargessum, 'ChargessumChargessumChargessumChargessum');
 
   return (
     <Box

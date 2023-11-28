@@ -113,7 +113,6 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     // const dateFetching = () => {
     //   const currentDate = new Date();
     //   const dateString = currentDate.toISOString();
-    //   console.log(dateString);
     //   return dateString;
     // };
 

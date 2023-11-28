@@ -16,8 +16,6 @@ export interface AddMessageGroupProps {
 export const AddMessageGroup = (props: AddMessageGroupProps): JSX.Element => {
   const {formErrors} = props
   const { addEditMessageState, handleAddEditStateChange, handleAddEditMessageChange } = useMessage();
-  console.log(addEditMessageState, 'addEditMessageState');
-  console.log(props.isEdit, 'props.isEditprops.isEditprops.isEditprops.isEdit');
   return (
     <Box sx={addMessageGroupStyle.rootSx}>
       <Grid container sx={addMessageGroupStyle.totalGrid}>

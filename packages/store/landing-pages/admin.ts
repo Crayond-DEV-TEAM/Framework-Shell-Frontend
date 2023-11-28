@@ -96,7 +96,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     const { clearAll, createEditAdmin, getAdminList, OrganisationDetails } = get();
 
     set({ fetching: true, errorOnFetching: false });
-    debugger;
     // const { RepositoryList } = useRepository();
     const payload = {
       organisation_id: OrganisationDetails.id,
@@ -172,7 +171,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
   },
   getOrganisationMaster: () => {
     const { getAdminList, OrganisationDetails } = get();
-    debugger;
     set({ fetching: true, errorOnFetching: false });
     httpRequest('get', `${envConfig.api_url}/idm/user-profile/list/organisation?limit=100&offset=0`, {}, true)
       .then((response) => {
@@ -256,7 +254,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     };
     httpRequest('post', `${envConfig.api_url}/idm/organisation/users`, payload, true)
       .then((response) => {
-        debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(
@@ -280,7 +277,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       });
   },
   getAllProjectsEditData: (id: string) => {
-    debugger
     set({ fetching: true, errorOnFetching: false });
 
     const payload = {
@@ -440,7 +436,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
   },
 
   addUserInvite: (callback = () => false) => {
-    debugger
     // const { getAllUserList } = useSuperAdminLanding();
     set({ fetching: true, errorOnFetching: false });
     const { OrganisationDetails, userInviteEdit, getUserMasterByOrganisation } = get();
@@ -460,8 +455,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
       })
       .finally(() => {
-        // debugger
-
         set({ fetching: false });
         // if(OrganisationDetails.id){
         // getUserMasterByOrganisation();

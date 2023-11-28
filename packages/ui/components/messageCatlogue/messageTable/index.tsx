@@ -58,7 +58,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const [formErrors, setFormErrors] = useState<any>({});
 
   const filteredMessageGroup = MessagesList;
-  console.log('filteredMessageGroup', filteredMessageGroup);
   const [switchList, setSwitchList] = useState<any>([]);
   const handleTableEdit = (id: string) => {
     setOpen(true);
@@ -82,7 +81,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   };
 
   const handleChange = (key: any, value: string) => {
-    console.log(key, 'key');
 
     setList(key.id);
     setTableName(key.title);
@@ -103,10 +101,8 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       }
     }
     if (e.target.checked) {
-      console.log(id);
       getStatus(id, true);
     } else {
-      console.log(id);
       getStatus(id, false);
     }
   };
@@ -295,7 +291,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
           </Box>
         }
       />
-      {console.log(SevorityList, 'SevorityList')}
       <DialogDrawer
         dialogRootStyle={{
           width: '832px',

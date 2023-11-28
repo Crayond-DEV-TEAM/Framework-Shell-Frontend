@@ -174,7 +174,6 @@ export const useProfileUserLanding = create<UserProfileLandingInterface>((set, g
     // const { OrganisationDetails } = get();
     // const slugId = useSlug?.getState()?.slugs?.PASM;
     const slugId = '98a60c91-a068-43cb-989d-172cf3f90321';
-    console.log(slugId, 'slugId');
 
     set({ fetching: true, errorOnFetching: false });
     const payload = {};
@@ -241,7 +240,6 @@ export const useProfileUserLanding = create<UserProfileLandingInterface>((set, g
         true,
       )
         .then((res) => {
-          console.log(res, 'res');
           if (data?.length > 0) {
             enqueueSnackbar('Profile picture uploaded Succesfully!', { variant: 'success' });
           } else {

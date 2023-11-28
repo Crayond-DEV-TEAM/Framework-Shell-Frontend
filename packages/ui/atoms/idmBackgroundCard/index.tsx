@@ -41,7 +41,6 @@ export const IdmBackgroundCard = (props: IdmBackgroundCardProps): JSX.Element =>
   //     }
   //       ? createEditState
   //       : handleChangeDropDown(optionList?.[0]);
-  //   console.log(checkData, 'pls');
   // };
   // useEffect(() => {
   //   testfunction();

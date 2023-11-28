@@ -49,10 +49,6 @@ export const PlanModalCard = (props: PlanModalCardProps): JSX.Element => {
       }, 0)
     : 0;
     const Total = planCost + parseFloat(monthlyTotal) + parseFloat(charges);
-    console.log(Total, 'tot');
-  console.log(planCost, 'planCost');
-  console.log(monthlyTotal, 'monthlyTotal');
-  console.log(charges, 'charges');
   const planBlur = planName.length === 0 ? 'blur(4px)' : '';
   return (
     <Box
@@ -118,7 +114,6 @@ export const PlanModalCard = (props: PlanModalCardProps): JSX.Element => {
       <Box
         sx={planModalCardStyle.align}
         // onChange={(e) => {
-        //   console.log(e,'checkinge')
         //   // handleChangeEvent('actual_price', e);
         // }}
       >

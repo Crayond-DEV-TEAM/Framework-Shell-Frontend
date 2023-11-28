@@ -88,10 +88,10 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
         set({ signInMessage: 'Signed in Successfully', signInError: false });
         if (user.isSuperAdmin === true) {
           window.location.href = '/superAdmin';
-          console.log('super admin');
+          // console.log('super admin');
         } else {
           window.location.href = '/admin';
-        }
+        }  
         return response?.status;
       } else {
         throw new Error('Internal Server Error');

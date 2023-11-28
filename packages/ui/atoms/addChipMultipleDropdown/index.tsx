@@ -124,9 +124,7 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
 
   const handleOptionToggle = (option: UserData) => {
     const isSelected = selectedOptions.find((selected) => selected.id === option.id);
-    console.log('isSelectedisSelectedisSelected', isSelected);
     if (isSelected?.id) {
-      debugger;
       const isSelected = selectedOptions.filter((v: any) => v?.id !== option?.id);
       setSelectedOptions(isSelected);
       const setItemsUsers = selectedOptions.map((user) => ({
@@ -151,7 +149,6 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
     }
   };
   // const handleOptionToggle = (option: any) => {
-  //   // debugger;
   //   const isSelected = values.find((v: any) => v?.id === option?.id);
   //   if (isSelected?.id) {
   //     const isSelected = values.filter((v: any) => v?.id !== option?.id);
@@ -178,7 +175,6 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
         access: accessState,
       }));
       handleChange('mapAdmin', setItemsUsers);
-      console.log('setaccessstatebjdhfjwh', setItemsUsers);
     }
   };
 

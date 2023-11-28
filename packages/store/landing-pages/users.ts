@@ -32,7 +32,6 @@ export const useUserLanding = create<UserLandingInterface>((set, get) => ({
   //   httpRequest('post', `${envConfig.idm_api_url}/projects/get`, payload, true)
   //     .then((response) => {
   //       const dataTable: any = [];
-  //       debugger;
   //       if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
   //         response.data.data.rows.map(
   //           (tableData: any, i: any) =>
@@ -59,7 +58,6 @@ export const useUserLanding = create<UserLandingInterface>((set, get) => ({
   //     });
   // },
   getAllUserProfileList: (id: string) => {
-    debugger;
     const organisationId = useAdminLanding.getState()?.OrganisationDetails.id;
     set({ fetching: true, errorOnFetching: false });
     const payload = {
@@ -70,7 +68,6 @@ export const useUserLanding = create<UserLandingInterface>((set, get) => ({
       .then((response) => {
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
-          debugger;
           response.data.data.rows.map(
             (tableData: any, i: any) =>
               dataTable.push({
@@ -95,7 +92,6 @@ export const useUserLanding = create<UserLandingInterface>((set, get) => ({
       });
   },
   deleteUserlist: (id: string) => {
-    debugger;
     const { getAllUserProfileList } = get();
     const organisationId = useAdminLanding.getState()?.OrganisationDetails.id;
     set({ fetching: true, errorOnFetching: false });
@@ -131,7 +127,6 @@ export const useUserLanding = create<UserLandingInterface>((set, get) => ({
       user_profile_id: UserEditRoleData.id,
       role_id: UserEditRoleData.role.id,
     };
-    // debugger;
     httpRequest('put', `${envConfig.api_url}/idm/organisation/member`, payload, true)
       .then((response) => {
         enqueueSnackbar('User role map edited Succesfully!', { variant: 'success' });
@@ -160,7 +155,6 @@ export const useUserLanding = create<UserLandingInterface>((set, get) => ({
         };
       }),
     };
-    // debugger;
     httpRequest('post', `${envConfig.api_url}/idm/organisation/members/add`, payload, true)
       .then((response) => {
         enqueueSnackbar('User role mapped Succesfully!', { variant: 'success' });
@@ -179,7 +173,6 @@ export const useUserLanding = create<UserLandingInterface>((set, get) => ({
   // /idm/user-profile/search
   getSearchOptionList: (id: string) => {
     const { createEditUserRoleList } = get();
-    debugger;
     set({ fetching: true, errorOnFetching: false });
 
     const payload = {
@@ -188,10 +181,8 @@ export const useUserLanding = create<UserLandingInterface>((set, get) => ({
       limit: 50,
       offset: 0,
     };
-    debugger;
     httpRequest('post', `${envConfig.api_url}/idm/user-profile/search`, payload, true)
       .then((response) => {
-        debugger;
         const dataTable: any = [];
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           response.data.data.rows.map(

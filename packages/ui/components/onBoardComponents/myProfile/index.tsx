@@ -39,8 +39,7 @@ export function MyProfile(props: MyProfileProps): JSX.Element {
   const { changePasswordState, setChangePasswordState, changePassword } = useAuth();
   const [imagePresent, setImagePresent] = useState(MyProfileList?.profile_pic?.length > 0);
 
-  // console.log(MyProfileList, 'MyProfileList');
-  // console.log(changePasswordState, 'editProfile');
+
 
   const history = useNavigate();
 

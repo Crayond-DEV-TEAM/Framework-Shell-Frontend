@@ -21,7 +21,6 @@ export const CreateCustomer = (props: CreateCustomerProps): JSX.Element => {
   const [values, setValues] = useState(false);
   const navigate = useNavigate();
   const handleChange = (x: any, y: any) => {
-    console.log('///');
   };
   const handleMapopen = () => {
     setValues(true);

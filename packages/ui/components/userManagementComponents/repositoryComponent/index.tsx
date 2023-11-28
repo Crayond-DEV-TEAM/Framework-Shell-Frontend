@@ -50,7 +50,6 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
   };
 
   const handleChange = (e: any) => {
-    // console.log('val', e?.jsObject);
     // seteditRepository(e?.jsObject);
   };
 

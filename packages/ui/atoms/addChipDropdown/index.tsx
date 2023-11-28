@@ -36,10 +36,8 @@ export const AddChipDropdown: React.FC<AddChipDropdownProps> = (props) => {
     getAllUserList();
   };
   const selectedOptions = values || [];
-  console.log('valuesvaluesvaluesvalues', values);
 
   const handleOptionToggle = (option: any) => {
-    debugger;
     const isSelected = values.find((v) => v?.id === option?.id);
     if (isSelected?.id) {
       const isSelected = values.filter((v) => v?.id !== option?.id);
@@ -61,7 +59,6 @@ export const AddChipDropdown: React.FC<AddChipDropdownProps> = (props) => {
       }
     }
   };
-  console.log(permissionList, 'permissionListpermissionListpermissionList');
   useEffect(() => {
     if (createEditState?.length > 0) setValues(createEditState);
   }, [createEditState]);
@@ -82,8 +79,6 @@ export const AddChipDropdown: React.FC<AddChipDropdownProps> = (props) => {
           }}
         >
           {permissionList?.map((data: any) => {
-            console.log(data, 'data');
-            console.log(selectedOptions, 'lllll');
             const isSelected = values?.filter((v: any) => v?.id === data?.id);
             return (
               <MenuItem

@@ -40,7 +40,6 @@ export const SuperAdminTabs = (props: SuperAdminTabsProps): JSX.Element => {
     getAdminList,
   } = useAdminLanding();
   const handleTabChange = (i: any) => {
-    debugger;
     setIndex(i);
     getAdminList();
     // getUserList();
@@ -68,7 +67,6 @@ export const SuperAdminTabs = (props: SuperAdminTabsProps): JSX.Element => {
     getAllUserProfileList(OrganisationDetails.id);
   };
   const handleChangeOrganisation = (value: any) => {
-    debugger;
     handleChangeOrganisationkey('id', value.id);
     handleChangeOrganisationkey('name', value.name);
     handleChangeOrganisationkey('rolename', value.rolename);

@@ -45,7 +45,6 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
 
     if (foundObject) {
       modifyObjectByIndexWithKey(foundObject, [], data, type);
-      console.log(jsonObject);
     } else {
       console.log('Object not found');
     }

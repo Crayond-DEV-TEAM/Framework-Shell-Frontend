@@ -66,7 +66,6 @@ export const SubscriptionDetails = (props: SubscriptionDetailsProps): JSX.Elemen
 
   const TotalRevenue = TicketSubscription.revenue + TicketSubscription.data?.total_amount;
 
-  console.log(TicketSubscription, 'TicketSubscriptionTicketSubscriptionTicketSubscription');
 
   return (
     <Box

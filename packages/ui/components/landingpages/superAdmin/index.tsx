@@ -8,15 +8,26 @@ import { Header, tableData, tableJson } from './utills';
 import React, { useEffect, useState } from 'react';
 import { superAdminStyle } from './style';
 import { TableHeader } from '@components/commonComponents';
-import { useProfileUserLanding, useSuperAdminLanding } from '@core/store';
+import { useAdminLanding, useProfileUserLanding, useSuperAdminLanding } from '@core/store';
 import { FooterComponent } from '@atoms/footerComponent';
 import { TooltipComp } from '@components';
 import './customStyles.css';
 
+import { useNavigate } from 'react-router-dom';
+import { webRoutes } from '@core/routes';
+import { CustomSwitches } from '@atoms/customSwitches';
 export interface SuperAdminProps {
   className?: string;
   sx?: SxProps<Theme>;
 }
+const CustomSwitch = ({ checked, onChange }) => {
+  return (
+    <Box sx={superAdminStyle.customSwitch}>
+      <CustomSwitches label="" value={checked} onClick={onChange} />
+      <Typography sx={superAdminStyle.customSwitchStatus}>{checked === true ? 'Active' : 'In-Active'}</Typography>
+    </Box>
+  );
+};
 
 export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
@@ -41,26 +52,70 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
     getStatusList,
   } = useSuperAdminLanding();
 
+  const { getOrganisationMaster, OrganisationListMaster, seteditOrganisationDetails } = useAdminLanding();
+
+  const navigate = useNavigate();
+
+  // const filteredMessageGroup = OrganisationList.filter(
+  //   (x: any) => x.organisationTitle?.toLowerCase()?.includes(searchTerm.toLowerCase()),
+  // );
   const filteredMessageGroup = OrganisationList.filter(
-    (x: any) => x.organisationTitle?.toLowerCase()?.includes(searchTerm.toLowerCase()),
-  ).map((e) => {
+    (x) => x.organisationTitle?.toLowerCase().includes(searchTerm.toLowerCase()),
+  ).map((v) => {
+    const handleSwitch = (id: any, data: any, e: any) => {
+      e.stopPropagation();
+      e.preventDefault();
+      if (!switchList.includes(id)) {
+        setSwitchList([...switchList, id]);
+      } else {
+        const index = switchList.indexOf(id);
+        if (index > -1) {
+          switchList.splice(index, 1);
+          setSwitchList([...switchList]);
+        }
+      }
+      if (e.target.checked === true) {
+        getStatusList(id, true);
+      } else {
+        getStatusList(id, false);
+      }
+    };
+    const customObj = {
+      is_active: <CustomSwitch onChange={(checked) => handleSwitch(v.id, v, checked)} checked={v.is_active} />,
+    };
+
     return {
-      ...e,
-      description: <TooltipComp value={e?.description} />,
+      ...v,
+      ...customObj,
     };
   });
-
   const handleTableEdit = (id: string, data: any, e: any) => {
     editGetDataOrganisation(id);
     handleDrawerOpen();
-    // console.log('');
+    e.preventDefault();
+    e.stopPropagation();
   };
-  const handleTableDelete = (id: string) => {
+  const onRowClick = (data: any, e: any) => {
+    const foundObject = OrganisationListMaster?.filter((item: any) => item.id === data.id);
+    const handleChangeOrganisationkey = (key: string, value: string | number) => {
+      seteditOrganisationDetails({ key, value });
+    };
+    foundObject?.forEach((x: any) => {
+      handleChangeOrganisationkey('id', x.id);
+      handleChangeOrganisationkey('name', x.name);
+      handleChangeOrganisationkey('rolename', x.rolename);
+    });
+    navigate(webRoutes.admin);
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleTableDelete = (id: string, data: any, e: any) => {
     deleteOrganisation(id);
-    // console.log('');
+    e.preventDefault();
+    e.stopPropagation();
   };
   const handleChange = (key: string, value: any) => {
-    debugger;
     seteditOrganisation({ key, value });
   };
 
@@ -81,24 +136,8 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
     getOrganisationList();
     getServiceList();
     getAllUserList();
+    getOrganisationMaster();
   }, []);
-
-  const handleSwitch = (id: any, data: any, e: any) => {
-    if (!switchList.includes(id)) {
-      setSwitchList([...switchList, id]);
-    } else {
-      const index = switchList.indexOf(id);
-      if (index > -1) {
-        switchList.splice(index, 1);
-        setSwitchList([...switchList]);
-      }
-    }
-    if (e.target.checked === true) {
-      getStatusList(id, true);
-    } else {
-      getStatusList(id, false);
-    }
-  };
   const handleStatus = () => {
     if (OrganisationList?.length > 0) {
       const status = OrganisationList?.filter((val: any) => val?.is_active === true)?.map((val: any) => val?.id);
@@ -121,11 +160,16 @@ export const SuperAdmin = (props: SuperAdminProps): JSX.Element => {
     >
       <Box sx={superAdminStyle.commonTable}>
         <CommonTable
+          onRowClick={(data: any, e: any) => {
+            onRowClick(data, e);
+            e.preventDefault();
+            e.stopPropagation();
+          }}
           Header={Header}
           dataList={filteredMessageGroup}
           tableData={tableData(handleTableEdit, handleTableDelete)}
-          switchList={switchList}
-          handleSwitch={handleSwitch}
+          // switchList={switchList}
+          // handleSwitch={handleSwitch}
           headerOptions={{
             fontSize: '14px',
             fontWeight: '500',

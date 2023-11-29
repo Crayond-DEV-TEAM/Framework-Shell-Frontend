@@ -73,7 +73,6 @@ export const CutstomizedAutocomplete = (props: CutstomizedAutocompleteProps): JS
     ...rest
   } = props;
 
-  console.log(options, 'options');
   return (
     <Box
       sx={[

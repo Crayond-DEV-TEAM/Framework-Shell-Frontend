@@ -13,6 +13,8 @@ import { TableHeader } from '@components/commonComponents';
 import { useNavigate } from 'react-router-dom';
 import { webRoutes } from '@core/routes';
 import { localStorageKeys } from '@core/utils';
+// import { AddChipDropdown } from '@atoms/addChipDropdown';
+// import { AddChipMultipleDropdown } from '@atoms/addChipMultipleDropdown';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { MappedUserCard } from '@atoms/mappedUserCard';
 import { CustomSwitches } from '@atoms/customSwitches';
@@ -79,7 +81,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
         }
       };
       const customObj = {
-        is_active: <CustomSwitch onChange={(checked: any) => handleSwitch(v.id, v, checked)} checked={v.is_active} />,
+        is_active: <CustomSwitch onChange={(checked) => handleSwitch(v.id, v, checked)} checked={v.is_active} />,
       };
 
       return {
@@ -88,7 +90,6 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
       };
     });
 
-  console.log(filteredMessageGroup, 'filteredMessageGroup');
 
   const handleTableEdit = (id: string, data: any, e: any) => {
     getAllProjectsEditData(id);
@@ -100,17 +101,10 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
   };
   const handleTableDelete = (id: string, data: any, e: any) => {
     deleteAdmin(id);
-    console.log('');
     e.preventDefault();
     e.stopPropagation();
   };
   const handleTableDetail = (id: string, data: any, e: any) => {
-    // debugger;
-    // getMenu();
-    // getSideMenusFromProject(id);
-    // localStorage.setItem(localStorageKeys.projectId, id);
-    // navigate(webRoutes.root);
-
     getAllProjectsEditData(id);
     setProfileDetails(true);
     e.preventDefault();
@@ -145,13 +139,11 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     getAdminList();
   };
   const handleChangeOrganisation = (value: any) => {
-    debugger;
     handleChangeOrganisationkey('id', value.id);
     handleChangeOrganisationkey('name', value.name);
     handleChangeOrganisationkey('rolename', value.rolename);
   };
   const handleSave = () => {
-    debugger;
     if (createEditAdmin.id) {
       editAdmin();
     } else {
@@ -159,22 +151,6 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     }
     setOpen(false);
     clearAll();
-  };
-  const handleSwitch = (id: any, data: any, e: any) => {
-    if (!switchList.includes(id)) {
-      setSwitchList([...switchList, id]);
-    } else {
-      const index = switchList.indexOf(id);
-      if (index > -1) {
-        switchList.splice(index, 1);
-        setSwitchList([...switchList]);
-      }
-    }
-    if (e.target.checked === true) {
-      getStatusList(id, true);
-    } else {
-      getStatusList(id, false);
-    }
   };
   const handleStatus = () => {
     if (adminList?.length > 0) {

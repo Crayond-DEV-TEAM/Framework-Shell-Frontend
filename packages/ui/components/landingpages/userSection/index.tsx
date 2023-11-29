@@ -68,7 +68,6 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
   const filteredMessageGroup = UserList.filter((x: any) => x.name?.toLowerCase().includes(searchTerm.toLowerCase()));
 
   const handleTableEdit = (id: string, data: any, e: any) => {
-    debugger;
     const editData = {
       id: data.id,
       name: data.name,
@@ -80,12 +79,10 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
     };
     updateEditData(editData);
     setValues(true);
-    console.log('');
   };
   const handleTableDelete = (id: string) => {
     deleteUserlist(id);
     // setOpen(tru);
-    console.log('');
   };
 
   const onSaveUserEdit = () => {
@@ -115,7 +112,6 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
     setValues(false);
   };
   const handleDrawerOpen = () => {
-    debugger;
     setOpen(true);
     getSearchOptionList(OrganisationDetails.id);
   };
@@ -130,6 +126,10 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
   useEffect(() => {
     getAllUserProfileList();
   }, []);
+
+  useEffect(() => {
+    getSearchOptionList(OrganisationDetails.id);
+  }, [createEditUserRoleList.searchName]);
 
   const handleSwitch = (id: any, data: any, e: any) => {
     if (!switchList.includes(id)) {
@@ -163,7 +163,6 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
     handleStatus();
   }, [UserList]);
 
-  console.log(createEditUserRoleList, 'hcksdjhkadjhlksaidulwqkdj');
 
   return (
     <Box
@@ -288,6 +287,7 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
                 accessMaster={roleOption}
                 handleChange={handleChange}
                 inviteSection={true}
+                isSearchRequired={true}
               />
               <Typography sx={{ fontSize: '12px', fontWeight: 600, color: 'red', mt: '10px' }}>
                 {formError ? 'Please select the users and role map' : ''}
@@ -311,7 +311,6 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
                 placeholder="User name"
                 required
                 isReadOnly={true}
-                // value="dsp"
                 value={UserEditRoleData?.name}
                 textFieldStyle={userSectionStyle.inputSx}
                 id="title"

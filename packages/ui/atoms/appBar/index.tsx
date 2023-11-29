@@ -30,7 +30,6 @@ export function AppBar(props: AppBarProps): JSX.Element {
     setOpen(false);
   };
   const { logOut } = useAuth();
-  console.log(MyProfileList, 'user');
 
   const myProfile = () => {
     history('/profile');

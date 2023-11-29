@@ -126,7 +126,6 @@ export const SideBar = forwardRef((props: SideBarProps, ref: React.Ref<HTMLEleme
       fetchMenu(projectId);
     }
   }, []);
-  // console.log(sideMenus, 'sidem======');
 
   return (
     <Box

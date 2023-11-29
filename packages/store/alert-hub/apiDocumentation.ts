@@ -64,7 +64,7 @@ export const useApiDocumentation = create<ApiDocumentationInterface>((set, get) 
                 // enqueueSnackbar(`Oops! Something went wrong, Try Again Later`, { variant: 'error' });
             })
             .finally(() => {
-                console.log();
+                // console.log();
             });
         return false;
     },

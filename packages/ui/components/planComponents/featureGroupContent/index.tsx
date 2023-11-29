@@ -36,7 +36,6 @@ export const FeatureGroupContent = (props: FeatureGroupContentProps): JSX.Elemen
   //   { label: 'The Godfather', id: 1 },
   //   { label: 'Pulp Fiction', id: 2 },
   // ];
-  console.log(createEditFeatureGroup, 'createEditFeatureGroupcreateEditFeatureGroup');
 
   return (
     <Box

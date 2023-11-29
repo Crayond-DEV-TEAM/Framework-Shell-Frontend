@@ -59,7 +59,6 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
     deleteLanguage(null, null);
     setSelected(false);
   };
-  console.log(languages, 'message');
 
   const OnsaveLangugae = () => {
     saveLanguage();

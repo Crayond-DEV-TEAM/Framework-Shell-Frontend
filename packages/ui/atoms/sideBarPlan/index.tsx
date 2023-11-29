@@ -36,7 +36,6 @@ export const SideBarPlan = (props: SideBarPlanProps): JSX.Element => {
   const routeNAme = route.pathname;
   const [open, setOpen] = React.useState<boolean>(false);
 
-  // console.log('navigate', routeNAme);
 
   const handleOpen = () => {
     setOpen(true);

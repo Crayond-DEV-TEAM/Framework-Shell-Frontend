@@ -125,10 +125,8 @@ export const AddOne = (props: AddOneProps): JSX.Element => {
       }
     }
     if (e.target.checked === true) {
-      console.log(id);
       getStatusList(id, true);
     } else {
-      console.log(id);
       getStatusList(id, false);
     }
   };

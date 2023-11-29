@@ -24,7 +24,6 @@ export const ImageUpload = (props: ImageUploadProps): JSX.Element => {
   const handleUpload = () => {
     // Perform upload logic here
     if (selectedFile) {
-      console.log('Uploading file:', selectedFile);
       // You can perform your upload logic here, e.g., send the file to a server
     }
   };

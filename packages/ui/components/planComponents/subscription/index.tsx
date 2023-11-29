@@ -57,7 +57,6 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
     (x: any) => x.companyName?.toLowerCase()?.includes(searchTerm.toLowerCase()),
   );
 
-  console.log(PlanList, 'PlanListPlanListPlanList');
 
   const filteredCompanyList = CustomerList.filter(
     (x: any) => x.email?.toLowerCase()?.includes(searchComp.toLowerCase()),
@@ -72,7 +71,6 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
     return Object.keys(errors).length === 0;
   };
 
-  console.log(createEditSubscription, 'createEditSubscriptioncreateEditSubscription');
   const validateForm = () => {
     const errors: Record<string, string> = {};
 
@@ -137,10 +135,8 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
       }
     }
     if (e.target.checked === true) {
-      console.log(id);
       getStatusList(id, true);
     } else {
-      console.log(id);
       getStatusList(id, false);
     }
   };
@@ -210,7 +206,6 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
   useEffect(() => {
     handleStatus();
   }, [SubscriptionList]);
-  // console.log(Boolean(formErrors.card), 'ttttttttttttttttttttttttt');
   // const cardCheck = Boolean(formErrors.card);
   return (
     <Box

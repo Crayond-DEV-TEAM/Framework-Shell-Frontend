@@ -120,7 +120,6 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     editMessageGroups();
     // }
     setValues(false);
-    console.log(editMessageList, 'addMessage');
   };
   const handleMessage = (
     key: {
@@ -131,7 +130,6 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     },
     value: any,
   ) => {
-    debugger;
     setselctedMessage({ key, value });
     setSelected(value);
     onMessageTable(key, value);

@@ -19,7 +19,6 @@ export interface MapSubscriptionProps {
 export const MapSubscription = (props: MapSubscriptionProps): JSX.Element => {
   const { className = '', sx = {}, onSave, onCancel, ...rest } = props;
   const handleChange = (x: any, y: any) => {
-    console.log('//');
   };
   const options = [
     { label: 'The Godfather', id: 1 },

@@ -24,7 +24,6 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
 
   const { ServiceListMaster, UserListMaster, addUserInvite, OrganisationDetails } = useAdminLanding();
 
-  console.log(createEditAdmin, 'createEditAdmincreateEditAdmin');
 
   const accessMaster = [
     { id: '1', name: 'Full Access' },
@@ -114,6 +113,7 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
                 permissionList={ServiceListMaster}
                 onChange={handlechange}
                 createEditState={createEditAdmin.mapServices}
+                admin={true}
               />
             </AccordionDetails>
           </Accordion>

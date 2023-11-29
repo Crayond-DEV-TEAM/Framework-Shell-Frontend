@@ -16,11 +16,9 @@ export const InvoiceTable = (props: InvoiceTableProps): JSX.Element => {
   const { className = '', sx = {}, onClick, TicketSubscription, ...rest } = props;
 
   const handletableLink = (id: string) => {
-    console.log(TicketSubscription, '////');
     onClick();
   };
   const handletableDownload = (id: string) => {
-    console.log('////');
   };
 
   // const tableData = () => {};

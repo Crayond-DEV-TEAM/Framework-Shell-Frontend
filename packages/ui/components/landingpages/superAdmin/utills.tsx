@@ -40,7 +40,7 @@ export const tableData = (editHandel: (id: string, data: any, e: any) => void, d
   { type: ['CUSTOM'], name: 'description', width: '150px' },
   { type: ['TEXT'], name: 'serviceMapped', width: '150px' },
   {
-    type: ['SWITCH'],
+    type: ['CUSTOM'],
     name: 'is_active',
     switchText: [{ label_1: 'In Active', label_2: 'Active' }],
     width: '150px' 

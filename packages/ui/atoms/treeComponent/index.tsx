@@ -38,7 +38,6 @@ export const CustomLabel = (props: CustomLabelProps): JSX.Element => {
     index,
   } = props;
   const dem = nodes.allowed?.every((item: any) => typeof item === 'string');
-  console.log(dem, 'dem');
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>

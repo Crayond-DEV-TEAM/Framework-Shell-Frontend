@@ -10,16 +10,6 @@ function RootLayout(): JSX.Element {
   const route = useRouting((state) => state.route);
   const projectId = localStorage.getItem(localStorageKeys?.projectId);
   useEffect(() => {
-    // const user = parseJwt(authToken);
-    // useUser.setState({ user });
-    // if (user.isSuperAdmin === true) {
-    //   // navigate(webRoutes.superAdmin);
-    //   //  window.location.href = '/superAdmin';
-    //   console.log('super admin');
-    // } else {
-    //   // navigate(webRoutes.admin);
-    //   // window.location.href = '/admin';
-    // }
     if (route !== null) {
       navigate(route);
       useRouting.setState({ route: null });

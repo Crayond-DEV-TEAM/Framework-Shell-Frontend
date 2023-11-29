@@ -77,10 +77,8 @@ export const Customer = (props: CustomerProps): JSX.Element => {
       }
     }
     if (e.target.checked === true) {
-      console.log(id);
       getStatusList(id, true);
     } else {
-      console.log(id);
       getStatusList(id, false);
     }
   };
@@ -90,7 +88,6 @@ export const Customer = (props: CustomerProps): JSX.Element => {
       setSwitchList(status);
     }
   };
-  console.log(switchList, 'switchListswitchListswitchList');
   const handleOpen = () => {
     navigate(planSubscriptionRoutes.createCustomer);
     seteditadd(false);
@@ -109,7 +106,6 @@ export const Customer = (props: CustomerProps): JSX.Element => {
     handleStatus();
   }, [CustomerList]);
 
-  console.log(CustomerList, '/////');
 
   return (
     <Box

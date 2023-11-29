@@ -28,17 +28,16 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
     const { addMessage } = get()
     const error = addMessage?.error
     error[payload.key] = ''
-    console.log(addMessage, 'addMessage');
 
     set((state) => ({ addMessage: { ...state.addMessage, [payload.key]: payload.value, error } }));
   },
 
   seteditMessage: (payload: { key: string; value: string }) => {
+    
     const { editMessageList } = get()
     const error = editMessageList?.error
     error[payload.key] = ''
     set((state) => ({ editMessageList: { ...state.editMessageList, [payload.key]: payload.value, error } }));
-    console.log(editMessageList, 'addMessage');
 
   },
   setselctedMessage: (payload: { key: any; value: string }) => {
@@ -145,6 +144,7 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
   // editMessageListGroups
   editMessageListGroups: (payload: any) => {
     const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
+    
     const { editMessageList } = get();
 
     set({ editMessageLoading: true, errorOnFetching: false });
@@ -168,7 +168,6 @@ export const useMessageConfiguration = create<MessageConfigInterface>((set, get)
       .finally(() => {
         set({ fetching: false });
       });
-      console.log(editMessageList, '123');
     return false;
   },
   deleteMessageGroups: (payload: any) => {

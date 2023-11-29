@@ -19,7 +19,6 @@ export const MappedUserCard = (props: MappedUserCardProps): JSX.Element => {
 
   // const { createEditAdmin } = useAdminLanding();
   // const dataList = dataMaster;
-
   return (
     <Box
       sx={[

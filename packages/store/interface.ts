@@ -1178,6 +1178,8 @@ export interface AdminKey {
   mapAdmin: any;
   is_active?: boolean;
   id?: string;
+  adminDatas?:any;
+  Servicedatas?:any;
 }
 
 export interface InviteUserKey {
@@ -1348,6 +1350,7 @@ export interface UserProfileInterface {
 }
 export interface UserListKey {
   mapAdmin: any;
+  searchName: string;
 }
 
 export interface UserEditKey {

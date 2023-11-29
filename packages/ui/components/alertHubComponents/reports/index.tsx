@@ -198,7 +198,6 @@ export function Reports(props: ReportsProps): JSX.Element {
     }
   };
   const setHederSearch = (value: any) => {
-    console.log('🚀 ~ file: App.tsx:31 ~ setHederSearch ~ value:', value);
   };
   const SelectAll = (data: any, isRestSet: any) => {
     if (!isRestSet) {
@@ -221,16 +220,12 @@ export function Reports(props: ReportsProps): JSX.Element {
     }
   };
   const downloadMethod = () => {
-    console.log('Download Method working!');
   };
   const fillerMethod = () => {
-    console.log('Filter Method working!');
   };
   const primaryBtnMethod = () => {
-    console.log('primary Btn Method working!');
   };
   const secondaryBtnMethod = () => {
-    console.log('secondary Btn Method working!');
   };
 
   const handleChange = (event: any) => {
@@ -238,11 +233,9 @@ export function Reports(props: ReportsProps): JSX.Element {
   };
 
   const editHandel = () => {
-    console.log();
   };
 
   const deleteHandel = () => {
-    console.log();
   };
 
   const Header = [

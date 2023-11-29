@@ -246,7 +246,6 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       feature_data = planFeature?.find((z: any) => z.id === group?.id) || {};
       group?.feature_list?.map((feature: any) => {
         const count = feature_data?.feature?.find((s: any) => s.id === feature.id)?.limit_count;
-        console.log('count - ', count);
         data.push({
           id: feature.id,
           name: feature.name,
@@ -261,7 +260,6 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       });
     });
 
-    // console.log(data);
 
     set((_state) => {
       return {
@@ -306,7 +304,6 @@ export const usePlans = create<PlansInterface>((set, get) => ({
       headers: { slug: slugId },
     })
       .then((response) => {
-        // console.log(response.data.data.rows)
         if (Array.isArray(response.data.data.rows) && response.data.data.rows.length > 0) {
           const result = convertKeysToSnakeCase(response.data.data.rows)?.map((x: any) => {
             return {
@@ -322,7 +319,6 @@ export const usePlans = create<PlansInterface>((set, get) => ({
               plan_data: x,
             };
           });
-          // console.log(result,'---result')
           set({ PlanList: result });
         }
       })
@@ -376,7 +372,6 @@ export const usePlans = create<PlansInterface>((set, get) => ({
     data.deleted_charges = deleteCharge;
     data.deleted_add_ons = deleteAddOn;
     data.deleted_features = deleteFeature;
-    console.log(data);
     const payload = {
       ...data,
     };
@@ -398,7 +393,6 @@ export const usePlans = create<PlansInterface>((set, get) => ({
   },
   deletePlan: (x: any) => {
     const { PlanList, addEditPlan, getPlansList } = get();
-    console.log(x);
     set({ fetching: true, errorOnFetch: false });
     const slugId = useSlug?.getState()?.slugs?.PASM;
     // const { RepositoryList } = useRepository();

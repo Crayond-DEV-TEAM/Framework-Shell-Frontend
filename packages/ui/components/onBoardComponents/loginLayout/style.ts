@@ -97,4 +97,10 @@ export const loginLayoutStyle: LoginLayoutStyleProps = {
     fontSize: '14px',
     color: 'typography.label',
   },
+  onboardButton:{
+    color:'primary.main',
+    fontWeight:600,
+    fontSize:'14px',
+    cursor:'pointer'
+  }
 };

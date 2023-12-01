@@ -163,7 +163,6 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
     handleStatus();
   }, [UserList]);
 
-
   return (
     <Box
       sx={[
@@ -206,7 +205,7 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
           paginationOption={{
             isEnable: true,
             rowPerPage: 10,
-            rowsPerPageOptions: [5, 10, 25]
+            rowsPerPageOptions: [5, 10, 25],
           }}
           tableMinWidth={'80px'}
           stickyOptions={{
@@ -226,7 +225,7 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
                 // onApply={false}
                 isFilterRequired={false}
                 buttonName={'Add User'}
-                tableHeader={''}
+                tableHeader={'Users'}
                 setSearchTerm={setSearchTerm}
                 searchTerm={searchTerm}
                 isBtnRequired={true}

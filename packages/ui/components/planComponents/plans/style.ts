@@ -6,7 +6,10 @@ interface PlansStyleProps {
 
 export const plansStyle: PlansStyleProps = {
   rootSx: {
-    padding: '24px',
+    margin: '24px',
+    backgroundColor:'#fff',
+    borderRadius:'10px',
+    p:2
   },
   commonTable: {
     bgcolor: '#fff',

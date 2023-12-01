@@ -45,6 +45,12 @@ export const adminSectionStyle: AdminSectionStyleProps = {
       width: '40% !important',
       // backgroundColor: 'red',
     },
+    '& .MuiTableSortLabel-root':{
+      padding:'4px',
+    },
+    '& .MuiTableCell-root':{
+      padding:'7px',
+    },
   },
   customSwitch:{
     display:'flex',

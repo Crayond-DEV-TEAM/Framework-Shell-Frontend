@@ -106,7 +106,6 @@ export const Customer = (props: CustomerProps): JSX.Element => {
     handleStatus();
   }, [CustomerList]);
 
-
   return (
     <Box
       sx={[
@@ -161,7 +160,7 @@ export const Customer = (props: CustomerProps): JSX.Element => {
             stickyLeft: ['checkbox'],
             stickyRight: ['is_active', 'action'],
           }}
-          tableMinHeight={'calc(100vh - 167px)'}
+          tableMinHeight={'calc(100vh - 232px)'}
           tableMaxHeight={'calc(100vh - 167px)'}
           paddingAll={'0px'}
           marginAll={'0px 0px 0px'}
@@ -169,7 +168,7 @@ export const Customer = (props: CustomerProps): JSX.Element => {
           paginationOption={{
             isEnable: true,
             rowPerPage: 10,
-            rowsPerPageOptions: [5, 10, 25]
+            rowsPerPageOptions: [5, 10, 25],
           }}
         />
       </Box>

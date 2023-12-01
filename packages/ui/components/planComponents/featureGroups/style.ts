@@ -5,8 +5,11 @@ interface FeatureGroupsStyleProps {
 }
 
 export const featureGroupsStyle: FeatureGroupsStyleProps = {
-  rootSx: {
-    padding: '24px',
+rootSx: {
+    margin: '24px',
+    backgroundColor:'#fff',
+    borderRadius:'10px',
+    p:2
   },
   commonTable: {
     bgcolor: '#fff',

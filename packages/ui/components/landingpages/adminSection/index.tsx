@@ -90,7 +90,6 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
       };
     });
 
-
   const handleTableEdit = (id: string, data: any, e: any) => {
     getAllProjectsEditData(id);
     getServiceMasterByOrganisation();
@@ -221,7 +220,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
           paginationOption={{
             isEnable: true,
             rowPerPage: 10,
-            rowsPerPageOptions: [5, 10, 25]
+            rowsPerPageOptions: [5, 10, 25],
           }}
           tableMinHeight={'calc(100vh - 308px)'}
           tableMaxHeight={'calc(100vh - 308px)'}
@@ -234,7 +233,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
               <TableHeader
                 isFilterRequired={false}
                 buttonName={'Add Projects'}
-                tableHeader={''}
+                tableHeader={'Projects'}
                 setSearchTerm={setSearchTerm}
                 searchTerm={searchTerm}
                 isBtnRequired={OrganisationDetails.rolename === 'TOOLKIT-ADMIN' ? true : false}

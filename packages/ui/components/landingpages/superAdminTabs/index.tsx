@@ -51,7 +51,7 @@ export const SuperAdminTabs = (props: SuperAdminTabsProps): JSX.Element => {
   const tabs = [
     {
       id: 0,
-      label: 'Projects',
+      label: 'Admin',
       children: <AdminSection />,
     },
     {

@@ -98,16 +98,25 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     set({ fetching: true, errorOnFetching: false });
     // const { RepositoryList } = useRepository();
     const payload = {
-      organisation_id: OrganisationDetails.id,
-      name: createEditAdmin.projectTitle,
-      description: createEditAdmin.description,
-      services: createEditAdmin.mapServices?.map((x: any) => x?.id),
-      users: createEditAdmin.mapAdmin?.map((x: any) => ({
-        user_profile_id: x?.id,
-        access: x?.access?.name,
-      })),
-      is_active: createEditAdmin?.is_active,
-    };
+  organisation_id: OrganisationDetails.id,
+  name: createEditAdmin.projectTitle,
+  description: createEditAdmin.description,
+  ...(createEditAdmin.mapServices
+    ? {}
+    : { services: createEditAdmin.mapServices?.map((x: any) => x?.id) }
+  ),
+  ...(createEditAdmin.mapAdmin.length === 0
+    ? ''
+    : { 
+        users: createEditAdmin.mapAdmin.map((x: any) => ({
+          user_profile_id: x?.id,
+          access: x?.access?.name,
+        })),
+      }
+  ),
+  is_active: createEditAdmin?.is_active,
+};
+
     httpRequest('post', `${envConfig.api_url}/idm/projects/create`, payload, true)
       .then((response) => {
         enqueueSnackbar('Project created Succesfully!', { variant: 'success' });

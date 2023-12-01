@@ -34,6 +34,13 @@ export const userSectionStyle: UserSectionStyleProps = {
       border: '1px solid #EAEAEA',
       width: '100%',
     },
+    '& .MuiTableCell-root':{
+      padding:0,
+      pl:1
+    },
+    '& .MuiTableSortLabel-root':{
+      padding:'10px',
+    }
     // '& .LABEL': {
     //   width: '40% !important',
     //   // backgroundColor: 'red',

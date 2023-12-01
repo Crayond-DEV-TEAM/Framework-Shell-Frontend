@@ -6,7 +6,10 @@ interface AddOneStyleProps {
 
 export const addOneStyle: AddOneStyleProps = {
   rootSx: {
-    padding: '24px',
+    margin: '24px',
+    backgroundColor:'#fff',
+    borderRadius:'10px',
+    p:2
   },
   commonTable: {
     bgcolor: '#fff',

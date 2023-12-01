@@ -6,7 +6,10 @@ interface ChargesStyleProps {
 
 export const chargesStyle: ChargesStyleProps = {
   rootSx: {
-    padding: '24px',
+    margin: '24px',
+    backgroundColor:'#fff',
+    borderRadius:'10px',
+    p:2
   },
   commonTable: {
     bgcolor: '#fff',

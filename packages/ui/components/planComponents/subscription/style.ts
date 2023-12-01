@@ -12,6 +12,7 @@ export const subscriptionStyle: SubscriptionStyleProps = {
     padding: '12px',
     mb: 1,
     cursor: 'pointer',
+    color:'red'
   },
   rootsSxSelected: {
     borderRadius: '8px',
@@ -23,6 +24,10 @@ export const subscriptionStyle: SubscriptionStyleProps = {
   },
   rootSx: {
     padding: '24px',
+    margin: '24px',
+    backgroundColor:'#fff',
+    borderRadius:'10px',
+    p:2
   },
   commonTable: {
     bgcolor: '#fff',

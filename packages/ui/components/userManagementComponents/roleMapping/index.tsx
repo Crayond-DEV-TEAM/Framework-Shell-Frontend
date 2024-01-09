@@ -1,6 +1,6 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-import { Table as CommonTable } from "@crayond_dev/ui_table";
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 import { roleMappingStyle } from './style';
 import { ModalAddPermission } from '..';
 import { Header, tableData, tableJson } from './utils';
@@ -58,10 +58,8 @@ export const RoleMapping = (props: RoleMappingProps): JSX.Element => {
   //     }
   //   }
   //   if (e.target.checked) {
-  //     console.log(id);
   //     setSwitchList(true);
   //   } else {
-  //     console.log(id);
   //     setSwitchList(false);
   //   }
   // };

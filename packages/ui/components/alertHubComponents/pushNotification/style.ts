@@ -166,7 +166,7 @@ export const pushNotification_style = {
     // backgroundColor: theme.typography.color.white,
     // borderRadius: theme.palette.borderRadius,
     // boxShadow: theme.palette.primary.boxShadow,
-    height: '550px',
+    height: '100%',
     sm: {
       height: 'auto',
     },

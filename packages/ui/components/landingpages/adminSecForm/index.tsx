@@ -24,7 +24,11 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
 
   const { ServiceListMaster, UserListMaster, addUserInvite, OrganisationDetails } = useAdminLanding();
 
-  console.log(createEditAdmin, 'createEditAdmincreateEditAdmin');
+
+  const accessMaster = [
+    { id: '1', name: 'Full Access' },
+    { id: '2', name: 'Restricted' },
+  ];
 
   // useEffect(() => {
   //   getUserList(OrganisationDetails.id);
@@ -109,6 +113,7 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
                 permissionList={ServiceListMaster}
                 onChange={handlechange}
                 createEditState={createEditAdmin.mapServices}
+                admin={true}
               />
             </AccordionDetails>
           </Accordion>
@@ -131,6 +136,7 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
                 createEditAdmin={createEditAdmin}
                 dataList={UserListMaster}
                 handleChange={handlechange}
+                accessMaster={accessMaster}
               />
             </AccordionDetails>
           </Accordion>

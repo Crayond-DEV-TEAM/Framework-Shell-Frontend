@@ -1,33 +1,33 @@
 import { DeleteIcon, EditIcon, MoreIcon } from '@atoms/icons';
 
 export const Header = [
-  {
-    id: 'checkbox',
-    align: 'left',
-    disablePadding: false,
-    variant: 'CHECKBOX',
-    isSortable: false,
-  },
+  // {
+  //   id: 'checkbox',
+  //   align: 'left',
+  //   disablePadding: false,
+  //   variant: 'CHECKBOX',
+  //   isSortable: false,
+  // },
   {
     id: 'customerid',
     align: 'left',
     disablePadding: false,
     label: 'Customer ID',
-    isSortable: true,
+    // isSortable: true,
   },
   {
     id: 'companyName',
     align: 'left',
     disablePadding: false,
     label: 'Company name',
-    isSortable: true,
+    // isSortable: true,
   },
   {
     id: 'adminname',
     align: 'left',
     disablePadding: false,
     label: 'Admin name',
-    isSortable: true,
+    // isSortable: true,
   },
   {
     id: 'email',
@@ -56,7 +56,7 @@ export const Header = [
     label: 'Status',
   },
   {
-    id: 'action',
+    id: 'left',
     align: 'center',
     disablePadding: false,
     label: 'Action',
@@ -68,7 +68,7 @@ export const tableData = (
   deleteHandel: (id: string) => void,
   detailHandel: (id: string, data: any, e: any) => void,
 ) => [
-  { type: ['CHECKBOX'], name: 'checkbox' },
+  // { type: ['CHECKBOX'], name: 'checkbox' },
   { type: ['TEXT'], name: 'customerid' },
   { type: ['TEXT'], name: 'companyName' },
   { type: ['TEXT'], name: 'adminname' },

@@ -65,15 +65,14 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
   const convertToObj = (billing: any) => {
     return { name: billing };
   };
-  console.log(createEditSubscription, 'OldSubscriptionOldSubscriptionOldSubscription');
   const objectArray = billing?.map(convertToObj);
   const billingType = createEditSubscription?.billing_type?.name;
   const planCardPrice =
     billingType === 'Monthly'
       ? createEditSubscription?.plan_id?.price?.monthly
       : billingType === 'Yearly'
-      ? createEditSubscription?.plan_id?.price?.yearly
-      : null;
+        ? createEditSubscription?.plan_id?.price?.yearly
+        : null;
   const onChange = (value: any, index: number, e: any) => {
     const checked = e.target.checked;
 
@@ -103,20 +102,14 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
   };
 
   const addOnId = createEditSubscription?.add_on?.map((x: any) => x?.add_on?.id);
-  console.log(createEditSubscription, 'adddOnList');
-  console.log(OldSubscription, 'OldSubscription');
-  const chargeMaps = createEditSubscription?.plan_id?.plan_charge_mappings?.map((value: any) => value?.price);
+  const chargeMaps = Array.isArray(createEditSubscription?.plan_id?.plan_charge_mappings) ? createEditSubscription?.plan_id?.plan_charge_mappings?.map((value: any) => value?.price) : [];
   // const Chargessum = chargeMaps?.reduce((accumulator: any, currentValue: any) => accumulator + currentValue, 0);
-  const Chargessum = parseInt(chargeMaps?.join(''), 10);
+  const Chargessum = chargeMaps.length > 0 ? parseInt(chargeMaps?.join(''), 10) : 0;
   const oldchargesMaps = OldSubscription?.charges?.map((value: any) => value.price);
   const oldChargessum = oldchargesMaps?.reduce((accumulator, currentValue) => {
     return accumulator + parseInt(currentValue, 10);
   }, 0);
   const billChecking = objectArray?.find((item) => item?.name === billtype?.name) ? billtype : null;
-  console.log(objectArray?.find((item) => item?.name === billtype?.name) ? billtype : null, 'chargeMaps');
-  console.log(billtype, 'billtype');
-
-  console.log(Chargessum, 'ChargessumChargessumChargessumChargessum');
 
   return (
     <Box
@@ -142,14 +135,17 @@ export const MapSubscriptionPlanTransfer = (props: MapSubscriptionPlanTransferPr
             <Label sx={mapSubscriptionPlanTransferStyle.labelSx} htmlFor="addTitle" isRequired>
               Choose Plan
             </Label>
-
             <CutstomizedAutocomplete
               placeholder={'Monthly'}
-              permissionList={AddOnsList}
+              permissionList={AddOnsList ?? []}
               onChange={(value) => {
                 handleSetupFunc(value);
               }}
-              value={createEditSubscription?.plan_id ?? null}
+              value={
+                createEditSubscription && Object.keys(createEditSubscription?.plan_id)?.length > 0
+                  ? createEditSubscription?.plan_id
+                  : null
+              }
               isError={Boolean(formErrors.plan_id)}
               errorMessage={formErrors.plan_id}
             />

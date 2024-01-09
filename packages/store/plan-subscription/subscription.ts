@@ -113,7 +113,6 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     // const dateFetching = () => {
     //   const currentDate = new Date();
     //   const dateString = currentDate.toISOString();
-    //   console.log(dateString);
     //   return dateString;
     // };
 
@@ -179,11 +178,12 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
     set({ fetching: true, errorOnFetching: false });
     const slugId = useSlug?.getState()?.slugs?.PASM;
     const { createEditSubscription, getSubscriptionList, clearAll } = get();
+    
     const payload = {
       customer_id: createEditSubscription?.customer_id,
       plan_id: createEditSubscription?.plan_id?.id,
       is_active: false,
-      add_on: createEditSubscription.add_on.map((x) => ({
+      add_on: createEditSubscription.add_on.map((x: any) => ({
         id: x.add_on.id,
         price: {
           monthly: x.price.monthly,
@@ -196,7 +196,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
         price_paid: createEditSubscription?.price_paid,
       },
       is_plan_effective: createEditSubscription?.is_plan_effective,
-      plan_effective_from: dateFetching(createEditSubscription?.plan_effective_from),
+      plan_effective_from: dateFetching(createEditSubscription?.is_plan_effective,createEditSubscription?.billing_type?.name),
     };
 
     httpRequest(
@@ -235,7 +235,7 @@ export const useSubscription = create<SubscriptionInterface>((set, get) => ({
       subscription_id: createEditSubscription?.id,
       customer_id: createEditSubscription?.customer_id,
       plan_id: createEditSubscription?.plan_id?.id,
-      is_active: false,
+      is_active: createEditSubscription?.is_active,
       new_add_on: createEditSubscription.new_addon.map((x) => ({
         id: x.add_on.id,
         price: {

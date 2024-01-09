@@ -45,7 +45,6 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
 
     if (foundObject) {
       modifyObjectByIndexWithKey(foundObject, [], data, type);
-      console.log(jsonObject);
     } else {
       console.log('Object not found');
     }
@@ -60,7 +59,11 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       headers: { slug: slugId },
     })
       .then((response) => {
+        if (Array.isArray(response.data.data) && response.data.data.length > 0) {
         set({ PermissionList: response.data.data });
+        }else{
+          set({ PermissionList: ['no'] });
+        }
       })
       .catch((err) => {
         set({ errorOnPermission: true });

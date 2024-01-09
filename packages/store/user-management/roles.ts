@@ -112,7 +112,6 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       })
         .then((response) => {
           enqueueSnackbar('Roles created succesfully!', { variant: 'success' });
-          console.log('In the promise now');
 
           resolve(response?.data?.data);
         })

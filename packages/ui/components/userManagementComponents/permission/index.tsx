@@ -37,7 +37,6 @@ export const Permission = (props: PermissionProps): JSX.Element => {
     }
   }, [PermissionList]);
 
-  console.log('indexUpdateList', indexUpdateList);
 
   return (
     <Box

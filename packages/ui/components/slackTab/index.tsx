@@ -1,7 +1,7 @@
 import DeleteIcon from '@assets/deleteIcon';
 import EditIcon from '@assets/editIcon';
 import { DialogDrawer } from '@atoms/dialogDrawer';
-import { TableHeader } from '@core/ui/components';
+import { TableHeader, TooltipComp } from '@core/ui/components';
 import { Box, Grid } from '@mui/material';
 import { Table as CommonTable } from '@crayond_dev/ui_table';
 import React from 'react';
@@ -14,9 +14,20 @@ import { SlackDialog } from '..';
 export function SlackTab(): JSX.Element {
   const [open, setOpen] = React.useState(false);
   const [switchList, setSwitchList] = React.useState([1, 4]);
+  const [isEdit, setIsEdit] = React.useState(false)
+
 
   const { slackConfiguration, slackList, addSlackConfig, editSlackConfig, clearSlackState, deleteSlackConfig } =
     useAlertConfig();
+
+    const customData = slackList?.map((e) => {
+      return {
+        ...e,
+        slack_bot_token: <TooltipComp
+          value={e?.slack_bot_token}
+        />,
+      }
+    })
 
   const Header = [
     {
@@ -41,6 +52,7 @@ export function SlackTab(): JSX.Element {
 
   const editHandel = (e: string, val: any) => {
     editSlackConfig(val);
+    setIsEdit(true);
     setOpen(true);
   };
 
@@ -50,8 +62,8 @@ export function SlackTab(): JSX.Element {
 
   const tableData = [
     // { type: ['INCREMENT'], name: 'sl_no' },
-    { type: ['TEXT'], name: 'identification_name' },
-    { type: ['TEXT'], name: 'slack_bot_token' },
+    { type: ['TEXT'], name: 'identification_name',  width: '150px'  },
+    { type: ['TEXT'], name: 'slack_bot_token', width: '200px' },
     {
       type: ['ACTION'],
       name: 'action',
@@ -65,16 +77,19 @@ export function SlackTab(): JSX.Element {
           method: deleteHandel,
         },
       ],
+      width: '120px'
     },
   ];
 
   const handleClose = () => {
     clearSlackState();
+    setIsEdit(false);
     setOpen(false);
   };
 
   const handleSubmit = () => {
     setOpen(false);
+    setIsEdit(false);
   };
 
   const handleAdd = () => {
@@ -97,7 +112,7 @@ export function SlackTab(): JSX.Element {
           <Box sx={slackTab_style.commonTable}>
             <CommonTable
               Header={Header}
-              dataList={slackList}
+              dataList={customData}
               tableData={tableData}
               headerOptions={{
                 fontSize: '14px',
@@ -123,6 +138,11 @@ export function SlackTab(): JSX.Element {
               paddingAll={'0px'}
               marginAll={'0px'}
               dense={'medium'}
+              paginationOption={{
+                isEnable: true,
+                rowPerPage: 10,
+                rowsPerPageOptions: [5, 10, 25]
+              }}
               HeaderComponent={{
                 variant: 'CUSTOM',
                 component: (
@@ -147,7 +167,7 @@ export function SlackTab(): JSX.Element {
             // height: '604px',
           }}
           fullWidth={false}
-          title="Add Slack Details"
+          title={`${isEdit ? 'Edit' : 'Add'} Slack Details`}
           fullScreen={false}
           check={false}
           isDialogOpened={open}
@@ -155,7 +175,7 @@ export function SlackTab(): JSX.Element {
           handleCloseDialog={handleClose}
           handleSubmit={handleSubmit}
           content={<SlackDialog />}
-          Footercomponent={<FooterComponent saveText="Add" onCancel={handleClose} onSave={handleAdd} />}
+          Footercomponent={<FooterComponent saveText={`${isEdit ? 'Edit' : 'Add'}`} onCancel={handleClose} onSave={handleAdd} />}
         />
       </Box>
     </Box>

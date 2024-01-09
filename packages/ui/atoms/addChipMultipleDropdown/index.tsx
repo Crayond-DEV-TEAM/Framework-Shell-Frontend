@@ -1,5 +1,5 @@
 import type { SxProps, Theme } from '@mui/system';
-import { Box, Menu, MenuItem, Typography } from '@mui/material';
+import { Box, Menu, MenuItem, Typography, Popover } from '@mui/material';
 import { CheckBox } from '@atoms/checkBox';
 import { GreenCloseCircleIcon } from '@assets/iconSet';
 import React, { useEffect, useState } from 'react';
@@ -15,6 +15,7 @@ import {
 
 import { addChipMultipleDropdownStyle } from './style';
 import { useAdminLanding, useSuperAdminLanding } from '@core/store';
+import { SearchIcon } from '@atoms/icons';
 
 interface AccessOption {
   id: string;
@@ -43,6 +44,9 @@ export interface AddChipMultipleDropdownProps {
   optionList?: AccessOption[];
   handleChange?: (key: string, value: any) => void;
   createEditAdmin: any;
+  accessMaster: any;
+  inviteSection?: boolean;
+  isSearchRequired?: boolean;
   // onSaveUserInvite?: () => void;
 }
 
@@ -53,13 +57,30 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
   handleChange = () => {},
   optionList = [],
   createEditAdmin,
+  accessMaster,
+  inviteSection = false,
+  isSearchRequired = false,
   // onSaveUserInvite = () => false,
   ...rest
 }: AddChipMultipleDropdownProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [selectedOptions, setSelectedOptions] = useState<UserData[]>([]);
-  const [accessState, setAccessState] = useState({ id: '1', name: 'Full Access' });
+  const [accessState, setAccessState] = useState(accessMaster?.[0]);
   const [values, setValues] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredMessageGroup = dataList.filter((x: any) => x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()));
+
+  const roleOption = [
+    {
+      id: '4819fbb0-9dc3-4bbf-bf01-23b29ce2d198',
+      name: 'TOOLKIT-ADMIN',
+    },
+    {
+      id: '38667c3d-7cdc-48f8-9848-9b557a130728',
+      name: 'TOOLKIT-USER',
+    },
+  ];
 
   const {
     emailChecker,
@@ -72,11 +93,6 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
 
   const { getAllUserList } = useSuperAdminLanding();
 
-  const accessMaster = [
-    { id: '1', name: 'Full Access' },
-    { id: '2', name: 'Restricted' },
-  ];
-
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -86,7 +102,10 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
   };
 
   const onSaveUserInvite = () => {
-    addUserInvite();
+    // addUserInvite();
+    addUserInvite(() => {
+      getUserMasterByOrganisation();
+    });
     handleCloseUserInvite();
     // getUserMasterByOrganisation();
     handleClose();
@@ -104,11 +123,45 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
   };
 
   const handleOptionToggle = (option: UserData) => {
-    const isSelected = selectedOptions.some((selected) => selected.id === option.id);
-    setSelectedOptions((prevOptions) =>
-      isSelected ? prevOptions.filter((opt) => opt.id !== option.id) : [...prevOptions, option],
-    );
+    const isSelected = selectedOptions.find((selected) => selected.id === option.id);
+    if (isSelected?.id) {
+      const isSelected = selectedOptions.filter((v: any) => v?.id !== option?.id);
+      setSelectedOptions(isSelected);
+      const setItemsUsers = selectedOptions.map((user) => ({
+        id: user.id,
+        name: user.name,
+        access: accessState,
+      }));
+      handleChange('mapAdmin', isSelected);
+      // handleChange('mapAdmin', isSelected);
+      // createEditOrganisation.id ? deleteAdminmap() : '';
+    } else {
+      selectedOptions.push(option);
+      setSelectedOptions(selectedOptions);
+      const setItemsUsers = selectedOptions.map((user) => ({
+        id: user.id,
+        name: user.name,
+        access: accessState,
+      }));
+      handleChange('mapAdmin', setItemsUsers);
+      // handleChange('mapAdmin', values);
+      // createEditOrganisation.id ? createAdminmap() : '';
+    }
   };
+  // const handleOptionToggle = (option: any) => {
+  //   const isSelected = values.find((v: any) => v?.id === option?.id);
+  //   if (isSelected?.id) {
+  //     const isSelected = values.filter((v: any) => v?.id !== option?.id);
+  //     setValues(isSelected);
+  //     handleChange('mapAdmin', isSelected);
+  //     createEditOrganisation.id ? deleteAdminmap() : '';
+  //   } else {
+  //     values.push(option);
+  //     setValues(values);
+  //     handleChange('mapAdmin', values);
+  //     createEditOrganisation.id ? createAdminmap() : '';
+  //   }
+  // };
 
   const handleChangeAccess = (selectedAccess: AccessOption | null) => {
     setAccessState(selectedAccess);
@@ -119,7 +172,7 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
       const setItemsUsers = selectedOptions.map((user) => ({
         id: user.id,
         name: user.name,
-        access: accessState.name,
+        access: accessState,
       }));
       handleChange('mapAdmin', setItemsUsers);
     }
@@ -149,7 +202,7 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
   return (
     <Box sx={[addChipMultipleDropdownStyle.rootSx, ...(Array.isArray(sx) ? sx : [sx])]} className={className} {...rest}>
       <div>
-        <Menu
+        <Popover
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           onClose={handleClose}
@@ -162,60 +215,93 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
             },
           }}
         >
-          {dataList.map((data) => (
+          {isSearchRequired && (
+            // <MenuItem>
+            // <Box sx={{ pr: 1, pt: '3px' }}>
+            //   <Input
+            //     placeholder={'search'}
+            //     value={createEditAdmin.searchName}
+            //     onChange={(e) => handleChange('searchName', e.target.value)}
+            //     startAdornment={<SearchIcon sx={{ ml: 1, fontSize: '16px', color: '#818181' }} />}
+            //   />
+            // </Box>
+            // </MenuItem>
+            <Box sx={{ m: '10px' }}>
+              <Input
+                // textFieldStyle={{ height: '25px', margin: '10px' }}
+                // height="10px"
+                width="10px"
+                placeholder={'search'}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                startAdornment={
+                  <SearchIcon rootStyle={{ ml: 1, height: '10px', fontSize: '16px', color: '#818181' }} />
+                }
+              />
+            </Box>
+          )}
+          {filteredMessageGroup.map((data) => {
+            const test = createEditAdmin.mapAdmin;
+            const isSelected = test?.filter((v: any) => v?.id === data?.id);
+            return (
+              <MenuItem
+                sx={{
+                  py: 0,
+                  backgroundColor: isSelected?.length > 0 ? '#dce8e5' : '#fff',
+                }}
+                key={data.id}
+                onClick={() => handleOptionToggle(data)}
+              >
+                <CheckBox style={{ marginRight: '8px' }} checked={isSelected?.length > 0} />
+                <Box
+                  sx={{ px: 1, display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
+                >
+                  <MappedAdminCard options={data} />
+                  <CutstomizedAutocomplete
+                    sx={{
+                      '& .MuiOutlinedInput-notchedOutline, & .MuiOutlinedInput-notchedOutline:focus-visible': {
+                        border: 0,
+                      },
+                    }}
+                    onChange={(e: AccessOption | null) => handleChangeAccess(e)}
+                    permissionList={accessMaster}
+                    value={accessState}
+                  />
+                </Box>
+              </MenuItem>
+            );
+          })}
+
+          {inviteSection && (
             <MenuItem
               sx={{
-                py: 0,
-                backgroundColor: selectedOptions.some((opt) => opt.id === data.id) ? '#dce8e5' : '#fff',
+                py: 1,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                cursor: 'pointer',
+                backgroundColor: '#f0f0f0',
+                px: 0,
+                justifyItems: 'left', // Customize the background color as needed
               }}
-              key={data.id}
-              onClick={() => handleOptionToggle(data)}
+              onClick={() => {
+                handleOpenUserInvite();
+              }}
             >
-              <CheckBox style={{ marginRight: '8px' }} checked={selectedOptions.some((opt) => opt.id === data.id)} />
-              <Box
-                sx={{ px: 1, display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
-              >
-                <MappedAdminCard options={data} />
-                <CutstomizedAutocomplete
-                  sx={{
-                    '& .MuiOutlinedInput-notchedOutline, & .MuiOutlinedInput-notchedOutline:focus-visible': {
-                      border: 0,
-                    },
-                  }}
-                  onChange={(e: AccessOption | null) => handleChangeAccess(e)}
-                  permissionList={accessMaster}
-                  value={accessState}
-                />
-              </Box>
+              <GreenCloseCircleIcon
+                rootStyle={{
+                  minWidth: '22px',
+                  height: '22px',
+                  borderRadius: '50% !important',
+                  marginRight: '10px',
+                  // p:'3px'
+                }}
+              />
+              <Typography style={{ color: '#357968', fontSize: '14px', fontWeight: 600 }}>Invite User</Typography>
             </MenuItem>
-          ))}
-          <MenuItem
-            sx={{
-              py: 1,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              cursor: 'pointer',
-              backgroundColor: '#f0f0f0',
-              px: 0,
-              justifyItems: 'left', // Customize the background color as needed
-            }}
-            onClick={() => {
-              handleOpenUserInvite();
-            }}
-          >
-            <GreenCloseCircleIcon
-              rootStyle={{
-                minWidth: '22px',
-                height: '22px',
-                borderRadius: '50% !important',
-                marginRight: '10px',
-                // p:'3px'
-              }}
-            />
-            <Typography style={{ color: '#357968', fontSize: '14px', fontWeight: 600 }}>Invite User</Typography>
-          </MenuItem>
-        </Menu>
+          )}
+        </Popover>
+
         <MappedUserCard dataMaster={createEditAdmin.mapAdmin} />
         <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', marginTop: '10px' }} onClick={handleClick}>
           <GreenCloseCircleIcon
@@ -271,6 +357,22 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
                 }
                 // isError={Boolean(formErrors.description)}
                 // errorMessage={formErrors.description}
+              />
+            </Box>
+            <Box sx={{ m: '16px' }} />
+            <Box sx={addChipMultipleDropdownStyle.inputGroupSx}>
+              <Label sx={addChipMultipleDropdownStyle.labelSx} htmlFor="addTitle" isRequired>
+                Role
+              </Label>
+              <CutstomizedAutocomplete
+                placeholder="Silver"
+                permissionList={roleOption}
+                onChange={(value) => {
+                  handleChangeUserInvite('role', value);
+                }}
+                value={userInviteEdit.role && Object.keys(userInviteEdit.role).length > 0 ? userInviteEdit.role : null}
+                // isError={Boolean(formErrors.role)}
+                // errorMessage={formErrors.role}
               />
             </Box>
           </Box>

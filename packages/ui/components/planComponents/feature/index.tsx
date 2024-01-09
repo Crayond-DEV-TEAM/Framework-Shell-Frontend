@@ -1,6 +1,6 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-import { Table as CommonTable } from "@crayond_dev/ui_table";
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 import { useEffect, useState } from 'react';
 import { featureStyle } from './style';
 import { Header, tableData, tableJson } from './utils';
@@ -8,7 +8,7 @@ import { FooterComponent } from '@atoms/footerComponent';
 import { DialogDrawer } from '@atoms/dialogDrawer';
 import { Label } from '@atoms/label';
 import { Input } from '@atoms/input';
-import { useFeature } from '@core/store';
+import { useFeature, useSlug } from '@core/store';
 import { DeleteComponent, TableHeader } from '@components/commonComponents';
 
 export interface FeatureProps {
@@ -43,9 +43,9 @@ export const Feature = (props: FeatureProps): JSX.Element => {
     editsave,
     deletefetch,
   } = useFeature();
-  console.log('FeatureList',FeatureList)
-  const filteredMessageGroup = FeatureList.filter((x: any) =>
-    x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()),
+  const { slugs } = useSlug();
+  const filteredMessageGroup = FeatureList.filter(
+    (x: any) => x.name?.toLowerCase()?.includes(searchTerm.toLowerCase()),
   );
   const validateForm = () => {
     const errors: Record<string, string> = {};
@@ -87,10 +87,8 @@ export const Feature = (props: FeatureProps): JSX.Element => {
       }
     }
     if (e.target.checked === true) {
-      // console.log(id);
       getStatusList(id, true);
     } else {
-      // console.log(id);
       getStatusList(id, false);
     }
   };
@@ -141,8 +139,10 @@ export const Feature = (props: FeatureProps): JSX.Element => {
     clearAll();
   };
   useEffect(() => {
-    getFeatureList();
-  }, []);
+    if (slugs?.PASM) {
+      getFeatureList();
+    }
+  }, [slugs?.PASM]);
 
   useEffect(() => {
     handleStatus();
@@ -208,6 +208,11 @@ export const Feature = (props: FeatureProps): JSX.Element => {
           paddingAll={'0px'}
           marginAll={'0px 0px 0px'}
           dense={'small'}
+          paginationOption={{
+            isEnable: true,
+            rowPerPage: 10,
+            rowsPerPageOptions: [5, 10, 25]
+          }}
         />
       </Box>
       <DialogDrawer

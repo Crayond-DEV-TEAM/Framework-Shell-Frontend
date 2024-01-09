@@ -1,6 +1,6 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-import { Table as CommonTable } from "@crayond_dev/ui_table";
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 
 import { subscriptionStyle } from './style';
 import { Header, tableData, tableJson } from './utils';
@@ -13,7 +13,7 @@ import { Input } from '@atoms/input';
 import { CustomerModalCard } from '@atoms/customerModalCard';
 import { planSubscriptionRoutes } from '@core/routes';
 import { useNavigate } from 'react-router-dom';
-import { useAddOns, useCustomer, useSubscription } from '@core/store';
+import { useAddOns, useCustomer, useSlug, useSubscription } from '@core/store';
 import { usePlan } from '@core/store/plan-subscription';
 import { DeleteComponent, TableHeader } from '@components/commonComponents';
 
@@ -48,18 +48,18 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
     setTicketSubscription,
     clearAll,
   } = useSubscription();
+  const { slugs } = useSlug();
   const { CustomerList, getCustomerList } = useCustomer();
   const { getPlanList, PlanList } = usePlan();
   const [formErrors, setFormErrors] = useState({});
   const [cardformError, setFormcardError] = useState({});
-  const filteredMessageGroup = SubscriptionList.filter((x: any) =>
-    x.companyName?.toLowerCase()?.includes(searchTerm.toLowerCase()),
+  const filteredMessageGroup = SubscriptionList.filter(
+    (x: any) => x.companyName?.toLowerCase()?.includes(searchTerm.toLowerCase()),
   );
 
-  console.log(PlanList, 'PlanListPlanListPlanList');
 
-  const filteredCompanyList = CustomerList.filter((x: any) =>
-    x.email?.toLowerCase()?.includes(searchComp.toLowerCase()),
+  const filteredCompanyList = CustomerList.filter(
+    (x: any) => x.email?.toLowerCase()?.includes(searchComp.toLowerCase()),
   );
 
   const validateCard = () => {
@@ -71,7 +71,6 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
     return Object.keys(errors).length === 0;
   };
 
-  console.log(createEditSubscription, 'createEditSubscriptioncreateEditSubscription');
   const validateForm = () => {
     const errors: Record<string, string> = {};
 
@@ -136,10 +135,8 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
       }
     }
     if (e.target.checked === true) {
-      console.log(id);
       getStatusList(id, true);
     } else {
-      console.log(id);
       getStatusList(id, false);
     }
   };
@@ -199,14 +196,16 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
   };
 
   useEffect(() => {
-    getSubscriptionList();
-    getCustomerList();
-    getPlanList();
-  }, []);
+    if (slugs?.PASM) {
+      getSubscriptionList();
+      getCustomerList();
+      getPlanList();
+    }
+  }, [slugs?.PASM]);
+
   useEffect(() => {
     handleStatus();
   }, [SubscriptionList]);
-  // console.log(Boolean(formErrors.card), 'ttttttttttttttttttttttttt');
   // const cardCheck = Boolean(formErrors.card);
   return (
     <Box
@@ -268,6 +267,11 @@ export const Subscription = (props: SubscriptionProps): JSX.Element => {
           paddingAll={'0px'}
           marginAll={'0px 0px 0px'}
           dense={'small'}
+          paginationOption={{
+            isEnable: true,
+            rowPerPage: 10,
+            rowsPerPageOptions: [5, 10, 25]
+          }}
         />
       </Box>
       <DialogDrawer

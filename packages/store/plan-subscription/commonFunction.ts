@@ -1,12 +1,16 @@
-export function dateFetching(value: any) {
+import moment from "moment";
+
+
+export function dateFetching(value: any, type: any) {
   const currentDate = new Date();
-  const nextYearDate = new Date(currentDate.getFullYear() + 1, currentDate.getMonth(), currentDate.getDate());
 
   if (value === true) {
-    const dateString = currentDate.toISOString();
-    return dateString;
+    return type === 'Monthly' ? currentDate.toISOString() : moment(currentDate).format('YYYY-MM-DD HH:mm:ss');
   } else {
-    const dateString = nextYearDate.toISOString();
-    return dateString;
+    const nextDate = type === 'Monthly'
+      ? new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
+      : new Date(currentDate.getFullYear() + 1, 0, 1);
+
+    return moment(nextDate).format('YYYY-MM-DD HH:mm:ss');
   }
 }

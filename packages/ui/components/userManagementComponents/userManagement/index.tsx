@@ -79,11 +79,6 @@ export const UserManagement = (props: UserManagementProps): JSX.Element => {
         />
       ),
     },
-    // {
-    //   id: 3,
-    //   label: 'Role Mapping',
-    //   children: <RoleMapping />,
-    // },
   ];
 
   return (

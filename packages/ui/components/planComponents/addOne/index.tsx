@@ -1,6 +1,6 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-import { Table as CommonTable } from "@crayond_dev/ui_table";
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 
 import { addOneStyle } from './style';
 import { AddOnContent } from '..';
@@ -8,8 +8,8 @@ import { useState, useEffect } from 'react';
 import { Header, tableData, tableJson } from './utills';
 import { FooterComponent } from '@atoms/footerComponent';
 import { DialogDrawer } from '@atoms/dialogDrawer';
-import { useAddOns, useFeatureGroup } from '@core/store';
-import { DeleteComponent, TableHeader } from '@components/commonComponents'
+import { useAddOns, useFeatureGroup, useSlug } from '@core/store';
+import { DeleteComponent, TableHeader } from '@components/commonComponents';
 
 export interface AddOneProps {
   className?: string;
@@ -33,6 +33,7 @@ export const AddOne = (props: AddOneProps): JSX.Element => {
     editsave,
     deletefetch,
   } = useAddOns();
+  const { slugs } = useSlug();
   const { FeatureGroupList, getFeatureGroupList } = useFeatureGroup();
   const [values, setValues] = useState(false);
   const [editname, setEditname] = useState(false);
@@ -54,10 +55,10 @@ export const AddOne = (props: AddOneProps): JSX.Element => {
     if (createEditAddOns.description.trim().length === 0) {
       errors.description = 'Description is required';
     }
-    if (createEditAddOns.features.length === 0) {
+    if (!createEditAddOns.features || Object.keys(createEditAddOns.features).length === 0) {
       errors.features = 'Feature is required';
     }
-    if (createEditAddOns.featuregroup.length === 0) {
+    if (!createEditAddOns.featuregroup || Object.keys(createEditAddOns.featuregroup).length === 0) {
       errors.featuregroup = 'Feature Group is required';
     }
 
@@ -124,10 +125,8 @@ export const AddOne = (props: AddOneProps): JSX.Element => {
       }
     }
     if (e.target.checked === true) {
-      console.log(id);
       getStatusList(id, true);
     } else {
-      console.log(id);
       getStatusList(id, false);
     }
   };
@@ -152,9 +151,12 @@ export const AddOne = (props: AddOneProps): JSX.Element => {
   };
 
   useEffect(() => {
-    getAddOnsList();
-    getFeatureGroupList();
-  }, []);
+    if (slugs?.PASM) {
+      getAddOnsList();
+      getFeatureGroupList();
+    }
+  }, [slugs?.PASM]);
+
   useEffect(() => {
     handleStatus();
   }, [AddOnsList]);
@@ -219,6 +221,11 @@ export const AddOne = (props: AddOneProps): JSX.Element => {
           paddingAll={'0px'}
           marginAll={'0px 0px 0px'}
           dense={'small'}
+          paginationOption={{
+            isEnable: true,
+            rowPerPage: 10,
+            rowsPerPageOptions: [5, 10, 25]
+          }}
         />
       </Box>
       <DialogDrawer

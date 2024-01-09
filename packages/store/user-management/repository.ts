@@ -31,8 +31,12 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
       headers: { slug: slugId },
     })
       .then((response) => {
+         if (Array.isArray(response.data.data) && response.data.data.length > 0) {
         const lastObject = response.data.data[response.data.data.length - 1];
         set({ RepositoryList: lastObject.data, RepositoryId: lastObject.id, editRepositoryList: lastObject.data });
+         }else{
+          set({ RepositoryList: [] });
+         }
       })
       .catch((err) => {
         set({ errorOnFetching: true });

@@ -9,6 +9,7 @@ export const idmBackgroundCardStyle: IdmBackgroundCardStyleProps = {
     borderRadius: '8px',
     border: '1px solid #EAEAEA',
     backgroundColor: 'primary.contrastText',
+    // mt:'80px'
   },
   header: {
     padding: '24px 20px 14px 20px',

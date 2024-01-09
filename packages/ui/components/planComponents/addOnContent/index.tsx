@@ -32,7 +32,6 @@ export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
     }
     // setFeatureList(featureDetails);
   };
-  console.log(featuesList, 'featuesList');
 
   useEffect(() => {
     const deMart = createEditAddOns?.featuregroup?.feature_group_mapings?.map((x: any) => x?.feature);
@@ -41,11 +40,7 @@ export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
 
   const foundFeature = featuesList?.some((item) => item.name === createEditAddOns.features?.name);
 
-  // objectArray.find((item) => item.name === billtype?.name);
-
-  console.log(foundFeature, 'foundFeature');
-
-  console.log(foundFeature ? createEditAddOns.features : null, 'createEditAddOns.features');
+  // objectArray.find((item) => item.name === billtype?.nam
 
   return (
     <Box
@@ -125,7 +120,7 @@ export const AddOnContent = (props: AddOnContentProps): JSX.Element => {
           </Label>
           <CutstomizedAutocomplete
             placeholder={'Silver'}
-            permissionList={featuesList}
+            permissionList={featuesList ?? []}
             onChange={(value) => {
               handleAddEditStateChange('features', value);
             }}

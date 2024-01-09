@@ -6,7 +6,7 @@ import { SubHeader } from '@components/commonComponents';
 import { EmailTab } from '../emailTab';
 import { SmsTab } from '../smsTab';
 import { PushNotification } from '../pushNotification';
-import { useAlertConfig } from '@core/store';
+import { useAlertConfig, useSlug } from '@core/store';
 import { SlackTab } from '@components/slackTab';
 import { WhatsappTab } from '@components/whatsappTab';
 
@@ -25,6 +25,8 @@ export function AlertConfig(props: AlertConfigProps): JSX.Element {
 
   const { getEmailConfig, getPushConfig, getSmsConfig, getSlackConfig, getWhatsappConfig } = useAlertConfig();
 
+  const { slugs } = useSlug();
+
   const alertConfigTab = ['Email', 'SMS', 'Push Notification', 'Slack', 'Whatsapp'];
 
   const handleAlertTab = (i: any) => {
@@ -32,12 +34,14 @@ export function AlertConfig(props: AlertConfigProps): JSX.Element {
   };
 
   useEffect(() => {
-    getEmailConfig();
-    getSmsConfig();
-    getPushConfig();
-    getSlackConfig();
-    getWhatsappConfig();
-  }, []);
+    if (slugs?.ALERTSHUB) {
+      getEmailConfig();
+      getSmsConfig();
+      getPushConfig();
+      getSlackConfig();
+      getWhatsappConfig();
+    }
+  }, [slugs?.ALERTSHUB]);
 
   return (
     <Box sx={alertConfig_style.root}>

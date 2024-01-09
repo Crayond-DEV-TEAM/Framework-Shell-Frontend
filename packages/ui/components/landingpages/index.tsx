@@ -3,3 +3,4 @@ export { AdminSection } from './adminSection';
 export { SuperAdmin } from './superAdmin';
 export { SuperAdminForm } from './superAdminForm';
 export { UserSection } from './userSection';
+export { SuperAdminTabs } from './superAdminTabs';

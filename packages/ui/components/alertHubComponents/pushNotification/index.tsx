@@ -1,7 +1,7 @@
 import DeleteIcon from '@assets/deleteIcon';
 import EditIcon from '@assets/editIcon';
 import { DialogDrawer } from '@atoms/dialogDrawer';
-import { PushDialog } from '@core/ui/components';
+import { PushDialog, TooltipComp } from '@core/ui/components';
 import { TableHeader } from '@core/ui/components';
 import { Box, Grid } from '@mui/material';
 import { Table as CommonTable } from '@crayond_dev/ui_table';
@@ -14,9 +14,26 @@ import { enqueueSnackbar } from 'notistack';
 export function PushNotification(): JSX.Element {
   const [open, setOpen] = React.useState(false);
   const [switchList, setSwitchList] = React.useState([1, 4]);
+  const [isEdit, setIsEdit] = React.useState(false)
 
   const { pushConfiguration, pushList, addPushConfig, editPushConfig, deletePushConfig, clearPushState } =
     useAlertConfig();
+
+
+    const customData = pushList?.map((e) => {
+      return {
+        ...e,
+        clientEmail: <TooltipComp
+          value={e?.clientEmail}
+        />,
+        privateKey: <TooltipComp
+          value={e?.privateKey}
+        />,
+        pushServerKey: <TooltipComp
+        value={e?.pushServerKey}
+      />
+      }
+    })
 
   const Header = [
     {
@@ -53,6 +70,7 @@ export function PushNotification(): JSX.Element {
 
   const editHandel = (e: string, val: any) => {
     editPushConfig(val);
+    setIsEdit(true);
     setOpen(true);
   };
 
@@ -61,10 +79,10 @@ export function PushNotification(): JSX.Element {
   };
 
   const tableData = [
-    { type: ['TEXT'], name: 'projectId' },
-    { type: ['TEXT'], name: 'clientEmail' },
-    { type: ['TEXT'], name: 'privateKey' },
-    { type: ['TEXT'], name: 'pushServerKey' },
+    { type: ['TEXT'], name: 'projectId' , width: '140px'},
+    { type: ['CUSTOM'], name: 'clientEmail', width: '120px' },
+    { type: ['CUSTOM'], name: 'privateKey', width: '120px' },
+    { type: ['CUSTOM'], name: 'pushServerKey', width: '120px' },
     {
       type: ['ACTION'],
       name: 'action',
@@ -78,16 +96,19 @@ export function PushNotification(): JSX.Element {
           method: deleteHandel,
         },
       ],
+      width: '120px'
     },
   ];
 
   const handleClose = () => {
     clearPushState();
+    setIsEdit(false);
     setOpen(false);
   };
 
   const handleSubmit = () => {
     setOpen(false);
+    setIsEdit(false);
   };
 
   const handleAdd = () => {
@@ -115,7 +136,7 @@ export function PushNotification(): JSX.Element {
           <Box sx={pushNotification_style.commonTable}>
             <CommonTable
               Header={Header}
-              dataList={pushList}
+              dataList={customData}
               tableData={tableData}
               headerOptions={{
                 fontSize: '14px',
@@ -163,7 +184,7 @@ export function PushNotification(): JSX.Element {
           width: '1000px',
         }}
         fullWidth={false}
-        title="Add Push Notification Details"
+        title={`${isEdit ? 'Edit' : 'Add'} Push Notification Details`}
         fullScreen={false}
         check={false}
         isDialogOpened={open}
@@ -171,7 +192,7 @@ export function PushNotification(): JSX.Element {
         handleCloseDialog={handleClose}
         handleSubmit={handleSubmit}
         content={<PushDialog />}
-        Footercomponent={<FooterComponent saveText="Add" onCancel={handleClose} onSave={handleAdd} />}
+        Footercomponent={<FooterComponent saveText={`${isEdit ? 'Edit' : 'Add'}`} onCancel={handleClose} onSave={handleAdd} />}
       />
     </Box>
   );

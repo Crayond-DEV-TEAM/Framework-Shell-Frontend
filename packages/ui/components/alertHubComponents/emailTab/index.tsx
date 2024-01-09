@@ -1,7 +1,7 @@
 import DeleteIcon from '@assets/deleteIcon';
 import EditIcon from '@assets/editIcon';
 import { DialogDrawer } from '@atoms/dialogDrawer';
-import { Box, Grid } from '@mui/material';
+import { Box, ClickAwayListener, Grid, Tooltip, Typography } from '@mui/material';
 import { Table as CommonTable } from "@crayond_dev/ui_table";
 import React from 'react';
 import { emailTab_style } from './style';
@@ -10,13 +10,27 @@ import { TableHeader } from '@components/commonComponents'
 import { EmailDialog } from '../emailDialog'
 import { useAlertConfig } from '@core/store';
 import { enqueueSnackbar } from 'notistack';
+import { TooltipComp } from '../../commonComponents/tooltipComp';
 
 export function EmailTab(): JSX.Element {
   const [open, setOpen] = React.useState(false);
   const [switchList, setSwitchList] = React.useState([1, 4]);
-
+  const [isEdit, setIsEdit] = React.useState(false)
+ 
   const { emailConfiguration, addEmailConfig, editEmailConfig, clearEmailState, deleteEmailConfig, emailList } =
     useAlertConfig();
+
+  const customData = emailList?.map((e) => {
+    return {
+      ...e,
+      api_key: <TooltipComp
+        value={e?.api_key}
+      />,
+      from_mail: <TooltipComp
+        value={e?.from_mail}
+      />
+    }
+  })
 
   const header = [
     {
@@ -89,6 +103,7 @@ export function EmailTab(): JSX.Element {
 
   const editHandel = (e: string, val: any) => {
     editEmailConfig(val);
+    setIsEdit(true);
     setOpen(true);
   };
 
@@ -97,16 +112,16 @@ export function EmailTab(): JSX.Element {
   };
 
   const tableData = [
-    { type: ['TEXT'], name: 'identification_name' },
-    { type: ['TEXT'], name: 'email_provider' },
-    { type: ['TEXT'], name: 'smtp_host' },
-    { type: ['TEXT'], name: 'smtp_port' },
-    { type: ['TEXT'], name: 'smtp_username' },
-    { type: ['TEXT'], name: 'aws_secret_key' },
-    { type: ['TEXT'], name: 'api_key' },
-    { type: ['TEXT'], name: 'aws_access_id' },
-    { type: ['TEXT'], name: 'mail_domain' },
-    { type: ['TEXT'], name: 'from_mail' },
+    { type: ['TEXT'], name: 'identification_name', width: '120px' },
+    { type: ['TEXT'], name: 'email_provider', width: '120px' },
+    { type: ['TEXT'], name: 'smtp_host', width: '120px' },
+    { type: ['TEXT'], name: 'smtp_port', width: '120px' },
+    { type: ['TEXT'], name: 'smtp_username', width: '120px' },
+    { type: ['TEXT'], name: 'aws_secret_key', width: '120px' },
+    { type: ['CUSTOM'], name: 'api_key', width: '120px' },
+    { type: ['TEXT'], name: 'aws_access_id', width: '120px' },
+    { type: ['TEXT'], name: 'mail_domain', width: '150px' },
+    { type: ['CUSTOM'], name: 'from_mail', width: '150px' },
     {
       type: ['ACTION'],
       name: 'action',
@@ -120,16 +135,19 @@ export function EmailTab(): JSX.Element {
           method: deleteHandel,
         },
       ],
+      width: '120px'
     },
   ];
 
   const handleClose = () => {
     clearEmailState();
+    setIsEdit(false)
     setOpen(false);
   };
 
   const handleSubmit = () => {
     setOpen(false);
+    setIsEdit(false)
   };
 
   const handleAdd = () => {
@@ -176,7 +194,7 @@ export function EmailTab(): JSX.Element {
   const handleClick = () => {
     setOpen(true);
   };
-
+  
   return (
     <Box>
       <Grid container sx={emailTab_style.marginTop}>
@@ -184,7 +202,7 @@ export function EmailTab(): JSX.Element {
           <Box sx={emailTab_style.commonTable}>
             <CommonTable
               Header={header}
-              dataList={emailList}
+              dataList={customData}
               tableData={tableData}
               headerOptions={{
                 fontSize: '14px',
@@ -210,6 +228,11 @@ export function EmailTab(): JSX.Element {
               paddingAll={'0px'}
               marginAll={'0px'}
               dense={'medium'}
+              paginationOption={{
+                isEnable: true,
+                rowPerPage: 10,
+                rowsPerPageOptions: [5, 10, 25]
+              }}
               HeaderComponent={{
                 variant: 'CUSTOM',
                 component: (
@@ -234,15 +257,15 @@ export function EmailTab(): JSX.Element {
             // height: '604px',
           }}
           fullWidth={false}
-          title="Add Email Details"
+          title={`${isEdit ? 'Edit' : 'Add'} Email Details`}
           fullScreen={false}
           check={false}
           isDialogOpened={open}
           handleClose={handleClose}
           handleCloseDialog={handleClose}
           handleSubmit={handleSubmit}
-          content={<EmailDialog />}
-          Footercomponent={<FooterComponent saveText="Add" onCancel={handleClose} onSave={handleAdd} />}
+          content={<EmailDialog  emailConfiguration={emailConfiguration} />}
+          Footercomponent={<FooterComponent saveText={`${isEdit ? 'Edit' : 'Add'}`} onCancel={handleClose} onSave={handleAdd} />}
         />
       </Box>
     </Box>

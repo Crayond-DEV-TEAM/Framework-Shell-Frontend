@@ -7,8 +7,7 @@ interface UserSectionStyleProps {
 export const userSectionStyle: UserSectionStyleProps = {
   rootSx: {},
   commonTable: {
-    borderBottomRightRadius: '8px',
-    borderBottomLeftRadius: '8px',
+     borderRadius:'8px',
     bgcolor: '#fff',
     // margin: {
     //   lg: '0px 12px',
@@ -35,9 +34,35 @@ export const userSectionStyle: UserSectionStyleProps = {
       border: '1px solid #EAEAEA',
       width: '100%',
     },
-    '& .LABEL': {
-      width: '40% !important',
-      // backgroundColor: 'red',
+    // '& .LABEL': {
+    //   width: '40% !important',
+    //   // backgroundColor: 'red',
+    // },
+  },
+
+      dialogSx: {
+    width: '400px',
+    height: '315px',
+  },
+  padd: {
+    p: '24px',
+  },
+  labelSx: {
+    fontSize: '12px',
+    color: '#262C33',
+    fontWeight: '500',
+    pb: 1,
+  },
+
+  inputGroupSx: {
+    display: 'grid',
+    // pb: 2,
+    // mt: '9px',
+  },
+  inputSx: {
+    '& .MuiOutlinedInput-input': {
+      fontWeight: 500,
+      fontSize: '14px',
     },
   },
 };

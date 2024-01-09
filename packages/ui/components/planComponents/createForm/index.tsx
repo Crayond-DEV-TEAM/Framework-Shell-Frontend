@@ -16,7 +16,6 @@ export const CreateForm = (props: CreateFormProps): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
 
   const handleChange = (x: any, y: any) => {
-    console.log('///');
   };
 
   return (

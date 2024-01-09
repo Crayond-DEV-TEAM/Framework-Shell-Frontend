@@ -8,7 +8,7 @@ import { TreeComponent } from '@atoms/treeComponent';
 import { DialogDrawer } from '@atoms/dialogDrawer';
 import { FooterComponent } from '@atoms/footerComponent';
 import { useEffect, useState } from 'react';
-import { useRepository } from '@core/store';
+import { useRepository, useSlug } from '@core/store';
 import { RepoJson } from './utils';
 import { Repositorysimmer } from './simmer';
 import { TableHeader } from '@components/commonComponents';
@@ -35,6 +35,7 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
     RepositoryId,
     setApiToken,
   } = useRepository();
+  const { slugs } = useSlug();
   const [values, setValues] = useState(false);
   const handleClose = () => {
     setValues(false);
@@ -49,7 +50,6 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
   };
 
   const handleChange = (e: any) => {
-    // console.log('val', e?.jsObject);
     // seteditRepository(e?.jsObject);
   };
 
@@ -58,8 +58,10 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
   }, []);
 
   useEffect(() => {
-    getAllRepository();
-  }, []);
+    if (slugs?.IDM) {
+      getAllRepository();
+    }
+  }, [slugs?.IDM]);
 
   return (
     <Box

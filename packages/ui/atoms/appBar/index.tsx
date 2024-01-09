@@ -30,7 +30,6 @@ export function AppBar(props: AppBarProps): JSX.Element {
     setOpen(false);
   };
   const { logOut } = useAuth();
-  console.log(user, 'user');
 
   const myProfile = () => {
     history('/profile');
@@ -54,11 +53,11 @@ export function AppBar(props: AppBarProps): JSX.Element {
         <Box sx={appBarStyle.mainSx}>
           <Typography sx={appBarStyle.title}>{title}</Typography>
           <Box sx={appBarStyle.profileSec}>
-            <ChatNav />
+            {/* <ChatNav /> */}
             <Box sx={appBarStyle.profileSec}>
               <Box sx={{ pl: 3, pr: 1 }}>
-                <Typography sx={appBarStyle.profileName}>{user?.username}</Typography>
-                <Typography sx={appBarStyle.email}>{user?.email_id}</Typography>
+                <Typography sx={appBarStyle.profileName}>{MyProfileList?.name}</Typography>
+                <Typography sx={appBarStyle.email}>{MyProfileList?.email_id}</Typography>
               </Box>
               <Avatar src={MyProfileList?.profile_pic} variant="rounded" sx={{ borderRadius: '8px' }} />
               <Box sx={{ pl: 1 }} onClick={handleOpen}>

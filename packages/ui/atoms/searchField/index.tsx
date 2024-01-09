@@ -35,7 +35,6 @@ export const SearchField = (props: SearchFieldProps): JSX.Element => {
   // searchfunc
   const filteredMessageGroup = options?.filter((x: any) => x?.label?.toLowerCase()?.includes(search?.toLowerCase()));
 
-  // console.log(onSelect, 'sss');
   return (
     <Box sx={{ ...searchFieldStyle.searchBoxSx }}>
       <Box sx={{ ...searchFieldStyle.searchFieldSx }}>

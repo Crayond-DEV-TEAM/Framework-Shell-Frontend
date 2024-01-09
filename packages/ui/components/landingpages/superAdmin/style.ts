@@ -5,10 +5,14 @@ interface SuperAdminStyleProps {
 }
 
 export const superAdminStyle: SuperAdminStyleProps = {
-  rootSx: {},
+  rootSx: {
+    height: '100%',
+    paddingBottom: '20px',
+
+  },
   commonTable: {
-    borderBottomRightRadius: '8px',
-    borderBottomLeftRadius: '8px',
+    borderRadius: "12px",
+    height: '100%',
     bgcolor: '#fff',
     // margin: {
     //   lg: '0px 12px',
@@ -40,4 +44,13 @@ export const superAdminStyle: SuperAdminStyleProps = {
       // backgroundColor: 'red',
     },
   },
+   customSwitch:{
+    display:'flex',
+    gap:'6px',
+    alignItems:'center'
+  },
+  customSwitchStatus:{
+    fontSize:'14px',
+
+  }
 };

@@ -1,4 +1,5 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse, Method } from 'axios';
+import { enqueueSnackbar } from 'notistack';
 
 import { localStorageKeys } from '../constants';
 import { envConfig } from '@core/envconfig';
@@ -11,9 +12,9 @@ interface ConfigOptions {
 }
 
 type HttpRequestProps = (
-  method: AxiosRequestConfig['method'],
-  url: AxiosRequestConfig['url'],
-  data?: AxiosRequestConfig['data'],
+  method: Method,
+  url: string,
+  data?: any,
   includeToken?: boolean,
   apiToken?: string,
   config?: ConfigOptions,
@@ -28,7 +29,8 @@ type HttpRequestProps = (
  * A promise that resolves with the response data or rejects with an error.
  */
 
-export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, includeToken, apiToken, config) => {
+
+export const httpRequest: HttpRequestProps = async (method = 'get', url, data = null, includeToken, apiToken, config) => {
   const headers = {
     ...(includeToken &&
       envConfig.client_environment !== 'external' && {
@@ -40,11 +42,24 @@ export const httpRequest: HttpRequestProps = (method = 'get', url, data = null, 
     ...(config?.headers ?? {}),
   };
 
-  return axios({
-    method,
-    url,
-    data,
-    headers,
-    // ...config,
-  });
+  try {
+    const response = await axios({
+      method,
+      url,
+      data,
+      headers,
+      // ...config,
+    });
+    return response;
+  } catch (error) {
+    if (error?.response?.data?.status === 401) {
+      console.log('Error:unauthorized', error);
+      localStorage.clear();
+      window.location.href = 'login'
+      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+    } else {
+      console.log('Error', error);
+    }
+  }
 };
+

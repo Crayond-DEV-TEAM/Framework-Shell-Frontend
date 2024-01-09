@@ -46,7 +46,7 @@ export const chargesStyle: ChargesStyleProps = {
       marginRight: '0px',
     },
     '& .MuiTableCell-root': {
-      padding: '0px 9px 0px 7px',
+      padding: '6px 16px 6px 16px',
     },
     '& .MuiTableSortLabel-root': {
       width: '186px',
@@ -54,10 +54,15 @@ export const chargesStyle: ChargesStyleProps = {
     '& .MuiPaper-root': {
       borderRadius: '8px',
     },
-    '& .SWITCH label': {
-      display: 'flex',
-      gap: '6px',
-    },
+    // '& .SWITCH label':{
+    //   display:'flex',
+    //   gap:'6px',
+    //   justifyContent:'center'
+    // },
+    // '& .MuiTableCell-root p':{
+    //   display:'flex',
+    //   justifyContent:'center'
+    // }
     // '& .MuiTableCell-sizeSmall TEXT  activesubscription': {
     //   width: '136px',
     // },

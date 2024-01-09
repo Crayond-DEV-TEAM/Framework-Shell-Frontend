@@ -36,7 +36,7 @@ export const ResetPassword = forwardRef((props: ResetPasswordProps, ref: React.R
 
   const handleChange = (key: string, value: string) => setRestPasswordState({ key, value });
 
-  const resetPasswordFunc = () => resetPassword({ token: searchParams.get('token') });
+  const resetPasswordFunc = () => resetPassword(searchParams.get('token') );
 
   useEffect(() => {
     clearAll();

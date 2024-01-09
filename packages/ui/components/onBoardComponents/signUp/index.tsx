@@ -49,7 +49,7 @@ export const SignUp = forwardRef((props: SignUpProps, ref: React.Ref<HTMLElement
       {...rest}
     >
       <Box sx={signUpStyle.cardContentSx}>
-        <Typography sx={signUpStyle.createPasswordSx}>Sign Up</Typography>
+        <Typography sx={signUpStyle.createPasswordSx}>Welcome to Toolkit</Typography>
 
         {/* First Name */}
         <Box sx={signUpStyle.inputGroupSx}>
@@ -141,7 +141,7 @@ export const SignUp = forwardRef((props: SignUpProps, ref: React.Ref<HTMLElement
         {/* Set password */}
         <Box sx={signUpStyle.inputGroupSx}>
           <Label rootStyle={signUpStyle.labelSx} htmlFor="password" isRequired>
-            Set password
+            New password
           </Label>
           <Input
             id="password"
@@ -209,11 +209,11 @@ export const SignUp = forwardRef((props: SignUpProps, ref: React.Ref<HTMLElement
         )}
 
         {/* Info */}
-        <Box sx={{ display: 'flex', alignItems: 'center', pt: 3, justifyContent: 'center' }}>
-          <Typography sx={signUpStyle.loginSx}>If you ve an account already?</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', pt: 3, justifyContent: 'center', cursor: 'pointer' }}>
+          {/* <Typography sx={signUpStyle.loginSx}>Back To login</Typography> */}
           <Link
             style={{
-              color: '#353448',
+              color: '#255448',
               fontWeight: '600',
               textDecoration: 'underline',
               paddingLeft: '5px',
@@ -221,7 +221,7 @@ export const SignUp = forwardRef((props: SignUpProps, ref: React.Ref<HTMLElement
             }}
             to={webRoutes.login}
           >
-            Log In
+            Back To login
           </Link>
         </Box>
       </Box>

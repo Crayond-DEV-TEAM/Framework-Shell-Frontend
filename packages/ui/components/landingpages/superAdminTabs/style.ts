@@ -1,25 +1,28 @@
 import type { SxProps } from '@mui/material';
 
-interface UserManagementStyleProps {
+interface SuperAdminTabsStyleProps {
   [key: string]: SxProps;
 }
 
-export const userManagementStyle: UserManagementStyleProps = {
-  rootSx: {
+export const superAdminTabsStyle: SuperAdminTabsStyleProps = {
+    rootSx: {
     // height: '52px',
-    marginTop: '-22px',
-    marginLeft: '-7px',
+    marginTop: '-23px',
+    pr:'20px',
+    // marginLeft: '-7px',
     backgroundColor: '#FFFFFF',
     border: '1px solid #EAEAEA',
     opacity: 1,
     display: 'flex',
+    alignItems:'center',
+    justifyContent:'space-between'
   },
   title: {
     textTransform: 'capitalize',
     fontSize: '16px',
     fontWeight: 600,
     padding: '16px',
-    ml:'10px',
+    // marginLeft:'12px'
   },
   reportTabs: {
     borderRadius: '6px',
@@ -81,4 +84,10 @@ export const userManagementStyle: UserManagementStyleProps = {
       margin: '0 24px',
     },
   },
+  align:{
+    display:'flex',
+    alignItems:'center',
+    // justifyContent:'center'
+  }
 };
+

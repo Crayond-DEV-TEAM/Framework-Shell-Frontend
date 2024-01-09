@@ -1,10 +1,10 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
-import { Table as CommonTable } from "@crayond_dev/ui_table";
+import { Table as CommonTable } from '@crayond_dev/ui_table';
 import { customerStyle } from './style';
 import { useEffect, useState } from 'react';
 import { Header, tableData, tableJson } from './utils';
-import { useCustomer } from '@core/store';
+import { useCustomer, useSlug } from '@core/store';
 import { planSubscriptionRoutes } from '@core/routes';
 import { useNavigate } from 'react-router-dom';
 import { DeleteComponent, TableHeader } from '@components/commonComponents';
@@ -27,13 +27,14 @@ export const Customer = (props: CustomerProps): JSX.Element => {
     addsave,
     editsave,
   } = useCustomer();
+  const { slugs } = useSlug();
   const [searchTerm, setSearchTerm] = useState('');
   const [switchList, setSwitchList] = useState<any>([]);
   const [del, setDel] = useState(false);
   const [deleteid, setDeleteid] = useState('');
   const navigate = useNavigate();
-  const filteredMessageGroup = CustomerList.filter((x: any) =>
-    x.customerName?.toLowerCase()?.includes(searchTerm.toLowerCase()),
+  const filteredMessageGroup = CustomerList.filter(
+    (x: any) => x.customerName?.toLowerCase()?.includes(searchTerm.toLowerCase()),
   );
   const handleTableDelete = (id: string) => {
     setDeleteid(id);
@@ -48,9 +49,9 @@ export const Customer = (props: CustomerProps): JSX.Element => {
     const updateData = {
       name: data.customerName,
       email_id: data.email,
-      contact_number: data.dataList.contact_number,
+      contact_number: data.dataList.contactNumber,
       company_name: data.companyName,
-      address_line: data.dataList.address.address_line,
+      address_line: data.dataList.address.addressline,
       city: data.dataList.address.city,
       state: data.dataList.address.state,
       country: data.dataList.address.country,
@@ -76,10 +77,8 @@ export const Customer = (props: CustomerProps): JSX.Element => {
       }
     }
     if (e.target.checked === true) {
-      console.log(id);
       getStatusList(id, true);
     } else {
-      console.log(id);
       getStatusList(id, false);
     }
   };
@@ -89,7 +88,6 @@ export const Customer = (props: CustomerProps): JSX.Element => {
       setSwitchList(status);
     }
   };
-  console.log(switchList, 'switchListswitchListswitchList');
   const handleOpen = () => {
     navigate(planSubscriptionRoutes.createCustomer);
     seteditadd(false);
@@ -97,14 +95,17 @@ export const Customer = (props: CustomerProps): JSX.Element => {
   const onClose = () => {
     seteditadd(false);
   };
+
   useEffect(() => {
-    getCustomerList();
-  }, []);
+    if (slugs?.PASM) {
+      getCustomerList();
+    }
+  }, [slugs?.PASM]);
+
   useEffect(() => {
     handleStatus();
   }, [CustomerList]);
 
-  console.log(CustomerList, '/////');
 
   return (
     <Box
@@ -165,6 +166,11 @@ export const Customer = (props: CustomerProps): JSX.Element => {
           paddingAll={'0px'}
           marginAll={'0px 0px 0px'}
           dense={'small'}
+          paginationOption={{
+            isEnable: true,
+            rowPerPage: 10,
+            rowsPerPageOptions: [5, 10, 25]
+          }}
         />
       </Box>
       <DeleteComponent openCommand={del} onCancel={onClose} onDelete={onDelete} disabled={deletefetch} />

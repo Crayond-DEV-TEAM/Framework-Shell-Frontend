@@ -2,7 +2,7 @@ import { Button } from '@atoms/button';
 import { DeleteDailog } from '@atoms/deletedailog';
 import { DialogDrawer } from '@atoms/dialogDrawer';
 import { FooterComponent } from '@atoms/footerComponent';
-import { useLanguageConfiguration, useMessage, useMessageGroupDetails } from '@core/store';
+import { useLanguageConfiguration, useMessage, useMessageGroupDetails, useSlug } from '@core/store';
 import { Box, Grid, SxProps, Theme, Typography } from '@mui/material';
 import { Table as CommonTable } from '@crayond_dev/ui_table';
 import { forwardRef, useEffect, useState } from 'react';
@@ -42,23 +42,25 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     clearAllMessage,
     validateCallBack
   } = useMessage();
+  const { slugs } = useSlug();
   const location = useLocation();
   const { state } = location;
-  const languagesList = state
-
+  const languagesList = state;
 
   // const filterContent: any[] = [];
   const { languages, getSavedLanguage } = useLanguageConfiguration();
   const [isEdit, setIsEdit] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [tableName, setTableName] = useState('');
+  const [tableName, setTableName] = useState({
+    name: '',
+    refId: ''
+  });
   const [groupId, setGroupId] = useState<string>('');
   const [deleteId, setDeleteId] = useState('');
   const [List, setList] = useState('');
   const [formErrors, setFormErrors] = useState<any>({});
 
   const filteredMessageGroup = MessagesList;
-  console.log('filteredMessageGroup', filteredMessageGroup);
   const [switchList, setSwitchList] = useState<any>([]);
   const handleTableEdit = (id: string) => {
     setOpen(true);
@@ -82,10 +84,11 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   };
 
   const handleChange = (key: any, value: string) => {
-    console.log(key, 'key');
-
     setList(key.id);
-    setTableName(key.title);
+    setTableName({
+      name: key.title,
+      refId: key.ref_id
+    });
 
     setGroupId(key.id);
     clearAllMessage();
@@ -103,10 +106,8 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
       }
     }
     if (e.target.checked) {
-      console.log(id);
       getStatus(id, true);
     } else {
-      console.log(id);
       getStatus(id, false);
     }
   };
@@ -185,8 +186,10 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   }, [MessagesListStatus]);
 
   useEffect(() => {
-    getServerity();
-  }, []);
+    if (slugs?.['MESSAGE-CATALOG']) {
+      getServerity();
+    }
+  }, [slugs?.['MESSAGE-CATALOG']]);
   return (
     <Box
       sx={[{ ...messageTableStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]}
@@ -210,8 +213,8 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
           </Box>
         </Grid>
 
-        <Grid item xs={12} sm={8} md={10} lg={9.75} xl={9.75} pl={'0px !important'}>
-          <Box sx={messageTableStyle.commonTable}>
+        <Grid item xs={12} sm={8} md={10} lg={9.75} xl={9.75} height={'100%'} pl={'0px !important'}>
+          <Box sx={messageTableStyle.commonTable} height={'100%'}>
             <CommonTable
               Header={Header}
               dataList={filteredMessageGroup}
@@ -226,6 +229,9 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                 borderBottom: '0px',
                 width: '100%',
                 padding: '6px 16px 6px 7px',
+              }}
+              sx={{
+                height: '100% !important'
               }}
               cellOptions={{
                 fontSize: '14px',
@@ -243,17 +249,23 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
               paddingAll={'0px'}
               marginAll={'0px 0px 0px'}
               dense={'small'}
+              paginationOption={{
+                isEnable: true,
+                rowPerPage: 10,
+                rowsPerPageOptions: [5, 10, 25]
+              }}
               HeaderComponent={{
                 variant: 'CUSTOM',
                 component: (
                   <TableHeader
-                    isFilterRequired={true}
+                    isFilterRequired={false}
                     filterContent={filterContent}
                     filterChange={handleFilterChange}
                     // onChange={handleAddChange}
                     options={SevorityList}
                     status={StatusList}
                     tableHeader={tableName}
+                    tableType={'message'}
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
                     open={open}
@@ -293,7 +305,6 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
           </Box>
         }
       />
-      {console.log(SevorityList, 'SevorityList')}
       <DialogDrawer
         dialogRootStyle={{
           width: '832px',

@@ -48,7 +48,6 @@ export const CustomerDetails = (props: CustomerDetailsProps): JSX.Element => {
     setAdmin(false);
   };
   const handleChange = (x: any, y: any) => {
-    console.log('ee');
   };
   const onSave = () => {
     setSubs(true);

@@ -8,7 +8,7 @@ import { Alert, SxProps, Theme } from '@mui/material';
 import { Box, Typography, IconButton } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { forwardRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { signUpStyle } from './style';
 
 export interface SignUpProps {
@@ -18,7 +18,7 @@ export interface SignUpProps {
 
 export const SignUp = forwardRef((props: SignUpProps, ref: React.Ref<HTMLElement>): JSX.Element => {
   const { className = '', sx = {}, ...rest } = props;
-
+  const [searchParams] = useSearchParams();
   // Store Data
   const { signUpState, signUpLoading, signUpError, signUpMessage, setSignUpState, signUp, clearAll } = useAuth();
 
@@ -27,7 +27,7 @@ export const SignUp = forwardRef((props: SignUpProps, ref: React.Ref<HTMLElement
 
   const handleClickShowPassword = () => setPassword(!showpassword);
 
-  const signUpHit = async () => signUp();
+  const signUpHit = async () => signUp(searchParams.get('token'));
 
   const handleChange = (key: string, value: string) => {
     if (key === 'mobile' && value.length > 10) {

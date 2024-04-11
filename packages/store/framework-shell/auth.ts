@@ -91,7 +91,7 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
           // console.log('super admin');
         } else {
           window.location.href = '/admin';
-        }  
+        }
         return response?.status;
       } else {
         throw new Error('Internal Server Error');
@@ -120,8 +120,7 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
         set({ signInLoading: false });
       });
   },
-
-  signUp: async () => {
+  signUp: async (data: any) => {
     set({ signUpLoading: true, signUpMessage: '', signUpError: false });
 
     try {
@@ -143,7 +142,17 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
         password: signUpState.password,
       };
 
-      const response = await httpRequest('post', `${envConfig.api_url}/sign_up`, payload);
+
+      const response = await httpRequest(
+        'put',
+        `${envConfig.api_url}/framework_shell_auth/token/user`,
+        payload,
+        false,
+        '',
+        {
+          headers: { token: data }
+        }
+      )
 
       if (response?.status === 200) {
         let seconds = 5;
@@ -180,9 +189,9 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
     try {
       const { forgotPasswordState } = get();
 
-      const payload ={
-          email_id: forgotPasswordState.email_id
-}
+      const payload = {
+        email_id: forgotPasswordState.email_id
+      }
       const response = await httpRequest('post', `${envConfig.api_url}/framework_shell_auth/forgot_password`, forgotPasswordState);
 
       if (response?.status === 200) {
@@ -222,10 +231,10 @@ export const useAuth = create<AuthStoreInterface>((set, get) => ({
         false,
         '',
         {
-      headers: { token: data },
-      }
+          headers: { token: data },
+        }
         // { headers: { Authorization: 'Bearer ' + data } },
-        );
+      );
 
       if (response?.status === 200) {
         let seconds = 1;

@@ -49,7 +49,7 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
     clearAll,
   } = usePermission();
 
-  const { RepositoryList } = useRepository();
+  const { RepositoryList, RepositoryId } = useRepository();
 
   const [editRole, setEditRole] = useState(false);
 
@@ -85,7 +85,7 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
     const isFormValid = validateForm();
 
     if (isFormValid) {
-      addPermission(RepositoryList);
+      addPermission(RepositoryList, RepositoryId);
       handleClose();
       setEditRole(false);
     }

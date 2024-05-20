@@ -780,7 +780,7 @@ export interface PermissionInterface {
   errorOnPermission: boolean;
 
   getPermissionList: () => void;
-  addPermission: (data: any) => void;
+  addPermission: (data: any, id: any) => void;
   deletePermission: (x: any) => void;
   updateRopsitory: () => void;
   // editPermision: (data: any) => void;

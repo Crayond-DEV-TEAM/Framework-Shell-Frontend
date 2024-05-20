@@ -60,8 +60,8 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     })
       .then((response) => {
         if (Array.isArray(response.data.data) && response.data.data.length > 0) {
-        set({ PermissionList: response.data.data });
-        }else{
+          set({ PermissionList: response.data.data });
+        } else {
           set({ PermissionList: ['no'] });
         }
       })
@@ -76,7 +76,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   updateEditData: (data: any) => {
     set((state) => ({ addPermissionList: { ...data } }));
   },
-  addPermission: (data: any) => {
+  addPermission: (data: any, repoId: any) => {
     const { clearAll, addPermissionList, getPermissionList, apiToken } = get();
 
     set({ fetching: true, errorOnFetching: false });
@@ -87,7 +87,8 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       name: addPermissionList.name,
       description: addPermissionList.description,
       is_active: addPermissionList.is_active,
-      repo_id:'4eb4f81c-154e-471f-baf2-c124dbdc9bf8'
+      // repo_id:'4eb4f81c-154e-471f-baf2-c124dbdc9bf8'
+      repo_id: repoId
       // project_service_mapping_id: slugId,
     };
 

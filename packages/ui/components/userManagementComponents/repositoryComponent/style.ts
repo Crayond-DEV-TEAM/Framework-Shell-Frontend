@@ -10,7 +10,7 @@ export const repositoryComponentStyle: RepositoryComponentStyleProps = {
     // border: '1px solid black',
   },
   dialogSx: {
-    width: '500px',
-    height: '450px',
+    width: '60vw',
+    height: '80vh',
   },
 };

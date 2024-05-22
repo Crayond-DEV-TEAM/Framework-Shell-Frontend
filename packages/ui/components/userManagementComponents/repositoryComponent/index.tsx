@@ -80,6 +80,7 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
           buttonName={'Configure repo'}
           tableHeader={'Repository'}
           handleOpen={handleOpen}
+          isSearchRequired={false}
         />
       </Box>
 

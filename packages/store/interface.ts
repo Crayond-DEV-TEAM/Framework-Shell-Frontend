@@ -769,7 +769,7 @@ export interface PermissionInterface {
   indexUpdateList: any;
   permissionId: string;
   setaddPermission: (payload: { key: string; value: string }) => void;
-  setRepository: (type: string, value: string, data: any) => void;
+  setRepository: (type: string, value: string, data: any, isParent?: boolean) => void;
   setRepositoryList: (data: any, id: any, key: any) => void;
   editPermissionList: AddPermissionInterface;
 

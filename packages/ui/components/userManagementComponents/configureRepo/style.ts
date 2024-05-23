@@ -23,4 +23,26 @@ export const configureRepoStyle: ConfigureRepoStyleProps = {
     color: 'primary.main',
     cursor: 'pointer',
   },
+  errorTxt: {
+    fontSize: '14px',
+    color: '#f00',
+    textAlign: 'end',
+    pr: 1,
+  },
+  rightActionSx: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 1,
+  },
+  importTxtSx: {
+    fontSize: '14px',
+    '&.MuiButton-root': {
+      padding: ' 0 15px',
+      cursor: 'pointer',
+    },
+  },
+  iconSx: {
+    fontSize: '14px',
+  },
+  importLabelSx: { fontSize: '14px', textTransform: 'capitalize', cursor: 'pointer' },
 };

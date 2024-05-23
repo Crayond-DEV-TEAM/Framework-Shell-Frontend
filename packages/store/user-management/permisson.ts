@@ -5,7 +5,7 @@ import { PermissionInterface } from '../interface';
 // import { permission } from '../../ui/components/addpermission/utils';
 import { enqueueSnackbar } from 'notistack';
 import { useRepository } from './repository';
-import { findObjectByIndex, modifyObjectByIndexWithKey } from './commonFunction';
+import { findObjectByIndex, modifyObjectByIndexWithKey, updateChildOnParentChange } from './commonFunction';
 import { useSlug } from '../common'
 
 export const usePermission = create<PermissionInterface>((set, get) => ({
@@ -37,18 +37,23 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   setRepositoryList: (data: any, id: any, key: any) => {
     set({ indexUpdateList: data, permissionId: id, RepositoryList: key });
   },
-  setRepository: (type: string, value: string, data: any) => {
+  setRepository: (type: string, value: string, data: any, isParent = false) => {
     const { indexUpdateList } = get();
-    const indexArray = value.replaceAll('-', '-child-').split('-');
     const jsonObject = indexUpdateList.data;
-    const foundObject = findObjectByIndex(jsonObject, indexArray);
-
-    if (foundObject) {
-      modifyObjectByIndexWithKey(foundObject, [], data, type);
+    if (isParent) {
+      const res = updateChildOnParentChange(jsonObject, value?.toString(), data, data?.length > 0 ? data[data.length - 1] : "");
+      set({ indexUpdateList: { data: res } });
     } else {
-      console.log('Object not found');
+      const indexArray = value.replaceAll('-', '-child-').split('-');
+      const foundObject = findObjectByIndex(jsonObject, indexArray);
+
+      if (foundObject) {
+        modifyObjectByIndexWithKey(foundObject, [], data, type);
+      } else {
+        console.log('Object not found');
+      }
+      set({ indexUpdateList: { data: jsonObject } });
     }
-    set({ indexUpdateList: { data: jsonObject } });
   },
 
   getPermissionList: () => {

@@ -31,6 +31,11 @@ export const FacilityClone = (props: FacilityCloneProps): JSX.Element => {
     setRepository(type, index, value);
   };
 
+  const handleParentChange = (e: any, type: string, data: any, index: any) => {
+    const value = data;
+    setRepository(type, index, value, true);
+  }
+
   const { fetchingPermission } = usePermission();
 
   return (
@@ -60,7 +65,7 @@ export const FacilityClone = (props: FacilityCloneProps): JSX.Element => {
         {fetchingPermission ? (
           <Repositorysimmer />
         ) : (
-          <TreeComponent data={data?.data} checkboxsection={true} setEdit={ischeck} onChange={handleCheckChange} />
+          <TreeComponent data={data?.data} checkboxsection={true} setEdit={ischeck} onChange={handleCheckChange} onParentChange={handleParentChange} />
         )}
       </Box>
       {/* sx={{ height: '50vh', overflow: 'scroll' }} */}

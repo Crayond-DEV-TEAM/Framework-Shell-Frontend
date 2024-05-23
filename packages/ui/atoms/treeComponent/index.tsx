@@ -10,6 +10,7 @@ export interface TreeComponentProps {
   checkboxsection?: boolean;
   setEdit?: any;
   onChange?: () => void;
+  onParentChange?: () => void;
 }
 
 export interface StyledTreeItemProps {
@@ -150,7 +151,16 @@ const styles = (id: string, checks: boolean) => {
       };
   }
 };
-const renderTree = (nodes: any, test: string, checkBox: any, setEdit: any, onChange: () => void, index: any) => (
+const renderTree = (
+  nodes: any,
+  test: string,
+  checkBox: any,
+  setEdit: any,
+  onChange: () => void,
+  index: any,
+  isParent: boolean,
+  onParentChange: () => void,
+) => (
   <StyledTreeItem
     rootNode={test === 'parent' ? true : false}
     key={nodes?.name}
@@ -159,7 +169,7 @@ const renderTree = (nodes: any, test: string, checkBox: any, setEdit: any, onCha
       <CustomLabel
         labelText={nodes?.name}
         disable={setEdit}
-        onChange={onChange}
+        onChange={isParent ? onParentChange : onChange}
         nodes={nodes}
         index={index}
         // iconProp={<SettingIcon />}
@@ -177,7 +187,16 @@ const renderTree = (nodes: any, test: string, checkBox: any, setEdit: any, onCha
   >
     {Array.isArray(nodes?.child)
       ? nodes?.child.map((node: any, indexchild: number) =>
-          renderTree(node, test + 'child', checkBox, setEdit, onChange, index + '-' + indexchild),
+          renderTree(
+            node,
+            test + 'child',
+            checkBox,
+            setEdit,
+            onChange,
+            index + '-' + indexchild,
+            node.hasOwnProperty('child'),
+            onParentChange
+          ),
         )
       : null}
   </StyledTreeItem>
@@ -191,6 +210,7 @@ export const TreeComponent = (props: TreeComponentProps): JSX.Element => {
     checkboxsection = false,
     setEdit,
     onChange = () => false,
+    onParentChange = () => null,
     ...rest
   } = props;
   return (
@@ -213,7 +233,16 @@ export const TreeComponent = (props: TreeComponentProps): JSX.Element => {
         >
           {Array.isArray(data) &&
             data.map((val: any, index: number) => {
-              return renderTree(val, 'parent', checkboxsection && true, setEdit, onChange, index);
+              return renderTree(
+                val,
+                'p',
+                checkboxsection && true,
+                setEdit,
+                onChange,
+                index,
+                val.hasOwnProperty('child'),
+                onParentChange
+              );
             })}
         </TreeView>
       ) : (

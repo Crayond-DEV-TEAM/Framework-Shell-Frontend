@@ -1,6 +1,7 @@
 import type { SxProps, Theme } from '@mui/material';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
+import DownloadIcon from '@mui/icons-material/Download';
 import { configureRepoStyle } from './style';
 import { JsonViewer } from '@atoms/jsonViewer';
 import { useRepository } from '@core/store';
@@ -10,57 +11,52 @@ import { Textarea } from '@contentful/forma-36-react-components';
 export interface ConfigureRepoProps {
   className?: string;
   sx?: SxProps<Theme>;
-  data?: any;
-  onChange?: any;
   handleImport?: any;
+  editorKey?: any;
+  handleAlignment?: any;
+  alignment?: any;
   error?: boolean;
 }
 
 export const ConfigureRepo = (props: ConfigureRepoProps): JSX.Element => {
-  const { className = '', sx = {}, data = [], onChange = {}, error = false, ...rest } = props;
+  const {
+    className = '',
+    sx = {},
+    error = false,
+    handleImport,
+    editorKey,
+    handleAlignment,
+    alignment,
+    ...rest
+  } = props;
   const { setEditRepositoryJson, editRepositoryList } = useRepository();
-  const [editorKey, setEditorKey] = useState(0);
+
+  const modes = ['tree', 'code', 'text'];
 
   const exportData = () => {
-    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(JSON.stringify(data))}`;
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(JSON.stringify(editRepositoryList))}`;
     const link = document.createElement('a');
     link.href = jsonString;
     link.download = 'data.json';
     link.click();
   };
 
-  const handleImport = (e: any) => {
-    const fileReader = new FileReader();
-    fileReader.readAsText(e.target.files[0], 'UTF-8');
-    fileReader.onload = (e: any) => {
-      setEditRepositoryJson(JSON.parse(e.target.result));
-      setEditorKey(editorKey + 1);
-    };
-  };
-
   return (
-    <Box
-      sx={[
-        {
-          ...configureRepoStyle.rootSx,
-        },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-      className={`${className}`}
-      {...rest}
-    >
+    <Box sx={configureRepoStyle.rootSx}>
       <Box sx={configureRepoStyle.titlebar}>
-        <Typography sx={configureRepoStyle.json}>JSON</Typography>
-
+        <Typography sx={configureRepoStyle.json} mr={5}>
+          JSON
+        </Typography>
         <Box sx={configureRepoStyle.rightActionSx}>
           <label
             htmlFor="formId"
             style={{
               fontSize: '14px',
               color: '#357968',
-              border: '1px solid #357968',
-              padding: '2px 10px',
-              borderRadius: '6px',
+              border: '.5px solid #99bbb3',
+              padding: '4.8px 12px',
+              borderRadius: '4px',
+              cursor: 'pointer',
             }}
           >
             {' '}
@@ -68,16 +64,35 @@ export const ConfigureRepo = (props: ConfigureRepoProps): JSX.Element => {
           </label>
           <input name="upload" onChange={handleImport} type="file" id="formId" hidden />
 
-          <Typography sx={configureRepoStyle.download} onClick={exportData}>
+          <Button variant="outlined" sx={configureRepoStyle.download} onClick={exportData}>
+            <DownloadIcon sx={{ ...configureRepoStyle.iconSx, mr: 0.5 }} />
             Download Sample Json
-          </Typography>
+          </Button>
         </Box>
       </Box>
       <Box sx={{ padding: '8px' }} />
+      <ToggleButtonGroup
+        value={alignment}
+        exclusive
+        onChange={handleAlignment}
+        aria-label="text alignment"
+        sx={configureRepoStyle.toggleButtonSx}
+      >
+        {modes.map((mode) => (
+          <ToggleButton value={mode} aria-label={`${mode} aligned`}>
+            {mode}
+          </ToggleButton>
+        ))}
+      </ToggleButtonGroup>
       {error && <Typography sx={configureRepoStyle.errorTxt}> invalid json</Typography>}
 
-      <Box sx={{ height: '30%' }}>
-        <JsonViewer editorKey={editorKey} data={editRepositoryList} onChange={(e: any) => setEditRepositoryJson(e)} />
+      <Box sx={{ pt: 1 }}>
+        <JsonViewer
+          editorKey={editorKey}
+          mode={alignment}
+          data={editRepositoryList}
+          onChange={(e: any) => setEditRepositoryJson(e)}
+        />
       </Box>
     </Box>
   );

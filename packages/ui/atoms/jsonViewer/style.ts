@@ -7,7 +7,7 @@ interface JsonViewerStyleProps {
 export const jsonViewerStyle: JsonViewerStyleProps = {
   rootSx: {
     '& .jsoneditor': {
-      height: '54vh',
+      height: '51vh',
       border: '1.5px solid #357968',
       borderRadius: '8px',
     },
@@ -17,6 +17,9 @@ export const jsonViewerStyle: JsonViewerStyleProps = {
     },
     '& .jsoneditor-frame': {
       borderRadius: '7px',
+    },
+    '& .jsoneditor-statusbar': {
+      borderRadius: '0px 0px 7px 7px',
     },
   },
 };

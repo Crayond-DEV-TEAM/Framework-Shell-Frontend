@@ -14,10 +14,11 @@ export interface JsonViewerProps {
   data?: any;
   onChange?: any;
   editorKey?: any;
+  mode?: any;
 }
 
 export const JsonViewer = (props: JsonViewerProps): JSX.Element => {
-  const { className = '', sx = {}, data = [], onChange = () => undefined, editorKey, ...rest } = props;
+  const { className = '', sx = {}, data = [], mode, onChange = () => undefined, editorKey, ...rest } = props;
 
   return (
     <Box
@@ -32,7 +33,7 @@ export const JsonViewer = (props: JsonViewerProps): JSX.Element => {
     >
       <Editor
         key={editorKey}
-        mode="tree"
+        mode={mode}
         history
         value={data}
         onChange={(e: any) => onChange(e)}

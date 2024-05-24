@@ -11,7 +11,7 @@ export const repositoryComponentStyle: RepositoryComponentStyleProps = {
   },
   dialogSx: {
     width: '60vw',
-    height: '80vh',
+    height: '85vh',
     '&.MuiDialog-paper': {
       borderRadius: '8px',
     },

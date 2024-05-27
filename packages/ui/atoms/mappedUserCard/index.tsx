@@ -35,9 +35,15 @@ export const MappedUserCard = (props: MappedUserCardProps): JSX.Element => {
           <Box key={index} sx={mappedUserCardStyle.main}>
             <Box sx={mappedUserCardStyle.subProfile}>
               <Avatar sx={mappedUserCardStyle.avatar} alt={x?.name} src="/broken-image.jpg" />
-              <Typography sx={mappedUserCardStyle.title}>{x?.name}</Typography>
+              <Box>
+                <Typography sx={mappedUserCardStyle.title}>{x?.name}</Typography>
+                {accessSection && (
+                  <Typography sx={{ fontSize: '12px', color: '#818181', ...mappedUserCardStyle.designationTxt }}>
+                    {x?.access.name}
+                  </Typography>
+                )}
+              </Box>
             </Box>
-            {accessSection && <Typography sx={{ fontSize: '12px', color: '#818181' }}>{x?.access.name}</Typography>}
           </Box>
         ))}
     </Box>

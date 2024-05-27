@@ -46,7 +46,7 @@ const childSchema = {
       minItems: 0,
     },
   },
-  required: ['id', 'name', 'child'],
+  required: ['id', 'name', 'child', 'allowed', 'permissions'],
 };
 
 const parentSchema = {
@@ -72,10 +72,35 @@ const parentSchema = {
       minItems: 0,
     },
   },
-  required: ['id', 'name', 'child'],
+  required: ['id', 'name', 'child', 'allowed', 'permissions'],
 };
 
 export const jsonSchema = {
   type: 'array',
   items: parentSchema,
 };
+
+export const sample = [
+  {
+    id: '22afc36b-4f7f-42ca-9fce-1a3012ccwe8905456d',
+    name: 'Admin Section',
+    allowed: ['read', 'create', 'delete', 'update'],
+    permissions: ['read', 'create', 'delete', 'update'],
+    child: [
+      {
+        id: '22afc36b-4f7f-42ca-9fce-1a301sds223cc05456d',
+        name: 'Admin',
+        allowed: ['read', 'create', 'delete', 'update'],
+        permissions: ['read', 'create', 'delete', 'update'],
+        child: [
+          {
+            id: '22afc36b-4f7f-42ca-9fce-1a3450das12cc05456d',
+            name: 'Admin panel',
+            allowed: ['read', 'create', 'delete', 'update'],
+            permissions: ['read', 'create', 'delete', 'update'],
+          },
+        ],
+      },
+    ],
+  },
+];

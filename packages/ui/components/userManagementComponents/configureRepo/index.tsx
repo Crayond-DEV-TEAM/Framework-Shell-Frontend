@@ -7,6 +7,7 @@ import { JsonViewer } from '@atoms/jsonViewer';
 import { useRepository } from '@core/store';
 import { useEffect, useState } from 'react';
 import { Textarea } from '@contentful/forma-36-react-components';
+import { sample } from '../repositoryComponent/schema';
 
 export interface ConfigureRepoProps {
   className?: string;
@@ -34,7 +35,7 @@ export const ConfigureRepo = (props: ConfigureRepoProps): JSX.Element => {
   const modes = ['tree', 'code', 'text'];
 
   const exportData = () => {
-    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(JSON.stringify(editRepositoryList))}`;
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(JSON.stringify(sample))}`;
     const link = document.createElement('a');
     link.href = jsonString;
     link.download = 'data.json';
@@ -71,22 +72,25 @@ export const ConfigureRepo = (props: ConfigureRepoProps): JSX.Element => {
         </Box>
       </Box>
       <Box sx={{ padding: '8px' }} />
-      <ToggleButtonGroup
-        value={alignment}
-        exclusive
-        onChange={handleAlignment}
-        aria-label="text alignment"
-        sx={configureRepoStyle.toggleButtonSx}
-      >
-        {modes.map((mode) => (
-          <ToggleButton value={mode} aria-label={`${mode} aligned`}>
-            {mode}
-          </ToggleButton>
-        ))}
-      </ToggleButtonGroup>
+
       {error && <Typography sx={configureRepoStyle.errorTxt}> invalid json</Typography>}
 
-      <Box sx={{ pt: 1 }}>
+      <Box sx={{ pt: 1, position: 'relative' }}>
+        <Box sx={{ position: 'absolute', zIndex: 100, pt: 0.2, left: { sm: '84%', lg: '28%' } }}>
+          <ToggleButtonGroup
+            value={alignment}
+            exclusive
+            onChange={handleAlignment}
+            aria-label="text alignment"
+            sx={configureRepoStyle.toggleButtonSx}
+          >
+            {modes.map((mode) => (
+              <ToggleButton value={mode} aria-label={`${mode} aligned`}>
+                {mode}
+              </ToggleButton>
+            ))}
+          </ToggleButtonGroup>
+        </Box>
         <JsonViewer
           editorKey={editorKey}
           mode={alignment}

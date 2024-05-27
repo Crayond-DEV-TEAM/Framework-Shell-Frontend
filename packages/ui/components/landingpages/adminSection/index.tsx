@@ -18,6 +18,7 @@ import { localStorageKeys } from '@core/utils';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { MappedUserCard } from '@atoms/mappedUserCard';
 import { CustomSwitches } from '@atoms/customSwitches';
+import { DialogDrawer } from '@atoms/dialogDrawer';
 export interface AdminSectionProps {
   className?: string;
   sx?: SxProps<Theme>;
@@ -89,7 +90,6 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
         ...customObj,
       };
     });
-
 
   const handleTableEdit = (id: string, data: any, e: any) => {
     getAllProjectsEditData(id);
@@ -172,13 +172,6 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
-      {/* <IdmBackgroundCard
-        title="Organisation"
-        subTitle="Projects"
-        optionList={OrganisationListMaster}
-        handleChangeDropDown={handleChangeOrganisation}
-        createEditState={OrganisationDetails}
-        content={ */}
       <Box sx={adminSectionStyle.commonTable}>
         <CommonTable
           onRowClick={(data: any, e: any) => {
@@ -221,7 +214,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
           paginationOption={{
             isEnable: true,
             rowPerPage: 10,
-            rowsPerPageOptions: [5, 10, 25]
+            rowsPerPageOptions: [5, 10, 25],
           }}
           tableMinHeight={'calc(100vh - 308px)'}
           tableMaxHeight={'calc(100vh - 308px)'}
@@ -245,11 +238,34 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
           }}
         />
       </Box>
-      {/* }
-      /> */}
 
       {/* Edit Form Drawer */}
-      <Drawer
+
+      <DialogDrawer
+        maxModalWidth="xl"
+        isDialogOpened={open}
+        title={createEditAdmin.id ? 'Edit Project' : 'Add New Project'}
+        Footercomponent={
+          <FooterComponent
+            sx={{ p: 0.5 }}
+            check={true}
+            onSave={handleSave}
+            onCancel={handleDrawerClose}
+            SwitchChange={(e) => {
+              handleChange('is_active', e.target.checked);
+            }}
+            checked={createEditAdmin.is_active}
+          />
+        }
+        handleCloseDialog={handleDrawerClose}
+        dialogRootStyle={adminSectionStyle.dialogSx}
+        Bodycomponent={
+          <Box sx={{ padding: '20px 20px 70px 20px' }}>
+            <AdminSecForm createEditAdmin={createEditAdmin} handlechange={handleChange} />{' '}
+          </Box>
+        }
+      ></DialogDrawer>
+      {/* <Drawer
         show={open}
         onCloseDrawer={handleDrawerClose}
         anchor="right"
@@ -289,7 +305,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
         }}
       >
         <AdminSecForm createEditAdmin={createEditAdmin} handlechange={handleChange} />
-      </Drawer>
+      </Drawer> */}
 
       {/* Profile Details Drawer */}
       <Drawer

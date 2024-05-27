@@ -7,6 +7,8 @@ import 'brace/theme/github';
 import { JsonEditor as Editor } from 'jsoneditor-react';
 import 'jsoneditor-react/es/editor.min.css';
 import { jsonViewerStyle } from './style';
+import { useEffect, useRef, useState } from 'react';
+import 'jsoneditor/dist/jsoneditor.css';
 
 export interface JsonViewerProps {
   className?: string;

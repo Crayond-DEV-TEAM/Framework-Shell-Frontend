@@ -7,7 +7,7 @@ interface AdminSectionStyleProps {
 export const adminSectionStyle: AdminSectionStyleProps = {
   rootSx: {},
   commonTable: {
-    borderRadius:'8px',
+    borderRadius: '8px',
     bgcolor: '#fff',
     // margin: {
     //   lg: '0px 12px',
@@ -20,12 +20,12 @@ export const adminSectionStyle: AdminSectionStyleProps = {
     // borderRadius: '8px',
     // height: 'calc(100vh - 100px)',
     border: '1px solid #EAEAEA',
-    '& .SWITCH label':{
-      display:'flex',
-      gap:'6px',
+    '& .SWITCH label': {
+      display: 'flex',
+      gap: '6px',
     },
-    '& .MuiTableRow-root':{
-      cursor:'pointer'
+    '& .MuiTableRow-root': {
+      cursor: 'pointer',
     },
     '& .css-x5ymgk': {
       gap: '0px',
@@ -46,13 +46,19 @@ export const adminSectionStyle: AdminSectionStyleProps = {
       // backgroundColor: 'red',
     },
   },
-  customSwitch:{
-    display:'flex',
-    gap:'6px',
-    alignItems:'center'
+  customSwitch: {
+    display: 'flex',
+    gap: '6px',
+    alignItems: 'center',
   },
-  customSwitchStatus:{
-    fontSize:'14px',
-
-  }
+  customSwitchStatus: {
+    fontSize: '14px',
+  },
+  dialogSx: {
+    width: '50vw',
+    height: '85vh',
+    '&.MuiDialog-paper': {
+      borderRadius: '8px',
+    },
+  },
 };

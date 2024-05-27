@@ -23,8 +23,8 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     mapServices: [],
     mapAdmin: [],
     is_active: true,
-    adminDatas:[],
-    Servicedatas:[],
+    adminDatas: [],
+    Servicedatas: [],
     id: '',
   },
   userInviteEdit: {
@@ -41,6 +41,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
   },
 
   seteditAdmin: (payload: { key: string; value: string | number }) => {
+    debugger;
     set((state) => ({ createEditAdmin: { ...state.createEditAdmin, [payload.key]: payload.value } }));
   },
   seteditUserInviteDetails: (payload: { key: string; value: string | number }) => {
@@ -185,10 +186,8 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
               }),
             set({ OrganisationListMaster: dataTable }),
           );
-          if (
-            OrganisationDetails.id === ''
-          ) {
-           const zerothObject = dataTable[0];
+          if (OrganisationDetails.id === '') {
+            const zerothObject = dataTable[0];
             set({
               OrganisationDetails: {
                 id: zerothObject.id,
@@ -198,7 +197,6 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
             });
           }
         } else {
-           
           // set({ OrganisationListMaster: [] });
         }
       })
@@ -302,9 +300,10 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
             Usermap.push({
               id: tableData.id,
               name: tableData.name,
-              access:{
-                 id:tableData.access === 'Full Access' ? '2' : '1' , name: tableData.access 
-              }
+              access: {
+                id: tableData.access === 'Full Access' ? '2' : '1',
+                name: tableData.access,
+              },
             });
           });
         }
@@ -315,8 +314,8 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
           mapAdmin: Usermap,
           is_active: responseData.is_active,
           id: responseData.id,
-          Servicedatas:[...Servicemap],
-          adminDatas:[...Usermap]
+          Servicedatas: [...Servicemap],
+          adminDatas: [...Usermap],
         };
         set((state) => ({ createEditAdmin: { ...editData } }));
       })
@@ -329,14 +328,16 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       });
   },
   createServiceMap: () => {
-    const { OrganisationDetails , getAllProjectsEditData ,createEditAdmin } = get();
+    const { OrganisationDetails, getAllProjectsEditData, createEditAdmin } = get();
     set({ fetching: true, errorOnFetching: false });
-    const newList = createEditAdmin.mapServices.filter(newObj => !createEditAdmin.Servicedatas.some(existingObj => existingObj.id === newObj.id));
+    const newList = createEditAdmin.mapServices.filter(
+      (newObj) => !createEditAdmin.Servicedatas.some((existingObj) => existingObj.id === newObj.id),
+    );
 
     const payload = {
-    project_id: createEditAdmin.id,
-    service_id: newList.map((x:any)=>x?.id)
-}
+      project_id: createEditAdmin.id,
+      service_id: newList.map((x: any) => x?.id),
+    };
     httpRequest('post', `${envConfig.api_url}/idm/project/service/upsert`, payload, true)
       .then((response) => {
         enqueueSnackbar('New Service mapped Succesfully!', { variant: 'success' });
@@ -347,20 +348,22 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
-        getAllProjectsEditData(createEditAdmin.id)
+        getAllProjectsEditData(createEditAdmin.id);
       });
   },
   editServiceMap: () => {
-    const { OrganisationDetails,createEditAdmin,getAllProjectsEditData } = get();
+    const { OrganisationDetails, createEditAdmin, getAllProjectsEditData } = get();
     set({ fetching: true, errorOnFetching: false });
-   const missingList = createEditAdmin.Servicedatas.filter(existingObj => !createEditAdmin.mapServices.some(newObj => newObj.id === existingObj.id));
+    const missingList = createEditAdmin.Servicedatas.filter(
+      (existingObj) => !createEditAdmin.mapServices.some((newObj) => newObj.id === existingObj.id),
+    );
     const payload = {
-    project_id: createEditAdmin.id,
-    service_id: missingList.map((x:any)=>x?.id)
-}
+      project_id: createEditAdmin.id,
+      service_id: missingList.map((x: any) => x?.id),
+    };
     httpRequest('delete', `${envConfig.api_url}/idm/project/service`, payload, true)
       .then((response) => {
-      enqueueSnackbar('Service unmapped Succesfully!', { variant: 'success' });
+        enqueueSnackbar('Service unmapped Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -368,16 +371,18 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
-        getAllProjectsEditData(createEditAdmin.id)
+        getAllProjectsEditData(createEditAdmin.id);
       });
   },
   createUserMap: () => {
-    const { OrganisationDetails , getAllProjectsEditData , createEditAdmin } = get();
+    const { OrganisationDetails, getAllProjectsEditData, createEditAdmin } = get();
     set({ fetching: true, errorOnFetching: false });
-    const newList = createEditAdmin.mapAdmin.filter(newObj => !createEditAdmin.adminDatas.some(existingObj => existingObj.id === newObj.id));
+    const newList = createEditAdmin.mapAdmin.filter(
+      (newObj) => !createEditAdmin.adminDatas.some((existingObj) => existingObj.id === newObj.id),
+    );
     const payload = {
       project_id: createEditAdmin.id,
-      user_profile_id: newList.map((x:any)=>x?.id)
+      user_profile_id: newList.map((x: any) => x?.id),
     };
     httpRequest('post', `${envConfig.api_url}/idm/project/user/upsert`, payload, true)
       .then((response) => {
@@ -389,20 +394,22 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
-        getAllProjectsEditData(createEditAdmin.id)
+        getAllProjectsEditData(createEditAdmin.id);
       });
   },
   editUserMap: () => {
-      const { OrganisationDetails,createEditAdmin,getAllProjectsEditData } = get();
+    const { OrganisationDetails, createEditAdmin, getAllProjectsEditData } = get();
     set({ fetching: true, errorOnFetching: false });
-   const missingList = createEditAdmin.adminDatas.filter(existingObj => !createEditAdmin.mapAdmin.some(newObj => newObj.id === existingObj.id));
+    const missingList = createEditAdmin.adminDatas.filter(
+      (existingObj) => !createEditAdmin.mapAdmin.some((newObj) => newObj.id === existingObj.id),
+    );
     const payload = {
-    project_id: createEditAdmin.id,
-    user_profile_id: missingList.map((x:any)=>x?.id)
-}
+      project_id: createEditAdmin.id,
+      user_profile_id: missingList.map((x: any) => x?.id),
+    };
     httpRequest('delete', `${envConfig.api_url}/idm/project/user`, payload, true)
       .then((response) => {
-      enqueueSnackbar('User unmapped Succesfully!', { variant: 'success' });
+        enqueueSnackbar('User unmapped Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
         set({ errorOnFetching: true });
@@ -410,7 +417,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       })
       .finally(() => {
         set({ fetching: false });
-        getAllProjectsEditData(createEditAdmin.id)
+        getAllProjectsEditData(createEditAdmin.id);
       });
   },
 
@@ -443,7 +450,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       organisation_id: OrganisationDetails.id,
       username: userInviteEdit.userName,
       email_id: userInviteEdit.email,
-      role_id:userInviteEdit.role.id,
+      role_id: userInviteEdit.role.id,
     };
     httpRequest('post', `${envConfig.api_url}/idm/user-profile/invite`, payload, true)
       .then((response) => {
@@ -514,16 +521,16 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
 
   clearAll: () => {
     set({
-       createEditAdmin: {
-    projectTitle: '',
-    description: '',
-    mapServices: [],
-    mapAdmin: [],
-    is_active: true,
-    adminDatas:[],
-    Servicedatas:[],
-    id: '',
-  },
+      createEditAdmin: {
+        projectTitle: '',
+        description: '',
+        mapServices: [],
+        mapAdmin: [],
+        is_active: true,
+        adminDatas: [],
+        Servicedatas: [],
+        id: '',
+      },
     });
   },
 }));

@@ -46,16 +46,22 @@ export const configureRepoStyle: ConfigureRepoStyleProps = {
   importLabelSx: { fontSize: '14px', textTransform: 'capitalize', cursor: 'pointer' },
   toggleButtonSx: {
     '& .MuiToggleButtonGroup-grouped:not(:first-of-type)': {
-      borderLeft: '1px solid #5D9386',
+      borderLeft: '1px solid #BCD3CD',
     },
     '& .MuiToggleButton-root': {
-      padding: '4px 12px',
+      padding: '3px 12px',
       textTransform: 'capitalize',
-      border: '1px solid #5D9386',
+      border: '1px solid #BCD3CD',
+
       '&.Mui-selected': {
-        backgroundColor: '#EAF1EF',
+        backgroundColor: '#BCD3CD',
         color: '#357968',
+        '&:hover': {
+          backgroundColor: '#BCD3CD',
+        },
       },
     },
   },
 };
+
+// 357968

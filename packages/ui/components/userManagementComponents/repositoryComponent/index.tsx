@@ -54,11 +54,11 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
   };
 
   //  ********* Schema Validation ***********
-  const ajv = new Ajv();
-  const validate = ajv.compile(jsonSchema);
+
   const handleSave = () => {
+    const ajv = new Ajv();
+    const validate = ajv.compile(jsonSchema);
     const valid = validate(editRepositoryList);
-    debugger;
     if (valid && editRepositoryList?.length > 0) {
       RepositoryId ? editRepository() : createRepository();
       handleClose();

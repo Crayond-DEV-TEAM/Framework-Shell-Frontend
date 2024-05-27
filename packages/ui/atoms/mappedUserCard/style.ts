@@ -5,7 +5,7 @@ interface MappedUserCardStyleProps {
 }
 
 export const mappedUserCardStyle: MappedUserCardStyleProps = {
-  rootSx: {},
+  rootSx: { display: 'flex', alignItems: 'center', flexWrap: 'wrap' },
   main: {
     // display: 'flex',
     // alignItems: 'center',
@@ -14,6 +14,8 @@ export const mappedUserCardStyle: MappedUserCardStyleProps = {
     border: '1px solid #EAEAEA',
     width: '250px',
     borderRadius: '8px',
+    my: 1,
+    mx: 1,
   },
   subProfile: {
     display: 'flex',

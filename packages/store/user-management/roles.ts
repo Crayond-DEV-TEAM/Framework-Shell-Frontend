@@ -139,7 +139,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       is_active: status,
     };
     const slugId = useSlug.getState().slugs?.IDM;
-    httpRequest('put', `${envConfig.api_url}/idm/roles/update`, payload, true, apiToken, {
+    httpRequest('post', `${envConfig.api_url}/idm/roles/deactivate`, payload, true, apiToken, {
       headers: { slug: slugId },
     })
       .then((response) => {

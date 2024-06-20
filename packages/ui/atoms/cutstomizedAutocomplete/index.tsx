@@ -99,8 +99,14 @@ export const CutstomizedAutocomplete = (props: CutstomizedAutocompleteProps): JS
               height: '40px',
               borderRadius: '8px',
               border: 0,
-              '& .MuiOutlinedInput-root': { height: '40px', borderRadius: '8px', fontSize: '12px', fontWeight: 600 },
+              '& .MuiOutlinedInput-root': {
+                height: '40px',
+                borderRadius: '8px',
+                fontSize: '12px',
+                fontWeight: 600,
+              },
               '& .MuiFormHelperText-root': { ml: '0px', mb: '10px' },
+              '& .MuiAutocomplete-inputRoot .MuiAutocomplete-input': { minWidth: '80px' },
             }}
             helperText={isError ? errorMessage : null}
             error={isError}

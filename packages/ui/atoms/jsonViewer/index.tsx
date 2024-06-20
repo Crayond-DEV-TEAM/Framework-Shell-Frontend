@@ -1,27 +1,27 @@
+import '@contentful/forma-36-react-components/dist/styles.css';
 import type { SxProps, Theme } from '@mui/material';
-import { Box, Typography } from '@mui/material';
-import JSONInput from 'react-json-editor-ajrm';
-// import locale from 'react-json-editor-ajrm/locale/en';
+import { Box } from '@mui/material';
+import ace from 'brace';
+import 'brace/mode/json';
+import 'brace/theme/github';
+import { JsonEditor as Editor } from 'jsoneditor-react';
+import 'jsoneditor-react/es/editor.min.css';
 import { jsonViewerStyle } from './style';
-// import sampleData from './utils';
-import { useState } from 'react';
-import { localeEn } from './utils';
-import { useRepository } from '@core/store';
+import { useEffect, useRef, useState } from 'react';
+import 'jsoneditor/dist/jsoneditor.css';
 
 export interface JsonViewerProps {
   className?: string;
   sx?: SxProps<Theme>;
   data?: any;
   onChange?: any;
+  editorKey?: any;
+  mode?: any;
 }
 
 export const JsonViewer = (props: JsonViewerProps): JSX.Element => {
-  const { className = '', sx = {}, data = [], onChange = {}, ...rest } = props;
-  const { seteditRepository } = useRepository();
-  const onChange1 = (data: any) => {
-    onChange(data.jsObject);
-    seteditRepository(data.jsObject);
-  };
+  const { className = '', sx = {}, data = [], mode, onChange = () => undefined, editorKey, ...rest } = props;
+
   return (
     <Box
       sx={[
@@ -33,16 +33,14 @@ export const JsonViewer = (props: JsonViewerProps): JSX.Element => {
       className={`${className}`}
       {...rest}
     >
-      <JSONInput
-        placeholder={data}
-        theme="light_mitsuketa_tribute"
-        locale={localeEn}
-        colors={{
-          string: '#357968',
-        }}
-        onChange={(e: any) => onChange1(e)}
-        height="296px"
-        width="100%"
+      <Editor
+        key={editorKey}
+        mode={mode}
+        history
+        value={data}
+        onChange={(e: any) => onChange(e)}
+        ace={ace}
+        theme="ace/theme/github"
       />
     </Box>
   );

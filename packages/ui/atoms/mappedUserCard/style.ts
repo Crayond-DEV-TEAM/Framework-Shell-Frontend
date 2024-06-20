@@ -5,21 +5,30 @@ interface MappedUserCardStyleProps {
 }
 
 export const mappedUserCardStyle: MappedUserCardStyleProps = {
-  rootSx: {},
+  rootSx: { display: 'flex', alignItems: 'center', flexWrap: 'wrap' },
   main: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: '8px 0px',
+    // display: 'flex',
+    // alignItems: 'center',
+    // justifyContent: 'space-between',
+    padding: '12px 40px 12px 30px',
+    border: '1px solid #EAEAEA',
+    width: '250px',
+    borderRadius: '8px',
+    my: 1,
+    mx: 1,
   },
   subProfile: {
     display: 'flex',
     alignItems: 'center',
   },
+  designationTxt: {
+    pl: 0.2,
+    pt: 0.31,
+  },
   avatar: {
     backgroundColor: '#EAEAEA',
-    height: '24px',
-    width: '24px',
+    height: '40px',
+    width: '40px',
     textTransform: 'capitalize',
     fontSize: '14px',
     marginRight: '15px',

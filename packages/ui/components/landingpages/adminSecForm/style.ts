@@ -6,20 +6,16 @@ interface AdminSecFormStyleProps {
 
 export const adminSecFormStyle: AdminSecFormStyleProps = {
   rootSx: {},
-  padd: {
-    // p: '24px',
-  },
+  padd: {},
   labelSx: {
-    fontSize: '12px',
     color: '#262C33',
     fontWeight: '500',
     pb: 1,
+    fontSize: '14px',
   },
 
   inputGroupSx: {
     display: 'grid',
-    // pb: 2,
-    // mt: '9px',
   },
   inputSx: {
     '& .MuiOutlinedInput-input': {

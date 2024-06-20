@@ -144,24 +144,8 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
         access: accessState,
       }));
       handleChange('mapAdmin', setItemsUsers);
-      // handleChange('mapAdmin', values);
-      // createEditOrganisation.id ? createAdminmap() : '';
     }
   };
-  // const handleOptionToggle = (option: any) => {
-  //   const isSelected = values.find((v: any) => v?.id === option?.id);
-  //   if (isSelected?.id) {
-  //     const isSelected = values.filter((v: any) => v?.id !== option?.id);
-  //     setValues(isSelected);
-  //     handleChange('mapAdmin', isSelected);
-  //     createEditOrganisation.id ? deleteAdminmap() : '';
-  //   } else {
-  //     values.push(option);
-  //     setValues(values);
-  //     handleChange('mapAdmin', values);
-  //     createEditOrganisation.id ? createAdminmap() : '';
-  //   }
-  // };
 
   const handleChangeAccess = (selectedAccess: AccessOption | null) => {
     setAccessState(selectedAccess);
@@ -208,28 +192,16 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
           onClose={handleClose}
           sx={{
             '& .MuiPaper-root': {
-              width: '300px',
-              height: '130px',
+              width: '500px',
+              height: '140px',
               marginTop: '16px',
               p: 0,
             },
           }}
         >
           {isSearchRequired && (
-            // <MenuItem>
-            // <Box sx={{ pr: 1, pt: '3px' }}>
-            //   <Input
-            //     placeholder={'search'}
-            //     value={createEditAdmin.searchName}
-            //     onChange={(e) => handleChange('searchName', e.target.value)}
-            //     startAdornment={<SearchIcon sx={{ ml: 1, fontSize: '16px', color: '#818181' }} />}
-            //   />
-            // </Box>
-            // </MenuItem>
             <Box sx={{ m: '10px' }}>
               <Input
-                // textFieldStyle={{ height: '25px', margin: '10px' }}
-                // height="10px"
                 width="10px"
                 placeholder={'search'}
                 value={searchTerm}

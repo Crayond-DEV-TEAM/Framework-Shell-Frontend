@@ -4,20 +4,18 @@ import { create } from 'zustand';
 import { UserManagementInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
 import { useSlug } from '../common';
-import { RepoJson } from '@components/userManagementComponents/repositoryComponent/utils';
+import { RepoJson } from '@core/ui/components/userManagementComponents/repositoryComponent/schema';
 
 export const useRepository = create<UserManagementInterface>((set, get) => ({
   RepositoryList: [],
-  editRepositoryList: {},
+  editRepositoryList: [],
   RepositoryId: '',
-
   fetching: false,
   errorOnFetching: false,
-
   onEditLoading: false,
   erroronEdit: false,
 
-  seteditRepository: (value: any) => {
+  setEditRepositoryJson: (value: any) => {
     set({ editRepositoryList: value });
   },
 
@@ -31,12 +29,12 @@ export const useRepository = create<UserManagementInterface>((set, get) => ({
       headers: { slug: slugId },
     })
       .then((response) => {
-         if (Array.isArray(response.data.data) && response.data.data.length > 0) {
-        const lastObject = response.data.data[response.data.data.length - 1];
-        set({ RepositoryList: lastObject.data, RepositoryId: lastObject.id, editRepositoryList: lastObject.data });
-         }else{
+        if (Array.isArray(response.data.data) && response.data.data.length > 0) {
+          const lastObject = response.data.data[response.data.data.length - 1];
+          set({ RepositoryList: lastObject.data, RepositoryId: lastObject.id, editRepositoryList: lastObject.data });
+        } else {
           set({ RepositoryList: [] });
-         }
+        }
       })
       .catch((err) => {
         set({ errorOnFetching: true });

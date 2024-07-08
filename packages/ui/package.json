@@ -13,6 +13,7 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@contentful/forma-36-react-components": "3.37.0",
     "@core/alias": "*",
     "@core/envconfig": "*",
     "@core/routes": "*",
@@ -22,9 +23,14 @@
     "@crayond_dev/ui_table": "^1.0.1",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@json-editor/json-editor": "2.2.1",
     "@mui/icons-material": "^5.1.11",
     "@mui/lab": "^5.0.0-alpha.104",
     "@mui/material": "^5.10.12",
+    "ajv": "^8.13.0",
+    "brace": "0.11.1",
+    "jsoneditor": "8.6.6",
+    "jsoneditor-react": "3.0.0",
     "notistack": "^3.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

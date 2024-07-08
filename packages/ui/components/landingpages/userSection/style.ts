@@ -7,7 +7,7 @@ interface UserSectionStyleProps {
 export const userSectionStyle: UserSectionStyleProps = {
   rootSx: {},
   commonTable: {
-     borderRadius:'8px',
+    borderRadius: '8px',
     bgcolor: '#fff',
     // margin: {
     //   lg: '0px 12px',
@@ -40,9 +40,12 @@ export const userSectionStyle: UserSectionStyleProps = {
     // },
   },
 
-      dialogSx: {
-    width: '400px',
-    height: '315px',
+  dialogSx: {
+    width: '40vw',
+    height: '70vh',
+    '& .MuiDialog-paper': {
+      borderRadius: '8px',
+    },
   },
   padd: {
     p: '24px',

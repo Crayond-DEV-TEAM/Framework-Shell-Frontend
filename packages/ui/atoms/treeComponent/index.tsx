@@ -50,6 +50,7 @@ export const CustomLabel = (props: CustomLabelProps): JSX.Element => {
           <Checkbox
             style={{ marginRight: '17px' }}
             disabled={disable}
+            onClick={(e) => e.stopPropagation()}
             onChange={(e) => {
               const updatedAllowed = nodes?.allowed?.includes('create')
                 ? [...nodes?.allowed].filter((item: any) => item !== 'create')
@@ -63,6 +64,7 @@ export const CustomLabel = (props: CustomLabelProps): JSX.Element => {
           <Checkbox
             style={{ marginRight: '17px' }}
             disabled={disable}
+            onClick={(e) => e.stopPropagation()}
             onChange={(e) => {
               const updatedAllowed = nodes?.allowed?.includes('read')
                 ? [...nodes?.allowed].filter((item: any) => item !== 'read')
@@ -75,6 +77,7 @@ export const CustomLabel = (props: CustomLabelProps): JSX.Element => {
           <Checkbox
             style={{ marginRight: '17px' }}
             disabled={disable}
+            onClick={(e) => e.stopPropagation()}
             onChange={(e) => {
               const updatedAllowed = nodes?.allowed?.includes('update')
                 ? [...nodes?.allowed].filter((item: any) => item !== 'update')
@@ -88,6 +91,7 @@ export const CustomLabel = (props: CustomLabelProps): JSX.Element => {
           <Checkbox
             style={{ marginRight: '17px' }}
             disabled={disable}
+            onClick={(e) => e.stopPropagation()}
             onChange={(e) => {
               const updatedAllowed = nodes?.allowed?.includes('delete')
                 ? [...nodes?.allowed].filter((item: any) => item !== 'delete')
@@ -195,7 +199,7 @@ const renderTree = (
             onChange,
             index + '-' + indexchild,
             node.hasOwnProperty('child'),
-            onParentChange
+            onParentChange,
           ),
         )
       : null}
@@ -241,7 +245,7 @@ export const TreeComponent = (props: TreeComponentProps): JSX.Element => {
                 onChange,
                 index,
                 val.hasOwnProperty('child'),
-                onParentChange
+                onParentChange,
               );
             })}
         </TreeView>

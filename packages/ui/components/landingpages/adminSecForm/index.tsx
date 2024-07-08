@@ -1,5 +1,5 @@
 import type { SxProps, Theme } from '@mui/material';
-import { Box, Typography } from '@mui/material';
+import { Autocomplete, Box, TextField, Typography } from '@mui/material';
 
 import { adminSecFormStyle } from './style';
 import { Input } from '@atoms/input';
@@ -22,18 +22,14 @@ export interface AdminSecFormProps {
 export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
   const { className = '', sx = {}, createEditAdmin, handlechange = () => false, ...rest } = props;
 
-  const { ServiceListMaster, UserListMaster, addUserInvite, OrganisationDetails } = useAdminLanding();
-
+  const { ServiceListMaster, UserListMaster, addUserInvite, OrganisationDetails, seteditAdmin } = useAdminLanding();
 
   const accessMaster = [
     { id: '1', name: 'Full Access' },
     { id: '2', name: 'Restricted' },
   ];
 
-  // useEffect(() => {
-  //   getUserList(OrganisationDetails.id);
-  //   getServiceList(OrganisationDetails.id);
-  // }, []);
+  console.log(ServiceListMaster);
 
   return (
     <Box
@@ -88,35 +84,22 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
           />
         </Box>
         <Box sx={{ m: '16px' }} />
-        <div>
-          <Accordion
-            sx={{
-              boxShadow: 'none',
-              // borderBottom: '1px solid #EAEAEA',
-              // // margin: '0px',
-              // '.MuiAccordion-root.Mui-expanded .MuiPaper-root': {
-              //   margin: '0px',
-              // },
-            }}
-            defaultExpanded
-          >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-              sx={{ padding: 0 }}
-            >
-              <Typography sx={{ fontWeight: 600, fontSize: '14px', padding: 0 }}>Services</Typography>
-            </AccordionSummary>
-            <AccordionDetails sx={{ padding: '0px' }}>
-              <AddChipDropdown
-                permissionList={ServiceListMaster}
-                onChange={handlechange}
-                createEditState={createEditAdmin.mapServices}
-                admin={true}
-              />
-            </AccordionDetails>
-          </Accordion>
+        <Box pt={1}>
+          <Typography sx={{ fontWeight: 600, fontSize: '14px', padding: 0 }}>Services</Typography>
+          <Box pt={2}>
+            <Autocomplete
+              multiple
+              id="tags-outlined"
+              value={createEditAdmin.mapServices}
+              onChange={(event: any, newValue: any | null) => {
+                seteditAdmin({ key: 'mapServices', value: newValue });
+              }}
+              options={ServiceListMaster}
+              getOptionLabel={(option) => option.name}
+              filterSelectedOptions
+              renderInput={(params) => <TextField {...params} label="Services" placeholder="Services" />}
+            />
+          </Box>
           <Accordion
             sx={{
               boxShadow: 'none',
@@ -140,8 +123,34 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
               />
             </AccordionDetails>
           </Accordion>
-        </div>
+        </Box>
       </Box>
     </Box>
   );
 };
+
+//  if Accordion need use this code
+{
+  /* <Accordion
+            sx={{
+              boxShadow: 'none',
+            }}
+            defaultExpanded
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+              sx={{ padding: 0 }}
+            >
+              <Typography sx={{ fontWeight: 600, fontSize: '14px', padding: 0 }}>Services</Typography>
+            </AccordionSummary>
+            <AccordionDetails sx={{ padding: '0px' }}>
+              <AddChipDropdown
+                permissionList={ServiceListMaster}
+                createEditState={createEditAdmin.mapServices}
+                admin={true}
+              />
+            </AccordionDetails>
+          </Accordion> */
+}

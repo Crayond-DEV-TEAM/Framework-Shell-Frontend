@@ -163,7 +163,6 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
     handleStatus();
   }, [UserList]);
 
-
   return (
     <Box
       sx={[
@@ -206,7 +205,7 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
           paginationOption={{
             isEnable: true,
             rowPerPage: 10,
-            rowsPerPageOptions: [5, 10, 25]
+            rowsPerPageOptions: [5, 10, 25],
           }}
           tableMinWidth={'80px'}
           stickyOptions={{
@@ -236,66 +235,47 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
           }}
         />
       </Box>
-      <Drawer
-        show={open}
-        onCloseDrawer={handleDrawerClose}
-        anchor="right"
-        drawerStyleSX={{ padding: '0px 20px' }}
-        drawerRightClose
-        header={'Add New User'}
-        headerStyle={{
-          fontSize: '16px',
-          fontWeight: 600,
-          color: '#101010',
-          textTransform: 'capitalize',
-        }}
-        rootStyle={{
-          '& .MuiDrawer-paperAnchorRight': {
-            width: '340px',
-            borderTopLeftRadius: '8px',
-            borderBottomLeftRadius: '8px',
-          },
-        }}
-        footer={<FooterComponent check={false} onSave={handleSave} onCancel={handleDrawerClose} />}
-        footerStyle={{
-          bottom: 0,
-          position: 'absolute',
-          width: '100%',
-          pl: 0,
-          pr: 0,
-        }}
-      >
-        <div>
-          <Accordion
-            sx={{
-              boxShadow: 'none',
-            }}
-            defaultExpanded
-          >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-              sx={{ padding: 0 }}
+
+      <DialogDrawer
+        maxModalWidth="xl"
+        isDialogOpened={open}
+        title={'Add New User'}
+        Bodycomponent={
+          <Box p={2}>
+            <Accordion
+              sx={{
+                boxShadow: 'none',
+              }}
+              defaultExpanded
             >
-              <Typography sx={{ fontWeight: 600, fontSize: '14px', padding: 0 }}>Add User</Typography>
-            </AccordionSummary>
-            <AccordionDetails sx={{ padding: '0px' }}>
-              <AddChipMultipleDropdown
-                createEditAdmin={createEditUserRoleList}
-                dataList={UserListMasterBySearch}
-                accessMaster={roleOption}
-                handleChange={handleChange}
-                inviteSection={true}
-                isSearchRequired={true}
-              />
-              <Typography sx={{ fontSize: '12px', fontWeight: 600, color: 'red', mt: '10px' }}>
-                {formError ? 'Please select the users and role map' : ''}
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-        </div>
-      </Drawer>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+                sx={{ padding: 0 }}
+              >
+                <Typography sx={{ fontWeight: 600, fontSize: '14px', padding: 0 }}>Add User</Typography>
+              </AccordionSummary>
+              <AccordionDetails sx={{ padding: '0px' }}>
+                <AddChipMultipleDropdown
+                  createEditAdmin={createEditUserRoleList}
+                  dataList={UserListMasterBySearch}
+                  accessMaster={roleOption}
+                  handleChange={handleChange}
+                  inviteSection={true}
+                  isSearchRequired={true}
+                />
+                <Typography sx={{ fontSize: '12px', fontWeight: 600, color: 'red', mt: '10px' }}>
+                  {formError ? 'Please select the users and role map' : ''}
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          </Box>
+        }
+        handleCloseDialog={handleDrawerClose}
+        dialogRootStyle={userSectionStyle.dialogSx}
+        Footercomponent={<FooterComponent check={false} onSave={handleSave} onCancel={handleDrawerClose} />}
+      />
       <DialogDrawer
         maxModalWidth="xl"
         isDialogOpened={values}
@@ -314,11 +294,6 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
                 value={UserEditRoleData?.name}
                 textFieldStyle={userSectionStyle.inputSx}
                 id="title"
-                // onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
-                //   handleChangeUserInvite('userName', e.target.value)
-                // }
-                // isError={Boolean(formErrors.name)}
-                // errorMessage={formErrors.name}
               />
             </Box>
             <Box sx={{ m: '16px' }} />
@@ -335,8 +310,6 @@ export const UserSection = (props: UserSectionProps): JSX.Element => {
                 value={
                   UserEditRoleData.role && Object.keys(UserEditRoleData.role).length > 0 ? UserEditRoleData.role : null
                 }
-                // isError={Boolean(formErrors.role)}
-                // errorMessage={formErrors.role}
               />
             </Box>
           </Box>

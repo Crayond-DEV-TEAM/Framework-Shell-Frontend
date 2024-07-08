@@ -87,6 +87,7 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
 
   useEffect(() => {
     setApiToken(apiToken);
+    getAllRepository();
   }, []);
 
   useEffect(() => {

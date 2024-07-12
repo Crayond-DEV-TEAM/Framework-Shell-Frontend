@@ -171,6 +171,7 @@ export interface WebHookUrlProps {
 
 export interface SlugProps {
   getSlug: (id: ServiceName) => void;
+  setSlug: (key: ServiceName, value: string) => void;
   slugs?: ServiceOptionList;
   APIkey?: ServiceOptionList;
   WebHookUrl?: ServiceOptionList;

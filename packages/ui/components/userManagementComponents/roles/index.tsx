@@ -182,8 +182,10 @@ export const Roles = (props: RolesProps): JSX.Element => {
     }
   };
   useEffect(() => {
-    setApiToken(apiToken);
-  }, []);
+    if (apiToken) {
+      setApiToken(apiToken);
+    }
+  }, [apiToken]);
   useEffect(() => {
     getRolesList();
     getPermissionList();

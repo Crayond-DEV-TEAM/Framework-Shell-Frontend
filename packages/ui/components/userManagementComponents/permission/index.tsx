@@ -26,8 +26,12 @@ export const Permission = (props: PermissionProps): JSX.Element => {
   };
 
   useEffect(() => {
-    setApiToken(apiToken);
-  }, []);
+    if (apiToken) {
+      setApiToken(apiToken);
+    }
+  }, [apiToken]);
+
+  
   useEffect(() => {
     if (PermissionList && PermissionList.length > 0) {
       const init = PermissionList[0];
@@ -36,7 +40,6 @@ export const Permission = (props: PermissionProps): JSX.Element => {
       setTableName(init?.name);
     }
   }, [PermissionList]);
-
 
   return (
     <Box

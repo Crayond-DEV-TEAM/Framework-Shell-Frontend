@@ -120,7 +120,7 @@ const StyledTreeItem = styled(TreeItem)<StyledTreeItemProps>(({ rootNode }) => {
         // only display if the TreeItem is not root node
         !rootNode ? `2px solid #c1c1c1` : 'none',
     },
-    '& .MuiTreeItem-group': {
+    [`& .MuiTreeItem-group`]: {
       marginLeft: 16,
       paddingLeft: 18,
       borderLeft: `2px solid #c1c1c1`,

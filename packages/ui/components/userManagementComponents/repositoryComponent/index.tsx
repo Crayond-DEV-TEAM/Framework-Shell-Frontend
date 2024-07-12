@@ -38,8 +38,9 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
     setApiToken,
   } = useRepository();
 
+  const { slugs, setSlug } = useSlug();
+
   // ********* STATES **********
-  const { slugs } = useSlug();
   const [values, setValues] = useState(false);
   const [error, setError] = useState(false);
   const [editorKey, setEditorKey] = useState(0);
@@ -86,11 +87,17 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
   };
 
   useEffect(() => {
-    setApiToken(apiToken);
-  }, []);
+    if (apiToken) {
+      setApiToken(apiToken);
+      setSlug('IDM', apiToken);
+      getAllRepository();
+    }
+  }, [apiToken]);
 
   useEffect(() => {
+    console.log('slugs?.IDM', slugs);
     if (slugs?.IDM) {
+      console.log('Inside slugs?.IDM', slugs?.IDM);
       getAllRepository();
     }
   }, [slugs?.IDM]);

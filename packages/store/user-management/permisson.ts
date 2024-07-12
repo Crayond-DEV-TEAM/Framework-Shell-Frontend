@@ -60,6 +60,12 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     const { apiToken } = get();
     set({ fetchingPermission: true, errorOnPermission: false });
     const slugId = useSlug.getState().slugs?.IDM;
+
+    // if (envConfig.api_url && envConfig.api_url.includes('sdk') && !slugId) {
+    //   return;
+    // }
+
+
     httpRequest('get', `${envConfig.api_url}/idm/permission/get`, {}, true, apiToken, {
       headers: { slug: slugId },
     })
@@ -72,7 +78,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       })
       .catch((err) => {
         set({ errorOnPermission: true });
-        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+        enqueueSnackbar('Something Went Wrong!' + `slugId ${slugId} - not found`, { variant: 'error' });
       })
       .finally(() => {
         set({ fetchingPermission: false });

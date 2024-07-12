@@ -14,6 +14,7 @@
   "dependencies": {
     "@core/logger": "*",
     "@core/utils": "*",
+    "immer": "^10.1.1",
     "notistack": "^3.0.0",
     "zustand": "^4.1.4"
   },

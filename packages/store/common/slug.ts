@@ -7,6 +7,7 @@ import { create } from 'zustand';
 import { Menu, MenusProps, SlugProps } from '../interface';
 import { AllRoutes } from '../utils';
 import { enqueueSnackbar } from 'notistack';
+import { produce } from "immer"
 
 export const useSlug = create<SlugProps>((set, get) => ({
   slugs: {
@@ -14,6 +15,18 @@ export const useSlug = create<SlugProps>((set, get) => ({
     PASM: '',
     ALERTSHUB: '',
     'MESSAGE-CATALOG': '',
+  },
+
+  setSlug: (key, value) => {
+    const { slugs } = get();
+
+    const latestState = produce(slugs, (draftState) => {
+      if (draftState?.[key]) {
+        draftState[key] = value
+      }
+    })
+
+    set({ slugs: latestState })
   },
 
   getSlug: (key) => {

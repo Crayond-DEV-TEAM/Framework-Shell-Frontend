@@ -1,9 +1,10 @@
 import type { SxProps, Theme } from '@mui/material';
 import { Box, Tabs, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Permission, RepositoryComponent, Roles } from '..';
 import { userManagementStyle } from './style';
 import { SnackbarProvider } from 'notistack';
+import { usePermission, useSlug } from '@core/store';
 
 export interface UserManagementProps {
   className?: string;
@@ -44,6 +45,9 @@ export const UserManagement = (props: UserManagementProps): JSX.Element => {
     ...rest
   } = props;
 
+  const { setApiToken } = usePermission();
+  const { setSlug } = useSlug();
+
   const [index, setIndex] = React.useState(0);
   const [value, setValue] = React.useState(0);
 
@@ -54,6 +58,13 @@ export const UserManagement = (props: UserManagementProps): JSX.Element => {
   const handleChange = (event: any, newValue: any) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    if (apiToken) {
+      setApiToken(apiToken);
+      setSlug('IDM', apiToken);
+    }
+  }, [apiToken]);
 
   const tabs = [
     {

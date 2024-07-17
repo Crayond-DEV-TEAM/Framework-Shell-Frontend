@@ -6,7 +6,7 @@ import { PermissionInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
 import { useRepository } from './repository';
 import { findObjectByIndex, modifyObjectByIndexWithKey, updateChildOnParentChange } from './commonFunction';
-import { useSlug } from '../common'
+import { useSlug } from '../common';
 
 export const usePermission = create<PermissionInterface>((set, get) => ({
   RepositoryList: [],
@@ -17,11 +17,13 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     name: '',
     description: '',
     is_active: true,
+    permissionList: [],
   },
   editPermissionList: {
     name: '',
     description: '',
     is_active: true,
+    permissionList: [],
   },
 
   fetching: false,
@@ -41,7 +43,12 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     const { indexUpdateList } = get();
     const jsonObject = indexUpdateList.data;
     if (isParent) {
-      const res = updateChildOnParentChange(jsonObject, value?.toString(), data, data?.length > 0 ? data[data.length - 1] : "");
+      const res = updateChildOnParentChange(
+        jsonObject,
+        value?.toString(),
+        data,
+        data?.length > 0 ? data[data.length - 1] : '',
+      );
       set({ indexUpdateList: { data: res } });
     } else {
       const indexArray = value.replaceAll('-', '-child-').split('-');
@@ -64,7 +71,6 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     // if (envConfig.api_url && envConfig.api_url.includes('sdk') && !slugId) {
     //   return;
     // }
-
 
     httpRequest('get', `${envConfig.api_url}/idm/permission/get`, {}, true, apiToken, {
       headers: { slug: slugId },
@@ -99,7 +105,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       description: addPermissionList.description,
       is_active: addPermissionList.is_active,
       // repo_id:'4eb4f81c-154e-471f-baf2-c124dbdc9bf8'
-      repo_id: repoId
+      repo_id: repoId,
       // project_service_mapping_id: slugId,
     };
 
@@ -127,7 +133,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     // const { RepositoryList } = useRepository();
     const payload = {
       permission_id: addPermissionList.id,
-      // data: { data },
+      data: { data },
       name: addPermissionList.name,
       description: addPermissionList.description,
       is_active: addPermissionList.is_active,

@@ -1,6 +1,6 @@
 import type { SxProps, Theme } from '@mui/material';
-import { Box, Typography } from '@mui/material';
-
+import { Box, FormControlLabel, Switch, Typography } from '@mui/material';
+import { usePermission, useRoles } from '@core/store';
 import { modalAddPermissionStyle } from './style';
 import { Input } from '@atoms/input';
 import { Label } from '@atoms/label';
@@ -18,6 +18,8 @@ export interface ModalAddPermissionProps {
   title?: string;
   description?: string;
   permissionList?: any;
+  RepositoryList?: any;
+  isPermission?: boolean;
 }
 
 export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element => {
@@ -32,8 +34,43 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
     groupState,
     formErrors,
     permissionList,
+    isPermission = false,
+    RepositoryList,
     ...rest
   } = props;
+
+  const [inherit, setInherit] = useState(false);
+  const [inheritPermission, setInheritPermission] = useState(false);
+  const { setaddMessage, RolesList } = useRoles();
+
+  const { setaddPermission, addPermissionList } = usePermission();
+
+  const permissionArry = RolesList?.filter((val: any) => {
+    return groupState.id !== val.id ? { id: val.id, name: val.name, value: val.permission } : null;
+  });
+
+  const newpermissionList = permissionList?.map((val: any) => {
+    return { id: val.id, name: val.name, value: val?.data?.data };
+  });
+
+  const handleSwitchChange = () => {
+    setInherit(!inherit);
+    if (inherit) {
+      setaddMessage({ key: 'permission', value: '' });
+    } else {
+      setaddMessage({ key: 'inherit', value: '' });
+    }
+  };
+  const handleSwitchPermissionChange = () => {
+    setInheritPermission(!inheritPermission);
+    if (inheritPermission) {
+      setaddPermission({ key: 'permissionList', value: '' });
+    }
+  };
+
+  const handlePermissionChange = (key, value) => {
+    setaddPermission({ key, value });
+  };
 
   return (
     <Box
@@ -95,20 +132,63 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
         )}
         {dropdown && (
           <Box>
-            <Label sx={modalAddPermissionStyle.labelSx} htmlFor="description" isRequired>
-              Select Permission
-            </Label>
-            <CustomDropdown
-              placeholder="Select Role"
-              options={groupState.permission}
-              permissionList={permissionList}
-              onChange={(value) => {
-                handleChange('permission', value);
-              }}
-              value={groupState.permission.length > 0 ? groupState.permission : []}
-              isError={Boolean(formErrors.permission)}
-              errorMessage={formErrors.permission}
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Label sx={modalAddPermissionStyle.labelSx} htmlFor="description" isRequired>
+                {!inherit ? 'Select Permission' : 'inherit Permission '}
+              </Label>
+
+              <FormControlLabel control={<Switch checked={inherit} onChange={handleSwitchChange} />} label="inherit" />
+
+              {/*   */}
+            </Box>
+            {!inherit ? (
+              <>
+                <CustomDropdown
+                  placeholder="Select Permission"
+                  options={groupState.permission}
+                  permissionList={permissionList}
+                  onChange={(value) => {
+                    handleChange('permission', value);
+                  }}
+                  value={groupState.permission.length > 0 ? groupState.permission : []}
+                  // isError={Boolean(formErrors.permission)}
+                  // errorMessage={formErrors.permission}
+                />
+              </>
+            ) : (
+              <>
+                <CustomDropdown
+                  placeholder="inherit Permission"
+                  permissionList={permissionArry}
+                  onChange={(value) => {
+                    handleChange('inherit', value);
+                  }}
+                  value={groupState?.inherit?.length > 0 ? groupState.inherit : []}
+                />
+              </>
+            )}
+          </Box>
+        )}
+        {isPermission && (
+          <Box>
+            <FormControlLabel
+              control={<Switch checked={inheritPermission} onChange={handleSwitchPermissionChange} />}
+              label="inherit permission"
             />
+            {inheritPermission && (
+              <>
+                <CustomDropdown
+                  placeholder="inherit Permission"
+                  permissionList={newpermissionList}
+                  onChange={(value) => {
+                    handlePermissionChange('permissionList', value);
+                  }}
+                  value={groupState?.permissionList?.length > 0 ? groupState.permissionList : []}
+                />
+              </>
+            )}
+
+            {/*   */}
           </Box>
         )}
       </Box>

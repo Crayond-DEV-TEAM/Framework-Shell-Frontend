@@ -110,10 +110,10 @@ export const useRoles = create<RolesInterface>((set, get) => ({
 
     const payload = {
       name: addRole.name,
-      permissions: permissionid ?? null,
+      permissions: permissionid.length > 0 ? permissionid : [],
       description: addRole.description,
       is_active: addRole.is_active,
-      inherit: addRole.inherit ?? null,
+      inherit: addRole.inherit.length > 0 ? addRole.inherit : '',
     };
     const slugId = useSlug.getState().slugs?.IDM;
     return new Promise((resolve, reject) => {
@@ -166,13 +166,21 @@ export const useRoles = create<RolesInterface>((set, get) => ({
   },
   editRoleList: async () => {
     const { addRole, getRolesList, clearAll, apiToken } = get();
-    const permissionid = addRole.permission.map((value: any) => value.id);
+    let permissionid;
+    if (addRole?.permission?.length > 0) {
+      permissionid = addRole?.permission?.map((value: any) => value.id);
+    } else {
+      const inheritlist = addRole.inherit.map((val: any) => val?.permission?.map((value: any) => value.id));
+      permissionid = inheritlist.flat();
+    }
+
     const payload = {
       role_id: addRole.id,
       name: addRole.name,
       permissions: permissionid,
       description: addRole.description,
       is_active: addRole.is_active,
+      inherit: addRole.inherit.length > 0 ? addRole.inherit : '',
     };
     const slugId = useSlug.getState().slugs?.IDM;
 

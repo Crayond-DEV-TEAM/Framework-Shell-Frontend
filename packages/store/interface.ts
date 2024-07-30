@@ -711,6 +711,7 @@ export interface RolesInterfaceField {
   description: string;
   is_active: boolean;
   permission: any;
+  is_root: boolean;
 }
 
 export interface Repository {

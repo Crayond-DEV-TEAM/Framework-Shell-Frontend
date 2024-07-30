@@ -36,7 +36,7 @@ export const parseJwt = (token) => {
 };
 
 export const imageUpload = async (files: any) => {
-  
+  debugger
   if(!files?.length > 0) {
     return 
   }

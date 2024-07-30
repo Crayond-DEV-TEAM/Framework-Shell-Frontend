@@ -5,7 +5,7 @@ import { RolesInterface } from '../interface';
 // import { tableJson } from '../../ui/components/roles/utils';
 import { enqueueSnackbar } from 'notistack';
 import { ClearAll } from '@mui/icons-material';
-import { useSlug } from '../common'
+import { useSlug } from '../common';
 export const useRoles = create<RolesInterface>((set, get) => ({
   RolesList: [],
   StatusList: [],
@@ -15,6 +15,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
     name: '',
     description: '',
     is_active: true,
+    is_root: false,
   },
   editRole: [],
   deleteRole: [],
@@ -104,7 +105,9 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       permissions: permissionid,
       description: addRole.description,
       is_active: addRole.is_active,
+      is_root: addRole?.is_root,
     };
+
     const slugId = useSlug.getState().slugs?.IDM;
     return new Promise((resolve, reject) => {
       httpRequest('post', `${envConfig.api_url}/idm/roles/create`, payload, true, apiToken, {
@@ -163,6 +166,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       permissions: permissionid,
       description: addRole.description,
       is_active: addRole.is_active,
+      is_root: addRole?.is_root,
     };
     const slugId = useSlug.getState().slugs?.IDM;
 
@@ -221,6 +225,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
         name: '',
         description: '',
         is_active: true,
+        is_root: false,
       },
     });
   },

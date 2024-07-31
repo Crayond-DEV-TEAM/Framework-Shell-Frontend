@@ -83,9 +83,11 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
 
   const handleAddMsg = () => {
     const isFormValid = validateForm();
+    const data = addPermissionList?.permissionList[0]?.value ?? RepositoryList;
+    console.log(data);
 
     if (isFormValid) {
-      addPermission(RepositoryList, RepositoryId);
+      addPermission(data, RepositoryId);
       handleClose();
       setEditRole(false);
     }
@@ -93,9 +95,9 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
 
   const handleEdit = () => {
     const isFormValid = validateForm();
-
+    const data = addPermissionList?.permissionList[0]?.value ?? RepositoryList;
     if (isFormValid) {
-      editPermission(RepositoryList);
+      editPermission(data);
       handleClose();
       setEditRole(false);
     }
@@ -151,6 +153,8 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
   useEffect(() => {
     getPermission();
   }, []);
+
+  console.log(PermissionList, RepositoryList);
 
   return (
     <Box
@@ -230,6 +234,8 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
             groupState={addPermissionList}
             formErrors={formErrors}
             handleChange={handleChange}
+            isPermission={true}
+            permissionList={PermissionList}
           />
         }
         handleCloseDialog={handleClose}

@@ -86,9 +86,9 @@ export const Roles = (props: RolesProps): JSX.Element => {
       errors.description = 'Description is required';
     }
 
-    if (addRole.permission.length === 0) {
-      errors.permission = 'Permission is required';
-    }
+    // if (addRole.permission.length === 0) {
+    //   errors.permission = 'Permission is required';
+    // }
 
     setFormErrors(errors);
 

@@ -711,6 +711,7 @@ export interface RolesInterfaceField {
   description: string;
   is_active: boolean;
   permission: any;
+  inherit: any;
 }
 
 export interface Repository {
@@ -722,6 +723,7 @@ export interface AddPermissionInterface {
   description: string;
   is_active: boolean;
   id?: any;
+  permissionList?: any;
 }
 
 export interface Repolist {

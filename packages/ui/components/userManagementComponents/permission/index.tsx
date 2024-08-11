@@ -31,7 +31,8 @@ export const Permission = (props: PermissionProps): JSX.Element => {
     }
   }, [apiToken]);
 
-  
+  console.log(PermissionList);
+
   useEffect(() => {
     if (PermissionList && PermissionList.length > 0) {
       const init = PermissionList[0];

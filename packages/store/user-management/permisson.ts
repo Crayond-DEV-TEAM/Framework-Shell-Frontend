@@ -106,6 +106,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       is_active: addPermissionList.is_active,
       // repo_id:'4eb4f81c-154e-471f-baf2-c124dbdc9bf8'
       repo_id: repoId,
+      inherit: data.id,
       // project_service_mapping_id: slugId,
     };
 
@@ -137,6 +138,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       name: addPermissionList.name,
       description: addPermissionList.description,
       is_active: addPermissionList.is_active,
+      inherit: data.id,
     };
     set({ fetching: true, errorOnFetching: false });
     httpRequest('put', `${envConfig.api_url}/idm/permission/edit`, payload, true, apiToken, {

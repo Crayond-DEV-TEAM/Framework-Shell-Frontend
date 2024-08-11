@@ -44,6 +44,7 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
     addPermission,
     updateEditData,
     editPermission,
+    editPermissionList,
     deletePermission,
     fetchingPermission,
     clearAll,
@@ -96,6 +97,8 @@ export const AddPermission = (props: AddPermissionProps): JSX.Element => {
   const handleEdit = () => {
     const isFormValid = validateForm();
     const data = addPermissionList?.permissionList[0]?.value ?? RepositoryList;
+    console.log(data);
+
     if (isFormValid) {
       editPermission(data);
       handleClose();

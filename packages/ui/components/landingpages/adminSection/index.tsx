@@ -230,7 +230,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
                 tableHeader={''}
                 setSearchTerm={setSearchTerm}
                 searchTerm={searchTerm}
-                isBtnRequired={OrganisationDetails.rolename === 'TOOLKIT-ADMIN' ? true : false}
+                isBtnRequired={(OrganisationDetails.rolename === 'TOOLKIT-ADMIN'||OrganisationDetails.rolename === 'TOOLKIT-SUPERADMIN') ? true: false}
                 handleOpen={handleDrawerOpen}
                 // editTableMessage={addRole}
               />

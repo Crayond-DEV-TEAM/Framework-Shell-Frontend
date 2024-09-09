@@ -130,45 +130,47 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
             </Box>
           </>
         )}
-        {dropdown && (
-          <Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Label sx={modalAddPermissionStyle.labelSx} htmlFor="description" isRequired>
-                {!inherit ? 'Select Permission' : 'inherit Permission '}
-              </Label>
+        <>
+          {dropdown && (
+            <Box>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Label sx={modalAddPermissionStyle.labelSx} htmlFor="description" isRequired>
+                  {!inherit ? 'Select Permission' : 'inherit Permission '}
+                </Label>
 
-              <FormControlLabel control={<Switch checked={inherit} onChange={handleSwitchChange} />} label="inherit" />
+                <FormControlLabel control={<Switch checked={inherit} onChange={handleSwitchChange} />} label="inherit" />
 
-              {/*   */}
-            </Box>
-            {!inherit ? (
-              <>
-                <CustomDropdown
-                  placeholder="Select Permission"
-                  options={groupState.permission}
-                  permissionList={permissionList}
-                  onChange={(value) => {
-                    handleChange('permission', value);
-                  }}
-                  value={groupState.permission.length > 0 ? groupState.permission : []}
+                {/*   */}
+              </Box>
+              {!inherit ? (
+                <>
+                  <CustomDropdown
+                    placeholder="Select Permission"
+                    options={groupState.permission}
+                    permissionList={permissionList}
+                    onChange={(value) => {
+                      handleChange('permission', value);
+                    }}
+                    value={groupState.permission.length > 0 ? groupState.permission : []}
                   // isError={Boolean(formErrors.permission)}
                   // errorMessage={formErrors.permission}
-                />
-              </>
-            ) : (
-              <>
-                <CustomDropdown
-                  placeholder="inherit Permission"
-                  permissionList={permissionArry}
-                  onChange={(value) => {
-                    handleChange('inherit', value);
-                  }}
-                  value={groupState?.inherit?.length > 0 ? groupState.inherit : []}
-                />
-              </>
-            )}
-          </Box>
-        )}
+                  />
+                </>
+              ) : (
+                <>
+                  <CustomDropdown
+                    placeholder="inherit Permission"
+                    permissionList={permissionArry}
+                    onChange={(value) => {
+                      handleChange('inherit', value);
+                    }}
+                    value={groupState?.inherit?.length > 0 ? groupState.inherit : []}
+                  />
+                </>
+              )}
+            </Box>
+          )}
+        </>
         {isPermission && (
           <Box>
             <FormControlLabel

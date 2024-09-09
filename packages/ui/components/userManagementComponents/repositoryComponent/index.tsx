@@ -57,8 +57,10 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
   //  ********* Schema Validation ***********
 
   const handleSave = () => {
+    debugger
     const ajv = new Ajv();
     const validate = ajv.compile(jsonSchema);
+    console.log('validate', validate)
     const valid = validate(editRepositoryList);
     if (valid && editRepositoryList?.length > 0) {
       RepositoryId ? editRepository() : createRepository();

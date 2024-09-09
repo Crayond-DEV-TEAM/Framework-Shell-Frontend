@@ -1183,6 +1183,17 @@ export interface AdminKey {
   id?: string;
   adminDatas?: any;
   Servicedatas?: any;
+  errors: {
+    projectTitle: string;
+    description: string;
+    mapServices: string;
+    mapAdmin: string;
+    is_active?: boolean;
+    id?: string;
+    adminDatas?: string;
+    Servicedatas?: string;
+
+  }
 }
 
 export interface InviteUserKey {
@@ -1219,7 +1230,7 @@ export interface AdminInterface {
   getServiceMasterByOrganisation: () => void;
   getUserMasterByOrganisation: () => void;
   getAllProjectsEditData: (id: string) => void;
-
+  validate: () => void;
   createAdmin: () => void;
   editAdmin: () => void;
   getStatusList: (id: any, status: any) => void;

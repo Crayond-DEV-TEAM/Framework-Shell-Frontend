@@ -70,6 +70,7 @@
     "react-json-editor-ajrm": "^2.5.14",
     "react-jsondata-editor": "^2.0.2",
     "react-jsoneditor-wrapper": "^1.1.0",
+    "react-router-dom": "^6.26.2",
     "react-select": "^5.7.2",
     "react-select-async-paginate": "^0.7.2",
     "turbo-linux-64": "^2.1.1"

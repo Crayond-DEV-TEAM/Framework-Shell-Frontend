@@ -57,8 +57,8 @@ export const AdminSecForm = (props: AdminSecFormProps): JSX.Element => {
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
               handlechange('projectTitle', e.target.value)
             }
-            // isError={Boolean(formErrors.name)}
-            // errorMessage={formErrors.name}
+            // isError={Boolean(createEditAdmin?.errors?.projectTitle)}
+            // errorMessage={createEditAdmin?.errors?.projectTitle}
           />
         </Box>
         <Box sx={{ m: '16px' }} />

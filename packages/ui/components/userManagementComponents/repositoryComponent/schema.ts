@@ -1,8 +1,10 @@
+
 const subChildSchema = {
   type: 'object',
   properties: {
     id: { type: 'string' },
     name: { type: 'string' },
+    // child: { type: 'array', items: supersubChildSchema, minItems: 1 },
     allowed: {
       type: 'array',
       items: {

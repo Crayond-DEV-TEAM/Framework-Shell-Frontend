@@ -60,6 +60,7 @@ export const SuperAdminTabs = (props: SuperAdminTabsProps): JSX.Element => {
       children: <UserSection />,
     },
   ];
+  
   const handleChangeOrganisationkey = (key: string, value: string | number) => {
     seteditOrganisationDetails({ key, value });
     // getUserList();
@@ -100,7 +101,7 @@ export const SuperAdminTabs = (props: SuperAdminTabsProps): JSX.Element => {
                         pt={2}
                         pb={2}
                         sx={i === index ? superAdminTabsStyle.alertConfigTabTxt : superAdminTabsStyle.alertConfigTab}
-                        // sx={{ color: disabled === true ? "#B9B9B9" : "" }}
+                      // sx={{ color: disabled === true ? "#B9B9B9" : "" }}
                       >
                         {tab?.label}
                       </Typography>

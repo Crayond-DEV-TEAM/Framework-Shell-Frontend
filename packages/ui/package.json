@@ -27,7 +27,7 @@
     "@mui/icons-material": "5.11.11",
     "@mui/lab": "5.0.0-alpha.104",
     "@mui/material": "5.10.12",
-    "ajv": "^8.13.0",
+    "ajv": "^4.11.8",
     "brace": "0.11.1",
     "jsoneditor": "8.6.6",
     "jsoneditor-react": "3.0.0",

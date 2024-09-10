@@ -72,6 +72,8 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
     setaddPermission({ key, value });
   };
 
+  console.log('groupState?.permissionList', groupState)
+
   return (
     <Box
       sx={[
@@ -154,6 +156,7 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
                     value={groupState.permission.length > 0 ? groupState.permission : []}
                   // isError={Boolean(formErrors.permission)}
                   // errorMessage={formErrors.permission}
+                  
                   />
                 </>
               ) : (
@@ -164,7 +167,10 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
                     onChange={(value) => {
                       handleChange('inherit', value);
                     }}
-                    value={groupState?.inherit?.length > 0 ? groupState.inherit : []}
+                    // value={groupState?.inherit?.length > 0 ? groupState.inherit : []}
+                    value={groupState?.inherit?.length > 0 ? groupState.inherit?.[0] : null}
+                    multiple={false}
+
                   />
                 </>
               )}
@@ -185,7 +191,8 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
                   onChange={(value) => {
                     handlePermissionChange('permissionList', value);
                   }}
-                  value={groupState?.permissionList?.length > 0 ? groupState.permissionList : []}
+                  value={groupState?.permissionList?.length > 0 ? groupState?.permissionList?.[0] : null}
+                  multiple={false}
                 />
               </>
             )}

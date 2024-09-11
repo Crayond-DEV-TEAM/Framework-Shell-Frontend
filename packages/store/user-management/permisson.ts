@@ -113,7 +113,10 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       headers: { slug: slugId },
     })
       .then((response) => {
-        enqueueSnackbar('Permission added Succesfully!', { variant: 'success' });
+        if (response.status === 200) {
+
+          enqueueSnackbar('Permission added Succesfully!', { variant: 'success' });
+        }
       })
       .catch((err) => {
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
@@ -143,7 +146,9 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       headers: { slug: slugId },
     })
       .then((response) => {
-        enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
+        if (response.status === 200) {
+          enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
+        }
       })
       .catch((err) => {
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });

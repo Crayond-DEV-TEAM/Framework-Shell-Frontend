@@ -34,6 +34,7 @@ export interface CustomDropdownProps {
   permissionList?: any;
   isError?: boolean;
   deletedValue?: (value: any, updateValue: any) => void | undefined;
+  multiple?: boolean;
 }
 
 export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
@@ -68,9 +69,10 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
     errorMessage,
     isError = false,
     sx = {},
+    multiple = true,
     ...rest
   } = props;
-
+  
   return (
     <Box
       sx={[
@@ -86,7 +88,7 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
         value={value}
         // defaultValue={value}
         // errorMessage={formErrors.permission}
-        multiple
+        multiple={multiple}
         limitTags={2}
         popupIcon={<KeyboardArrowDownIcon />}
         options={permissionList}
@@ -99,12 +101,14 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
             style={{
               justifyContent: 'space-between',
               display: 'flex',
-              backgroundColor: value?.map((val: any) => val?.id)?.includes(option.id) && '#E2F0E6',
+              // backgroundColor: {value?.map((val: any) => val?.id)?.includes(option.id) && '#E2F0E6'},
+              backgroundColor: multiple ? (value?.map((val: any) => val?.id)?.includes(option.id) ? "#E2F0E6" : "auto") : (value?.id === option.id) ? "#E2F0E6" : "auto",
             }}
           >
             <span
               style={{
-                fontWeight: value?.map((val: any) => val?.id)?.includes(option.id) && 600,
+                // fontWeight: value?.map((val: any) => val?.id)?.includes(option.id) && 600,
+                fontWeight: multiple ? (value?.map((val: any) => val?.id)?.includes(option.id) ? 600 : "auto") : (value?.id === option.id) ? 600 : "auto",
               }}
             >
               {' '}
@@ -113,7 +117,7 @@ export const CustomDropdown = (props: CustomDropdownProps): JSX.Element => {
             <CheckBox
               // defaultChecked={true}
               style={{ marginRight: 8 }}
-              checked={value?.map((val: any) => val?.id)?.includes(option.id)}
+              checked={multiple ? value?.map((val: any) => val?.id)?.includes(option.id) : (value?.id === option.id)}
               value={option?.name}
               onChange={(e) => {
                 const newValue = e.target.checked ? [option] : value.filter((item: any) => item.id !== option.id);

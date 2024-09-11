@@ -146,6 +146,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
     setaddMessage({ key, value });
   };
   const save = () => {
+    debugger
     const isFormValid = validateForm();
     if (isFormValid) {
       addRolesList().then((data) => {

@@ -71,12 +71,12 @@ export const useRoles = create<RolesInterface>((set, get) => ({
                 permission: Array.isArray(tableData.role_permission_mappings)
                   ? permssionJsonConstruct(tableData)
                   : {
-                      label: tableData.permission.name,
-                      name: tableData.permission.name,
-                      color: '#305AAE',
-                      bgColor: '#E2EAFA',
-                      id: tableData.permission.id,
-                    },
+                    label: tableData.permission.name,
+                    name: tableData.permission.name,
+                    color: '#305AAE',
+                    bgColor: '#E2EAFA',
+                    id: tableData.permission.id,
+                  },
                 inherit: tableData?.inherit ?? [],
               }),
             set({ RolesList: dataTable }),
@@ -99,6 +99,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
   },
 
   addRolesList: async () => {
+    
     const { addRole, getRolesList, clearAll, apiToken } = get();
     let permissionid;
     if (addRole?.permission?.length > 0) {
@@ -113,17 +114,21 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       permissions: permissionid.length > 0 ? permissionid : [],
       description: addRole.description,
       is_active: addRole.is_active,
-      inherit: addRole.inherit.length > 0 ? addRole.inherit : '',
+      // inherit: addRole.inherit.length > 0 ? addRole.inherit : '',
+      inherit: addRole.inherit.length > 0 ? addRole?.inherit?.[0]?.id : '',
     };
     const slugId = useSlug.getState().slugs?.IDM;
     return new Promise((resolve, reject) => {
+      
       httpRequest('post', `${envConfig.api_url}/idm/roles/create`, payload, true, apiToken, {
         headers: { slug: slugId },
       })
         .then((response) => {
-          enqueueSnackbar('Roles created succesfully!', { variant: 'success' });
-
-          resolve(response?.data?.data);
+          
+          if (response.status === 200) {
+            enqueueSnackbar('Roles created succesfully!', { variant: 'success' });
+            resolve(response?.data?.data);
+          }
         })
         .catch((err) => {
           enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
@@ -180,7 +185,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       permissions: permissionid,
       description: addRole.description,
       is_active: addRole.is_active,
-      inherit: addRole.inherit.length > 0 ? addRole.inherit : '',
+      inherit: addRole.inherit.length > 0 ? addRole.inherit?.[0]?.id : '',
     };
     const slugId = useSlug.getState().slugs?.IDM;
 
@@ -191,8 +196,10 @@ export const useRoles = create<RolesInterface>((set, get) => ({
         headers: { slug: slugId },
       })
         .then((response) => {
-          enqueueSnackbar('Roles edited succesfully!', { variant: 'success' });
-          resolve(response?.data?.data);
+          if (response.status === 200) {
+            enqueueSnackbar('Roles edited succesfully!', { variant: 'success' });
+            resolve(response?.data?.data);
+          }
         })
         .catch((err) => {
           enqueueSnackbar('Something Went Wrong!', { variant: 'error' });

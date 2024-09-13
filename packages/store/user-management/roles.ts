@@ -97,7 +97,6 @@ export const useRoles = create<RolesInterface>((set, get) => ({
       });
   },
   updateEditData: (data: any) => {
-    debugger
     set((state) => ({ addRole: { ...data } }));
   },
 

@@ -12,6 +12,13 @@ export const modalAddPermissionStyle: ModalAddPermissionStyleProps = {
     pb: 1,
     fontWeight: '500',
   },
+  labelRootRole: {
+    fontSize: '12px',
+    color: '#262C33',
+    pb: 1,
+    fontWeight: '500',
+    marginRight: 2
+  },
 
   inputGroupSx: {
     display: 'grid',

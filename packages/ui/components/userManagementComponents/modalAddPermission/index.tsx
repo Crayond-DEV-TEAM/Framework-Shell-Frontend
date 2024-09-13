@@ -135,6 +135,10 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
         <>
           {dropdown && (
             <Box>
+              <Label sx={modalAddPermissionStyle.labelRootRole} htmlFor="description">
+                Root Role
+              </Label>
+              <FormControlLabel control={<Switch checked={groupState?.is_root} onChange={(e: any) => handleChange('is_root', e.target.checked)} />} />
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Label sx={modalAddPermissionStyle.labelSx} htmlFor="description" isRequired>
                   {!inherit ? 'Select Permission' : 'inherit Permission '}
@@ -156,7 +160,7 @@ export const ModalAddPermission = (props: ModalAddPermissionProps): JSX.Element 
                     value={groupState.permission.length > 0 ? groupState.permission : []}
                   // isError={Boolean(formErrors.permission)}
                   // errorMessage={formErrors.permission}
-                  
+
                   />
                 </>
               ) : (

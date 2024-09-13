@@ -712,6 +712,7 @@ export interface RolesInterfaceField {
   is_active: boolean;
   permission: any;
   inherit: any;
+  is_root?: boolean
 }
 
 export interface Repository {

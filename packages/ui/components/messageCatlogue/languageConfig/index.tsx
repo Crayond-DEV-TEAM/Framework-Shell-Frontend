@@ -47,18 +47,31 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
   const { slugs } = useSlug();
 
   const [selected, setSelected] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState<SelectBoxInterface | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const navigate = useNavigate();
-  const handleOpen = () => {
+  const handleOpen = (language: SelectBoxInterface, index: number) => {
+    debugger
     setSelected(true);
     // setIsEdit(false);
+    setSelectedLanguage(language);
+    setSelectedIndex(index);
   };
   const handlemodalClose = () => {
     setSelected(false);
-  };
+    setSelectedLanguage(null);
+    setSelectedIndex(null);
+};
+  // const handleDelete = () => {
+  //   deleteLanguage(null, null);
+  //   setSelected(false);
+  // };
   const handleDelete = () => {
-    deleteLanguage(null, null);
+    if (selectedLanguage !== null && selectedIndex !== null) {
+        deleteLanguage(selectedLanguage, selectedIndex);
+    }
     setSelected(false);
-  };
+};
 
   const OnsaveLangugae = () => {
     saveLanguage();
@@ -135,7 +148,9 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
               </Box>
             ) : (
               <>
+
                 {languages?.map((data: SelectBoxInterface, index: number) => {
+                  console.log('data', data);
                   return (
                     <Grid item key={index}>
                       <Chip
@@ -149,7 +164,7 @@ export const LanguageConfig = forwardRef((props: LanguageConfigProps, ref: React
                           },
                         }}
                         label={data.label}
-                        onDelete={handleOpen}
+                        onDelete={() => handleOpen(data, index)}
                         deleteIcon={<DeleteChip height={'16px'} width={'12px'} />}
                       />
                     </Grid>

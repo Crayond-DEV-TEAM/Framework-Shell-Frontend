@@ -18,12 +18,14 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     description: '',
     is_active: true,
     permissionList: [],
+    inherit: [],
   },
   editPermissionList: {
     name: '',
     description: '',
     is_active: true,
     permissionList: [],
+    inherit: [],
   },
 
   fetching: false,
@@ -39,6 +41,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   setRepositoryList: (data: any, id: any, key: any) => {
     set({ indexUpdateList: data, permissionId: id, RepositoryList: key });
   },
+
   setRepository: (type: string, value: string, data: any, isParent = false) => {
     const { indexUpdateList } = get();
     const jsonObject = indexUpdateList.data;
@@ -90,11 +93,20 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
         set({ fetchingPermission: false });
       });
   },
+
   updateEditData: (data: any) => {
     set((state) => ({ addPermissionList: { ...data } }));
   },
+
   addPermission: (data: any, repoId: any) => {
     const { clearAll, addPermissionList, getPermissionList, apiToken } = get();
+
+    // if (addPermissionList?.permission?.length > 0) {
+    //   permissionid = addRole?.permission?.map((value: any) => value.id);
+    // } else {
+    //   const inheritlist = addRole.inherit.map((val: any) => val?.permission?.map((value: any) => value.id));
+    //   permissionid = inheritlist.flat();
+    // }
 
     set({ fetching: true, errorOnFetching: false });
     const slugId = useSlug.getState().slugs?.IDM;
@@ -130,16 +142,22 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   },
 
   editPermission: (data: any) => {
+    debugger
     const { clearAll, addPermissionList, getPermissionList, apiToken } = get();
     set({ fetching: true, errorOnFetching: false });
     const slugId = useSlug.getState().slugs?.IDM;
     // const { RepositoryList } = useRepository();
+    console.log('addPermissionList.permissionList', addPermissionList.permissionList)
+    const inheritlist = addPermissionList.permissionList.map((val: any) => val?.permission?.map((value: any) => value.id));
+    const inheritId = inheritlist.flat();
+    console.log('inheritId', inheritId)
     const payload = {
       permission_id: addPermissionList.id,
       data: { data },
       name: addPermissionList.name,
       description: addPermissionList.description,
       is_active: addPermissionList.is_active,
+      inherit:addPermissionList.permissionList?.[0]?.id
     };
     set({ fetching: true, errorOnFetching: false });
     httpRequest('put', `${envConfig.api_url}/idm/permission/edit`, payload, true, apiToken, {

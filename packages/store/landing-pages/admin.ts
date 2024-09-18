@@ -247,7 +247,8 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
               dataTable.push({
                 id: tableData.organisation_id,
                 name: tableData.organisation_name,
-                rolename: tableData.role_name,
+                // rolename: tableData.role_name,
+                rolename: tableData.roles?.map((e: any) => e?.role_name),
               }),
             set({ OrganisationListMaster: dataTable }),
           );

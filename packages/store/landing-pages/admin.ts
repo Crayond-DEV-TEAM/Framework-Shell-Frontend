@@ -26,6 +26,16 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     adminDatas: [],
     Servicedatas: [],
     id: '',
+    errors: {
+      projectTitle: '',
+      description: '',
+      mapServices: '',
+      mapAdmin: '',
+      is_active: true,
+      adminDatas: '',
+      Servicedatas: '',
+      id: '',
+    }
   },
   userInviteEdit: {
     userName: '',
@@ -93,6 +103,60 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
   updateEditData: (data: any) => {
     set((state) => ({ createEditAdmin: { ...data } }));
   },
+  validate: () => {
+    const { createEditAdmin } = get();
+    let errors = {
+      projectTitle: '',
+      mapServices: '',
+      mapAdmin: '',
+    };
+    let isValid = true;
+
+    // Validate project title (required)
+    if (!createEditAdmin.projectTitle || createEditAdmin.projectTitle.trim() === '') {
+      createEditAdmin.errors.projectTitle = 'Project title is required';
+      isValid = false;
+    }
+
+
+    // Validate mapServices (ensure it has at least one entry)
+    if (!Array.isArray(createEditAdmin.mapServices) || createEditAdmin.mapServices.length === 0) {
+      createEditAdmin.errors.mapServices = 'At least one map service is required';
+      isValid = false;
+    }
+
+    // Validate mapAdmin (ensure it has at least one entry)
+    if (!Array.isArray(createEditAdmin.mapAdmin) || createEditAdmin.mapAdmin.length === 0) {
+      createEditAdmin.errors.mapAdmin = 'At least one map admin is required';
+      isValid = false;
+    }
+
+    // // Validate adminDatas (ensure it's an array)
+    // if (!Array.isArray(createEditAdmin.adminDatas)) {
+    //   createEditAdmin.errors.adminDatas = 'adminDatas must be an array';
+    //   isValid = false;
+    // }
+
+    // // Validate Servicedatas (ensure it's an array)
+    // if (!Array.isArray(createEditAdmin.Servicedatas)) {
+    //   createEditAdmin.errors.Servicedatas = 'Servicedatas must be an array';
+    //   isValid = false;
+    // }
+
+    set({
+      createEditAdmin: {
+          ...createEditAdmin,
+          errors: {
+              ...createEditAdmin.errors,
+              ...errors // Assuming 'errors' is coming from somewhere and holds the updated error values
+          }
+      }
+  });
+  
+
+
+    return isValid;
+  },
   createAdmin: () => {
     const { clearAll, createEditAdmin, getAdminList, OrganisationDetails } = get();
 
@@ -111,6 +175,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     };
     httpRequest('post', `${envConfig.api_url}/idm/projects/create`, payload, true)
       .then((response) => {
+        console.log('response',response)
         enqueueSnackbar('Project created Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
@@ -182,7 +247,8 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
               dataTable.push({
                 id: tableData.organisation_id,
                 name: tableData.organisation_name,
-                rolename: tableData.role_name,
+                // rolename: tableData.role_name,
+                rolename: tableData.roles?.map((e: any) => e?.role_name),
               }),
             set({ OrganisationListMaster: dataTable }),
           );

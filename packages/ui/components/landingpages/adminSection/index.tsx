@@ -19,6 +19,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { MappedUserCard } from '@atoms/mappedUserCard';
 import { CustomSwitches } from '@atoms/customSwitches';
 import { DialogDrawer } from '@atoms/dialogDrawer';
+import { enqueueSnackbar } from 'notistack';
 export interface AdminSectionProps {
   className?: string;
   sx?: SxProps<Theme>;
@@ -52,6 +53,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     deleteAdmin,
     editAdmin,
     getStatusList,
+    validate,
   } = useAdminLanding();
   const { getSideMenusFromProject } = useMenu();
 
@@ -135,6 +137,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     // getOrganisationMaster()/;
   }, []);
   const handleChangeOrganisationkey = (key: string, value: string | number) => {
+    debugger
     seteditOrganisationDetails({ key, value });
     getAdminList();
   };
@@ -144,13 +147,22 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     handleChangeOrganisationkey('rolename', value.rolename);
   };
   const handleSave = () => {
-    if (createEditAdmin.id) {
-      editAdmin();
+    debugger
+    const validatResult = validate();
+    console.log('validatResult', validatResult)
+
+    if (validatResult) {
+      if (createEditAdmin.id) {
+        editAdmin();
+      } else {
+        createAdmin();
+      }
+
+      setOpen(false);
+      clearAll();
     } else {
-      createAdmin();
+      enqueueSnackbar('Please Fill All the Fields', { variant: 'error' })
     }
-    setOpen(false);
-    clearAll();
   };
   const handleStatus = () => {
     if (adminList?.length > 0) {
@@ -158,6 +170,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
       setSwitchList(status);
     }
   };
+  console.log('OrganisationDetails', OrganisationDetails)
   useEffect(() => {
     handleStatus();
   }, [adminList]);
@@ -230,9 +243,10 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
                 tableHeader={''}
                 setSearchTerm={setSearchTerm}
                 searchTerm={searchTerm}
-                isBtnRequired={OrganisationDetails.rolename === 'TOOLKIT-ADMIN' ? true : false}
+                // isBtnRequired={(OrganisationDetails.rolename === 'TOOLKIT-ADMIN' || OrganisationDetails.rolename === 'TOOLKIT-SUPERADMIN') ? true : false}
+                isBtnRequired={OrganisationDetails.rolename.includes('TOOLKIT-ADMIN') || OrganisationDetails.rolename.includes('TOOLKIT-SUPERADMIN') ? true : false}
                 handleOpen={handleDrawerOpen}
-                // editTableMessage={addRole}
+              // editTableMessage={addRole}
               />
             ),
           }}

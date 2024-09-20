@@ -171,6 +171,7 @@ export interface WebHookUrlProps {
 
 export interface SlugProps {
   getSlug: (id: ServiceName) => void;
+  setSlug: (key: ServiceName, value: string) => void;
   slugs?: ServiceOptionList;
   APIkey?: ServiceOptionList;
   WebHookUrl?: ServiceOptionList;
@@ -710,6 +711,8 @@ export interface RolesInterfaceField {
   description: string;
   is_active: boolean;
   permission: any;
+  inherit: any;
+  is_root?: boolean
 }
 
 export interface Repository {
@@ -721,6 +724,7 @@ export interface AddPermissionInterface {
   description: string;
   is_active: boolean;
   id?: any;
+  permissionList?: any;
 }
 
 export interface Repolist {
@@ -1180,6 +1184,17 @@ export interface AdminKey {
   id?: string;
   adminDatas?: any;
   Servicedatas?: any;
+  errors: {
+    projectTitle: string;
+    description: string;
+    mapServices: string;
+    mapAdmin: string;
+    is_active?: boolean;
+    id?: string;
+    adminDatas?: string;
+    Servicedatas?: string;
+
+  }
 }
 
 export interface InviteUserKey {
@@ -1216,7 +1231,7 @@ export interface AdminInterface {
   getServiceMasterByOrganisation: () => void;
   getUserMasterByOrganisation: () => void;
   getAllProjectsEditData: (id: string) => void;
-
+  validate: () => void;
   createAdmin: () => void;
   editAdmin: () => void;
   getStatusList: (id: any, status: any) => void;

@@ -6,7 +6,7 @@ import { PermissionInterface } from '../interface';
 import { enqueueSnackbar } from 'notistack';
 import { useRepository } from './repository';
 import { findObjectByIndex, modifyObjectByIndexWithKey, updateChildOnParentChange } from './commonFunction';
-import { useSlug } from '../common'
+import { useSlug } from '../common';
 
 export const usePermission = create<PermissionInterface>((set, get) => ({
   RepositoryList: [],
@@ -17,11 +17,15 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     name: '',
     description: '',
     is_active: true,
+    permissionList: [],
+    inherit: [],
   },
   editPermissionList: {
     name: '',
     description: '',
     is_active: true,
+    permissionList: [],
+    inherit: [],
   },
 
   fetching: false,
@@ -37,11 +41,17 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   setRepositoryList: (data: any, id: any, key: any) => {
     set({ indexUpdateList: data, permissionId: id, RepositoryList: key });
   },
+
   setRepository: (type: string, value: string, data: any, isParent = false) => {
     const { indexUpdateList } = get();
     const jsonObject = indexUpdateList.data;
     if (isParent) {
-      const res = updateChildOnParentChange(jsonObject, value?.toString(), data, data?.length > 0 ? data[data.length - 1] : "");
+      const res = updateChildOnParentChange(
+        jsonObject,
+        value?.toString(),
+        data,
+        data?.length > 0 ? data[data.length - 1] : '',
+      );
       set({ indexUpdateList: { data: res } });
     } else {
       const indexArray = value.replaceAll('-', '-child-').split('-');
@@ -60,6 +70,11 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
     const { apiToken } = get();
     set({ fetchingPermission: true, errorOnPermission: false });
     const slugId = useSlug.getState().slugs?.IDM;
+
+    // if (envConfig.api_url && envConfig.api_url.includes('sdk') && !slugId) {
+    //   return;
+    // }
+
     httpRequest('get', `${envConfig.api_url}/idm/permission/get`, {}, true, apiToken, {
       headers: { slug: slugId },
     })
@@ -72,17 +87,26 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       })
       .catch((err) => {
         set({ errorOnPermission: true });
-        enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
+        enqueueSnackbar('Something Went Wrong!' + `slugId ${slugId} - not found`, { variant: 'error' });
       })
       .finally(() => {
         set({ fetchingPermission: false });
       });
   },
+
   updateEditData: (data: any) => {
     set((state) => ({ addPermissionList: { ...data } }));
   },
+
   addPermission: (data: any, repoId: any) => {
     const { clearAll, addPermissionList, getPermissionList, apiToken } = get();
+
+    // if (addPermissionList?.permission?.length > 0) {
+    //   permissionid = addRole?.permission?.map((value: any) => value.id);
+    // } else {
+    //   const inheritlist = addRole.inherit.map((val: any) => val?.permission?.map((value: any) => value.id));
+    //   permissionid = inheritlist.flat();
+    // }
 
     set({ fetching: true, errorOnFetching: false });
     const slugId = useSlug.getState().slugs?.IDM;
@@ -93,7 +117,7 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       description: addPermissionList.description,
       is_active: addPermissionList.is_active,
       // repo_id:'4eb4f81c-154e-471f-baf2-c124dbdc9bf8'
-      repo_id: repoId
+      repo_id: repoId,
       // project_service_mapping_id: slugId,
     };
 
@@ -101,7 +125,10 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
       headers: { slug: slugId },
     })
       .then((response) => {
-        enqueueSnackbar('Permission added Succesfully!', { variant: 'success' });
+        if (response.status === 200) {
+
+          enqueueSnackbar('Permission added Succesfully!', { variant: 'success' });
+        }
       })
       .catch((err) => {
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
@@ -115,23 +142,31 @@ export const usePermission = create<PermissionInterface>((set, get) => ({
   },
 
   editPermission: (data: any) => {
+    debugger
     const { clearAll, addPermissionList, getPermissionList, apiToken } = get();
     set({ fetching: true, errorOnFetching: false });
     const slugId = useSlug.getState().slugs?.IDM;
     // const { RepositoryList } = useRepository();
+    console.log('addPermissionList.permissionList', addPermissionList.permissionList)
+    const inheritlist = addPermissionList.permissionList.map((val: any) => val?.permission?.map((value: any) => value.id));
+    const inheritId = inheritlist.flat();
+    console.log('inheritId', inheritId)
     const payload = {
       permission_id: addPermissionList.id,
-      // data: { data },
+      data: { data },
       name: addPermissionList.name,
       description: addPermissionList.description,
       is_active: addPermissionList.is_active,
+      inherit:addPermissionList.permissionList?.[0]?.id
     };
     set({ fetching: true, errorOnFetching: false });
     httpRequest('put', `${envConfig.api_url}/idm/permission/edit`, payload, true, apiToken, {
       headers: { slug: slugId },
     })
       .then((response) => {
-        enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
+        if (response.status === 200) {
+          enqueueSnackbar('Permission edited Succesfully!', { variant: 'success' });
+        }
       })
       .catch((err) => {
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });

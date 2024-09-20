@@ -28,6 +28,7 @@ export interface editData {
   name: any;
   description: string;
   is_active: boolean;
+  is_root: boolean;
 }
 export interface permissionData {
   label: string;
@@ -86,9 +87,9 @@ export const Roles = (props: RolesProps): JSX.Element => {
       errors.description = 'Description is required';
     }
 
-    if (addRole.permission.length === 0) {
-      errors.permission = 'Permission is required';
-    }
+    // if (addRole.permission.length === 0) {
+    //   errors.permission = 'Permission is required';
+    // }
 
     setFormErrors(errors);
 
@@ -99,6 +100,8 @@ export const Roles = (props: RolesProps): JSX.Element => {
     setValues(true);
   };
   const handleTableEdit = (id: string, data: any, e: any) => {
+
+    console.log('data', data)
     setValues(true);
     setaddMessage(data);
     // setIsEdit(id.length > 0 ? true : false);
@@ -109,6 +112,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
       name: data.name,
       description: data.description,
       is_active: data.is_active,
+      is_root: data.is_root
     };
 
     updateEditData(editData);
@@ -146,6 +150,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
     setaddMessage({ key, value });
   };
   const save = () => {
+    debugger
     const isFormValid = validateForm();
     if (isFormValid) {
       addRolesList().then((data) => {
@@ -182,8 +187,10 @@ export const Roles = (props: RolesProps): JSX.Element => {
     }
   };
   useEffect(() => {
-    setApiToken(apiToken);
-  }, []);
+    if (apiToken) {
+      setApiToken(apiToken);
+    }
+  }, [apiToken]);
   useEffect(() => {
     getRolesList();
     getPermissionList();
@@ -252,7 +259,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
                 setSearchTerm={setSearchTerm}
                 searchTerm={searchTerm}
                 handleOpen={handleOpen}
-                // editTableMessage={addRole}
+              // editTableMessage={addRole}
               />
             ),
           }}
@@ -282,7 +289,7 @@ export const Roles = (props: RolesProps): JSX.Element => {
             SwitchChange={(e: any) => handleAddChange('is_active', e.target.checked)}
             onSave={addRole.id ? handleEdit : save}
             onCancel={handleClose}
-            // loading={addMessageLoading}
+          // loading={addMessageLoading}
           />
         }
         dialogRootStyle={rolesStyle.dialogSx}

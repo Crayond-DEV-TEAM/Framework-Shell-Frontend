@@ -5,7 +5,7 @@ import { RolesInterface } from '../interface';
 // import { tableJson } from '../../ui/components/roles/utils';
 import { enqueueSnackbar } from 'notistack';
 import { ClearAll } from '@mui/icons-material';
-import { useSlug } from '../common'
+import { useSlug } from '../common';
 export const useRoles = create<RolesInterface>((set, get) => ({
   RolesList: [],
   StatusList: [],
@@ -15,6 +15,8 @@ export const useRoles = create<RolesInterface>((set, get) => ({
     name: '',
     description: '',
     is_active: true,
+    inherit: [],
+    is_root: false,
   },
   editRole: [],
   deleteRole: [],
@@ -70,12 +72,14 @@ export const useRoles = create<RolesInterface>((set, get) => ({
                 permission: Array.isArray(tableData.role_permission_mappings)
                   ? permssionJsonConstruct(tableData)
                   : {
-                      label: tableData.permission.name,
-                      name: tableData.permission.name,
-                      color: '#305AAE',
-                      bgColor: '#E2EAFA',
-                      id: tableData.permission.id,
-                    },
+                    label: tableData.permission.name,
+                    name: tableData.permission.name,
+                    color: '#305AAE',
+                    bgColor: '#E2EAFA',
+                    id: tableData.permission.id,
+                  },
+                inherit: tableData?.inherit ?? [],
+                is_root:tableData?.is_root
               }),
             set({ RolesList: dataTable }),
           );
@@ -97,23 +101,37 @@ export const useRoles = create<RolesInterface>((set, get) => ({
   },
 
   addRolesList: async () => {
+
     const { addRole, getRolesList, clearAll, apiToken } = get();
-    const permissionid = addRole.permission.map((value: any) => value.id);
+    let permissionid;
+    if (addRole?.permission?.length > 0) {
+      permissionid = addRole?.permission?.map((value: any) => value.id);
+    } else {
+      const inheritlist = addRole.inherit.map((val: any) => val?.permission?.map((value: any) => value.id));
+      permissionid = inheritlist.flat();
+    }
+
     const payload = {
       name: addRole.name,
-      permissions: permissionid,
+      permissions: permissionid.length > 0 ? permissionid : [],
       description: addRole.description,
       is_active: addRole.is_active,
+      // inherit: addRole.inherit.length > 0 ? addRole.inherit : '',
+      inherit: addRole.inherit.length > 0 ? addRole?.inherit?.[0]?.id : '',
+      is_root: addRole?.is_root
     };
     const slugId = useSlug.getState().slugs?.IDM;
     return new Promise((resolve, reject) => {
+
       httpRequest('post', `${envConfig.api_url}/idm/roles/create`, payload, true, apiToken, {
         headers: { slug: slugId },
       })
         .then((response) => {
-          enqueueSnackbar('Roles created succesfully!', { variant: 'success' });
 
-          resolve(response?.data?.data);
+          if (response.status === 200) {
+            enqueueSnackbar('Roles created succesfully!', { variant: 'success' });
+            resolve(response?.data?.data);
+          }
         })
         .catch((err) => {
           enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
@@ -156,13 +174,22 @@ export const useRoles = create<RolesInterface>((set, get) => ({
   },
   editRoleList: async () => {
     const { addRole, getRolesList, clearAll, apiToken } = get();
-    const permissionid = addRole.permission.map((value: any) => value.id);
+    let permissionid;
+    if (addRole?.permission?.length > 0) {
+      permissionid = addRole?.permission?.map((value: any) => value.id);
+    } else {
+      const inheritlist = addRole.inherit.map((val: any) => val?.permission?.map((value: any) => value.id));
+      permissionid = inheritlist.flat();
+    }
+
     const payload = {
       role_id: addRole.id,
-      name: addRole.name,
+      name: addRole?.name,
       permissions: permissionid,
-      description: addRole.description,
-      is_active: addRole.is_active,
+      description: addRole?.description,
+      is_active: addRole?.is_active,
+      inherit: addRole?.inherit?.length > 0 ? addRole?.inherit?.[0]?.id : '',
+      is_root: addRole?.is_root
     };
     const slugId = useSlug.getState().slugs?.IDM;
 
@@ -173,8 +200,11 @@ export const useRoles = create<RolesInterface>((set, get) => ({
         headers: { slug: slugId },
       })
         .then((response) => {
-          enqueueSnackbar('Roles edited succesfully!', { variant: 'success' });
-          resolve(response?.data?.data);
+          if (response.status === 200) {
+            enqueueSnackbar('Roles edited succesfully!', { variant: 'success' });
+            resolve(response?.data?.data);
+            getRolesList();
+          }
         })
         .catch((err) => {
           enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
@@ -182,6 +212,7 @@ export const useRoles = create<RolesInterface>((set, get) => ({
           reject(err);
         })
         .finally(() => {
+          debugger
           set({ fetching: false });
           getRolesList();
           clearAll();
@@ -221,6 +252,8 @@ export const useRoles = create<RolesInterface>((set, get) => ({
         name: '',
         description: '',
         is_active: true,
+        inherit: [],
+        is_root: false
       },
     });
   },

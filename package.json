@@ -1,6 +1,6 @@
 {
   "name": "framworkshell-frontend",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "private": true,
   "workspaces": [
     "apps/*",
@@ -56,11 +56,13 @@
     "prettier": "latest",
     "semantic-release": "^20.1.1",
     "standard-version": "^9.5.0",
-    "turbo": "latest",
+    "turbo": "^2.1.1",
     "typescript": "^4.9.5"
   },
   "dependencies": {
     "@crayond_dev/ui_table": "^1.0.1",
+    "@tanstack/react-query": "^5.55.0",
+    "immer": "^10.1.1",
     "jsoneditor-react": "^3.1.2",
     "moment": "^2.29.4",
     "react-input-json": "^0.1.11",
@@ -68,7 +70,9 @@
     "react-json-editor-ajrm": "^2.5.14",
     "react-jsondata-editor": "^2.0.2",
     "react-jsoneditor-wrapper": "^1.1.0",
+    "react-router-dom": "^6.26.2",
     "react-select": "^5.7.2",
-    "react-select-async-paginate": "^0.7.2"
+    "react-select-async-paginate": "^0.7.2",
+    "turbo-linux-64": "^2.1.1"
   }
 }

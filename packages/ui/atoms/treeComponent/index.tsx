@@ -1,5 +1,5 @@
 import { CollapseIcon, ExpandIcon, InfoIcon, SettingIcon } from '@atoms/icons';
-import { TreeItem, TreeView, treeItemClasses } from '@mui/lab';
+import { TreeItem, TreeView } from '@mui/lab';
 import { Box, Checkbox, SxProps, Theme, Typography, styled } from '@mui/material';
 import { treeComponentStyle } from './style';
 
@@ -120,7 +120,7 @@ const StyledTreeItem = styled(TreeItem)<StyledTreeItemProps>(({ rootNode }) => {
         // only display if the TreeItem is not root node
         !rootNode ? `2px solid #c1c1c1` : 'none',
     },
-    [`& .${treeItemClasses.group}`]: {
+    [`& .MuiTreeItem-group`]: {
       marginLeft: 16,
       paddingLeft: 18,
       borderLeft: `2px solid #c1c1c1`,

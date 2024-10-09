@@ -63,6 +63,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
   const filteredMessageGroup = MessagesList;
   const [switchList, setSwitchList] = useState<any>([]);
   const handleTableEdit = (id: string) => {
+    getSavedLanguage();
     setOpen(true);
     setIsEdit(true);
     onEditClicked(id);

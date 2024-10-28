@@ -11,10 +11,7 @@ import { PrivateRouter } from './privateRouter';
 import { loginRoutes, userRoutes } from './frameworkShell';
 
 // App Routes
-import { messageCatalogueRoutes } from './messageCatalogue';
 import { idmRoutes } from './userManagement';
-import { alertsHubRoutes } from './alertsHub';
-import { PlanAndSubscriptionRoutes } from './planAndSubscription';
 
 const router = createBrowserRouter([
   ...loginRoutes,
@@ -32,10 +29,7 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       ...userRoutes,
-      ...messageCatalogueRoutes,
       ...idmRoutes,
-      ...alertsHubRoutes,
-      ...PlanAndSubscriptionRoutes,
     ],
   },
   {

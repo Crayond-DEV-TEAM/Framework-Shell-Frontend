@@ -54,7 +54,7 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
   className = '',
   sx = {},
   dataList = [],
-  handleChange = () => {},
+  handleChange = () => { },
   optionList = [],
   createEditAdmin,
   accessMaster,
@@ -89,11 +89,14 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
     seteditUserInviteDetails,
     addUserInvite,
     getUserMasterByOrganisation,
+    seteditAdmin,
   } = useAdminLanding();
+  console.log('createEditAd-----', createEditAdmin)
 
   const { getAllUserList } = useSuperAdminLanding();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    debugger
     setAnchorEl(event.currentTarget);
   };
 
@@ -121,8 +124,9 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  console.log('mapAdmin', createEditAdmin)
   const handleOptionToggle = (option: UserData) => {
+    debugger
     const isSelected = selectedOptions.find((selected) => selected.id === option.id);
     if (isSelected?.id) {
       const isSelected = selectedOptions.filter((v: any) => v?.id !== option?.id);
@@ -133,6 +137,7 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
         access: accessState,
       }));
       handleChange('mapAdmin', isSelected);
+      handleChange('isUserSelected', true)
       // handleChange('mapAdmin', isSelected);
       // createEditOrganisation.id ? deleteAdminmap() : '';
     } else {
@@ -144,6 +149,7 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
         access: accessState,
       }));
       handleChange('mapAdmin', setItemsUsers);
+      handleChange('isUserSelected', true)
     }
   };
 
@@ -308,8 +314,8 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
                   handleChangeUserInvite('userName', e.target.value)
                 }
-                // isError={Boolean(formErrors.name)}
-                // errorMessage={formErrors.name}
+              // isError={Boolean(formErrors.name)}
+              // errorMessage={formErrors.name}
               />
             </Box>
             <Box sx={{ m: '16px' }} />
@@ -327,8 +333,8 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
                   handleChangeUserInvite('email', e.target.value)
                 }
-                // isError={Boolean(formErrors.description)}
-                // errorMessage={formErrors.description}
+              // isError={Boolean(formErrors.description)}
+              // errorMessage={formErrors.description}
               />
             </Box>
             <Box sx={{ m: '16px' }} />
@@ -343,8 +349,8 @@ export const AddChipMultipleDropdown: React.FC<AddChipMultipleDropdownProps> = (
                   handleChangeUserInvite('role', value);
                 }}
                 value={userInviteEdit.role && Object.keys(userInviteEdit.role).length > 0 ? userInviteEdit.role : null}
-                // isError={Boolean(formErrors.role)}
-                // errorMessage={formErrors.role}
+              // isError={Boolean(formErrors.role)}
+              // errorMessage={formErrors.role}
               />
             </Box>
           </Box>

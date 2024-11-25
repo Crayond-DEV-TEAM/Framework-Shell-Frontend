@@ -31,6 +31,12 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
   editDataLoading: false,
   errorOnEditData: false,
 
+  search: '',
+
+  handleSearch:(search:any)=> {
+    set({search: search})
+  },
+
   handleAddEditStateChange: (key: string, value: string | number | boolean) => {
     const { addEditMessageState } = get()
     // const error = addEditMessageState?.error
@@ -193,9 +199,8 @@ export const useMessage = create<MessageStoreInterface>((set, get) => ({
 
   getAllMessages: (group_id: string) => {
     const slugId = useSlug.getState().slugs['MESSAGE-CATALOG'];
-
-    const payload = { id: group_id };
-    const { MessagesList } = get();
+    const { MessagesList , search } = get();
+    const payload = { id: group_id , search: search };
     set({ fetching: true, errorOnFetching: false });
     httpRequest('post', `${envConfig.api_url}/message_catalog/display_all_msg_in_grp`, payload, true, undefined, {
       headers: { slug: slugId },

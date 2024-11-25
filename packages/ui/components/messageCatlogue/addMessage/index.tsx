@@ -1,28 +1,28 @@
-import { DialogDrawer } from '@atoms/dialogDrawer';
-import { FooterComponent } from '@atoms/footerComponent';
-import { AddIcon } from '@atoms/icons';
-import { Input } from '@atoms/input';
-import { MessageCard } from '@atoms/messageCard';
-import { useMessage, useMessageConfiguration, useSlug } from '@core/store';
-import SearchIcon from '@mui/icons-material/Search';
-import { Box, IconButton, Skeleton, Stack, SxProps, Theme, Typography } from '@mui/material';
-import { forwardRef, useEffect, useState } from 'react';
-import { ModalAddMessage } from '..';
-import { addMessageStyle } from './style';
-import { enqueueSnackbar } from 'notistack';
+import { DialogDrawer } from '@atoms/dialogDrawer'
+import { FooterComponent } from '@atoms/footerComponent'
+import { AddIcon } from '@atoms/icons'
+import { Input } from '@atoms/input'
+import { MessageCard } from '@atoms/messageCard'
+import { useMessage, useMessageConfiguration, useSlug } from '@core/store'
+import SearchIcon from '@mui/icons-material/Search'
+import { Box, IconButton, Skeleton, Stack, SxProps, Theme, Typography } from '@mui/material'
+import { forwardRef, useEffect, useState } from 'react'
+import { ModalAddMessage } from '..'
+import { addMessageStyle } from './style'
+import { enqueueSnackbar } from 'notistack'
 
 export interface AddMessageProps {
-  className?: string;
-  sx?: SxProps<Theme>;
-  onMessageTable?: (key: any, value: string) => void;
-  setList: React.Dispatch<any>;
-  setTableName?: any;
-  open?: boolean;
-  payload?: any;
-  title?: string;
-  addTitle?: string;
-  editTitle?: string;
-  setGroupId: React.Dispatch<any>;
+  className?: string
+  sx?: SxProps<Theme>
+  onMessageTable?: (key: any, value: string) => void
+  setList: React.Dispatch<any>
+  setTableName?: any
+  open?: boolean
+  payload?: any
+  title?: string
+  addTitle?: string
+  editTitle?: string
+  setGroupId: React.Dispatch<any>
 }
 
 export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTMLElement>): JSX.Element => {
@@ -38,7 +38,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     setTableName,
     setGroupId,
     ...rest
-  } = props;
+  } = props
 
   // store Data
   const {
@@ -57,103 +57,103 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
     editMessageListGroups,
     editMessageList,
     clearAll,
-  } = useMessageConfiguration();
-  const { slugs } = useSlug();
-  const { getAllMessages, validateCallBack } = useMessage();
+  } = useMessageConfiguration()
+  const { slugs } = useSlug()
+  const { getAllMessages, validateCallBack } = useMessage()
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
-  const [values, setValues] = useState(false);
+  const [values, setValues] = useState(false)
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState('')
 
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(0)
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => setOpen(true)
 
   const handleClose = () => {
-    setOpen(false);
-    clearAll();
-  };
+    setOpen(false)
+    clearAll()
+  }
 
   const handleEditClose = () => {
-    setValues(false);
-    clearAll();
-  };
+    setValues(false)
+    clearAll()
+  }
 
   const validate = (state: string) => {
-    const error = [state]?.error;
-    let isValid = true;
+    const error = [state]?.error
+    let isValid = true
     if (!state[title]) {
-      isValid = false;
-      error.title = 'Title required';
+      isValid = false
+      error.title = 'Title required'
     }
     if (!state[description]) {
-      isValid = false;
-      error.description = 'Description required';
+      isValid = false
+      error.description = 'Description required'
     }
-    return validateCallBack(isValid, error, state);
-  };
+    return validateCallBack(isValid, error, state)
+  }
 
   const handleAddMsg = () => {
     // if (validate('addMessage')) {
-    setOpen(false);
-    addMessageGroups();
+    setOpen(false)
+    addMessageGroups()
     // }
-  };
+  }
 
   const filteredMessageGroup = messageGroup?.filter((x: any) =>
     x.title.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  )
 
-  const handleChange = (key: string, value: string) => setaddMessage({ key, value });
+  const handleChange = (key: string, value: string) => setaddMessage({ key, value })
 
-  const handleeditChange = (key: string, value: string) => seteditMessage({ key, value });
+  const handleeditChange = (key: string, value: string) => seteditMessage({ key, value })
 
   const onEdit = async (x: any) => {
-    setValues(true);
-    editMessageListGroups({ id: x?.id });
-  };
+    setValues(true)
+    editMessageListGroups({ id: x?.id })
+  }
 
   const Edit = () => {
     // if (validate('editMessageList')) {
-    editMessageGroups();
+    editMessageGroups()
     // }
-    setValues(false);
-  };
+    setValues(false)
+  }
   const handleMessage = (
     key: {
-      description: string;
-      id: string;
-      is_status: boolean;
-      title: string;
+      description: string
+      id: string
+      is_status: boolean
+      title: string
     },
     value: any,
   ) => {
-    setselctedMessage({ key, value });
-    setSelected(value);
-    onMessageTable(key, value);
-    setList(key.id);
-  };
+    setselctedMessage({ key, value })
+    setSelected(value)
+    onMessageTable(key, value)
+    setList(key.id)
+  }
   useEffect(() => {
     if (slugs?.['MESSAGE-CATALOG']) {
-      getMessageGroups();
+      getMessageGroups()
     }
-  }, [slugs?.['MESSAGE-CATALOG']]);
+  }, [slugs?.['MESSAGE-CATALOG']])
 
   useEffect(() => {
     if (messageGroup && messageGroup.length > 0) {
-      const init = messageGroup[0];
-      setList(init.id);
-      setSelected(0);
+      const init = messageGroup[0]
+      setList(init.id)
+      setSelected(0)
       setTableName({
         name: init.title,
         refId: init.ref_id,
-      });
-      setGroupId(init?.id);
-      getAllMessages(init?.id as string);
+      })
+      setGroupId(init?.id)
+      getAllMessages(init?.id as string)
     }
-  }, [messageGroup]);
+  }, [messageGroup])
 
   return (
     <Box
@@ -190,12 +190,12 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
                   onMessaageClick={() => handleMessage(x, index)}
                   select={selected}
                   handleDelete={() => {
-                    deleteMessageGroups({ id: x.id });
+                    deleteMessageGroups({ id: x.id })
                   }}
                   onEdit={() => onEdit(x)}
                 />
               </Box>
-            );
+            )
           })
         ) : (
           <Box>
@@ -254,7 +254,7 @@ export const AddMessage = forwardRef((props: AddMessageProps, ref: React.Ref<HTM
         dialogRootStyle={addMessageStyle.dialogSx}
       />
     </Box>
-  );
-});
+  )
+})
 
-AddMessage.displayName = 'AddMessage';
+AddMessage.displayName = 'AddMessage'

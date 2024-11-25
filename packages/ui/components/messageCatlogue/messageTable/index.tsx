@@ -1,28 +1,28 @@
-import { Button } from '@atoms/button';
-import { DeleteDailog } from '@atoms/deletedailog';
-import { DialogDrawer } from '@atoms/dialogDrawer';
-import { FooterComponent } from '@atoms/footerComponent';
-import { useLanguageConfiguration, useMessage, useMessageGroupDetails, useSlug } from '@core/store';
-import { Box, Grid, SxProps, Theme, Typography } from '@mui/material';
-import { Table as CommonTable } from '@crayond_dev/ui_table';
-import { forwardRef, useEffect, useState } from 'react';
-import { AddMessage, AddMessageGroup } from '..';
-import { messageTableStyle } from './style';
-import { Header, tableData } from './utils';
-import { TableHeader } from '@components/commonComponents';
-import { useLocation } from 'react-router-dom';
+import { Button } from '@atoms/button'
+import { DeleteDailog } from '@atoms/deletedailog'
+import { DialogDrawer } from '@atoms/dialogDrawer'
+import { FooterComponent } from '@atoms/footerComponent'
+import { useLanguageConfiguration, useMessage, useMessageGroupDetails, useSlug } from '@core/store'
+import { Box, Grid, SxProps, Theme, Typography } from '@mui/material'
+import { Table as CommonTable } from '@crayond_dev/ui_table'
+import { forwardRef, useEffect, useState } from 'react'
+import { AddMessage, AddMessageGroup } from '..'
+import { messageTableStyle } from './style'
+import { Header, tableData } from './utils'
+import { TableHeader } from '@components/commonComponents'
+import { useLocation } from 'react-router-dom'
 
 export interface MessageTableProps {
-  className?: string;
-  sx?: SxProps<Theme>;
+  className?: string
+  sx?: SxProps<Theme>
 }
 
 export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref<HTMLElement>): JSX.Element => {
-  const { className = '', sx = {}, ...rest } = props;
+  const { className = '', sx = {}, ...rest } = props
 
   // Store Data
   const { getStatus, StatusList, getServerity, SevorityList, setfilter, onApply, filterContent } =
-    useMessageGroupDetails();
+    useMessageGroupDetails()
 
   const {
     MessagesList,
@@ -40,126 +40,127 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
     setOpen,
     clearAll,
     clearAllMessage,
-    validateCallBack
-  } = useMessage();
-  const { slugs } = useSlug();
-  const location = useLocation();
-  const { state } = location;
-  const languagesList = state;
+    validateCallBack,
+    handleSearch,
+  } = useMessage()
+  const { slugs } = useSlug()
+  const location = useLocation()
+  const { state } = location
+  const languagesList = state
 
   // const filterContent: any[] = [];
-  const { languages, getSavedLanguage } = useLanguageConfiguration();
-  const [isEdit, setIsEdit] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const { languages, getSavedLanguage } = useLanguageConfiguration()
+  const [isEdit, setIsEdit] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
   const [tableName, setTableName] = useState({
     name: '',
     refId: ''
-  });
-  const [groupId, setGroupId] = useState<string>('');
-  const [deleteId, setDeleteId] = useState('');
-  const [List, setList] = useState('');
-  const [formErrors, setFormErrors] = useState<any>({});
+  })
+  const [groupId, setGroupId] = useState<string>('')
+  const [deleteId, setDeleteId] = useState('')
+  const [List, setList] = useState('')
+  const [formErrors, setFormErrors] = useState<any>({})
 
-  const filteredMessageGroup = MessagesList;
-  const [switchList, setSwitchList] = useState<any>([]);
+  const filteredMessageGroup = MessagesList
+  const [switchList, setSwitchList] = useState<any>([])
   const handleTableEdit = (id: string) => {
-    getSavedLanguage();
-    setOpen(true);
-    setIsEdit(true);
-    onEditClicked(id);
-  };
+    getSavedLanguage()
+    setOpen(true)
+    setIsEdit(true)
+    onEditClicked(id)
+  }
 
   const handleTableDelete = (id: string) => {
-    setDeleteId(id);
-    handlemodalOpen();
-  };
+    setDeleteId(id)
+    handlemodalOpen()
+  }
 
   const handleFilterChange = (key: any, value: string) => {
-    setfilter({ key, value });
-  };
+    setfilter({ key, value })
+  }
 
   const handleDelFunc = () => {
-    deleteMessage(deleteId, groupId);
-    handlemodalClose();
+    deleteMessage(deleteId, groupId)
+    handlemodalClose()
     // getAllMessages(groupId);
-  };
+  }
 
   const handleChange = (key: any, value: string) => {
-    setList(key.id);
+    setList(key.id)
     setTableName({
       name: key.title,
       refId: key.ref_id
-    });
+    })
 
-    setGroupId(key.id);
-    clearAllMessage();
-    getAllMessages(key.id);
-  };
+    setGroupId(key.id)
+    clearAllMessage()
+    getAllMessages(key.id)
+  }
 
   const handleSwitch = (id: string, data: any, e: any) => {
     if (!switchList.includes(id)) {
-      setSwitchList([...switchList, id]);
+      setSwitchList([...switchList, id])
     } else {
-      const index = switchList.indexOf(id);
+      const index = switchList.indexOf(id)
       if (index > -1) {
-        switchList.splice(index, 1);
-        setSwitchList([...switchList]);
+        switchList.splice(index, 1)
+        setSwitchList([...switchList])
       }
     }
     if (e.target.checked) {
-      getStatus(id, true);
+      getStatus(id, true)
     } else {
-      getStatus(id, false);
+      getStatus(id, false)
     }
-  };
+  }
 
   const handleOpen = async () => {
-    setOpen(true);
-    getSavedLanguage();
-  };
+    setOpen(true)
+    getSavedLanguage()
+  }
 
   const handleClose = () => {
-    setOpen(false);
-    clearAll();
+    setOpen(false)
+    clearAll()
     // setIsEdit(false);
-  };
+  }
 
-  const [selected, setSelected] = useState(false);
+  const [selected, setSelected] = useState(false)
 
   const handlemodalOpen = () => {
-    setSelected(true);
-  };
+    setSelected(true)
+  }
   const handlemodalClose = () => {
-    setSelected(false);
-  };
+    setSelected(false)
+  }
   const validateForm = () => {
-    const errors: Record<string, string> = {};
+    const errors: Record<string, string> = {}
 
     if (addEditMessageState?.title.trim().length === 0) {
-      errors.title = 'Plan name is required';
+      errors.title = 'Plan name is required'
     }
     if (addEditMessageState?.description.trim().length === 0) {
-      errors.description = 'Description is required';
+      errors.description = 'Description is required'
     }
 
-    setFormErrors(errors);
+    setFormErrors(errors)
 
-    return Object.keys(errors).length === 0;
-  };
+    return Object.keys(errors).length === 0
+  }
 
   const validate = () => {
     const error = addEditMessageState?.error
-    let isValid = true;
+    let isValid = true
     if (!addEditMessageState?.title) {
-      isValid = false;
+      isValid = false
       error.title = 'Title required'
     }
     if (!addEditMessageState?.description) {
-      isValid = false;
+      isValid = false
       error.description = 'Description required'
     }
     if (typeof (addEditMessageState?.severity) !== 'number') {
-      isValid = false;
+      isValid = false
       error.severity = 'Severity required'
     }
     return validateCallBack(isValid, error)
@@ -168,29 +169,29 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
 
   const handleSave = (groupId: any) => {
     if (validateForm()) {
-      addMessage(groupId);
-      handleClose();
-      getAllMessages(groupId);
-      clearAll();
+      addMessage(groupId)
+      handleClose()
+      getAllMessages(groupId)
+      clearAll()
     }
-  };
+  }
 
   const handleEdit = (groupId: any) => {
-    editMessage(groupId);
-    handleClose();
-    getAllMessages(groupId);
-    clearAll();
-  };
+    editMessage(groupId)
+    handleClose()
+    getAllMessages(groupId)
+    clearAll()
+  }
 
   useEffect(() => {
-    setSwitchList(MessagesListStatus);
-  }, [MessagesListStatus]);
+    setSwitchList(MessagesListStatus)
+  }, [MessagesListStatus])
 
   useEffect(() => {
     if (slugs?.['MESSAGE-CATALOG']) {
-      getServerity();
+      getServerity()
     }
-  }, [slugs?.['MESSAGE-CATALOG']]);
+  }, [slugs?.['MESSAGE-CATALOG']])
   return (
     <Box
       sx={[{ ...messageTableStyle.rootSx }, ...(Array.isArray(sx) ? sx : [sx])]}
@@ -210,6 +211,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
               editTitle="Edit Message Group"
               setTableName={setTableName}
               setGroupId={setGroupId}
+              groupId={groupId}
             />
           </Box>
         </Grid>
@@ -268,7 +270,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
                     tableHeader={tableName}
                     tableType={'message'}
                     searchTerm={searchTerm}
-                    setSearchTerm={setSearchTerm}
+                    setSearchTerm={(e: any) => { handleSearch(e), setSearchTerm(e), getAllMessages(groupId) }}
                     open={open}
                     handleOpen={handleOpen}
                     messageGroupId={groupId}
@@ -314,7 +316,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
         isDialogOpened={open}
         title={`${addEditMessageState.id ? 'Edit' : 'Add New'} Message`}
         Bodycomponent={
-          <AddMessageGroup status={StatusList} options={SevorityList} language={languages} isEdit={isEdit} formErrors={formErrors}/>
+          <AddMessageGroup status={StatusList} options={SevorityList} language={languages} isEdit={isEdit} formErrors={formErrors} />
         }
         Footercomponent={
           <FooterComponent
@@ -325,9 +327,9 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
             }
             onSave={() => {
               if (addEditMessageState.id) {
-                handleEdit(groupId);
+                handleEdit(groupId)
               } else {
-                handleSave(groupId);
+                handleSave(groupId)
               }
             }}
             onCancel={handleClose}
@@ -338,7 +340,7 @@ export const MessageTable = forwardRef((props: MessageTableProps, ref: React.Ref
         rootStyle={{ padding: '0px important' }}
       />
     </Box>
-  );
-});
+  )
+})
 
-MessageTable.displayName = 'MessageTable';
+MessageTable.displayName = 'MessageTable'

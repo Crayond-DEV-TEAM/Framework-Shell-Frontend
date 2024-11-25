@@ -26,6 +26,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     adminDatas: [],
     Servicedatas: [],
     id: '',
+    isUserSelected: false,
     errors: {
       projectTitle: '',
       description: '',
@@ -50,7 +51,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     rolename: '',
   },
 
-  seteditAdmin: (payload: { key: string; value: string | number }) => {
+  seteditAdmin: (payload: { key: string; value: string | number | boolean }) => {
     debugger;
     set((state) => ({ createEditAdmin: { ...state.createEditAdmin, [payload.key]: payload.value } }));
   },
@@ -145,14 +146,14 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
 
     set({
       createEditAdmin: {
-          ...createEditAdmin,
-          errors: {
-              ...createEditAdmin.errors,
-              ...errors // Assuming 'errors' is coming from somewhere and holds the updated error values
-          }
+        ...createEditAdmin,
+        errors: {
+          ...createEditAdmin.errors,
+          ...errors // Assuming 'errors' is coming from somewhere and holds the updated error values
+        }
       }
-  });
-  
+    });
+
 
 
     return isValid;
@@ -175,7 +176,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
     };
     httpRequest('post', `${envConfig.api_url}/idm/projects/create`, payload, true)
       .then((response) => {
-        console.log('response',response)
+        console.log('response', response)
         enqueueSnackbar('Project created Succesfully!', { variant: 'success' });
       })
       .catch((err) => {
@@ -190,7 +191,8 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
   },
 
   editAdmin: () => {
-    const { clearAll, getAdminList, OrganisationDetails, createEditAdmin } = get();
+    const { clearAll, getAdminList, OrganisationDetails, createEditAdmin, editUserMap } = get();
+    console.log('Does this Update');
     set({ fetching: true, errorOnFetching: false });
     const payload = {
       organisation_id: OrganisationDetails.id,
@@ -200,11 +202,16 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       project_id: createEditAdmin.id,
     };
     set({ fetching: true, errorOnFetching: false });
-    httpRequest('post', `${envConfig.api_url}/idm/project/deactivate`, payload, true)
+    httpRequest('put', `${envConfig.api_url}/idm/projects/update`, payload, true)
       .then((response) => {
+        debugger
         enqueueSnackbar('Project edited Succesfully!', { variant: 'success' });
+        if (createEditAdmin.isUserSelected) {
+          editUserMap()
+        }
       })
       .catch((err) => {
+        debugger
         enqueueSnackbar('Something Went Wrong!', { variant: 'error' });
         set({ errorOnFetching: true });
       })
@@ -464,16 +471,20 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
       });
   },
   editUserMap: () => {
+    debugger
     const { OrganisationDetails, createEditAdmin, getAllProjectsEditData } = get();
     set({ fetching: true, errorOnFetching: false });
     const missingList = createEditAdmin.adminDatas.filter(
       (existingObj) => !createEditAdmin.mapAdmin.some((newObj) => newObj.id === existingObj.id),
     );
+    console.log('missingList', missingList)
+    console.log('createEditAdmin', createEditAdmin)
     const payload = {
       project_id: createEditAdmin.id,
-      user_profile_id: missingList.map((x: any) => x?.id),
+      // user_profile_id: missingList.map((x: any) => x?.id),
+      user_profile_id: createEditAdmin?.mapAdmin?.[0]?.id
     };
-    httpRequest('delete', `${envConfig.api_url}/idm/project/user`, payload, true)
+    httpRequest('post', `${envConfig.api_url}/idm/project/user/upsert`, payload, true)
       .then((response) => {
         enqueueSnackbar('User unmapped Succesfully!', { variant: 'success' });
       })

@@ -192,6 +192,7 @@ export const useAdminLanding = create<AdminInterface>((set, get) => ({
 
   editAdmin: () => {
     const { clearAll, getAdminList, OrganisationDetails, createEditAdmin, editUserMap } = get();
+    console.log('Does this Update');
     set({ fetching: true, errorOnFetching: false });
     const payload = {
       organisation_id: OrganisationDetails.id,

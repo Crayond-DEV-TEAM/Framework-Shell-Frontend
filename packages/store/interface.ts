@@ -385,6 +385,10 @@ export interface AddEditMessageState {
 export interface MessageStoreInterface {
   open: boolean;
   setOpen: (open: boolean) => void;
+  
+  search :string;
+
+  handleSearch:(search:any) => void
 
   MessagesList: messageListbox[];
   MessagesListStatus: messageListbox[];

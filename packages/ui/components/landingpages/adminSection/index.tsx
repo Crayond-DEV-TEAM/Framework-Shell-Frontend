@@ -129,7 +129,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
     getUserMasterByOrganisation();
     setOpen(true);
   };
-  const handleChange = (key: string, value: string | number) => {
+  const handleChange = (key: string, value: string | number| boolean) => {
     seteditAdmin({ key, value });
   };
 
@@ -159,7 +159,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
       }
 
       setOpen(false);
-      clearAll();
+      // clearAll();
     } else {
       enqueueSnackbar('Please Fill All the Fields', { variant: 'error' })
     }
@@ -170,7 +170,7 @@ export const AdminSection = (props: AdminSectionProps): JSX.Element => {
       setSwitchList(status);
     }
   };
-  console.log('OrganisationDetails', OrganisationDetails)
+
   useEffect(() => {
     handleStatus();
   }, [adminList]);

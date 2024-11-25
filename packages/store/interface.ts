@@ -1184,6 +1184,7 @@ export interface AdminKey {
   id?: string;
   adminDatas?: any;
   Servicedatas?: any;
+  isUserSelected?: boolean;
   errors: {
     projectTitle: string;
     description: string;
@@ -1220,7 +1221,7 @@ export interface AdminInterface {
   deletefetch: boolean;
 
   createEditAdmin: AdminKey;
-  seteditAdmin: (payload: { key: string; value: string | number }) => void;
+  seteditAdmin: (payload: { key: string; value: string | number | boolean }) => void;
   seteditOrganisationDetails: (payload: { key: string; value: string | number }) => void;
   seteditUserInviteDetails: (payload: { key: string; value: string | number }) => void;
 

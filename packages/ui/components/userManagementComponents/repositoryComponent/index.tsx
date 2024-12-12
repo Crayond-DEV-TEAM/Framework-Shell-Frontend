@@ -11,6 +11,7 @@ import { useRepository, useSlug } from '@core/store';
 import { useEffect, useState } from 'react';
 import { Repositorysimmer } from './simmer';
 import { jsonSchema } from './schema';
+import { enqueueSnackbar } from 'notistack';
 
 export interface RepositoryComponentProps {
   className?: string;
@@ -67,6 +68,7 @@ export const RepositoryComponent = (props: RepositoryComponentProps): JSX.Elemen
       handleClose();
       setError(false);
     } else {
+      enqueueSnackbar('Json format is wrong check a allowed, permissions keys mainly', { variant: 'error' });
       setError(true);
     }
   };

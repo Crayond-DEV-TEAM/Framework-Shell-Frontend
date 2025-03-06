@@ -10,6 +10,7 @@
     "build": "vite build",
     "build:development": "vite build --mode development",
     "build:staging": "vite build --mode staging",
+    "build:production": "vite build --mode production",
     "clean": "rm -rf node_modules && rm -rf dist && rm -rf dev-dist",
     "lint": "eslint \"src/**/*.ts*\" --fix",
     "preview": "vite preview --host --open"

@@ -15,6 +15,7 @@
     "dev:staging": "turbo run dev:staging --parallel",
     "build:development": "turbo run build:development",
     "build:staging": "turbo run build:staging",
+    "build:production": "turbo run build:production",
     "build:storybook": "turbo run build-storybook",
     "preview": "turbo run preview",
     "lint": "turbo run lint",
